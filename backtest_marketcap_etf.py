@@ -1,0 +1,2557 @@
+from __future__ import annotations
+
+import json
+import math
+import os
+import time
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Dict, Iterable, List, Set, Tuple
+
+os.environ.setdefault("MPLCONFIGDIR", str(Path("data_cache") / "mplconfig"))
+
+import matplotlib
+import numpy as np
+import pandas as pd
+import tushare as ts
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+
+TOKEN = "REDACTED_TOKEN_DAILY"
+START_DATE = pd.Timestamp("2020-01-01")
+BUY_COMMISSION = 0.0003
+SELL_COMMISSION = 0.0003
+STAMP_DUTY_PRE_20230828 = 0.001
+STAMP_DUTY_POST_20230828 = 0.0005
+STAMP_DUTY_CHANGE_DATE = pd.Timestamp("2023-08-28")
+WEIGHT_CAP = 0.25
+MIN_LISTING_MONTHS = 12
+SEED_MIN_LISTING_MONTHS = 6
+ENHANCEMENT_BUCKET_PCT = 0.20
+BUY_ENTRY_PERCENTILE = 0.15
+SELL_EXIT_PERCENTILE = 0.25
+MIN_WEIGHT_TRADE_THRESHOLD = 0.01
+CORE_RISK_OFF_EXPOSURE = 0.60
+CORE_RISK_ON_EXPOSURE = 1.00
+SATELLITE_RISK_OFF_EXPOSURE = 1.00
+SATELLITE_RISK_ON_EXPOSURE = 1.00
+MARKET_INDEX_CODE = "000300.SH"
+CORE_INDEX_CODES = ["000300.SH", "000688.SH"]
+EXPLORE_INDEX_CODES = ["000905.SH", "000698.SH", "000699.SH"]
+CORE_BUY_ENTRY_PERCENTILE = 0.10
+CORE_SELL_EXIT_PERCENTILE = 0.20
+EXPLORE_BUY_ENTRY_PERCENTILE = 0.12
+EXPLORE_SELL_EXIT_PERCENTILE = 0.20
+SEED_BUY_ENTRY_PERCENTILE = 0.20
+SEED_SELL_EXIT_PERCENTILE = 0.35
+PROMOTED_CORE_SELL_EXIT_PERCENTILE = 0.35
+CORE_QUALITY_QUANTILE = 0.60
+EXPLORE_QUALITY_QUANTILE = 0.50
+SEED_QUALITY_QUANTILE = 0.35
+ROLLING_AMOUNT_WINDOW = 60
+CORE_AMOUNT_THRESHOLD = 300000.0
+EXPLORE_AMOUNT_THRESHOLD = 50000.0
+SEED_AMOUNT_THRESHOLD = 25000.0
+SEED_MAX_PORTFOLIO_RATIO = 0.10
+SEED_BREAKOUT_LOOKBACK_DAYS = 20
+DATA_HISTORY_MONTHS = 18
+PROMOTION_MIN_STREAK = 3
+DEMOTION_MIN_STREAK = 2
+PROMOTED_CORE_DEMOTION_MIN_STREAK = 3
+FAST_PROMOTION_MIN_STREAK = 2
+FAST_PROMOTION_PERCENTILE = 0.05
+FAST_PROMOTION_AMOUNT_SURGE_RATIO = 1.20
+CORE_MAX_HOLDINGS = 10
+EXPLORE_MAX_HOLDINGS = 20
+SEED_MAX_HOLDINGS = 10
+WINNER_CORE_STABLE_SHARE = 0.65
+WINNER_CORE_PROMOTED_SHARE = 0.35
+STABLE_CORE_MAX_HOLDINGS = 6
+PROMOTED_CORE_MAX_HOLDINGS = 4
+PROMOTED_CORE_STAGE_RAMP = {1: 0.45, 2: 0.75}
+MAX_RETRIES = 5
+RETRY_BASE_DELAY = 1.5
+FLOAT_FORMAT = "%.8f"
+
+CORE_EXPLORE_RATIO_CONFIGS = [
+    {"strategy_id": "core_explore_80_20", "strategy_name": "核心80_探索20", "core_ratio": 0.80, "explore_ratio": 0.20},
+    {"strategy_id": "core_explore_70_30", "strategy_name": "核心70_探索30", "core_ratio": 0.70, "explore_ratio": 0.30},
+    {"strategy_id": "core_explore_60_40", "strategy_name": "核心60_探索40", "core_ratio": 0.60, "explore_ratio": 0.40},
+]
+
+BASE_WEIGHT_METHODS = [
+    {"base_weight_method": "total_mv", "base_weight_name": "总市值底座"},
+    {"base_weight_method": "index_weight", "base_weight_name": "指数权重底座"},
+]
+
+CORE_SOURCE_MODES = [
+    {"core_source_mode": "index_core", "core_source_name": "指数核心"},
+    {"core_source_mode": "winner_core", "core_source_name": "胜出者核心"},
+]
+
+PURE_CORE_GROWTH_CONFIGS = [
+    {"strategy_id": "pure_core_growth_6", "strategy_name": "纯核心成长6只", "max_holdings": 6},
+    {"strategy_id": "pure_core_growth_7", "strategy_name": "纯核心成长7只", "max_holdings": 7},
+    {"strategy_id": "pure_core_growth_8", "strategy_name": "纯核心成长8只", "max_holdings": 8},
+]
+PURE_CORE_AMOUNT_THRESHOLD = 50000.0
+PURE_CORE_BUY_BUFFER_MULTIPLIER = 1.0
+PURE_CORE_KEEP_BUFFER_MULTIPLIER = 2.0
+PURE_CORE_OBSERVATION_BUFFER_MULTIPLIER = 3.0
+PURE_CORE_OBSERVATION_MIN_STREAK = 2
+PURE_CORE_BASE_WEIGHT_SHARE = 0.15
+PURE_CORE_TOP3_MULTIPLIERS = [2.4, 1.8, 1.35]
+
+CACHE_DIR = Path("data_cache")
+RESULTS_DIR = Path("results")
+DAILY_DIR = CACHE_DIR / "daily"
+ADJ_DIR = CACHE_DIR / "adj_factor"
+DAILY_BASIC_DIR = CACHE_DIR / "daily_basic"
+FINA_DIR = CACHE_DIR / "fina_indicator"
+INDEX_DIR = CACHE_DIR / "index_daily"
+INDEX_WEIGHT_DIR = CACHE_DIR / "index_weight"
+
+
+@dataclass
+class PreparedData:
+    stock_basic: pd.DataFrame
+    price_exact: pd.DataFrame
+    price_ffill: pd.DataFrame
+    total_mv: pd.DataFrame
+    daily_amount: pd.DataFrame
+    financials_by_code: Dict[str, pd.DataFrame]
+    month_end_dates: List[pd.Timestamp]
+    month_start_dates: List[pd.Timestamp]
+    code_to_name: Dict[str, str]
+    code_to_list_date: Dict[str, pd.Timestamp]
+    code_to_industry: Dict[str, str]
+    market_monthly_close: pd.Series
+    core_members_by_date: Dict[pd.Timestamp, Set[str]]
+    explore_members_by_date: Dict[pd.Timestamp, Set[str]]
+    core_index_weights_by_date: Dict[pd.Timestamp, pd.Series]
+    explore_index_weights_by_date: Dict[pd.Timestamp, pd.Series]
+    data_warnings: List[str]
+
+
+def normalize_codes(raw_codes: Iterable[str]) -> List[str]:
+    normalized: List[str] = []
+    errors: List[str] = []
+
+    for raw in raw_codes:
+        code = str(raw).strip()
+        if not code.isdigit() or len(code) != 6:
+            errors.append(f"{raw}: 不是 6 位数字代码")
+            continue
+
+        if code.startswith(("60", "68", "90", "50")):
+            normalized.append(f"{code}.SH")
+        elif code.startswith(("00", "30", "20")):
+            normalized.append(f"{code}.SZ")
+        else:
+            errors.append(f"{raw}: 无法根据前缀判断交易所，请手动确认")
+
+    if errors:
+        raise ValueError("股票代码规范化失败：\n" + "\n".join(errors))
+
+    return normalized
+
+
+def ensure_directories() -> None:
+    for path in [CACHE_DIR, DAILY_DIR, ADJ_DIR, DAILY_BASIC_DIR, FINA_DIR, INDEX_DIR, INDEX_WEIGHT_DIR, RESULTS_DIR]:
+        path.mkdir(parents=True, exist_ok=True)
+
+
+def call_tushare_with_retry(api_callable, **kwargs) -> pd.DataFrame:
+    last_error: Exception | None = None
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            df = api_callable(**kwargs)
+            if df is None:
+                raise RuntimeError("Tushare 返回了空对象")
+            time.sleep(0.12)
+            return df
+        except Exception as exc:  # noqa: BLE001
+            last_error = exc
+            if attempt == MAX_RETRIES:
+                break
+            sleep_seconds = RETRY_BASE_DELAY * (2 ** (attempt - 1))
+            print(
+                f"[Retry] 调用 Tushare 失败，第 {attempt}/{MAX_RETRIES} 次，"
+                f"{sleep_seconds:.1f} 秒后重试。参数: {kwargs}，错误: {exc}"
+            )
+            time.sleep(sleep_seconds)
+
+    raise RuntimeError(f"Tushare 请求失败，已重试 {MAX_RETRIES} 次: {kwargs}") from last_error
+
+
+def read_cached_csv(path: Path, date_columns: Iterable[str] | None = None) -> pd.DataFrame:
+    if not path.exists():
+        return pd.DataFrame()
+    df = pd.read_csv(path)
+    for column in date_columns or []:
+        if column in df.columns:
+            df[column] = pd.to_datetime(df[column])
+    return df
+
+
+def save_csv(df: pd.DataFrame, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(path, index=False, float_format=FLOAT_FORMAT)
+
+
+def load_or_fetch_stock_basic(pro) -> pd.DataFrame:
+    cache_path = CACHE_DIR / "stock_basic.csv"
+    cached = read_cached_csv(cache_path, date_columns=["list_date", "delist_date"])
+    if not cached.empty:
+        return cached
+
+    frames = []
+    for list_status in ["L", "D", "P"]:
+        frame = call_tushare_with_retry(
+            pro.stock_basic,
+            exchange="",
+            list_status=list_status,
+            fields="ts_code,symbol,name,area,industry,market,list_date,delist_date,list_status",
+        )
+        frames.append(frame)
+
+    stock_basic = pd.concat(frames, ignore_index=True).drop_duplicates(subset=["ts_code"])
+    stock_basic["list_date"] = pd.to_datetime(stock_basic["list_date"], format="%Y%m%d", errors="coerce")
+    stock_basic["delist_date"] = pd.to_datetime(stock_basic["delist_date"], format="%Y%m%d", errors="coerce")
+    stock_basic = stock_basic.sort_values("ts_code").reset_index(drop=True)
+    save_csv(stock_basic, cache_path)
+    return stock_basic
+
+
+def load_or_fetch_trade_calendar(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
+    cache_path = CACHE_DIR / "trade_calendar.csv"
+    cached = read_cached_csv(cache_path, date_columns=["cal_date"])
+
+    if not cached.empty:
+        cached = cached.sort_values("cal_date").drop_duplicates(subset=["cal_date"])
+        cached_start = cached["cal_date"].min()
+        cached_end = cached["cal_date"].max()
+        if cached_start <= start_date and cached_end >= end_date:
+            return cached
+
+    fetched = call_tushare_with_retry(
+        pro.trade_cal,
+        exchange="SSE",
+        start_date=start_date.strftime("%Y%m%d"),
+        end_date=end_date.strftime("%Y%m%d"),
+        fields="exchange,cal_date,is_open,pretrade_date",
+    )
+    fetched["cal_date"] = pd.to_datetime(fetched["cal_date"], format="%Y%m%d", errors="coerce")
+    calendar = fetched.sort_values("cal_date").drop_duplicates(subset=["cal_date"]).reset_index(drop=True)
+    save_csv(calendar, cache_path)
+    return calendar
+
+
+def build_pool_output_dir(pool_id: str) -> Path:
+    return RESULTS_DIR / pool_id
+
+
+def load_or_fetch_daily(pro, ts_code: str, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
+    cache_path = DAILY_DIR / f"{ts_code}.csv"
+    cached = read_cached_csv(cache_path, date_columns=["trade_date"])
+    if "trade_date" in cached.columns:
+        cached = cached.sort_values("trade_date").drop_duplicates(subset=["trade_date"])
+    else:
+        cached = pd.DataFrame(columns=["ts_code", "trade_date", "open", "high", "low", "close", "pre_close", "change", "pct_chg", "vol", "amount"])
+
+    fetch_from = start_date
+    if not cached.empty:
+        latest_cached = cached["trade_date"].max()
+        if latest_cached >= end_date:
+            return cached.reset_index(drop=True)
+        fetch_from = latest_cached + pd.Timedelta(days=1)
+
+    fetched = call_tushare_with_retry(
+        pro.daily,
+        ts_code=ts_code,
+        start_date=fetch_from.strftime("%Y%m%d"),
+        end_date=end_date.strftime("%Y%m%d"),
+    )
+
+    if not fetched.empty:
+        fetched["trade_date"] = pd.to_datetime(fetched["trade_date"], format="%Y%m%d", errors="coerce")
+
+    daily = pd.concat([cached, fetched], ignore_index=True)
+    if "trade_date" in daily.columns:
+        daily["trade_date"] = pd.to_datetime(daily["trade_date"], errors="coerce")
+    if "close" in daily.columns:
+        daily["close"] = pd.to_numeric(daily["close"], errors="coerce")
+    daily = daily.sort_values("trade_date").drop_duplicates(subset=["trade_date"]).reset_index(drop=True)
+    save_csv(daily, cache_path)
+    return daily
+
+
+def load_or_fetch_adj_factor(pro, ts_code: str, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
+    cache_path = ADJ_DIR / f"{ts_code}.csv"
+    cached = read_cached_csv(cache_path, date_columns=["trade_date"])
+    if "trade_date" in cached.columns:
+        cached = cached.sort_values("trade_date").drop_duplicates(subset=["trade_date"])
+    else:
+        cached = pd.DataFrame(columns=["ts_code", "trade_date", "adj_factor"])
+
+    fetch_from = start_date
+    if not cached.empty:
+        latest_cached = cached["trade_date"].max()
+        if latest_cached >= end_date:
+            return cached.reset_index(drop=True)
+        fetch_from = latest_cached + pd.Timedelta(days=1)
+
+    fetched = call_tushare_with_retry(
+        pro.adj_factor,
+        ts_code=ts_code,
+        start_date=fetch_from.strftime("%Y%m%d"),
+        end_date=end_date.strftime("%Y%m%d"),
+    )
+
+    if not fetched.empty:
+        fetched["trade_date"] = pd.to_datetime(fetched["trade_date"], format="%Y%m%d", errors="coerce")
+
+    adj_factor = pd.concat([cached, fetched], ignore_index=True)
+    if "trade_date" in adj_factor.columns:
+        adj_factor["trade_date"] = pd.to_datetime(adj_factor["trade_date"], errors="coerce")
+    if "adj_factor" in adj_factor.columns:
+        adj_factor["adj_factor"] = pd.to_numeric(adj_factor["adj_factor"], errors="coerce")
+    adj_factor = adj_factor.sort_values("trade_date").drop_duplicates(subset=["trade_date"]).reset_index(drop=True)
+    save_csv(adj_factor, cache_path)
+    return adj_factor
+
+
+def load_or_fetch_daily_basic(pro, ts_code: str, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
+    cache_path = DAILY_BASIC_DIR / f"{ts_code}.csv"
+    cached = read_cached_csv(cache_path, date_columns=["trade_date"])
+    if "trade_date" in cached.columns:
+        cached = cached.sort_values("trade_date").drop_duplicates(subset=["trade_date"])
+    else:
+        cached = pd.DataFrame(columns=["ts_code", "trade_date", "total_mv"])
+
+    fetch_from = start_date
+    if not cached.empty:
+        latest_cached = cached["trade_date"].max()
+        if latest_cached >= end_date:
+            return cached.reset_index(drop=True)
+        fetch_from = latest_cached + pd.Timedelta(days=1)
+
+    fetched = call_tushare_with_retry(
+        pro.daily_basic,
+        ts_code=ts_code,
+        start_date=fetch_from.strftime("%Y%m%d"),
+        end_date=end_date.strftime("%Y%m%d"),
+        fields="ts_code,trade_date,total_mv",
+    )
+
+    if not fetched.empty:
+        fetched["trade_date"] = pd.to_datetime(fetched["trade_date"], format="%Y%m%d", errors="coerce")
+
+    daily_basic = pd.concat([cached, fetched], ignore_index=True)
+    if "trade_date" in daily_basic.columns:
+        daily_basic["trade_date"] = pd.to_datetime(daily_basic["trade_date"], errors="coerce")
+    if "total_mv" in daily_basic.columns:
+        daily_basic["total_mv"] = pd.to_numeric(daily_basic["total_mv"], errors="coerce")
+    daily_basic = daily_basic.sort_values("trade_date").drop_duplicates(subset=["trade_date"]).reset_index(drop=True)
+    save_csv(daily_basic, cache_path)
+    return daily_basic
+
+
+def load_or_fetch_fina_indicator(pro, ts_code: str, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
+    cache_path = FINA_DIR / f"{ts_code}.csv"
+    cached = read_cached_csv(cache_path, date_columns=["ann_date", "end_date"])
+    if "ann_date" not in cached.columns:
+        cached = pd.DataFrame(
+            columns=[
+                "ts_code",
+                "ann_date",
+                "end_date",
+                "roe",
+                "grossprofit_margin",
+                "debt_to_assets",
+                "ocf_to_or",
+                "q_dtprofit_yoy",
+            ]
+        )
+
+    if cached.empty:
+        fetched = call_tushare_with_retry(
+            pro.fina_indicator,
+            ts_code=ts_code,
+            start_date=start_date.strftime("%Y%m%d"),
+            end_date=end_date.strftime("%Y%m%d"),
+            fields="ts_code,ann_date,end_date,roe,grossprofit_margin,debt_to_assets,ocf_to_or,q_dtprofit_yoy",
+        )
+        if not fetched.empty:
+            fetched["ann_date"] = pd.to_datetime(fetched["ann_date"], format="%Y%m%d", errors="coerce")
+            fetched["end_date"] = pd.to_datetime(fetched["end_date"], format="%Y%m%d", errors="coerce")
+        fina = fetched
+        for column in ["roe", "grossprofit_margin", "debt_to_assets", "ocf_to_or", "q_dtprofit_yoy"]:
+            if column in fina.columns:
+                fina[column] = pd.to_numeric(fina[column], errors="coerce")
+        fina = fina.sort_values(["ann_date", "end_date"]).drop_duplicates(subset=["ann_date", "end_date"], keep="last").reset_index(drop=True)
+        save_csv(fina, cache_path)
+        return fina
+
+    cached["ann_date"] = pd.to_datetime(cached["ann_date"], errors="coerce")
+    cached["end_date"] = pd.to_datetime(cached["end_date"], errors="coerce")
+    for column in ["roe", "grossprofit_margin", "debt_to_assets", "ocf_to_or", "q_dtprofit_yoy"]:
+        if column in cached.columns:
+            cached[column] = pd.to_numeric(cached[column], errors="coerce")
+    cached = cached.sort_values(["ann_date", "end_date"]).drop_duplicates(subset=["ann_date", "end_date"], keep="last").reset_index(drop=True)
+    save_csv(cached, cache_path)
+    return cached
+
+
+def load_or_fetch_index_daily(pro, ts_code: str, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
+    cache_path = INDEX_DIR / f"{ts_code}.csv"
+    cached = read_cached_csv(cache_path, date_columns=["trade_date"])
+    if "trade_date" in cached.columns:
+        cached = cached.sort_values("trade_date").drop_duplicates(subset=["trade_date"])
+    else:
+        cached = pd.DataFrame(columns=["ts_code", "trade_date", "close"])
+
+    fetch_from = start_date
+    if not cached.empty:
+        latest_cached = cached["trade_date"].max()
+        if latest_cached >= end_date:
+            return cached.reset_index(drop=True)
+        fetch_from = latest_cached + pd.Timedelta(days=1)
+
+    fetched = call_tushare_with_retry(
+        pro.index_daily,
+        ts_code=ts_code,
+        start_date=fetch_from.strftime("%Y%m%d"),
+        end_date=end_date.strftime("%Y%m%d"),
+    )
+    if not fetched.empty:
+        fetched["trade_date"] = pd.to_datetime(fetched["trade_date"], format="%Y%m%d", errors="coerce")
+        if "close" in fetched.columns:
+            fetched["close"] = pd.to_numeric(fetched["close"], errors="coerce")
+
+    index_df = pd.concat([cached, fetched], ignore_index=True)
+    if "trade_date" in index_df.columns:
+        index_df["trade_date"] = pd.to_datetime(index_df["trade_date"], errors="coerce")
+    if "close" in index_df.columns:
+        index_df["close"] = pd.to_numeric(index_df["close"], errors="coerce")
+    index_df = index_df.sort_values("trade_date").drop_duplicates(subset=["trade_date"]).reset_index(drop=True)
+    save_csv(index_df, cache_path)
+    return index_df
+
+
+def load_or_fetch_index_weight(pro, index_code: str, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
+    cache_path = INDEX_WEIGHT_DIR / f"{index_code}.csv"
+    cached = read_cached_csv(cache_path, date_columns=["trade_date"])
+    required_end_date = end_date if end_date.is_month_end else (end_date - pd.offsets.MonthEnd(1))
+
+    if not cached.empty and "trade_date" in cached.columns:
+        cached = cached.sort_values(["trade_date", "con_code"]).drop_duplicates(subset=["trade_date", "con_code"])
+        cached_max = pd.to_datetime(cached["trade_date"]).max()
+        # 指数成分权重通常按月更新；若缓存已经覆盖到目标结束月份，就直接复用。
+        # 对于晚于回测起点才成立的指数（如科创50/100/200），也不强制补抓其成立前不存在的数据。
+        if cached_max.to_period("M") >= required_end_date.to_period("M"):
+            return cached.reset_index(drop=True)
+
+    frames: List[pd.DataFrame] = []
+    cursor = pd.Timestamp(start_date.year, 1, 1)
+    if not cached.empty and "trade_date" in cached.columns:
+        cached_max = pd.to_datetime(cached["trade_date"]).max()
+        cursor = max(cursor, (cached_max + pd.Timedelta(days=1)).normalize())
+    while cursor <= required_end_date:
+        chunk_end = min(pd.Timestamp(cursor.year, 12, 31), required_end_date)
+        fetched = call_tushare_with_retry(
+            pro.index_weight,
+            index_code=index_code,
+            start_date=cursor.strftime("%Y%m%d"),
+            end_date=chunk_end.strftime("%Y%m%d"),
+        )
+        if not fetched.empty:
+            fetched["trade_date"] = pd.to_datetime(fetched["trade_date"], format="%Y%m%d", errors="coerce")
+            frames.append(fetched)
+        cursor = chunk_end + pd.Timedelta(days=1)
+
+    if frames or not cached.empty:
+        index_weight = pd.concat([cached] + frames, ignore_index=True)
+        if "weight" in index_weight.columns:
+            index_weight["weight"] = pd.to_numeric(index_weight["weight"], errors="coerce")
+        index_weight = (
+            index_weight.sort_values(["trade_date", "con_code"])
+            .drop_duplicates(subset=["trade_date", "con_code"], keep="last")
+            .reset_index(drop=True)
+        )
+    else:
+        index_weight = pd.DataFrame(columns=["index_code", "con_code", "trade_date", "weight"])
+
+    save_csv(index_weight, cache_path)
+    return index_weight
+
+
+def build_month_boundaries(calendar: pd.DataFrame) -> Tuple[List[pd.Timestamp], List[pd.Timestamp], pd.Index]:
+    open_calendar = calendar.loc[calendar["is_open"] == 1, ["cal_date"]].copy()
+    open_calendar = open_calendar.sort_values("cal_date").reset_index(drop=True)
+    open_calendar["month"] = open_calendar["cal_date"].dt.to_period("M")
+    month_end_dates = open_calendar.groupby("month")["cal_date"].max().sort_values().tolist()
+    month_start_dates = open_calendar.groupby("month")["cal_date"].min().sort_values().tolist()
+    full_calendar_index = pd.Index(open_calendar["cal_date"], name="trade_date")
+    return month_end_dates, month_start_dates, full_calendar_index
+
+
+def build_index_memberships_for_dates(index_weight_df: pd.DataFrame, signal_dates: List[pd.Timestamp]) -> Dict[pd.Timestamp, Set[str]]:
+    memberships: Dict[pd.Timestamp, Set[str]] = {}
+    if index_weight_df.empty:
+        return {signal_date: set() for signal_date in signal_dates}
+
+    grouped = [
+        (pd.Timestamp(trade_date), set(group["con_code"].astype(str)))
+        for trade_date, group in index_weight_df.groupby("trade_date")
+    ]
+    grouped.sort(key=lambda item: item[0])
+
+    pointer = -1
+    current_members: Set[str] = set()
+    for signal_date in sorted(signal_dates):
+        while pointer + 1 < len(grouped) and grouped[pointer + 1][0] <= signal_date:
+            pointer += 1
+            current_members = grouped[pointer][1]
+        memberships[signal_date] = set(current_members)
+
+    return memberships
+
+
+def build_index_weight_lookup_for_dates(index_weight_df: pd.DataFrame, signal_dates: List[pd.Timestamp]) -> Dict[pd.Timestamp, pd.Series]:
+    weights_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    if index_weight_df.empty:
+        return {signal_date: pd.Series(dtype=float) for signal_date in signal_dates}
+
+    grouped = []
+    for trade_date, group in index_weight_df.groupby("trade_date"):
+        series = group.set_index("con_code")["weight"].astype(float)
+        grouped.append((pd.Timestamp(trade_date), series))
+    grouped.sort(key=lambda item: item[0])
+
+    pointer = -1
+    current_weights = pd.Series(dtype=float)
+    for signal_date in sorted(signal_dates):
+        while pointer + 1 < len(grouped) and grouped[pointer + 1][0] <= signal_date:
+            pointer += 1
+            current_weights = grouped[pointer][1]
+        weights_by_date[signal_date] = current_weights.copy()
+
+    return weights_by_date
+
+
+def combine_index_weight_series(series_list: List[pd.Series], exclude_codes: Set[str] | None = None) -> pd.Series:
+    valid_series = [series.astype(float) for series in series_list if series is not None and not series.empty]
+    if not valid_series:
+        return pd.Series(dtype=float)
+
+    combined = pd.concat(valid_series).groupby(level=0).sum()
+    if exclude_codes:
+        combined = combined.drop(labels=list(exclude_codes & set(combined.index)), errors="ignore")
+    combined = combined[combined > 0]
+    total = float(combined.sum())
+    if total <= 0:
+        return pd.Series(dtype=float)
+    return (combined / total).sort_values(ascending=False)
+
+
+def build_dynamic_pool_maps(
+    index_weights_by_code: Dict[str, pd.DataFrame],
+    signal_dates: List[pd.Timestamp],
+) -> Tuple[Dict[pd.Timestamp, Set[str]], Dict[pd.Timestamp, Set[str]], Dict[pd.Timestamp, pd.Series], Dict[pd.Timestamp, pd.Series], Set[str]]:
+    members_by_index = {
+        index_code: build_index_memberships_for_dates(index_weight_df, signal_dates)
+        for index_code, index_weight_df in index_weights_by_code.items()
+    }
+    weights_by_index = {
+        index_code: build_index_weight_lookup_for_dates(index_weight_df, signal_dates)
+        for index_code, index_weight_df in index_weights_by_code.items()
+    }
+
+    core_members_by_date: Dict[pd.Timestamp, Set[str]] = {}
+    explore_members_by_date: Dict[pd.Timestamp, Set[str]] = {}
+    core_index_weights_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    explore_index_weights_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    all_codes: Set[str] = set()
+
+    for signal_date in signal_dates:
+        core_weight_series = combine_index_weight_series(
+            [weights_by_index.get(index_code, {}).get(signal_date, pd.Series(dtype=float)) for index_code in CORE_INDEX_CODES]
+        )
+        core_members = set(core_weight_series.index)
+        explore_weight_series = combine_index_weight_series(
+            [weights_by_index.get(index_code, {}).get(signal_date, pd.Series(dtype=float)) for index_code in EXPLORE_INDEX_CODES],
+            exclude_codes=core_members,
+        )
+        explore_members = set(explore_weight_series.index)
+        # 若某只股票同时出现在核心和探索指数中，则优先归入核心池，避免双重计权。
+
+        core_members_by_date[signal_date] = core_members
+        explore_members_by_date[signal_date] = explore_members
+        core_index_weights_by_date[signal_date] = core_weight_series
+        explore_index_weights_by_date[signal_date] = explore_weight_series
+        all_codes.update(core_members)
+        all_codes.update(explore_members)
+
+    return core_members_by_date, explore_members_by_date, core_index_weights_by_date, explore_index_weights_by_date, all_codes
+
+
+def build_forward_adjusted_prices(daily_df: pd.DataFrame, adj_factor_df: pd.DataFrame) -> pd.DataFrame:
+    if daily_df.empty or adj_factor_df.empty:
+        return pd.DataFrame(columns=["trade_date", "close", "adj_factor", "forward_adj_close"])
+
+    merged = daily_df[["trade_date", "close"]].merge(
+        adj_factor_df[["trade_date", "adj_factor"]],
+        on="trade_date",
+        how="inner",
+    )
+    merged = merged.sort_values("trade_date").reset_index(drop=True)
+    latest_adj_factor = merged["adj_factor"].iloc[-1]
+
+    # 使用“close * 当日复权因子 / 最新复权因子”的方式构造前复权价格，
+    # 使得最新一个交易日的价格与原始收盘价一致。
+    merged["forward_adj_close"] = merged["close"] * merged["adj_factor"] / latest_adj_factor
+    return merged
+
+
+def build_monthly_panel(
+    normalized_codes: List[str],
+    stock_basic: pd.DataFrame,
+    calendar: pd.DataFrame,
+    per_stock_frames: Dict[str, Dict[str, pd.DataFrame]],
+    financials_by_code: Dict[str, pd.DataFrame],
+    market_index_df: pd.DataFrame,
+    core_members_by_date: Dict[pd.Timestamp, Set[str]],
+    explore_members_by_date: Dict[pd.Timestamp, Set[str]],
+    core_index_weights_by_date: Dict[pd.Timestamp, pd.Series],
+    explore_index_weights_by_date: Dict[pd.Timestamp, pd.Series],
+    data_warnings: List[str],
+) -> PreparedData:
+    month_end_dates, month_start_dates, full_calendar_index = build_month_boundaries(calendar)
+
+    price_frames = []
+    mv_frames = []
+    amount_frames = []
+    for ts_code in normalized_codes:
+        merged_price = per_stock_frames[ts_code]["price"].copy()
+        if not merged_price.empty:
+            merged_price["ts_code"] = ts_code
+            price_frames.append(merged_price[["trade_date", "ts_code", "forward_adj_close"]])
+
+        merged_mv = per_stock_frames[ts_code]["daily_basic"].copy()
+        if not merged_mv.empty:
+            merged_mv["ts_code"] = ts_code
+            mv_frames.append(merged_mv[["trade_date", "ts_code", "total_mv"]])
+
+        merged_daily = per_stock_frames[ts_code]["daily"].copy()
+        if not merged_daily.empty and "amount" in merged_daily.columns:
+            merged_daily["ts_code"] = ts_code
+            amount_frames.append(merged_daily[["trade_date", "ts_code", "amount"]])
+
+    if not price_frames:
+        raise RuntimeError("没有成功构造任何股票的前复权价格序列。")
+
+    price_exact = pd.concat(price_frames, ignore_index=True).pivot(
+        index="trade_date",
+        columns="ts_code",
+        values="forward_adj_close",
+    )
+    price_exact = price_exact.sort_index()
+
+    price_ffill = price_exact.reindex(full_calendar_index).ffill()
+
+    if mv_frames:
+        total_mv = pd.concat(mv_frames, ignore_index=True).pivot(
+            index="trade_date",
+            columns="ts_code",
+            values="total_mv",
+        )
+        total_mv = total_mv.sort_index()
+    else:
+        total_mv = pd.DataFrame(index=price_exact.index)
+
+    if amount_frames:
+        daily_amount = pd.concat(amount_frames, ignore_index=True).pivot(
+            index="trade_date",
+            columns="ts_code",
+            values="amount",
+        )
+        daily_amount = daily_amount.sort_index().reindex(full_calendar_index)
+    else:
+        daily_amount = pd.DataFrame(index=full_calendar_index)
+
+    selected_basic = stock_basic.loc[stock_basic["ts_code"].isin(normalized_codes)].copy()
+    selected_basic["industry"] = selected_basic["industry"].fillna("").replace("", "未知行业")
+    code_to_name = dict(zip(selected_basic["ts_code"], selected_basic["name"]))
+    code_to_list_date = dict(zip(selected_basic["ts_code"], selected_basic["list_date"]))
+    code_to_industry = dict(zip(selected_basic["ts_code"], selected_basic["industry"]))
+    market_monthly_table = (
+        market_index_df[["trade_date", "close"]]
+        .dropna()
+        .sort_values("trade_date")
+        .assign(month=lambda df: df["trade_date"].dt.to_period("M"))
+        .groupby("month")
+        .tail(1)
+        .set_index("trade_date")["close"]
+    )
+    market_monthly_close = market_monthly_table.reindex(pd.Index(month_end_dates)).ffill()
+
+    return PreparedData(
+        stock_basic=selected_basic,
+        price_exact=price_exact,
+        price_ffill=price_ffill,
+        total_mv=total_mv,
+        daily_amount=daily_amount,
+        financials_by_code=financials_by_code,
+        month_end_dates=month_end_dates,
+        month_start_dates=month_start_dates,
+        code_to_name=code_to_name,
+        code_to_list_date=code_to_list_date,
+        code_to_industry=code_to_industry,
+        market_monthly_close=market_monthly_close,
+        core_members_by_date=core_members_by_date,
+        explore_members_by_date=explore_members_by_date,
+        core_index_weights_by_date=core_index_weights_by_date,
+        explore_index_weights_by_date=explore_index_weights_by_date,
+        data_warnings=data_warnings,
+    )
+
+
+def get_stamp_duty_rate(trade_date: pd.Timestamp) -> float:
+    # 印花税仅对卖出成交额征收，且 2023-08-28 起税率由 0.10% 下调至 0.05%。
+    if trade_date < STAMP_DUTY_CHANGE_DATE:
+        return STAMP_DUTY_PRE_20230828
+    return STAMP_DUTY_POST_20230828
+
+
+def safe_percentile_rank(series: pd.Series, ascending: bool) -> pd.Series:
+    if series.empty:
+        return pd.Series(dtype=float)
+    ranks = series.rank(method="average", ascending=ascending, pct=True)
+    return ranks.fillna(0.5)
+
+
+def normalize_positive_weights(series: pd.Series) -> pd.Series:
+    cleaned = series.astype(float).replace([np.inf, -np.inf], np.nan).fillna(0.0).clip(lower=0.0)
+    total = float(cleaned.sum())
+    if total <= 0:
+        if cleaned.empty:
+            return cleaned
+        return pd.Series(1.0 / len(cleaned), index=cleaned.index)
+    return cleaned / total
+
+
+def blend_ranked_components(components: List[Tuple[pd.Series, float]]) -> pd.Series:
+    valid_components = [(series.astype(float), weight) for series, weight in components if weight > 0 and not series.empty]
+    if not valid_components:
+        return pd.Series(dtype=float)
+
+    union_index = pd.Index([])
+    for series, _weight in valid_components:
+        union_index = union_index.union(series.index)
+
+    weighted_sum = pd.Series(0.0, index=union_index, dtype=float)
+    available_weight = pd.Series(0.0, index=union_index, dtype=float)
+    for series, weight in valid_components:
+        aligned = series.reindex(union_index)
+        mask = aligned.notna()
+        weighted_sum.loc[mask] = weighted_sum.loc[mask] + aligned.loc[mask] * weight
+        available_weight.loc[mask] = available_weight.loc[mask] + weight
+
+    blended = weighted_sum / available_weight.replace(0.0, np.nan)
+    return blended.dropna().sort_values(ascending=False)
+
+
+def get_latest_financial_snapshot(financials_df: pd.DataFrame, signal_date: pd.Timestamp) -> pd.Series:
+    if financials_df.empty:
+        return pd.Series(dtype=float)
+    available = financials_df.loc[financials_df["ann_date"] <= signal_date].copy()
+    if available.empty:
+        return pd.Series(dtype=float)
+    latest = available.sort_values(["ann_date", "end_date"]).iloc[-1]
+    return latest
+
+
+def compute_quality_scores(prepared: PreparedData, eligible_codes: List[str], signal_date: pd.Timestamp) -> Tuple[pd.Series, pd.DataFrame]:
+    snapshots: List[Dict[str, float | str]] = []
+    for ts_code in eligible_codes:
+        snapshot = get_latest_financial_snapshot(prepared.financials_by_code.get(ts_code, pd.DataFrame()), signal_date)
+        if snapshot.empty:
+            continue
+        snapshots.append(
+            {
+                "ts_code": ts_code,
+                "roe": snapshot.get("roe", np.nan),
+                "grossprofit_margin": snapshot.get("grossprofit_margin", np.nan),
+                "debt_to_assets": snapshot.get("debt_to_assets", np.nan),
+                "ocf_to_or": snapshot.get("ocf_to_or", np.nan),
+                "q_dtprofit_yoy": snapshot.get("q_dtprofit_yoy", np.nan),
+            }
+        )
+
+    if not snapshots:
+        return pd.Series(dtype=float), pd.DataFrame()
+
+    quality_df = pd.DataFrame(snapshots).set_index("ts_code")
+    quality_score = (
+        safe_percentile_rank(quality_df["roe"], ascending=True)
+        + safe_percentile_rank(quality_df["grossprofit_margin"], ascending=True)
+        + safe_percentile_rank(quality_df["ocf_to_or"], ascending=True)
+        + safe_percentile_rank(quality_df["q_dtprofit_yoy"], ascending=True)
+        + safe_percentile_rank(quality_df["debt_to_assets"], ascending=False)
+    ) / 5.0
+    quality_df["quality_score"] = quality_score
+    return quality_score, quality_df
+
+
+def compute_growth_quality_scores(quality_df: pd.DataFrame) -> pd.Series:
+    if quality_df.empty:
+        return pd.Series(dtype=float)
+    return blend_ranked_components(
+        [
+            (safe_percentile_rank(quality_df["q_dtprofit_yoy"], ascending=True), 0.35),
+            (safe_percentile_rank(quality_df["roe"], ascending=True), 0.20),
+            (safe_percentile_rank(quality_df["grossprofit_margin"], ascending=True), 0.15),
+            (safe_percentile_rank(quality_df["ocf_to_or"], ascending=True), 0.15),
+            (safe_percentile_rank(quality_df["debt_to_assets"], ascending=False), 0.15),
+        ]
+    )
+
+
+def compute_growth_acceleration_scores(quality_df: pd.DataFrame) -> pd.Series:
+    if quality_df.empty:
+        return pd.Series(dtype=float)
+    return blend_ranked_components(
+        [
+            (safe_percentile_rank(quality_df["q_dtprofit_yoy"], ascending=True), 0.55),
+            (safe_percentile_rank(quality_df["roe"], ascending=True), 0.15),
+            (safe_percentile_rank(quality_df["grossprofit_margin"], ascending=True), 0.10),
+            (safe_percentile_rank(quality_df["ocf_to_or"], ascending=True), 0.10),
+            (safe_percentile_rank(quality_df["debt_to_assets"], ascending=False), 0.10),
+        ]
+    )
+
+
+def compute_industry_relative_strength_scores(
+    code_to_industry: Dict[str, str],
+    candidate_codes: Iterable[str],
+    momentum_6_1: pd.Series,
+    momentum_3_1: pd.Series,
+    amount_surge_ratio: pd.Series,
+    breakout_signal: pd.Series,
+    growth_acceleration_scores: pd.Series,
+) -> Tuple[pd.Series, pd.Series]:
+    candidate_index = pd.Index(sorted(set(candidate_codes)))
+    if candidate_index.empty:
+        return pd.Series(dtype=float), pd.Series(dtype=float)
+
+    industry_labels = pd.Series(
+        {code: code_to_industry.get(code, "未知行业") or "未知行业" for code in candidate_index},
+        dtype="object",
+    )
+    industry_momentum_6: Dict[str, float] = {}
+    industry_momentum_3: Dict[str, float] = {}
+    industry_breakout_breadth: Dict[str, float] = {}
+    industry_growth: Dict[str, float] = {}
+    industry_leader_scores = pd.Series(index=candidate_index, dtype=float)
+    for industry_name, member_codes in industry_labels.groupby(industry_labels).groups.items():
+        member_index = pd.Index(list(member_codes))
+        member_mom_6 = momentum_6_1.reindex(member_index).dropna()
+        member_mom_3 = momentum_3_1.reindex(member_index).dropna()
+        member_breakout = breakout_signal.reindex(member_index).fillna(False).astype(float)
+        member_growth = growth_acceleration_scores.reindex(member_index).dropna()
+        if member_mom_6.empty and member_mom_3.empty and member_growth.empty:
+            continue
+        industry_momentum_6[str(industry_name)] = float(member_mom_6.mean()) if not member_mom_6.empty else np.nan
+        industry_momentum_3[str(industry_name)] = float(member_mom_3.mean()) if not member_mom_3.empty else np.nan
+        industry_breakout_breadth[str(industry_name)] = float(member_breakout.mean()) if not member_breakout.empty else 0.0
+        industry_growth[str(industry_name)] = float(member_growth.median()) if not member_growth.empty else np.nan
+        leader_composite = blend_ranked_components(
+            [
+                (safe_percentile_rank(momentum_6_1.reindex(member_index), ascending=True), 0.35),
+                (safe_percentile_rank(momentum_3_1.reindex(member_index), ascending=True), 0.25),
+                (growth_acceleration_scores.reindex(member_index), 0.20),
+                (safe_percentile_rank(amount_surge_ratio.reindex(member_index), ascending=True), 0.10),
+                (breakout_signal.reindex(member_index).fillna(False).astype(float), 0.10),
+            ]
+        )
+        if not leader_composite.empty:
+            industry_leader_scores.loc[leader_composite.index] = safe_percentile_rank(leader_composite, ascending=True)
+
+    industry_strength_rank = blend_ranked_components(
+        [
+            (safe_percentile_rank(pd.Series(industry_momentum_6, dtype=float), ascending=True), 0.45),
+            (safe_percentile_rank(pd.Series(industry_momentum_3, dtype=float), ascending=True), 0.25),
+            (pd.Series(industry_breakout_breadth, dtype=float), 0.15),
+            (safe_percentile_rank(pd.Series(industry_growth, dtype=float), ascending=True), 0.15),
+        ]
+    )
+    industry_strength_scores = industry_labels.map(industry_strength_rank).astype(float)
+    industry_strength_scores = industry_strength_scores.reindex(candidate_index).dropna()
+    industry_leader_scores = industry_leader_scores.dropna()
+    return industry_strength_scores, industry_leader_scores
+
+
+def compute_market_exposure(market_monthly_close: pd.Series, signal_date: pd.Timestamp) -> Dict[str, float | bool]:
+    if signal_date not in market_monthly_close.index:
+        return {
+            "risk_off": False,
+            "market_12_1_momentum": np.nan,
+            "market_below_10m_ma": False,
+            "core_target_exposure": CORE_RISK_ON_EXPOSURE,
+            "satellite_target_exposure": SATELLITE_RISK_ON_EXPOSURE,
+            "portfolio_target_exposure": CORE_RISK_ON_EXPOSURE,
+        }
+
+    history = market_monthly_close.loc[:signal_date].dropna()
+    if len(history) < 12:
+        return {
+            "risk_off": False,
+            "market_12_1_momentum": np.nan,
+            "market_below_10m_ma": False,
+            "core_target_exposure": CORE_RISK_ON_EXPOSURE,
+            "satellite_target_exposure": SATELLITE_RISK_ON_EXPOSURE,
+            "portfolio_target_exposure": CORE_RISK_ON_EXPOSURE,
+        }
+
+    current_close = float(history.iloc[-1])
+    prior_1m_close = float(history.iloc[-2]) if len(history) >= 2 else np.nan
+    prior_12m_close = float(history.iloc[-12])
+    ma_10m = float(history.iloc[-10:].mean()) if len(history) >= 10 else np.nan
+    market_12_1_momentum = prior_1m_close / prior_12m_close - 1.0 if prior_12m_close > 0 and not np.isnan(prior_1m_close) else np.nan
+    below_ma = current_close < ma_10m if not np.isnan(ma_10m) else False
+    risk_off = (not np.isnan(market_12_1_momentum) and market_12_1_momentum < 0) or below_ma
+    core_target_exposure = CORE_RISK_OFF_EXPOSURE if risk_off else CORE_RISK_ON_EXPOSURE
+    satellite_target_exposure = SATELLITE_RISK_OFF_EXPOSURE if risk_off else SATELLITE_RISK_ON_EXPOSURE
+    return {
+        "risk_off": risk_off,
+        "market_12_1_momentum": market_12_1_momentum,
+        "market_below_10m_ma": below_ma,
+        "core_target_exposure": core_target_exposure,
+        "satellite_target_exposure": satellite_target_exposure,
+        "portfolio_target_exposure": core_target_exposure,
+    }
+
+
+def build_single_sleeve_weights(
+    base_weights: pd.Series,
+    signal_scores: pd.Series,
+    recent_1m_returns: pd.Series,
+    quality_scores: pd.Series,
+    currently_held_codes: Set[str],
+    target_exposure: float,
+    buy_entry_percentile: float,
+    sell_exit_percentile: float,
+    quality_quantile: float,
+    max_holdings: int,
+    protected_hold_codes: Set[str] | None = None,
+    protected_sell_exit_percentile: float | None = None,
+    allow_missing_quality: bool = False,
+    require_breakout_for_buy: bool = False,
+    breakout_signal: pd.Series | None = None,
+    base_weight_mode: str = "base",
+) -> Tuple[pd.Series, Dict[str, object]]:
+    if base_weights.empty:
+        return pd.Series(dtype=float), {
+            "selected_count": 0,
+            "buy_candidate_count": 0,
+            "keep_candidate_count": 0,
+            "quality_pass_count": 0,
+            "selected_codes": set(),
+            "buy_candidates": set(),
+            "keep_candidates": set(),
+            "protected_keep_candidates": set(),
+        }
+
+    common_codes = base_weights.index.intersection(signal_scores.dropna().index)
+    if len(common_codes) == 0:
+        return pd.Series(dtype=float), {
+            "selected_count": 0,
+            "buy_candidate_count": 0,
+            "keep_candidate_count": 0,
+            "quality_pass_count": 0,
+            "selected_codes": set(),
+            "buy_candidates": set(),
+            "keep_candidates": set(),
+            "protected_keep_candidates": set(),
+        }
+
+    weight_base = base_weights.loc[common_codes].astype(float)
+    signal_score = signal_scores.loc[common_codes].astype(float)
+    short_term = recent_1m_returns.reindex(common_codes).astype(float)
+    quality = quality_scores.reindex(common_codes).astype(float)
+    if allow_missing_quality:
+        fill_value = float(quality.dropna().median()) if not quality.dropna().empty else 0.5
+        quality = quality.fillna(fill_value)
+    else:
+        valid_quality = quality.notna()
+        weight_base = weight_base.loc[valid_quality]
+        signal_score = signal_score.loc[valid_quality]
+        short_term = short_term.loc[valid_quality]
+        quality = quality.loc[valid_quality]
+        common_codes = quality.index
+    if len(common_codes) == 0:
+        return pd.Series(dtype=float), {
+            "selected_count": 0,
+            "buy_candidate_count": 0,
+            "keep_candidate_count": 0,
+            "quality_pass_count": 0,
+            "selected_codes": set(),
+            "buy_candidates": set(),
+            "keep_candidates": set(),
+            "protected_keep_candidates": set(),
+        }
+
+    signal_rank = signal_score.rank(method="first", ascending=False, pct=True)
+    quality_cutoff = quality.quantile(quality_quantile)
+    quality_pass = quality >= quality_cutoff
+    short_term_pass = short_term > 0
+    breakout_pass = breakout_signal.reindex(common_codes).fillna(False).astype(bool) if breakout_signal is not None else pd.Series(True, index=common_codes)
+
+    buy_mask = (signal_rank <= buy_entry_percentile) & quality_pass & short_term_pass
+    if require_breakout_for_buy:
+        buy_mask = buy_mask & breakout_pass
+    buy_candidates = set(signal_rank[buy_mask].index)
+    keep_candidates = set(signal_rank[(signal_rank <= sell_exit_percentile) & quality_pass].index)
+    protected_keep_candidates: Set[str] = set()
+    if protected_hold_codes and protected_sell_exit_percentile is not None:
+        protected_mask = signal_rank.index.isin(list(protected_hold_codes))
+        protected_keep_candidates = set(
+            signal_rank[(signal_rank <= protected_sell_exit_percentile) & quality_pass & protected_mask].index
+        )
+        keep_candidates |= protected_keep_candidates
+    selected_codes = sorted((currently_held_codes & keep_candidates) | buy_candidates)
+
+    if not selected_codes:
+        return pd.Series(dtype=float), {
+            "selected_count": 0,
+            "buy_candidate_count": len(buy_candidates),
+            "keep_candidate_count": len(keep_candidates),
+            "quality_pass_count": int(quality_pass.sum()),
+            "selected_codes": set(),
+            "buy_candidates": buy_candidates,
+            "keep_candidates": keep_candidates,
+            "protected_keep_candidates": protected_keep_candidates,
+        }
+
+    signal_strength = safe_percentile_rank(signal_score.loc[selected_codes], ascending=True)
+    quality_strength = safe_percentile_rank(quality.loc[selected_codes], ascending=True)
+    breakout_strength = breakout_pass.reindex(selected_codes).astype(float)
+    base_norm = normalize_positive_weights(weight_base.loc[selected_codes])
+    signal_norm = normalize_positive_weights(0.70 * signal_strength + 0.30 * quality_strength + 0.10 * breakout_strength)
+
+    if base_weight_mode == "signal":
+        equal_norm = pd.Series(1.0 / len(selected_codes), index=selected_codes, dtype=float)
+        adjusted_raw = 0.20 * equal_norm + 0.80 * signal_norm
+    elif base_weight_mode == "hybrid":
+        adjusted_raw = 0.35 * base_norm + 0.65 * signal_norm
+    else:
+        score_multiplier = (0.60 + 0.80 * signal_strength + 0.60 * quality_strength + 0.15 * breakout_strength).clip(lower=0.25)
+        adjusted_raw = base_norm * score_multiplier
+    if max_holdings > 0 and len(adjusted_raw) > max_holdings:
+        adjusted_raw = adjusted_raw.sort_values(ascending=False).head(max_holdings)
+        selected_codes = adjusted_raw.index.tolist()
+    normalized_weights = normalize_positive_weights(adjusted_raw)
+    target_weights = normalized_weights * target_exposure
+
+    return target_weights.sort_values(ascending=False), {
+        "selected_count": len(selected_codes),
+        "buy_candidate_count": len(buy_candidates),
+        "keep_candidate_count": len(keep_candidates),
+        "quality_pass_count": int(quality_pass.sum()),
+        "selected_codes": set(selected_codes),
+        "buy_candidates": buy_candidates,
+        "keep_candidates": keep_candidates,
+        "protected_keep_candidates": protected_keep_candidates,
+    }
+
+
+def build_core_explore_target_weights(
+    base_weights: pd.Series,
+    avg_daily_amount: pd.Series,
+    core_signal_scores: pd.Series,
+    explore_signal_scores: pd.Series,
+    seed_signal_scores: pd.Series,
+    recent_1m_returns: pd.Series,
+    quality_scores: pd.Series,
+    breakout_signal: pd.Series,
+    currently_held_codes: Set[str],
+    core_ratio: float,
+    explore_ratio: float,
+    core_target_exposure: float,
+    satellite_target_exposure: float,
+    core_universe_codes: Set[str],
+    actual_core_members: Set[str],
+    explore_universe_codes: Set[str],
+    promoted_core_codes: Set[str],
+    promoted_core_ages: Dict[str, int],
+    core_source_mode: str,
+    standard_eligible_codes: Set[str],
+    seed_eligible_codes: Set[str],
+) -> Tuple[pd.Series, Dict[str, object]]:
+    liquidity = avg_daily_amount.reindex(base_weights.index)
+    core_eligible_codes = seed_eligible_codes if core_source_mode == "winner_core" else standard_eligible_codes
+    if core_source_mode == "winner_core":
+        # 胜出者核心：核心仓可以直接从整个动态发现池里提拔强势赢家，
+        # 允许更早在中证500/科创100/200 的胜出者上重仓，而不是只限于沪深300/科创50。
+        core_candidate_codes = set(core_universe_codes) | set(explore_universe_codes)
+        core_codes = liquidity[
+            (liquidity >= EXPLORE_AMOUNT_THRESHOLD)
+            & liquidity.index.isin(core_candidate_codes)
+            & liquidity.index.isin(core_eligible_codes)
+        ].index
+    else:
+        core_codes = liquidity[
+            (liquidity >= CORE_AMOUNT_THRESHOLD)
+            & liquidity.index.isin(core_universe_codes)
+            & liquidity.index.isin(standard_eligible_codes)
+        ].index
+    explore_codes = liquidity[
+        (liquidity >= EXPLORE_AMOUNT_THRESHOLD)
+        & liquidity.index.isin(explore_universe_codes)
+        & liquidity.index.isin(standard_eligible_codes)
+    ].index
+    seed_codes = liquidity[
+        (liquidity >= SEED_AMOUNT_THRESHOLD)
+        & liquidity.index.isin(explore_universe_codes)
+        & liquidity.index.isin(seed_eligible_codes)
+    ].index
+
+    core_raw = base_weights.reindex(core_codes).dropna()
+    stable_core_raw = core_raw.reindex(sorted(set(core_raw.index) & set(actual_core_members))).dropna()
+    promoted_core_raw = core_raw.reindex(sorted(set(core_raw.index) & set(promoted_core_codes))).dropna()
+    explore_raw = base_weights.reindex(explore_codes).dropna()
+    seed_raw = base_weights.reindex(seed_codes).dropna()
+
+    if stable_core_raw.empty and promoted_core_raw.empty and explore_raw.empty and seed_raw.empty:
+        return pd.Series(dtype=float), {
+            "core_selected_count": 0,
+            "stable_core_selected_count": 0,
+            "promoted_core_selected_count": 0,
+            "explore_selected_count": 0,
+            "seed_selected_count": 0,
+            "core_buy_candidate_count": 0,
+            "stable_core_buy_candidate_count": 0,
+            "promoted_core_buy_candidate_count": 0,
+            "explore_buy_candidate_count": 0,
+            "seed_buy_candidate_count": 0,
+            "core_keep_candidate_count": 0,
+            "stable_core_keep_candidate_count": 0,
+            "promoted_core_keep_candidate_count": 0,
+            "explore_keep_candidate_count": 0,
+            "seed_keep_candidate_count": 0,
+            "core_quality_pass_count": 0,
+            "stable_core_quality_pass_count": 0,
+            "promoted_core_quality_pass_count": 0,
+            "explore_quality_pass_count": 0,
+            "seed_quality_pass_count": 0,
+            "core_available_count": 0,
+            "stable_core_available_count": 0,
+            "promoted_core_available_count": 0,
+            "explore_available_count": 0,
+            "seed_available_count": 0,
+            "core_selected_codes": set(),
+            "stable_core_selected_codes": set(),
+            "promoted_core_selected_codes": set(),
+            "explore_selected_codes": set(),
+            "seed_selected_codes": set(),
+            "core_keep_candidates": set(),
+            "stable_core_keep_candidates": set(),
+            "promoted_core_keep_candidates": set(),
+            "explore_keep_candidates": set(),
+            "seed_keep_candidates": set(),
+            "core_buy_candidates": set(),
+            "stable_core_buy_candidates": set(),
+            "promoted_core_buy_candidates": set(),
+            "explore_buy_candidates": set(),
+            "seed_buy_candidates": set(),
+            "core_protected_keep_candidates": set(),
+        }
+    satellite_bucket_ratio = explore_ratio
+    seed_internal_ratio = min(satellite_bucket_ratio, SEED_MAX_PORTFOLIO_RATIO)
+    explore_internal_ratio = max(0.0, satellite_bucket_ratio - seed_internal_ratio)
+    explore_target_exposure = 0.0
+    seed_target_exposure = 0.0
+    if not explore_raw.empty or not seed_raw.empty:
+        satellite_active_weight = 0.0
+        if not explore_raw.empty:
+            satellite_active_weight += explore_internal_ratio
+        if not seed_raw.empty:
+            satellite_active_weight += seed_internal_ratio
+        if satellite_active_weight > 0:
+            if not explore_raw.empty:
+                explore_target_exposure = satellite_target_exposure * explore_internal_ratio / satellite_active_weight
+            if not seed_raw.empty:
+                seed_target_exposure = satellite_target_exposure * seed_internal_ratio / satellite_active_weight
+            explore_target_exposure *= satellite_bucket_ratio
+            seed_target_exposure *= satellite_bucket_ratio
+    core_target_weight = core_ratio * core_target_exposure if not core_raw.empty else 0.0
+    stable_target_weight = 0.0
+    promoted_target_weight = 0.0
+    if core_target_weight > 0:
+        if not stable_core_raw.empty and not promoted_core_raw.empty and core_source_mode == "winner_core":
+            stable_target_weight = core_target_weight * WINNER_CORE_STABLE_SHARE
+            promoted_target_weight = core_target_weight * WINNER_CORE_PROMOTED_SHARE
+        elif not stable_core_raw.empty:
+            stable_target_weight = core_target_weight
+        elif not promoted_core_raw.empty:
+            promoted_target_weight = core_target_weight
+
+    stable_core_weights, stable_core_stats = build_single_sleeve_weights(
+        base_weights=stable_core_raw,
+        signal_scores=core_signal_scores,
+        recent_1m_returns=recent_1m_returns,
+        quality_scores=quality_scores,
+        currently_held_codes=currently_held_codes,
+        target_exposure=stable_target_weight,
+        buy_entry_percentile=CORE_BUY_ENTRY_PERCENTILE,
+        sell_exit_percentile=CORE_SELL_EXIT_PERCENTILE,
+        quality_quantile=CORE_QUALITY_QUANTILE,
+        max_holdings=STABLE_CORE_MAX_HOLDINGS,
+        breakout_signal=breakout_signal,
+        base_weight_mode="base",
+    ) if not stable_core_raw.empty else (
+        pd.Series(dtype=float),
+        {
+            "selected_count": 0,
+            "buy_candidate_count": 0,
+            "keep_candidate_count": 0,
+            "quality_pass_count": 0,
+            "selected_codes": set(),
+            "buy_candidates": set(),
+            "keep_candidates": set(),
+            "protected_keep_candidates": set(),
+        },
+    )
+
+    promoted_base_scaled = promoted_core_raw.copy()
+    for code in promoted_base_scaled.index:
+        promoted_base_scaled.loc[code] = promoted_base_scaled.loc[code] * get_promoted_core_ramp(promoted_core_ages.get(code, 0))
+    promoted_currently_held = set(currently_held_codes) - set(stable_core_stats["selected_codes"])
+    promoted_core_weights, promoted_core_stats = build_single_sleeve_weights(
+        base_weights=promoted_base_scaled,
+        signal_scores=core_signal_scores,
+        recent_1m_returns=recent_1m_returns,
+        quality_scores=quality_scores,
+        currently_held_codes=promoted_currently_held,
+        target_exposure=promoted_target_weight,
+        buy_entry_percentile=1.0,
+        sell_exit_percentile=1.0,
+        quality_quantile=0.40,
+        max_holdings=PROMOTED_CORE_MAX_HOLDINGS,
+        protected_hold_codes=set(promoted_core_raw.index),
+        protected_sell_exit_percentile=1.0,
+        breakout_signal=breakout_signal,
+        base_weight_mode="signal",
+    ) if not promoted_core_raw.empty and promoted_base_scaled.sum() > 0 else (
+        pd.Series(dtype=float),
+        {
+            "selected_count": 0,
+            "buy_candidate_count": 0,
+            "keep_candidate_count": 0,
+            "quality_pass_count": 0,
+            "selected_codes": set(),
+            "buy_candidates": set(),
+            "keep_candidates": set(),
+            "protected_keep_candidates": set(),
+        },
+    )
+
+    core_weights = pd.concat([stable_core_weights, promoted_core_weights]).groupby(level=0).sum().sort_values(ascending=False)
+    core_stats = {
+        "selected_count": len(set(stable_core_stats["selected_codes"]) | set(promoted_core_stats["selected_codes"])),
+        "buy_candidate_count": stable_core_stats["buy_candidate_count"] + promoted_core_stats["buy_candidate_count"],
+        "keep_candidate_count": stable_core_stats["keep_candidate_count"] + promoted_core_stats["keep_candidate_count"],
+        "quality_pass_count": stable_core_stats["quality_pass_count"] + promoted_core_stats["quality_pass_count"],
+        "selected_codes": set(stable_core_stats["selected_codes"]) | set(promoted_core_stats["selected_codes"]),
+        "buy_candidates": set(stable_core_stats["buy_candidates"]) | set(promoted_core_stats["buy_candidates"]),
+        "keep_candidates": set(stable_core_stats["keep_candidates"]) | set(promoted_core_stats["keep_candidates"]),
+        "protected_keep_candidates": set(promoted_core_stats["protected_keep_candidates"]),
+    }
+
+    explore_currently_held = set(currently_held_codes) - set(core_stats["selected_codes"])
+    if not explore_raw.empty and core_stats["selected_codes"]:
+        explore_raw = explore_raw.drop(labels=list(set(explore_raw.index) & set(core_stats["selected_codes"])), errors="ignore")
+    if not seed_raw.empty and core_stats["selected_codes"]:
+        seed_raw = seed_raw.drop(labels=list(set(seed_raw.index) & set(core_stats["selected_codes"])), errors="ignore")
+
+    explore_weights, explore_stats = build_single_sleeve_weights(
+        base_weights=explore_raw,
+        signal_scores=explore_signal_scores,
+        recent_1m_returns=recent_1m_returns,
+        quality_scores=quality_scores,
+        currently_held_codes=explore_currently_held,
+        target_exposure=explore_target_exposure,
+        buy_entry_percentile=EXPLORE_BUY_ENTRY_PERCENTILE,
+        sell_exit_percentile=EXPLORE_SELL_EXIT_PERCENTILE,
+        quality_quantile=EXPLORE_QUALITY_QUANTILE,
+        max_holdings=EXPLORE_MAX_HOLDINGS,
+        breakout_signal=breakout_signal,
+        base_weight_mode="hybrid",
+    ) if not explore_raw.empty else (
+        pd.Series(dtype=float),
+        {
+            "selected_count": 0,
+            "buy_candidate_count": 0,
+            "keep_candidate_count": 0,
+            "quality_pass_count": 0,
+            "selected_codes": set(),
+            "buy_candidates": set(),
+            "keep_candidates": set(),
+            "protected_keep_candidates": set(),
+        },
+    )
+
+    seed_currently_held = set(currently_held_codes) - set(core_stats["selected_codes"]) - set(explore_stats["selected_codes"])
+    if not seed_raw.empty and explore_stats["selected_codes"]:
+        seed_raw = seed_raw.drop(labels=list(set(seed_raw.index) & set(explore_stats["selected_codes"])), errors="ignore")
+
+    seed_weights, seed_stats = build_single_sleeve_weights(
+        base_weights=seed_raw,
+        signal_scores=seed_signal_scores,
+        recent_1m_returns=recent_1m_returns,
+        quality_scores=quality_scores,
+        currently_held_codes=seed_currently_held,
+        target_exposure=seed_target_exposure,
+        buy_entry_percentile=SEED_BUY_ENTRY_PERCENTILE,
+        sell_exit_percentile=SEED_SELL_EXIT_PERCENTILE,
+        quality_quantile=SEED_QUALITY_QUANTILE,
+        max_holdings=SEED_MAX_HOLDINGS,
+        allow_missing_quality=True,
+        require_breakout_for_buy=True,
+        breakout_signal=breakout_signal,
+        base_weight_mode="signal",
+    ) if not seed_raw.empty else (
+        pd.Series(dtype=float),
+        {
+            "selected_count": 0,
+            "buy_candidate_count": 0,
+            "keep_candidate_count": 0,
+            "quality_pass_count": 0,
+            "selected_codes": set(),
+            "buy_candidates": set(),
+            "keep_candidates": set(),
+            "protected_keep_candidates": set(),
+        },
+    )
+
+    combined = pd.concat([core_weights, explore_weights, seed_weights]).groupby(level=0).sum().sort_values(ascending=False)
+    return combined, {
+        "core_selected_count": core_stats["selected_count"],
+        "stable_core_selected_count": stable_core_stats["selected_count"],
+        "promoted_core_selected_count": promoted_core_stats["selected_count"],
+        "explore_selected_count": explore_stats["selected_count"],
+        "seed_selected_count": seed_stats["selected_count"],
+        "core_buy_candidate_count": core_stats["buy_candidate_count"],
+        "stable_core_buy_candidate_count": stable_core_stats["buy_candidate_count"],
+        "promoted_core_buy_candidate_count": promoted_core_stats["buy_candidate_count"],
+        "explore_buy_candidate_count": explore_stats["buy_candidate_count"],
+        "seed_buy_candidate_count": seed_stats["buy_candidate_count"],
+        "core_keep_candidate_count": core_stats["keep_candidate_count"],
+        "stable_core_keep_candidate_count": stable_core_stats["keep_candidate_count"],
+        "promoted_core_keep_candidate_count": promoted_core_stats["keep_candidate_count"],
+        "explore_keep_candidate_count": explore_stats["keep_candidate_count"],
+        "seed_keep_candidate_count": seed_stats["keep_candidate_count"],
+        "core_quality_pass_count": core_stats["quality_pass_count"],
+        "stable_core_quality_pass_count": stable_core_stats["quality_pass_count"],
+        "promoted_core_quality_pass_count": promoted_core_stats["quality_pass_count"],
+        "explore_quality_pass_count": explore_stats["quality_pass_count"],
+        "seed_quality_pass_count": seed_stats["quality_pass_count"],
+        "core_available_count": int(len(core_raw)),
+        "stable_core_available_count": int(len(stable_core_raw)),
+        "promoted_core_available_count": int(len(promoted_core_raw)),
+        "explore_available_count": int(len(explore_raw)),
+        "seed_available_count": int(len(seed_raw)),
+        "core_selected_codes": core_stats["selected_codes"],
+        "stable_core_selected_codes": stable_core_stats["selected_codes"],
+        "promoted_core_selected_codes": promoted_core_stats["selected_codes"],
+        "explore_selected_codes": explore_stats["selected_codes"],
+        "seed_selected_codes": seed_stats["selected_codes"],
+        "core_keep_candidates": core_stats["keep_candidates"],
+        "stable_core_keep_candidates": stable_core_stats["keep_candidates"],
+        "promoted_core_keep_candidates": promoted_core_stats["keep_candidates"],
+        "explore_keep_candidates": explore_stats["keep_candidates"],
+        "seed_keep_candidates": seed_stats["keep_candidates"],
+        "core_buy_candidates": core_stats["buy_candidates"],
+        "stable_core_buy_candidates": stable_core_stats["buy_candidates"],
+        "promoted_core_buy_candidates": promoted_core_stats["buy_candidates"],
+        "explore_buy_candidates": explore_stats["buy_candidates"],
+        "seed_buy_candidates": seed_stats["buy_candidates"],
+        "core_protected_keep_candidates": core_stats["protected_keep_candidates"],
+    }
+
+
+def build_pure_core_growth_weights(
+    base_weights: pd.Series,
+    avg_daily_amount: pd.Series,
+    pure_core_signal_scores: pd.Series,
+    growth_quality_scores: pd.Series,
+    recent_1m_returns: pd.Series,
+    breakout_signal: pd.Series,
+    currently_held_codes: Set[str],
+    core_watch_streaks: Dict[str, int],
+    max_holdings: int,
+) -> Tuple[pd.Series, Dict[str, object]]:
+    if base_weights.empty or pure_core_signal_scores.empty:
+        return pd.Series(dtype=float), {
+            "core_selected_count": 0,
+            "explore_selected_count": 0,
+            "seed_selected_count": 0,
+            "core_buy_candidate_count": 0,
+            "explore_buy_candidate_count": 0,
+            "seed_buy_candidate_count": 0,
+            "core_keep_candidate_count": 0,
+            "explore_keep_candidate_count": 0,
+            "seed_keep_candidate_count": 0,
+            "core_quality_pass_count": 0,
+            "explore_quality_pass_count": 0,
+            "seed_quality_pass_count": 0,
+            "core_available_count": 0,
+            "explore_available_count": 0,
+            "seed_available_count": 0,
+            "core_selected_codes": set(),
+            "explore_selected_codes": set(),
+            "seed_selected_codes": set(),
+            "core_keep_candidates": set(),
+            "explore_keep_candidates": set(),
+            "seed_keep_candidates": set(),
+            "core_buy_candidates": set(),
+            "explore_buy_candidates": set(),
+            "seed_buy_candidates": set(),
+            "core_protected_keep_candidates": set(),
+            "core_watch_candidates": set(),
+            "core_watch_ready_candidates": set(),
+            "pure_core_top3_weight_pre_cap": 0.0,
+        }
+
+    liquidity = avg_daily_amount.reindex(base_weights.index).fillna(0.0)
+    eligible = base_weights.index.intersection(pure_core_signal_scores.dropna().index)
+    eligible = eligible.intersection(growth_quality_scores.dropna().index)
+    eligible = eligible[liquidity.reindex(eligible).fillna(0.0) >= PURE_CORE_AMOUNT_THRESHOLD]
+    if len(eligible) == 0:
+        return build_pure_core_growth_weights(
+            pd.Series(dtype=float),
+            avg_daily_amount,
+            pure_core_signal_scores,
+            growth_quality_scores,
+            recent_1m_returns,
+            breakout_signal,
+            currently_held_codes,
+            core_watch_streaks,
+            max_holdings,
+        )
+
+    composite_scores = blend_ranked_components(
+        [
+            (pure_core_signal_scores.reindex(eligible), 0.70),
+            (growth_quality_scores.reindex(eligible), 0.30),
+        ]
+    )
+    if composite_scores.empty:
+        return build_pure_core_growth_weights(
+            pd.Series(dtype=float),
+            avg_daily_amount,
+            pure_core_signal_scores,
+            growth_quality_scores,
+            recent_1m_returns,
+            breakout_signal,
+            currently_held_codes,
+            core_watch_streaks,
+            max_holdings,
+        )
+
+    ranked_scores = composite_scores.sort_values(ascending=False)
+    buy_pool = ranked_scores[
+        (recent_1m_returns.reindex(ranked_scores.index).fillna(-1.0) > 0)
+        | breakout_signal.reindex(ranked_scores.index).fillna(False)
+    ]
+    if buy_pool.empty:
+        buy_pool = ranked_scores
+    watch_candidates = set(ranked_scores.head(max(1, math.ceil(max_holdings * PURE_CORE_OBSERVATION_BUFFER_MULTIPLIER))).index)
+    watch_ready_candidates = {
+        code for code in watch_candidates if core_watch_streaks.get(code, 0) >= PURE_CORE_OBSERVATION_MIN_STREAK
+    }
+    buy_candidates = set(
+        code
+        for code in buy_pool.head(max(1, math.ceil(max_holdings * PURE_CORE_BUY_BUFFER_MULTIPLIER))).index
+        if code in watch_ready_candidates
+    )
+    keep_candidates = set(ranked_scores.head(max(1, math.ceil(max_holdings * PURE_CORE_KEEP_BUFFER_MULTIPLIER))).index)
+    selected_codes = sorted((currently_held_codes & keep_candidates) | buy_candidates)
+    selected_scores = ranked_scores.reindex(selected_codes).dropna().sort_values(ascending=False).head(max_holdings)
+    if selected_scores.empty:
+        return build_pure_core_growth_weights(
+            pd.Series(dtype=float),
+            avg_daily_amount,
+            pure_core_signal_scores,
+            growth_quality_scores,
+            recent_1m_returns,
+            breakout_signal,
+            currently_held_codes,
+            core_watch_streaks,
+            max_holdings,
+        )
+
+    base_norm = normalize_positive_weights(base_weights.reindex(selected_scores.index).fillna(0.0))
+    score_norm = normalize_positive_weights(selected_scores)
+    concentration = pd.Series(np.exp(-0.60 * np.arange(len(selected_scores))), index=selected_scores.index, dtype=float)
+    for idx, multiplier in enumerate(PURE_CORE_TOP3_MULTIPLIERS):
+        if idx < len(concentration):
+            concentration.iloc[idx] *= multiplier
+    concentrated_norm = normalize_positive_weights(score_norm * concentration)
+    blended = normalize_positive_weights(PURE_CORE_BASE_WEIGHT_SHARE * base_norm + (1.0 - PURE_CORE_BASE_WEIGHT_SHARE) * concentrated_norm)
+
+    return blended.sort_values(ascending=False), {
+        "core_selected_count": len(selected_scores),
+        "explore_selected_count": 0,
+        "seed_selected_count": 0,
+        "core_buy_candidate_count": len(buy_candidates),
+        "explore_buy_candidate_count": 0,
+        "seed_buy_candidate_count": 0,
+        "core_keep_candidate_count": len(keep_candidates),
+        "explore_keep_candidate_count": 0,
+        "seed_keep_candidate_count": 0,
+        "core_quality_pass_count": int(growth_quality_scores.reindex(eligible).notna().sum()),
+        "explore_quality_pass_count": 0,
+        "seed_quality_pass_count": 0,
+        "core_available_count": int(len(eligible)),
+        "explore_available_count": 0,
+        "seed_available_count": 0,
+        "core_selected_codes": set(selected_scores.index),
+        "explore_selected_codes": set(),
+        "seed_selected_codes": set(),
+        "core_keep_candidates": keep_candidates,
+        "explore_keep_candidates": set(),
+        "seed_keep_candidates": set(),
+        "core_buy_candidates": buy_candidates,
+        "explore_buy_candidates": set(),
+        "seed_buy_candidates": set(),
+        "core_protected_keep_candidates": set(),
+        "core_watch_candidates": watch_candidates,
+        "core_watch_ready_candidates": watch_ready_candidates,
+        "pure_core_top3_weight_pre_cap": float(blended.head(3).sum()),
+    }
+
+
+def apply_weight_cap_with_redistribution(raw_weights: pd.Series, cap: float = WEIGHT_CAP) -> Tuple[pd.Series, float]:
+    if raw_weights.empty:
+        return raw_weights.copy(), 1.0
+
+    weights = raw_weights.fillna(0.0).clip(lower=0.0)
+    target_total = float(weights.sum())
+    if target_total <= 0:
+        return weights * 0.0, 1.0
+
+    weights = weights / target_total
+    adjusted = weights.copy()
+
+    # 迭代把超过上限的股票压到单票上限，超额部分再按未封顶股票的相对权重继续分配。
+    while True:
+        over = adjusted > cap + 1e-12
+        if not over.any():
+            break
+
+        excess = float((adjusted.loc[over] - cap).sum())
+        adjusted.loc[over] = cap
+
+        under = adjusted < cap - 1e-12
+        if not under.any() or excess <= 1e-12:
+            break
+
+        base = adjusted.loc[under]
+        base_sum = float(base.sum())
+        if base_sum <= 0:
+            break
+        adjusted.loc[under] = adjusted.loc[under] + excess * base / base_sum
+
+    adjusted = adjusted.clip(lower=0.0) * target_total
+    cash_weight = max(0.0, 1.0 - float(adjusted.sum()))
+    return adjusted[adjusted > 1e-12].sort_values(ascending=False), cash_weight
+
+
+def compute_rebalance_trades(
+    current_values: pd.Series,
+    current_cash: float,
+    target_weights: pd.Series,
+    rebalance_date: pd.Timestamp,
+    tradable_codes: Iterable[str],
+) -> Tuple[pd.Series, float, pd.Series, float, Dict[str, float]]:
+    current_values = current_values[current_values.abs() > 1e-12].copy()
+    tradable_list = sorted(set(tradable_codes))
+    tradable_set = set(tradable_list)
+    locked_codes = [code for code in current_values.index if code not in tradable_set]
+
+    locked_values = current_values.loc[locked_codes] if locked_codes else pd.Series(dtype=float)
+    locked_value = float(locked_values.sum())
+    pre_trade_nav = float(current_values.sum() + current_cash)
+
+    target_weights = target_weights[target_weights > 1e-12].copy()
+    tradable_target = target_weights[target_weights.index.isin(tradable_set)].copy()
+
+    available_weight_budget = max(0.0, 1.0 - locked_value / pre_trade_nav) if pre_trade_nav > 0 else 0.0
+    target_tradable_weight = float(tradable_target.sum())
+    if target_tradable_weight > available_weight_budget and target_tradable_weight > 0:
+        tradable_target = tradable_target * (available_weight_budget / target_tradable_weight)
+        target_tradable_weight = float(tradable_target.sum())
+
+    target_cash_weight = max(0.0, 1.0 - locked_value / pre_trade_nav - target_tradable_weight) if pre_trade_nav > 0 else 1.0
+    free_weight = target_tradable_weight + target_cash_weight
+
+    if free_weight <= 1e-12:
+        tradable_allocation_shares = pd.Series(dtype=float)
+        cash_share = 0.0
+    else:
+        tradable_allocation_shares = tradable_target / free_weight
+        cash_share = target_cash_weight / free_weight
+
+    current_tradable_values = current_values.reindex(tradable_list, fill_value=0.0)
+    current_tradable_values = current_tradable_values.loc[
+        sorted(set(current_tradable_values.index) | set(tradable_allocation_shares.index))
+    ].fillna(0.0)
+
+    stamp_rate = get_stamp_duty_rate(rebalance_date)
+    post_trade_nav_guess = pre_trade_nav
+    desired_tradable_values = pd.Series(dtype=float)
+    desired_cash = current_cash
+    gross_positions = pd.Series(dtype=float)
+    gross_cash = current_cash
+    buy_amount = 0.0
+    sell_amount = 0.0
+    trading_cost = 0.0
+
+    for _ in range(10):
+        free_capital = max(0.0, post_trade_nav_guess - locked_value)
+        desired_tradable_values = tradable_allocation_shares.reindex(current_tradable_values.index, fill_value=0.0) * free_capital
+        desired_cash = cash_share * free_capital
+        trade_deltas = desired_tradable_values - current_tradable_values
+        # 调仓缓冲：目标权重变化不足 1% 的持仓不交易，避免高频小额换手。
+        frozen = (trade_deltas.abs() / pre_trade_nav) < MIN_WEIGHT_TRADE_THRESHOLD if pre_trade_nav > 0 else trade_deltas * 0 == 0
+        trade_deltas.loc[frozen] = 0.0
+        desired_tradable_values = current_tradable_values + trade_deltas
+        desired_cash = pre_trade_nav - locked_value - float(desired_tradable_values.sum())
+        buy_amount = float(trade_deltas[trade_deltas > 0].sum())
+        sell_amount = float((-trade_deltas[trade_deltas < 0]).sum())
+
+        buy_cost = buy_amount * BUY_COMMISSION
+        sell_commission = sell_amount * SELL_COMMISSION
+        sell_stamp_duty = sell_amount * stamp_rate
+        trading_cost = buy_cost + sell_commission + sell_stamp_duty
+        new_guess = pre_trade_nav - trading_cost
+
+        if abs(new_guess - post_trade_nav_guess) < 1e-12:
+            break
+        post_trade_nav_guess = new_guess
+
+    post_trade_nav = pre_trade_nav - trading_cost
+    desired_cash = desired_cash - trading_cost
+    gross_positions = current_tradable_values + trade_deltas
+    gross_cash = pre_trade_nav - locked_value - float(gross_positions.sum())
+
+    post_trade_positions = pd.concat([locked_values, desired_tradable_values])
+    post_trade_positions = post_trade_positions.groupby(level=0).sum()
+    post_trade_positions = post_trade_positions[post_trade_positions > 1e-12].sort_index()
+    gross_positions = pd.concat([locked_values, gross_positions])
+    gross_positions = gross_positions.groupby(level=0).sum()
+    gross_positions = gross_positions[gross_positions > 1e-12].sort_index()
+
+    two_way_turnover = (buy_amount + sell_amount) / pre_trade_nav if pre_trade_nav > 0 else 0.0
+    one_way_turnover = two_way_turnover / 2.0
+
+    stats = {
+        "buy_amount": buy_amount,
+        "sell_amount": sell_amount,
+        "buy_cost": buy_amount * BUY_COMMISSION,
+        "sell_commission": sell_amount * SELL_COMMISSION,
+        "sell_stamp_duty": sell_amount * stamp_rate,
+        "trading_cost": trading_cost,
+        "one_way_turnover": one_way_turnover,
+        "two_way_turnover": two_way_turnover,
+        "pre_trade_nav": pre_trade_nav,
+        "post_trade_nav": post_trade_nav,
+        "locked_value": locked_value,
+        "locked_weight": locked_value / pre_trade_nav if pre_trade_nav > 0 else 0.0,
+        "cash_after_trade": desired_cash,
+    }
+    return post_trade_positions, float(desired_cash), gross_positions, float(gross_cash), stats
+
+
+def compute_metrics(equity_curve: pd.DataFrame, monthly_returns: pd.DataFrame, turnover: pd.DataFrame) -> Dict[str, float]:
+    nav = equity_curve["nav"].astype(float)
+    monthly_net = monthly_returns["net_return"].astype(float)
+
+    total_return = float(nav.iloc[-1] - 1.0)
+    periods = len(monthly_net)
+    years = periods / 12.0 if periods > 0 else np.nan
+    cagr = float(nav.iloc[-1] ** (1 / years) - 1) if periods > 0 and nav.iloc[-1] > 0 else np.nan
+    max_drawdown = float(equity_curve["drawdown"].min())
+    win_rate = float((monthly_net > 0).mean()) if periods > 0 else np.nan
+    annual_volatility = float(monthly_net.std(ddof=1) * math.sqrt(12)) if periods > 1 else np.nan
+    sharpe_ratio = float((monthly_net.mean() / monthly_net.std(ddof=1)) * math.sqrt(12)) if periods > 1 and monthly_net.std(ddof=1) > 0 else np.nan
+    average_annual_turnover = float(turnover["one_way_turnover"].mean() * 12) if not turnover.empty else np.nan
+    cumulative_trading_cost = float(turnover["trading_cost"].sum()) if not turnover.empty else 0.0
+
+    return {
+        "total_return": total_return,
+        "cagr": cagr,
+        "max_drawdown": max_drawdown,
+        "monthly_win_rate": win_rate,
+        "annual_volatility": annual_volatility,
+        "sharpe_ratio": sharpe_ratio,
+        "average_annual_turnover": average_annual_turnover,
+        "cumulative_trading_cost": cumulative_trading_cost,
+    }
+
+
+def save_outputs(
+    equity_curve: pd.DataFrame,
+    monthly_returns: pd.DataFrame,
+    annual_returns: pd.DataFrame,
+    latest_weights: pd.DataFrame,
+    turnover: pd.DataFrame,
+    summary: Dict[str, object],
+    output_dir: Path,
+) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    save_csv(equity_curve, output_dir / "equity_curve.csv")
+    save_csv(monthly_returns, output_dir / "monthly_returns.csv")
+    save_csv(annual_returns, output_dir / "annual_returns.csv")
+    save_csv(latest_weights, output_dir / "latest_weights.csv")
+    save_csv(turnover, output_dir / "turnover.csv")
+
+    with open(output_dir / "summary.json", "w", encoding="utf-8") as fp:
+        json.dump(summary, fp, ensure_ascii=False, indent=2)
+
+    fig, axes = plt.subplots(2, 1, figsize=(12, 8), sharex=True, gridspec_kw={"height_ratios": [3, 1]})
+    axes[0].plot(equity_curve["date"], equity_curve["nav"], color="#0B7285", linewidth=2)
+    axes[0].set_title("Market-Cap Weighted Basket Backtest")
+    axes[0].set_ylabel("NAV")
+    axes[0].grid(alpha=0.3)
+
+    axes[1].fill_between(
+        equity_curve["date"],
+        equity_curve["drawdown"],
+        0.0,
+        color="#D9480F",
+        alpha=0.35,
+    )
+    axes[1].set_ylabel("Drawdown")
+    axes[1].grid(alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(output_dir / "equity_curve.png", dpi=160)
+    plt.close(fig)
+
+
+def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> PreparedData:
+    data_start_date = start_date - pd.DateOffset(months=DATA_HISTORY_MONTHS)
+    stock_basic = load_or_fetch_stock_basic(pro)
+    calendar = load_or_fetch_trade_calendar(pro, data_start_date, end_date)
+    month_end_dates, _, _ = build_month_boundaries(calendar)
+    signal_dates = [date for date in month_end_dates if date >= start_date - pd.DateOffset(months=1)]
+    market_index_df = load_or_fetch_index_daily(pro, MARKET_INDEX_CODE, data_start_date, end_date)
+
+    index_weights_by_code = {
+        index_code: load_or_fetch_index_weight(pro, index_code, data_start_date, end_date)
+        for index_code in sorted(set(CORE_INDEX_CODES + EXPLORE_INDEX_CODES))
+    }
+    (
+        core_members_by_date,
+        explore_members_by_date,
+        core_index_weights_by_date,
+        explore_index_weights_by_date,
+        universe_codes,
+    ) = build_dynamic_pool_maps(index_weights_by_code, signal_dates)
+    data_warnings: List[str] = []
+
+    missing_codes = sorted(universe_codes - set(stock_basic["ts_code"]))
+    if missing_codes:
+        warning = "以下指数成分 ts_code 未在 Tushare stock_basic 中找到，已从动态池剔除：\n" + "\n".join(missing_codes)
+        print(f"[Warn] {warning}")
+        data_warnings.append(warning)
+        missing_code_set = set(missing_codes)
+        core_members_by_date = {
+            signal_date: members - missing_code_set for signal_date, members in core_members_by_date.items()
+        }
+        explore_members_by_date = {
+            signal_date: members - missing_code_set for signal_date, members in explore_members_by_date.items()
+        }
+        universe_codes = universe_codes - missing_code_set
+
+    normalized_codes = sorted(universe_codes)
+    if not normalized_codes:
+        raise RuntimeError("动态指数池为空，无法继续回测。")
+
+    per_stock_frames: Dict[str, Dict[str, pd.DataFrame]] = {}
+    financials_by_code: Dict[str, pd.DataFrame] = {}
+    for idx, ts_code in enumerate(normalized_codes, start=1):
+        print(f"[Data] ({idx}/{len(normalized_codes)}) 正在准备 {ts_code}")
+        daily = load_or_fetch_daily(pro, ts_code, data_start_date, end_date)
+        adj_factor = load_or_fetch_adj_factor(pro, ts_code, data_start_date, end_date)
+        daily_basic = load_or_fetch_daily_basic(pro, ts_code, data_start_date, end_date)
+        fina_indicator = load_or_fetch_fina_indicator(pro, ts_code, data_start_date - pd.DateOffset(years=2), end_date)
+        price = build_forward_adjusted_prices(daily, adj_factor)
+        per_stock_frames[ts_code] = {
+            "daily": daily,
+            "adj_factor": adj_factor,
+            "daily_basic": daily_basic,
+            "price": price,
+        }
+        financials_by_code[ts_code] = fina_indicator
+
+    return build_monthly_panel(
+        normalized_codes,
+        stock_basic,
+        calendar,
+        per_stock_frames,
+        financials_by_code,
+        market_index_df,
+        core_members_by_date,
+        explore_members_by_date,
+        core_index_weights_by_date,
+        explore_index_weights_by_date,
+        data_warnings,
+    )
+
+
+def save_pool_comparison(comparison_rows: List[Dict[str, object]]) -> None:
+    if not comparison_rows:
+        return
+
+    comparison_df = pd.DataFrame(comparison_rows)
+    save_csv(comparison_df, RESULTS_DIR / "strategy_comparison.csv")
+    save_csv(comparison_df, RESULTS_DIR / "strategy_comparison_base_method.csv")
+
+
+def update_streak_map(
+    streak_map: Dict[str, int],
+    positive_codes: Set[str],
+    tracked_codes: Set[str],
+) -> Dict[str, int]:
+    updated: Dict[str, int] = {}
+    for code in tracked_codes:
+        if code in positive_codes:
+            updated[code] = streak_map.get(code, 0) + 1
+        else:
+            updated[code] = 0
+    return updated
+
+
+def get_promoted_core_ramp(age: int) -> float:
+    if age <= 0:
+        return 0.0
+    if age in PROMOTED_CORE_STAGE_RAMP:
+        return PROMOTED_CORE_STAGE_RAMP[age]
+    return 1.0
+
+
+def update_promoted_core_state(
+    promoted_core_codes: Set[str],
+    promoted_core_ages: Dict[str, int],
+    promotion_streaks: Dict[str, int],
+    demotion_streaks: Dict[str, int],
+    standard_promotion_candidates: Set[str],
+    core_selected_codes: Set[str],
+    avg_daily_amount: pd.Series,
+    actual_core_members: Set[str],
+    fast_promotion_candidates: Set[str],
+) -> Tuple[Set[str], Dict[str, int], Dict[str, int], Dict[str, int], Dict[str, int]]:
+    promotable_candidates = {
+        code
+        for code in standard_promotion_candidates
+        if float(avg_daily_amount.get(code, np.nan)) >= CORE_AMOUNT_THRESHOLD
+    }
+    fast_promotable_candidates = {
+        code
+        for code in fast_promotion_candidates
+        if float(avg_daily_amount.get(code, np.nan)) >= EXPLORE_AMOUNT_THRESHOLD
+    }
+    promotion_track_codes = set(promotion_streaks) | standard_promotion_candidates | promoted_core_codes
+    promotion_streaks = update_streak_map(promotion_streaks, promotable_candidates, promotion_track_codes)
+
+    standard_newly_promoted = {
+        code
+        for code, streak in promotion_streaks.items()
+        if streak >= PROMOTION_MIN_STREAK and code not in actual_core_members
+    }
+    fast_newly_promoted = {
+        code
+        for code in fast_promotable_candidates
+        if promotion_streaks.get(code, 0) >= FAST_PROMOTION_MIN_STREAK and code not in actual_core_members
+    }
+    newly_promoted = standard_newly_promoted | fast_newly_promoted
+    next_promoted_core_codes = set(promoted_core_codes) | newly_promoted
+
+    demotion_track_codes = set(demotion_streaks) | next_promoted_core_codes
+    demotion_positive_codes = {
+        code for code in core_selected_codes if code in next_promoted_core_codes and code not in actual_core_members
+    }
+    demotion_streaks = update_streak_map(demotion_streaks, demotion_positive_codes, demotion_track_codes)
+
+    demoted_codes = {
+        code
+        for code in list(next_promoted_core_codes)
+        if code not in actual_core_members and demotion_streaks.get(code, 0) >= PROMOTED_CORE_DEMOTION_MIN_STREAK
+    }
+    next_promoted_core_codes -= demoted_codes
+
+    next_promoted_core_ages: Dict[str, int] = {}
+    for code in next_promoted_core_codes:
+        if code in newly_promoted and code not in promoted_core_codes:
+            next_promoted_core_ages[code] = 1
+        else:
+            next_promoted_core_ages[code] = promoted_core_ages.get(code, 0) + 1
+
+    for code in demoted_codes:
+        promotion_streaks[code] = 0
+        demotion_streaks[code] = 0
+        promoted_core_ages.pop(code, None)
+    for code in actual_core_members:
+        demotion_streaks.pop(code, None)
+
+    status = {
+        "promoted_core_count": len(next_promoted_core_codes),
+        "newly_promoted_count": len(newly_promoted - promoted_core_codes),
+        "fast_promoted_count": len(fast_newly_promoted - promoted_core_codes),
+        "demoted_count": len(demoted_codes),
+    }
+    return next_promoted_core_codes, next_promoted_core_ages, promotion_streaks, demotion_streaks, status
+
+
+def run_backtest(
+    prepared: PreparedData,
+    strategy_config: Dict[str, object],
+) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, Dict[str, object]]:
+    price_exact = prepared.price_exact
+    price_ffill = prepared.price_ffill
+    total_mv = prepared.total_mv
+    month_end_price_panel = price_exact.reindex(pd.Index(prepared.month_end_dates))
+
+    if len(prepared.month_end_dates) < 2:
+        raise RuntimeError("交易日历不足以构造月度回测。")
+
+    report_start_idx = None
+    for idx in range(len(prepared.month_end_dates) - 1):
+        if prepared.month_end_dates[idx + 1] >= START_DATE:
+            report_start_idx = idx
+            break
+    if report_start_idx is None:
+        raise RuntimeError("设定的回测起点晚于当前可用月度数据。")
+
+    positions = pd.Series(dtype=float)
+    cash_value = 1.0
+    nav_at_signal_date = 1.0
+    warnings: List[str] = list(prepared.data_warnings)
+    promoted_core_codes: Set[str] = set()
+    promoted_core_ages: Dict[str, int] = {}
+    promotion_streaks: Dict[str, int] = {}
+    demotion_streaks: Dict[str, int] = {}
+    pure_core_watch_streaks: Dict[str, int] = {}
+
+    monthly_rows: List[Dict[str, object]] = []
+    turnover_rows: List[Dict[str, object]] = []
+    equity_rows: List[Dict[str, object]] = [
+        {"date": START_DATE, "portfolio_return": 0.0, "nav": 1.0, "drawdown": 0.0, "trading_cost": 0.0}
+    ]
+
+    for idx in range(report_start_idx, len(prepared.month_end_dates) - 1):
+        signal_date = prepared.month_end_dates[idx]
+        holding_month_end = prepared.month_end_dates[idx + 1]
+        rebalance_date = prepared.month_start_dates[idx + 1]
+
+        signal_prices = price_exact.loc[signal_date] if signal_date in price_exact.index else pd.Series(dtype=float)
+        signal_mvs = total_mv.loc[signal_date] if signal_date in total_mv.index else pd.Series(dtype=float)
+
+        standard_eligible_codes: List[str] = []
+        seed_eligible_codes: List[str] = []
+        for ts_code in prepared.code_to_name:
+            list_date = prepared.code_to_list_date[ts_code]
+            if pd.isna(list_date):
+                continue
+            if ts_code not in signal_prices.index or pd.isna(signal_prices.get(ts_code)):
+                continue
+            if ts_code not in signal_mvs.index or pd.isna(signal_mvs.get(ts_code)):
+                continue
+            if list_date <= signal_date - pd.DateOffset(months=SEED_MIN_LISTING_MONTHS):
+                seed_eligible_codes.append(ts_code)
+            if list_date <= signal_date - pd.DateOffset(months=MIN_LISTING_MONTHS):
+                standard_eligible_codes.append(ts_code)
+
+        eligible_codes = seed_eligible_codes
+        raw_weights = signal_mvs.loc[eligible_codes].astype(float)
+        amount_history = prepared.daily_amount.reindex(columns=eligible_codes).loc[:signal_date]
+        liquidity_window = amount_history.tail(ROLLING_AMOUNT_WINDOW)
+        avg_daily_amount = liquidity_window.mean(skipna=True)
+        prior_liquidity_window = amount_history.iloc[:-ROLLING_AMOUNT_WINDOW].tail(ROLLING_AMOUNT_WINDOW)
+        prior_avg_daily_amount = prior_liquidity_window.mean(skipna=True)
+        amount_surge_ratio = (avg_daily_amount / prior_avg_daily_amount.replace(0.0, np.nan)).replace([np.inf, -np.inf], np.nan)
+        actual_core_members = prepared.core_members_by_date.get(signal_date, set())
+        actual_explore_members = prepared.explore_members_by_date.get(signal_date, set())
+        core_universe_codes = set(actual_core_members) | set(promoted_core_codes)
+        explore_universe_codes = set(actual_explore_members) - set(promoted_core_codes)
+        core_signal_scores = pd.Series(dtype=float)
+        momentum_6_1 = pd.Series(dtype=float)
+        momentum_3_1 = pd.Series(dtype=float)
+        recent_1m_returns = pd.Series(dtype=float)
+        if idx >= 1:
+            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
+            curr_prices = month_end_price_panel.loc[signal_date, eligible_codes]
+            valid_recent = prev_1m_prices.notna() & curr_prices.notna() & (prev_1m_prices > 0)
+            if valid_recent.any():
+                recent_1m_returns = (curr_prices.loc[valid_recent] / prev_1m_prices.loc[valid_recent]) - 1.0
+        if idx >= 12:
+            prev_12m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 12], eligible_codes]
+            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
+            valid_mom = prev_12m_prices.notna() & prev_1m_prices.notna() & (prev_12m_prices > 0)
+            if valid_mom.any():
+                core_signal_scores = (prev_1m_prices.loc[valid_mom] / prev_12m_prices.loc[valid_mom]) - 1.0
+        elif idx >= 6:
+            prev_6m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 6], eligible_codes]
+            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
+            valid_mom = prev_6m_prices.notna() & prev_1m_prices.notna() & (prev_6m_prices > 0)
+            if valid_mom.any():
+                core_signal_scores = (prev_1m_prices.loc[valid_mom] / prev_6m_prices.loc[valid_mom]) - 1.0
+                momentum_6_1 = core_signal_scores.copy()
+        if idx >= 6 and momentum_6_1.empty:
+            prev_6m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 6], eligible_codes]
+            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
+            valid_mom_6 = prev_6m_prices.notna() & prev_1m_prices.notna() & (prev_6m_prices > 0)
+            if valid_mom_6.any():
+                momentum_6_1 = (prev_1m_prices.loc[valid_mom_6] / prev_6m_prices.loc[valid_mom_6]) - 1.0
+        if idx >= 3:
+            prev_3m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 3], eligible_codes]
+            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
+            valid_mom_3 = prev_3m_prices.notna() & prev_1m_prices.notna() & (prev_3m_prices > 0)
+            if valid_mom_3.any():
+                momentum_3_1 = (prev_1m_prices.loc[valid_mom_3] / prev_3m_prices.loc[valid_mom_3]) - 1.0
+
+        breakout_signal = pd.Series(False, index=pd.Index(eligible_codes), dtype=bool)
+        rolling_window = SEED_BREAKOUT_LOOKBACK_DAYS + 1
+        price_history = price_ffill.reindex(columns=eligible_codes).loc[:signal_date].tail(rolling_window)
+        if len(price_history) >= 2:
+            prior_high = price_history.iloc[:-1].max()
+            current_price = price_history.iloc[-1]
+            breakout_signal = (current_price >= prior_high.fillna(np.inf) * 0.995).fillna(False)
+
+        quality_scores, quality_df = compute_quality_scores(prepared, eligible_codes, signal_date)
+        growth_quality_scores = compute_growth_quality_scores(quality_df)
+        growth_acceleration_scores = compute_growth_acceleration_scores(quality_df)
+        industry_strength_scores, industry_leader_scores = compute_industry_relative_strength_scores(
+            code_to_industry=prepared.code_to_industry,
+            candidate_codes=eligible_codes,
+            momentum_6_1=momentum_6_1,
+            momentum_3_1=momentum_3_1,
+            amount_surge_ratio=amount_surge_ratio,
+            breakout_signal=breakout_signal,
+            growth_acceleration_scores=growth_acceleration_scores,
+        )
+        explore_signal_scores = blend_ranked_components(
+            [
+                (industry_strength_scores, 0.40),
+                (industry_leader_scores, 0.25),
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.20),
+                (safe_percentile_rank(momentum_3_1, ascending=True), 0.10),
+                (breakout_signal.astype(float), 0.05),
+            ]
+        )
+        seed_signal_scores = blend_ranked_components(
+            [
+                (industry_strength_scores, 0.30),
+                (industry_leader_scores, 0.30),
+                (safe_percentile_rank(momentum_3_1, ascending=True), 0.15),
+                (safe_percentile_rank(recent_1m_returns, ascending=True), 0.10),
+                (breakout_signal.astype(float), 0.10),
+                (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.05),
+            ]
+        )
+        strategy_kind = str(strategy_config.get("strategy_kind", "core_explore"))
+        market_regime = compute_market_exposure(prepared.market_monthly_close, signal_date)
+        if strategy_kind == "pure_core_growth":
+            market_regime = {
+                "risk_off": False,
+                "market_12_1_momentum": np.nan,
+                "market_below_10m_ma": False,
+                "core_target_exposure": 1.0,
+                "satellite_target_exposure": 0.0,
+                "portfolio_target_exposure": 1.0,
+            }
+        currently_held_codes = set(positions.index)
+        if str(strategy_config["base_weight_method"]) == "index_weight":
+            base_weights = pd.concat(
+                [
+                    prepared.core_index_weights_by_date.get(signal_date, pd.Series(dtype=float)),
+                    prepared.explore_index_weights_by_date.get(signal_date, pd.Series(dtype=float)),
+                ]
+            ).groupby(level=0).sum()
+            base_weights = base_weights.reindex(eligible_codes).dropna()
+        else:
+            base_weights = raw_weights.copy()
+        if strategy_kind == "pure_core_growth":
+            pure_core_signal_scores = blend_ranked_components(
+                [
+                    (growth_acceleration_scores, 0.30),
+                    (industry_strength_scores, 0.20),
+                    (industry_leader_scores, 0.20),
+                    (safe_percentile_rank(momentum_6_1, ascending=True), 0.10),
+                    (safe_percentile_rank(momentum_3_1, ascending=True), 0.10),
+                    (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.05),
+                    (breakout_signal.astype(float), 0.05),
+                ]
+            )
+            watch_pool = set(
+                pure_core_signal_scores.sort_values(ascending=False).head(
+                    max(1, math.ceil(int(strategy_config["pure_core_max_holdings"]) * PURE_CORE_OBSERVATION_BUFFER_MULTIPLIER))
+                ).index
+            )
+            watch_track_codes = set(pure_core_watch_streaks) | watch_pool | currently_held_codes
+            pure_core_watch_streaks = update_streak_map(
+                pure_core_watch_streaks,
+                positive_codes=watch_pool,
+                tracked_codes=watch_track_codes,
+            )
+            raw_target_weights, selection_stats = build_pure_core_growth_weights(
+                base_weights=base_weights.reindex(seed_eligible_codes).dropna(),
+                avg_daily_amount=avg_daily_amount,
+                pure_core_signal_scores=pure_core_signal_scores,
+                growth_quality_scores=growth_quality_scores,
+                recent_1m_returns=recent_1m_returns,
+                breakout_signal=breakout_signal,
+                currently_held_codes=currently_held_codes,
+                core_watch_streaks=pure_core_watch_streaks,
+                max_holdings=int(strategy_config["pure_core_max_holdings"]),
+            )
+        else:
+            raw_target_weights, selection_stats = build_core_explore_target_weights(
+                base_weights=base_weights,
+                avg_daily_amount=avg_daily_amount,
+                core_signal_scores=core_signal_scores,
+                explore_signal_scores=explore_signal_scores,
+                seed_signal_scores=seed_signal_scores,
+                recent_1m_returns=recent_1m_returns,
+                quality_scores=quality_scores,
+                breakout_signal=breakout_signal,
+                currently_held_codes=currently_held_codes,
+                core_ratio=float(strategy_config["core_ratio"]),
+                explore_ratio=float(strategy_config["explore_ratio"]),
+                core_target_exposure=float(market_regime["core_target_exposure"]),
+                satellite_target_exposure=float(market_regime["satellite_target_exposure"]),
+                core_universe_codes=core_universe_codes,
+                actual_core_members=actual_core_members,
+                explore_universe_codes=explore_universe_codes,
+                promoted_core_codes=promoted_core_codes,
+                promoted_core_ages=promoted_core_ages,
+                core_source_mode=str(strategy_config["core_source_mode"]),
+                standard_eligible_codes=set(standard_eligible_codes),
+                seed_eligible_codes=set(seed_eligible_codes),
+            )
+        target_weights, target_cash_weight = apply_weight_cap_with_redistribution(raw_target_weights, cap=WEIGHT_CAP)
+
+        satellite_signal_ranks = blend_ranked_components(
+            [
+                (safe_percentile_rank(explore_signal_scores, ascending=True), 0.60),
+                (safe_percentile_rank(seed_signal_scores, ascending=True), 0.40),
+            ]
+        )
+        standard_promotion_candidates = set(
+            satellite_signal_ranks[
+                (industry_strength_scores.reindex(satellite_signal_ranks.index).fillna(0.0) >= 0.60)
+                & (industry_leader_scores.reindex(satellite_signal_ranks.index).fillna(0.0) >= 0.60)
+            ].index
+        )
+        fast_promotion_candidates = set(
+            satellite_signal_ranks[
+                (satellite_signal_ranks >= satellite_signal_ranks.quantile(1.0 - FAST_PROMOTION_PERCENTILE))
+                & (industry_strength_scores.reindex(satellite_signal_ranks.index).fillna(0.0) >= 0.75)
+                & (industry_leader_scores.reindex(satellite_signal_ranks.index).fillna(0.0) >= 0.75)
+                & breakout_signal.reindex(satellite_signal_ranks.index).fillna(False)
+                & (recent_1m_returns.reindex(satellite_signal_ranks.index).fillna(-1.0) > 0)
+                & (amount_surge_ratio.reindex(satellite_signal_ranks.index).fillna(0.0) >= FAST_PROMOTION_AMOUNT_SURGE_RATIO)
+            ].index
+        )
+
+        if strategy_kind == "pure_core_growth":
+            promotion_status = {"promoted_core_count": 0, "newly_promoted_count": 0, "fast_promoted_count": 0, "demoted_count": 0}
+        else:
+            promoted_core_codes, promoted_core_ages, promotion_streaks, demotion_streaks, promotion_status = update_promoted_core_state(
+                promoted_core_codes=promoted_core_codes,
+                promoted_core_ages=promoted_core_ages,
+                promotion_streaks=promotion_streaks,
+                demotion_streaks=demotion_streaks,
+                standard_promotion_candidates=standard_promotion_candidates,
+                core_selected_codes=set(selection_stats["core_selected_codes"]),
+                avg_daily_amount=avg_daily_amount,
+                actual_core_members=actual_core_members,
+                fast_promotion_candidates=fast_promotion_candidates,
+            )
+
+        nav_at_signal_date = float(positions.sum() + cash_value)
+
+        if not positions.empty:
+            current_price_rebalance = price_ffill.loc[rebalance_date, positions.index]
+            signal_price_for_positions = price_ffill.loc[signal_date, positions.index]
+            gap_growth = current_price_rebalance / signal_price_for_positions
+            positions = positions * gap_growth
+
+        tradable_codes = []
+        if rebalance_date in price_exact.index:
+            exact_rebalance_prices = price_exact.loc[rebalance_date]
+            tradable_codes = exact_rebalance_prices[exact_rebalance_prices.notna()].index.tolist()
+        else:
+            warnings.append(f"{rebalance_date.date()} 不在价格面板中，当月视为无法交易，仅按持仓估值。")
+
+        positions, cash_value, gross_positions, gross_cash_value, trade_stats = compute_rebalance_trades(
+            current_values=positions,
+            current_cash=cash_value,
+            target_weights=target_weights,
+            rebalance_date=rebalance_date,
+            tradable_codes=tradable_codes,
+        )
+
+        if not positions.empty:
+            rebalance_prices = price_ffill.loc[rebalance_date, positions.index]
+            month_end_prices = price_ffill.loc[holding_month_end, positions.index]
+            holding_growth = month_end_prices / rebalance_prices
+            positions = positions * holding_growth
+
+        nav_end = float(positions.sum() + cash_value)
+        if not gross_positions.empty:
+            gross_rebalance_prices = price_ffill.loc[rebalance_date, gross_positions.index]
+            gross_month_end_prices = price_ffill.loc[holding_month_end, gross_positions.index]
+            gross_holding_growth = gross_month_end_prices / gross_rebalance_prices
+            gross_positions = gross_positions * gross_holding_growth
+        gross_nav = float(gross_positions.sum() + gross_cash_value)
+        gross_return = gross_nav / nav_at_signal_date - 1 if nav_at_signal_date > 0 else np.nan
+        net_return = nav_end / nav_at_signal_date - 1 if nav_at_signal_date > 0 else np.nan
+
+        monthly_rows.append(
+            {
+                "date": holding_month_end,
+                "portfolio_return": net_return,
+                "gross_return": gross_return,
+                "net_return": net_return,
+                "trading_cost": trade_stats["trading_cost"],
+                "eligible_count": len(eligible_codes),
+                "base_weight_method": str(strategy_config["base_weight_method"]),
+                "core_source_mode": str(strategy_config["core_source_mode"]),
+                "core_index_member_count": len(actual_core_members),
+                "explore_index_member_count": len(actual_explore_members),
+                "promoted_core_count": promotion_status["promoted_core_count"],
+                "newly_promoted_count": promotion_status["newly_promoted_count"],
+                "fast_promoted_count": promotion_status["fast_promoted_count"],
+                "demoted_count": promotion_status["demoted_count"],
+                "core_available_count": selection_stats["core_available_count"],
+                "stable_core_available_count": selection_stats.get("stable_core_available_count", 0),
+                "promoted_core_available_count": selection_stats.get("promoted_core_available_count", 0),
+                "explore_available_count": selection_stats["explore_available_count"],
+                "seed_available_count": selection_stats["seed_available_count"],
+                "core_selected_count": selection_stats["core_selected_count"],
+                "stable_core_selected_count": selection_stats.get("stable_core_selected_count", 0),
+                "promoted_core_selected_count": selection_stats.get("promoted_core_selected_count", 0),
+                "explore_selected_count": selection_stats["explore_selected_count"],
+                "seed_selected_count": selection_stats["seed_selected_count"],
+                "core_buy_candidate_count": selection_stats["core_buy_candidate_count"],
+                "stable_core_buy_candidate_count": selection_stats.get("stable_core_buy_candidate_count", 0),
+                "promoted_core_buy_candidate_count": selection_stats.get("promoted_core_buy_candidate_count", 0),
+                "explore_buy_candidate_count": selection_stats["explore_buy_candidate_count"],
+                "seed_buy_candidate_count": selection_stats["seed_buy_candidate_count"],
+                "core_keep_candidate_count": selection_stats["core_keep_candidate_count"],
+                "stable_core_keep_candidate_count": selection_stats.get("stable_core_keep_candidate_count", 0),
+                "promoted_core_keep_candidate_count": selection_stats.get("promoted_core_keep_candidate_count", 0),
+                "explore_keep_candidate_count": selection_stats["explore_keep_candidate_count"],
+                "seed_keep_candidate_count": selection_stats["seed_keep_candidate_count"],
+                "core_protected_keep_candidate_count": len(selection_stats["core_protected_keep_candidates"]),
+                "core_quality_pass_count": selection_stats["core_quality_pass_count"],
+                "stable_core_quality_pass_count": selection_stats.get("stable_core_quality_pass_count", 0),
+                "promoted_core_quality_pass_count": selection_stats.get("promoted_core_quality_pass_count", 0),
+                "explore_quality_pass_count": selection_stats["explore_quality_pass_count"],
+                "seed_quality_pass_count": selection_stats["seed_quality_pass_count"],
+                "core_watch_candidate_count": len(selection_stats.get("core_watch_candidates", set())),
+                "core_watch_ready_count": len(selection_stats.get("core_watch_ready_candidates", set())),
+                "market_exposure_target": float(market_regime["core_target_exposure"]) * float(strategy_config["core_ratio"])
+                + float(market_regime["satellite_target_exposure"]) * float(strategy_config["explore_ratio"]),
+                "core_exposure_target": market_regime["core_target_exposure"],
+                "satellite_exposure_target": market_regime["satellite_target_exposure"],
+                "pure_core_top3_weight_pre_cap": selection_stats.get("pure_core_top3_weight_pre_cap", np.nan),
+                "market_risk_off": bool(market_regime["risk_off"]),
+                "market_12_1_momentum": market_regime["market_12_1_momentum"],
+                "cash_weight_target": target_cash_weight,
+                "cash_after_trade": trade_stats["cash_after_trade"],
+            }
+        )
+        turnover_rows.append(
+            {
+                "date": rebalance_date,
+                "one_way_turnover": trade_stats["one_way_turnover"],
+                "two_way_turnover": trade_stats["two_way_turnover"],
+                "buy_amount": trade_stats["buy_amount"],
+                "sell_amount": trade_stats["sell_amount"],
+                "trading_cost": trade_stats["trading_cost"],
+                "buy_cost": trade_stats["buy_cost"],
+                "sell_commission": trade_stats["sell_commission"],
+                "sell_stamp_duty": trade_stats["sell_stamp_duty"],
+            }
+        )
+        equity_rows.append(
+            {
+                "date": holding_month_end,
+                "portfolio_return": net_return,
+                "nav": nav_end,
+                "drawdown": 0.0,
+                "trading_cost": trade_stats["trading_cost"],
+            }
+        )
+
+    equity_curve = pd.DataFrame(equity_rows)
+    equity_curve["date"] = pd.to_datetime(equity_curve["date"])
+    equity_curve["nav"] = equity_curve["nav"].astype(float)
+    equity_curve["cummax"] = equity_curve["nav"].cummax()
+    equity_curve["drawdown"] = equity_curve["nav"] / equity_curve["cummax"] - 1.0
+    equity_curve = equity_curve.drop(columns=["cummax"])
+
+    monthly_returns = pd.DataFrame(monthly_rows)
+    monthly_returns["date"] = pd.to_datetime(monthly_returns["date"])
+    turnover = pd.DataFrame(turnover_rows)
+    turnover["date"] = pd.to_datetime(turnover["date"])
+
+    annual_returns = (
+        monthly_returns.assign(year=monthly_returns["date"].dt.year)
+        .groupby("year")["net_return"]
+        .apply(lambda series: (1.0 + series).prod() - 1.0)
+        .reset_index(name="annual_return")
+    )
+
+    metrics = compute_metrics(equity_curve, monthly_returns, turnover)
+
+    latest_weights = pd.DataFrame(columns=["ts_code", "name", "weight"])
+    latest_nav = float(positions.sum() + cash_value)
+    if latest_nav > 0 and not positions.empty:
+        latest_weights = (
+            (positions / latest_nav)
+            .sort_values(ascending=False)
+            .rename("weight")
+            .reset_index()
+            .rename(columns={"index": "ts_code"})
+        )
+        latest_weights["name"] = latest_weights["ts_code"].map(prepared.code_to_name)
+        latest_weights = latest_weights[["ts_code", "name", "weight"]]
+
+    strategy_kind = str(strategy_config.get("strategy_kind", "core_explore"))
+    if strategy_kind == "pure_core_growth":
+        selection_overlay = (
+            "纯核心成长模式：关闭市场风控与探索/种子层，直接在动态发现池内做核心股优选；"
+            "允许上市满6个月、流动性达标的股票进入候选，核心信号更强调业绩加速、行业相对强度、行业内龙头地位与持续放量突破；"
+            "新增候选核心观察期，先连续观察再正式纳入核心，核心持仓数收敛到少数股票，前3大显著集中，目标是更早、更重地抓住高速成长股。"
+        )
+        listing_filter = "上市满 6 个月"
+        momentum_lookback_rule = "使用业绩加速、行业相对强度、行业内龙头、6-1/3-1 动量与持续放量突破的复合信号"
+    else:
+        selection_overlay = (
+            "核心池=沪深300+科创50，探索池=中证500+科创100+科创200；在探索层内再切出种子层做更早期发现。"
+            "核心层用 12-1 动量，探索/种子层加入行业强度、行业内龙头、6-1 + 3-1 与突破信号，种子层允许 6 个月以上上市且质量缺口按中性处理；"
+            "探索/种子胜出者通过普通晋升和快速晋升双轨进入 winner_core，晋升后按阶段逐步加仓；核心仓再拆成稳定核心和晋升核心。"
+        )
+        listing_filter = "核心/探索层上市满 12 个月；种子层上市满 6 个月"
+        momentum_lookback_rule = "核心层优先使用 12-1 动量；探索/种子层使用 6-1、3-1 与 20 日突破的组合信号"
+
+    summary = {
+        "sample_start": START_DATE.strftime("%Y-%m-%d"),
+        "sample_end": prepared.month_end_dates[-1].strftime("%Y-%m-%d"),
+        "stock_count": len(prepared.code_to_name),
+        "strategy_name": str(strategy_config["strategy_name"]),
+        "strategy_id": str(strategy_config["strategy_id"]),
+        "strategy_kind": strategy_kind,
+        "base_weight_method": str(strategy_config["base_weight_method"]),
+        "base_weight_name": str(strategy_config["base_weight_name"]),
+        "core_source_mode": str(strategy_config["core_source_mode"]),
+        "core_source_name": str(strategy_config["core_source_name"]),
+        "rebalance_frequency": "monthly",
+        "signal_date_rule": "使用每个月最后一个交易日的 total_mv 与前复权价格",
+        "execution_rule": "在下一个交易月第一个交易日扣除交易费用并切换到目标权重",
+        "selection_overlay": selection_overlay,
+        "price_rule": "前复权收盘价 = close * adj_factor / latest_adj_factor",
+        "listing_filter": listing_filter,
+        "weight_cap": WEIGHT_CAP,
+        "enhancement_bucket_pct": ENHANCEMENT_BUCKET_PCT,
+        "momentum_lookback_rule": momentum_lookback_rule,
+        "core_ratio": float(strategy_config["core_ratio"]),
+        "explore_ratio": float(strategy_config["explore_ratio"]),
+        "seed_max_portfolio_ratio": SEED_MAX_PORTFOLIO_RATIO,
+        "seed_ratio": min(float(strategy_config["explore_ratio"]), SEED_MAX_PORTFOLIO_RATIO),
+        "explore_main_ratio": max(0.0, float(strategy_config["explore_ratio"]) - min(float(strategy_config["explore_ratio"]), SEED_MAX_PORTFOLIO_RATIO)),
+        "pure_core_max_holdings": int(strategy_config.get("pure_core_max_holdings", 0)),
+        "core_index_codes": CORE_INDEX_CODES,
+        "explore_index_codes": EXPLORE_INDEX_CODES,
+        "core_amount_threshold": CORE_AMOUNT_THRESHOLD,
+        "explore_amount_threshold": EXPLORE_AMOUNT_THRESHOLD,
+        "seed_amount_threshold": SEED_AMOUNT_THRESHOLD,
+        "rolling_amount_window": ROLLING_AMOUNT_WINDOW,
+        "promotion_min_streak": PROMOTION_MIN_STREAK,
+        "demotion_min_streak": DEMOTION_MIN_STREAK,
+        "promoted_core_demotion_min_streak": PROMOTED_CORE_DEMOTION_MIN_STREAK,
+        "fast_promotion_min_streak": FAST_PROMOTION_MIN_STREAK,
+        "fast_promotion_percentile": FAST_PROMOTION_PERCENTILE,
+        "fast_promotion_amount_surge_ratio": FAST_PROMOTION_AMOUNT_SURGE_RATIO,
+        "promoted_core_sell_exit_percentile": PROMOTED_CORE_SELL_EXIT_PERCENTILE,
+        "core_max_holdings": CORE_MAX_HOLDINGS,
+        "explore_max_holdings": EXPLORE_MAX_HOLDINGS,
+        "seed_max_holdings": SEED_MAX_HOLDINGS,
+        "winner_core_stable_share": WINNER_CORE_STABLE_SHARE,
+        "winner_core_promoted_share": WINNER_CORE_PROMOTED_SHARE,
+        "stable_core_max_holdings": STABLE_CORE_MAX_HOLDINGS,
+        "promoted_core_max_holdings": PROMOTED_CORE_MAX_HOLDINGS,
+        "pure_core_observation_min_streak": PURE_CORE_OBSERVATION_MIN_STREAK,
+        "pure_core_observation_buffer_multiplier": PURE_CORE_OBSERVATION_BUFFER_MULTIPLIER,
+        "market_index_code": MARKET_INDEX_CODE,
+        "core_risk_off_exposure": CORE_RISK_OFF_EXPOSURE,
+        "core_risk_on_exposure": CORE_RISK_ON_EXPOSURE,
+        "satellite_risk_off_exposure": SATELLITE_RISK_OFF_EXPOSURE,
+        "satellite_risk_on_exposure": SATELLITE_RISK_ON_EXPOSURE,
+        "buy_entry_percentile": BUY_ENTRY_PERCENTILE,
+        "sell_exit_percentile": SELL_EXIT_PERCENTILE,
+        "min_weight_trade_threshold": MIN_WEIGHT_TRADE_THRESHOLD,
+        "buy_commission": BUY_COMMISSION,
+        "sell_commission": SELL_COMMISSION,
+        "stamp_duty_before_2023_08_28": STAMP_DUTY_PRE_20230828,
+        "stamp_duty_after_2023_08_28": STAMP_DUTY_POST_20230828,
+        "transaction_cost_timing": "费用在调仓时点真实扣除；印花税仅对卖出成交额征收",
+        "metrics": metrics,
+        "warnings": warnings,
+    }
+
+    return equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary
+
+
+def print_summary(summary: Dict[str, object], latest_weights: pd.DataFrame) -> None:
+    metrics = summary["metrics"]
+    print("\n===== Backtest Summary =====")
+    print(f"股票池: {summary['pool_name']} ({summary['pool_id']})")
+    print(f"策略名称: {summary['strategy_name']}")
+    print(f"底座权重: {summary['base_weight_name']}")
+    print(f"核心来源: {summary['core_source_name']}")
+    print(f"样本区间: {summary['sample_start']} -> {summary['sample_end']}")
+    print(f"股票数量: {summary['stock_count']}")
+    print(f"最终累计收益率: {metrics['total_return']:.2%}")
+    print(f"CAGR: {metrics['cagr']:.2%}")
+    print(f"最大回撤: {metrics['max_drawdown']:.2%}")
+    print(f"年化波动率: {metrics['annual_volatility']:.2%}")
+    print(f"夏普比率: {metrics['sharpe_ratio']:.4f}")
+    print(f"累计交易费用: {metrics['cumulative_trading_cost']:.6f}")
+    print(f"年均换手率: {metrics['average_annual_turnover']:.2%}")
+    print("\n最近一期前 20 大持仓:")
+    if latest_weights.empty:
+        print("无持仓，组合当前为现金。")
+    else:
+        print(latest_weights.head(20).to_string(index=False, float_format=lambda value: f"{value:.4%}" if value <= 1 else f"{value:.6f}"))
+
+
+def main() -> None:
+    pd.options.display.float_format = lambda value: f"{value:.8f}"
+    ensure_directories()
+    end_date = pd.Timestamp.today().normalize()
+    pro = ts.pro_api(TOKEN)
+    comparison_rows: List[Dict[str, object]] = []
+    prepared = prepare_data(pro, START_DATE, end_date)
+
+    for core_source_config in CORE_SOURCE_MODES:
+        for base_weight_config in BASE_WEIGHT_METHODS:
+            for ratio_config in CORE_EXPLORE_RATIO_CONFIGS:
+                strategy_config = {
+                    **ratio_config,
+                    **base_weight_config,
+                    **core_source_config,
+                    "strategy_id": f"{ratio_config['strategy_id']}_{base_weight_config['base_weight_method']}_{core_source_config['core_source_mode']}",
+                    "strategy_name": f"{ratio_config['strategy_name']}_{base_weight_config['base_weight_name']}_{core_source_config['core_source_name']}",
+                }
+                strategy_id = str(strategy_config["strategy_id"])
+                strategy_name = str(strategy_config["strategy_name"])
+                equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary = run_backtest(prepared, strategy_config)
+                summary["pool_id"] = "dynamic_index_core_explore_universe"
+                summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
+                output_dir = build_pool_output_dir(strategy_id)
+                save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
+                print_summary(summary, latest_weights)
+
+                metrics = summary["metrics"]
+                comparison_rows.append(
+                    {
+                        "strategy_id": strategy_id,
+                        "strategy_name": strategy_name,
+                        "strategy_kind": summary.get("strategy_kind", "core_explore"),
+                        "pool_id": summary["pool_id"],
+                        "pool_name": summary["pool_name"],
+                        "sample_start": summary["sample_start"],
+                        "sample_end": summary["sample_end"],
+                        "stock_count": summary["stock_count"],
+                        "base_weight_method": summary["base_weight_method"],
+                        "base_weight_name": summary["base_weight_name"],
+                        "core_source_mode": summary["core_source_mode"],
+                        "core_source_name": summary["core_source_name"],
+                        "core_ratio": summary["core_ratio"],
+                        "explore_ratio": summary["explore_ratio"],
+                        "pure_core_max_holdings": summary.get("pure_core_max_holdings", 0),
+                        "total_return": metrics["total_return"],
+                        "cagr": metrics["cagr"],
+                        "max_drawdown": metrics["max_drawdown"],
+                        "annual_volatility": metrics["annual_volatility"],
+                        "sharpe_ratio": metrics["sharpe_ratio"],
+                        "monthly_win_rate": metrics["monthly_win_rate"],
+                        "average_annual_turnover": metrics["average_annual_turnover"],
+                        "cumulative_trading_cost": metrics["cumulative_trading_cost"],
+                    }
+                )
+
+    for pure_core_config in PURE_CORE_GROWTH_CONFIGS:
+        strategy_config = {
+            **pure_core_config,
+            "strategy_kind": "pure_core_growth",
+            "base_weight_method": "total_mv",
+            "base_weight_name": "总市值底座",
+            "core_source_mode": "pure_core_growth",
+            "core_source_name": "纯核心成长",
+            "core_ratio": 1.0,
+            "explore_ratio": 0.0,
+            "pure_core_max_holdings": pure_core_config["max_holdings"],
+        }
+        strategy_id = str(strategy_config["strategy_id"])
+        strategy_name = str(strategy_config["strategy_name"])
+        equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary = run_backtest(prepared, strategy_config)
+        summary["pool_id"] = "dynamic_index_core_explore_universe"
+        summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
+        output_dir = build_pool_output_dir(strategy_id)
+        save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
+        print_summary(summary, latest_weights)
+
+        metrics = summary["metrics"]
+        comparison_rows.append(
+            {
+                "strategy_id": strategy_id,
+                "strategy_name": strategy_name,
+                "strategy_kind": summary.get("strategy_kind", "pure_core_growth"),
+                "pool_id": summary["pool_id"],
+                "pool_name": summary["pool_name"],
+                "sample_start": summary["sample_start"],
+                "sample_end": summary["sample_end"],
+                "stock_count": summary["stock_count"],
+                "base_weight_method": summary["base_weight_method"],
+                "base_weight_name": summary["base_weight_name"],
+                "core_source_mode": summary["core_source_mode"],
+                "core_source_name": summary["core_source_name"],
+                "core_ratio": summary["core_ratio"],
+                "explore_ratio": summary["explore_ratio"],
+                "pure_core_max_holdings": summary.get("pure_core_max_holdings", 0),
+                "total_return": metrics["total_return"],
+                "cagr": metrics["cagr"],
+                "max_drawdown": metrics["max_drawdown"],
+                "annual_volatility": metrics["annual_volatility"],
+                "sharpe_ratio": metrics["sharpe_ratio"],
+                "monthly_win_rate": metrics["monthly_win_rate"],
+                "average_annual_turnover": metrics["average_annual_turnover"],
+                "cumulative_trading_cost": metrics["cumulative_trading_cost"],
+            }
+        )
+
+    save_pool_comparison(comparison_rows)
+
+
+if __name__ == "__main__":
+    main()
