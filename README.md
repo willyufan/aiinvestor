@@ -15,11 +15,11 @@ The current best-performing dynamic-market-discovery version in this project is:
 
 - `核心80_探索20_总市值底座_胜出者核心`
 - sample period: `2020-01-01` to `2026-04-16`
-- total return: `113.33%`
-- CAGR: `12.71%`
-- max drawdown: `-28.43%`
-- annual volatility: `26.76%`
-- Sharpe ratio: `0.5684`
+- total return: `146.36%`
+- CAGR: `15.30%`
+- max drawdown: `-22.75%`
+- annual volatility: `24.28%`
+- Sharpe ratio: `0.7018`
 
 This strategy uses:
 
@@ -141,11 +141,11 @@ The project has already been initialized as a git repository and synced to GitHu
 
 以 `核心80_探索20_总市值底座_指数核心` 作为优化前基线，对比优化后的 `核心80_探索20_总市值底座_胜出者核心`：
 
-- 累计收益从 `96.46%` 提升到 `113.33%`
-- CAGR 从 `11.25%` 提升到 `12.71%`
-- 最大回撤从 `-34.49%` 改善到 `-28.43%`
-- 夏普从 `0.5158` 提升到 `0.5684`
-- 年均换手从 `2.42` 降到 `2.25`
+- 累计收益从 `72.23%` 提升到 `146.36%`
+- CAGR 从 `8.96%` 提升到 `15.30%`
+- 最大回撤从 `-33.63%` 改善到 `-22.75%`
+- 夏普从 `0.4303` 提升到 `0.7018`
+- 最新组合持仓数从 `19` 只扩到 `22` 只，但权重集中在更明确的 winner_core 上
 
 这说明这 4 项优化在当前动态发现框架里是有效的，既提升了收益，也改善了回撤和效率。
 

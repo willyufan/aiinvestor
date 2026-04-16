@@ -61,16 +61,19 @@ PROMOTION_MIN_STREAK = 3
 DEMOTION_MIN_STREAK = 2
 PROMOTED_CORE_DEMOTION_MIN_STREAK = 3
 FAST_PROMOTION_MIN_STREAK = 2
-FAST_PROMOTION_PERCENTILE = 0.05
-FAST_PROMOTION_AMOUNT_SURGE_RATIO = 1.20
+FAST_PROMOTION_PERCENTILE = 0.08
+FAST_PROMOTION_AMOUNT_SURGE_RATIO = 1.05
 CORE_MAX_HOLDINGS = 10
-EXPLORE_MAX_HOLDINGS = 20
-SEED_MAX_HOLDINGS = 10
-WINNER_CORE_STABLE_SHARE = 0.65
-WINNER_CORE_PROMOTED_SHARE = 0.35
-STABLE_CORE_MAX_HOLDINGS = 6
-PROMOTED_CORE_MAX_HOLDINGS = 4
-PROMOTED_CORE_STAGE_RAMP = {1: 0.45, 2: 0.75}
+EXPLORE_MAX_HOLDINGS = 12
+SEED_MAX_HOLDINGS = 6
+WINNER_CORE_STABLE_SHARE = 0.35
+WINNER_CORE_PROMOTED_SHARE = 0.65
+STABLE_CORE_MAX_HOLDINGS = 4
+PROMOTED_CORE_MAX_HOLDINGS = 6
+PROMOTED_CORE_STAGE_RAMP = {1: 0.75, 2: 1.00}
+TOTAL_PORTFOLIO_MAX_HOLDINGS = 18
+TOTAL_PORTFOLIO_MIN_WEIGHT = 0.005
+FORCE_EXIT_WEIGHT_THRESHOLD = 0.0005
 MAX_RETRIES = 5
 RETRY_BASE_DELAY = 1.5
 FLOAT_FORMAT = "%.8f"
@@ -236,13 +239,19 @@ def load_or_fetch_trade_calendar(pro, start_date: pd.Timestamp, end_date: pd.Tim
         if cached_start <= start_date and cached_end >= end_date:
             return cached
 
-    fetched = call_tushare_with_retry(
-        pro.trade_cal,
-        exchange="SSE",
-        start_date=start_date.strftime("%Y%m%d"),
-        end_date=end_date.strftime("%Y%m%d"),
-        fields="exchange,cal_date,is_open,pretrade_date",
-    )
+    try:
+        fetched = call_tushare_with_retry(
+            pro.trade_cal,
+            exchange="SSE",
+            start_date=start_date.strftime("%Y%m%d"),
+            end_date=end_date.strftime("%Y%m%d"),
+            fields="exchange,cal_date,is_open,pretrade_date",
+        )
+    except RuntimeError:
+        if not cached.empty:
+            print("[Warn] trade_calendar 增量更新失败，回退使用本地缓存。")
+            return cached.reset_index(drop=True)
+        raise
     fetched["cal_date"] = pd.to_datetime(fetched["cal_date"], format="%Y%m%d", errors="coerce")
     calendar = fetched.sort_values("cal_date").drop_duplicates(subset=["cal_date"]).reset_index(drop=True)
     save_csv(calendar, cache_path)
@@ -268,12 +277,18 @@ def load_or_fetch_daily(pro, ts_code: str, start_date: pd.Timestamp, end_date: p
             return cached.reset_index(drop=True)
         fetch_from = latest_cached + pd.Timedelta(days=1)
 
-    fetched = call_tushare_with_retry(
-        pro.daily,
-        ts_code=ts_code,
-        start_date=fetch_from.strftime("%Y%m%d"),
-        end_date=end_date.strftime("%Y%m%d"),
-    )
+    try:
+        fetched = call_tushare_with_retry(
+            pro.daily,
+            ts_code=ts_code,
+            start_date=fetch_from.strftime("%Y%m%d"),
+            end_date=end_date.strftime("%Y%m%d"),
+        )
+    except RuntimeError:
+        if not cached.empty:
+            print(f"[Warn] {ts_code} daily 增量更新失败，回退使用本地缓存。")
+            return cached.reset_index(drop=True)
+        raise
 
     if not fetched.empty:
         fetched["trade_date"] = pd.to_datetime(fetched["trade_date"], format="%Y%m%d", errors="coerce")
@@ -303,12 +318,18 @@ def load_or_fetch_adj_factor(pro, ts_code: str, start_date: pd.Timestamp, end_da
             return cached.reset_index(drop=True)
         fetch_from = latest_cached + pd.Timedelta(days=1)
 
-    fetched = call_tushare_with_retry(
-        pro.adj_factor,
-        ts_code=ts_code,
-        start_date=fetch_from.strftime("%Y%m%d"),
-        end_date=end_date.strftime("%Y%m%d"),
-    )
+    try:
+        fetched = call_tushare_with_retry(
+            pro.adj_factor,
+            ts_code=ts_code,
+            start_date=fetch_from.strftime("%Y%m%d"),
+            end_date=end_date.strftime("%Y%m%d"),
+        )
+    except RuntimeError:
+        if not cached.empty:
+            print(f"[Warn] {ts_code} adj_factor 增量更新失败，回退使用本地缓存。")
+            return cached.reset_index(drop=True)
+        raise
 
     if not fetched.empty:
         fetched["trade_date"] = pd.to_datetime(fetched["trade_date"], format="%Y%m%d", errors="coerce")
@@ -338,13 +359,19 @@ def load_or_fetch_daily_basic(pro, ts_code: str, start_date: pd.Timestamp, end_d
             return cached.reset_index(drop=True)
         fetch_from = latest_cached + pd.Timedelta(days=1)
 
-    fetched = call_tushare_with_retry(
-        pro.daily_basic,
-        ts_code=ts_code,
-        start_date=fetch_from.strftime("%Y%m%d"),
-        end_date=end_date.strftime("%Y%m%d"),
-        fields="ts_code,trade_date,total_mv",
-    )
+    try:
+        fetched = call_tushare_with_retry(
+            pro.daily_basic,
+            ts_code=ts_code,
+            start_date=fetch_from.strftime("%Y%m%d"),
+            end_date=end_date.strftime("%Y%m%d"),
+            fields="ts_code,trade_date,total_mv",
+        )
+    except RuntimeError:
+        if not cached.empty:
+            print(f"[Warn] {ts_code} daily_basic 增量更新失败，回退使用本地缓存。")
+            return cached.reset_index(drop=True)
+        raise
 
     if not fetched.empty:
         fetched["trade_date"] = pd.to_datetime(fetched["trade_date"], format="%Y%m%d", errors="coerce")
@@ -377,13 +404,19 @@ def load_or_fetch_fina_indicator(pro, ts_code: str, start_date: pd.Timestamp, en
         )
 
     if cached.empty:
-        fetched = call_tushare_with_retry(
-            pro.fina_indicator,
-            ts_code=ts_code,
-            start_date=start_date.strftime("%Y%m%d"),
-            end_date=end_date.strftime("%Y%m%d"),
-            fields="ts_code,ann_date,end_date,roe,grossprofit_margin,debt_to_assets,ocf_to_or,q_dtprofit_yoy",
-        )
+        try:
+            fetched = call_tushare_with_retry(
+                pro.fina_indicator,
+                ts_code=ts_code,
+                start_date=start_date.strftime("%Y%m%d"),
+                end_date=end_date.strftime("%Y%m%d"),
+                fields="ts_code,ann_date,end_date,roe,grossprofit_margin,debt_to_assets,ocf_to_or,q_dtprofit_yoy",
+            )
+        except RuntimeError:
+            if not cached.empty:
+                print(f"[Warn] {ts_code} fina_indicator 增量更新失败，回退使用本地缓存。")
+                return cached.reset_index(drop=True)
+            raise
         if not fetched.empty:
             fetched["ann_date"] = pd.to_datetime(fetched["ann_date"], format="%Y%m%d", errors="coerce")
             fetched["end_date"] = pd.to_datetime(fetched["end_date"], format="%Y%m%d", errors="coerce")
@@ -420,12 +453,18 @@ def load_or_fetch_index_daily(pro, ts_code: str, start_date: pd.Timestamp, end_d
             return cached.reset_index(drop=True)
         fetch_from = latest_cached + pd.Timedelta(days=1)
 
-    fetched = call_tushare_with_retry(
-        pro.index_daily,
-        ts_code=ts_code,
-        start_date=fetch_from.strftime("%Y%m%d"),
-        end_date=end_date.strftime("%Y%m%d"),
-    )
+    try:
+        fetched = call_tushare_with_retry(
+            pro.index_daily,
+            ts_code=ts_code,
+            start_date=fetch_from.strftime("%Y%m%d"),
+            end_date=end_date.strftime("%Y%m%d"),
+        )
+    except RuntimeError:
+        if not cached.empty:
+            print(f"[Warn] {ts_code} index_daily 增量更新失败，回退使用本地缓存。")
+            return cached.reset_index(drop=True)
+        raise
     if not fetched.empty:
         fetched["trade_date"] = pd.to_datetime(fetched["trade_date"], format="%Y%m%d", errors="coerce")
         if "close" in fetched.columns:
@@ -461,12 +500,18 @@ def load_or_fetch_index_weight(pro, index_code: str, start_date: pd.Timestamp, e
         cursor = max(cursor, (cached_max + pd.Timedelta(days=1)).normalize())
     while cursor <= required_end_date:
         chunk_end = min(pd.Timestamp(cursor.year, 12, 31), required_end_date)
-        fetched = call_tushare_with_retry(
-            pro.index_weight,
-            index_code=index_code,
-            start_date=cursor.strftime("%Y%m%d"),
-            end_date=chunk_end.strftime("%Y%m%d"),
-        )
+        try:
+            fetched = call_tushare_with_retry(
+                pro.index_weight,
+                index_code=index_code,
+                start_date=cursor.strftime("%Y%m%d"),
+                end_date=chunk_end.strftime("%Y%m%d"),
+            )
+        except RuntimeError:
+            if not cached.empty:
+                print(f"[Warn] {index_code} index_weight 增量更新失败，回退使用本地缓存。")
+                return cached.reset_index(drop=True)
+            raise
         if not fetched.empty:
             fetched["trade_date"] = pd.to_datetime(fetched["trade_date"], format="%Y%m%d", errors="coerce")
             frames.append(fetched)
@@ -1211,7 +1256,7 @@ def build_core_explore_target_weights(
         quality_quantile=CORE_QUALITY_QUANTILE,
         max_holdings=STABLE_CORE_MAX_HOLDINGS,
         breakout_signal=breakout_signal,
-        base_weight_mode="base",
+        base_weight_mode="hybrid",
     ) if not stable_core_raw.empty else (
         pd.Series(dtype=float),
         {
@@ -1338,12 +1383,24 @@ def build_core_explore_target_weights(
     )
 
     combined = pd.concat([core_weights, explore_weights, seed_weights]).groupby(level=0).sum().sort_values(ascending=False)
+    combined = enforce_total_portfolio_constraints(
+        combined_weights=combined,
+        protected_codes=set(core_stats["selected_codes"]),
+        max_holdings=TOTAL_PORTFOLIO_MAX_HOLDINGS,
+        min_weight=TOTAL_PORTFOLIO_MIN_WEIGHT,
+    )
+    final_selected_codes = set(combined.index)
+    final_core_selected_codes = set(core_stats["selected_codes"]) & final_selected_codes
+    final_stable_core_selected_codes = set(stable_core_stats["selected_codes"]) & final_selected_codes
+    final_promoted_core_selected_codes = set(promoted_core_stats["selected_codes"]) & final_selected_codes
+    final_explore_selected_codes = set(explore_stats["selected_codes"]) & final_selected_codes
+    final_seed_selected_codes = set(seed_stats["selected_codes"]) & final_selected_codes
     return combined, {
-        "core_selected_count": core_stats["selected_count"],
-        "stable_core_selected_count": stable_core_stats["selected_count"],
-        "promoted_core_selected_count": promoted_core_stats["selected_count"],
-        "explore_selected_count": explore_stats["selected_count"],
-        "seed_selected_count": seed_stats["selected_count"],
+        "core_selected_count": len(final_core_selected_codes),
+        "stable_core_selected_count": len(final_stable_core_selected_codes),
+        "promoted_core_selected_count": len(final_promoted_core_selected_codes),
+        "explore_selected_count": len(final_explore_selected_codes),
+        "seed_selected_count": len(final_seed_selected_codes),
         "core_buy_candidate_count": core_stats["buy_candidate_count"],
         "stable_core_buy_candidate_count": stable_core_stats["buy_candidate_count"],
         "promoted_core_buy_candidate_count": promoted_core_stats["buy_candidate_count"],
@@ -1364,11 +1421,11 @@ def build_core_explore_target_weights(
         "promoted_core_available_count": int(len(promoted_core_raw)),
         "explore_available_count": int(len(explore_raw)),
         "seed_available_count": int(len(seed_raw)),
-        "core_selected_codes": core_stats["selected_codes"],
-        "stable_core_selected_codes": stable_core_stats["selected_codes"],
-        "promoted_core_selected_codes": promoted_core_stats["selected_codes"],
-        "explore_selected_codes": explore_stats["selected_codes"],
-        "seed_selected_codes": seed_stats["selected_codes"],
+        "core_selected_codes": final_core_selected_codes,
+        "stable_core_selected_codes": final_stable_core_selected_codes,
+        "promoted_core_selected_codes": final_promoted_core_selected_codes,
+        "explore_selected_codes": final_explore_selected_codes,
+        "seed_selected_codes": final_seed_selected_codes,
         "core_keep_candidates": core_stats["keep_candidates"],
         "stable_core_keep_candidates": stable_core_stats["keep_candidates"],
         "promoted_core_keep_candidates": promoted_core_stats["keep_candidates"],
@@ -1571,6 +1628,33 @@ def apply_weight_cap_with_redistribution(raw_weights: pd.Series, cap: float = WE
     return adjusted[adjusted > 1e-12].sort_values(ascending=False), cash_weight
 
 
+def enforce_total_portfolio_constraints(
+    combined_weights: pd.Series,
+    protected_codes: Set[str],
+    max_holdings: int,
+    min_weight: float,
+) -> pd.Series:
+    if combined_weights.empty:
+        return combined_weights
+
+    positive = combined_weights[combined_weights > 1e-12].sort_values(ascending=False)
+    if positive.empty:
+        return positive
+
+    protected_series = positive.loc[positive.index.isin(protected_codes)].sort_values(ascending=False)
+    non_protected = positive.loc[~positive.index.isin(protected_codes)].sort_values(ascending=False)
+    non_protected = non_protected[non_protected >= min_weight]
+
+    remaining_slots = max(0, max_holdings - len(protected_series))
+    kept = pd.concat([protected_series, non_protected.head(remaining_slots)]).groupby(level=0).sum()
+    kept = kept.sort_values(ascending=False)
+
+    total_target = float(positive.sum())
+    if kept.empty or total_target <= 0:
+        return pd.Series(dtype=float)
+    return normalize_positive_weights(kept) * total_target
+
+
 def compute_rebalance_trades(
     current_values: pd.Series,
     current_cash: float,
@@ -1627,7 +1711,13 @@ def compute_rebalance_trades(
         desired_cash = cash_share * free_capital
         trade_deltas = desired_tradable_values - current_tradable_values
         # 调仓缓冲：目标权重变化不足 1% 的持仓不交易，避免高频小额换手。
-        frozen = (trade_deltas.abs() / pre_trade_nav) < MIN_WEIGHT_TRADE_THRESHOLD if pre_trade_nav > 0 else trade_deltas * 0 == 0
+        if pre_trade_nav > 0:
+            current_weight = current_tradable_values / pre_trade_nav
+            desired_weight = desired_tradable_values / pre_trade_nav
+            force_exit = (desired_weight <= 1e-12) & (current_weight >= FORCE_EXIT_WEIGHT_THRESHOLD)
+            frozen = ((trade_deltas.abs() / pre_trade_nav) < MIN_WEIGHT_TRADE_THRESHOLD) & (~force_exit)
+        else:
+            frozen = trade_deltas * 0 == 0
         trade_deltas.loc[frozen] = 0.0
         desired_tradable_values = current_tradable_values + trade_deltas
         desired_cash = pre_trade_nav - locked_value - float(desired_tradable_values.sum())
@@ -2399,6 +2489,9 @@ def run_backtest(
         "winner_core_promoted_share": WINNER_CORE_PROMOTED_SHARE,
         "stable_core_max_holdings": STABLE_CORE_MAX_HOLDINGS,
         "promoted_core_max_holdings": PROMOTED_CORE_MAX_HOLDINGS,
+        "total_portfolio_max_holdings": TOTAL_PORTFOLIO_MAX_HOLDINGS,
+        "total_portfolio_min_weight": TOTAL_PORTFOLIO_MIN_WEIGHT,
+        "force_exit_weight_threshold": FORCE_EXIT_WEIGHT_THRESHOLD,
         "pure_core_observation_min_streak": PURE_CORE_OBSERVATION_MIN_STREAK,
         "pure_core_observation_buffer_multiplier": PURE_CORE_OBSERVATION_BUFFER_MULTIPLIER,
         "market_index_code": MARKET_INDEX_CODE,
