@@ -35,7 +35,7 @@ SELL_EXIT_PERCENTILE = 0.25
 MIN_WEIGHT_TRADE_THRESHOLD = 0.01
 CORE_RISK_OFF_EXPOSURE = 0.60
 CORE_RISK_ON_EXPOSURE = 1.00
-SATELLITE_RISK_OFF_EXPOSURE = 1.00
+SATELLITE_RISK_OFF_EXPOSURE = 0.70
 SATELLITE_RISK_ON_EXPOSURE = 1.00
 MARKET_INDEX_CODE = "000300.SH"
 CORE_INDEX_CODES = ["000300.SH", "000688.SH"]
@@ -77,6 +77,7 @@ FORCE_EXIT_WEIGHT_THRESHOLD = 0.0005
 MAX_RETRIES = 5
 RETRY_BASE_DELAY = 1.5
 FLOAT_FORMAT = "%.8f"
+TUSHARE_OFFLINE_MODE = False
 
 CORE_EXPLORE_RATIO_CONFIGS = [
     {"strategy_id": "core_explore_80_20", "strategy_name": "核心80_探索20", "core_ratio": 0.80, "explore_ratio": 0.20},
@@ -167,6 +168,7 @@ def ensure_directories() -> None:
 
 
 def call_tushare_with_retry(api_callable, **kwargs) -> pd.DataFrame:
+    global TUSHARE_OFFLINE_MODE
     last_error: Exception | None = None
     for attempt in range(1, MAX_RETRIES + 1):
         try:
@@ -177,6 +179,14 @@ def call_tushare_with_retry(api_callable, **kwargs) -> pd.DataFrame:
             return df
         except Exception as exc:  # noqa: BLE001
             last_error = exc
+            error_text = str(exc)
+            if (
+                "Failed to resolve" in error_text
+                or "nodename nor servname provided" in error_text
+                or "NameResolutionError" in error_text
+            ):
+                TUSHARE_OFFLINE_MODE = True
+                break
             if attempt == MAX_RETRIES:
                 break
             sleep_seconds = RETRY_BASE_DELAY * (2 ** (attempt - 1))
@@ -239,6 +249,9 @@ def load_or_fetch_trade_calendar(pro, start_date: pd.Timestamp, end_date: pd.Tim
         if cached_start <= start_date and cached_end >= end_date:
             return cached
 
+    if not cached.empty and TUSHARE_OFFLINE_MODE:
+        return cached.reset_index(drop=True)
+
     try:
         fetched = call_tushare_with_retry(
             pro.trade_cal,
@@ -276,6 +289,9 @@ def load_or_fetch_daily(pro, ts_code: str, start_date: pd.Timestamp, end_date: p
         if latest_cached >= end_date:
             return cached.reset_index(drop=True)
         fetch_from = latest_cached + pd.Timedelta(days=1)
+
+    if not cached.empty and TUSHARE_OFFLINE_MODE:
+        return cached.reset_index(drop=True)
 
     try:
         fetched = call_tushare_with_retry(
@@ -318,6 +334,9 @@ def load_or_fetch_adj_factor(pro, ts_code: str, start_date: pd.Timestamp, end_da
             return cached.reset_index(drop=True)
         fetch_from = latest_cached + pd.Timedelta(days=1)
 
+    if not cached.empty and TUSHARE_OFFLINE_MODE:
+        return cached.reset_index(drop=True)
+
     try:
         fetched = call_tushare_with_retry(
             pro.adj_factor,
@@ -358,6 +377,9 @@ def load_or_fetch_daily_basic(pro, ts_code: str, start_date: pd.Timestamp, end_d
         if latest_cached >= end_date:
             return cached.reset_index(drop=True)
         fetch_from = latest_cached + pd.Timedelta(days=1)
+
+    if not cached.empty and TUSHARE_OFFLINE_MODE:
+        return cached.reset_index(drop=True)
 
     try:
         fetched = call_tushare_with_retry(
@@ -404,6 +426,8 @@ def load_or_fetch_fina_indicator(pro, ts_code: str, start_date: pd.Timestamp, en
         )
 
     if cached.empty:
+        if not cached.empty and TUSHARE_OFFLINE_MODE:
+            return cached.reset_index(drop=True)
         try:
             fetched = call_tushare_with_retry(
                 pro.fina_indicator,
@@ -453,6 +477,9 @@ def load_or_fetch_index_daily(pro, ts_code: str, start_date: pd.Timestamp, end_d
             return cached.reset_index(drop=True)
         fetch_from = latest_cached + pd.Timedelta(days=1)
 
+    if not cached.empty and TUSHARE_OFFLINE_MODE:
+        return cached.reset_index(drop=True)
+
     try:
         fetched = call_tushare_with_retry(
             pro.index_daily,
@@ -500,6 +527,8 @@ def load_or_fetch_index_weight(pro, index_code: str, start_date: pd.Timestamp, e
         cursor = max(cursor, (cached_max + pd.Timedelta(days=1)).normalize())
     while cursor <= required_end_date:
         chunk_end = min(pd.Timestamp(cursor.year, 12, 31), required_end_date)
+        if not cached.empty and TUSHARE_OFFLINE_MODE:
+            return cached.reset_index(drop=True)
         try:
             fetched = call_tushare_with_retry(
                 pro.index_weight,
@@ -1973,10 +2002,10 @@ def update_promoted_core_state(
     next_promoted_core_codes = set(promoted_core_codes) | newly_promoted
 
     demotion_track_codes = set(demotion_streaks) | next_promoted_core_codes
-    demotion_positive_codes = {
-        code for code in core_selected_codes if code in next_promoted_core_codes and code not in actual_core_members
+    demotion_streaks = {
+        code: 0 if code in core_selected_codes else demotion_streaks.get(code, 0) + 1
+        for code in demotion_track_codes
     }
-    demotion_streaks = update_streak_map(demotion_streaks, demotion_positive_codes, demotion_track_codes)
 
     demoted_codes = {
         code
