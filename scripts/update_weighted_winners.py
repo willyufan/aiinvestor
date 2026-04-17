@@ -21,6 +21,7 @@ WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01")
 
 WEIGHTS_SHORT_CYCLE = {"since_2017_01": 0.30, "since_2020_01": 0.30, "since_2023_01": 0.40}
 WEIGHTS_MID_CYCLE = {"since_2017_01": 0.30, "since_2020_01": 0.40, "since_2023_01": 0.30}
+WEIGHTS_2020_ONLY = {"since_2020_01": 1.00}
 
 
 @dataclass(frozen=True)
@@ -87,6 +88,18 @@ def _compute_track_metrics(group: pd.DataFrame, weights: dict[str, float]) -> Tr
     )
 
 
+def _compute_single_window_metrics(group: pd.DataFrame, sample_tag: str) -> TrackMetrics:
+    row = group.loc[group["sample_tag"] == sample_tag]
+    if row.empty:
+        return TrackMetrics(cagr=float("nan"), sharpe=float("nan"), max_drawdown=float("nan"), turnover=float("nan"))
+    return TrackMetrics(
+        cagr=float(row["cagr"].iloc[0]),
+        sharpe=float(row["sharpe_ratio"].iloc[0]),
+        max_drawdown=float(row["max_drawdown"].iloc[0]),
+        turnover=float(row["average_annual_turnover"].iloc[0]),
+    )
+
+
 def _pick_winner(latest: pd.DataFrame, weights: dict[str, float]) -> tuple[str, TrackMetrics]:
     candidates: list[tuple[str, TrackMetrics]] = []
     for base_id, group in latest.groupby("strategy_base_id"):
@@ -110,6 +123,26 @@ def _pick_winner(latest: pd.DataFrame, weights: dict[str, float]) -> tuple[str, 
     return candidates[0]
 
 
+def _pick_single_window_winner(latest: pd.DataFrame, sample_tag: str) -> tuple[str, TrackMetrics]:
+    candidates: list[tuple[str, TrackMetrics]] = []
+    for base_id, group in latest.groupby("strategy_base_id"):
+        tags = set(group["sample_tag"].astype(str))
+        if not set(WINDOW_TAGS).issubset(tags):
+            continue
+        if sample_tag not in tags:
+            continue
+        metrics = _compute_single_window_metrics(group, sample_tag)
+        if any(np.isnan(v) for v in (metrics.cagr, metrics.sharpe, metrics.max_drawdown, metrics.turnover)):
+            continue
+        candidates.append((str(base_id), metrics))
+
+    if not candidates:
+        raise RuntimeError(f"No strategies have {sample_tag} window to compute the single-window winner.")
+
+    candidates.sort(key=lambda item: (item[1].cagr, item[1].sharpe, item[1].max_drawdown, -item[1].turnover), reverse=True)
+    return candidates[0]
+
+
 def _fmt_pct(value: float, digits: int = 2) -> str:
     return f"{value * 100:.{digits}f}%"
 
@@ -120,6 +153,8 @@ def _render_block(
     short_metrics: TrackMetrics,
     mid_winner_id: str,
     mid_metrics: TrackMetrics,
+    window_2020_winner_id: str,
+    window_2020_metrics: TrackMetrics,
     sample_end: str,
 ) -> str:
     def render_track(title: str, weights: dict[str, float], winner_id: str, metrics: TrackMetrics) -> str:
@@ -147,7 +182,7 @@ def _render_block(
         )
 
     parts = [
-        "This repo tracks *two winners in parallel* using weighted multi-window scoring across the three validation windows:",
+        "This repo tracks *three winners in parallel* using weighted multi-window scoring across the three validation windows:",
         "",
         "- `since_2017_01` (long window)",
         "- `since_2020_01` (mid window)",
@@ -155,6 +190,7 @@ def _render_block(
         "",
         render_track("Short-cycle Winner (30/30/40)", WEIGHTS_SHORT_CYCLE, short_winner_id, short_metrics),
         render_track("Mid-cycle Winner (30/40/30)", WEIGHTS_MID_CYCLE, mid_winner_id, mid_metrics),
+        render_track("2020-Window Winner (2020-only checkpoint)", WEIGHTS_2020_ONLY, window_2020_winner_id, window_2020_metrics),
     ]
     return "\n".join(parts).strip() + "\n"
 
@@ -186,6 +222,7 @@ def main() -> None:
 
     short_id, short_metrics = _pick_winner(latest, WEIGHTS_SHORT_CYCLE)
     mid_id, mid_metrics = _pick_winner(latest, WEIGHTS_MID_CYCLE)
+    window_2020_id, window_2020_metrics = _pick_single_window_winner(latest, "since_2020_01")
     sample_end = max(info["sample_end"] for info in strategies.values())
 
     payload = {
@@ -212,6 +249,16 @@ def main() -> None:
                     "weighted_turnover": mid_metrics.turnover,
                 },
             },
+            "since_2020_only": {
+                "weights": WEIGHTS_2020_ONLY,
+                "winner": window_2020_id,
+                "metrics": {
+                    "weighted_cagr": window_2020_metrics.cagr,
+                    "weighted_sharpe": window_2020_metrics.sharpe,
+                    "weighted_max_drawdown": window_2020_metrics.max_drawdown,
+                    "weighted_turnover": window_2020_metrics.turnover,
+                },
+            },
         },
         "strategies": {
             sid: {
@@ -219,21 +266,30 @@ def main() -> None:
                 "windows": info["windows"],
             }
             for sid, info in strategies.items()
-            if sid in {short_id, mid_id}
+            if sid in {short_id, mid_id, window_2020_id}
         },
     }
     args.write_json.parent.mkdir(parents=True, exist_ok=True)
     args.write_json.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    block = _render_block(strategies, short_id, short_metrics, mid_id, mid_metrics, sample_end)
+    block = _render_block(
+        strategies,
+        short_id,
+        short_metrics,
+        mid_id,
+        mid_metrics,
+        window_2020_id,
+        window_2020_metrics,
+        sample_end,
+    )
     update_readme(args.readme, block)
 
     print(f"[OK] Updated {args.readme}")
     print(f"[OK] Wrote {args.write_json}")
     print(f"[OK] Short-cycle winner: {short_id} (wCAGR={_fmt_pct(short_metrics.cagr)}, wSharpe={short_metrics.sharpe:.4f})")
     print(f"[OK] Mid-cycle winner:   {mid_id} (wCAGR={_fmt_pct(mid_metrics.cagr)}, wSharpe={mid_metrics.sharpe:.4f})")
+    print(f"[OK] 2020-window winner: {window_2020_id} (CAGR={_fmt_pct(window_2020_metrics.cagr)}, Sharpe={window_2020_metrics.sharpe:.4f})")
 
 
 if __name__ == "__main__":
     main()
-

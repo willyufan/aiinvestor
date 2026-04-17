@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import math
 import os
@@ -102,7 +103,7 @@ FORCE_EXIT_WEIGHT_THRESHOLD = 0.0005
 MAX_RETRIES = 5
 RETRY_BASE_DELAY = 1.5
 FLOAT_FORMAT = "%.8f"
-TUSHARE_OFFLINE_MODE = False
+TUSHARE_OFFLINE_MODE = os.getenv("AIINVESTOR_FORCE_OFFLINE", "").strip().lower() in {"1", "true", "yes", "y"}
 
 WINNER_CORE_VARIANTS = [
     {
@@ -215,6 +216,8 @@ def ensure_directories() -> None:
 
 def call_tushare_with_retry(api_callable, **kwargs) -> pd.DataFrame:
     global TUSHARE_OFFLINE_MODE
+    if TUSHARE_OFFLINE_MODE:
+        raise RuntimeError(f"Tushare 离线模式已启用，跳过在线请求: {kwargs}")
     last_error: Exception | None = None
     for attempt in range(1, MAX_RETRIES + 1):
         try:
@@ -1996,13 +1999,17 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
     )
 
 
-def save_pool_comparison(comparison_rows: List[Dict[str, object]]) -> None:
+def save_pool_comparison(comparison_rows: List[Dict[str, object]], comparison_csv: Path | None = None) -> None:
     if not comparison_rows:
         return
 
     comparison_df = pd.DataFrame(comparison_rows)
-    save_csv(comparison_df, RESULTS_DIR / "strategy_comparison.csv")
-    save_csv(comparison_df, RESULTS_DIR / "strategy_comparison_base_method.csv")
+    if comparison_csv is None:
+        save_csv(comparison_df, RESULTS_DIR / "strategy_comparison.csv")
+        save_csv(comparison_df, RESULTS_DIR / "strategy_comparison_base_method.csv")
+        return
+
+    save_csv(comparison_df, comparison_csv)
 
 
 def append_comparison_row(comparison_rows: List[Dict[str, object]], summary: Dict[str, object]) -> None:
@@ -2684,7 +2691,30 @@ def print_summary(summary: Dict[str, object], latest_weights: pd.DataFrame) -> N
         print(latest_weights.head(20).to_string(index=False, float_format=lambda value: f"{value:.4%}" if value <= 1 else f"{value:.6f}"))
 
 
-def main() -> None:
+def _parse_csv_list(value: str) -> list[str]:
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description="Run aiinvestor backtests (supports offline cached runs).")
+    parser.add_argument(
+        "--sample-tags",
+        default="",
+        help="Comma-separated sample tags to run (default: all). Example: since_2020_01,since_2023_01",
+    )
+    parser.add_argument(
+        "--only-base-ids",
+        default="",
+        help="Comma-separated strategy_base_id values to run (default: all). "
+        "Example: core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp",
+    )
+    parser.add_argument(
+        "--comparison-csv",
+        default="",
+        help="Optional output CSV path. When omitted, writes the standard results/*.csv files.",
+    )
+    args = parser.parse_args(argv)
+
     pd.options.display.float_format = lambda value: f"{value:.8f}"
     ensure_directories()
     end_date = pd.Timestamp.today().normalize()
@@ -2693,12 +2723,32 @@ def main() -> None:
     data_start = min(window["sample_start"] for window in BACKTEST_SAMPLE_WINDOWS)
     prepared = prepare_data(pro, data_start, end_date)
 
-    for sample_window in BACKTEST_SAMPLE_WINDOWS:
+    selected_sample_tags = set(_parse_csv_list(args.sample_tags)) if args.sample_tags else set()
+    selected_base_ids = set(_parse_csv_list(args.only_base_ids)) if args.only_base_ids else set()
+    comparison_csv = Path(args.comparison_csv).expanduser() if args.comparison_csv else None
+
+    sample_windows = (
+        [window for window in BACKTEST_SAMPLE_WINDOWS if window["sample_tag"] in selected_sample_tags]
+        if selected_sample_tags
+        else list(BACKTEST_SAMPLE_WINDOWS)
+    )
+
+    for sample_window in sample_windows:
         for core_source_config in CORE_SOURCE_MODES:
             for base_weight_config in BASE_WEIGHT_METHODS:
                 for ratio_config in CORE_EXPLORE_RATIO_CONFIGS:
                     strategy_base_id = f"{ratio_config['strategy_id']}_{base_weight_config['base_weight_method']}_{core_source_config['core_source_mode']}"
                     strategy_base_name = f"{ratio_config['strategy_name']}_{base_weight_config['base_weight_name']}_{core_source_config['core_source_name']}"
+                    winner_core_variants = [
+                        f"{strategy_base_id}__{variant['variant_id']}"
+                        for variant in WINNER_CORE_VARIANTS
+                    ]
+                    should_consider_base = not selected_base_ids or (
+                        strategy_base_id in selected_base_ids
+                        or any(variant_id in selected_base_ids for variant_id in winner_core_variants)
+                    )
+                    if not should_consider_base:
+                        continue
                     strategy_config = {
                         **ratio_config,
                         **base_weight_config,
@@ -2709,13 +2759,14 @@ def main() -> None:
                         "strategy_id": f"{strategy_base_id}__{sample_window['sample_tag']}",
                         "strategy_name": f"{strategy_base_name} ({sample_window['sample_label']})",
                     }
-                    equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary = run_backtest(prepared, strategy_config)
-                    summary["pool_id"] = "dynamic_index_core_explore_universe"
-                    summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
-                    output_dir = build_pool_output_dir(strategy_base_id, str(sample_window["sample_tag"]))
-                    save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
-                    print_summary(summary, latest_weights)
-                    append_comparison_row(comparison_rows, summary)
+                    if not selected_base_ids or strategy_base_id in selected_base_ids:
+                        equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary = run_backtest(prepared, strategy_config)
+                        summary["pool_id"] = "dynamic_index_core_explore_universe"
+                        summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
+                        output_dir = build_pool_output_dir(strategy_base_id, str(sample_window["sample_tag"]))
+                        save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
+                        print_summary(summary, latest_weights)
+                        append_comparison_row(comparison_rows, summary)
 
                     if (
                         ratio_config["strategy_id"] == "core_explore_80_20"
@@ -2724,6 +2775,8 @@ def main() -> None:
                     ):
                         for variant in WINNER_CORE_VARIANTS:
                             variant_base_id = f"{strategy_base_id}__{variant['variant_id']}"
+                            if selected_base_ids and variant_base_id not in selected_base_ids:
+                                continue
                             variant_base_name = f"{strategy_base_name}__{variant['variant_name']}"
                             variant_config = {
                                 **strategy_config,
@@ -2743,6 +2796,8 @@ def main() -> None:
 
         for pure_core_config in PURE_CORE_GROWTH_CONFIGS:
             strategy_base_id = str(pure_core_config["strategy_id"])
+            if selected_base_ids and strategy_base_id not in selected_base_ids:
+                continue
             strategy_base_name = str(pure_core_config["strategy_name"])
             strategy_config = {
                 **pure_core_config,
@@ -2768,7 +2823,7 @@ def main() -> None:
             print_summary(summary, latest_weights)
             append_comparison_row(comparison_rows, summary)
 
-    save_pool_comparison(comparison_rows)
+    save_pool_comparison(comparison_rows, comparison_csv=comparison_csv)
 
 
 if __name__ == "__main__":

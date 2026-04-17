@@ -12,7 +12,7 @@ The project focuses on building and iterating a monthly-rebalanced stock selecti
 ## Current Best Strategy
 
 This project no longer picks a single “best” strategy by one sample window.
-Instead, we keep **two tracked winners in parallel** using **weighted multi-window scoring** across:
+Instead, we keep **three tracked winners in parallel** using **weighted multi-window scoring** across:
 
 - `since_2017_01` (long window)
 - `since_2020_01` (mid window)
@@ -22,7 +22,7 @@ The automation updates the tracked winners and their latest metrics here:
 
 <!-- AUTO:WEIGHTED-WINNERS:START -->
 
-This repo tracks *two winners in parallel* using weighted multi-window scoring across the three validation windows:
+This repo tracks *three winners in parallel* using weighted multi-window scoring across the three validation windows:
 
 - `since_2017_01` (long window)
 - `since_2020_01` (mid window)
@@ -50,10 +50,21 @@ Window metrics (as of `2026-04-17`, weights: 2017-01=30%, 2020-01=40%, 2023-01=3
 - `2020-01-01` → `2026-04-17`: CAGR `23.74%`, Max DD `-21.32%`, Sharpe `0.8772`
 - `2023-01-01` → `2026-04-17`: CAGR `26.31%`, Max DD `-24.22%`, Sharpe `0.8976`
 
+### 2020-Window Winner (2020-only checkpoint)
+
+- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp` (核心80_探索20_总市值底座_胜出者核心__进攻10/90 快速加仓)
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `24.22%` / `0.8950` / `-24.66%` / `2.99`
+
+Window metrics (as of `2026-04-17`, weights: 2020-01=100%):
+
+- `2017-01-01` → `2026-04-17`: CAGR `20.81%`, Max DD `-22.50%`, Sharpe `0.9028`
+- `2020-01-01` → `2026-04-17`: CAGR `24.22%`, Max DD `-24.66%`, Sharpe `0.8950`
+- `2023-01-01` → `2026-04-17`: CAGR `22.81%`, Max DD `-23.75%`, Sharpe `0.8270`
+
 <!-- AUTO:WEIGHTED-WINNERS:END -->
 
-When the two winner tracks differ, we keep both (short-cycle vs mid-cycle) as an anti-overfitting guardrail.
-The comparison chart in `docs/strategy_comparison.png` highlights both winners.
+When the winner tracks differ, we keep all of them (short-cycle vs mid-cycle vs 2020-only checkpoint) as an anti-overfitting guardrail.
+The comparison chart in `docs/strategy_comparison.png` highlights the tracked winners.
 
 This strategy uses:
 

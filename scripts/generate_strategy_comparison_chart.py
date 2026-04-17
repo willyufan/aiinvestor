@@ -12,6 +12,29 @@ import pandas as pd
 import numpy as np
 
 matplotlib.use("Agg")
+from matplotlib import font_manager
+
+
+def _configure_matplotlib_fonts() -> None:
+    candidates = [
+        "PingFang SC",
+        "Heiti SC",
+        "Songti SC",
+        "STHeiti",
+        "Noto Sans CJK SC",
+        "Noto Sans SC",
+        "Microsoft YaHei",
+        "SimHei",
+        "Arial Unicode MS",
+    ]
+    available = {font.name for font in font_manager.fontManager.ttflist}
+    chosen = next((name for name in candidates if name in available), None)
+    if chosen:
+        matplotlib.rcParams["font.family"] = "sans-serif"
+        matplotlib.rcParams["font.sans-serif"] = [chosen, "DejaVu Sans"]
+    matplotlib.rcParams["axes.unicode_minus"] = False
+
+
 import matplotlib.pyplot as plt
 
 
@@ -30,6 +53,7 @@ SAMPLE_WINDOWS = [
 TRACK_WEIGHTS = {
     "short_cycle_30_30_40": {"since_2017_01": 0.30, "since_2020_01": 0.30, "since_2023_01": 0.40},
     "mid_cycle_30_40_30": {"since_2017_01": 0.30, "since_2020_01": 0.40, "since_2023_01": 0.30},
+    "since_2020_only": {"since_2020_01": 1.00},
 }
 
 STRATEGIES = [
@@ -117,13 +141,15 @@ def load_weighted_winners() -> dict:
 
     short = pick(TRACK_WEIGHTS["short_cycle_30_30_40"])
     mid = pick(TRACK_WEIGHTS["mid_cycle_30_40_30"])
-    if not short or not mid:
+    window_2020 = pick(TRACK_WEIGHTS["since_2020_only"])
+    if not short or not mid or not window_2020:
         return {}
     return {
         "as_of": str(latest["sample_end"].max().date()),
         "tracks": {
             "short_cycle_30_30_40": {"weights": TRACK_WEIGHTS["short_cycle_30_30_40"], "winner": short[0], "metrics": short[1]},
             "mid_cycle_30_40_30": {"weights": TRACK_WEIGHTS["mid_cycle_30_40_30"], "winner": mid[0], "metrics": mid[1]},
+            "since_2020_only": {"weights": TRACK_WEIGHTS["since_2020_only"], "winner": window_2020[0], "metrics": window_2020[1]},
         },
     }
 
@@ -131,6 +157,7 @@ def load_weighted_winners() -> dict:
 WEIGHTED_WINNERS = load_weighted_winners()
 SHORT_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("short_cycle_30_30_40", {}).get("winner")
 MID_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("mid_cycle_30_40_30", {}).get("winner")
+WINDOW_2020_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("since_2020_only", {}).get("winner")
 
 
 def is_short_winner(base_id: str) -> bool:
@@ -144,6 +171,48 @@ def is_mid_winner(base_id: str) -> bool:
 def is_both_winner(base_id: str) -> bool:
     return bool(base_id) and base_id == SHORT_WINNER_ID and base_id == MID_WINNER_ID
 
+
+def is_2020_winner(base_id: str) -> bool:
+    return bool(WINDOW_2020_WINNER_ID) and base_id == WINDOW_2020_WINNER_ID
+
+
+def winner_tags(base_id: str) -> set[str]:
+    tags: set[str] = set()
+    if base_id == SHORT_WINNER_ID:
+        tags.add("short")
+    if base_id == MID_WINNER_ID:
+        tags.add("mid")
+    if base_id == WINDOW_2020_WINNER_ID:
+        tags.add("2020")
+    return tags
+
+
+def _maybe_add_tracked_winners() -> None:
+    existing = {item["base_id"] for item in STRATEGIES}
+    winners = [
+        ("short", SHORT_WINNER_ID, "#2563eb"),
+        ("mid", MID_WINNER_ID, "#dc2626"),
+        ("2020", WINDOW_2020_WINNER_ID, "#f59e0b"),
+    ]
+    strategy_meta = WEIGHTED_WINNERS.get("strategies", {}) if isinstance(WEIGHTED_WINNERS, dict) else {}
+    for _, base_id, color in winners:
+        if not base_id or base_id in existing:
+            continue
+        strategy_name = ""
+        if isinstance(strategy_meta, dict):
+            strategy_name = str(strategy_meta.get(base_id, {}).get("strategy_base_name") or "")
+        STRATEGIES.append(
+            {
+                "base_id": base_id,
+                "label": strategy_name or base_id,
+                "color": color,
+            }
+        )
+        existing.add(base_id)
+        STRATEGY_LABEL_BY_ID[base_id] = strategy_name or base_id
+
+
+_maybe_add_tracked_winners()
 
 def load_summary(path: Path) -> dict:
     with path.open("r", encoding="utf-8") as f:
@@ -246,13 +315,16 @@ def plot_nav_curves(ax: plt.Axes, sample_tag: str, title: str) -> None:
         except FileNotFoundError:
             continue
         base_id = config["base_id"]
-        highlight = base_id in {SHORT_WINNER_ID, MID_WINNER_ID}
-        if is_mid_winner(base_id):
+        tags = winner_tags(base_id)
+        highlight = bool(tags)
+        if "2020" in tags and ("short" in tags or "mid" in tags):
+            linestyle = "-."
+        elif "mid" in tags or is_both_winner(base_id):
             linestyle = "-"
-        elif is_short_winner(base_id):
+        elif "short" in tags:
             linestyle = "--"
-        elif is_both_winner(base_id):
-            linestyle = "-"
+        elif "2020" in tags:
+            linestyle = ":"
         else:
             linestyle = "-"
         ax.plot(
@@ -273,12 +345,17 @@ def plot_nav_curves(ax: plt.Axes, sample_tag: str, title: str) -> None:
 def plot_risk_return(ax: plt.Axes, frame: pd.DataFrame, title: str) -> None:
     for _, row in frame.iterrows():
         base_id = row.get("base_id", "")
-        highlight = base_id in {SHORT_WINNER_ID, MID_WINNER_ID}
+        tags = winner_tags(str(base_id))
+        highlight = bool(tags)
         marker = "o"
-        if is_mid_winner(base_id) or is_both_winner(base_id):
+        if len(tags) > 1:
+            marker = "X"
+        elif "mid" in tags:
             marker = "*"
-        elif is_short_winner(base_id):
+        elif "short" in tags:
             marker = "D"
+        elif "2020" in tags:
+            marker = "^"
         ax.scatter(
             row["cagr"] * 100,
             row["max_drawdown"] * 100,
@@ -334,15 +411,21 @@ def plot_metric_table(ax: plt.Axes, frame: pd.DataFrame, title: str) -> None:
             cell.set_text_props(weight="bold")
         else:
             base_id = base_ids[row - 1] if 0 <= row - 1 < len(base_ids) else ""
-            if base_id == MID_WINNER_ID:
+            tags = winner_tags(base_id)
+            if len(tags) > 1:
+                cell.set_facecolor("#e9d5ff")
+            elif "mid" in tags:
                 cell.set_facecolor("#fee2e2")
-            if base_id == SHORT_WINNER_ID and SHORT_WINNER_ID != MID_WINNER_ID:
+            elif "short" in tags:
                 cell.set_facecolor("#dbeafe")
+            elif "2020" in tags:
+                cell.set_facecolor("#fef3c7")
 
 
 def main() -> None:
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
     plt.style.use("seaborn-v0_8-whitegrid")
+    _configure_matplotlib_fonts()
     fig, axes = plt.subplots(
         3,
         len(SAMPLE_WINDOWS),
@@ -360,18 +443,22 @@ def main() -> None:
     handles, labels = axes[0, 0].get_legend_handles_labels()
     fig.legend(handles, labels, loc="upper center", ncol=3, frameon=False, bbox_to_anchor=(0.5, 1.02))
     fig.suptitle("aiinvestor Strategy Comparison Across 9Y / 6Y / 3Y Windows", fontsize=18, fontweight="bold")
-    if WEIGHTED_WINNERS and SHORT_WINNER_ID and MID_WINNER_ID:
+    if WEIGHTED_WINNERS and SHORT_WINNER_ID and MID_WINNER_ID and WINDOW_2020_WINNER_ID:
         short_metrics = WEIGHTED_WINNERS["tracks"]["short_cycle_30_30_40"]["metrics"]
         mid_metrics = WEIGHTED_WINNERS["tracks"]["mid_cycle_30_40_30"]["metrics"]
+        window_2020_metrics = WEIGHTED_WINNERS["tracks"]["since_2020_only"]["metrics"]
         short_label = STRATEGY_LABEL_BY_ID.get(SHORT_WINNER_ID, SHORT_WINNER_ID)
         mid_label = STRATEGY_LABEL_BY_ID.get(MID_WINNER_ID, MID_WINNER_ID)
+        window_2020_label = STRATEGY_LABEL_BY_ID.get(WINDOW_2020_WINNER_ID, WINDOW_2020_WINNER_ID)
         as_of = WEIGHTED_WINNERS.get("as_of", "n/a")
         note = (
             "Weighted multi-window winners (as of {as_of})\\n"
             "Short-cycle (30/30/40): {short_label}  "
             "wCAGR {scagr}, wSharpe {ssharpe:.3f}, wMaxDD {sdd}, wTurn {sturn:.2f}\\n"
             "Mid-cycle (30/40/30): {mid_label}  "
-            "wCAGR {mcagr}, wSharpe {msharpe:.3f}, wMaxDD {mdd}, wTurn {mturn:.2f}"
+            "wCAGR {mcagr}, wSharpe {msharpe:.3f}, wMaxDD {mdd}, wTurn {mturn:.2f}\\n"
+            "2020-only checkpoint: {w20_label}  "
+            "CAGR {w20cagr}, Sharpe {w20sharpe:.3f}, MaxDD {w20dd}, Turn {w20turn:.2f}"
         ).format(
             as_of=as_of,
             short_label=short_label,
@@ -384,6 +471,11 @@ def main() -> None:
             msharpe=float(mid_metrics.get("weighted_sharpe")),
             mdd=_fmt_pct(mid_metrics.get("weighted_max_drawdown")),
             mturn=float(mid_metrics.get("weighted_turnover")),
+            w20_label=window_2020_label,
+            w20cagr=_fmt_pct(window_2020_metrics.get("weighted_cagr")),
+            w20sharpe=float(window_2020_metrics.get("weighted_sharpe")),
+            w20dd=_fmt_pct(window_2020_metrics.get("weighted_max_drawdown")),
+            w20turn=float(window_2020_metrics.get("weighted_turnover")),
         )
         fig.text(
             0.01,
