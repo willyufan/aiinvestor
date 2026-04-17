@@ -30,25 +30,25 @@ This repo tracks *two winners in parallel* using weighted multi-window scoring a
 
 ### Short-cycle Winner (30/30/40)
 
-- Strategy: `core_explore_80_20_total_mv_winner_core` (核心80_探索20_总市值底座_胜出者核心)
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `22.08%` / `0.8621` / `-22.61%` / `2.85`
+- Strategy: `core_explore_80_20_total_mv_winner_core__share_15_85_hold_4_6` (核心80_探索20_总市值底座_胜出者核心__比例15/85)
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `23.16%` / `0.8767` / `-23.00%` / `2.88`
 
 Window metrics (as of `2026-04-17`, weights: 2017-01=30%, 2020-01=30%, 2023-01=40%):
 
-- `2017-01-01` → `2026-04-17`: CAGR `17.74%`, Max DD `-22.86%`, Sharpe `0.8341`
-- `2020-01-01` → `2026-04-17`: CAGR `22.69%`, Max DD `-20.88%`, Sharpe `0.8631`
-- `2023-01-01` → `2026-04-17`: CAGR `24.89%`, Max DD `-23.71%`, Sharpe `0.8822`
+- `2017-01-01` → `2026-04-17`: CAGR `18.40%`, Max DD `-23.05%`, Sharpe `0.8484`
+- `2020-01-01` → `2026-04-17`: CAGR `23.74%`, Max DD `-21.32%`, Sharpe `0.8772`
+- `2023-01-01` → `2026-04-17`: CAGR `26.31%`, Max DD `-24.22%`, Sharpe `0.8976`
 
 ### Mid-cycle Winner (30/40/30)
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp` (核心80_探索20_总市值底座_胜出者核心__进攻10/90 快速加仓)
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `22.10%` / `0.8651` / `-23.74%` / `2.88`
+- Strategy: `core_explore_80_20_total_mv_winner_core__share_15_85_hold_4_6` (核心80_探索20_总市值底座_胜出者核心__比例15/85)
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `22.91%` / `0.8747` / `-22.71%` / `2.87`
 
 Window metrics (as of `2026-04-17`, weights: 2017-01=30%, 2020-01=40%, 2023-01=30%):
 
-- `2017-01-01` → `2026-04-17`: CAGR `20.55%`, Max DD `-22.50%`, Sharpe `0.8980`
-- `2020-01-01` → `2026-04-17`: CAGR `23.60%`, Max DD `-24.66%`, Sharpe `0.8845`
-- `2023-01-01` → `2026-04-17`: CAGR `21.64%`, Max DD `-23.75%`, Sharpe `0.8062`
+- `2017-01-01` → `2026-04-17`: CAGR `18.40%`, Max DD `-23.05%`, Sharpe `0.8484`
+- `2020-01-01` → `2026-04-17`: CAGR `23.74%`, Max DD `-21.32%`, Sharpe `0.8772`
+- `2023-01-01` → `2026-04-17`: CAGR `26.31%`, Max DD `-24.22%`, Sharpe `0.8976`
 
 <!-- AUTO:WEIGHTED-WINNERS:END -->
 

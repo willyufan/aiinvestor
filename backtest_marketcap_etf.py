@@ -106,6 +106,15 @@ TUSHARE_OFFLINE_MODE = False
 
 WINNER_CORE_VARIANTS = [
     {
+        "variant_id": "share_15_85_hold_4_6",
+        "variant_name": "比例15/85",
+        "winner_core_stable_share": 0.15,
+        "winner_core_promoted_share": 0.85,
+        "stable_core_max_holdings": 4,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+    },
+    {
         "variant_id": "aggr_10_90_fast_ramp",
         "variant_name": "进攻10/90 快速加仓",
         "winner_core_stable_share": 0.10,
