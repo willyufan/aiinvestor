@@ -13,13 +13,13 @@ The project focuses on building and iterating a monthly-rebalanced stock selecti
 
 The current best-performing dynamic-market-discovery version in this project is:
 
-- `核心80_探索20_总市值底座_胜出者核心`
+- `核心80_探索20_总市值底座_胜出者核心 (进攻10/90 快速加仓)`
 - sample period: `2020-01-01` to `2026-04-16`
-- total return: `264.89%`
-- CAGR: `22.68%`
-- max drawdown: `-23.95%`
-- annual volatility: `28.29%`
-- Sharpe ratio: `0.8589`
+- total return: `296.82%`
+- CAGR: `24.31%`
+- max drawdown: `-19.82%`
+- annual volatility: `28.07%`
+- Sharpe ratio: `0.9098`
 
 This strategy uses:
 
@@ -29,6 +29,7 @@ This strategy uses:
 - forward-adjusted prices
 - market-cap base weights
 - winner promotion from explore/seed into core
+- more aggressive winner-core allocation (stable/promoted ≈ 10%/90%) with faster ramp for newly promoted names
 - realistic buy/sell commissions and stamp duty
 
 ## Strategy Structure
@@ -114,7 +115,7 @@ The project has already been initialized as a git repository and synced to GitHu
 
 当前项目里最值得继续迭代的版本，不是纯核心集中策略，而是：
 
-- `核心80_探索20_总市值底座_胜出者核心`
+- `核心80_探索20_总市值底座_胜出者核心 (进攻10/90 快速加仓)`
 
 这套框架的核心思想是：
 
@@ -139,19 +140,19 @@ The project has already been initialized as a git repository and synced to GitHu
 
 ### 最新一轮迭代结果
 
-以 `核心80_探索20_总市值底座_指数核心` 作为优化前基线，对比优化后的 `核心80_探索20_总市值底座_胜出者核心`：
+以 `核心80_探索20_总市值底座_指数核心` 作为优化前基线，对比优化后的 `核心80_探索20_总市值底座_胜出者核心 (进攻10/90 快速加仓)`：
 
-- 累计收益从 `80.76%` 提升到 `264.89%`
-- CAGR 从 `9.80%` 提升到 `22.68%`
-- 最大回撤从 `-26.48%` 改善到 `-23.95%`
-- 夏普从 `0.4690` 提升到 `0.8589`
-- 最新组合持仓进一步收敛到 `11` 只，且前 10 大权重约 `55.81%`
+- 累计收益从 `80.76%` 提升到 `296.82%`
+- CAGR 从 `9.80%` 提升到 `24.31%`
+- 最大回撤从 `-26.48%` 改善到 `-19.82%`
+- 夏普从 `0.4690` 提升到 `0.9098`
+- 最新组合持仓进一步收敛到 `11` 只，且前 10 大权重约 `55.31%`
 
 这一轮新增的关键动作是：
 
 - 修正 `winner_core` 的降级方向，让晋升核心真正按“连续掉队”而不是“连续保留”来退出
 - 把风险状态下的卫星仓暴露进一步收缩到 `0.30`，让探索 / 种子层在逆风期更主动减仓
-- 把核心内部权重改成 `稳定核心 20% + 晋升核心 80%`，让真正跑出来的胜出者拿到更高权重
+- 把核心内部权重进一步调整为 `稳定核心 10% + 晋升核心 90%`，并把新晋升核心的加仓节奏提前，让真正跑出来的胜出者更早拿到更高权重
 
 这说明当前动态发现框架已经不只是“能跑通”，而是开始出现比较像样的超额收益能力。
 
@@ -174,7 +175,7 @@ The project has already been initialized as a git repository and synced to GitHu
 - `Large Cap Static`：你最早给定的大市值池
 - `Kechuang Static`：你最早给定的科创选股池
 - `80/20 Index Core`：优化前的动态基线
-- `80/20 Winner Core`：当前优化后的最佳动态版本
+- `80/20 Winner Core (Aggressive)`：当前优化后的最佳动态版本
 - `Pure Core 6`：纯核心集中实验版
 
 ![Strategy Comparison](docs/strategy_comparison.png)

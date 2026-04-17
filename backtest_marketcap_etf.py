@@ -79,6 +79,18 @@ RETRY_BASE_DELAY = 1.5
 FLOAT_FORMAT = "%.8f"
 TUSHARE_OFFLINE_MODE = False
 
+WINNER_CORE_VARIANTS = [
+    {
+        "variant_id": "aggr_10_90_fast_ramp",
+        "variant_name": "进攻10/90 快速加仓",
+        "winner_core_stable_share": 0.10,
+        "winner_core_promoted_share": 0.90,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 8,
+        "promoted_core_stage_ramp": {1: 1.00},
+    }
+]
+
 CORE_EXPLORE_RATIO_CONFIGS = [
     {"strategy_id": "core_explore_80_20", "strategy_name": "核心80_探索20", "core_ratio": 0.80, "explore_ratio": 0.20},
     {"strategy_id": "core_explore_70_30", "strategy_name": "核心70_探索30", "core_ratio": 0.70, "explore_ratio": 0.30},
@@ -1164,6 +1176,11 @@ def build_core_explore_target_weights(
     core_source_mode: str,
     standard_eligible_codes: Set[str],
     seed_eligible_codes: Set[str],
+    winner_core_stable_share: float = WINNER_CORE_STABLE_SHARE,
+    winner_core_promoted_share: float = WINNER_CORE_PROMOTED_SHARE,
+    stable_core_max_holdings: int = STABLE_CORE_MAX_HOLDINGS,
+    promoted_core_max_holdings: int = PROMOTED_CORE_MAX_HOLDINGS,
+    promoted_core_stage_ramp: Dict[int, float] | None = None,
 ) -> Tuple[pd.Series, Dict[str, object]]:
     liquidity = avg_daily_amount.reindex(base_weights.index)
     core_eligible_codes = seed_eligible_codes if core_source_mode == "winner_core" else standard_eligible_codes
@@ -1266,8 +1283,15 @@ def build_core_explore_target_weights(
     promoted_target_weight = 0.0
     if core_target_weight > 0:
         if not stable_core_raw.empty and not promoted_core_raw.empty and core_source_mode == "winner_core":
-            stable_target_weight = core_target_weight * WINNER_CORE_STABLE_SHARE
-            promoted_target_weight = core_target_weight * WINNER_CORE_PROMOTED_SHARE
+            share_sum = float(winner_core_stable_share) + float(winner_core_promoted_share)
+            if share_sum <= 0:
+                stable_share = WINNER_CORE_STABLE_SHARE
+                promoted_share = WINNER_CORE_PROMOTED_SHARE
+            else:
+                stable_share = float(winner_core_stable_share) / share_sum
+                promoted_share = float(winner_core_promoted_share) / share_sum
+            stable_target_weight = core_target_weight * stable_share
+            promoted_target_weight = core_target_weight * promoted_share
         elif not stable_core_raw.empty:
             stable_target_weight = core_target_weight
         elif not promoted_core_raw.empty:
@@ -1283,7 +1307,7 @@ def build_core_explore_target_weights(
         buy_entry_percentile=CORE_BUY_ENTRY_PERCENTILE,
         sell_exit_percentile=CORE_SELL_EXIT_PERCENTILE,
         quality_quantile=CORE_QUALITY_QUANTILE,
-        max_holdings=STABLE_CORE_MAX_HOLDINGS,
+        max_holdings=int(stable_core_max_holdings),
         breakout_signal=breakout_signal,
         base_weight_mode="hybrid",
     ) if not stable_core_raw.empty else (
@@ -1302,7 +1326,10 @@ def build_core_explore_target_weights(
 
     promoted_base_scaled = promoted_core_raw.copy()
     for code in promoted_base_scaled.index:
-        promoted_base_scaled.loc[code] = promoted_base_scaled.loc[code] * get_promoted_core_ramp(promoted_core_ages.get(code, 0))
+        promoted_base_scaled.loc[code] = promoted_base_scaled.loc[code] * get_promoted_core_ramp(
+            promoted_core_ages.get(code, 0),
+            stage_ramp=promoted_core_stage_ramp,
+        )
     promoted_currently_held = set(currently_held_codes) - set(stable_core_stats["selected_codes"])
     promoted_core_weights, promoted_core_stats = build_single_sleeve_weights(
         base_weights=promoted_base_scaled,
@@ -1314,7 +1341,7 @@ def build_core_explore_target_weights(
         buy_entry_percentile=1.0,
         sell_exit_percentile=1.0,
         quality_quantile=0.40,
-        max_holdings=PROMOTED_CORE_MAX_HOLDINGS,
+        max_holdings=int(promoted_core_max_holdings),
         protected_hold_codes=set(promoted_core_raw.index),
         protected_sell_exit_percentile=1.0,
         breakout_signal=breakout_signal,
@@ -1956,11 +1983,12 @@ def update_streak_map(
     return updated
 
 
-def get_promoted_core_ramp(age: int) -> float:
+def get_promoted_core_ramp(age: int, stage_ramp: Dict[int, float] | None = None) -> float:
+    stage_ramp = stage_ramp or PROMOTED_CORE_STAGE_RAMP
     if age <= 0:
         return 0.0
-    if age in PROMOTED_CORE_STAGE_RAMP:
-        return PROMOTED_CORE_STAGE_RAMP[age]
+    if age in stage_ramp:
+        return float(stage_ramp[age])
     return 1.0
 
 
@@ -2262,6 +2290,11 @@ def run_backtest(
                 core_source_mode=str(strategy_config["core_source_mode"]),
                 standard_eligible_codes=set(standard_eligible_codes),
                 seed_eligible_codes=set(seed_eligible_codes),
+                winner_core_stable_share=float(strategy_config.get("winner_core_stable_share", WINNER_CORE_STABLE_SHARE)),
+                winner_core_promoted_share=float(strategy_config.get("winner_core_promoted_share", WINNER_CORE_PROMOTED_SHARE)),
+                stable_core_max_holdings=int(strategy_config.get("stable_core_max_holdings", STABLE_CORE_MAX_HOLDINGS)),
+                promoted_core_max_holdings=int(strategy_config.get("promoted_core_max_holdings", PROMOTED_CORE_MAX_HOLDINGS)),
+                promoted_core_stage_ramp=strategy_config.get("promoted_core_stage_ramp", None),
             )
         target_weights, target_cash_weight = apply_weight_cap_with_redistribution(raw_target_weights, cap=WEIGHT_CAP)
 
@@ -2514,10 +2547,11 @@ def run_backtest(
         "core_max_holdings": CORE_MAX_HOLDINGS,
         "explore_max_holdings": EXPLORE_MAX_HOLDINGS,
         "seed_max_holdings": SEED_MAX_HOLDINGS,
-        "winner_core_stable_share": WINNER_CORE_STABLE_SHARE,
-        "winner_core_promoted_share": WINNER_CORE_PROMOTED_SHARE,
-        "stable_core_max_holdings": STABLE_CORE_MAX_HOLDINGS,
-        "promoted_core_max_holdings": PROMOTED_CORE_MAX_HOLDINGS,
+        "winner_core_stable_share": float(strategy_config.get("winner_core_stable_share", WINNER_CORE_STABLE_SHARE)),
+        "winner_core_promoted_share": float(strategy_config.get("winner_core_promoted_share", WINNER_CORE_PROMOTED_SHARE)),
+        "stable_core_max_holdings": int(strategy_config.get("stable_core_max_holdings", STABLE_CORE_MAX_HOLDINGS)),
+        "promoted_core_max_holdings": int(strategy_config.get("promoted_core_max_holdings", PROMOTED_CORE_MAX_HOLDINGS)),
+        "promoted_core_stage_ramp": strategy_config.get("promoted_core_stage_ramp", PROMOTED_CORE_STAGE_RAMP),
         "total_portfolio_max_holdings": TOTAL_PORTFOLIO_MAX_HOLDINGS,
         "total_portfolio_min_weight": TOTAL_PORTFOLIO_MIN_WEIGHT,
         "force_exit_weight_threshold": FORCE_EXIT_WEIGHT_THRESHOLD,
@@ -2621,6 +2655,56 @@ def main() -> None:
                         "cumulative_trading_cost": metrics["cumulative_trading_cost"],
                     }
                 )
+
+                if (
+                    ratio_config["strategy_id"] == "core_explore_80_20"
+                    and base_weight_config["base_weight_method"] == "total_mv"
+                    and core_source_config["core_source_mode"] == "winner_core"
+                ):
+                    for variant in WINNER_CORE_VARIANTS:
+                        variant_config = {
+                            **strategy_config,
+                            **variant,
+                            "strategy_id": f"{strategy_id}__{variant['variant_id']}",
+                            "strategy_name": f"{strategy_name}__{variant['variant_name']}",
+                        }
+                        variant_id = str(variant_config["strategy_id"])
+                        variant_name = str(variant_config["strategy_name"])
+                        equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary = run_backtest(prepared, variant_config)
+                        summary["pool_id"] = "dynamic_index_core_explore_universe"
+                        summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
+                        output_dir = build_pool_output_dir(variant_id)
+                        save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
+                        print_summary(summary, latest_weights)
+
+                        metrics = summary["metrics"]
+                        comparison_rows.append(
+                            {
+                                "strategy_id": variant_id,
+                                "strategy_name": variant_name,
+                                "strategy_kind": summary.get("strategy_kind", "core_explore"),
+                                "pool_id": summary["pool_id"],
+                                "pool_name": summary["pool_name"],
+                                "sample_start": summary["sample_start"],
+                                "sample_end": summary["sample_end"],
+                                "stock_count": summary["stock_count"],
+                                "base_weight_method": summary["base_weight_method"],
+                                "base_weight_name": summary["base_weight_name"],
+                                "core_source_mode": summary["core_source_mode"],
+                                "core_source_name": summary["core_source_name"],
+                                "core_ratio": summary["core_ratio"],
+                                "explore_ratio": summary["explore_ratio"],
+                                "pure_core_max_holdings": summary.get("pure_core_max_holdings", 0),
+                                "total_return": metrics["total_return"],
+                                "cagr": metrics["cagr"],
+                                "max_drawdown": metrics["max_drawdown"],
+                                "annual_volatility": metrics["annual_volatility"],
+                                "sharpe_ratio": metrics["sharpe_ratio"],
+                                "monthly_win_rate": metrics["monthly_win_rate"],
+                                "average_annual_turnover": metrics["average_annual_turnover"],
+                                "cumulative_trading_cost": metrics["cumulative_trading_cost"],
+                            }
+                        )
 
     for pure_core_config in PURE_CORE_GROWTH_CONFIGS:
         strategy_config = {

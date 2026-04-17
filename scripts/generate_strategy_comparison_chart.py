@@ -1,7 +1,11 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+os.environ.setdefault("MPLCONFIGDIR", str(ROOT / "data_cache" / "mplconfig"))
 
 import matplotlib
 import pandas as pd
@@ -10,7 +14,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
-ROOT = Path(__file__).resolve().parents[1]
 RESULTS_DIR = ROOT / "results"
 DOCS_DIR = ROOT / "docs"
 OUTPUT_PATH = DOCS_DIR / "strategy_comparison.png"
@@ -36,9 +39,9 @@ STRATEGIES = [
         "color": "#94a3b8",
     },
     {
-        "label": "80/20 Winner Core",
-        "summary": RESULTS_DIR / "core_explore_80_20_total_mv_winner_core" / "summary.json",
-        "equity": RESULTS_DIR / "core_explore_80_20_total_mv_winner_core" / "equity_curve.csv",
+        "label": "80/20 Winner Core (Aggressive)",
+        "summary": RESULTS_DIR / "core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp" / "summary.json",
+        "equity": RESULTS_DIR / "core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp" / "equity_curve.csv",
         "color": "#dc2626",
     },
     {
@@ -81,8 +84,8 @@ def plot_nav_curves(ax: plt.Axes) -> None:
             equity["nav"],
             label=config["label"],
             color=config["color"],
-            linewidth=2.6 if config["label"] == "80/20 Winner Core" else 1.8,
-            alpha=1.0 if config["label"] == "80/20 Winner Core" else 0.9,
+            linewidth=2.6 if config["label"] == "80/20 Winner Core (Aggressive)" else 1.8,
+            alpha=1.0 if config["label"] == "80/20 Winner Core (Aggressive)" else 0.9,
         )
 
     ax.set_title("NAV Comparison (2020-01-01 to 2026-04-16)", fontsize=14, fontweight="bold")
@@ -96,7 +99,7 @@ def plot_risk_return(ax: plt.Axes, frame: pd.DataFrame) -> None:
         ax.scatter(
             row["cagr"] * 100,
             row["max_drawdown"] * 100,
-            s=220 if row["label"] == "80/20 Winner Core" else 140,
+            s=220 if row["label"] == "80/20 Winner Core (Aggressive)" else 140,
             color=row["color"],
             alpha=0.95,
             edgecolors="white",
