@@ -30,36 +30,36 @@ This repo tracks *three winners in parallel* using weighted multi-window scoring
 
 ### Short-cycle Winner (30/30/40)
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__share_15_85_hold_4_6` (核心80_探索20_总市值底座_胜出者核心__比例15/85)
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `23.16%` / `0.8767` / `-23.00%` / `2.88`
+- Strategy: `core_explore_80_20_total_mv_winner_core__share_12_88_hold_4_6` (核心80_探索20_总市值底座_胜出者核心__比例12/88)
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `23.43%` / `0.8801` / `-23.07%` / `2.90`
 
 Window metrics (as of `2026-04-17`, weights: 2017-01=30%, 2020-01=30%, 2023-01=40%):
 
-- `2017-01-01` → `2026-04-17`: CAGR `18.40%`, Max DD `-23.05%`, Sharpe `0.8484`
-- `2020-01-01` → `2026-04-17`: CAGR `23.74%`, Max DD `-21.32%`, Sharpe `0.8772`
-- `2023-01-01` → `2026-04-17`: CAGR `26.31%`, Max DD `-24.22%`, Sharpe `0.8976`
+- `2017-01-01` → `2026-04-17`: CAGR `18.75%`, Max DD `-22.84%`, Sharpe `0.8570`
+- `2020-01-01` → `2026-04-17`: CAGR `24.16%`, Max DD `-21.47%`, Sharpe `0.8838`
+- `2023-01-01` → `2026-04-17`: CAGR `26.40%`, Max DD `-24.45%`, Sharpe `0.8946`
 
 ### Mid-cycle Winner (30/40/30)
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__share_15_85_hold_4_6` (核心80_探索20_总市值底座_胜出者核心__比例15/85)
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `22.91%` / `0.8747` / `-22.71%` / `2.87`
+- Strategy: `core_explore_80_20_total_mv_winner_core__share_12_88_hold_4_6` (核心80_探索20_总市值底座_胜出者核心__比例12/88)
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `23.21%` / `0.8790` / `-22.77%` / `2.88`
 
 Window metrics (as of `2026-04-17`, weights: 2017-01=30%, 2020-01=40%, 2023-01=30%):
 
-- `2017-01-01` → `2026-04-17`: CAGR `18.40%`, Max DD `-23.05%`, Sharpe `0.8484`
-- `2020-01-01` → `2026-04-17`: CAGR `23.74%`, Max DD `-21.32%`, Sharpe `0.8772`
-- `2023-01-01` → `2026-04-17`: CAGR `26.31%`, Max DD `-24.22%`, Sharpe `0.8976`
+- `2017-01-01` → `2026-04-17`: CAGR `18.75%`, Max DD `-22.84%`, Sharpe `0.8570`
+- `2020-01-01` → `2026-04-17`: CAGR `24.16%`, Max DD `-21.47%`, Sharpe `0.8838`
+- `2023-01-01` → `2026-04-17`: CAGR `26.40%`, Max DD `-24.45%`, Sharpe `0.8946`
 
 ### 2020-Window Winner (2020-only checkpoint)
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp` (核心80_探索20_总市值底座_胜出者核心__进攻10/90 快速加仓)
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `24.22%` / `0.8950` / `-24.66%` / `2.99`
+- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6` (核心80_探索20_总市值底座_胜出者核心__进攻10/90(4+6))
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `24.59%` / `0.8933` / `-21.46%` / `2.89`
 
 Window metrics (as of `2026-04-17`, weights: 2020-01=100%):
 
-- `2017-01-01` → `2026-04-17`: CAGR `20.81%`, Max DD `-22.50%`, Sharpe `0.9028`
-- `2020-01-01` → `2026-04-17`: CAGR `24.22%`, Max DD `-24.66%`, Sharpe `0.8950`
-- `2023-01-01` → `2026-04-17`: CAGR `22.81%`, Max DD `-23.75%`, Sharpe `0.8270`
+- `2017-01-01` → `2026-04-17`: CAGR `18.99%`, Max DD `-22.74%`, Sharpe `0.8620`
+- `2020-01-01` → `2026-04-17`: CAGR `24.59%`, Max DD `-21.46%`, Sharpe `0.8933`
+- `2023-01-01` → `2026-04-17`: CAGR `25.39%`, Max DD `-24.63%`, Sharpe `0.8675`
 
 <!-- AUTO:WEIGHTED-WINNERS:END -->
 
@@ -74,7 +74,7 @@ This strategy uses:
 - forward-adjusted prices
 - market-cap base weights
 - winner promotion from explore/seed into core
-- winner-core allocation tuned per track (current weighted winner: stable/promoted ≈ 15%/85%, holdings 4/6, ramp {1:1.00})
+- winner-core allocation tuned per track (current weighted winner: stable/promoted ≈ 12%/88%, holdings 4/6, ramp {1:1.00}; 2020-only winner: stable/promoted ≈ 10%/90%, holdings 4/6)
 - realistic buy/sell commissions and stamp duty
 
 ## Strategy Structure

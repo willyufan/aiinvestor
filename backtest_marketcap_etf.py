@@ -123,7 +123,25 @@ WINNER_CORE_VARIANTS = [
         "stable_core_max_holdings": 2,
         "promoted_core_max_holdings": 8,
         "promoted_core_stage_ramp": {1: 1.00},
-    }
+    },
+    {
+        "variant_id": "aggr_10_90_hold_4_6",
+        "variant_name": "进攻10/90(4+6)",
+        "winner_core_stable_share": 0.10,
+        "winner_core_promoted_share": 0.90,
+        "stable_core_max_holdings": 4,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+    },
+    {
+        "variant_id": "share_12_88_hold_4_6",
+        "variant_name": "比例12/88",
+        "winner_core_stable_share": 0.12,
+        "winner_core_promoted_share": 0.88,
+        "stable_core_max_holdings": 4,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+    },
 ]
 
 CORE_EXPLORE_RATIO_CONFIGS = [
