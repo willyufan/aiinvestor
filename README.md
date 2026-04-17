@@ -11,21 +11,49 @@ The project focuses on building and iterating a monthly-rebalanced stock selecti
 
 ## Current Best Strategy
 
-The current production candidate in this project is:
+This project no longer picks a single “best” strategy by one sample window.
+Instead, we keep **two tracked winners in parallel** using **weighted multi-window scoring** across:
 
-- `核心80_探索20_总市值底座_胜出者核心 (进攻10/90 快速加仓)`
+- `since_2017_01` (long window)
+- `since_2020_01` (mid window)
+- `since_2023_01` (short window)
 
-It is no longer judged by a single sample window. We now validate each promising version across three horizons at the same time:
+The automation updates the tracked winners and their latest metrics here:
 
-- `2017-01-01` to `2026-04-17`:
-  total return `472.27%`, CAGR `20.55%`, max drawdown `-22.50%`, Sharpe `0.8980`
-- `2020-01-01` to `2026-04-17`:
-  total return `282.72%`, CAGR `23.60%`, max drawdown `-24.66%`, Sharpe `0.8845`
-- `2023-01-01` to `2026-04-17`:
-  total return `92.11%`, CAGR `21.64%`, max drawdown `-23.75%`, Sharpe `0.8062`
+<!-- AUTO:WEIGHTED-WINNERS:START -->
 
-This aggressive variant is still the best all-around candidate on the longer `9Y` / `6Y` windows.
-On the shorter `3Y` window, the less aggressive `核心80_探索20_总市值底座_胜出者核心` currently has a slightly higher CAGR (`24.89%`) and a slightly better max drawdown (`-23.71%`), which is useful as an anti-overfitting cross-check.
+This repo tracks *two winners in parallel* using weighted multi-window scoring across the three validation windows:
+
+- `since_2017_01` (long window)
+- `since_2020_01` (mid window)
+- `since_2023_01` (short window)
+
+### Short-cycle Winner (30/30/40)
+
+- Strategy: `core_explore_80_20_total_mv_winner_core` (核心80_探索20_总市值底座_胜出者核心)
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `22.08%` / `0.8621` / `-22.61%` / `2.85`
+
+Window metrics (as of `2026-04-17`, weights: 2017-01=30%, 2020-01=30%, 2023-01=40%):
+
+- `2017-01-01` → `2026-04-17`: CAGR `17.74%`, Max DD `-22.86%`, Sharpe `0.8341`
+- `2020-01-01` → `2026-04-17`: CAGR `22.69%`, Max DD `-20.88%`, Sharpe `0.8631`
+- `2023-01-01` → `2026-04-17`: CAGR `24.89%`, Max DD `-23.71%`, Sharpe `0.8822`
+
+### Mid-cycle Winner (30/40/30)
+
+- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp` (核心80_探索20_总市值底座_胜出者核心__进攻10/90 快速加仓)
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `22.10%` / `0.8651` / `-23.74%` / `2.88`
+
+Window metrics (as of `2026-04-17`, weights: 2017-01=30%, 2020-01=40%, 2023-01=30%):
+
+- `2017-01-01` → `2026-04-17`: CAGR `20.55%`, Max DD `-22.50%`, Sharpe `0.8980`
+- `2020-01-01` → `2026-04-17`: CAGR `23.60%`, Max DD `-24.66%`, Sharpe `0.8845`
+- `2023-01-01` → `2026-04-17`: CAGR `21.64%`, Max DD `-23.75%`, Sharpe `0.8062`
+
+<!-- AUTO:WEIGHTED-WINNERS:END -->
+
+When the two winner tracks differ, we keep both (short-cycle vs mid-cycle) as an anti-overfitting guardrail.
+The comparison chart in `docs/strategy_comparison.png` highlights both winners.
 
 This strategy uses:
 
