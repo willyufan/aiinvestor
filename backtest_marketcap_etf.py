@@ -2768,11 +2768,18 @@ def main(argv: list[str] | None = None) -> None:
                         print_summary(summary, latest_weights)
                         append_comparison_row(comparison_rows, summary)
 
-                    if (
-                        ratio_config["strategy_id"] == "core_explore_80_20"
-                        and base_weight_config["base_weight_method"] == "total_mv"
+                    should_run_winner_core_variants = (
+                        base_weight_config["base_weight_method"] == "total_mv"
                         and core_source_config["core_source_mode"] == "winner_core"
-                    ):
+                        and (
+                            (not selected_base_ids and ratio_config["strategy_id"] == "core_explore_80_20")
+                            or any(
+                                f"{strategy_base_id}__{variant['variant_id']}" in selected_base_ids
+                                for variant in WINNER_CORE_VARIANTS
+                            )
+                        )
+                    )
+                    if should_run_winner_core_variants:
                         for variant in WINNER_CORE_VARIANTS:
                             variant_base_id = f"{strategy_base_id}__{variant['variant_id']}"
                             if selected_base_ids and variant_base_id not in selected_base_ids:
