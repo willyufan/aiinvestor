@@ -212,6 +212,8 @@ The project has already been initialized as a git repository and synced to GitHu
 
 图中最关键的策略包括：
 
+- `Large Cap Static`：你最早给定的大市值池，当前放在 `2020-01` 与 `2023-01` 两个窗口里作为静态参考
+- `Kechuang Static`：你最早给定的科创池，因科创板发布时间较晚，只放在 `2020-01` 与 `2023-01` 两个窗口
 - `80/20 Index Core`：优化前的动态基线
 - `80/20 Winner Core`：标准版胜出者核心
 - `80/20 Winner Core (Aggressive)`：当前长中样本的最佳动态版本
