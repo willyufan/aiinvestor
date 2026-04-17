@@ -18,38 +18,21 @@ RESULTS_DIR = ROOT / "results"
 DOCS_DIR = ROOT / "docs"
 OUTPUT_PATH = DOCS_DIR / "strategy_comparison.png"
 
+SAMPLE_WINDOWS = [
+    {"sample_tag": "since_2017_01", "title": "9Y Window (Since 2017-01)", "short_label": "2017-01"},
+    {"sample_tag": "since_2020_01", "title": "6Y Window (Since 2020-01)", "short_label": "2020-01"},
+    {"sample_tag": "since_2023_01", "title": "3Y Window (Since 2023-01)", "short_label": "2023-01"},
+]
 
 STRATEGIES = [
+    {"base_id": "core_explore_80_20_total_mv_index_core", "label": "80/20 Index Core", "color": "#94a3b8"},
+    {"base_id": "core_explore_80_20_total_mv_winner_core", "label": "80/20 Winner Core", "color": "#2563eb"},
     {
-        "label": "Large Cap Static",
-        "summary": RESULTS_DIR / "large_cap_pool" / "summary.json",
-        "equity": RESULTS_DIR / "large_cap_pool" / "equity_curve.csv",
-        "color": "#0f766e",
-    },
-    {
-        "label": "Kechuang Static",
-        "summary": RESULTS_DIR / "kechuang_xuangu" / "summary.json",
-        "equity": RESULTS_DIR / "kechuang_xuangu" / "equity_curve.csv",
-        "color": "#1d4ed8",
-    },
-    {
-        "label": "80/20 Index Core",
-        "summary": RESULTS_DIR / "core_explore_80_20_total_mv_index_core" / "summary.json",
-        "equity": RESULTS_DIR / "core_explore_80_20_total_mv_index_core" / "equity_curve.csv",
-        "color": "#94a3b8",
-    },
-    {
+        "base_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp",
         "label": "80/20 Winner Core (Aggressive)",
-        "summary": RESULTS_DIR / "core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp" / "summary.json",
-        "equity": RESULTS_DIR / "core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp" / "equity_curve.csv",
         "color": "#dc2626",
     },
-    {
-        "label": "Pure Core 6",
-        "summary": RESULTS_DIR / "pure_core_growth_6" / "summary.json",
-        "equity": RESULTS_DIR / "pure_core_growth_6" / "equity_curve.csv",
-        "color": "#7c3aed",
-    },
+    {"base_id": "pure_core_growth_6", "label": "Pure Core 6", "color": "#7c3aed"},
 ]
 
 
@@ -58,10 +41,14 @@ def load_summary(path: Path) -> dict:
         return json.load(f)
 
 
-def build_comparison_frame() -> pd.DataFrame:
+def build_result_path(base_id: str, sample_tag: str, filename: str) -> Path:
+    return RESULTS_DIR / f"{base_id}__{sample_tag}" / filename
+
+
+def build_comparison_frame(sample_tag: str) -> pd.DataFrame:
     rows: list[dict] = []
     for config in STRATEGIES:
-        summary = load_summary(config["summary"])
+        summary = load_summary(build_result_path(config["base_id"], sample_tag, "summary.json"))
         metrics = summary["metrics"]
         rows.append(
             {
@@ -76,30 +63,31 @@ def build_comparison_frame() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def plot_nav_curves(ax: plt.Axes) -> None:
+def plot_nav_curves(ax: plt.Axes, sample_tag: str, title: str) -> None:
     for config in STRATEGIES:
-        equity = pd.read_csv(config["equity"], parse_dates=["date"])
+        equity = pd.read_csv(build_result_path(config["base_id"], sample_tag, "equity_curve.csv"), parse_dates=["date"])
+        highlight = config["label"] == "80/20 Winner Core (Aggressive)"
         ax.plot(
             equity["date"],
             equity["nav"],
             label=config["label"],
             color=config["color"],
-            linewidth=2.6 if config["label"] == "80/20 Winner Core (Aggressive)" else 1.8,
-            alpha=1.0 if config["label"] == "80/20 Winner Core (Aggressive)" else 0.9,
+            linewidth=2.8 if highlight else 1.8,
+            alpha=1.0 if highlight else 0.9,
         )
 
-    ax.set_title("NAV Comparison (2020-01-01 to 2026-04-16)", fontsize=14, fontweight="bold")
+    ax.set_title(title, fontsize=13, fontweight="bold")
     ax.set_ylabel("NAV")
     ax.grid(alpha=0.25)
-    ax.legend(loc="upper left", ncol=2, frameon=False)
 
 
-def plot_risk_return(ax: plt.Axes, frame: pd.DataFrame) -> None:
+def plot_risk_return(ax: plt.Axes, frame: pd.DataFrame, title: str) -> None:
     for _, row in frame.iterrows():
+        highlight = row["label"] == "80/20 Winner Core (Aggressive)"
         ax.scatter(
             row["cagr"] * 100,
             row["max_drawdown"] * 100,
-            s=220 if row["label"] == "80/20 Winner Core (Aggressive)" else 140,
+            s=220 if highlight else 140,
             color=row["color"],
             alpha=0.95,
             edgecolors="white",
@@ -110,19 +98,19 @@ def plot_risk_return(ax: plt.Axes, frame: pd.DataFrame) -> None:
             (row["cagr"] * 100, row["max_drawdown"] * 100),
             xytext=(8, 6),
             textcoords="offset points",
-            fontsize=9,
+            fontsize=8.5,
         )
 
     ax.axvline(0, color="#cbd5e1", linewidth=1)
-    ax.set_title("Risk / Return Positioning", fontsize=14, fontweight="bold")
+    ax.set_title(f"{title} Risk / Return", fontsize=12, fontweight="bold")
     ax.set_xlabel("CAGR (%)")
-    ax.set_ylabel("Max Drawdown (%)")
+    ax.set_ylabel("Max DD (%)")
     ax.grid(alpha=0.25)
 
 
-def plot_metric_table(ax: plt.Axes, frame: pd.DataFrame) -> None:
+def plot_metric_table(ax: plt.Axes, frame: pd.DataFrame, title: str) -> None:
     table_frame = frame.copy()
-    table_frame["total_return"] = (table_frame["total_return"] * 100).map(lambda x: f"{x:.2f}%")
+    table_frame["total_return"] = (table_frame["total_return"] * 100).map(lambda x: f"{x:.1f}%")
     table_frame["cagr"] = (table_frame["cagr"] * 100).map(lambda x: f"{x:.2f}%")
     table_frame["max_drawdown"] = (table_frame["max_drawdown"] * 100).map(lambda x: f"{x:.2f}%")
     table_frame["sharpe_ratio"] = table_frame["sharpe_ratio"].map(lambda x: f"{x:.3f}")
@@ -130,6 +118,7 @@ def plot_metric_table(ax: plt.Axes, frame: pd.DataFrame) -> None:
     table_frame.columns = ["Strategy", "Total Return", "CAGR", "Max DD", "Sharpe"]
 
     ax.axis("off")
+    ax.set_title(f"{title} Metrics", fontsize=12, fontweight="bold", pad=8)
     table = ax.table(
         cellText=table_frame.values,
         colLabels=table_frame.columns,
@@ -138,8 +127,8 @@ def plot_metric_table(ax: plt.Axes, frame: pd.DataFrame) -> None:
         loc="center",
     )
     table.auto_set_font_size(False)
-    table.set_fontsize(9)
-    table.scale(1, 1.4)
+    table.set_fontsize(8)
+    table.scale(1, 1.35)
 
     for (row, col), cell in table.get_celld().items():
         cell.set_edgecolor("#cbd5e1")
@@ -150,21 +139,24 @@ def plot_metric_table(ax: plt.Axes, frame: pd.DataFrame) -> None:
 
 def main() -> None:
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
-    frame = build_comparison_frame()
-
     plt.style.use("seaborn-v0_8-whitegrid")
-    fig = plt.figure(figsize=(14, 10), constrained_layout=True)
-    grid = fig.add_gridspec(3, 1, height_ratios=[2.0, 1.4, 1.2])
+    fig, axes = plt.subplots(
+        3,
+        len(SAMPLE_WINDOWS),
+        figsize=(18, 12),
+        constrained_layout=True,
+        gridspec_kw={"height_ratios": [2.0, 1.4, 1.6]},
+    )
 
-    ax_nav = fig.add_subplot(grid[0, 0])
-    ax_scatter = fig.add_subplot(grid[1, 0])
-    ax_table = fig.add_subplot(grid[2, 0])
+    for col_idx, sample_window in enumerate(SAMPLE_WINDOWS):
+        frame = build_comparison_frame(sample_window["sample_tag"])
+        plot_nav_curves(axes[0, col_idx], sample_window["sample_tag"], sample_window["title"])
+        plot_risk_return(axes[1, col_idx], frame, sample_window["short_label"])
+        plot_metric_table(axes[2, col_idx], frame, sample_window["short_label"])
 
-    plot_nav_curves(ax_nav)
-    plot_risk_return(ax_scatter, frame)
-    plot_metric_table(ax_table, frame)
-
-    fig.suptitle("aiinvestor Strategy Comparison", fontsize=18, fontweight="bold")
+    handles, labels = axes[0, 0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="upper center", ncol=4, frameon=False, bbox_to_anchor=(0.5, 1.02))
+    fig.suptitle("aiinvestor Strategy Comparison Across 9Y / 6Y / 3Y Windows", fontsize=18, fontweight="bold")
     fig.savefig(OUTPUT_PATH, dpi=180, bbox_inches="tight")
 
 

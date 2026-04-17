@@ -20,7 +20,32 @@ import matplotlib.pyplot as plt
 
 
 TOKEN = "REDACTED_TOKEN_DAILY"
-START_DATE = pd.Timestamp("2020-01-01")
+PRIMARY_SAMPLE_START = pd.Timestamp("2020-01-01")
+ROBUSTNESS_SAMPLE_START = pd.Timestamp("2017-01-01")
+SHORT_SAMPLE_START = pd.Timestamp("2023-01-01")
+BACKTEST_SAMPLE_WINDOWS = [
+    {
+        "sample_tag": "since_2020_01",
+        "sample_label": "2020-01 起",
+        "sample_short_label": "2020-01",
+        "sample_start": PRIMARY_SAMPLE_START,
+        "is_primary_sample": True,
+    },
+    {
+        "sample_tag": "since_2017_01",
+        "sample_label": "2017-01 起",
+        "sample_short_label": "2017-01",
+        "sample_start": ROBUSTNESS_SAMPLE_START,
+        "is_primary_sample": False,
+    },
+    {
+        "sample_tag": "since_2023_01",
+        "sample_label": "2023-01 起",
+        "sample_short_label": "2023-01",
+        "sample_start": SHORT_SAMPLE_START,
+        "is_primary_sample": False,
+    },
+]
 BUY_COMMISSION = 0.0003
 SELL_COMMISSION = 0.0003
 STAMP_DUTY_PRE_20230828 = 0.001
@@ -283,7 +308,9 @@ def load_or_fetch_trade_calendar(pro, start_date: pd.Timestamp, end_date: pd.Tim
     return calendar
 
 
-def build_pool_output_dir(pool_id: str) -> Path:
+def build_pool_output_dir(pool_id: str, sample_tag: str | None = None) -> Path:
+    if sample_tag:
+        return RESULTS_DIR / f"{pool_id}__{sample_tag}"
     return RESULTS_DIR / pool_id
 
 
@@ -1969,6 +1996,43 @@ def save_pool_comparison(comparison_rows: List[Dict[str, object]]) -> None:
     save_csv(comparison_df, RESULTS_DIR / "strategy_comparison_base_method.csv")
 
 
+def append_comparison_row(comparison_rows: List[Dict[str, object]], summary: Dict[str, object]) -> None:
+    metrics = summary["metrics"]
+    comparison_rows.append(
+        {
+            "strategy_id": summary["strategy_id"],
+            "strategy_base_id": summary.get("strategy_base_id", summary["strategy_id"]),
+            "strategy_name": summary["strategy_name"],
+            "strategy_base_name": summary.get("strategy_base_name", summary["strategy_name"]),
+            "strategy_kind": summary.get("strategy_kind", "core_explore"),
+            "pool_id": summary["pool_id"],
+            "pool_name": summary["pool_name"],
+            "sample_start": summary["sample_start"],
+            "sample_end": summary["sample_end"],
+            "sample_tag": summary.get("sample_tag", ""),
+            "sample_label": summary.get("sample_label", ""),
+            "sample_short_label": summary.get("sample_short_label", ""),
+            "is_primary_sample": summary.get("is_primary_sample", False),
+            "stock_count": summary["stock_count"],
+            "base_weight_method": summary["base_weight_method"],
+            "base_weight_name": summary["base_weight_name"],
+            "core_source_mode": summary["core_source_mode"],
+            "core_source_name": summary["core_source_name"],
+            "core_ratio": summary["core_ratio"],
+            "explore_ratio": summary["explore_ratio"],
+            "pure_core_max_holdings": summary.get("pure_core_max_holdings", 0),
+            "total_return": metrics["total_return"],
+            "cagr": metrics["cagr"],
+            "max_drawdown": metrics["max_drawdown"],
+            "annual_volatility": metrics["annual_volatility"],
+            "sharpe_ratio": metrics["sharpe_ratio"],
+            "monthly_win_rate": metrics["monthly_win_rate"],
+            "average_annual_turnover": metrics["average_annual_turnover"],
+            "cumulative_trading_cost": metrics["cumulative_trading_cost"],
+        }
+    )
+
+
 def update_streak_map(
     streak_map: Dict[str, int],
     positive_codes: Set[str],
@@ -2069,6 +2133,11 @@ def run_backtest(
     prepared: PreparedData,
     strategy_config: Dict[str, object],
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, Dict[str, object]]:
+    sample_start = pd.Timestamp(strategy_config.get("sample_start", PRIMARY_SAMPLE_START))
+    sample_tag = str(strategy_config.get("sample_tag", "since_2020_01"))
+    sample_label = str(strategy_config.get("sample_label", "2020-01 起"))
+    sample_short_label = str(strategy_config.get("sample_short_label", "2020-01"))
+    is_primary_sample = bool(strategy_config.get("is_primary_sample", sample_start == PRIMARY_SAMPLE_START))
     price_exact = prepared.price_exact
     price_ffill = prepared.price_ffill
     total_mv = prepared.total_mv
@@ -2079,7 +2148,7 @@ def run_backtest(
 
     report_start_idx = None
     for idx in range(len(prepared.month_end_dates) - 1):
-        if prepared.month_end_dates[idx + 1] >= START_DATE:
+        if prepared.month_end_dates[idx + 1] >= sample_start:
             report_start_idx = idx
             break
     if report_start_idx is None:
@@ -2098,7 +2167,7 @@ def run_backtest(
     monthly_rows: List[Dict[str, object]] = []
     turnover_rows: List[Dict[str, object]] = []
     equity_rows: List[Dict[str, object]] = [
-        {"date": START_DATE, "portfolio_return": 0.0, "nav": 1.0, "drawdown": 0.0, "trading_cost": 0.0}
+        {"date": sample_start, "portfolio_return": 0.0, "nav": 1.0, "drawdown": 0.0, "trading_cost": 0.0}
     ]
 
     for idx in range(report_start_idx, len(prepared.month_end_dates) - 1):
@@ -2506,11 +2575,17 @@ def run_backtest(
         momentum_lookback_rule = "核心层优先使用 12-1 动量；探索/种子层使用 6-1、3-1 与 20 日突破的组合信号"
 
     summary = {
-        "sample_start": START_DATE.strftime("%Y-%m-%d"),
+        "sample_start": sample_start.strftime("%Y-%m-%d"),
         "sample_end": prepared.month_end_dates[-1].strftime("%Y-%m-%d"),
+        "sample_tag": sample_tag,
+        "sample_label": sample_label,
+        "sample_short_label": sample_short_label,
+        "is_primary_sample": is_primary_sample,
         "stock_count": len(prepared.code_to_name),
         "strategy_name": str(strategy_config["strategy_name"]),
         "strategy_id": str(strategy_config["strategy_id"]),
+        "strategy_base_name": str(strategy_config.get("strategy_base_name", strategy_config["strategy_name"])),
+        "strategy_base_id": str(strategy_config.get("strategy_base_id", strategy_config["strategy_id"])),
         "strategy_kind": strategy_kind,
         "base_weight_method": str(strategy_config["base_weight_method"]),
         "base_weight_name": str(strategy_config["base_weight_name"]),
@@ -2606,155 +2681,83 @@ def main() -> None:
     end_date = pd.Timestamp.today().normalize()
     pro = ts.pro_api(TOKEN)
     comparison_rows: List[Dict[str, object]] = []
-    prepared = prepare_data(pro, START_DATE, end_date)
+    data_start = min(window["sample_start"] for window in BACKTEST_SAMPLE_WINDOWS)
+    prepared = prepare_data(pro, data_start, end_date)
 
-    for core_source_config in CORE_SOURCE_MODES:
-        for base_weight_config in BASE_WEIGHT_METHODS:
-            for ratio_config in CORE_EXPLORE_RATIO_CONFIGS:
-                strategy_config = {
-                    **ratio_config,
-                    **base_weight_config,
-                    **core_source_config,
-                    "strategy_id": f"{ratio_config['strategy_id']}_{base_weight_config['base_weight_method']}_{core_source_config['core_source_mode']}",
-                    "strategy_name": f"{ratio_config['strategy_name']}_{base_weight_config['base_weight_name']}_{core_source_config['core_source_name']}",
-                }
-                strategy_id = str(strategy_config["strategy_id"])
-                strategy_name = str(strategy_config["strategy_name"])
-                equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary = run_backtest(prepared, strategy_config)
-                summary["pool_id"] = "dynamic_index_core_explore_universe"
-                summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
-                output_dir = build_pool_output_dir(strategy_id)
-                save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
-                print_summary(summary, latest_weights)
-
-                metrics = summary["metrics"]
-                comparison_rows.append(
-                    {
-                        "strategy_id": strategy_id,
-                        "strategy_name": strategy_name,
-                        "strategy_kind": summary.get("strategy_kind", "core_explore"),
-                        "pool_id": summary["pool_id"],
-                        "pool_name": summary["pool_name"],
-                        "sample_start": summary["sample_start"],
-                        "sample_end": summary["sample_end"],
-                        "stock_count": summary["stock_count"],
-                        "base_weight_method": summary["base_weight_method"],
-                        "base_weight_name": summary["base_weight_name"],
-                        "core_source_mode": summary["core_source_mode"],
-                        "core_source_name": summary["core_source_name"],
-                        "core_ratio": summary["core_ratio"],
-                        "explore_ratio": summary["explore_ratio"],
-                        "pure_core_max_holdings": summary.get("pure_core_max_holdings", 0),
-                        "total_return": metrics["total_return"],
-                        "cagr": metrics["cagr"],
-                        "max_drawdown": metrics["max_drawdown"],
-                        "annual_volatility": metrics["annual_volatility"],
-                        "sharpe_ratio": metrics["sharpe_ratio"],
-                        "monthly_win_rate": metrics["monthly_win_rate"],
-                        "average_annual_turnover": metrics["average_annual_turnover"],
-                        "cumulative_trading_cost": metrics["cumulative_trading_cost"],
+    for sample_window in BACKTEST_SAMPLE_WINDOWS:
+        for core_source_config in CORE_SOURCE_MODES:
+            for base_weight_config in BASE_WEIGHT_METHODS:
+                for ratio_config in CORE_EXPLORE_RATIO_CONFIGS:
+                    strategy_base_id = f"{ratio_config['strategy_id']}_{base_weight_config['base_weight_method']}_{core_source_config['core_source_mode']}"
+                    strategy_base_name = f"{ratio_config['strategy_name']}_{base_weight_config['base_weight_name']}_{core_source_config['core_source_name']}"
+                    strategy_config = {
+                        **ratio_config,
+                        **base_weight_config,
+                        **core_source_config,
+                        **sample_window,
+                        "strategy_base_id": strategy_base_id,
+                        "strategy_base_name": strategy_base_name,
+                        "strategy_id": f"{strategy_base_id}__{sample_window['sample_tag']}",
+                        "strategy_name": f"{strategy_base_name} ({sample_window['sample_label']})",
                     }
-                )
+                    equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary = run_backtest(prepared, strategy_config)
+                    summary["pool_id"] = "dynamic_index_core_explore_universe"
+                    summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
+                    output_dir = build_pool_output_dir(strategy_base_id, str(sample_window["sample_tag"]))
+                    save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
+                    print_summary(summary, latest_weights)
+                    append_comparison_row(comparison_rows, summary)
 
-                if (
-                    ratio_config["strategy_id"] == "core_explore_80_20"
-                    and base_weight_config["base_weight_method"] == "total_mv"
-                    and core_source_config["core_source_mode"] == "winner_core"
-                ):
-                    for variant in WINNER_CORE_VARIANTS:
-                        variant_config = {
-                            **strategy_config,
-                            **variant,
-                            "strategy_id": f"{strategy_id}__{variant['variant_id']}",
-                            "strategy_name": f"{strategy_name}__{variant['variant_name']}",
-                        }
-                        variant_id = str(variant_config["strategy_id"])
-                        variant_name = str(variant_config["strategy_name"])
-                        equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary = run_backtest(prepared, variant_config)
-                        summary["pool_id"] = "dynamic_index_core_explore_universe"
-                        summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
-                        output_dir = build_pool_output_dir(variant_id)
-                        save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
-                        print_summary(summary, latest_weights)
-
-                        metrics = summary["metrics"]
-                        comparison_rows.append(
-                            {
-                                "strategy_id": variant_id,
-                                "strategy_name": variant_name,
-                                "strategy_kind": summary.get("strategy_kind", "core_explore"),
-                                "pool_id": summary["pool_id"],
-                                "pool_name": summary["pool_name"],
-                                "sample_start": summary["sample_start"],
-                                "sample_end": summary["sample_end"],
-                                "stock_count": summary["stock_count"],
-                                "base_weight_method": summary["base_weight_method"],
-                                "base_weight_name": summary["base_weight_name"],
-                                "core_source_mode": summary["core_source_mode"],
-                                "core_source_name": summary["core_source_name"],
-                                "core_ratio": summary["core_ratio"],
-                                "explore_ratio": summary["explore_ratio"],
-                                "pure_core_max_holdings": summary.get("pure_core_max_holdings", 0),
-                                "total_return": metrics["total_return"],
-                                "cagr": metrics["cagr"],
-                                "max_drawdown": metrics["max_drawdown"],
-                                "annual_volatility": metrics["annual_volatility"],
-                                "sharpe_ratio": metrics["sharpe_ratio"],
-                                "monthly_win_rate": metrics["monthly_win_rate"],
-                                "average_annual_turnover": metrics["average_annual_turnover"],
-                                "cumulative_trading_cost": metrics["cumulative_trading_cost"],
+                    if (
+                        ratio_config["strategy_id"] == "core_explore_80_20"
+                        and base_weight_config["base_weight_method"] == "total_mv"
+                        and core_source_config["core_source_mode"] == "winner_core"
+                    ):
+                        for variant in WINNER_CORE_VARIANTS:
+                            variant_base_id = f"{strategy_base_id}__{variant['variant_id']}"
+                            variant_base_name = f"{strategy_base_name}__{variant['variant_name']}"
+                            variant_config = {
+                                **strategy_config,
+                                **variant,
+                                "strategy_base_id": variant_base_id,
+                                "strategy_base_name": variant_base_name,
+                                "strategy_id": f"{variant_base_id}__{sample_window['sample_tag']}",
+                                "strategy_name": f"{variant_base_name} ({sample_window['sample_label']})",
                             }
-                        )
+                            equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary = run_backtest(prepared, variant_config)
+                            summary["pool_id"] = "dynamic_index_core_explore_universe"
+                            summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
+                            output_dir = build_pool_output_dir(variant_base_id, str(sample_window["sample_tag"]))
+                            save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
+                            print_summary(summary, latest_weights)
+                            append_comparison_row(comparison_rows, summary)
 
-    for pure_core_config in PURE_CORE_GROWTH_CONFIGS:
-        strategy_config = {
-            **pure_core_config,
-            "strategy_kind": "pure_core_growth",
-            "base_weight_method": "total_mv",
-            "base_weight_name": "总市值底座",
-            "core_source_mode": "pure_core_growth",
-            "core_source_name": "纯核心成长",
-            "core_ratio": 1.0,
-            "explore_ratio": 0.0,
-            "pure_core_max_holdings": pure_core_config["max_holdings"],
-        }
-        strategy_id = str(strategy_config["strategy_id"])
-        strategy_name = str(strategy_config["strategy_name"])
-        equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary = run_backtest(prepared, strategy_config)
-        summary["pool_id"] = "dynamic_index_core_explore_universe"
-        summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
-        output_dir = build_pool_output_dir(strategy_id)
-        save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
-        print_summary(summary, latest_weights)
-
-        metrics = summary["metrics"]
-        comparison_rows.append(
-            {
-                "strategy_id": strategy_id,
-                "strategy_name": strategy_name,
-                "strategy_kind": summary.get("strategy_kind", "pure_core_growth"),
-                "pool_id": summary["pool_id"],
-                "pool_name": summary["pool_name"],
-                "sample_start": summary["sample_start"],
-                "sample_end": summary["sample_end"],
-                "stock_count": summary["stock_count"],
-                "base_weight_method": summary["base_weight_method"],
-                "base_weight_name": summary["base_weight_name"],
-                "core_source_mode": summary["core_source_mode"],
-                "core_source_name": summary["core_source_name"],
-                "core_ratio": summary["core_ratio"],
-                "explore_ratio": summary["explore_ratio"],
-                "pure_core_max_holdings": summary.get("pure_core_max_holdings", 0),
-                "total_return": metrics["total_return"],
-                "cagr": metrics["cagr"],
-                "max_drawdown": metrics["max_drawdown"],
-                "annual_volatility": metrics["annual_volatility"],
-                "sharpe_ratio": metrics["sharpe_ratio"],
-                "monthly_win_rate": metrics["monthly_win_rate"],
-                "average_annual_turnover": metrics["average_annual_turnover"],
-                "cumulative_trading_cost": metrics["cumulative_trading_cost"],
+        for pure_core_config in PURE_CORE_GROWTH_CONFIGS:
+            strategy_base_id = str(pure_core_config["strategy_id"])
+            strategy_base_name = str(pure_core_config["strategy_name"])
+            strategy_config = {
+                **pure_core_config,
+                **sample_window,
+                "strategy_kind": "pure_core_growth",
+                "strategy_base_id": strategy_base_id,
+                "strategy_base_name": strategy_base_name,
+                "strategy_id": f"{strategy_base_id}__{sample_window['sample_tag']}",
+                "strategy_name": f"{strategy_base_name} ({sample_window['sample_label']})",
+                "base_weight_method": "total_mv",
+                "base_weight_name": "总市值底座",
+                "core_source_mode": "pure_core_growth",
+                "core_source_name": "纯核心成长",
+                "core_ratio": 1.0,
+                "explore_ratio": 0.0,
+                "pure_core_max_holdings": pure_core_config["max_holdings"],
             }
-        )
+            equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary = run_backtest(prepared, strategy_config)
+            summary["pool_id"] = "dynamic_index_core_explore_universe"
+            summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
+            output_dir = build_pool_output_dir(strategy_base_id, str(sample_window["sample_tag"]))
+            save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
+            print_summary(summary, latest_weights)
+            append_comparison_row(comparison_rows, summary)
 
     save_pool_comparison(comparison_rows)
 

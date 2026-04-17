@@ -11,15 +11,21 @@ The project focuses on building and iterating a monthly-rebalanced stock selecti
 
 ## Current Best Strategy
 
-The current best-performing dynamic-market-discovery version in this project is:
+The current production candidate in this project is:
 
 - `核心80_探索20_总市值底座_胜出者核心 (进攻10/90 快速加仓)`
-- sample period: `2020-01-01` to `2026-04-16`
-- total return: `296.82%`
-- CAGR: `24.31%`
-- max drawdown: `-19.82%`
-- annual volatility: `28.07%`
-- Sharpe ratio: `0.9098`
+
+It is no longer judged by a single sample window. We now validate each promising version across three horizons at the same time:
+
+- `2017-01-01` to `2026-04-17`:
+  total return `472.27%`, CAGR `20.55%`, max drawdown `-22.50%`, Sharpe `0.8980`
+- `2020-01-01` to `2026-04-17`:
+  total return `282.72%`, CAGR `23.60%`, max drawdown `-24.66%`, Sharpe `0.8845`
+- `2023-01-01` to `2026-04-17`:
+  total return `92.11%`, CAGR `21.64%`, max drawdown `-23.75%`, Sharpe `0.8062`
+
+This aggressive variant is still the best all-around candidate on the longer `9Y` / `6Y` windows.
+On the shorter `3Y` window, the less aggressive `核心80_探索20_总市值底座_胜出者核心` currently has a slightly higher CAGR (`24.89%`) and a slightly better max drawdown (`-23.71%`), which is useful as an anti-overfitting cross-check.
 
 This strategy uses:
 
@@ -138,15 +144,31 @@ The project has already been initialized as a git repository and synced to GitHu
 4. 核心内部拆成“稳定核心 + 晋升核心”  
    稳定核心更偏成熟龙头，晋升核心更偏正在走强的新胜出者，组合层面兼顾稳定性和超额收益。
 
-### 最新一轮迭代结果
+### 三窗口验证结果
+
+为了减少过拟合风险，当前每个重要策略都会同时跑三档样本：
+
+- `2017-01 起`：长样本，约 9 年
+- `2020-01 起`：中样本，约 6 年
+- `2023-01 起`：短样本，约 3 年
+
+当前“生产候选版本”仍然是：
+
+- `核心80_探索20_总市值底座_胜出者核心 (进攻10/90 快速加仓)`
+
+它在三档样本里的表现分别是：
+
+- `2017-01 起`：累计收益 `472.27%`，CAGR `20.55%`，最大回撤 `-22.50%`，夏普 `0.8980`
+- `2020-01 起`：累计收益 `282.72%`，CAGR `23.60%`，最大回撤 `-24.66%`，夏普 `0.8845`
+- `2023-01 起`：累计收益 `92.11%`，CAGR `21.64%`，最大回撤 `-23.75%`，夏普 `0.8062`
 
 以 `核心80_探索20_总市值底座_指数核心` 作为优化前基线，对比优化后的 `核心80_探索20_总市值底座_胜出者核心 (进攻10/90 快速加仓)`：
 
-- 累计收益从 `80.76%` 提升到 `296.82%`
-- CAGR 从 `9.80%` 提升到 `24.31%`
-- 最大回撤从 `-26.48%` 改善到 `-19.82%`
-- 夏普从 `0.4690` 提升到 `0.9098`
-- 最新组合持仓进一步收敛到 `11` 只，且前 10 大权重约 `55.31%`
+- `2020-01` 主样本里，累计收益从 `83.19%` 提升到 `282.72%`
+- `2020-01` 主样本里，CAGR 从 `10.03%` 提升到 `23.60%`
+- `2017-01` 长样本里，累计收益从 `105.60%` 提升到 `472.27%`
+- `2017-01` 长样本里，CAGR 从 `8.03%` 提升到 `20.55%`
+- 最新组合持仓仍然明显集中在少数胜出者核心上
 
 这一轮新增的关键动作是：
 
@@ -154,7 +176,7 @@ The project has already been initialized as a git repository and synced to GitHu
 - 把风险状态下的卫星仓暴露进一步收缩到 `0.30`，让探索 / 种子层在逆风期更主动减仓
 - 把核心内部权重进一步调整为 `稳定核心 10% + 晋升核心 90%`，并把新晋升核心的加仓节奏提前，让真正跑出来的胜出者更早拿到更高权重
 
-这说明当前动态发现框架已经不只是“能跑通”，而是开始出现比较像样的超额收益能力。
+这说明当前动态发现框架已经不只是“能跑通”，而是在长中短三档窗口里都具备了比较稳定的超额收益能力。
 
 但也要明确一点：
 
@@ -168,14 +190,31 @@ The project has already been initialized as a git repository and synced to GitHu
 - 但它还没有做到“比后视镜精选冠军池更早、更重地抓住真正的大牛股”
 - 下一步最有价值的方向，仍然是继续加强探索 / 种子层的早期发现能力，而不是把仓位继续往纯核心集中上推
 
+另外，短窗口也给了一个重要提示：
+
+- `2023-01` 这档短样本里，最好的并不是“进攻10/90 快速加仓”，而是标准版 `核心80_探索20_总市值底座_胜出者核心`
+- 这说明策略越激进，越容易在短窗口里出现表现顺序切换
+- 也正因为如此，README 和图表现在都会同时展示 `2017 / 2020 / 2023` 三档结果，而不再只看单一窗口
+
 ### 结果对比图
 
-下图对比了几个最关键版本：
+下图对比了几个最关键版本，并同时展示：
 
-- `Large Cap Static`：你最早给定的大市值池
-- `Kechuang Static`：你最早给定的科创选股池
+- `2017-01 起` 长样本
+- `2020-01 起` 中样本
+- `2023-01 起` 短样本
+
+每一列都包含：
+
+- 净值曲线
+- 风险收益散点
+- 指标表
+
+图中最关键的策略包括：
+
 - `80/20 Index Core`：优化前的动态基线
-- `80/20 Winner Core (Aggressive)`：当前优化后的最佳动态版本
+- `80/20 Winner Core`：标准版胜出者核心
+- `80/20 Winner Core (Aggressive)`：当前长中样本的最佳动态版本
 - `Pure Core 6`：纯核心集中实验版
 
 ![Strategy Comparison](docs/strategy_comparison.png)
