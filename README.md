@@ -30,25 +30,25 @@ This repo tracks *three winners in parallel* using weighted multi-window scoring
 
 ### Short-cycle Winner (30/30/40)
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom7` (核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升7只)
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `23.88%` / `0.8838` / `-22.94%` / `2.84`
+- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_ramp90` (核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(分步加仓))
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `24.69%` / `0.9124` / `-22.75%` / `2.85`
 
 Window metrics (as of `2026-04-17`, weights: 2017-01=30%, 2020-01=30%, 2023-01=40%):
 
-- `2017-01-01` → `2026-04-17`: CAGR `19.83%`, Max DD `-22.50%`, Sharpe `0.8652`
-- `2020-01-01` → `2026-04-17`: CAGR `24.19%`, Max DD `-22.28%`, Sharpe `0.9086`
-- `2023-01-01` → `2026-04-17`: CAGR `26.68%`, Max DD `-23.76%`, Sharpe `0.8791`
+- `2017-01-01` → `2026-04-17`: CAGR `22.33%`, Max DD `-22.02%`, Sharpe `0.9442`
+- `2020-01-01` → `2026-04-17`: CAGR `24.26%`, Max DD `-20.95%`, Sharpe `0.8945`
+- `2023-01-01` → `2026-04-17`: CAGR `26.78%`, Max DD `-24.63%`, Sharpe `0.9020`
 
 ### Mid-cycle Winner (30/40/30)
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6` (核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只)
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `23.89%` / `0.8788` / `-22.97%` / `2.89`
+- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_ramp90` (核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(分步加仓))
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `24.44%` / `0.9117` / `-22.38%` / `2.85`
 
 Window metrics (as of `2026-04-17`, weights: 2017-01=30%, 2020-01=40%, 2023-01=30%):
 
-- `2017-01-01` → `2026-04-17`: CAGR `20.01%`, Max DD `-22.76%`, Sharpe `0.8560`
-- `2020-01-01` → `2026-04-17`: CAGR `25.81%`, Max DD `-21.86%`, Sharpe `0.9173`
-- `2023-01-01` → `2026-04-17`: CAGR `25.22%`, Max DD `-24.67%`, Sharpe `0.8503`
+- `2017-01-01` → `2026-04-17`: CAGR `22.33%`, Max DD `-22.02%`, Sharpe `0.9442`
+- `2020-01-01` → `2026-04-17`: CAGR `24.26%`, Max DD `-20.95%`, Sharpe `0.8945`
+- `2023-01-01` → `2026-04-17`: CAGR `26.78%`, Max DD `-24.63%`, Sharpe `0.9020`
 
 ### 2020-Window Winner (2020-only checkpoint)
 
