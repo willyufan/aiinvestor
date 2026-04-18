@@ -377,13 +377,19 @@ def _slice_window_from_existing_results(base_id: str, sample_tag: str) -> dict[s
     candidate_dirs: list[Path] = []
     if base_id in STATIC_BASE_IDS:
         candidate_dirs = [RESULTS_DIR / base_id]
+    elif sample_tag == "since_2025_01":
+        # since_2025 is a dedicated window in this project: avoid path-dependent slicing from longer runs.
+        candidate_dirs = [RESULTS_DIR / f"{base_id}__since_2025_01"]
     else:
-        candidate_dirs = [
+        # Prefer a dedicated run for the requested window when available.
+        preferred = RESULTS_DIR / f"{base_id}__{sample_tag}"
+        fallbacks = [
             RESULTS_DIR / f"{base_id}__since_2025_01",
+            RESULTS_DIR / f"{base_id}__since_2023_01",
             RESULTS_DIR / f"{base_id}__since_2020_01",
             RESULTS_DIR / f"{base_id}__since_2017_01",
-            RESULTS_DIR / f"{base_id}__since_2023_01",
         ]
+        candidate_dirs = [preferred] + [path for path in fallbacks if path != preferred]
 
     for result_dir in candidate_dirs:
         equity_path = result_dir / "equity_curve.csv"
@@ -392,6 +398,12 @@ def _slice_window_from_existing_results(base_id: str, sample_tag: str) -> dict[s
         if not (equity_path.exists() and monthly_path.exists() and turnover_path.exists()):
             continue
         equity = pd.read_csv(equity_path, parse_dates=["date"])
+        if equity.empty or "date" not in equity.columns:
+            continue
+        earliest_date = pd.to_datetime(equity["date"], errors="coerce").min()
+        if pd.isna(earliest_date) or earliest_date > sample_start:
+            # The cached result doesn't cover the requested start date; don't mislabel it as a shorter/earlier window.
+            continue
         monthly_returns = pd.read_csv(monthly_path, parse_dates=["date"])
         turnover = pd.read_csv(turnover_path, parse_dates=["date"])
         equity_window = equity[equity["date"] >= sample_start].copy()
@@ -434,29 +446,32 @@ def _augment_with_synthetic_windows(latest: pd.DataFrame) -> pd.DataFrame:
         "since_2025_01": ("2025-01 起", "2025-01"),
     }
     for base_id in sorted(set(existing["strategy_base_id"].astype(str)) | STATIC_BASE_IDS):
-        for sample_tag, sample_start in SAMPLE_TAG_STARTS.items():
-            if (base_id, sample_tag) in existing_keys:
-                continue
-            metrics = _slice_window_from_existing_results(base_id, sample_tag)
-            if metrics is None:
-                continue
-            sample_label, sample_short_label = sample_labels[sample_tag]
-            needed_rows.append(
-                {
-                    "strategy_base_id": base_id,
-                    "strategy_base_name": base_name_map.get(base_id, base_id),
-                    "sample_tag": sample_tag,
-                    "sample_label": sample_label,
-                    "sample_short_label": sample_short_label,
-                    "sample_start": sample_start,
-                    "sample_end": sample_end_map.get(base_id, pd.Timestamp.today().normalize()),
-                    "cagr": metrics["cagr"],
-                    "sharpe_ratio": metrics["sharpe_ratio"],
-                    "max_drawdown": metrics["max_drawdown"],
-                    "average_annual_turnover": metrics["average_annual_turnover"],
-                    "total_return": metrics["total_return"],
-                }
-            )
+        # Only synthesize the since_2025 window: the base comparison CSV is intentionally limited to
+        # since_2017/2020/2023, and slicing longer runs into those windows is path-dependent.
+        sample_tag = "since_2025_01"
+        if (base_id, sample_tag) in existing_keys:
+            continue
+        metrics = _slice_window_from_existing_results(base_id, sample_tag)
+        if metrics is None:
+            continue
+        sample_start = SAMPLE_TAG_STARTS[sample_tag]
+        sample_label, sample_short_label = sample_labels[sample_tag]
+        needed_rows.append(
+            {
+                "strategy_base_id": base_id,
+                "strategy_base_name": base_name_map.get(base_id, base_id),
+                "sample_tag": sample_tag,
+                "sample_label": sample_label,
+                "sample_short_label": sample_short_label,
+                "sample_start": sample_start,
+                "sample_end": sample_end_map.get(base_id, pd.Timestamp.today().normalize()),
+                "cagr": metrics["cagr"],
+                "sharpe_ratio": metrics["sharpe_ratio"],
+                "max_drawdown": metrics["max_drawdown"],
+                "average_annual_turnover": metrics["average_annual_turnover"],
+                "total_return": metrics["total_return"],
+            }
+        )
     if not needed_rows:
         return existing
     return pd.concat([existing, pd.DataFrame(needed_rows)], ignore_index=True)
