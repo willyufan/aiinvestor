@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import argparse
+import ast
 import json
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any, Iterable
 
 import numpy as np
 import pandas as pd
@@ -13,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULTS_DIR = ROOT / "results"
 DEFAULT_COMPARISON_CSV = RESULTS_DIR / "strategy_comparison_base_method.csv"
 README_PATH = ROOT / "README.md"
+BACKTEST_SCRIPT_PATH = ROOT / "backtest_marketcap_etf.py"
 
 AUTO_START = "<!-- AUTO:WEIGHTED-WINNERS:START -->"
 AUTO_END = "<!-- AUTO:WEIGHTED-WINNERS:END -->"
@@ -38,6 +41,36 @@ class TrackMetrics:
     sharpe: float
     max_drawdown: float
     turnover: float
+
+
+def _parse_python_constants(path: Path, names: Iterable[str]) -> dict[str, Any]:
+    wanted = set(names)
+    result: dict[str, Any] = {}
+    node = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+    for stmt in node.body:
+        if not isinstance(stmt, ast.Assign):
+            continue
+        if len(stmt.targets) != 1 or not isinstance(stmt.targets[0], ast.Name):
+            continue
+        target = stmt.targets[0].id
+        if target not in wanted:
+            continue
+        result[target] = ast.literal_eval(stmt.value)
+        if len(result) == len(wanted):
+            break
+    missing = wanted - set(result)
+    if missing:
+        raise RuntimeError(f"Unable to extract constants from {path}: {sorted(missing)}")
+    return result
+
+
+def load_winner_core_prefix(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> str:
+    try:
+        consts = _parse_python_constants(backtest_path, ["WINNER_ONLY_STRATEGY_ID"])
+    except Exception:
+        return "core_explore_80_20_total_mv_winner_core"
+    prefix = str(consts.get("WINNER_ONLY_STRATEGY_ID") or "").strip()
+    return prefix or "core_explore_80_20_total_mv_winner_core"
 
 
 def _latest_per_strategy_window(frame: pd.DataFrame) -> pd.DataFrame:
@@ -106,9 +139,16 @@ def _compute_single_window_metrics(group: pd.DataFrame, sample_tag: str) -> Trac
     )
 
 
-def _pick_winner(latest: pd.DataFrame, weights: dict[str, float]) -> tuple[str, TrackMetrics]:
+def _pick_winner(
+    latest: pd.DataFrame,
+    weights: dict[str, float],
+    *,
+    allowed_base_ids: set[str] | None = None,
+) -> tuple[str, TrackMetrics]:
     candidates: list[tuple[str, TrackMetrics]] = []
     for base_id, group in latest.groupby("strategy_base_id"):
+        if allowed_base_ids is not None and str(base_id) not in allowed_base_ids:
+            continue
         tags = set(group["sample_tag"].astype(str))
         if not set(WEIGHTED_WINDOW_TAGS).issubset(tags):
             continue
@@ -129,9 +169,16 @@ def _pick_winner(latest: pd.DataFrame, weights: dict[str, float]) -> tuple[str, 
     return candidates[0]
 
 
-def _pick_single_window_winner(latest: pd.DataFrame, sample_tag: str) -> tuple[str, TrackMetrics]:
+def _pick_single_window_winner(
+    latest: pd.DataFrame,
+    sample_tag: str,
+    *,
+    allowed_base_ids: set[str] | None = None,
+) -> tuple[str, TrackMetrics]:
     candidates: list[tuple[str, TrackMetrics]] = []
     for base_id, group in latest.groupby("strategy_base_id"):
+        if allowed_base_ids is not None and str(base_id) not in allowed_base_ids:
+            continue
         tags = set(group["sample_tag"].astype(str))
         if sample_tag != "since_2025_01" and not set(WEIGHTED_WINDOW_TAGS).issubset(tags):
             continue
@@ -263,6 +310,45 @@ def _augment_with_synthetic_windows(latest: pd.DataFrame) -> pd.DataFrame:
     return pd.concat([existing, pd.DataFrame(needed_rows)], ignore_index=True)
 
 
+def _pick_path2_candidate(latest: pd.DataFrame) -> tuple[str, dict[str, float]]:
+    required_tags = {"since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01"}
+    candidates: list[tuple[str, dict[str, float]]] = []
+    for base_id, group in latest.groupby("strategy_base_id"):
+        tags = set(group["sample_tag"].astype(str))
+        if not required_tags.issubset(tags):
+            continue
+        metrics_by_tag = {tag: _compute_single_window_metrics(group, tag) for tag in sorted(required_tags)}
+        if any(any(np.isnan(v) for v in (m.cagr, m.sharpe, m.max_drawdown, m.turnover)) for m in metrics_by_tag.values()):
+            continue
+        cagr_values = [m.cagr for m in metrics_by_tag.values()]
+        sharpe_values = [m.sharpe for m in metrics_by_tag.values()]
+        maxdd_values = [m.max_drawdown for m in metrics_by_tag.values()]
+        turn_values = [m.turnover for m in metrics_by_tag.values()]
+        summary = {
+            "cagr_mean": float(np.mean(cagr_values)),
+            "cagr_min": float(np.min(cagr_values)),
+            "sharpe_mean": float(np.mean(sharpe_values)),
+            "max_drawdown_worst": float(np.min(maxdd_values)),
+            "turnover_mean": float(np.mean(turn_values)),
+        }
+        candidates.append((str(base_id), summary))
+
+    if not candidates:
+        raise RuntimeError("No strategies have all four windows to compute Path 2 candidate.")
+
+    candidates.sort(
+        key=lambda item: (
+            item[1]["cagr_mean"],
+            item[1]["cagr_min"],
+            item[1]["sharpe_mean"],
+            item[1]["max_drawdown_worst"],
+            -item[1]["turnover_mean"],
+        ),
+        reverse=True,
+    )
+    return candidates[0]
+
+
 def _render_block(
     strategies: dict[str, dict],
     short_winner_id: str,
@@ -273,6 +359,8 @@ def _render_block(
     window_2020_metrics: TrackMetrics,
     window_2025_winner_id: str,
     window_2025_metrics: TrackMetrics,
+    path2_id: str,
+    path2_summary: dict[str, float],
     sample_end: str,
 ) -> str:
     def render_track(title: str, weights: dict[str, float], winner_id: str, metrics: TrackMetrics) -> str:
@@ -304,18 +392,57 @@ def _render_block(
             ]
         )
 
+    def render_path2(title: str, base_id: str, summary: dict[str, float]) -> str:
+        info = strategies[base_id]
+        windows = info["windows"]
+        def render_window(tag: str) -> str:
+            if tag not in windows:
+                return f"- `{SAMPLE_TAG_STARTS[tag].date()}` window: n/a"
+            return (
+                f"- `{SAMPLE_TAG_STARTS[tag].date()}` → `{sample_end}`: CAGR `{_fmt_pct(windows[tag]['cagr'])}`, "
+                f"Max DD `{_fmt_pct(windows[tag]['max_drawdown'])}`, Sharpe `{windows[tag]['sharpe']:.4f}`"
+            )
+        return "\n".join(
+            [
+                f"### {title}",
+                "",
+                f"- Strategy: `{base_id}` ({info['strategy_base_name']})",
+                f"- Robust (mean CAGR / min CAGR / mean Sharpe / worst Max DD / mean Turnover): "
+                f"`{_fmt_pct(summary['cagr_mean'])}` / `{_fmt_pct(summary['cagr_min'])}` / `{summary['sharpe_mean']:.4f}` / "
+                f"`{_fmt_pct(summary['max_drawdown_worst'])}` / `{summary['turnover_mean']:.2f}`",
+                "",
+                "Window metrics:",
+                "",
+                render_window("since_2017_01"),
+                render_window("since_2020_01"),
+                render_window("since_2023_01"),
+                render_window("since_2025_01"),
+                "",
+            ]
+        )
+
     parts = [
-        "This repo tracks *three winners in parallel* using weighted multi-window scoring across the three validation windows:",
+        "This repo tracks **two research paths**:",
+        "",
+        "- **Path 1 (winner-core family constrained):** 4 tracked winners across multi-window + checkpoint scoring.",
+        "- **Path 2 (unconstrained max-return):** a separate best candidate ranked by robust return across all 4 windows.",
+        "",
+        "Validation windows:",
         "",
         "- `since_2017_01` (long window)",
         "- `since_2020_01` (mid window)",
         "- `since_2023_01` (short window)",
         "- `since_2025_01` (very short window)",
         "",
+        "## Path 1 — Winner-Core Tracked Winners",
+        "",
         render_track("Short-cycle Winner (30/30/40)", WEIGHTS_SHORT_CYCLE, short_winner_id, short_metrics),
         render_track("Mid-cycle Winner (30/40/30)", WEIGHTS_MID_CYCLE, mid_winner_id, mid_metrics),
         render_track("2020-Window Winner (2020-only checkpoint)", WEIGHTS_2020_ONLY, window_2020_winner_id, window_2020_metrics),
         render_track("2025-Window Winner (2025-only checkpoint)", WEIGHTS_2025_ONLY, window_2025_winner_id, window_2025_metrics),
+        "## Path 2 — Max-Return Candidate",
+        "",
+        render_path2("Best Robust Candidate (4-window)", path2_id, path2_summary),
     ]
     return "\n".join(parts).strip() + "\n"
 
@@ -345,15 +472,22 @@ def main() -> None:
     if not strategies:
         raise RuntimeError("No strategies with complete 2017/2020/2023 windows found in comparison CSV.")
 
-    short_id, short_metrics = _pick_winner(latest, WEIGHTS_SHORT_CYCLE)
-    mid_id, mid_metrics = _pick_winner(latest, WEIGHTS_MID_CYCLE)
-    window_2020_id, window_2020_metrics = _pick_single_window_winner(latest, "since_2020_01")
-    window_2025_id, window_2025_metrics = _pick_single_window_winner(latest, "since_2025_01")
+    prefix = load_winner_core_prefix()
+    winner_core_ids = {str(bid) for bid in latest["strategy_base_id"].astype(str).unique() if str(bid).startswith(prefix)}
+    if not winner_core_ids:
+        raise RuntimeError(f"No winner-core strategies found with prefix={prefix!r}")
+
+    short_id, short_metrics = _pick_winner(latest, WEIGHTS_SHORT_CYCLE, allowed_base_ids=winner_core_ids)
+    mid_id, mid_metrics = _pick_winner(latest, WEIGHTS_MID_CYCLE, allowed_base_ids=winner_core_ids)
+    window_2020_id, window_2020_metrics = _pick_single_window_winner(latest, "since_2020_01", allowed_base_ids=winner_core_ids)
+    window_2025_id, window_2025_metrics = _pick_single_window_winner(latest, "since_2025_01", allowed_base_ids=winner_core_ids)
+    path2_id, path2_summary = _pick_path2_candidate(latest)
     sample_end = max(info["sample_end"] for info in strategies.values())
 
     payload = {
         "as_of": sample_end,
         "window_tags": list(SAMPLE_TAG_STARTS),
+        "winner_core_prefix": prefix,
         "tracks": {
             "short_cycle_30_30_40": {
                 "weights": WEIGHTS_SHORT_CYCLE,
@@ -396,13 +530,17 @@ def main() -> None:
                 },
             },
         },
+        "path2": {
+            "strategy_base_id": path2_id,
+            "robust_metrics": path2_summary,
+        },
         "strategies": {
             sid: {
                 "strategy_base_name": info["strategy_base_name"],
                 "windows": info["windows"],
             }
             for sid, info in strategies.items()
-            if sid in {short_id, mid_id, window_2020_id, window_2025_id}
+            if sid in {short_id, mid_id, window_2020_id, window_2025_id, path2_id}
         },
     }
     args.write_json.parent.mkdir(parents=True, exist_ok=True)
@@ -418,6 +556,8 @@ def main() -> None:
         window_2020_metrics,
         window_2025_id,
         window_2025_metrics,
+        path2_id,
+        path2_summary,
         sample_end,
     )
     update_readme(args.readme, block)
@@ -428,6 +568,7 @@ def main() -> None:
     print(f"[OK] Mid-cycle winner:   {mid_id} (wCAGR={_fmt_pct(mid_metrics.cagr)}, wSharpe={mid_metrics.sharpe:.4f})")
     print(f"[OK] 2020-window winner: {window_2020_id} (CAGR={_fmt_pct(window_2020_metrics.cagr)}, Sharpe={window_2020_metrics.sharpe:.4f})")
     print(f"[OK] 2025-window winner: {window_2025_id} (CAGR={_fmt_pct(window_2025_metrics.cagr)}, Sharpe={window_2025_metrics.sharpe:.4f})")
+    print(f"[OK] Path 2 candidate:   {path2_id} (meanCAGR={_fmt_pct(path2_summary['cagr_mean'])}, minCAGR={_fmt_pct(path2_summary['cagr_min'])})")
 
 
 if __name__ == "__main__":

@@ -18,7 +18,7 @@ RESULTS_DIR = ROOT / "results"
 DEFAULT_COMPARISON_CSV = RESULTS_DIR / "strategy_comparison_base_method.csv"
 DEFAULT_TRACKED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
 
-WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01")
+WEIGHTED_WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01")
 
 WEIGHTS_SHORT_CYCLE = {"since_2017_01": 0.30, "since_2020_01": 0.30, "since_2023_01": 0.40}
 WEIGHTS_MID_CYCLE = {"since_2017_01": 0.30, "since_2020_01": 0.40, "since_2023_01": 0.30}
@@ -213,10 +213,9 @@ def main() -> None:
         base_ids = load_winner_core_family_ids(args.backtest_script)
         family_label = "winner_core_family"
 
-    required_tags = set(WINDOW_TAGS)
     by_id: dict[str, pd.DataFrame] = {base_id: group for base_id, group in latest.groupby("strategy_base_id")}
 
-    def group_or_empty(base_id: str) -> pd.DataFrame:
+    def group_or_empty(base_id: str, required_tags: set[str]) -> pd.DataFrame:
         group = by_id.get(base_id, pd.DataFrame())
         tags = set(group["sample_tag"].astype(str)) if not group.empty else set()
         if not required_tags.issubset(tags):
@@ -228,36 +227,47 @@ def main() -> None:
     window_2020_candidates: list[tuple[str, TrackMetrics]] = []
     window_2025_candidates: list[tuple[str, TrackMetrics]] = []
 
+    weighted_required = set(WEIGHTED_WINDOW_TAGS)
     for base_id in base_ids:
-        group = group_or_empty(base_id)
-        if group.empty:
-            continue
-        short_candidates.append((base_id, _compute_weighted_metrics(group, WEIGHTS_SHORT_CYCLE)))
-        mid_candidates.append((base_id, _compute_weighted_metrics(group, WEIGHTS_MID_CYCLE)))
-        window_2020_candidates.append((base_id, _compute_single_window_metrics(group, "since_2020_01")))
-        if "since_2025_01" in set(group["sample_tag"].astype(str)):
-            window_2025_candidates.append((base_id, _compute_single_window_metrics(group, "since_2025_01")))
+        weighted_group = group_or_empty(base_id, weighted_required)
+        if not weighted_group.empty:
+            short_candidates.append((base_id, _compute_weighted_metrics(weighted_group, WEIGHTS_SHORT_CYCLE)))
+            mid_candidates.append((base_id, _compute_weighted_metrics(weighted_group, WEIGHTS_MID_CYCLE)))
+            window_2020_candidates.append((base_id, _compute_single_window_metrics(weighted_group, "since_2020_01")))
+        window_2025_group = group_or_empty(base_id, {"since_2025_01"})
+        if not window_2025_group.empty:
+            window_2025_candidates.append((base_id, _compute_single_window_metrics(window_2025_group, "since_2025_01")))
 
     short_ranked = _rank_candidates(short_candidates)
     mid_ranked = _rank_candidates(mid_candidates)
     window_2020_ranked = _rank_candidates(window_2020_candidates)
     window_2025_ranked = _rank_candidates(window_2025_candidates)
 
-    def winner_metrics(track_key: str, weights: dict[str, float] | None) -> tuple[str, TrackMetrics]:
+    def winner_metrics(track_key: str, *, weights: dict[str, float] | None, sample_tag: str | None, required_tags: set[str]) -> tuple[str, TrackMetrics]:
         winner_id = tracked_winners.get(track_key, "")
         if not winner_id:
             raise RuntimeError(f"tracked winners missing key: {track_key}")
-        group = group_or_empty(winner_id)
+        group = group_or_empty(winner_id, required_tags)
         if group.empty:
-            raise RuntimeError(f"tracked winner {winner_id} missing complete windows in comparison CSV")
-        if weights is None:
-            return winner_id, _compute_single_window_metrics(group, "since_2020_01")
-        return winner_id, _compute_weighted_metrics(group, weights)
+            raise RuntimeError(f"tracked winner {winner_id} missing required windows in comparison CSV: {sorted(required_tags)}")
+        if weights is not None:
+            return winner_id, _compute_weighted_metrics(group, weights)
+        if not sample_tag:
+            raise ValueError(f"sample_tag is required for single-window track {track_key}")
+        return winner_id, _compute_single_window_metrics(group, sample_tag)
 
-    short_winner_id, short_winner_metrics = winner_metrics("short_cycle_30_30_40", WEIGHTS_SHORT_CYCLE)
-    mid_winner_id, mid_winner_metrics = winner_metrics("mid_cycle_30_40_30", WEIGHTS_MID_CYCLE)
-    window_2020_winner_id, window_2020_winner_metrics = winner_metrics("since_2020_only", None)
-    window_2025_winner_id, window_2025_winner_metrics = winner_metrics("since_2025_only", None)
+    short_winner_id, short_winner_metrics = winner_metrics(
+        "short_cycle_30_30_40", weights=WEIGHTS_SHORT_CYCLE, sample_tag=None, required_tags=weighted_required
+    )
+    mid_winner_id, mid_winner_metrics = winner_metrics(
+        "mid_cycle_30_40_30", weights=WEIGHTS_MID_CYCLE, sample_tag=None, required_tags=weighted_required
+    )
+    window_2020_winner_id, window_2020_winner_metrics = winner_metrics(
+        "since_2020_only", weights=None, sample_tag="since_2020_01", required_tags=weighted_required
+    )
+    window_2025_winner_id, window_2025_winner_metrics = winner_metrics(
+        "since_2025_only", weights=None, sample_tag="since_2025_01", required_tags={"since_2025_01"}
+    )
 
     def best_of(ranked: list[tuple[str, TrackMetrics]]) -> tuple[str, TrackMetrics] | None:
         return ranked[0] if ranked else None

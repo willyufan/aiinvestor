@@ -191,6 +191,35 @@ SHORT_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("short_cycle_30_30_40",
 MID_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("mid_cycle_30_40_30", {}).get("winner")
 WINDOW_2020_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("since_2020_only", {}).get("winner")
 WINDOW_2025_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("since_2025_only", {}).get("winner")
+PATH2_CANDIDATE_ID = WEIGHTED_WINNERS.get("path2", {}).get("strategy_base_id")
+
+
+def load_base_name_map() -> dict[str, str]:
+    if not COMPARISON_CSV.exists():
+        return {}
+    frame = pd.read_csv(COMPARISON_CSV)
+    if frame.empty:
+        return {}
+    latest = (
+        frame.assign(sample_end=pd.to_datetime(frame["sample_end"], errors="coerce"))
+        .dropna(subset=["sample_end"])
+        .sort_values(["strategy_base_id", "sample_end"])
+        .groupby(["strategy_base_id"], as_index=False)
+        .tail(1)
+    )
+    return (
+        latest.set_index("strategy_base_id")["strategy_base_name"]
+        .fillna("")
+        .astype(str)
+        .to_dict()
+    )
+
+
+BASE_NAME_MAP = load_base_name_map()
+
+
+def strategy_label(base_id: str) -> str:
+    return STRATEGY_LABEL_BY_ID.get(base_id) or BASE_NAME_MAP.get(base_id) or base_id
 
 
 def is_short_winner(base_id: str) -> bool:
@@ -213,6 +242,10 @@ def is_2025_winner(base_id: str) -> bool:
     return bool(WINDOW_2025_WINNER_ID) and base_id == WINDOW_2025_WINNER_ID
 
 
+def is_path2_candidate(base_id: str) -> bool:
+    return bool(PATH2_CANDIDATE_ID) and base_id == PATH2_CANDIDATE_ID
+
+
 def winner_tags(base_id: str) -> set[str]:
     tags: set[str] = set()
     if base_id == SHORT_WINNER_ID:
@@ -223,7 +256,68 @@ def winner_tags(base_id: str) -> set[str]:
         tags.add("2020")
     if base_id == WINDOW_2025_WINNER_ID:
         tags.add("2025")
+    if base_id == PATH2_CANDIDATE_ID:
+        tags.add("path2")
     return tags
+
+
+def load_tracked_comparison_strategies() -> list[dict]:
+    # Keep this list compact and readable: a few baselines + tracked winners + Path 2.
+    base_ids: list[str] = [
+        "core_explore_80_20_total_mv_index_core",
+        "core_explore_80_20_total_mv_winner_core",
+        "core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp",
+    ]
+
+    track_winners = [
+        SHORT_WINNER_ID,
+        MID_WINNER_ID,
+        WINDOW_2020_WINNER_ID,
+        WINDOW_2025_WINNER_ID,
+        PATH2_CANDIDATE_ID,
+    ]
+    for winner_id in track_winners:
+        if winner_id:
+            base_ids.append(str(winner_id))
+
+    seen: set[str] = set()
+    deduped: list[str] = []
+    for base_id in base_ids:
+        if base_id in seen:
+            continue
+        seen.add(base_id)
+        deduped.append(base_id)
+
+    color_by_id = {
+        "core_explore_80_20_total_mv_index_core": "#94a3b8",
+        "core_explore_80_20_total_mv_winner_core": "#2563eb",
+        "core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp": "#dc2626",
+    }
+    for base_id in deduped:
+        if is_path2_candidate(base_id):
+            color_by_id.setdefault(base_id, "#7c3aed")
+        elif is_2025_winner(base_id):
+            color_by_id.setdefault(base_id, "#16a34a")
+        elif is_2020_winner(base_id):
+            color_by_id.setdefault(base_id, "#f59e0b")
+        elif is_both_winner(base_id) or is_mid_winner(base_id):
+            color_by_id.setdefault(base_id, "#2563eb")
+        elif is_short_winner(base_id):
+            color_by_id.setdefault(base_id, "#60a5fa")
+
+    cmap = plt.get_cmap("tab20")
+    dynamic: list[dict] = []
+    for idx, base_id in enumerate(deduped):
+        dynamic.append(
+            {
+                "base_id": base_id,
+                "label": strategy_label(base_id),
+                "color": color_by_id.get(base_id, mcolors.to_hex(cmap(idx % 20))),
+            }
+        )
+        STRATEGY_LABEL_BY_ID.setdefault(base_id, strategy_label(base_id))
+
+    return list(STATIC_STRATEGIES) + dynamic
 
 
 def _maybe_add_tracked_winners() -> None:
@@ -452,6 +546,8 @@ def plot_nav_curves(ax: plt.Axes, sample_tag: str, title: str, strategies: list[
             linestyle = "-."
         elif "2025" in tags and ("short" in tags or "mid" in tags or "2020" in tags):
             linestyle = (0, (5, 2, 1, 2))
+        elif "path2" in tags:
+            linestyle = (0, (2, 2))
         elif "mid" in tags or is_both_winner(base_id):
             linestyle = "-"
         elif "short" in tags:
@@ -485,6 +581,8 @@ def plot_risk_return(ax: plt.Axes, frame: pd.DataFrame, title: str) -> None:
         marker = "o"
         if len(tags) > 1:
             marker = "X"
+        elif "path2" in tags:
+            marker = "H"
         elif "mid" in tags:
             marker = "*"
         elif "short" in tags:
@@ -551,6 +649,8 @@ def plot_metric_table(ax: plt.Axes, frame: pd.DataFrame, title: str) -> None:
             tags = winner_tags(base_id)
             if len(tags) > 1:
                 cell.set_facecolor("#e9d5ff")
+            elif "path2" in tags:
+                cell.set_facecolor("#f3e8ff")
             elif "mid" in tags:
                 cell.set_facecolor("#fee2e2")
             elif "short" in tags:
@@ -572,8 +672,9 @@ def build_winner_note() -> str | None:
     mid_label = STRATEGY_LABEL_BY_ID.get(MID_WINNER_ID, MID_WINNER_ID)
     window_2020_label = STRATEGY_LABEL_BY_ID.get(WINDOW_2020_WINNER_ID, WINDOW_2020_WINNER_ID)
     window_2025_label = STRATEGY_LABEL_BY_ID.get(WINDOW_2025_WINNER_ID, WINDOW_2025_WINNER_ID)
+    path2_label = STRATEGY_LABEL_BY_ID.get(PATH2_CANDIDATE_ID, PATH2_CANDIDATE_ID) if PATH2_CANDIDATE_ID else None
     as_of = WEIGHTED_WINNERS.get("as_of", "n/a")
-    return (
+    note = (
         "Weighted winners (as of {as_of})\n"
         "Short-cycle 30/30/40: {short_label} | wCAGR {scagr}, wSharpe {ssharpe:.3f}, wMaxDD {sdd}, wTurn {sturn:.2f}\n"
         "Mid-cycle 30/40/30: {mid_label} | wCAGR {mcagr}, wSharpe {msharpe:.3f}, wMaxDD {mdd}, wTurn {mturn:.2f}\n"
@@ -602,6 +703,9 @@ def build_winner_note() -> str | None:
         w25dd=_fmt_pct(window_2025_metrics.get("weighted_max_drawdown")),
         w25turn=float(window_2025_metrics.get("weighted_turnover")),
     )
+    if path2_label:
+        note += f"\nPath 2 candidate: {path2_label}"
+    return note
 
 
 def render_window_chart(
@@ -648,9 +752,10 @@ def main() -> None:
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
     plt.style.use("seaborn-v0_8-whitegrid")
     _configure_matplotlib_fonts()
+    comparison_strategies = load_tracked_comparison_strategies()
     full_family_strategies = load_full_family_strategies()
     for sample_window in SAMPLE_WINDOWS:
-        render_window_chart(sample_window, COMPACT_STRATEGIES, OUTPUT_PATHS[sample_window["sample_tag"]], family_mode=False)
+        render_window_chart(sample_window, comparison_strategies, OUTPUT_PATHS[sample_window["sample_tag"]], family_mode=False)
         render_window_chart(sample_window, full_family_strategies, FAMILY_OUTPUT_PATHS[sample_window["sample_tag"]], family_mode=True)
 
 

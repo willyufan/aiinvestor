@@ -1,33 +1,40 @@
 # aiinvestor
 
-An A-share portfolio backtesting project based on Tushare Pro.
+一个基于 Tushare Pro 的 A 股组合回测与策略迭代项目。
 
-The project focuses on building and iterating a monthly-rebalanced stock selection framework for the China A-share market, with emphasis on:
+项目当前重点是构建并持续迭代一个月度调仓的 A 股选股框架，核心关注点包括：
 
-- dynamic stock pools instead of hindsight-picked static lists
-- market-cap weighted portfolio construction with realistic trading costs
-- core / explore / seed style discovery logic for finding emerging leaders
-- reproducible outputs with local caching
+- 使用动态股票池，而不是纯后视镜的静态冠军池
+- 使用带真实交易费用的市值加权组合构建
+- 使用 `core / explore / seed` 三层结构去发现和放大新强者
+- 使用本地缓存与可复现输出支持持续回测迭代
 
-## Current Best Strategy
+## 当前最佳策略
 
-This project no longer picks a single “best” strategy by one sample window.
-Instead, we keep **four tracked winners in parallel** using **weighted multi-window scoring** across:
+当前项目不再只用单一时间窗挑一个“唯一最佳策略”，而是并行维护 **4 条跟踪赢家线**：
 
-- `since_2017_01` (long window)
-- `since_2020_01` (mid window)
-- `since_2023_01` (short window)
+- `since_2017_01`：长窗口
+- `since_2020_01`：中窗口
+- `since_2023_01`：短窗口
+- `since_2025_01`：超短窗口
 
-The automation updates the tracked winners and their latest metrics here:
+自动任务会把最新赢家和指标更新到下面这个区块：
 
 <!-- AUTO:WEIGHTED-WINNERS:START -->
 
-This repo tracks *three winners in parallel* using weighted multi-window scoring across the three validation windows:
+This repo tracks **two research paths**:
+
+- **Path 1 (winner-core family constrained):** 4 tracked winners across multi-window + checkpoint scoring.
+- **Path 2 (unconstrained max-return):** a separate best candidate ranked by robust return across all 4 windows.
+
+Validation windows:
 
 - `since_2017_01` (long window)
 - `since_2020_01` (mid window)
 - `since_2023_01` (short window)
 - `since_2025_01` (very short window)
+
+## Path 1 — Winner-Core Tracked Winners
 
 ### Short-cycle Winner (30/30/40)
 
@@ -55,45 +62,73 @@ Window metrics (as of `2026-04-18`, weights: 2017-01=30%, 2020-01=40%, 2023-01=3
 
 ### 2020-Window Winner (2020-only checkpoint)
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6` (核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只)
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `24.26%` / `0.8945` / `-20.95%` / `2.93`
+- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` (核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只)
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `25.58%` / `0.9122` / `-21.84%` / `2.86`
 
 Window metrics (as of `2026-04-18`, weights: 2020-01=100%):
 
-- `2017-01-01` → `2026-04-18`: CAGR `22.33%`, Max DD `-22.02%`, Sharpe `0.9442`
-- `2020-01-01` → `2026-04-18`: CAGR `24.26%`, Max DD `-20.95%`, Sharpe `0.8945`
-- `2023-01-01` → `2026-04-18`: CAGR `26.78%`, Max DD `-24.63%`, Sharpe `0.9020`
-- `2025-01-01` → `2026-04-18`: CAGR `62.45%`, Max DD `-13.40%`, Sharpe `1.5153`
+- `2017-01-01` → `2026-04-18`: CAGR `19.74%`, Max DD `-22.50%`, Sharpe `0.8480`
+- `2020-01-01` → `2026-04-18`: CAGR `25.58%`, Max DD `-21.84%`, Sharpe `0.9122`
+- `2023-01-01` → `2026-04-18`: CAGR `25.36%`, Max DD `-24.37%`, Sharpe `0.8533`
+- `2025-01-01` → `2026-04-18`: CAGR `58.22%`, Max DD `-12.34%`, Sharpe `1.3951`
 
 ### 2025-Window Winner (2025-only checkpoint)
 
-- Strategy: `large_cap_pool` (large_cap_pool)
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `62.92%` / `1.1954` / `-15.13%` / `2.13`
+- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7` (核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只)
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `93.14%` / `2.0609` / `-9.93%` / `3.81`
 
 Window metrics (as of `2026-04-18`, weights: 2025-01=100%):
 
-- `2017-01-01` window: n/a
-- `2020-01-01` window: n/a
+- `2017-01-01` → `2026-04-18`: CAGR `19.28%`, Max DD `-25.33%`, Sharpe `0.8492`
+- `2020-01-01` → `2026-04-18`: CAGR `24.53%`, Max DD `-22.49%`, Sharpe `0.9170`
 - `2023-01-01` window: n/a
-- `2025-01-01` → `2026-04-18`: CAGR `62.92%`, Max DD `-15.13%`, Sharpe `1.1954`
+- `2025-01-01` → `2026-04-18`: CAGR `93.14%`, Max DD `-9.93%`, Sharpe `2.0609`
+
+## Path 2 — Max-Return Candidate
+
+### Best Robust Candidate (4-window)
+
+- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom7` (核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升7只)
+- Robust (mean CAGR / min CAGR / mean Sharpe / worst Max DD / mean Turnover): `34.95%` / `19.83%` / `1.0372` / `-23.76%` / `3.18`
+
+Window metrics:
+
+- `2017-01-01` → `2026-04-18`: CAGR `19.83%`, Max DD `-22.50%`, Sharpe `0.8652`
+- `2020-01-01` → `2026-04-18`: CAGR `24.19%`, Max DD `-22.28%`, Sharpe `0.9086`
+- `2023-01-01` → `2026-04-18`: CAGR `26.68%`, Max DD `-23.76%`, Sharpe `0.8791`
+- `2025-01-01` → `2026-04-18`: CAGR `69.09%`, Max DD `-9.40%`, Sharpe `1.4960`
 
 <!-- AUTO:WEIGHTED-WINNERS:END -->
 
-When the winner tracks differ, we keep all of them (short-cycle vs mid-cycle vs 2020-only checkpoint vs 2025-only checkpoint) as an anti-overfitting guardrail.
-The comparison charts in `docs/strategy_comparison_since_2017_01.png`, `docs/strategy_comparison_since_2020_01.png`, `docs/strategy_comparison_since_2023_01.png`, and `docs/strategy_comparison_since_2025_01.png` highlight the tracked winners. The full-family views in `docs/strategy_family_since_2017_01.png`, `docs/strategy_family_since_2020_01.png`, `docs/strategy_family_since_2023_01.png`, and `docs/strategy_family_since_2025_01.png` show the broader strategy set using the same cached results.
+当不同窗口的赢家不同时，项目会同时保留它们，作为防过拟合的护栏。README 中的 `strategy_comparison_*` 图展示跟踪赢家，`strategy_family_*` 图展示完整策略家族，而且完整家族图只使用已有结果文件，不额外触发回测。
 
-This strategy uses:
+当前主策略框架使用：
 
-- core pool: `沪深300 + 科创50`
-- explore pool: `中证500 + 科创100 + 科创200`
-- monthly rebalance
-- forward-adjusted prices
-- market-cap base weights
-- winner promotion from explore/seed into core
-- winner-core allocation tuned per track (see tracked winners above; current short-cycle: stable/promoted ≈ 10%/90%, holdings 2/7; current mid-cycle + 2020-only: stable/promoted ≈ 8%/92%, holdings 2/6)
-- realistic buy/sell commissions and stamp duty
+- 核心池：`沪深300 + 科创50`
+- 探索池：`中证500 + 科创100 + 科创200`
+- 月度调仓
+- 前复权价格
+- 总市值底座
+- 从 explore/seed 晋升到 `winner_core`
+- 按不同跟踪线调整 `winner_core` 的稳定核心 / 晋升核心分配
+- 真实买卖佣金与印花税
 
-## Strategy Structure
+## 中文详细说明
+
+下面是当前的中文详细说明与图表区。
+
+## 英文说明
+
+An A-share portfolio backtesting and strategy-iteration project based on Tushare Pro.
+
+The project focuses on building and iterating a monthly-rebalanced stock-selection framework for the China A-share market, with emphasis on:
+
+- dynamic stock pools instead of hindsight-picked static lists
+- market-cap weighted portfolio construction with realistic trading costs
+- core / explore / seed style discovery logic for finding emerging leaders
+- reproducible outputs with local caching
+
+## English Strategy Structure
 
 The project currently contains several strategy branches for comparison:
 
@@ -108,7 +143,7 @@ The main production-style framework is `core_explore`, which combines:
 - a seed sleeve for earlier-stage discovery
 - staged promotion and slower demotion for promoted core names
 
-## Data And Rules
+## English Data And Rules
 
 - data source: `Tushare Pro`
 - prices: forward-adjusted close built from `daily.close` and `adj_factor`
@@ -123,7 +158,7 @@ The main production-style framework is `core_explore`, which combines:
     - `0.10%` before `2023-08-28`
     - `0.05%` on and after `2023-08-28`
 
-## Repository Files
+## English Repository Files
 
 - `backtest_marketcap_etf.py`: main backtest program
 - `requirements.txt`: Python dependencies
@@ -135,7 +170,7 @@ The following directories are intentionally kept out of git:
 - `results/`: backtest output files
 - `.venv/`: local Python environment
 
-## Quick Start
+## English Quick Start
 
 ```bash
 python3 -m venv .venv
@@ -143,7 +178,7 @@ python3 -m venv .venv
 .venv/bin/python backtest_marketcap_etf.py
 ```
 
-## Output Files
+## English Output Files
 
 Each strategy run writes results under `results/`, including:
 
@@ -160,20 +195,18 @@ There is also a strategy comparison table:
 
 - `results/strategy_comparison_base_method.csv`
 
-## Notes
+## English Notes
 
 - The current implementation includes a Tushare token directly in the script for local research use.
 - Local cache is used to reduce repeated API requests.
 - Some historical index constituents may be unavailable in `stock_basic`; these are logged and excluded explicitly instead of being silently skipped.
 
-## Status
+## English Status
 
 The project has already been initialized as a git repository and synced to GitHub:
 
 - repository: `willyufan/aiinvestor`
 - URL: `https://github.com/willyufan/aiinvestor`
-
-## 中文策略说明
 
 当前项目里最值得继续迭代的版本，不是纯核心集中策略，而是：
 
