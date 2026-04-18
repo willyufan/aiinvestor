@@ -24,6 +24,7 @@ TOKEN = "REDACTED_TOKEN_DAILY"
 PRIMARY_SAMPLE_START = pd.Timestamp("2020-01-01")
 ROBUSTNESS_SAMPLE_START = pd.Timestamp("2017-01-01")
 SHORT_SAMPLE_START = pd.Timestamp("2023-01-01")
+VERY_SHORT_SAMPLE_START = pd.Timestamp("2025-01-01")
 BACKTEST_SAMPLE_WINDOWS = [
     {
         "sample_tag": "since_2020_01",
@@ -46,6 +47,13 @@ BACKTEST_SAMPLE_WINDOWS = [
         "sample_start": SHORT_SAMPLE_START,
         "is_primary_sample": False,
     },
+    {
+        "sample_tag": "since_2025_01",
+        "sample_label": "2025-01 起",
+        "sample_short_label": "2025-01",
+        "sample_start": VERY_SHORT_SAMPLE_START,
+        "is_primary_sample": False,
+    },
 ]
 BUY_COMMISSION = 0.0003
 SELL_COMMISSION = 0.0003
@@ -64,6 +72,7 @@ CORE_RISK_ON_EXPOSURE = 1.00
 SATELLITE_RISK_OFF_EXPOSURE = 0.30
 SATELLITE_RISK_ON_EXPOSURE = 1.00
 MARKET_INDEX_CODE = "000300.SH"
+BENCHMARK_INDEX_CODE = "000001.SH"
 CORE_INDEX_CODES = ["000300.SH", "000688.SH"]
 EXPLORE_INDEX_CODES = ["000905.SH", "000698.SH", "000699.SH"]
 CORE_BUY_ENTRY_PERCENTILE = 0.10
@@ -2193,6 +2202,7 @@ def save_outputs(
     monthly_returns: pd.DataFrame,
     annual_returns: pd.DataFrame,
     latest_weights: pd.DataFrame,
+    weights_history: pd.DataFrame,
     turnover: pd.DataFrame,
     summary: Dict[str, object],
     output_dir: Path,
@@ -2202,6 +2212,7 @@ def save_outputs(
     save_csv(monthly_returns, output_dir / "monthly_returns.csv")
     save_csv(annual_returns, output_dir / "annual_returns.csv")
     save_csv(latest_weights, output_dir / "latest_weights.csv")
+    save_csv(weights_history, output_dir / "weights_history.csv")
     save_csv(turnover, output_dir / "turnover.csv")
 
     with open(output_dir / "summary.json", "w", encoding="utf-8") as fp:
@@ -2234,6 +2245,7 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
     month_end_dates, _, _ = build_month_boundaries(calendar)
     signal_dates = [date for date in month_end_dates if date >= start_date - pd.DateOffset(months=1)]
     market_index_df = load_or_fetch_index_daily(pro, MARKET_INDEX_CODE, data_start_date, end_date)
+    load_or_fetch_index_daily(pro, BENCHMARK_INDEX_CODE, data_start_date, end_date)
 
     index_weights_by_code = {
         index_code: load_or_fetch_index_weight(pro, index_code, data_start_date, end_date)
@@ -2458,7 +2470,7 @@ def update_promoted_core_state(
 def run_backtest(
     prepared: PreparedData,
     strategy_config: Dict[str, object],
-) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, Dict[str, object]]:
+) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, Dict[str, object]]:
     sample_start = pd.Timestamp(strategy_config.get("sample_start", PRIMARY_SAMPLE_START))
     sample_tag = str(strategy_config.get("sample_tag", "since_2020_01"))
     sample_label = str(strategy_config.get("sample_label", "2020-01 起"))
@@ -2492,6 +2504,7 @@ def run_backtest(
 
     monthly_rows: List[Dict[str, object]] = []
     turnover_rows: List[Dict[str, object]] = []
+    weights_history_rows: List[Dict[str, object]] = []
     equity_rows: List[Dict[str, object]] = [
         {"date": sample_start, "portfolio_return": 0.0, "nav": 1.0, "drawdown": 0.0, "trading_cost": 0.0}
     ]
@@ -2698,6 +2711,28 @@ def run_backtest(
             positions = positions * holding_growth
 
         nav_end = float(positions.sum() + cash_value)
+        if nav_end > 0:
+            if not positions.empty:
+                month_weights = (positions / nav_end).sort_values(ascending=False)
+                for ts_code, weight in month_weights.items():
+                    weights_history_rows.append(
+                        {
+                            "date": holding_month_end,
+                            "ts_code": ts_code,
+                            "name": prepared.code_to_name.get(ts_code, ""),
+                            "weight": float(weight),
+                        }
+                    )
+            cash_weight = float(cash_value / nav_end)
+            if cash_weight > 1e-12:
+                weights_history_rows.append(
+                    {
+                        "date": holding_month_end,
+                        "ts_code": "CASH",
+                        "name": "现金",
+                        "weight": cash_weight,
+                    }
+                )
         if not gross_positions.empty:
             gross_rebalance_prices = price_ffill.loc[rebalance_date, gross_positions.index]
             gross_month_end_prices = price_ffill.loc[holding_month_end, gross_positions.index]
@@ -2796,6 +2831,10 @@ def run_backtest(
     monthly_returns["date"] = pd.to_datetime(monthly_returns["date"])
     turnover = pd.DataFrame(turnover_rows)
     turnover["date"] = pd.to_datetime(turnover["date"])
+    weights_history = pd.DataFrame(weights_history_rows)
+    if not weights_history.empty:
+        weights_history["date"] = pd.to_datetime(weights_history["date"])
+        weights_history = weights_history.sort_values(["date", "weight"], ascending=[True, False]).reset_index(drop=True)
 
     annual_returns = (
         monthly_returns.assign(year=monthly_returns["date"].dt.year)
@@ -2912,7 +2951,7 @@ def run_backtest(
         "warnings": warnings,
     }
 
-    return equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary
+    return equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary
 
 
 def print_summary(summary: Dict[str, object], latest_weights: pd.DataFrame) -> None:
@@ -3021,11 +3060,11 @@ def main(argv: list[str] | None = None) -> None:
                         "strategy_name": f"{strategy_base_name} ({sample_window['sample_label']})",
                     }
                     if not selected_base_ids or strategy_base_id in selected_base_ids:
-                        equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary = run_backtest(prepared, strategy_config)
+                        equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary = run_backtest(prepared, strategy_config)
                         summary["pool_id"] = "dynamic_index_core_explore_universe"
                         summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
                         output_dir = build_pool_output_dir(strategy_base_id, str(sample_window["sample_tag"]))
-                        save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
+                        save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary, output_dir)
                         print_summary(summary, latest_weights)
                         append_comparison_row(comparison_rows, summary)
 
@@ -3054,11 +3093,11 @@ def main(argv: list[str] | None = None) -> None:
                                 "strategy_id": f"{variant_base_id}__{sample_window['sample_tag']}",
                                 "strategy_name": f"{variant_base_name} ({sample_window['sample_label']})",
                             }
-                            equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary = run_backtest(prepared, variant_config)
+                            equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary = run_backtest(prepared, variant_config)
                             summary["pool_id"] = "dynamic_index_core_explore_universe"
                             summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
                             output_dir = build_pool_output_dir(variant_base_id, str(sample_window["sample_tag"]))
-                            save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
+                            save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary, output_dir)
                             print_summary(summary, latest_weights)
                             append_comparison_row(comparison_rows, summary)
 

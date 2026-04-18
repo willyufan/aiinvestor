@@ -10,6 +10,8 @@ from typing import Any, Iterable
 import numpy as np
 import pandas as pd
 
+from update_weighted_winners import _augment_with_synthetic_windows
+
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS_DIR = ROOT / "results"
@@ -196,7 +198,7 @@ def main() -> None:
     )
 
     frame = pd.read_csv(args.comparison_csv)
-    latest = _latest_per_strategy_window(frame)
+    latest = _augment_with_synthetic_windows(_latest_per_strategy_window(frame))
     latest["strategy_base_id"] = latest["strategy_base_id"].astype(str)
     latest["sample_tag"] = latest["sample_tag"].astype(str)
 
@@ -224,6 +226,7 @@ def main() -> None:
     short_candidates: list[tuple[str, TrackMetrics]] = []
     mid_candidates: list[tuple[str, TrackMetrics]] = []
     window_2020_candidates: list[tuple[str, TrackMetrics]] = []
+    window_2025_candidates: list[tuple[str, TrackMetrics]] = []
 
     for base_id in base_ids:
         group = group_or_empty(base_id)
@@ -232,10 +235,13 @@ def main() -> None:
         short_candidates.append((base_id, _compute_weighted_metrics(group, WEIGHTS_SHORT_CYCLE)))
         mid_candidates.append((base_id, _compute_weighted_metrics(group, WEIGHTS_MID_CYCLE)))
         window_2020_candidates.append((base_id, _compute_single_window_metrics(group, "since_2020_01")))
+        if "since_2025_01" in set(group["sample_tag"].astype(str)):
+            window_2025_candidates.append((base_id, _compute_single_window_metrics(group, "since_2025_01")))
 
     short_ranked = _rank_candidates(short_candidates)
     mid_ranked = _rank_candidates(mid_candidates)
     window_2020_ranked = _rank_candidates(window_2020_candidates)
+    window_2025_ranked = _rank_candidates(window_2025_candidates)
 
     def winner_metrics(track_key: str, weights: dict[str, float] | None) -> tuple[str, TrackMetrics]:
         winner_id = tracked_winners.get(track_key, "")
@@ -251,6 +257,7 @@ def main() -> None:
     short_winner_id, short_winner_metrics = winner_metrics("short_cycle_30_30_40", WEIGHTS_SHORT_CYCLE)
     mid_winner_id, mid_winner_metrics = winner_metrics("mid_cycle_30_40_30", WEIGHTS_MID_CYCLE)
     window_2020_winner_id, window_2020_winner_metrics = winner_metrics("since_2020_only", None)
+    window_2025_winner_id, window_2025_winner_metrics = winner_metrics("since_2025_only", None)
 
     def best_of(ranked: list[tuple[str, TrackMetrics]]) -> tuple[str, TrackMetrics] | None:
         return ranked[0] if ranked else None
@@ -258,6 +265,7 @@ def main() -> None:
     best_short = best_of(short_ranked)
     best_mid = best_of(mid_ranked)
     best_2020 = best_of(window_2020_ranked)
+    best_2025 = best_of(window_2025_ranked)
 
     improvements: dict[str, dict[str, Any]] = {}
 
@@ -283,6 +291,7 @@ def main() -> None:
     eval_track("short_cycle_30_30_40", short_winner_id, short_winner_metrics, best_short, short_ranked)
     eval_track("mid_cycle_30_40_30", mid_winner_id, mid_winner_metrics, best_mid, mid_ranked)
     eval_track("since_2020_only", window_2020_winner_id, window_2020_winner_metrics, best_2020, window_2020_ranked)
+    eval_track("since_2025_only", window_2025_winner_id, window_2025_winner_metrics, best_2025, window_2025_ranked)
 
     as_of = str(pd.to_datetime(latest["sample_end"].max(), errors="coerce").date())
     out = {
@@ -325,6 +334,16 @@ def main() -> None:
             f"        best={best_id} {_render_metrics(best_metrics)} "
             f"ΔCAGR={_fmt_pct(best_metrics.cagr - window_2020_winner_metrics.cagr)} "
             f"ΔSharpe={best_metrics.sharpe - window_2020_winner_metrics.sharpe:+.4f}"
+        )
+    print("")
+
+    print(f"[Track] since_2025_only      current={window_2025_winner_id} {_render_metrics(window_2025_winner_metrics)}")
+    if best_2025:
+        best_id, best_metrics = best_2025
+        print(
+            f"        best={best_id} {_render_metrics(best_metrics)} "
+            f"ΔCAGR={_fmt_pct(best_metrics.cagr - window_2025_winner_metrics.cagr)} "
+            f"ΔSharpe={best_metrics.sharpe - window_2025_winner_metrics.sharpe:+.4f}"
         )
 
     clear = [k for k, v in improvements.items() if isinstance(v, dict) and v.get("status") == "clear_improvement"]

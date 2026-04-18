@@ -45,11 +45,13 @@ OUTPUT_PATHS = {
     "since_2017_01": DOCS_DIR / "strategy_comparison_since_2017_01.png",
     "since_2020_01": DOCS_DIR / "strategy_comparison_since_2020_01.png",
     "since_2023_01": DOCS_DIR / "strategy_comparison_since_2023_01.png",
+    "since_2025_01": DOCS_DIR / "strategy_comparison_since_2025_01.png",
 }
 FAMILY_OUTPUT_PATHS = {
     "since_2017_01": DOCS_DIR / "strategy_family_since_2017_01.png",
     "since_2020_01": DOCS_DIR / "strategy_family_since_2020_01.png",
     "since_2023_01": DOCS_DIR / "strategy_family_since_2023_01.png",
+    "since_2025_01": DOCS_DIR / "strategy_family_since_2025_01.png",
 }
 COMPARISON_CSV = RESULTS_DIR / "strategy_comparison_base_method.csv"
 WEIGHTED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
@@ -58,28 +60,44 @@ SAMPLE_WINDOWS = [
     {"sample_tag": "since_2017_01", "title": "9Y Window (Since 2017-01)", "short_label": "2017-01"},
     {"sample_tag": "since_2020_01", "title": "6Y Window (Since 2020-01)", "short_label": "2020-01"},
     {"sample_tag": "since_2023_01", "title": "3Y Window (Since 2023-01)", "short_label": "2023-01"},
+    {"sample_tag": "since_2025_01", "title": "1Y Window (Since 2025-01)", "short_label": "2025-01"},
 ]
 
 TRACK_WEIGHTS = {
     "short_cycle_30_30_40": {"since_2017_01": 0.30, "since_2020_01": 0.30, "since_2023_01": 0.40},
     "mid_cycle_30_40_30": {"since_2017_01": 0.30, "since_2020_01": 0.40, "since_2023_01": 0.30},
     "since_2020_only": {"since_2020_01": 1.00},
+    "since_2025_only": {"since_2025_01": 1.00},
+}
+
+SAMPLE_STARTS = {
+    "since_2017_01": pd.Timestamp("2017-01-01"),
+    "since_2020_01": pd.Timestamp("2020-01-01"),
+    "since_2023_01": pd.Timestamp("2023-01-01"),
+    "since_2025_01": pd.Timestamp("2025-01-01"),
 }
 
 STATIC_STRATEGIES = [
+    {
+        "base_id": "sse_benchmark",
+        "label": "SSE Composite",
+        "color": "#111827",
+        "kind": "benchmark",
+        "available_sample_tags": {"since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01"},
+    },
     {
         "base_id": "large_cap_pool",
         "label": "Large Cap Static",
         "color": "#0f766e",
         "kind": "static",
-        "available_sample_tags": {"since_2020_01", "since_2023_01"},
+        "available_sample_tags": {"since_2020_01", "since_2023_01", "since_2025_01"},
     },
     {
         "base_id": "kechuang_xuangu",
         "label": "Kechuang Static",
         "color": "#1d4ed8",
         "kind": "static",
-        "available_sample_tags": {"since_2020_01", "since_2023_01"},
+        "available_sample_tags": {"since_2020_01", "since_2023_01", "since_2025_01"},
     },
 ]
 
@@ -91,7 +109,6 @@ COMPACT_STRATEGIES = [
         "label": "80/20 Winner Core (Aggressive)",
         "color": "#dc2626",
     },
-    {"base_id": "pure_core_growth_6", "label": "Pure Core 6", "color": "#7c3aed"},
 ]
 
 STRATEGY_LABEL_BY_ID = {item["base_id"]: item["label"] for item in STATIC_STRATEGIES + COMPACT_STRATEGIES}
@@ -155,7 +172,8 @@ def load_weighted_winners() -> dict:
     short = pick(TRACK_WEIGHTS["short_cycle_30_30_40"])
     mid = pick(TRACK_WEIGHTS["mid_cycle_30_40_30"])
     window_2020 = pick(TRACK_WEIGHTS["since_2020_only"])
-    if not short or not mid or not window_2020:
+    window_2025 = pick(TRACK_WEIGHTS["since_2025_only"])
+    if not short or not mid or not window_2020 or not window_2025:
         return {}
     return {
         "as_of": str(latest["sample_end"].max().date()),
@@ -163,6 +181,7 @@ def load_weighted_winners() -> dict:
             "short_cycle_30_30_40": {"weights": TRACK_WEIGHTS["short_cycle_30_30_40"], "winner": short[0], "metrics": short[1]},
             "mid_cycle_30_40_30": {"weights": TRACK_WEIGHTS["mid_cycle_30_40_30"], "winner": mid[0], "metrics": mid[1]},
             "since_2020_only": {"weights": TRACK_WEIGHTS["since_2020_only"], "winner": window_2020[0], "metrics": window_2020[1]},
+            "since_2025_only": {"weights": TRACK_WEIGHTS["since_2025_only"], "winner": window_2025[0], "metrics": window_2025[1]},
         },
     }
 
@@ -171,6 +190,7 @@ WEIGHTED_WINNERS = load_weighted_winners()
 SHORT_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("short_cycle_30_30_40", {}).get("winner")
 MID_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("mid_cycle_30_40_30", {}).get("winner")
 WINDOW_2020_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("since_2020_only", {}).get("winner")
+WINDOW_2025_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("since_2025_only", {}).get("winner")
 
 
 def is_short_winner(base_id: str) -> bool:
@@ -189,6 +209,10 @@ def is_2020_winner(base_id: str) -> bool:
     return bool(WINDOW_2020_WINNER_ID) and base_id == WINDOW_2020_WINNER_ID
 
 
+def is_2025_winner(base_id: str) -> bool:
+    return bool(WINDOW_2025_WINNER_ID) and base_id == WINDOW_2025_WINNER_ID
+
+
 def winner_tags(base_id: str) -> set[str]:
     tags: set[str] = set()
     if base_id == SHORT_WINNER_ID:
@@ -197,6 +221,8 @@ def winner_tags(base_id: str) -> set[str]:
         tags.add("mid")
     if base_id == WINDOW_2020_WINNER_ID:
         tags.add("2020")
+    if base_id == WINDOW_2025_WINNER_ID:
+        tags.add("2025")
     return tags
 
 
@@ -206,6 +232,7 @@ def _maybe_add_tracked_winners() -> None:
         ("short", SHORT_WINNER_ID, "#2563eb"),
         ("mid", MID_WINNER_ID, "#dc2626"),
         ("2020", WINDOW_2020_WINNER_ID, "#f59e0b"),
+        ("2025", WINDOW_2025_WINNER_ID, "#10b981"),
     ]
     strategy_meta = WEIGHTED_WINNERS.get("strategies", {}) if isinstance(WEIGHTED_WINNERS, dict) else {}
     for _, base_id, color in winners:
@@ -260,6 +287,49 @@ def compute_window_metrics(equity: pd.DataFrame, monthly_returns: pd.DataFrame, 
     }
 
 
+def slice_equity_window(
+    equity: pd.DataFrame,
+    monthly_returns: pd.DataFrame,
+    turnover: pd.DataFrame,
+    sample_start: pd.Timestamp,
+) -> tuple[pd.DataFrame, dict]:
+    equity_window = equity[equity["date"] >= sample_start].copy()
+    if equity_window.empty:
+        raise FileNotFoundError(f"No data for window starting {sample_start.date()}")
+    start_nav = float(equity_window.iloc[0]["nav"])
+    equity_window["nav"] = equity_window["nav"] / start_nav
+    equity_window["drawdown"] = equity_window["nav"] / equity_window["nav"].cummax() - 1.0
+    monthly_window = monthly_returns[monthly_returns["date"] >= sample_start].copy()
+    turnover_window = turnover[turnover["date"] >= sample_start].copy()
+    return equity_window, compute_window_metrics(equity_window, monthly_window, turnover_window)
+
+
+def load_benchmark_window(sample_tag: str) -> tuple[pd.DataFrame, dict]:
+    cache_path = ROOT / "data_cache" / "index_daily" / "000001.SH.csv"
+    if not cache_path.exists():
+        raise FileNotFoundError("SSE benchmark cache missing: 000001.SH.csv")
+    sample_start = SAMPLE_STARTS[sample_tag]
+    benchmark = pd.read_csv(cache_path, parse_dates=["trade_date"]).sort_values("trade_date")
+    benchmark = benchmark[benchmark["trade_date"] >= sample_start].copy()
+    if benchmark.empty:
+        raise FileNotFoundError(f"SSE benchmark unavailable for {sample_tag}")
+    benchmark["nav"] = benchmark["close"].astype(float) / float(benchmark["close"].iloc[0])
+    benchmark["drawdown"] = benchmark["nav"] / benchmark["nav"].cummax() - 1.0
+    equity = benchmark.rename(columns={"trade_date": "date"})[["date", "nav", "drawdown"]].copy()
+    monthly = (
+        equity.assign(month=equity["date"].dt.to_period("M"))
+        .groupby("month", as_index=False)
+        .tail(1)
+        .sort_values("date")
+    )
+    monthly["net_return"] = monthly["nav"].pct_change().fillna(0.0)
+    monthly["portfolio_return"] = monthly["net_return"]
+    monthly["gross_return"] = monthly["net_return"]
+    monthly["trading_cost"] = 0.0
+    turnover = pd.DataFrame(columns=["date", "one_way_turnover"])
+    return equity, compute_window_metrics(equity, monthly[["date", "net_return", "portfolio_return", "gross_return", "trading_cost"]], turnover)
+
+
 def load_static_window(base_id: str, sample_tag: str) -> tuple[pd.DataFrame, dict]:
     summary_path = RESULTS_DIR / base_id / "summary.json"
     equity_path = RESULTS_DIR / base_id / "equity_curve.csv"
@@ -274,30 +344,40 @@ def load_static_window(base_id: str, sample_tag: str) -> tuple[pd.DataFrame, dic
     if sample_tag == "since_2020_01":
         return equity, summary["metrics"]
 
-    if sample_tag != "since_2023_01":
+    if sample_tag not in {"since_2023_01", "since_2025_01"}:
         raise FileNotFoundError(f"Static strategy {base_id} does not support {sample_tag}")
-
-    sample_start = pd.Timestamp("2023-01-01")
-    equity_window = equity[equity["date"] >= sample_start].copy()
-    if equity_window.empty:
-        raise FileNotFoundError(f"Static strategy {base_id} has no data for {sample_tag}")
-    start_nav = float(equity_window.iloc[0]["nav"])
-    equity_window["nav"] = equity_window["nav"] / start_nav
-    equity_window["drawdown"] = equity_window["nav"] / equity_window["nav"].cummax() - 1.0
-    monthly_window = monthly_returns[monthly_returns["date"] >= sample_start].copy()
-    turnover_window = turnover[turnover["date"] >= sample_start].copy()
-    return equity_window, compute_window_metrics(equity_window, monthly_window, turnover_window)
+    return slice_equity_window(equity, monthly_returns, turnover, SAMPLE_STARTS[sample_tag])
 
 
 def load_strategy_window(config: dict, sample_tag: str) -> tuple[pd.DataFrame, dict]:
     if sample_tag not in config.get("available_sample_tags", {sample_tag}):
         raise FileNotFoundError(f"{config['label']} unavailable for {sample_tag}")
+    if config.get("kind") == "benchmark":
+        return load_benchmark_window(sample_tag)
     if config.get("kind") == "static":
         return load_static_window(config["base_id"], sample_tag)
 
-    summary = load_summary(build_result_path(config["base_id"], sample_tag, "summary.json"))
-    equity = pd.read_csv(build_result_path(config["base_id"], sample_tag, "equity_curve.csv"), parse_dates=["date"])
-    return equity, summary["metrics"]
+    target_dir = build_result_path(config["base_id"], sample_tag, "summary.json")
+    if target_dir.exists():
+        summary = load_summary(target_dir)
+        equity = pd.read_csv(build_result_path(config["base_id"], sample_tag, "equity_curve.csv"), parse_dates=["date"])
+        return equity, summary["metrics"]
+
+    if sample_tag != "since_2025_01":
+        raise FileNotFoundError(f"{config['label']} missing {sample_tag}")
+
+    for fallback_tag in ("since_2023_01", "since_2020_01", "since_2017_01"):
+        summary_path = build_result_path(config["base_id"], fallback_tag, "summary.json")
+        equity_path = build_result_path(config["base_id"], fallback_tag, "equity_curve.csv")
+        monthly_path = build_result_path(config["base_id"], fallback_tag, "monthly_returns.csv")
+        turnover_path = build_result_path(config["base_id"], fallback_tag, "turnover.csv")
+        if not (summary_path.exists() and equity_path.exists() and monthly_path.exists() and turnover_path.exists()):
+            continue
+        equity = pd.read_csv(equity_path, parse_dates=["date"])
+        monthly_returns = pd.read_csv(monthly_path, parse_dates=["date"])
+        turnover = pd.read_csv(turnover_path, parse_dates=["date"])
+        return slice_equity_window(equity, monthly_returns, turnover, SAMPLE_STARTS[sample_tag])
+    raise FileNotFoundError(f"{config['label']} missing {sample_tag}")
 
 
 def load_full_family_strategies() -> list[dict]:
@@ -370,12 +450,16 @@ def plot_nav_curves(ax: plt.Axes, sample_tag: str, title: str, strategies: list[
         highlight = bool(tags)
         if "2020" in tags and ("short" in tags or "mid" in tags):
             linestyle = "-."
+        elif "2025" in tags and ("short" in tags or "mid" in tags or "2020" in tags):
+            linestyle = (0, (5, 2, 1, 2))
         elif "mid" in tags or is_both_winner(base_id):
             linestyle = "-"
         elif "short" in tags:
             linestyle = "--"
         elif "2020" in tags:
             linestyle = ":"
+        elif "2025" in tags:
+            linestyle = (0, (3, 2))
         else:
             linestyle = "-"
         ax.plot(
@@ -407,6 +491,8 @@ def plot_risk_return(ax: plt.Axes, frame: pd.DataFrame, title: str) -> None:
             marker = "D"
         elif "2020" in tags:
             marker = "^"
+        elif "2025" in tags:
+            marker = "P"
         ax.scatter(
             row["cagr"] * 100,
             row["max_drawdown"] * 100,
@@ -471,6 +557,8 @@ def plot_metric_table(ax: plt.Axes, frame: pd.DataFrame, title: str) -> None:
                 cell.set_facecolor("#dbeafe")
             elif "2020" in tags:
                 cell.set_facecolor("#fef3c7")
+            elif "2025" in tags:
+                cell.set_facecolor("#dcfce7")
 
 
 def build_winner_note() -> str | None:
@@ -479,15 +567,18 @@ def build_winner_note() -> str | None:
     short_metrics = WEIGHTED_WINNERS["tracks"]["short_cycle_30_30_40"]["metrics"]
     mid_metrics = WEIGHTED_WINNERS["tracks"]["mid_cycle_30_40_30"]["metrics"]
     window_2020_metrics = WEIGHTED_WINNERS["tracks"]["since_2020_only"]["metrics"]
+    window_2025_metrics = WEIGHTED_WINNERS["tracks"]["since_2025_only"]["metrics"]
     short_label = STRATEGY_LABEL_BY_ID.get(SHORT_WINNER_ID, SHORT_WINNER_ID)
     mid_label = STRATEGY_LABEL_BY_ID.get(MID_WINNER_ID, MID_WINNER_ID)
     window_2020_label = STRATEGY_LABEL_BY_ID.get(WINDOW_2020_WINNER_ID, WINDOW_2020_WINNER_ID)
+    window_2025_label = STRATEGY_LABEL_BY_ID.get(WINDOW_2025_WINNER_ID, WINDOW_2025_WINNER_ID)
     as_of = WEIGHTED_WINNERS.get("as_of", "n/a")
     return (
         "Weighted winners (as of {as_of})\n"
         "Short-cycle 30/30/40: {short_label} | wCAGR {scagr}, wSharpe {ssharpe:.3f}, wMaxDD {sdd}, wTurn {sturn:.2f}\n"
         "Mid-cycle 30/40/30: {mid_label} | wCAGR {mcagr}, wSharpe {msharpe:.3f}, wMaxDD {mdd}, wTurn {mturn:.2f}\n"
-        "2020-only checkpoint: {w20_label} | CAGR {w20cagr}, Sharpe {w20sharpe:.3f}, MaxDD {w20dd}, Turn {w20turn:.2f}"
+        "2020-only checkpoint: {w20_label} | CAGR {w20cagr}, Sharpe {w20sharpe:.3f}, MaxDD {w20dd}, Turn {w20turn:.2f}\n"
+        "2025-only checkpoint: {w25_label} | CAGR {w25cagr}, Sharpe {w25sharpe:.3f}, MaxDD {w25dd}, Turn {w25turn:.2f}"
     ).format(
         as_of=as_of,
         short_label=short_label,
@@ -505,6 +596,11 @@ def build_winner_note() -> str | None:
         w20sharpe=float(window_2020_metrics.get("weighted_sharpe")),
         w20dd=_fmt_pct(window_2020_metrics.get("weighted_max_drawdown")),
         w20turn=float(window_2020_metrics.get("weighted_turnover")),
+        w25_label=window_2025_label,
+        w25cagr=_fmt_pct(window_2025_metrics.get("weighted_cagr")),
+        w25sharpe=float(window_2025_metrics.get("weighted_sharpe")),
+        w25dd=_fmt_pct(window_2025_metrics.get("weighted_max_drawdown")),
+        w25turn=float(window_2025_metrics.get("weighted_turnover")),
     )
 
 

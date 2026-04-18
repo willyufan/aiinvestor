@@ -12,7 +12,7 @@ The project focuses on building and iterating a monthly-rebalanced stock selecti
 ## Current Best Strategy
 
 This project no longer picks a single “best” strategy by one sample window.
-Instead, we keep **three tracked winners in parallel** using **weighted multi-window scoring** across:
+Instead, we keep **four tracked winners in parallel** using **weighted multi-window scoring** across:
 
 - `since_2017_01` (long window)
 - `since_2020_01` (mid window)
@@ -27,44 +27,60 @@ This repo tracks *three winners in parallel* using weighted multi-window scoring
 - `since_2017_01` (long window)
 - `since_2020_01` (mid window)
 - `since_2023_01` (short window)
+- `since_2025_01` (very short window)
 
 ### Short-cycle Winner (30/30/40)
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_ramp90` (核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(分步加仓))
+- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6` (核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只)
 - Weighted (CAGR / Sharpe / Max DD / Turnover): `24.69%` / `0.9124` / `-22.75%` / `2.85`
 
-Window metrics (as of `2026-04-17`, weights: 2017-01=30%, 2020-01=30%, 2023-01=40%):
+Window metrics (as of `2026-04-18`, weights: 2017-01=30%, 2020-01=30%, 2023-01=40%):
 
-- `2017-01-01` → `2026-04-17`: CAGR `22.33%`, Max DD `-22.02%`, Sharpe `0.9442`
-- `2020-01-01` → `2026-04-17`: CAGR `24.26%`, Max DD `-20.95%`, Sharpe `0.8945`
-- `2023-01-01` → `2026-04-17`: CAGR `26.78%`, Max DD `-24.63%`, Sharpe `0.9020`
+- `2017-01-01` → `2026-04-18`: CAGR `22.33%`, Max DD `-22.02%`, Sharpe `0.9442`
+- `2020-01-01` → `2026-04-18`: CAGR `24.26%`, Max DD `-20.95%`, Sharpe `0.8945`
+- `2023-01-01` → `2026-04-18`: CAGR `26.78%`, Max DD `-24.63%`, Sharpe `0.9020`
+- `2025-01-01` → `2026-04-18`: CAGR `62.45%`, Max DD `-13.40%`, Sharpe `1.5153`
 
 ### Mid-cycle Winner (30/40/30)
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_ramp90` (核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(分步加仓))
+- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6` (核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只)
 - Weighted (CAGR / Sharpe / Max DD / Turnover): `24.44%` / `0.9117` / `-22.38%` / `2.85`
 
-Window metrics (as of `2026-04-17`, weights: 2017-01=30%, 2020-01=40%, 2023-01=30%):
+Window metrics (as of `2026-04-18`, weights: 2017-01=30%, 2020-01=40%, 2023-01=30%):
 
-- `2017-01-01` → `2026-04-17`: CAGR `22.33%`, Max DD `-22.02%`, Sharpe `0.9442`
-- `2020-01-01` → `2026-04-17`: CAGR `24.26%`, Max DD `-20.95%`, Sharpe `0.8945`
-- `2023-01-01` → `2026-04-17`: CAGR `26.78%`, Max DD `-24.63%`, Sharpe `0.9020`
+- `2017-01-01` → `2026-04-18`: CAGR `22.33%`, Max DD `-22.02%`, Sharpe `0.9442`
+- `2020-01-01` → `2026-04-18`: CAGR `24.26%`, Max DD `-20.95%`, Sharpe `0.8945`
+- `2023-01-01` → `2026-04-18`: CAGR `26.78%`, Max DD `-24.63%`, Sharpe `0.9020`
+- `2025-01-01` → `2026-04-18`: CAGR `62.45%`, Max DD `-13.40%`, Sharpe `1.5153`
 
 ### 2020-Window Winner (2020-only checkpoint)
 
 - Strategy: `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6` (核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只)
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `25.81%` / `0.9173` / `-21.86%` / `2.86`
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `24.26%` / `0.8945` / `-20.95%` / `2.93`
 
-Window metrics (as of `2026-04-17`, weights: 2020-01=100%):
+Window metrics (as of `2026-04-18`, weights: 2020-01=100%):
 
-- `2017-01-01` → `2026-04-17`: CAGR `20.01%`, Max DD `-22.76%`, Sharpe `0.8560`
-- `2020-01-01` → `2026-04-17`: CAGR `25.81%`, Max DD `-21.86%`, Sharpe `0.9173`
-- `2023-01-01` → `2026-04-17`: CAGR `25.22%`, Max DD `-24.67%`, Sharpe `0.8503`
+- `2017-01-01` → `2026-04-18`: CAGR `22.33%`, Max DD `-22.02%`, Sharpe `0.9442`
+- `2020-01-01` → `2026-04-18`: CAGR `24.26%`, Max DD `-20.95%`, Sharpe `0.8945`
+- `2023-01-01` → `2026-04-18`: CAGR `26.78%`, Max DD `-24.63%`, Sharpe `0.9020`
+- `2025-01-01` → `2026-04-18`: CAGR `62.45%`, Max DD `-13.40%`, Sharpe `1.5153`
+
+### 2025-Window Winner (2025-only checkpoint)
+
+- Strategy: `large_cap_pool` (large_cap_pool)
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `62.92%` / `1.1954` / `-15.13%` / `2.13`
+
+Window metrics (as of `2026-04-18`, weights: 2025-01=100%):
+
+- `2017-01-01` window: n/a
+- `2020-01-01` window: n/a
+- `2023-01-01` window: n/a
+- `2025-01-01` → `2026-04-18`: CAGR `62.92%`, Max DD `-15.13%`, Sharpe `1.1954`
 
 <!-- AUTO:WEIGHTED-WINNERS:END -->
 
-When the winner tracks differ, we keep all of them (short-cycle vs mid-cycle vs 2020-only checkpoint) as an anti-overfitting guardrail.
-The comparison charts in `docs/strategy_comparison_since_2017_01.png`, `docs/strategy_comparison_since_2020_01.png`, and `docs/strategy_comparison_since_2023_01.png` highlight the tracked winners. The full-family views in `docs/strategy_family_since_2017_01.png`, `docs/strategy_family_since_2020_01.png`, and `docs/strategy_family_since_2023_01.png` show the broader strategy set using the same cached results.
+When the winner tracks differ, we keep all of them (short-cycle vs mid-cycle vs 2020-only checkpoint vs 2025-only checkpoint) as an anti-overfitting guardrail.
+The comparison charts in `docs/strategy_comparison_since_2017_01.png`, `docs/strategy_comparison_since_2020_01.png`, `docs/strategy_comparison_since_2023_01.png`, and `docs/strategy_comparison_since_2025_01.png` highlight the tracked winners. The full-family views in `docs/strategy_family_since_2017_01.png`, `docs/strategy_family_since_2020_01.png`, `docs/strategy_family_since_2023_01.png`, and `docs/strategy_family_since_2025_01.png` show the broader strategy set using the same cached results.
 
 This strategy uses:
 
@@ -135,6 +151,7 @@ Each strategy run writes results under `results/`, including:
 - `monthly_returns.csv`
 - `annual_returns.csv`
 - `latest_weights.csv`
+- `weights_history.csv` (每月末持仓权重快照，含 `CASH` 现金行)
 - `turnover.csv`
 - `summary.json`
 - `equity_curve.png`
@@ -237,11 +254,12 @@ The project has already been initialized as a git repository and synced to GitHu
 
 ### 结果对比图
 
-下面三张图分别展示：
+下面四张图分别展示：
 
 - `2017-01 起` 长样本
 - `2020-01 起` 中样本
 - `2023-01 起` 短样本
+- `2025-01 起` 超短样本
 
 每张图都包含：
 
@@ -251,12 +269,12 @@ The project has already been initialized as a git repository and synced to GitHu
 
 图中最关键的策略包括：
 
-- `Large Cap Static`：你最早给定的大市值池，当前放在 `2020-01` 与 `2023-01` 两个窗口里作为静态参考
-- `Kechuang Static`：你最早给定的科创池，因科创板发布时间较晚，只放在 `2020-01` 与 `2023-01` 两个窗口
+- `SSE Composite`：上证指数基准，用于看策略相对大盘的超额表现
+- `Large Cap Static`：你最早给定的大市值池，当前放在 `2020-01`、`2023-01` 与 `2025-01` 三个窗口里作为静态参考
+- `Kechuang Static`：你最早给定的科创池，因科创板发布时间较晚，当前放在 `2020-01`、`2023-01` 与 `2025-01` 三个窗口
 - `80/20 Index Core`：优化前的动态基线
 - `80/20 Winner Core`：标准版胜出者核心
 - `80/20 Winner Core (Aggressive)`：当前长中样本的最佳动态版本
-- `Pure Core 6`：纯核心集中实验版
 
 #### 2017-01 起
 
@@ -270,9 +288,13 @@ The project has already been initialized as a git repository and synced to GitHu
 
 ![Strategy Comparison Since 2023-01](docs/strategy_comparison_since_2023_01.png)
 
+#### 2025-01 起
+
+![Strategy Comparison Since 2025-01](docs/strategy_comparison_since_2025_01.png)
+
 ### 完整策略家族对比图
 
-下面三张图使用同一批已有回测结果，展示更完整的策略家族，不需要额外重跑回测：
+下面四张图使用同一批已有回测结果，展示更完整的策略家族，不需要额外重跑回测：
 
 #### 2017-01 起（完整家族）
 
@@ -285,3 +307,7 @@ The project has already been initialized as a git repository and synced to GitHu
 #### 2023-01 起（完整家族）
 
 ![Strategy Family Since 2023-01](docs/strategy_family_since_2023_01.png)
+
+#### 2025-01 起（完整家族）
+
+![Strategy Family Since 2025-01](docs/strategy_family_since_2025_01.png)
