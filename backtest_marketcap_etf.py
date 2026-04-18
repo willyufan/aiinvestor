@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -67,10 +68,24 @@ ENHANCEMENT_BUCKET_PCT = 0.20
 BUY_ENTRY_PERCENTILE = 0.15
 SELL_EXIT_PERCENTILE = 0.25
 MIN_WEIGHT_TRADE_THRESHOLD = 0.01
+RISK_EVAL_FREQUENCY_MONTHLY = "monthly"
+RISK_EVAL_FREQUENCY_WEEKLY = "weekly"
+SAT_WEEKLY_RISK_SUFFIX = "__sat_weekly_risk"
+SAT_THREE_STAGE_SUFFIX = "__sat_three_stage_risk"
+SAT_THREE_STAGE_BUFFERED_SUFFIX = "__sat_three_stage_buffered"
 CORE_RISK_OFF_EXPOSURE = 0.60
 CORE_RISK_ON_EXPOSURE = 1.00
+CORE_CAUTION_EXPOSURE = 0.85
 SATELLITE_RISK_OFF_EXPOSURE = 0.30
 SATELLITE_RISK_ON_EXPOSURE = 1.00
+SATELLITE_CAUTION_EXPOSURE = 0.60
+MONTHLY_MOMENTUM_LOOKBACK = 12
+MONTHLY_MOMENTUM_SKIP = 1
+MONTHLY_MA_LOOKBACK = 10
+WEEKLY_MOMENTUM_LOOKBACK = 52
+WEEKLY_MOMENTUM_SKIP = 4
+WEEKLY_MA_LOOKBACK = 40
+WEEKLY_STAGE_CONFIRM_WEEKS = 2
 MARKET_INDEX_CODE = "000300.SH"
 BENCHMARK_INDEX_CODE = "000001.SH"
 CORE_INDEX_CODES = ["000300.SH", "000688.SH"]
@@ -376,6 +391,7 @@ WINNER_CORE_VARIANTS = [
 
 FACTOR_CACHE_VERSION = "v1"
 WINNER_ONLY_STRATEGY_ID = "core_explore_80_20_total_mv_winner_core"
+INDEX_CORE_BASE_ID = "core_explore_80_20_total_mv_index_core"
 
 CORE_EXPLORE_RATIO_CONFIGS = [
     {"strategy_id": "core_explore_80_20", "strategy_name": "核心80_探索20", "core_ratio": 0.80, "explore_ratio": 0.20},
@@ -439,6 +455,8 @@ FINA_DIR = CACHE_DIR / "fina_indicator"
 INDEX_DIR = CACHE_DIR / "index_daily"
 INDEX_WEIGHT_DIR = CACHE_DIR / "index_weight"
 FACTOR_PANEL_DIR = CACHE_DIR / "monthly_factor_cache"
+PREPARED_PANEL_DIR = CACHE_DIR / "prepared_panel_cache"
+PREPARED_CACHE_VERSION = "v1"
 
 
 @dataclass
@@ -470,10 +488,12 @@ class PreparedData:
     financials_by_code: Dict[str, pd.DataFrame]
     month_end_dates: List[pd.Timestamp]
     month_start_dates: List[pd.Timestamp]
+    week_end_dates: List[pd.Timestamp]
     code_to_name: Dict[str, str]
     code_to_list_date: Dict[str, pd.Timestamp]
     code_to_industry: Dict[str, str]
     market_monthly_close: pd.Series
+    market_weekly_close: pd.Series
     core_members_by_date: Dict[pd.Timestamp, Set[str]]
     explore_members_by_date: Dict[pd.Timestamp, Set[str]]
     core_index_weights_by_date: Dict[pd.Timestamp, pd.Series]
@@ -506,7 +526,7 @@ def normalize_codes(raw_codes: Iterable[str]) -> List[str]:
 
 
 def ensure_directories() -> None:
-    for path in [CACHE_DIR, DAILY_DIR, ADJ_DIR, DAILY_BASIC_DIR, FINA_DIR, INDEX_DIR, INDEX_WEIGHT_DIR, FACTOR_PANEL_DIR, RESULTS_DIR]:
+    for path in [CACHE_DIR, DAILY_DIR, ADJ_DIR, DAILY_BASIC_DIR, FINA_DIR, INDEX_DIR, INDEX_WEIGHT_DIR, FACTOR_PANEL_DIR, PREPARED_PANEL_DIR, RESULTS_DIR]:
         path.mkdir(parents=True, exist_ok=True)
 
 
@@ -909,14 +929,16 @@ def load_or_fetch_index_weight(pro, index_code: str, start_date: pd.Timestamp, e
     return index_weight
 
 
-def build_month_boundaries(calendar: pd.DataFrame) -> Tuple[List[pd.Timestamp], List[pd.Timestamp], pd.Index]:
+def build_month_boundaries(calendar: pd.DataFrame) -> Tuple[List[pd.Timestamp], List[pd.Timestamp], List[pd.Timestamp], pd.Index]:
     open_calendar = calendar.loc[calendar["is_open"] == 1, ["cal_date"]].copy()
     open_calendar = open_calendar.sort_values("cal_date").reset_index(drop=True)
     open_calendar["month"] = open_calendar["cal_date"].dt.to_period("M")
+    open_calendar["week"] = open_calendar["cal_date"].dt.to_period("W-FRI")
     month_end_dates = open_calendar.groupby("month")["cal_date"].max().sort_values().tolist()
     month_start_dates = open_calendar.groupby("month")["cal_date"].min().sort_values().tolist()
+    week_end_dates = open_calendar.groupby("week")["cal_date"].max().sort_values().tolist()
     full_calendar_index = pd.Index(open_calendar["cal_date"], name="trade_date")
-    return month_end_dates, month_start_dates, full_calendar_index
+    return month_end_dates, month_start_dates, week_end_dates, full_calendar_index
 
 
 def build_index_memberships_for_dates(index_weight_df: pd.DataFrame, signal_dates: List[pd.Timestamp]) -> Dict[pd.Timestamp, Set[str]]:
@@ -1050,7 +1072,7 @@ def build_monthly_panel(
     explore_index_weights_by_date: Dict[pd.Timestamp, pd.Series],
     data_warnings: List[str],
 ) -> PreparedData:
-    month_end_dates, month_start_dates, full_calendar_index = build_month_boundaries(calendar)
+    month_end_dates, month_start_dates, week_end_dates, full_calendar_index = build_month_boundaries(calendar)
 
     price_frames = []
     mv_frames = []
@@ -1118,6 +1140,16 @@ def build_monthly_panel(
         .set_index("trade_date")["close"]
     )
     market_monthly_close = market_monthly_table.reindex(pd.Index(month_end_dates)).ffill()
+    market_weekly_table = (
+        market_index_df[["trade_date", "close"]]
+        .dropna()
+        .sort_values("trade_date")
+        .assign(week=lambda df: df["trade_date"].dt.to_period("W-FRI"))
+        .groupby("week")
+        .tail(1)
+        .set_index("trade_date")["close"]
+    )
+    market_weekly_close = market_weekly_table.reindex(pd.Index(week_end_dates)).ffill()
 
     return PreparedData(
         stock_basic=selected_basic,
@@ -1128,10 +1160,12 @@ def build_monthly_panel(
         financials_by_code=financials_by_code,
         month_end_dates=month_end_dates,
         month_start_dates=month_start_dates,
+        week_end_dates=week_end_dates,
         code_to_name=code_to_name,
         code_to_list_date=code_to_list_date,
         code_to_industry=code_to_industry,
         market_monthly_close=market_monthly_close,
+        market_weekly_close=market_weekly_close,
         core_members_by_date=core_members_by_date,
         explore_members_by_date=explore_members_by_date,
         core_index_weights_by_date=core_index_weights_by_date,
@@ -1316,18 +1350,25 @@ def compute_industry_relative_strength_scores(
 
 
 def compute_market_exposure(
-    market_monthly_close: pd.Series,
+    market_close: pd.Series,
     signal_date: pd.Timestamp,
     *,
     risk_off_rule: str = "or",
+    risk_staging_mode: str = "two_stage",
     core_risk_off_exposure: float = CORE_RISK_OFF_EXPOSURE,
     core_risk_on_exposure: float = CORE_RISK_ON_EXPOSURE,
+    core_caution_exposure: float = CORE_CAUTION_EXPOSURE,
     satellite_risk_off_exposure: float = SATELLITE_RISK_OFF_EXPOSURE,
     satellite_risk_on_exposure: float = SATELLITE_RISK_ON_EXPOSURE,
+    satellite_caution_exposure: float = SATELLITE_CAUTION_EXPOSURE,
+    momentum_lookback: int = MONTHLY_MOMENTUM_LOOKBACK,
+    momentum_skip: int = MONTHLY_MOMENTUM_SKIP,
+    ma_lookback: int = MONTHLY_MA_LOOKBACK,
 ) -> Dict[str, float | bool]:
-    if signal_date not in market_monthly_close.index:
+    if signal_date not in market_close.index:
         return {
             "risk_off": False,
+            "risk_stage": "risk_on",
             "market_12_1_momentum": np.nan,
             "market_below_10m_ma": False,
             "core_target_exposure": core_risk_on_exposure,
@@ -1335,10 +1376,12 @@ def compute_market_exposure(
             "portfolio_target_exposure": core_risk_on_exposure,
         }
 
-    history = market_monthly_close.loc[:signal_date].dropna()
-    if len(history) < 12:
+    history = market_close.loc[:signal_date].dropna()
+    required_history = max(momentum_lookback + momentum_skip, ma_lookback)
+    if len(history) < required_history:
         return {
             "risk_off": False,
+            "risk_stage": "risk_on",
             "market_12_1_momentum": np.nan,
             "market_below_10m_ma": False,
             "core_target_exposure": core_risk_on_exposure,
@@ -1347,25 +1390,53 @@ def compute_market_exposure(
         }
 
     current_close = float(history.iloc[-1])
-    prior_1m_close = float(history.iloc[-2]) if len(history) >= 2 else np.nan
-    prior_12m_close = float(history.iloc[-12])
-    ma_10m = float(history.iloc[-10:].mean()) if len(history) >= 10 else np.nan
-    market_12_1_momentum = prior_1m_close / prior_12m_close - 1.0 if prior_12m_close > 0 and not np.isnan(prior_1m_close) else np.nan
-    below_ma = current_close < ma_10m if not np.isnan(ma_10m) else False
+    prior_skip_close = float(history.iloc[-1 - momentum_skip]) if len(history) > momentum_skip else np.nan
+    prior_lookback_close = float(history.iloc[-1 - momentum_lookback]) if len(history) > momentum_lookback else np.nan
+    moving_average = float(history.iloc[-ma_lookback:].mean()) if len(history) >= ma_lookback else np.nan
+    market_12_1_momentum = (
+        prior_skip_close / prior_lookback_close - 1.0
+        if prior_lookback_close > 0 and not np.isnan(prior_skip_close)
+        else np.nan
+    )
+    below_ma = current_close < moving_average if not np.isnan(moving_average) else False
     negative_mom = not np.isnan(market_12_1_momentum) and market_12_1_momentum < 0
     rule = str(risk_off_rule or "or").strip().lower()
     if rule == "and":
         risk_off = negative_mom and below_ma
+        caution = negative_mom ^ below_ma
     elif rule == "mom":
         risk_off = negative_mom
+        caution = below_ma and not negative_mom
     elif rule == "ma":
         risk_off = below_ma
+        caution = negative_mom and not below_ma
     else:
-        risk_off = negative_mom or below_ma
-    core_target_exposure = core_risk_off_exposure if risk_off else core_risk_on_exposure
-    satellite_target_exposure = satellite_risk_off_exposure if risk_off else satellite_risk_on_exposure
+        risk_off = negative_mom and below_ma
+        caution = negative_mom ^ below_ma
+
+    staging_mode = str(risk_staging_mode or "two_stage").strip().lower()
+    risk_stage = "risk_on"
+    if staging_mode == "three_stage":
+        if risk_off:
+            risk_stage = "risk_off"
+        elif caution:
+            risk_stage = "caution"
+    else:
+        risk_off = risk_off or caution
+        risk_stage = "risk_off" if risk_off else "risk_on"
+
+    if risk_stage == "risk_off":
+        core_target_exposure = core_risk_off_exposure
+        satellite_target_exposure = satellite_risk_off_exposure
+    elif risk_stage == "caution":
+        core_target_exposure = core_caution_exposure
+        satellite_target_exposure = satellite_caution_exposure
+    else:
+        core_target_exposure = core_risk_on_exposure
+        satellite_target_exposure = satellite_risk_on_exposure
     return {
-        "risk_off": risk_off,
+        "risk_off": risk_stage == "risk_off",
+        "risk_stage": risk_stage,
         "market_12_1_momentum": market_12_1_momentum,
         "market_below_10m_ma": below_ma,
         "core_target_exposure": core_target_exposure,
@@ -1384,6 +1455,67 @@ def build_factor_cache_path(prepared: PreparedData) -> Path:
         ]
     )
     return FACTOR_PANEL_DIR / f"{cache_key}.pkl"
+
+
+def build_prepared_cache_path(
+    normalized_codes: List[str],
+    start_date: pd.Timestamp,
+    end_date: pd.Timestamp,
+) -> Path:
+    digest = hashlib.md5(",".join(normalized_codes).encode("utf-8")).hexdigest()[:16]
+    cache_key = "_".join(
+        [
+            PREPARED_CACHE_VERSION,
+            start_date.strftime("%Y%m%d"),
+            end_date.strftime("%Y%m%d"),
+            str(len(normalized_codes)),
+            digest,
+        ]
+    )
+    return PREPARED_PANEL_DIR / f"{cache_key}.pkl"
+
+
+def load_prepared_cache(path: Path) -> PreparedData | None:
+    if not path.exists():
+        return None
+    payload = pd.read_pickle(path)
+    if not isinstance(payload, dict) or payload.get("version") != PREPARED_CACHE_VERSION:
+        return None
+    prepared = payload.get("prepared")
+    if not isinstance(prepared, PreparedData):
+        return None
+    required_attrs = ["week_end_dates", "market_weekly_close", "month_end_dates", "price_exact", "price_ffill", "total_mv"]
+    if any(not hasattr(prepared, attr) for attr in required_attrs):
+        return None
+    prepared.monthly_factor_cache = None
+    return prepared
+
+
+def save_prepared_cache(prepared: PreparedData, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    prepared_to_save = PreparedData(
+        stock_basic=prepared.stock_basic,
+        price_exact=prepared.price_exact,
+        price_ffill=prepared.price_ffill,
+        total_mv=prepared.total_mv,
+        daily_amount=prepared.daily_amount,
+        financials_by_code=prepared.financials_by_code,
+        month_end_dates=prepared.month_end_dates,
+        month_start_dates=prepared.month_start_dates,
+        week_end_dates=prepared.week_end_dates,
+        code_to_name=prepared.code_to_name,
+        code_to_list_date=prepared.code_to_list_date,
+        code_to_industry=prepared.code_to_industry,
+        market_monthly_close=prepared.market_monthly_close,
+        market_weekly_close=prepared.market_weekly_close,
+        core_members_by_date=prepared.core_members_by_date,
+        explore_members_by_date=prepared.explore_members_by_date,
+        core_index_weights_by_date=prepared.core_index_weights_by_date,
+        explore_index_weights_by_date=prepared.explore_index_weights_by_date,
+        data_warnings=prepared.data_warnings,
+        monthly_factor_cache=None,
+    )
+    pd.to_pickle({"version": PREPARED_CACHE_VERSION, "prepared": prepared_to_save}, path)
 
 
 def load_monthly_factor_cache(path: Path) -> MonthlyFactorCache | None:
@@ -2260,6 +2392,10 @@ def compute_rebalance_trades(
     target_weights: pd.Series,
     rebalance_date: pd.Timestamp,
     tradable_codes: Iterable[str],
+    *,
+    buy_commission: float = BUY_COMMISSION,
+    sell_commission_rate: float = SELL_COMMISSION,
+    stamp_rate_override: float | None = None,
 ) -> Tuple[pd.Series, float, pd.Series, float, Dict[str, float]]:
     current_values = current_values[current_values.abs() > 1e-12].copy()
     tradable_list = sorted(set(tradable_codes))
@@ -2294,7 +2430,7 @@ def compute_rebalance_trades(
         sorted(set(current_tradable_values.index) | set(tradable_allocation_shares.index))
     ].fillna(0.0)
 
-    stamp_rate = get_stamp_duty_rate(rebalance_date)
+    stamp_rate = get_stamp_duty_rate(rebalance_date) if stamp_rate_override is None else float(stamp_rate_override)
     post_trade_nav_guess = pre_trade_nav
     desired_tradable_values = pd.Series(dtype=float)
     desired_cash = current_cash
@@ -2323,8 +2459,8 @@ def compute_rebalance_trades(
         buy_amount = float(trade_deltas[trade_deltas > 0].sum())
         sell_amount = float((-trade_deltas[trade_deltas < 0]).sum())
 
-        buy_cost = buy_amount * BUY_COMMISSION
-        sell_commission = sell_amount * SELL_COMMISSION
+        buy_cost = buy_amount * buy_commission
+        sell_commission = sell_amount * sell_commission_rate
         sell_stamp_duty = sell_amount * stamp_rate
         trading_cost = buy_cost + sell_commission + sell_stamp_duty
         new_guess = pre_trade_nav - trading_cost
@@ -2351,8 +2487,8 @@ def compute_rebalance_trades(
     stats = {
         "buy_amount": buy_amount,
         "sell_amount": sell_amount,
-        "buy_cost": buy_amount * BUY_COMMISSION,
-        "sell_commission": sell_amount * SELL_COMMISSION,
+        "buy_cost": buy_amount * buy_commission,
+        "sell_commission": sell_amount * sell_commission_rate,
         "sell_stamp_duty": sell_amount * stamp_rate,
         "trading_cost": trading_cost,
         "one_way_turnover": one_way_turnover,
@@ -2364,6 +2500,234 @@ def compute_rebalance_trades(
         "cash_after_trade": desired_cash,
     }
     return post_trade_positions, float(desired_cash), gross_positions, float(gross_cash), stats
+
+
+def build_satellite_overlay_target_weights(
+    positions: pd.Series,
+    cash_value: float,
+    *,
+    core_codes: Set[str],
+    satellite_codes: Set[str],
+    satellite_total_weight: float,
+) -> pd.Series:
+    nav = float(positions.sum() + cash_value)
+    if nav <= 0:
+        return pd.Series(dtype=float)
+
+    core_values = positions.reindex(sorted(core_codes), fill_value=0.0)
+    core_values = core_values[core_values > 1e-12]
+    satellite_values = positions.reindex(sorted(satellite_codes), fill_value=0.0)
+    satellite_values = satellite_values[satellite_values > 1e-12]
+
+    parts: List[pd.Series] = []
+    if not core_values.empty:
+        parts.append(core_values / nav)
+    if not satellite_values.empty and satellite_total_weight > 0:
+        available_sat_weight = max(0.0, 1.0 - float(core_values.sum()) / nav)
+        target_sat_weight = min(float(satellite_total_weight), available_sat_weight)
+        satellite_internal = satellite_values / float(satellite_values.sum())
+        parts.append(satellite_internal * target_sat_weight)
+    if not parts:
+        return pd.Series(dtype=float)
+    return pd.concat(parts).groupby(level=0).sum().sort_values(ascending=False)
+
+
+def _risk_stage_rank(stage: str) -> int:
+    mapping = {"risk_on": 0, "caution": 1, "risk_off": 2}
+    return mapping.get(str(stage), 0)
+
+
+def _risk_stage_from_rank(rank: int) -> str:
+    mapping = {0: "risk_on", 1: "caution", 2: "risk_off"}
+    return mapping.get(int(rank), "risk_on")
+
+
+def apply_buffered_stage_transition(
+    *,
+    raw_stage: str,
+    state: Dict[str, object],
+    confirm_weeks: int,
+    stepwise: bool = True,
+) -> Tuple[str, Dict[str, object]]:
+    confirmed_stage = str(state.get("confirmed_stage", "risk_on"))
+    pending_stage = state.get("pending_stage")
+    pending_count = int(state.get("pending_count", 0))
+
+    if raw_stage == confirmed_stage:
+        return confirmed_stage, {"confirmed_stage": confirmed_stage, "pending_stage": None, "pending_count": 0}
+
+    if raw_stage == pending_stage:
+        pending_count += 1
+    else:
+        pending_stage = raw_stage
+        pending_count = 1
+
+    if pending_count >= confirm_weeks:
+        target_rank = _risk_stage_rank(raw_stage)
+        current_rank = _risk_stage_rank(confirmed_stage)
+        if stepwise and abs(target_rank - current_rank) > 1:
+            next_rank = current_rank + 1 if target_rank > current_rank else current_rank - 1
+            confirmed_stage = _risk_stage_from_rank(next_rank)
+        else:
+            confirmed_stage = raw_stage
+        return confirmed_stage, {"confirmed_stage": confirmed_stage, "pending_stage": None, "pending_count": 0}
+
+    return confirmed_stage, {"confirmed_stage": confirmed_stage, "pending_stage": pending_stage, "pending_count": pending_count}
+
+
+def apply_weekly_satellite_risk_overlay(
+    *,
+    prepared: PreparedData,
+    positions: pd.Series,
+    cash_value: float,
+    gross_positions: pd.Series,
+    gross_cash_value: float,
+    rebalance_date: pd.Timestamp,
+    holding_month_end: pd.Timestamp,
+    core_codes: Set[str],
+    satellite_codes: Set[str],
+    strategy_config: Dict[str, object],
+    overlay_state: Dict[str, object],
+) -> Tuple[pd.Series, float, pd.Series, float, List[Dict[str, object]], Dict[str, float], Dict[str, object]]:
+    risk_frequency = str(strategy_config.get("risk_evaluation_frequency", RISK_EVAL_FREQUENCY_MONTHLY) or RISK_EVAL_FREQUENCY_MONTHLY)
+    overlay_scope = str(strategy_config.get("risk_overlay_scope", "") or "")
+    if risk_frequency != RISK_EVAL_FREQUENCY_WEEKLY or overlay_scope != "satellite_only":
+        return positions, cash_value, gross_positions, gross_cash_value, [], {
+            "weekly_overlay_trade_count": 0,
+            "weekly_overlay_trading_cost": 0.0,
+            "weekly_overlay_avg_one_way_turnover": 0.0,
+        }, overlay_state
+
+    overlay_dates = [date for date in prepared.week_end_dates if rebalance_date < date < holding_month_end]
+    if not overlay_dates or not satellite_codes:
+        return positions, cash_value, gross_positions, gross_cash_value, [], {
+            "weekly_overlay_trade_count": 0,
+            "weekly_overlay_trading_cost": 0.0,
+            "weekly_overlay_avg_one_way_turnover": 0.0,
+        }, overlay_state
+
+    explore_ratio = float(strategy_config.get("explore_ratio", 0.0))
+    market_risk_off_rule = str(strategy_config.get("market_risk_off_rule", "or") or "or").strip().lower()
+    risk_staging_mode = str(strategy_config.get("risk_staging_mode", "two_stage") or "two_stage").strip().lower()
+    use_buffered_stage = bool(strategy_config.get("risk_stage_buffered", False))
+    confirm_weeks = int(strategy_config.get("risk_stage_confirm_weeks", WEEKLY_STAGE_CONFIRM_WEEKS))
+    satellite_risk_off_exposure = float(strategy_config.get("satellite_risk_off_exposure", SATELLITE_RISK_OFF_EXPOSURE))
+    satellite_risk_on_exposure = float(strategy_config.get("satellite_risk_on_exposure", SATELLITE_RISK_ON_EXPOSURE))
+    satellite_caution_exposure = float(strategy_config.get("satellite_caution_exposure", SATELLITE_CAUTION_EXPOSURE))
+
+    overlay_turnover_rows: List[Dict[str, object]] = []
+    overlay_count = 0
+    cumulative_cost = 0.0
+    overlay_turnovers: List[float] = []
+    prev_date = rebalance_date
+
+    for overlay_date in overlay_dates:
+        if not positions.empty:
+            prices_prev = prepared.price_ffill.loc[prev_date, positions.index]
+            prices_now = prepared.price_ffill.loc[overlay_date, positions.index]
+            positions = positions * (prices_now / prices_prev)
+        if not gross_positions.empty:
+            gross_prices_prev = prepared.price_ffill.loc[prev_date, gross_positions.index]
+            gross_prices_now = prepared.price_ffill.loc[overlay_date, gross_positions.index]
+            gross_positions = gross_positions * (gross_prices_now / gross_prices_prev)
+
+        regime = compute_market_exposure(
+            prepared.market_weekly_close,
+            overlay_date,
+            risk_off_rule=market_risk_off_rule,
+            risk_staging_mode=risk_staging_mode,
+            core_risk_off_exposure=CORE_RISK_OFF_EXPOSURE,
+            core_risk_on_exposure=CORE_RISK_ON_EXPOSURE,
+            core_caution_exposure=CORE_CAUTION_EXPOSURE,
+            satellite_risk_off_exposure=satellite_risk_off_exposure,
+            satellite_risk_on_exposure=satellite_risk_on_exposure,
+            satellite_caution_exposure=satellite_caution_exposure,
+            momentum_lookback=WEEKLY_MOMENTUM_LOOKBACK,
+            momentum_skip=WEEKLY_MOMENTUM_SKIP,
+            ma_lookback=WEEKLY_MA_LOOKBACK,
+        )
+        effective_stage = str(regime["risk_stage"])
+        if use_buffered_stage and risk_staging_mode == "three_stage":
+            effective_stage, overlay_state = apply_buffered_stage_transition(
+                raw_stage=str(regime["risk_stage"]),
+                state=overlay_state,
+                confirm_weeks=confirm_weeks,
+                stepwise=True,
+            )
+        else:
+            overlay_state = {"confirmed_stage": effective_stage, "pending_stage": None, "pending_count": 0}
+
+        if effective_stage == "risk_off":
+            satellite_target_exposure = satellite_risk_off_exposure
+        elif effective_stage == "caution":
+            satellite_target_exposure = satellite_caution_exposure
+        else:
+            satellite_target_exposure = satellite_risk_on_exposure
+        target_weights = build_satellite_overlay_target_weights(
+            positions,
+            cash_value,
+            core_codes=core_codes,
+            satellite_codes=satellite_codes,
+            satellite_total_weight=float(explore_ratio) * satellite_target_exposure,
+        )
+        tradable_codes = []
+        if overlay_date in prepared.price_exact.index:
+            exact_prices = prepared.price_exact.loc[overlay_date]
+            tradable_codes = exact_prices[exact_prices.notna()].index.tolist()
+
+        positions, cash_value, _, _, trade_stats = compute_rebalance_trades(
+            current_values=positions,
+            current_cash=cash_value,
+            target_weights=target_weights,
+            rebalance_date=overlay_date,
+            tradable_codes=tradable_codes,
+        )
+        gross_positions, gross_cash_value, _, _, _ = compute_rebalance_trades(
+            current_values=gross_positions,
+            current_cash=gross_cash_value,
+            target_weights=target_weights,
+            rebalance_date=overlay_date,
+            tradable_codes=tradable_codes,
+            buy_commission=0.0,
+            sell_commission_rate=0.0,
+            stamp_rate_override=0.0,
+        )
+        if trade_stats["two_way_turnover"] > 1e-12:
+            overlay_count += 1
+            cumulative_cost += float(trade_stats["trading_cost"])
+            overlay_turnovers.append(float(trade_stats["one_way_turnover"]))
+        overlay_turnover_rows.append(
+            {
+                "date": overlay_date,
+                "one_way_turnover": trade_stats["one_way_turnover"],
+                "two_way_turnover": trade_stats["two_way_turnover"],
+                "buy_amount": trade_stats["buy_amount"],
+                "sell_amount": trade_stats["sell_amount"],
+                "trading_cost": trade_stats["trading_cost"],
+                "buy_cost": trade_stats["buy_cost"],
+                "sell_commission": trade_stats["sell_commission"],
+                "sell_stamp_duty": trade_stats["sell_stamp_duty"],
+                "event_type": "weekly_satellite_overlay",
+                "risk_stage": effective_stage,
+                "raw_risk_stage": str(regime["risk_stage"]),
+            }
+        )
+        prev_date = overlay_date
+
+    if not positions.empty:
+        final_prev = prepared.price_ffill.loc[prev_date, positions.index]
+        final_now = prepared.price_ffill.loc[holding_month_end, positions.index]
+        positions = positions * (final_now / final_prev)
+    if not gross_positions.empty:
+        gross_final_prev = prepared.price_ffill.loc[prev_date, gross_positions.index]
+        gross_final_now = prepared.price_ffill.loc[holding_month_end, gross_positions.index]
+        gross_positions = gross_positions * (gross_final_now / gross_final_prev)
+
+    return positions, cash_value, gross_positions, gross_cash_value, overlay_turnover_rows, {
+        "weekly_overlay_trade_count": overlay_count,
+        "weekly_overlay_trading_cost": cumulative_cost,
+        "weekly_overlay_avg_one_way_turnover": float(np.mean(overlay_turnovers)) if overlay_turnovers else 0.0,
+    }, overlay_state
 
 
 def compute_metrics(equity_curve: pd.DataFrame, monthly_returns: pd.DataFrame, turnover: pd.DataFrame) -> Dict[str, float]:
@@ -2438,7 +2802,7 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
     data_start_date = start_date - pd.DateOffset(months=DATA_HISTORY_MONTHS)
     stock_basic = load_or_fetch_stock_basic(pro)
     calendar = load_or_fetch_trade_calendar(pro, data_start_date, end_date)
-    month_end_dates, _, _ = build_month_boundaries(calendar)
+    month_end_dates, _, _, _ = build_month_boundaries(calendar)
     signal_dates = [date for date in month_end_dates if date >= start_date - pd.DateOffset(months=1)]
     market_index_df = load_or_fetch_index_daily(pro, MARKET_INDEX_CODE, data_start_date, end_date)
     load_or_fetch_index_daily(pro, BENCHMARK_INDEX_CODE, data_start_date, end_date)
@@ -2474,6 +2838,22 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
     if not normalized_codes:
         raise RuntimeError("动态指数池为空，无法继续回测。")
 
+    prepared_cache_path = build_prepared_cache_path(normalized_codes, data_start_date, end_date)
+    prepared_cached = load_prepared_cache(prepared_cache_path)
+    if prepared_cached is not None:
+        print(f"[Cache] 已加载 prepared panel cache: {prepared_cache_path}")
+        factor_cache_path = build_factor_cache_path(prepared_cached)
+        monthly_factor_cache = load_monthly_factor_cache(factor_cache_path)
+        if monthly_factor_cache is None:
+            print("[Cache] 月度因子缓存不存在或失效，开始构建。")
+            monthly_factor_cache = build_monthly_factor_cache(prepared_cached)
+            save_monthly_factor_cache(monthly_factor_cache, factor_cache_path)
+            print(f"[Cache] 月度因子缓存已写入: {factor_cache_path}")
+        else:
+            print(f"[Cache] 已加载月度因子缓存: {factor_cache_path}")
+        prepared_cached.monthly_factor_cache = monthly_factor_cache
+        return prepared_cached
+
     per_stock_frames: Dict[str, Dict[str, pd.DataFrame]] = {}
     financials_by_code: Dict[str, pd.DataFrame] = {}
     for idx, ts_code in enumerate(normalized_codes, start=1):
@@ -2504,6 +2884,8 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
         explore_index_weights_by_date,
         data_warnings,
     )
+    save_prepared_cache(prepared, prepared_cache_path)
+    print(f"[Cache] prepared panel cache 已写入: {prepared_cache_path}")
     factor_cache_path = build_factor_cache_path(prepared)
     monthly_factor_cache = load_monthly_factor_cache(factor_cache_path)
     if monthly_factor_cache is None:
@@ -2697,6 +3079,8 @@ def run_backtest(
     promotion_streaks: Dict[str, int] = {}
     demotion_streaks: Dict[str, int] = {}
     pure_core_watch_streaks: Dict[str, int] = {}
+    risk_evaluation_frequency = str(strategy_config.get("risk_evaluation_frequency", RISK_EVAL_FREQUENCY_MONTHLY) or RISK_EVAL_FREQUENCY_MONTHLY)
+    overlay_state: Dict[str, object] = {"confirmed_stage": "risk_on", "pending_stage": None, "pending_count": 0}
 
     monthly_rows: List[Dict[str, object]] = []
     turnover_rows: List[Dict[str, object]] = []
@@ -2863,6 +3247,10 @@ def run_backtest(
             weight_cap = WEIGHT_CAP
         weight_cap = min(1.0, weight_cap)
         target_weights, target_cash_weight = apply_weight_cap_with_redistribution(raw_target_weights, cap=weight_cap)
+        core_bucket_codes = set(selection_stats.get("core_selected_codes", set())) & set(target_weights.index)
+        satellite_bucket_codes = (
+            set(selection_stats.get("explore_selected_codes", set())) | set(selection_stats.get("seed_selected_codes", set()))
+        ) & set(target_weights.index)
 
         satellite_signal_ranks = blend_ranked_components(
             [
@@ -2924,12 +3312,30 @@ def run_backtest(
             rebalance_date=rebalance_date,
             tradable_codes=tradable_codes,
         )
-
-        if not positions.empty:
-            rebalance_prices = price_ffill.loc[rebalance_date, positions.index]
-            month_end_prices = price_ffill.loc[holding_month_end, positions.index]
-            holding_growth = month_end_prices / rebalance_prices
-            positions = positions * holding_growth
+        positions, cash_value, gross_positions, gross_cash_value, weekly_overlay_turnover_rows, weekly_overlay_stats, overlay_state = apply_weekly_satellite_risk_overlay(
+            prepared=prepared,
+            positions=positions,
+            cash_value=cash_value,
+            gross_positions=gross_positions,
+            gross_cash_value=gross_cash_value,
+            rebalance_date=rebalance_date,
+            holding_month_end=holding_month_end,
+            core_codes=core_bucket_codes,
+            satellite_codes=satellite_bucket_codes,
+            strategy_config=strategy_config,
+            overlay_state=overlay_state,
+        )
+        if risk_evaluation_frequency != RISK_EVAL_FREQUENCY_WEEKLY:
+            if not positions.empty:
+                rebalance_prices = price_ffill.loc[rebalance_date, positions.index]
+                month_end_prices = price_ffill.loc[holding_month_end, positions.index]
+                holding_growth = month_end_prices / rebalance_prices
+                positions = positions * holding_growth
+            if not gross_positions.empty:
+                gross_rebalance_prices = price_ffill.loc[rebalance_date, gross_positions.index]
+                gross_month_end_prices = price_ffill.loc[holding_month_end, gross_positions.index]
+                gross_holding_growth = gross_month_end_prices / gross_rebalance_prices
+                gross_positions = gross_positions * gross_holding_growth
 
         nav_end = float(positions.sum() + cash_value)
         if nav_end > 0:
@@ -2954,11 +3360,6 @@ def run_backtest(
                         "weight": cash_weight,
                     }
                 )
-        if not gross_positions.empty:
-            gross_rebalance_prices = price_ffill.loc[rebalance_date, gross_positions.index]
-            gross_month_end_prices = price_ffill.loc[holding_month_end, gross_positions.index]
-            gross_holding_growth = gross_month_end_prices / gross_rebalance_prices
-            gross_positions = gross_positions * gross_holding_growth
         gross_nav = float(gross_positions.sum() + gross_cash_value)
         gross_return = gross_nav / nav_at_signal_date - 1 if nav_at_signal_date > 0 else np.nan
         net_return = nav_end / nav_at_signal_date - 1 if nav_at_signal_date > 0 else np.nan
@@ -3016,6 +3417,9 @@ def run_backtest(
                 "market_12_1_momentum": market_regime["market_12_1_momentum"],
                 "cash_weight_target": target_cash_weight,
                 "cash_after_trade": trade_stats["cash_after_trade"],
+                "weekly_overlay_trade_count": weekly_overlay_stats["weekly_overlay_trade_count"],
+                "weekly_overlay_trading_cost": weekly_overlay_stats["weekly_overlay_trading_cost"],
+                "weekly_overlay_avg_one_way_turnover": weekly_overlay_stats["weekly_overlay_avg_one_way_turnover"],
             }
         )
         turnover_rows.append(
@@ -3029,8 +3433,10 @@ def run_backtest(
                 "buy_cost": trade_stats["buy_cost"],
                 "sell_commission": trade_stats["sell_commission"],
                 "sell_stamp_duty": trade_stats["sell_stamp_duty"],
+                "event_type": "monthly_rebalance",
             }
         )
+        turnover_rows.extend(weekly_overlay_turnover_rows)
         equity_rows.append(
             {
                 "date": holding_month_end,
@@ -3210,6 +3616,49 @@ def get_winner_only_base_ids() -> Set[str]:
     return winner_base_ids
 
 
+def get_active_strategy_base_ids() -> Set[str]:
+    return {INDEX_CORE_BASE_ID} | get_winner_only_base_ids()
+
+
+def build_satellite_overlay_variants(base_id: str, base_name: str, base_config: Dict[str, object]) -> List[Dict[str, object]]:
+    if str(base_config.get("strategy_kind", "core_explore")) != "core_explore":
+        return []
+    if str(base_config.get("core_source_mode", "")) != "winner_core":
+        return []
+    if str(base_config.get("base_weight_method", "")) != "total_mv":
+        return []
+    return [
+        {
+            **base_config,
+            "strategy_base_id": f"{base_id}{SAT_WEEKLY_RISK_SUFFIX}",
+            "strategy_base_name": f"{base_name}__卫星周频两档风控",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_staging_mode": "two_stage",
+            "risk_overlay_scope": "satellite_only",
+        },
+        {
+            **base_config,
+            "strategy_base_id": f"{base_id}{SAT_THREE_STAGE_SUFFIX}",
+            "strategy_base_name": f"{base_name}__卫星周频三档风控",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_staging_mode": "three_stage",
+            "risk_overlay_scope": "satellite_only",
+            "satellite_caution_exposure": SATELLITE_CAUTION_EXPOSURE,
+        },
+        {
+            **base_config,
+            "strategy_base_id": f"{base_id}{SAT_THREE_STAGE_BUFFERED_SUFFIX}",
+            "strategy_base_name": f"{base_name}__卫星周频三档风控(双周确认)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_staging_mode": "three_stage",
+            "risk_overlay_scope": "satellite_only",
+            "risk_stage_buffered": True,
+            "risk_stage_confirm_weeks": WEEKLY_STAGE_CONFIRM_WEEKS,
+            "satellite_caution_exposure": SATELLITE_CAUTION_EXPOSURE,
+        },
+    ]
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Run aiinvestor backtests (supports offline cached runs).")
     parser.add_argument(
@@ -3233,20 +3682,28 @@ def main(argv: list[str] | None = None) -> None:
         action="store_true",
         help="只运行当前 winner_core 候选家族（80/20 + total_mv + winner_core 及其变体）。",
     )
+    parser.add_argument(
+        "--family-scope",
+        choices=["active", "all"],
+        default="active",
+        help="策略家族范围：active 只跑当前活跃家族，all 跑全部历史家族。",
+    )
     args = parser.parse_args(argv)
 
     pd.options.display.float_format = lambda value: f"{value:.8f}"
     ensure_directories()
+    selected_sample_tags = set(_parse_csv_list(args.sample_tags)) if args.sample_tags else set()
+    selected_base_ids = set(_parse_csv_list(args.only_base_ids)) if args.only_base_ids else set()
+    if args.winner_only and not selected_base_ids:
+        selected_base_ids = get_winner_only_base_ids()
+    elif not selected_base_ids and args.family_scope == "active":
+        selected_base_ids = get_active_strategy_base_ids()
+
     end_date = pd.Timestamp.today().normalize()
     pro = ts.pro_api(TOKEN)
     comparison_rows: List[Dict[str, object]] = []
     data_start = min(window["sample_start"] for window in BACKTEST_SAMPLE_WINDOWS)
     prepared = prepare_data(pro, data_start, end_date)
-
-    selected_sample_tags = set(_parse_csv_list(args.sample_tags)) if args.sample_tags else set()
-    selected_base_ids = set(_parse_csv_list(args.only_base_ids)) if args.only_base_ids else set()
-    if args.winner_only and not selected_base_ids:
-        selected_base_ids = get_winner_only_base_ids()
     comparison_csv = Path(args.comparison_csv).expanduser() if args.comparison_csv else None
 
     sample_windows = (
@@ -3270,9 +3727,18 @@ def main(argv: list[str] | None = None) -> None:
                         f"{strategy_base_id}__{variant['variant_id']}"
                         for variant in WINNER_CORE_VARIANTS
                     ]
+                    satellite_overlay_variant_ids = {
+                        f"{strategy_base_id}{SAT_WEEKLY_RISK_SUFFIX}",
+                        f"{strategy_base_id}{SAT_THREE_STAGE_SUFFIX}",
+                        f"{strategy_base_id}{SAT_THREE_STAGE_BUFFERED_SUFFIX}",
+                    }
+                    satellite_overlay_variant_ids.update({f"{variant_id}{SAT_WEEKLY_RISK_SUFFIX}" for variant_id in winner_core_variants})
+                    satellite_overlay_variant_ids.update({f"{variant_id}{SAT_THREE_STAGE_SUFFIX}" for variant_id in winner_core_variants})
+                    satellite_overlay_variant_ids.update({f"{variant_id}{SAT_THREE_STAGE_BUFFERED_SUFFIX}" for variant_id in winner_core_variants})
                     should_consider_base = not selected_base_ids or (
                         strategy_base_id in selected_base_ids
                         or any(variant_id in selected_base_ids for variant_id in winner_core_variants)
+                        or any(overlay_id in selected_base_ids for overlay_id in satellite_overlay_variant_ids)
                     )
                     if not should_consider_base:
                         continue
@@ -3294,10 +3760,30 @@ def main(argv: list[str] | None = None) -> None:
                         save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary, output_dir)
                         print_summary(summary, latest_weights)
                         append_comparison_row(comparison_rows, summary)
+                    for overlay_config in build_satellite_overlay_variants(strategy_base_id, strategy_base_name, strategy_config):
+                        overlay_base_id = str(overlay_config["strategy_base_id"])
+                        if selected_base_ids and overlay_base_id not in selected_base_ids:
+                            continue
+                        overlay_run_config = {
+                            **overlay_config,
+                            "strategy_id": f"{overlay_base_id}__{sample_window['sample_tag']}",
+                            "strategy_name": f"{overlay_config['strategy_base_name']} ({sample_window['sample_label']})",
+                        }
+                        equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary = run_backtest(prepared, overlay_run_config)
+                        summary["pool_id"] = "dynamic_index_core_explore_universe"
+                        summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
+                        output_dir = build_pool_output_dir(overlay_base_id, str(sample_window["sample_tag"]))
+                        save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary, output_dir)
+                        print_summary(summary, latest_weights)
+                        append_comparison_row(comparison_rows, summary)
 
                     variants_requested = any(
                         f"{strategy_base_id}__{variant['variant_id']}" in selected_base_ids
                         for variant in WINNER_CORE_VARIANTS
+                    ) or any(
+                        f"{strategy_base_id}__{variant['variant_id']}{suffix}" in selected_base_ids
+                        for variant in WINNER_CORE_VARIANTS
+                        for suffix in (SAT_WEEKLY_RISK_SUFFIX, SAT_THREE_STAGE_SUFFIX, SAT_THREE_STAGE_BUFFERED_SUFFIX)
                     )
                     should_run_winner_core_variants = (
                         core_source_config["core_source_mode"] == "winner_core"
@@ -3313,7 +3799,14 @@ def main(argv: list[str] | None = None) -> None:
                     if should_run_winner_core_variants:
                         for variant in WINNER_CORE_VARIANTS:
                             variant_base_id = f"{strategy_base_id}__{variant['variant_id']}"
-                            if selected_base_ids and variant_base_id not in selected_base_ids:
+                            variant_overlay_ids = {
+                                f"{variant_base_id}{SAT_WEEKLY_RISK_SUFFIX}",
+                                f"{variant_base_id}{SAT_THREE_STAGE_SUFFIX}",
+                                f"{variant_base_id}{SAT_THREE_STAGE_BUFFERED_SUFFIX}",
+                            }
+                            if selected_base_ids and variant_base_id not in selected_base_ids and not any(
+                                overlay_id in selected_base_ids for overlay_id in variant_overlay_ids
+                            ):
                                 continue
                             variant_base_name = f"{strategy_base_name}__{variant['variant_name']}"
                             variant_config = {
@@ -3331,6 +3824,22 @@ def main(argv: list[str] | None = None) -> None:
                             save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary, output_dir)
                             print_summary(summary, latest_weights)
                             append_comparison_row(comparison_rows, summary)
+                            for overlay_config in build_satellite_overlay_variants(variant_base_id, variant_base_name, variant_config):
+                                overlay_base_id = str(overlay_config["strategy_base_id"])
+                                if selected_base_ids and overlay_base_id not in selected_base_ids:
+                                    continue
+                                overlay_run_config = {
+                                    **overlay_config,
+                                    "strategy_id": f"{overlay_base_id}__{sample_window['sample_tag']}",
+                                    "strategy_name": f"{overlay_config['strategy_base_name']} ({sample_window['sample_label']})",
+                                }
+                                equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary = run_backtest(prepared, overlay_run_config)
+                                summary["pool_id"] = "dynamic_index_core_explore_universe"
+                                summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
+                                output_dir = build_pool_output_dir(overlay_base_id, str(sample_window["sample_tag"]))
+                                save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary, output_dir)
+                                print_summary(summary, latest_weights)
+                                append_comparison_row(comparison_rows, summary)
 
     save_pool_comparison(comparison_rows, comparison_csv=comparison_csv)
 
