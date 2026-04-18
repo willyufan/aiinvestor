@@ -100,14 +100,14 @@ Window metrics (as of `2026-04-18`, weights: 2017-01=100%):
 
 ### 2023-Window Winner (Path 2)
 
-- Strategy: `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_6_1_full_risk` (核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(核心6-1动量, 关闭熊市降仓))
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `40.13%` / `1.0073` / `-43.58%` / `5.30`
+- Strategy: `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap40` (核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(核心6-1动量, 关闭熊市降仓, 单票40%))
+- Weighted (CAGR / Sharpe / Max DD / Turnover): `43.22%` / `0.9846` / `-46.15%` / `5.24`
 
 Window metrics (as of `2026-04-18`, weights: 2023-01=100%):
 
-- `2017-01-01` → `2026-04-18`: CAGR `13.87%`, Max DD `-58.61%`, Sharpe `0.5810`
-- `2020-01-01` → `2026-04-18`: CAGR `17.89%`, Max DD `-61.49%`, Sharpe `0.6230`
-- `2023-01-01` → `2026-04-18`: CAGR `40.13%`, Max DD `-43.58%`, Sharpe `1.0073`
+- `2017-01-01` → `2026-04-18`: CAGR `15.41%`, Max DD `-58.61%`, Sharpe `0.6245`
+- `2020-01-01` → `2026-04-18`: CAGR `20.91%`, Max DD `-61.49%`, Sharpe `0.6845`
+- `2023-01-01` → `2026-04-18`: CAGR `43.22%`, Max DD `-46.15%`, Sharpe `0.9846`
 - `2025-01-01` → `2026-04-18`: CAGR `68.33%`, Max DD `-11.71%`, Sharpe `1.7160`
 
 ### 2020-Window Winner (Path 2)

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import ast
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -56,6 +57,7 @@ FAMILY_OUTPUT_PATHS = {
 }
 COMPARISON_CSV = RESULTS_DIR / "strategy_comparison_base_method.csv"
 WEIGHTED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
+BACKTEST_SCRIPT_PATH = ROOT / "backtest_marketcap_etf.py"
 
 SAMPLE_WINDOWS = [
     {"sample_tag": "since_2017_01", "title": "9Y Window (Since 2017-01)", "short_label": "2017-01"},
@@ -113,6 +115,40 @@ COMPACT_STRATEGIES = [
 ]
 
 STRATEGY_LABEL_BY_ID = {item["base_id"]: item["label"] for item in STATIC_STRATEGIES + COMPACT_STRATEGIES}
+
+
+def _parse_python_constants(path: Path, names: set[str]) -> dict[str, object]:
+    node = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+    found: dict[str, object] = {}
+    for stmt in node.body:
+        if not isinstance(stmt, ast.Assign) or len(stmt.targets) != 1 or not isinstance(stmt.targets[0], ast.Name):
+            continue
+        target = stmt.targets[0].id
+        if target not in names:
+            continue
+        found[target] = ast.literal_eval(stmt.value)
+    return found
+
+
+def load_active_dynamic_family_ids() -> set[str]:
+    try:
+        consts = _parse_python_constants(BACKTEST_SCRIPT_PATH, {"WINNER_ONLY_STRATEGY_ID", "WINNER_CORE_VARIANTS", "INDEX_CORE_BASE_ID"})
+        winner_only_id = str(consts.get("WINNER_ONLY_STRATEGY_ID") or "core_explore_80_20_total_mv_winner_core")
+        index_core_id = str(consts.get("INDEX_CORE_BASE_ID") or "core_explore_80_20_total_mv_index_core")
+        variants = consts.get("WINNER_CORE_VARIANTS", [])
+    except Exception:
+        winner_only_id = "core_explore_80_20_total_mv_winner_core"
+        index_core_id = "core_explore_80_20_total_mv_index_core"
+        variants = []
+    active_ids = {winner_only_id, index_core_id}
+    if isinstance(variants, list):
+        for variant in variants:
+            if isinstance(variant, dict) and variant.get("variant_id"):
+                active_ids.add(f"{winner_only_id}__{variant['variant_id']}")
+    return active_ids
+
+
+ACTIVE_DYNAMIC_FAMILY_IDS = load_active_dynamic_family_ids()
 
 
 def _fmt_pct(value: float, digits: int = 2) -> str:
@@ -198,6 +234,17 @@ PATH2_WINDOW_2020_WINNER_ID = WEIGHTED_WINNERS.get("path2", {}).get("tracks", {}
 PATH2_WINDOW_2025_WINNER_ID = WEIGHTED_WINNERS.get("path2", {}).get("tracks", {}).get("since_2025_only", {}).get("winner")
 PATH2_CANDIDATE_ID = WEIGHTED_WINNERS.get("path2", {}).get("strategy_base_id")
 
+PATH2_WINDOW_WINNER_IDS = {
+    base_id
+    for base_id in [
+        PATH2_WINDOW_2017_WINNER_ID,
+        PATH2_WINDOW_2023_WINNER_ID,
+        PATH2_WINDOW_2020_WINNER_ID,
+        PATH2_WINDOW_2025_WINNER_ID,
+    ]
+    if base_id
+}
+
 
 def load_base_name_map() -> dict[str, str]:
     if not COMPARISON_CSV.exists():
@@ -251,6 +298,10 @@ def is_path2_candidate(base_id: str) -> bool:
     return bool(PATH2_CANDIDATE_ID) and base_id == PATH2_CANDIDATE_ID
 
 
+def is_path2_window_winner(base_id: str) -> bool:
+    return bool(base_id) and base_id in PATH2_WINDOW_WINNER_IDS and base_id != PATH2_CANDIDATE_ID
+
+
 def winner_tags(base_id: str) -> set[str]:
     tags: set[str] = set()
     if base_id == WINDOW_2017_WINNER_ID:
@@ -261,6 +312,8 @@ def winner_tags(base_id: str) -> set[str]:
         tags.add("2020")
     if base_id == WINDOW_2025_WINNER_ID:
         tags.add("2025")
+    if is_path2_window_winner(base_id):
+        tags.add("path2_window")
     if base_id == PATH2_CANDIDATE_ID:
         tags.add("path2")
     return tags
@@ -279,6 +332,10 @@ def load_tracked_comparison_strategies() -> list[dict]:
         WINDOW_2023_WINNER_ID,
         WINDOW_2020_WINNER_ID,
         WINDOW_2025_WINNER_ID,
+        PATH2_WINDOW_2017_WINNER_ID,
+        PATH2_WINDOW_2023_WINNER_ID,
+        PATH2_WINDOW_2020_WINNER_ID,
+        PATH2_WINDOW_2025_WINNER_ID,
         PATH2_CANDIDATE_ID,
     ]
     for winner_id in track_winners:
@@ -301,6 +358,8 @@ def load_tracked_comparison_strategies() -> list[dict]:
     for base_id in deduped:
         if is_path2_candidate(base_id):
             color_by_id.setdefault(base_id, "#7c3aed")
+        elif is_path2_window_winner(base_id):
+            color_by_id.setdefault(base_id, "#a855f7")
         elif is_2025_winner(base_id):
             color_by_id.setdefault(base_id, "#16a34a")
         elif is_2020_winner(base_id):
@@ -313,10 +372,15 @@ def load_tracked_comparison_strategies() -> list[dict]:
     cmap = plt.get_cmap("tab20")
     dynamic: list[dict] = []
     for idx, base_id in enumerate(deduped):
+        label = strategy_label(base_id)
+        if is_path2_window_winner(base_id):
+            label = f"Path 2: {label}"
+        elif is_path2_candidate(base_id):
+            label = f"Path 2 robust: {label}"
         dynamic.append(
             {
                 "base_id": base_id,
-                "label": strategy_label(base_id),
+                "label": label,
                 "color": color_by_id.get(base_id, mcolors.to_hex(cmap(idx % 20))),
             }
         )
@@ -505,6 +569,8 @@ def load_full_family_strategies() -> list[dict]:
     dynamic_strategies: list[dict] = []
     for idx, row in enumerate(grouped.itertuples(index=False)):
         base_id = str(row.strategy_base_id)
+        if base_id not in ACTIVE_DYNAMIC_FAMILY_IDS:
+            continue
         label = str(row.strategy_base_name) if pd.notna(row.strategy_base_name) and str(row.strategy_base_name).strip() else base_id
         color = mcolors.to_hex(cmap(idx % 20))
         dynamic_strategies.append({"base_id": base_id, "label": label, "color": color})

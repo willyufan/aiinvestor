@@ -359,6 +359,19 @@ WINNER_CORE_VARIANTS = [
         "core_risk_off_exposure": 1.0,
         "satellite_risk_off_exposure": 1.0,
     },
+    {
+        "variant_id": "aggr_08_92_prom6_core_6_1_full_risk_cap40",
+        "variant_name": "进攻8/92 晋升6只(核心6-1动量, 关闭熊市降仓, 单票40%)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "core_risk_off_exposure": 1.0,
+        "satellite_risk_off_exposure": 1.0,
+        "weight_cap": 0.40,
+    },
 ]
 
 FACTOR_CACHE_VERSION = "v1"
