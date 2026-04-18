@@ -20,8 +20,8 @@ DEFAULT_TRACKED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
 
 WEIGHTED_WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01")
 
-WEIGHTS_SHORT_CYCLE = {"since_2017_01": 0.30, "since_2020_01": 0.30, "since_2023_01": 0.40}
-WEIGHTS_MID_CYCLE = {"since_2017_01": 0.30, "since_2020_01": 0.40, "since_2023_01": 0.30}
+WEIGHTS_2017_ONLY = {"since_2017_01": 1.00}
+WEIGHTS_2023_ONLY = {"since_2023_01": 1.00}
 
 
 @dataclass(frozen=True)
@@ -222,8 +222,8 @@ def main() -> None:
             return pd.DataFrame()
         return group
 
-    short_candidates: list[tuple[str, TrackMetrics]] = []
-    mid_candidates: list[tuple[str, TrackMetrics]] = []
+    window_2017_candidates: list[tuple[str, TrackMetrics]] = []
+    window_2023_candidates: list[tuple[str, TrackMetrics]] = []
     window_2020_candidates: list[tuple[str, TrackMetrics]] = []
     window_2025_candidates: list[tuple[str, TrackMetrics]] = []
 
@@ -231,15 +231,15 @@ def main() -> None:
     for base_id in base_ids:
         weighted_group = group_or_empty(base_id, weighted_required)
         if not weighted_group.empty:
-            short_candidates.append((base_id, _compute_weighted_metrics(weighted_group, WEIGHTS_SHORT_CYCLE)))
-            mid_candidates.append((base_id, _compute_weighted_metrics(weighted_group, WEIGHTS_MID_CYCLE)))
+            window_2017_candidates.append((base_id, _compute_single_window_metrics(weighted_group, "since_2017_01")))
+            window_2023_candidates.append((base_id, _compute_single_window_metrics(weighted_group, "since_2023_01")))
             window_2020_candidates.append((base_id, _compute_single_window_metrics(weighted_group, "since_2020_01")))
         window_2025_group = group_or_empty(base_id, {"since_2025_01"})
         if not window_2025_group.empty:
             window_2025_candidates.append((base_id, _compute_single_window_metrics(window_2025_group, "since_2025_01")))
 
-    short_ranked = _rank_candidates(short_candidates)
-    mid_ranked = _rank_candidates(mid_candidates)
+    window_2017_ranked = _rank_candidates(window_2017_candidates)
+    window_2023_ranked = _rank_candidates(window_2023_candidates)
     window_2020_ranked = _rank_candidates(window_2020_candidates)
     window_2025_ranked = _rank_candidates(window_2025_candidates)
 
@@ -256,11 +256,11 @@ def main() -> None:
             raise ValueError(f"sample_tag is required for single-window track {track_key}")
         return winner_id, _compute_single_window_metrics(group, sample_tag)
 
-    short_winner_id, short_winner_metrics = winner_metrics(
-        "short_cycle_30_30_40", weights=WEIGHTS_SHORT_CYCLE, sample_tag=None, required_tags=weighted_required
+    window_2017_winner_id, window_2017_winner_metrics = winner_metrics(
+        "since_2017_only", weights=None, sample_tag="since_2017_01", required_tags=weighted_required
     )
-    mid_winner_id, mid_winner_metrics = winner_metrics(
-        "mid_cycle_30_40_30", weights=WEIGHTS_MID_CYCLE, sample_tag=None, required_tags=weighted_required
+    window_2023_winner_id, window_2023_winner_metrics = winner_metrics(
+        "since_2023_only", weights=None, sample_tag="since_2023_01", required_tags=weighted_required
     )
     window_2020_winner_id, window_2020_winner_metrics = winner_metrics(
         "since_2020_only", weights=None, sample_tag="since_2020_01", required_tags=weighted_required
@@ -272,8 +272,8 @@ def main() -> None:
     def best_of(ranked: list[tuple[str, TrackMetrics]]) -> tuple[str, TrackMetrics] | None:
         return ranked[0] if ranked else None
 
-    best_short = best_of(short_ranked)
-    best_mid = best_of(mid_ranked)
+    best_2017 = best_of(window_2017_ranked)
+    best_2023 = best_of(window_2023_ranked)
     best_2020 = best_of(window_2020_ranked)
     best_2025 = best_of(window_2025_ranked)
 
@@ -298,8 +298,8 @@ def main() -> None:
             "top5": [{"strategy_base_id": sid, "metrics": asdict(m)} for sid, m in ranked[:5]],
         }
 
-    eval_track("short_cycle_30_30_40", short_winner_id, short_winner_metrics, best_short, short_ranked)
-    eval_track("mid_cycle_30_40_30", mid_winner_id, mid_winner_metrics, best_mid, mid_ranked)
+    eval_track("since_2017_only", window_2017_winner_id, window_2017_winner_metrics, best_2017, window_2017_ranked)
+    eval_track("since_2023_only", window_2023_winner_id, window_2023_winner_metrics, best_2023, window_2023_ranked)
     eval_track("since_2020_only", window_2020_winner_id, window_2020_winner_metrics, best_2020, window_2020_ranked)
     eval_track("since_2025_only", window_2025_winner_id, window_2025_winner_metrics, best_2025, window_2025_ranked)
 
@@ -314,26 +314,26 @@ def main() -> None:
     args.write_json.parent.mkdir(parents=True, exist_ok=True)
     args.write_json.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    print(f"[OK] as_of={as_of} family={family_label} candidates={len(base_ids)} evaluated={len(short_ranked)}")
+    print(f"[OK] as_of={as_of} family={family_label} candidates={len(base_ids)} evaluated={len(window_2017_ranked)}")
     print(f"[OK] thresholds: min_cagr={thresholds.min_cagr_improvement:.4f} min_sharpe={thresholds.min_sharpe_improvement:.4f} "
           f"max_dd_worsen={thresholds.max_drawdown_worsen_abs:.4f} max_turnover_inc={thresholds.max_turnover_increase:.2f}")
     print("")
 
-    print(f"[Track] short_cycle_30_30_40 current={short_winner_id} {_render_metrics(short_winner_metrics)}")
-    if best_short:
-        best_id, best_metrics = best_short
+    print(f"[Track] since_2017_only      current={window_2017_winner_id} {_render_metrics(window_2017_winner_metrics)}")
+    if best_2017:
+        best_id, best_metrics = best_2017
         print(f"        best={best_id} {_render_metrics(best_metrics)} "
-              f"ΔCAGR={_fmt_pct(best_metrics.cagr - short_winner_metrics.cagr)} "
-              f"ΔSharpe={best_metrics.sharpe - short_winner_metrics.sharpe:+.4f}")
+              f"ΔCAGR={_fmt_pct(best_metrics.cagr - window_2017_winner_metrics.cagr)} "
+              f"ΔSharpe={best_metrics.sharpe - window_2017_winner_metrics.sharpe:+.4f}")
     print("")
 
-    print(f"[Track] mid_cycle_30_40_30   current={mid_winner_id} {_render_metrics(mid_winner_metrics)}")
-    if best_mid:
-        best_id, best_metrics = best_mid
+    print(f"[Track] since_2023_only      current={window_2023_winner_id} {_render_metrics(window_2023_winner_metrics)}")
+    if best_2023:
+        best_id, best_metrics = best_2023
         print(
             f"        best={best_id} {_render_metrics(best_metrics)} "
-            f"ΔCAGR={_fmt_pct(best_metrics.cagr - mid_winner_metrics.cagr)} "
-            f"ΔSharpe={best_metrics.sharpe - mid_winner_metrics.sharpe:+.4f}"
+            f"ΔCAGR={_fmt_pct(best_metrics.cagr - window_2023_winner_metrics.cagr)} "
+            f"ΔSharpe={best_metrics.sharpe - window_2023_winner_metrics.sharpe:+.4f}"
         )
     print("")
 

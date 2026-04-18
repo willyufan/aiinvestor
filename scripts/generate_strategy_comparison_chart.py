@@ -65,8 +65,8 @@ SAMPLE_WINDOWS = [
 ]
 
 TRACK_WEIGHTS = {
-    "short_cycle_30_30_40": {"since_2017_01": 0.30, "since_2020_01": 0.30, "since_2023_01": 0.40},
-    "mid_cycle_30_40_30": {"since_2017_01": 0.30, "since_2020_01": 0.40, "since_2023_01": 0.30},
+    "since_2017_only": {"since_2017_01": 1.00},
+    "since_2023_only": {"since_2023_01": 1.00},
     "since_2020_only": {"since_2020_01": 1.00},
     "since_2025_only": {"since_2025_01": 1.00},
 }
@@ -170,17 +170,17 @@ def load_weighted_winners() -> dict:
             "weighted_turnover": turnover,
         }
 
-    short = pick(TRACK_WEIGHTS["short_cycle_30_30_40"])
-    mid = pick(TRACK_WEIGHTS["mid_cycle_30_40_30"])
+    window_2017 = pick(TRACK_WEIGHTS["since_2017_only"])
+    window_2023 = pick(TRACK_WEIGHTS["since_2023_only"])
     window_2020 = pick(TRACK_WEIGHTS["since_2020_only"])
     window_2025 = pick(TRACK_WEIGHTS["since_2025_only"])
-    if not short or not mid or not window_2020 or not window_2025:
+    if not window_2017 or not window_2023 or not window_2020 or not window_2025:
         return {}
     return {
         "as_of": str(latest["sample_end"].max().date()),
         "tracks": {
-            "short_cycle_30_30_40": {"weights": TRACK_WEIGHTS["short_cycle_30_30_40"], "winner": short[0], "metrics": short[1]},
-            "mid_cycle_30_40_30": {"weights": TRACK_WEIGHTS["mid_cycle_30_40_30"], "winner": mid[0], "metrics": mid[1]},
+            "since_2017_only": {"weights": TRACK_WEIGHTS["since_2017_only"], "winner": window_2017[0], "metrics": window_2017[1]},
+            "since_2023_only": {"weights": TRACK_WEIGHTS["since_2023_only"], "winner": window_2023[0], "metrics": window_2023[1]},
             "since_2020_only": {"weights": TRACK_WEIGHTS["since_2020_only"], "winner": window_2020[0], "metrics": window_2020[1]},
             "since_2025_only": {"weights": TRACK_WEIGHTS["since_2025_only"], "winner": window_2025[0], "metrics": window_2025[1]},
         },
@@ -188,10 +188,14 @@ def load_weighted_winners() -> dict:
 
 
 WEIGHTED_WINNERS = load_weighted_winners()
-SHORT_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("short_cycle_30_30_40", {}).get("winner")
-MID_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("mid_cycle_30_40_30", {}).get("winner")
+WINDOW_2017_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("since_2017_only", {}).get("winner")
+WINDOW_2023_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("since_2023_only", {}).get("winner")
 WINDOW_2020_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("since_2020_only", {}).get("winner")
 WINDOW_2025_WINNER_ID = WEIGHTED_WINNERS.get("tracks", {}).get("since_2025_only", {}).get("winner")
+PATH2_WINDOW_2017_WINNER_ID = WEIGHTED_WINNERS.get("path2", {}).get("tracks", {}).get("since_2017_only", {}).get("winner")
+PATH2_WINDOW_2023_WINNER_ID = WEIGHTED_WINNERS.get("path2", {}).get("tracks", {}).get("since_2023_only", {}).get("winner")
+PATH2_WINDOW_2020_WINNER_ID = WEIGHTED_WINNERS.get("path2", {}).get("tracks", {}).get("since_2020_only", {}).get("winner")
+PATH2_WINDOW_2025_WINNER_ID = WEIGHTED_WINNERS.get("path2", {}).get("tracks", {}).get("since_2025_only", {}).get("winner")
 PATH2_CANDIDATE_ID = WEIGHTED_WINNERS.get("path2", {}).get("strategy_base_id")
 
 
@@ -223,16 +227,16 @@ def strategy_label(base_id: str) -> str:
     return STRATEGY_LABEL_BY_ID.get(base_id) or BASE_NAME_MAP.get(base_id) or base_id
 
 
-def is_short_winner(base_id: str) -> bool:
-    return bool(SHORT_WINNER_ID) and base_id == SHORT_WINNER_ID and base_id != MID_WINNER_ID
+def is_2017_winner(base_id: str) -> bool:
+    return bool(WINDOW_2017_WINNER_ID) and base_id == WINDOW_2017_WINNER_ID and base_id != WINDOW_2023_WINNER_ID
 
 
-def is_mid_winner(base_id: str) -> bool:
-    return bool(MID_WINNER_ID) and base_id == MID_WINNER_ID and base_id != SHORT_WINNER_ID
+def is_2023_winner(base_id: str) -> bool:
+    return bool(WINDOW_2023_WINNER_ID) and base_id == WINDOW_2023_WINNER_ID and base_id != WINDOW_2017_WINNER_ID
 
 
-def is_both_winner(base_id: str) -> bool:
-    return bool(base_id) and base_id == SHORT_WINNER_ID and base_id == MID_WINNER_ID
+def is_2017_2023_winner(base_id: str) -> bool:
+    return bool(base_id) and base_id == WINDOW_2017_WINNER_ID and base_id == WINDOW_2023_WINNER_ID
 
 
 def is_2020_winner(base_id: str) -> bool:
@@ -249,10 +253,10 @@ def is_path2_candidate(base_id: str) -> bool:
 
 def winner_tags(base_id: str) -> set[str]:
     tags: set[str] = set()
-    if base_id == SHORT_WINNER_ID:
-        tags.add("short")
-    if base_id == MID_WINNER_ID:
-        tags.add("mid")
+    if base_id == WINDOW_2017_WINNER_ID:
+        tags.add("2017")
+    if base_id == WINDOW_2023_WINNER_ID:
+        tags.add("2023")
     if base_id == WINDOW_2020_WINNER_ID:
         tags.add("2020")
     if base_id == WINDOW_2025_WINNER_ID:
@@ -271,8 +275,8 @@ def load_tracked_comparison_strategies() -> list[dict]:
     ]
 
     track_winners = [
-        SHORT_WINNER_ID,
-        MID_WINNER_ID,
+        WINDOW_2017_WINNER_ID,
+        WINDOW_2023_WINNER_ID,
         WINDOW_2020_WINNER_ID,
         WINDOW_2025_WINNER_ID,
         PATH2_CANDIDATE_ID,
@@ -301,9 +305,9 @@ def load_tracked_comparison_strategies() -> list[dict]:
             color_by_id.setdefault(base_id, "#16a34a")
         elif is_2020_winner(base_id):
             color_by_id.setdefault(base_id, "#f59e0b")
-        elif is_both_winner(base_id) or is_mid_winner(base_id):
+        elif is_2017_2023_winner(base_id) or is_2023_winner(base_id):
             color_by_id.setdefault(base_id, "#2563eb")
-        elif is_short_winner(base_id):
+        elif is_2017_winner(base_id):
             color_by_id.setdefault(base_id, "#60a5fa")
 
     cmap = plt.get_cmap("tab20")
@@ -324,8 +328,8 @@ def load_tracked_comparison_strategies() -> list[dict]:
 def _maybe_add_tracked_winners() -> None:
     existing = {item["base_id"] for item in COMPACT_STRATEGIES}
     winners = [
-        ("short", SHORT_WINNER_ID, "#2563eb"),
-        ("mid", MID_WINNER_ID, "#dc2626"),
+        ("2017", WINDOW_2017_WINNER_ID, "#60a5fa"),
+        ("2023", WINDOW_2023_WINNER_ID, "#2563eb"),
         ("2020", WINDOW_2020_WINNER_ID, "#f59e0b"),
         ("2025", WINDOW_2025_WINNER_ID, "#10b981"),
     ]
@@ -506,7 +510,11 @@ def load_full_family_strategies() -> list[dict]:
         dynamic_strategies.append({"base_id": base_id, "label": label, "color": color})
         STRATEGY_LABEL_BY_ID.setdefault(base_id, label)
 
-    priority_ids = [base_id for base_id in [SHORT_WINNER_ID, MID_WINNER_ID, WINDOW_2020_WINNER_ID] if base_id in dynamic_ids]
+    priority_ids = [
+        base_id
+        for base_id in [WINDOW_2017_WINNER_ID, WINDOW_2023_WINNER_ID, WINDOW_2020_WINNER_ID, WINDOW_2025_WINNER_ID]
+        if base_id in dynamic_ids
+    ]
     priority_set = set(priority_ids)
     prioritized = [item for item in dynamic_strategies if item["base_id"] in priority_set]
     remaining = [item for item in dynamic_strategies if item["base_id"] not in priority_set]
@@ -543,15 +551,15 @@ def plot_nav_curves(ax: plt.Axes, sample_tag: str, title: str, strategies: list[
         base_id = config["base_id"]
         tags = winner_tags(base_id)
         highlight = bool(tags)
-        if "2020" in tags and ("short" in tags or "mid" in tags):
+        if "2020" in tags and ("2017" in tags or "2023" in tags):
             linestyle = "-."
-        elif "2025" in tags and ("short" in tags or "mid" in tags or "2020" in tags):
+        elif "2025" in tags and ("2017" in tags or "2023" in tags or "2020" in tags):
             linestyle = (0, (5, 2, 1, 2))
         elif "path2" in tags:
             linestyle = (0, (2, 2))
-        elif "mid" in tags or is_both_winner(base_id):
+        elif "2023" in tags or is_2017_2023_winner(base_id):
             linestyle = "-"
-        elif "short" in tags:
+        elif "2017" in tags:
             linestyle = "--"
         elif "2020" in tags:
             linestyle = ":"
@@ -584,9 +592,9 @@ def plot_risk_return(ax: plt.Axes, frame: pd.DataFrame, title: str) -> None:
             marker = "X"
         elif "path2" in tags:
             marker = "H"
-        elif "mid" in tags:
+        elif "2023" in tags:
             marker = "*"
-        elif "short" in tags:
+        elif "2017" in tags:
             marker = "D"
         elif "2020" in tags:
             marker = "^"
@@ -652,9 +660,9 @@ def plot_metric_table(ax: plt.Axes, frame: pd.DataFrame, title: str) -> None:
                 cell.set_facecolor("#e9d5ff")
             elif "path2" in tags:
                 cell.set_facecolor("#f3e8ff")
-            elif "mid" in tags:
+            elif "2023" in tags:
                 cell.set_facecolor("#fee2e2")
-            elif "short" in tags:
+            elif "2017" in tags:
                 cell.set_facecolor("#dbeafe")
             elif "2020" in tags:
                 cell.set_facecolor("#fef3c7")
@@ -663,36 +671,48 @@ def plot_metric_table(ax: plt.Axes, frame: pd.DataFrame, title: str) -> None:
 
 
 def build_winner_note() -> str | None:
-    if not (WEIGHTED_WINNERS and SHORT_WINNER_ID and MID_WINNER_ID and WINDOW_2020_WINNER_ID):
+    if not (WEIGHTED_WINNERS and WINDOW_2017_WINNER_ID and WINDOW_2023_WINNER_ID and WINDOW_2020_WINNER_ID):
         return None
-    short_metrics = WEIGHTED_WINNERS["tracks"]["short_cycle_30_30_40"]["metrics"]
-    mid_metrics = WEIGHTED_WINNERS["tracks"]["mid_cycle_30_40_30"]["metrics"]
+    window_2017_metrics = WEIGHTED_WINNERS["tracks"]["since_2017_only"]["metrics"]
+    window_2023_metrics = WEIGHTED_WINNERS["tracks"]["since_2023_only"]["metrics"]
     window_2020_metrics = WEIGHTED_WINNERS["tracks"]["since_2020_only"]["metrics"]
     window_2025_metrics = WEIGHTED_WINNERS["tracks"]["since_2025_only"]["metrics"]
-    short_label = STRATEGY_LABEL_BY_ID.get(SHORT_WINNER_ID, SHORT_WINNER_ID)
-    mid_label = STRATEGY_LABEL_BY_ID.get(MID_WINNER_ID, MID_WINNER_ID)
+    path2_window_2017_metrics = WEIGHTED_WINNERS.get("path2", {}).get("tracks", {}).get("since_2017_only", {}).get("metrics", {})
+    path2_window_2023_metrics = WEIGHTED_WINNERS.get("path2", {}).get("tracks", {}).get("since_2023_only", {}).get("metrics", {})
+    path2_window_2020_metrics = WEIGHTED_WINNERS.get("path2", {}).get("tracks", {}).get("since_2020_only", {}).get("metrics", {})
+    path2_window_2025_metrics = WEIGHTED_WINNERS.get("path2", {}).get("tracks", {}).get("since_2025_only", {}).get("metrics", {})
+    window_2017_label = STRATEGY_LABEL_BY_ID.get(WINDOW_2017_WINNER_ID, WINDOW_2017_WINNER_ID)
+    window_2023_label = STRATEGY_LABEL_BY_ID.get(WINDOW_2023_WINNER_ID, WINDOW_2023_WINNER_ID)
     window_2020_label = STRATEGY_LABEL_BY_ID.get(WINDOW_2020_WINNER_ID, WINDOW_2020_WINNER_ID)
     window_2025_label = STRATEGY_LABEL_BY_ID.get(WINDOW_2025_WINNER_ID, WINDOW_2025_WINNER_ID)
+    path2_window_2017_label = STRATEGY_LABEL_BY_ID.get(PATH2_WINDOW_2017_WINNER_ID, PATH2_WINDOW_2017_WINNER_ID)
+    path2_window_2023_label = STRATEGY_LABEL_BY_ID.get(PATH2_WINDOW_2023_WINNER_ID, PATH2_WINDOW_2023_WINNER_ID)
+    path2_window_2020_label = STRATEGY_LABEL_BY_ID.get(PATH2_WINDOW_2020_WINNER_ID, PATH2_WINDOW_2020_WINNER_ID)
+    path2_window_2025_label = STRATEGY_LABEL_BY_ID.get(PATH2_WINDOW_2025_WINNER_ID, PATH2_WINDOW_2025_WINNER_ID)
     path2_label = STRATEGY_LABEL_BY_ID.get(PATH2_CANDIDATE_ID, PATH2_CANDIDATE_ID) if PATH2_CANDIDATE_ID else None
     as_of = WEIGHTED_WINNERS.get("as_of", "n/a")
     note = (
         "Weighted winners (as of {as_of})\n"
-        "Short-cycle 30/30/40: {short_label} | wCAGR {scagr}, wSharpe {ssharpe:.3f}, wMaxDD {sdd}, wTurn {sturn:.2f}\n"
-        "Mid-cycle 30/40/30: {mid_label} | wCAGR {mcagr}, wSharpe {msharpe:.3f}, wMaxDD {mdd}, wTurn {mturn:.2f}\n"
-        "2020-only checkpoint: {w20_label} | CAGR {w20cagr}, Sharpe {w20sharpe:.3f}, MaxDD {w20dd}, Turn {w20turn:.2f}\n"
-        "2025-only checkpoint: {w25_label} | CAGR {w25cagr}, Sharpe {w25sharpe:.3f}, MaxDD {w25dd}, Turn {w25turn:.2f}"
+        "Path 1 | 2017-window winner: {w17_label} | CAGR {w17cagr}, Sharpe {w17sharpe:.3f}, MaxDD {w17dd}, Turn {w17turn:.2f}\n"
+        "Path 1 | 2023-window winner: {w23_label} | CAGR {w23cagr}, Sharpe {w23sharpe:.3f}, MaxDD {w23dd}, Turn {w23turn:.2f}\n"
+        "Path 1 | 2020-window winner: {w20_label} | CAGR {w20cagr}, Sharpe {w20sharpe:.3f}, MaxDD {w20dd}, Turn {w20turn:.2f}\n"
+        "Path 1 | 2025-window winner: {w25_label} | CAGR {w25cagr}, Sharpe {w25sharpe:.3f}, MaxDD {w25dd}, Turn {w25turn:.2f}\n"
+        "Path 2 | 2017-window winner: {p17_label} | CAGR {p17cagr}, Sharpe {p17sharpe:.3f}, MaxDD {p17dd}, Turn {p17turn:.2f}\n"
+        "Path 2 | 2023-window winner: {p23_label} | CAGR {p23cagr}, Sharpe {p23sharpe:.3f}, MaxDD {p23dd}, Turn {p23turn:.2f}\n"
+        "Path 2 | 2020-window winner: {p20_label} | CAGR {p20cagr}, Sharpe {p20sharpe:.3f}, MaxDD {p20dd}, Turn {p20turn:.2f}\n"
+        "Path 2 | 2025-window winner: {p25_label} | CAGR {p25cagr}, Sharpe {p25sharpe:.3f}, MaxDD {p25dd}, Turn {p25turn:.2f}"
     ).format(
         as_of=as_of,
-        short_label=short_label,
-        scagr=_fmt_pct(short_metrics.get("weighted_cagr")),
-        ssharpe=float(short_metrics.get("weighted_sharpe")),
-        sdd=_fmt_pct(short_metrics.get("weighted_max_drawdown")),
-        sturn=float(short_metrics.get("weighted_turnover")),
-        mid_label=mid_label,
-        mcagr=_fmt_pct(mid_metrics.get("weighted_cagr")),
-        msharpe=float(mid_metrics.get("weighted_sharpe")),
-        mdd=_fmt_pct(mid_metrics.get("weighted_max_drawdown")),
-        mturn=float(mid_metrics.get("weighted_turnover")),
+        w17_label=window_2017_label,
+        w17cagr=_fmt_pct(window_2017_metrics.get("weighted_cagr")),
+        w17sharpe=float(window_2017_metrics.get("weighted_sharpe")),
+        w17dd=_fmt_pct(window_2017_metrics.get("weighted_max_drawdown")),
+        w17turn=float(window_2017_metrics.get("weighted_turnover")),
+        w23_label=window_2023_label,
+        w23cagr=_fmt_pct(window_2023_metrics.get("weighted_cagr")),
+        w23sharpe=float(window_2023_metrics.get("weighted_sharpe")),
+        w23dd=_fmt_pct(window_2023_metrics.get("weighted_max_drawdown")),
+        w23turn=float(window_2023_metrics.get("weighted_turnover")),
         w20_label=window_2020_label,
         w20cagr=_fmt_pct(window_2020_metrics.get("weighted_cagr")),
         w20sharpe=float(window_2020_metrics.get("weighted_sharpe")),
@@ -703,9 +723,29 @@ def build_winner_note() -> str | None:
         w25sharpe=float(window_2025_metrics.get("weighted_sharpe")),
         w25dd=_fmt_pct(window_2025_metrics.get("weighted_max_drawdown")),
         w25turn=float(window_2025_metrics.get("weighted_turnover")),
+        p17_label=path2_window_2017_label,
+        p17cagr=_fmt_pct(path2_window_2017_metrics.get("weighted_cagr")),
+        p17sharpe=float(path2_window_2017_metrics.get("weighted_sharpe", float("nan"))),
+        p17dd=_fmt_pct(path2_window_2017_metrics.get("weighted_max_drawdown")),
+        p17turn=float(path2_window_2017_metrics.get("weighted_turnover", float("nan"))),
+        p23_label=path2_window_2023_label,
+        p23cagr=_fmt_pct(path2_window_2023_metrics.get("weighted_cagr")),
+        p23sharpe=float(path2_window_2023_metrics.get("weighted_sharpe", float("nan"))),
+        p23dd=_fmt_pct(path2_window_2023_metrics.get("weighted_max_drawdown")),
+        p23turn=float(path2_window_2023_metrics.get("weighted_turnover", float("nan"))),
+        p20_label=path2_window_2020_label,
+        p20cagr=_fmt_pct(path2_window_2020_metrics.get("weighted_cagr")),
+        p20sharpe=float(path2_window_2020_metrics.get("weighted_sharpe", float("nan"))),
+        p20dd=_fmt_pct(path2_window_2020_metrics.get("weighted_max_drawdown")),
+        p20turn=float(path2_window_2020_metrics.get("weighted_turnover", float("nan"))),
+        p25_label=path2_window_2025_label,
+        p25cagr=_fmt_pct(path2_window_2025_metrics.get("weighted_cagr")),
+        p25sharpe=float(path2_window_2025_metrics.get("weighted_sharpe", float("nan"))),
+        p25dd=_fmt_pct(path2_window_2025_metrics.get("weighted_max_drawdown")),
+        p25turn=float(path2_window_2025_metrics.get("weighted_turnover", float("nan"))),
     )
     if path2_label:
-        note += f"\nPath 2 candidate: {path2_label}"
+        note += f"\nPath 2 robust candidate: {path2_label}"
     return note
 
 
@@ -713,7 +753,9 @@ def render_summary_card() -> None:
     note = build_winner_note()
     if not note:
         return
-    fig, ax = plt.subplots(figsize=(12, 2.4))
+    line_count = note.count("\n") + 1
+    fig_height = max(2.8, 0.42 * line_count + 0.8)
+    fig, ax = plt.subplots(figsize=(12, fig_height))
     ax.axis("off")
     ax.text(
         0.01,

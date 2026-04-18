@@ -29,8 +29,8 @@ SAMPLE_TAG_STARTS = {
 }
 STATIC_BASE_IDS = {"large_cap_pool", "kechuang_xuangu"}
 
-WEIGHTS_SHORT_CYCLE = {"since_2017_01": 0.30, "since_2020_01": 0.30, "since_2023_01": 0.40}
-WEIGHTS_MID_CYCLE = {"since_2017_01": 0.30, "since_2020_01": 0.40, "since_2023_01": 0.30}
+WEIGHTS_2017_ONLY = {"since_2017_01": 1.00}
+WEIGHTS_2023_ONLY = {"since_2023_01": 1.00}
 WEIGHTS_2020_ONLY = {"since_2020_01": 1.00}
 WEIGHTS_2025_ONLY = {"since_2025_01": 1.00}
 
@@ -351,14 +351,22 @@ def _pick_path2_candidate(latest: pd.DataFrame) -> tuple[str, dict[str, float]]:
 
 def _render_block(
     strategies: dict[str, dict],
-    short_winner_id: str,
-    short_metrics: TrackMetrics,
-    mid_winner_id: str,
-    mid_metrics: TrackMetrics,
+    window_2017_winner_id: str,
+    window_2017_metrics: TrackMetrics,
+    window_2023_winner_id: str,
+    window_2023_metrics: TrackMetrics,
     window_2020_winner_id: str,
     window_2020_metrics: TrackMetrics,
     window_2025_winner_id: str,
     window_2025_metrics: TrackMetrics,
+    path2_window_2017_id: str,
+    path2_window_2017_metrics: TrackMetrics,
+    path2_window_2023_id: str,
+    path2_window_2023_metrics: TrackMetrics,
+    path2_window_2020_id: str,
+    path2_window_2020_metrics: TrackMetrics,
+    path2_window_2025_id: str,
+    path2_window_2025_metrics: TrackMetrics,
     path2_id: str,
     path2_summary: dict[str, float],
     sample_end: str,
@@ -425,7 +433,7 @@ def _render_block(
         "This repo tracks **two research paths**:",
         "",
         "- **Path 1 (winner-core family constrained):** 4 tracked winners across multi-window + checkpoint scoring.",
-        "- **Path 2 (unconstrained max-return):** a separate best candidate ranked by robust return across all 4 windows.",
+        "- **Path 2 (unconstrained max-return):** 4 tracked single-window winners plus a separate best robust candidate ranked across all 4 windows.",
         "",
         "Validation windows:",
         "",
@@ -436,10 +444,16 @@ def _render_block(
         "",
         "## Path 1 — Winner-Core Tracked Winners",
         "",
-        render_track("Short-cycle Winner (30/30/40)", WEIGHTS_SHORT_CYCLE, short_winner_id, short_metrics),
-        render_track("Mid-cycle Winner (30/40/30)", WEIGHTS_MID_CYCLE, mid_winner_id, mid_metrics),
+        render_track("2017-Window Winner", WEIGHTS_2017_ONLY, window_2017_winner_id, window_2017_metrics),
+        render_track("2023-Window Winner", WEIGHTS_2023_ONLY, window_2023_winner_id, window_2023_metrics),
         render_track("2020-Window Winner (2020-only checkpoint)", WEIGHTS_2020_ONLY, window_2020_winner_id, window_2020_metrics),
         render_track("2025-Window Winner (2025-only checkpoint)", WEIGHTS_2025_ONLY, window_2025_winner_id, window_2025_metrics),
+        "## Path 2 — Unconstrained Window Winners",
+        "",
+        render_track("2017-Window Winner (Path 2)", WEIGHTS_2017_ONLY, path2_window_2017_id, path2_window_2017_metrics),
+        render_track("2023-Window Winner (Path 2)", WEIGHTS_2023_ONLY, path2_window_2023_id, path2_window_2023_metrics),
+        render_track("2020-Window Winner (Path 2)", WEIGHTS_2020_ONLY, path2_window_2020_id, path2_window_2020_metrics),
+        render_track("2025-Window Winner (Path 2)", WEIGHTS_2025_ONLY, path2_window_2025_id, path2_window_2025_metrics),
         "## Path 2 — Max-Return Candidate",
         "",
         render_path2("Best Robust Candidate (4-window)", path2_id, path2_summary),
@@ -477,10 +491,18 @@ def main() -> None:
     if not winner_core_ids:
         raise RuntimeError(f"No winner-core strategies found with prefix={prefix!r}")
 
-    short_id, short_metrics = _pick_winner(latest, WEIGHTS_SHORT_CYCLE, allowed_base_ids=winner_core_ids)
-    mid_id, mid_metrics = _pick_winner(latest, WEIGHTS_MID_CYCLE, allowed_base_ids=winner_core_ids)
+    window_2017_id, window_2017_metrics = _pick_single_window_winner(
+        latest, "since_2017_01", allowed_base_ids=winner_core_ids
+    )
+    window_2023_id, window_2023_metrics = _pick_single_window_winner(
+        latest, "since_2023_01", allowed_base_ids=winner_core_ids
+    )
     window_2020_id, window_2020_metrics = _pick_single_window_winner(latest, "since_2020_01", allowed_base_ids=winner_core_ids)
     window_2025_id, window_2025_metrics = _pick_single_window_winner(latest, "since_2025_01", allowed_base_ids=winner_core_ids)
+    path2_window_2017_id, path2_window_2017_metrics = _pick_single_window_winner(latest, "since_2017_01")
+    path2_window_2023_id, path2_window_2023_metrics = _pick_single_window_winner(latest, "since_2023_01")
+    path2_window_2020_id, path2_window_2020_metrics = _pick_single_window_winner(latest, "since_2020_01")
+    path2_window_2025_id, path2_window_2025_metrics = _pick_single_window_winner(latest, "since_2025_01")
     path2_id, path2_summary = _pick_path2_candidate(latest)
     sample_end = max(info["sample_end"] for info in strategies.values())
 
@@ -489,24 +511,24 @@ def main() -> None:
         "window_tags": list(SAMPLE_TAG_STARTS),
         "winner_core_prefix": prefix,
         "tracks": {
-            "short_cycle_30_30_40": {
-                "weights": WEIGHTS_SHORT_CYCLE,
-                "winner": short_id,
+            "since_2017_only": {
+                "weights": WEIGHTS_2017_ONLY,
+                "winner": window_2017_id,
                 "metrics": {
-                    "weighted_cagr": short_metrics.cagr,
-                    "weighted_sharpe": short_metrics.sharpe,
-                    "weighted_max_drawdown": short_metrics.max_drawdown,
-                    "weighted_turnover": short_metrics.turnover,
+                    "weighted_cagr": window_2017_metrics.cagr,
+                    "weighted_sharpe": window_2017_metrics.sharpe,
+                    "weighted_max_drawdown": window_2017_metrics.max_drawdown,
+                    "weighted_turnover": window_2017_metrics.turnover,
                 },
             },
-            "mid_cycle_30_40_30": {
-                "weights": WEIGHTS_MID_CYCLE,
-                "winner": mid_id,
+            "since_2023_only": {
+                "weights": WEIGHTS_2023_ONLY,
+                "winner": window_2023_id,
                 "metrics": {
-                    "weighted_cagr": mid_metrics.cagr,
-                    "weighted_sharpe": mid_metrics.sharpe,
-                    "weighted_max_drawdown": mid_metrics.max_drawdown,
-                    "weighted_turnover": mid_metrics.turnover,
+                    "weighted_cagr": window_2023_metrics.cagr,
+                    "weighted_sharpe": window_2023_metrics.sharpe,
+                    "weighted_max_drawdown": window_2023_metrics.max_drawdown,
+                    "weighted_turnover": window_2023_metrics.turnover,
                 },
             },
             "since_2020_only": {
@@ -531,6 +553,48 @@ def main() -> None:
             },
         },
         "path2": {
+            "tracks": {
+                "since_2017_only": {
+                    "weights": WEIGHTS_2017_ONLY,
+                    "winner": path2_window_2017_id,
+                    "metrics": {
+                        "weighted_cagr": path2_window_2017_metrics.cagr,
+                        "weighted_sharpe": path2_window_2017_metrics.sharpe,
+                        "weighted_max_drawdown": path2_window_2017_metrics.max_drawdown,
+                        "weighted_turnover": path2_window_2017_metrics.turnover,
+                    },
+                },
+                "since_2023_only": {
+                    "weights": WEIGHTS_2023_ONLY,
+                    "winner": path2_window_2023_id,
+                    "metrics": {
+                        "weighted_cagr": path2_window_2023_metrics.cagr,
+                        "weighted_sharpe": path2_window_2023_metrics.sharpe,
+                        "weighted_max_drawdown": path2_window_2023_metrics.max_drawdown,
+                        "weighted_turnover": path2_window_2023_metrics.turnover,
+                    },
+                },
+                "since_2020_only": {
+                    "weights": WEIGHTS_2020_ONLY,
+                    "winner": path2_window_2020_id,
+                    "metrics": {
+                        "weighted_cagr": path2_window_2020_metrics.cagr,
+                        "weighted_sharpe": path2_window_2020_metrics.sharpe,
+                        "weighted_max_drawdown": path2_window_2020_metrics.max_drawdown,
+                        "weighted_turnover": path2_window_2020_metrics.turnover,
+                    },
+                },
+                "since_2025_only": {
+                    "weights": WEIGHTS_2025_ONLY,
+                    "winner": path2_window_2025_id,
+                    "metrics": {
+                        "weighted_cagr": path2_window_2025_metrics.cagr,
+                        "weighted_sharpe": path2_window_2025_metrics.sharpe,
+                        "weighted_max_drawdown": path2_window_2025_metrics.max_drawdown,
+                        "weighted_turnover": path2_window_2025_metrics.turnover,
+                    },
+                },
+            },
             "strategy_base_id": path2_id,
             "robust_metrics": path2_summary,
         },
@@ -540,7 +604,18 @@ def main() -> None:
                 "windows": info["windows"],
             }
             for sid, info in strategies.items()
-            if sid in {short_id, mid_id, window_2020_id, window_2025_id, path2_id}
+            if sid
+            in {
+                window_2017_id,
+                window_2023_id,
+                window_2020_id,
+                window_2025_id,
+                path2_window_2017_id,
+                path2_window_2023_id,
+                path2_window_2020_id,
+                path2_window_2025_id,
+                path2_id,
+            }
         },
     }
     args.write_json.parent.mkdir(parents=True, exist_ok=True)
@@ -548,14 +623,22 @@ def main() -> None:
 
     block = _render_block(
         strategies,
-        short_id,
-        short_metrics,
-        mid_id,
-        mid_metrics,
+        window_2017_id,
+        window_2017_metrics,
+        window_2023_id,
+        window_2023_metrics,
         window_2020_id,
         window_2020_metrics,
         window_2025_id,
         window_2025_metrics,
+        path2_window_2017_id,
+        path2_window_2017_metrics,
+        path2_window_2023_id,
+        path2_window_2023_metrics,
+        path2_window_2020_id,
+        path2_window_2020_metrics,
+        path2_window_2025_id,
+        path2_window_2025_metrics,
         path2_id,
         path2_summary,
         sample_end,
@@ -564,10 +647,14 @@ def main() -> None:
 
     print(f"[OK] Updated {args.readme}")
     print(f"[OK] Wrote {args.write_json}")
-    print(f"[OK] Short-cycle winner: {short_id} (wCAGR={_fmt_pct(short_metrics.cagr)}, wSharpe={short_metrics.sharpe:.4f})")
-    print(f"[OK] Mid-cycle winner:   {mid_id} (wCAGR={_fmt_pct(mid_metrics.cagr)}, wSharpe={mid_metrics.sharpe:.4f})")
+    print(f"[OK] 2017-window winner: {window_2017_id} (CAGR={_fmt_pct(window_2017_metrics.cagr)}, Sharpe={window_2017_metrics.sharpe:.4f})")
+    print(f"[OK] 2023-window winner: {window_2023_id} (CAGR={_fmt_pct(window_2023_metrics.cagr)}, Sharpe={window_2023_metrics.sharpe:.4f})")
     print(f"[OK] 2020-window winner: {window_2020_id} (CAGR={_fmt_pct(window_2020_metrics.cagr)}, Sharpe={window_2020_metrics.sharpe:.4f})")
     print(f"[OK] 2025-window winner: {window_2025_id} (CAGR={_fmt_pct(window_2025_metrics.cagr)}, Sharpe={window_2025_metrics.sharpe:.4f})")
+    print(f"[OK] Path2 2017-window winner: {path2_window_2017_id} (CAGR={_fmt_pct(path2_window_2017_metrics.cagr)}, Sharpe={path2_window_2017_metrics.sharpe:.4f})")
+    print(f"[OK] Path2 2023-window winner: {path2_window_2023_id} (CAGR={_fmt_pct(path2_window_2023_metrics.cagr)}, Sharpe={path2_window_2023_metrics.sharpe:.4f})")
+    print(f"[OK] Path2 2020-window winner: {path2_window_2020_id} (CAGR={_fmt_pct(path2_window_2020_metrics.cagr)}, Sharpe={path2_window_2020_metrics.sharpe:.4f})")
+    print(f"[OK] Path2 2025-window winner: {path2_window_2025_id} (CAGR={_fmt_pct(path2_window_2025_metrics.cagr)}, Sharpe={path2_window_2025_metrics.sharpe:.4f})")
     print(f"[OK] Path 2 candidate:   {path2_id} (meanCAGR={_fmt_pct(path2_summary['cagr_mean'])}, minCAGR={_fmt_pct(path2_summary['cagr_min'])})")
 
 
