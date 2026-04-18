@@ -109,6 +109,27 @@ def load_winner_core_prefix(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> str:
     return prefix or "core_explore_80_20_total_mv_winner_core"
 
 
+def load_winner_core_family_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[str]:
+    try:
+        consts = _parse_python_constants(backtest_path, ["WINNER_ONLY_STRATEGY_ID", "WINNER_CORE_VARIANTS"])
+    except Exception:
+        prefix = load_winner_core_prefix(backtest_path)
+        return {prefix}
+    base = str(consts.get("WINNER_ONLY_STRATEGY_ID") or "").strip() or load_winner_core_prefix(backtest_path)
+    variants = consts.get("WINNER_CORE_VARIANTS")
+    if not isinstance(variants, list):
+        return {base}
+    ids = {base}
+    for variant in variants:
+        if not isinstance(variant, dict):
+            continue
+        variant_id = variant.get("variant_id")
+        if not variant_id:
+            continue
+        ids.add(f"{base}__{variant_id}")
+    return set(map(str, ids))
+
+
 def _load_existing_path1_winners(path: Path) -> dict[str, str]:
     if not path.exists():
         return {}
@@ -545,7 +566,7 @@ def main() -> None:
         raise RuntimeError("No strategies with complete 2017/2020/2023 windows found in comparison CSV.")
 
     prefix = load_winner_core_prefix()
-    winner_core_ids = {str(bid) for bid in latest["strategy_base_id"].astype(str).unique() if str(bid).startswith(prefix)}
+    winner_core_ids = load_winner_core_family_ids()
     if not winner_core_ids:
         raise RuntimeError(f"No winner-core strategies found with prefix={prefix!r}")
 
@@ -557,16 +578,50 @@ def main() -> None:
         return _compute_single_window_metrics(group, sample_tag)
 
     def resolve_path1_winner(track_key: str, sample_tag: str) -> tuple[str, TrackMetrics]:
-        best_id, best_metrics = _pick_single_window_winner(latest, sample_tag, allowed_base_ids=winner_core_ids)
         current_id = existing_path1_winners.get(track_key)
-        if not current_id:
-            return best_id, best_metrics
-        if str(current_id) not in winner_core_ids:
-            return best_id, best_metrics
-        current_metrics = metrics_for(str(current_id), sample_tag)
-        if _is_clear_improvement(candidate=best_metrics, current=current_metrics, thresholds=PATH1_IMPROVEMENT_THRESHOLDS):
-            return best_id, best_metrics
-        return str(current_id), current_metrics
+        current_id_str = str(current_id) if current_id else ""
+
+        def build_ranked_candidates() -> list[tuple[str, TrackMetrics]]:
+            candidates: list[tuple[str, TrackMetrics]] = []
+            for base_id, group in latest.groupby("strategy_base_id"):
+                base_id_str = str(base_id)
+                if base_id_str not in winner_core_ids:
+                    continue
+                tags = set(group["sample_tag"].astype(str))
+                if sample_tag != "since_2025_01" and not set(WEIGHTED_WINDOW_TAGS).issubset(tags):
+                    continue
+                if sample_tag not in tags:
+                    continue
+                metrics = _compute_single_window_metrics(group, sample_tag)
+                if _is_nan_metrics(metrics):
+                    continue
+                candidates.append((base_id_str, metrics))
+            candidates.sort(
+                key=lambda item: (item[1].cagr, item[1].sharpe, item[1].max_drawdown, -item[1].turnover),
+                reverse=True,
+            )
+            return candidates
+
+        ranked = build_ranked_candidates()
+        if not ranked:
+            raise RuntimeError(f"No winner-core strategies found for sample_tag={sample_tag!r}")
+
+        if not current_id_str or current_id_str not in winner_core_ids:
+            return ranked[0]
+
+        current_metrics = metrics_for(current_id_str, sample_tag)
+        if _is_nan_metrics(current_metrics):
+            return ranked[0]
+
+        for candidate_id, candidate_metrics in ranked:
+            if _is_clear_improvement(
+                candidate=candidate_metrics,
+                current=current_metrics,
+                thresholds=PATH1_IMPROVEMENT_THRESHOLDS,
+            ):
+                return candidate_id, candidate_metrics
+
+        return current_id_str, current_metrics
 
     window_2017_id, window_2017_metrics = resolve_path1_winner("since_2017_only", "since_2017_01")
     window_2023_id, window_2023_metrics = resolve_path1_winner("since_2023_only", "since_2023_01")

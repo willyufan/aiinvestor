@@ -279,6 +279,63 @@ WINNER_CORE_VARIANTS = [
         "promoted_core_stage_ramp": {1: 1.00},
         "core_signal_mode": "6_1",
     },
+    {
+        "variant_id": "aggr_08_92_prom6_cash_off",
+        "variant_name": "进攻8/92 晋升6只(熊市空仓)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+    },
+    {
+        "variant_id": "aggr_10_90_prom6_cash_off",
+        "variant_name": "进攻10/90 晋升6只(熊市空仓)",
+        "winner_core_stable_share": 0.10,
+        "winner_core_promoted_share": 0.90,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+    },
+    {
+        "variant_id": "aggr_10_90_fast_ramp_cash_off",
+        "variant_name": "进攻10/90 快速加仓(熊市空仓)",
+        "winner_core_stable_share": 0.10,
+        "winner_core_promoted_share": 0.90,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 8,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_cash_off_and",
+        "variant_name": "进攻8/92 晋升6只(熊市空仓, and 规则)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+    },
+    {
+        "variant_id": "aggr_10_90_fast_ramp_cash_off_and",
+        "variant_name": "进攻10/90 快速加仓(熊市空仓, and 规则)",
+        "winner_core_stable_share": 0.10,
+        "winner_core_promoted_share": 0.90,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 8,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+    },
 ]
 
 FACTOR_CACHE_VERSION = "v1"
@@ -1193,15 +1250,24 @@ def compute_industry_relative_strength_scores(
     return industry_strength_scores, industry_leader_scores
 
 
-def compute_market_exposure(market_monthly_close: pd.Series, signal_date: pd.Timestamp) -> Dict[str, float | bool]:
+def compute_market_exposure(
+    market_monthly_close: pd.Series,
+    signal_date: pd.Timestamp,
+    *,
+    risk_off_rule: str = "or",
+    core_risk_off_exposure: float = CORE_RISK_OFF_EXPOSURE,
+    core_risk_on_exposure: float = CORE_RISK_ON_EXPOSURE,
+    satellite_risk_off_exposure: float = SATELLITE_RISK_OFF_EXPOSURE,
+    satellite_risk_on_exposure: float = SATELLITE_RISK_ON_EXPOSURE,
+) -> Dict[str, float | bool]:
     if signal_date not in market_monthly_close.index:
         return {
             "risk_off": False,
             "market_12_1_momentum": np.nan,
             "market_below_10m_ma": False,
-            "core_target_exposure": CORE_RISK_ON_EXPOSURE,
-            "satellite_target_exposure": SATELLITE_RISK_ON_EXPOSURE,
-            "portfolio_target_exposure": CORE_RISK_ON_EXPOSURE,
+            "core_target_exposure": core_risk_on_exposure,
+            "satellite_target_exposure": satellite_risk_on_exposure,
+            "portfolio_target_exposure": core_risk_on_exposure,
         }
 
     history = market_monthly_close.loc[:signal_date].dropna()
@@ -1210,9 +1276,9 @@ def compute_market_exposure(market_monthly_close: pd.Series, signal_date: pd.Tim
             "risk_off": False,
             "market_12_1_momentum": np.nan,
             "market_below_10m_ma": False,
-            "core_target_exposure": CORE_RISK_ON_EXPOSURE,
-            "satellite_target_exposure": SATELLITE_RISK_ON_EXPOSURE,
-            "portfolio_target_exposure": CORE_RISK_ON_EXPOSURE,
+            "core_target_exposure": core_risk_on_exposure,
+            "satellite_target_exposure": satellite_risk_on_exposure,
+            "portfolio_target_exposure": core_risk_on_exposure,
         }
 
     current_close = float(history.iloc[-1])
@@ -1221,9 +1287,18 @@ def compute_market_exposure(market_monthly_close: pd.Series, signal_date: pd.Tim
     ma_10m = float(history.iloc[-10:].mean()) if len(history) >= 10 else np.nan
     market_12_1_momentum = prior_1m_close / prior_12m_close - 1.0 if prior_12m_close > 0 and not np.isnan(prior_1m_close) else np.nan
     below_ma = current_close < ma_10m if not np.isnan(ma_10m) else False
-    risk_off = (not np.isnan(market_12_1_momentum) and market_12_1_momentum < 0) or below_ma
-    core_target_exposure = CORE_RISK_OFF_EXPOSURE if risk_off else CORE_RISK_ON_EXPOSURE
-    satellite_target_exposure = SATELLITE_RISK_OFF_EXPOSURE if risk_off else SATELLITE_RISK_ON_EXPOSURE
+    negative_mom = not np.isnan(market_12_1_momentum) and market_12_1_momentum < 0
+    rule = str(risk_off_rule or "or").strip().lower()
+    if rule == "and":
+        risk_off = negative_mom and below_ma
+    elif rule == "mom":
+        risk_off = negative_mom
+    elif rule == "ma":
+        risk_off = below_ma
+    else:
+        risk_off = negative_mom or below_ma
+    core_target_exposure = core_risk_off_exposure if risk_off else core_risk_on_exposure
+    satellite_target_exposure = satellite_risk_off_exposure if risk_off else satellite_risk_on_exposure
     return {
         "risk_off": risk_off,
         "market_12_1_momentum": market_12_1_momentum,
@@ -2618,7 +2693,20 @@ def run_backtest(
             ]
         )
         strategy_kind = str(strategy_config.get("strategy_kind", "core_explore"))
-        market_regime = compute_market_exposure(prepared.market_monthly_close, signal_date)
+        market_risk_off_rule = str(strategy_config.get("market_risk_off_rule", "or") or "or").strip().lower()
+        core_risk_off_exposure = float(strategy_config.get("core_risk_off_exposure", CORE_RISK_OFF_EXPOSURE))
+        core_risk_on_exposure = float(strategy_config.get("core_risk_on_exposure", CORE_RISK_ON_EXPOSURE))
+        satellite_risk_off_exposure = float(strategy_config.get("satellite_risk_off_exposure", SATELLITE_RISK_OFF_EXPOSURE))
+        satellite_risk_on_exposure = float(strategy_config.get("satellite_risk_on_exposure", SATELLITE_RISK_ON_EXPOSURE))
+        market_regime = compute_market_exposure(
+            prepared.market_monthly_close,
+            signal_date,
+            risk_off_rule=market_risk_off_rule,
+            core_risk_off_exposure=core_risk_off_exposure,
+            core_risk_on_exposure=core_risk_on_exposure,
+            satellite_risk_off_exposure=satellite_risk_off_exposure,
+            satellite_risk_on_exposure=satellite_risk_on_exposure,
+        )
         if strategy_kind == "pure_core_growth":
             market_regime = {
                 "risk_off": False,
@@ -2996,10 +3084,11 @@ def run_backtest(
         "pure_core_observation_min_streak": PURE_CORE_OBSERVATION_MIN_STREAK,
         "pure_core_observation_buffer_multiplier": PURE_CORE_OBSERVATION_BUFFER_MULTIPLIER,
         "market_index_code": MARKET_INDEX_CODE,
-        "core_risk_off_exposure": CORE_RISK_OFF_EXPOSURE,
-        "core_risk_on_exposure": CORE_RISK_ON_EXPOSURE,
-        "satellite_risk_off_exposure": SATELLITE_RISK_OFF_EXPOSURE,
-        "satellite_risk_on_exposure": SATELLITE_RISK_ON_EXPOSURE,
+        "market_risk_off_rule": str(strategy_config.get("market_risk_off_rule", "or") or "or").strip().lower(),
+        "core_risk_off_exposure": float(strategy_config.get("core_risk_off_exposure", CORE_RISK_OFF_EXPOSURE)),
+        "core_risk_on_exposure": float(strategy_config.get("core_risk_on_exposure", CORE_RISK_ON_EXPOSURE)),
+        "satellite_risk_off_exposure": float(strategy_config.get("satellite_risk_off_exposure", SATELLITE_RISK_OFF_EXPOSURE)),
+        "satellite_risk_on_exposure": float(strategy_config.get("satellite_risk_on_exposure", SATELLITE_RISK_ON_EXPOSURE)),
         "buy_entry_percentile": BUY_ENTRY_PERCENTILE,
         "sell_exit_percentile": SELL_EXIT_PERCENTILE,
         "min_weight_trade_threshold": MIN_WEIGHT_TRADE_THRESHOLD,

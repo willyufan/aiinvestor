@@ -279,6 +279,15 @@ def main() -> None:
 
     improvements: dict[str, dict[str, Any]] = {}
 
+    def best_clear_improvement(
+        ranked: list[tuple[str, TrackMetrics]],
+        current: TrackMetrics,
+    ) -> tuple[str, TrackMetrics] | None:
+        for base_id, metrics in ranked:
+            if _is_clear_improvement(candidate=metrics, current=current, thresholds=thresholds):
+                return base_id, metrics
+        return None
+
     def eval_track(
         track_key: str,
         current_id: str,
@@ -290,11 +299,14 @@ def main() -> None:
             improvements[track_key] = {"status": "no_candidates"}
             return
         best_id, best_metrics = best
-        improved = _is_clear_improvement(candidate=best_metrics, current=current_metrics, thresholds=thresholds)
+        clear_best = best_clear_improvement(ranked, current_metrics)
         improvements[track_key] = {
-            "status": "clear_improvement" if improved else "no_clear_improvement",
+            "status": "clear_improvement" if clear_best else "no_clear_improvement",
             "current": {"strategy_base_id": current_id, "metrics": asdict(current_metrics)},
             "best": {"strategy_base_id": best_id, "metrics": asdict(best_metrics)},
+            "best_clear": (
+                {"strategy_base_id": clear_best[0], "metrics": asdict(clear_best[1])} if clear_best else None
+            ),
             "top5": [{"strategy_base_id": sid, "metrics": asdict(m)} for sid, m in ranked[:5]],
         }
 
@@ -325,6 +337,12 @@ def main() -> None:
         print(f"        best={best_id} {_render_metrics(best_metrics)} "
               f"ΔCAGR={_fmt_pct(best_metrics.cagr - window_2017_winner_metrics.cagr)} "
               f"ΔSharpe={best_metrics.sharpe - window_2017_winner_metrics.sharpe:+.4f}")
+    clear_2017 = best_clear_improvement(window_2017_ranked, window_2017_winner_metrics)
+    if clear_2017:
+        clear_id, clear_metrics = clear_2017
+        print(f"        clear={clear_id} {_render_metrics(clear_metrics)} "
+              f"ΔCAGR={_fmt_pct(clear_metrics.cagr - window_2017_winner_metrics.cagr)} "
+              f"ΔSharpe={clear_metrics.sharpe - window_2017_winner_metrics.sharpe:+.4f}")
     print("")
 
     print(f"[Track] since_2023_only      current={window_2023_winner_id} {_render_metrics(window_2023_winner_metrics)}")
@@ -334,6 +352,14 @@ def main() -> None:
             f"        best={best_id} {_render_metrics(best_metrics)} "
             f"ΔCAGR={_fmt_pct(best_metrics.cagr - window_2023_winner_metrics.cagr)} "
             f"ΔSharpe={best_metrics.sharpe - window_2023_winner_metrics.sharpe:+.4f}"
+        )
+    clear_2023 = best_clear_improvement(window_2023_ranked, window_2023_winner_metrics)
+    if clear_2023:
+        clear_id, clear_metrics = clear_2023
+        print(
+            f"        clear={clear_id} {_render_metrics(clear_metrics)} "
+            f"ΔCAGR={_fmt_pct(clear_metrics.cagr - window_2023_winner_metrics.cagr)} "
+            f"ΔSharpe={clear_metrics.sharpe - window_2023_winner_metrics.sharpe:+.4f}"
         )
     print("")
 
@@ -345,6 +371,14 @@ def main() -> None:
             f"ΔCAGR={_fmt_pct(best_metrics.cagr - window_2020_winner_metrics.cagr)} "
             f"ΔSharpe={best_metrics.sharpe - window_2020_winner_metrics.sharpe:+.4f}"
         )
+    clear_2020 = best_clear_improvement(window_2020_ranked, window_2020_winner_metrics)
+    if clear_2020:
+        clear_id, clear_metrics = clear_2020
+        print(
+            f"        clear={clear_id} {_render_metrics(clear_metrics)} "
+            f"ΔCAGR={_fmt_pct(clear_metrics.cagr - window_2020_winner_metrics.cagr)} "
+            f"ΔSharpe={clear_metrics.sharpe - window_2020_winner_metrics.sharpe:+.4f}"
+        )
     print("")
 
     print(f"[Track] since_2025_only      current={window_2025_winner_id} {_render_metrics(window_2025_winner_metrics)}")
@@ -354,6 +388,14 @@ def main() -> None:
             f"        best={best_id} {_render_metrics(best_metrics)} "
             f"ΔCAGR={_fmt_pct(best_metrics.cagr - window_2025_winner_metrics.cagr)} "
             f"ΔSharpe={best_metrics.sharpe - window_2025_winner_metrics.sharpe:+.4f}"
+        )
+    clear_2025 = best_clear_improvement(window_2025_ranked, window_2025_winner_metrics)
+    if clear_2025:
+        clear_id, clear_metrics = clear_2025
+        print(
+            f"        clear={clear_id} {_render_metrics(clear_metrics)} "
+            f"ΔCAGR={_fmt_pct(clear_metrics.cagr - window_2025_winner_metrics.cagr)} "
+            f"ΔSharpe={clear_metrics.sharpe - window_2025_winner_metrics.sharpe:+.4f}"
         )
 
     clear = [k for k, v in improvements.items() if isinstance(v, dict) and v.get("status") == "clear_improvement"]
