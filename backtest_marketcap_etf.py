@@ -350,6 +350,7 @@ CORE_EXPLORE_RATIO_CONFIGS = [
 BASE_WEIGHT_METHODS = [
     {"base_weight_method": "total_mv", "base_weight_name": "总市值底座"},
     {"base_weight_method": "index_weight", "base_weight_name": "指数权重底座"},
+    {"base_weight_method": "equal_weight", "base_weight_name": "等权底座"},
 ]
 
 CORE_SOURCE_MODES = [
@@ -2717,7 +2718,8 @@ def run_backtest(
                 "portfolio_target_exposure": 1.0,
             }
         currently_held_codes = set(positions.index)
-        if str(strategy_config["base_weight_method"]) == "index_weight":
+        base_weight_method = str(strategy_config["base_weight_method"])
+        if base_weight_method == "index_weight":
             base_weights = pd.concat(
                 [
                     prepared.core_index_weights_by_date.get(signal_date, pd.Series(dtype=float)),
@@ -2725,6 +2727,8 @@ def run_backtest(
                 ]
             ).groupby(level=0).sum()
             base_weights = base_weights.reindex(eligible_codes).dropna()
+        elif base_weight_method == "equal_weight":
+            base_weights = pd.Series(1.0, index=pd.Index(eligible_codes, name="ts_code"), dtype=float)
         else:
             base_weights = raw_weights.copy()
         if strategy_kind == "pure_core_growth":
@@ -3218,15 +3222,19 @@ def main(argv: list[str] | None = None) -> None:
                         print_summary(summary, latest_weights)
                         append_comparison_row(comparison_rows, summary)
 
+                    variants_requested = any(
+                        f"{strategy_base_id}__{variant['variant_id']}" in selected_base_ids
+                        for variant in WINNER_CORE_VARIANTS
+                    )
                     should_run_winner_core_variants = (
-                        base_weight_config["base_weight_method"] == "total_mv"
-                        and core_source_config["core_source_mode"] == "winner_core"
+                        core_source_config["core_source_mode"] == "winner_core"
                         and (
-                            (not selected_base_ids and ratio_config["strategy_id"] == "core_explore_80_20")
-                            or any(
-                                f"{strategy_base_id}__{variant['variant_id']}" in selected_base_ids
-                                for variant in WINNER_CORE_VARIANTS
+                            (
+                                not selected_base_ids
+                                and base_weight_config["base_weight_method"] == "total_mv"
+                                and ratio_config["strategy_id"] == "core_explore_80_20"
                             )
+                            or variants_requested
                         )
                     )
                     if should_run_winner_core_variants:
