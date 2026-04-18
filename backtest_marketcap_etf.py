@@ -336,6 +336,29 @@ WINNER_CORE_VARIANTS = [
         "core_risk_off_exposure": 0.0,
         "satellite_risk_off_exposure": 0.0,
     },
+    {
+        "variant_id": "aggr_08_92_prom6_full_risk",
+        "variant_name": "进攻8/92 晋升6只(关闭熊市降仓)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_risk_off_exposure": 1.0,
+        "satellite_risk_off_exposure": 1.0,
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_core_6_1_full_risk",
+        "variant_name": "进攻8/92 晋升6只(核心6-1动量, 关闭熊市降仓)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "core_risk_off_exposure": 1.0,
+        "satellite_risk_off_exposure": 1.0,
+    },
 ]
 
 FACTOR_CACHE_VERSION = "v1"
@@ -345,6 +368,33 @@ CORE_EXPLORE_RATIO_CONFIGS = [
     {"strategy_id": "core_explore_80_20", "strategy_name": "核心80_探索20", "core_ratio": 0.80, "explore_ratio": 0.20},
     {"strategy_id": "core_explore_70_30", "strategy_name": "核心70_探索30", "core_ratio": 0.70, "explore_ratio": 0.30},
     {"strategy_id": "core_explore_60_40", "strategy_name": "核心60_探索40", "core_ratio": 0.60, "explore_ratio": 0.40},
+    {
+        "strategy_id": "pure_core_growth_5",
+        "strategy_name": "纯核心成长5",
+        "strategy_kind": "pure_core_growth",
+        "pure_core_max_holdings": 5,
+        "core_ratio": 1.00,
+        "explore_ratio": 0.00,
+        "weight_cap": 0.35,
+    },
+    {
+        "strategy_id": "pure_core_growth_8",
+        "strategy_name": "纯核心成长8",
+        "strategy_kind": "pure_core_growth",
+        "pure_core_max_holdings": 8,
+        "core_ratio": 1.00,
+        "explore_ratio": 0.00,
+        "weight_cap": 0.35,
+    },
+    {
+        "strategy_id": "pure_core_growth_12",
+        "strategy_name": "纯核心成长12",
+        "strategy_kind": "pure_core_growth",
+        "pure_core_max_holdings": 12,
+        "core_ratio": 1.00,
+        "explore_ratio": 0.00,
+        "weight_cap": 0.30,
+    },
 ]
 
 BASE_WEIGHT_METHODS = [
@@ -356,6 +406,7 @@ BASE_WEIGHT_METHODS = [
 CORE_SOURCE_MODES = [
     {"core_source_mode": "index_core", "core_source_name": "指数核心"},
     {"core_source_mode": "winner_core", "core_source_name": "胜出者核心"},
+    {"core_source_mode": "pure_core_growth", "core_source_name": "纯核心成长"},
 ]
 
 PURE_CORE_AMOUNT_THRESHOLD = 50000.0
@@ -2794,7 +2845,11 @@ def run_backtest(
                 promoted_core_max_holdings=int(strategy_config.get("promoted_core_max_holdings", PROMOTED_CORE_MAX_HOLDINGS)),
                 promoted_core_stage_ramp=strategy_config.get("promoted_core_stage_ramp", None),
             )
-        target_weights, target_cash_weight = apply_weight_cap_with_redistribution(raw_target_weights, cap=WEIGHT_CAP)
+        weight_cap = float(strategy_config.get("weight_cap", WEIGHT_CAP))
+        if not np.isfinite(weight_cap) or weight_cap <= 0:
+            weight_cap = WEIGHT_CAP
+        weight_cap = min(1.0, weight_cap)
+        target_weights, target_cash_weight = apply_weight_cap_with_redistribution(raw_target_weights, cap=weight_cap)
 
         satellite_signal_ranks = blend_ranked_components(
             [
@@ -3052,7 +3107,7 @@ def run_backtest(
         "selection_overlay": selection_overlay,
         "price_rule": "前复权收盘价 = close * adj_factor / latest_adj_factor",
         "listing_filter": listing_filter,
-        "weight_cap": WEIGHT_CAP,
+        "weight_cap": float(strategy_config.get("weight_cap", WEIGHT_CAP)),
         "enhancement_bucket_pct": ENHANCEMENT_BUCKET_PCT,
         "momentum_lookback_rule": momentum_lookback_rule,
         "core_ratio": float(strategy_config["core_ratio"]),
@@ -3191,6 +3246,11 @@ def main(argv: list[str] | None = None) -> None:
         for core_source_config in CORE_SOURCE_MODES:
             for base_weight_config in BASE_WEIGHT_METHODS:
                 for ratio_config in CORE_EXPLORE_RATIO_CONFIGS:
+                    ratio_strategy_kind = str(ratio_config.get("strategy_kind", "core_explore"))
+                    if ratio_strategy_kind == "pure_core_growth" and core_source_config["core_source_mode"] != "pure_core_growth":
+                        continue
+                    if ratio_strategy_kind != "pure_core_growth" and core_source_config["core_source_mode"] == "pure_core_growth":
+                        continue
                     strategy_base_id = f"{ratio_config['strategy_id']}_{base_weight_config['base_weight_method']}_{core_source_config['core_source_mode']}"
                     strategy_base_name = f"{ratio_config['strategy_name']}_{base_weight_config['base_weight_name']}_{core_source_config['core_source_name']}"
                     winner_core_variants = [
