@@ -259,6 +259,26 @@ WINNER_CORE_VARIANTS = [
         "promoted_core_max_holdings": 7,
         "promoted_core_stage_ramp": {1: 1.00},
     },
+    {
+        "variant_id": "aggr_08_92_prom6_core_6_1",
+        "variant_name": "进攻8/92 晋升6只(核心6-1动量)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+    },
+    {
+        "variant_id": "aggr_10_90_prom6_core_6_1",
+        "variant_name": "进攻10/90 晋升6只(核心6-1动量)",
+        "winner_core_stable_share": 0.10,
+        "winner_core_promoted_share": 0.90,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+    },
 ]
 
 FACTOR_CACHE_VERSION = "v1"
@@ -2573,6 +2593,11 @@ def run_backtest(
         growth_acceleration_scores = factor_cache.growth_acceleration_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
         industry_strength_scores = factor_cache.industry_strength_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
         industry_leader_scores = factor_cache.industry_leader_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+        core_signal_mode = str(strategy_config.get("core_signal_mode", "") or "").strip()
+        if core_signal_mode == "6_1":
+            core_signal_scores = momentum_6_1.copy()
+        elif core_signal_mode == "3_1":
+            core_signal_scores = momentum_3_1.copy()
         explore_signal_scores = blend_ranked_components(
             [
                 (industry_strength_scores, 0.40),

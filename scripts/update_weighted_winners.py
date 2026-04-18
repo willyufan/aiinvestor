@@ -43,6 +43,42 @@ class TrackMetrics:
     turnover: float
 
 
+@dataclass(frozen=True)
+class ImprovementThresholds:
+    min_cagr_improvement: float
+    min_sharpe_improvement: float
+    max_drawdown_worsen_abs: float
+    max_turnover_increase: float
+
+
+PATH1_IMPROVEMENT_THRESHOLDS = ImprovementThresholds(
+    min_cagr_improvement=0.0010,
+    min_sharpe_improvement=0.0050,
+    max_drawdown_worsen_abs=0.0050,
+    max_turnover_increase=0.15,
+)
+
+
+def _is_nan_metrics(metrics: TrackMetrics) -> bool:
+    return any(np.isnan(v) for v in (metrics.cagr, metrics.sharpe, metrics.max_drawdown, metrics.turnover))
+
+
+def _is_clear_improvement(*, candidate: TrackMetrics, current: TrackMetrics, thresholds: ImprovementThresholds) -> bool:
+    if _is_nan_metrics(candidate) or _is_nan_metrics(current):
+        return False
+    if (candidate.cagr - current.cagr) < thresholds.min_cagr_improvement:
+        return False
+    if (candidate.sharpe - current.sharpe) < thresholds.min_sharpe_improvement:
+        return False
+    # Max drawdown is negative. Less-negative is better. Allow a small worsening.
+    drawdown_worsen = current.max_drawdown - candidate.max_drawdown
+    if drawdown_worsen > thresholds.max_drawdown_worsen_abs:
+        return False
+    if (candidate.turnover - current.turnover) > thresholds.max_turnover_increase:
+        return False
+    return True
+
+
 def _parse_python_constants(path: Path, names: Iterable[str]) -> dict[str, Any]:
     wanted = set(names)
     result: dict[str, Any] = {}
@@ -71,6 +107,28 @@ def load_winner_core_prefix(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> str:
         return "core_explore_80_20_total_mv_winner_core"
     prefix = str(consts.get("WINNER_ONLY_STRATEGY_ID") or "").strip()
     return prefix or "core_explore_80_20_total_mv_winner_core"
+
+
+def _load_existing_path1_winners(path: Path) -> dict[str, str]:
+    if not path.exists():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    if not isinstance(payload, dict):
+        return {}
+    tracks = payload.get("tracks")
+    if not isinstance(tracks, dict):
+        return {}
+    winners: dict[str, str] = {}
+    for track_key, meta in tracks.items():
+        if not isinstance(meta, dict):
+            continue
+        winner = meta.get("winner")
+        if winner:
+            winners[str(track_key)] = str(winner)
+    return winners
 
 
 def _latest_per_strategy_window(frame: pd.DataFrame) -> pd.DataFrame:
@@ -432,8 +490,8 @@ def _render_block(
     parts = [
         "This repo tracks **two research paths**:",
         "",
-        "- **Path 1 (winner-core family constrained):** 4 tracked winners across multi-window + checkpoint scoring.",
-        "- **Path 2 (unconstrained max-return):** 4 tracked single-window winners plus a separate best robust candidate ranked across all 4 windows.",
+        "- **Path 1 (winner-core family constrained):** progressive optimization path, targeting roughly `25%~30%+ CAGR` while keeping the current winner-core framework tradable and controlled.",
+        "- **Path 2 (unconstrained max-return):** upper-bound search path, free to leave the current framework entirely and prioritize much higher CAGR, with the near-term target of pushing the `2020` and `2023` windows toward `40%+ CAGR`. Path 2 is recorded as its own evolving leaderboard and does not need to beat Path 1 before its window winners or robust candidate are updated.",
         "",
         "Validation windows:",
         "",
@@ -491,14 +549,29 @@ def main() -> None:
     if not winner_core_ids:
         raise RuntimeError(f"No winner-core strategies found with prefix={prefix!r}")
 
-    window_2017_id, window_2017_metrics = _pick_single_window_winner(
-        latest, "since_2017_01", allowed_base_ids=winner_core_ids
-    )
-    window_2023_id, window_2023_metrics = _pick_single_window_winner(
-        latest, "since_2023_01", allowed_base_ids=winner_core_ids
-    )
-    window_2020_id, window_2020_metrics = _pick_single_window_winner(latest, "since_2020_01", allowed_base_ids=winner_core_ids)
-    window_2025_id, window_2025_metrics = _pick_single_window_winner(latest, "since_2025_01", allowed_base_ids=winner_core_ids)
+    existing_path1_winners = _load_existing_path1_winners(args.write_json)
+    by_id: dict[str, pd.DataFrame] = {str(base_id): group for base_id, group in latest.groupby("strategy_base_id")}
+
+    def metrics_for(base_id: str, sample_tag: str) -> TrackMetrics:
+        group = by_id.get(str(base_id), pd.DataFrame())
+        return _compute_single_window_metrics(group, sample_tag)
+
+    def resolve_path1_winner(track_key: str, sample_tag: str) -> tuple[str, TrackMetrics]:
+        best_id, best_metrics = _pick_single_window_winner(latest, sample_tag, allowed_base_ids=winner_core_ids)
+        current_id = existing_path1_winners.get(track_key)
+        if not current_id:
+            return best_id, best_metrics
+        if str(current_id) not in winner_core_ids:
+            return best_id, best_metrics
+        current_metrics = metrics_for(str(current_id), sample_tag)
+        if _is_clear_improvement(candidate=best_metrics, current=current_metrics, thresholds=PATH1_IMPROVEMENT_THRESHOLDS):
+            return best_id, best_metrics
+        return str(current_id), current_metrics
+
+    window_2017_id, window_2017_metrics = resolve_path1_winner("since_2017_only", "since_2017_01")
+    window_2023_id, window_2023_metrics = resolve_path1_winner("since_2023_only", "since_2023_01")
+    window_2020_id, window_2020_metrics = resolve_path1_winner("since_2020_only", "since_2020_01")
+    window_2025_id, window_2025_metrics = resolve_path1_winner("since_2025_only", "since_2025_01")
     path2_window_2017_id, path2_window_2017_metrics = _pick_single_window_winner(latest, "since_2017_01")
     path2_window_2023_id, path2_window_2023_metrics = _pick_single_window_winner(latest, "since_2023_01")
     path2_window_2020_id, path2_window_2020_metrics = _pick_single_window_winner(latest, "since_2020_01")
