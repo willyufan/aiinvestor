@@ -703,11 +703,21 @@ def main() -> None:
     window_2023_id, window_2023_metrics = resolve_path1_winner("since_2023_only", "since_2023_01")
     window_2020_id, window_2020_metrics = resolve_path1_winner("since_2020_only", "since_2020_01")
     window_2025_id, window_2025_metrics = resolve_path1_winner("since_2025_only", "since_2025_01")
-    path2_window_2017_id, path2_window_2017_metrics = _pick_single_window_winner(latest, "since_2017_01", allowed_base_ids=active_family_ids)
-    path2_window_2023_id, path2_window_2023_metrics = _pick_single_window_winner(latest, "since_2023_01", allowed_base_ids=active_family_ids)
-    path2_window_2020_id, path2_window_2020_metrics = _pick_single_window_winner(latest, "since_2020_01", allowed_base_ids=active_family_ids)
-    path2_window_2025_id, path2_window_2025_metrics = _pick_single_window_winner(latest, "since_2025_01", allowed_base_ids=active_family_ids)
-    path2_id, path2_summary = _pick_path2_candidate(latest[latest["strategy_base_id"].astype(str).isin(active_family_ids)])
+    # Path 2 is intentionally unconstrained: scan all cached strategies (excluding static baseline rows).
+    path2_allowed_ids = set(latest["strategy_base_id"].astype(str).unique()) - STATIC_BASE_IDS
+    path2_window_2017_id, path2_window_2017_metrics = _pick_single_window_winner(
+        latest, "since_2017_01", allowed_base_ids=path2_allowed_ids
+    )
+    path2_window_2023_id, path2_window_2023_metrics = _pick_single_window_winner(
+        latest, "since_2023_01", allowed_base_ids=path2_allowed_ids
+    )
+    path2_window_2020_id, path2_window_2020_metrics = _pick_single_window_winner(
+        latest, "since_2020_01", allowed_base_ids=path2_allowed_ids
+    )
+    path2_window_2025_id, path2_window_2025_metrics = _pick_single_window_winner(
+        latest, "since_2025_01", allowed_base_ids=path2_allowed_ids
+    )
+    path2_id, path2_summary = _pick_path2_candidate(latest[latest["strategy_base_id"].astype(str).isin(path2_allowed_ids)])
     sample_end = max(info["sample_end"] for info in strategies.values())
 
     payload = {
