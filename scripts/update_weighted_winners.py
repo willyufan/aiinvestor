@@ -130,6 +130,71 @@ def load_winner_core_family_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> s
     return set(map(str, ids))
 
 
+def load_path1_family_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[str]:
+    winner_ids = load_winner_core_family_ids(backtest_path)
+    try:
+        consts = _parse_python_constants(
+            backtest_path,
+            ["SAT_WEEKLY_RISK_SUFFIX", "SAT_THREE_STAGE_SUFFIX", "SAT_THREE_STAGE_BUFFERED_SUFFIX"],
+        )
+        overlay_suffixes = [
+            str(consts.get("SAT_WEEKLY_RISK_SUFFIX") or "__sat_weekly_risk"),
+            str(consts.get("SAT_THREE_STAGE_SUFFIX") or "__sat_three_stage_risk"),
+            str(consts.get("SAT_THREE_STAGE_BUFFERED_SUFFIX") or "__sat_three_stage_buffered"),
+        ]
+    except Exception:
+        overlay_suffixes = ["__sat_weekly_risk", "__sat_three_stage_risk", "__sat_three_stage_buffered"]
+    path1_ids = set(winner_ids)
+    path1_ids |= {f"{base_id}{suffix}" for base_id in winner_ids for suffix in overlay_suffixes}
+    return path1_ids
+
+
+def load_active_family_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[str]:
+    try:
+        consts = _parse_python_constants(
+            backtest_path,
+            [
+                "ACTIVE_FAMILY_BASE_PREFIXES",
+                "WINNER_ONLY_STRATEGY_ID",
+                "WINNER_CORE_VARIANTS",
+                "SAT_WEEKLY_RISK_SUFFIX",
+                "SAT_THREE_STAGE_SUFFIX",
+                "SAT_THREE_STAGE_BUFFERED_SUFFIX",
+            ],
+        )
+    except Exception:
+        return {
+            "core_explore_80_20_total_mv_index_core",
+            "core_explore_80_20_total_mv_winner_core",
+        }
+
+    prefixes = [str(item) for item in consts.get("ACTIVE_FAMILY_BASE_PREFIXES", [])]
+    winner_base = str(consts.get("WINNER_ONLY_STRATEGY_ID") or "").strip()
+    variants = consts.get("WINNER_CORE_VARIANTS", [])
+    overlay_suffixes = [
+        str(consts.get("SAT_WEEKLY_RISK_SUFFIX") or "__sat_weekly_risk"),
+        str(consts.get("SAT_THREE_STAGE_SUFFIX") or "__sat_three_stage_risk"),
+        str(consts.get("SAT_THREE_STAGE_BUFFERED_SUFFIX") or "__sat_three_stage_buffered"),
+    ]
+
+    active_ids: set[str] = set()
+    for prefix in prefixes:
+        active_ids.add(prefix)
+    if winner_base and any(winner_base == prefix or winner_base.startswith(prefix) for prefix in prefixes):
+        active_ids.add(winner_base)
+    if isinstance(variants, list) and winner_base:
+        for variant in variants:
+            if not isinstance(variant, dict) or not variant.get("variant_id"):
+                continue
+            base_id = f"{winner_base}__{variant['variant_id']}"
+            if not any(base_id == prefix or base_id.startswith(f"{prefix}__") for prefix in prefixes):
+                continue
+            active_ids.add(base_id)
+            for suffix in overlay_suffixes:
+                active_ids.add(f"{base_id}{suffix}")
+    return active_ids
+
+
 def _load_existing_path1_winners(path: Path) -> dict[str, str]:
     if not path.exists():
         return {}
@@ -362,28 +427,36 @@ def _augment_with_synthetic_windows(latest: pd.DataFrame) -> pd.DataFrame:
         .max()
         .to_dict()
     )
+    sample_labels = {
+        "since_2017_01": ("2017-01 起", "2017-01"),
+        "since_2020_01": ("2020-01 起", "2020-01"),
+        "since_2023_01": ("2023-01 起", "2023-01"),
+        "since_2025_01": ("2025-01 起", "2025-01"),
+    }
     for base_id in sorted(set(existing["strategy_base_id"].astype(str)) | STATIC_BASE_IDS):
-        if (base_id, "since_2025_01") in existing_keys:
-            continue
-        metrics = _slice_window_from_existing_results(base_id, "since_2025_01")
-        if metrics is None:
-            continue
-        needed_rows.append(
-            {
-                "strategy_base_id": base_id,
-                "strategy_base_name": base_name_map.get(base_id, base_id),
-                "sample_tag": "since_2025_01",
-                "sample_label": "2025-01 起",
-                "sample_short_label": "2025-01",
-                "sample_start": SAMPLE_TAG_STARTS["since_2025_01"],
-                "sample_end": sample_end_map.get(base_id, pd.Timestamp.today().normalize()),
-                "cagr": metrics["cagr"],
-                "sharpe_ratio": metrics["sharpe_ratio"],
-                "max_drawdown": metrics["max_drawdown"],
-                "average_annual_turnover": metrics["average_annual_turnover"],
-                "total_return": metrics["total_return"],
-            }
-        )
+        for sample_tag, sample_start in SAMPLE_TAG_STARTS.items():
+            if (base_id, sample_tag) in existing_keys:
+                continue
+            metrics = _slice_window_from_existing_results(base_id, sample_tag)
+            if metrics is None:
+                continue
+            sample_label, sample_short_label = sample_labels[sample_tag]
+            needed_rows.append(
+                {
+                    "strategy_base_id": base_id,
+                    "strategy_base_name": base_name_map.get(base_id, base_id),
+                    "sample_tag": sample_tag,
+                    "sample_label": sample_label,
+                    "sample_short_label": sample_short_label,
+                    "sample_start": sample_start,
+                    "sample_end": sample_end_map.get(base_id, pd.Timestamp.today().normalize()),
+                    "cagr": metrics["cagr"],
+                    "sharpe_ratio": metrics["sharpe_ratio"],
+                    "max_drawdown": metrics["max_drawdown"],
+                    "average_annual_turnover": metrics["average_annual_turnover"],
+                    "total_return": metrics["total_return"],
+                }
+            )
     if not needed_rows:
         return existing
     return pd.concat([existing, pd.DataFrame(needed_rows)], ignore_index=True)
@@ -456,7 +529,7 @@ def _render_block(
         weight_str = ", ".join(f"{k.replace('since_', '').replace('_', '-')}={int(v*100)}%" for k, v in weights.items())
         def render_window(tag: str) -> str:
             if tag not in windows:
-                return f"- `{SAMPLE_TAG_STARTS[tag].date()}` window: n/a"
+                return f"- `{SAMPLE_TAG_STARTS[tag].date()}` 窗口：n/a"
             return (
                 f"- `{SAMPLE_TAG_STARTS[tag].date()}` → `{sample_end}`: CAGR `{_fmt_pct(windows[tag]['cagr'])}`, "
                 f"Max DD `{_fmt_pct(windows[tag]['max_drawdown'])}`, Sharpe `{windows[tag]['sharpe']:.4f}`"
@@ -465,11 +538,11 @@ def _render_block(
             [
                 f"### {title}",
                 "",
-                f"- Strategy: `{winner_id}` ({info['strategy_base_name']})",
-                f"- Weighted (CAGR / Sharpe / Max DD / Turnover): "
+                f"- 策略：`{winner_id}`（{info['strategy_base_name']}）",
+                f"- 加权指标（CAGR / Sharpe / Max DD / Turnover）："
                 f"`{_fmt_pct(metrics.cagr)}` / `{metrics.sharpe:.4f}` / `{_fmt_pct(metrics.max_drawdown)}` / `{metrics.turnover:.2f}`",
                 "",
-                f"Window metrics (as of `{sample_end}`, weights: {weight_str}):",
+                f"窗口指标（截至 `{sample_end}`，权重：{weight_str}）：",
                 "",
                 render_window("since_2017_01"),
                 render_window("since_2020_01"),
@@ -484,7 +557,7 @@ def _render_block(
         windows = info["windows"]
         def render_window(tag: str) -> str:
             if tag not in windows:
-                return f"- `{SAMPLE_TAG_STARTS[tag].date()}` window: n/a"
+                return f"- `{SAMPLE_TAG_STARTS[tag].date()}` 窗口：n/a"
             return (
                 f"- `{SAMPLE_TAG_STARTS[tag].date()}` → `{sample_end}`: CAGR `{_fmt_pct(windows[tag]['cagr'])}`, "
                 f"Max DD `{_fmt_pct(windows[tag]['max_drawdown'])}`, Sharpe `{windows[tag]['sharpe']:.4f}`"
@@ -493,12 +566,12 @@ def _render_block(
             [
                 f"### {title}",
                 "",
-                f"- Strategy: `{base_id}` ({info['strategy_base_name']})",
-                f"- Robust (mean CAGR / min CAGR / mean Sharpe / worst Max DD / mean Turnover): "
+                f"- 策略：`{base_id}`（{info['strategy_base_name']}）",
+                f"- 鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）："
                 f"`{_fmt_pct(summary['cagr_mean'])}` / `{_fmt_pct(summary['cagr_min'])}` / `{summary['sharpe_mean']:.4f}` / "
                 f"`{_fmt_pct(summary['max_drawdown_worst'])}` / `{summary['turnover_mean']:.2f}`",
                 "",
-                "Window metrics:",
+                "窗口指标：",
                 "",
                 render_window("since_2017_01"),
                 render_window("since_2020_01"),
@@ -509,33 +582,33 @@ def _render_block(
         )
 
     parts = [
-        "This repo tracks **two research paths**:",
+        "项目当前维护 **两条研究路线**：",
         "",
-        "- **Path 1 (winner-core family constrained):** progressive optimization path, targeting roughly `25%~30%+ CAGR` while keeping the current winner-core framework tradable and controlled.",
-        "- **Path 2 (unconstrained max-return):** upper-bound search path, free to leave the current framework entirely and prioritize much higher CAGR, with the near-term target of pushing the `2020` and `2023` windows toward `40%+ CAGR`. Path 2 is recorded as its own evolving leaderboard and does not need to beat Path 1 before its window winners or robust candidate are updated.",
+        "- **Path 1（胜出者核心主线）**：渐进优化路线，目标是在保持当前 winner-core 框架可交易、可控回撤的前提下，把长期 CAGR 持续推向 `25%~30%+`。",
+        "- **Path 2（无约束上限探索）**：追求更高收益上限的独立路线，可以脱离当前框架自由试验；近期重点是优先把 `2020` 与 `2023` 两个窗口推向 `40%+ CAGR`。Path 2 会独立记录自己的窗口赢家与鲁棒候选，不需要先超过 Path 1 才更新。",
         "",
-        "Validation windows:",
+        "当前验证窗口：",
         "",
-        "- `since_2017_01` (long window)",
-        "- `since_2020_01` (mid window)",
-        "- `since_2023_01` (short window)",
-        "- `since_2025_01` (very short window)",
+        "- `since_2017_01`：长窗口",
+        "- `since_2020_01`：中窗口",
+        "- `since_2023_01`：短窗口",
+        "- `since_2025_01`：超短窗口",
         "",
-        "## Path 1 — Winner-Core Tracked Winners",
+        "## Path 1：窗口跟踪赢家",
         "",
-        render_track("2017-Window Winner", WEIGHTS_2017_ONLY, window_2017_winner_id, window_2017_metrics),
-        render_track("2023-Window Winner", WEIGHTS_2023_ONLY, window_2023_winner_id, window_2023_metrics),
-        render_track("2020-Window Winner (2020-only checkpoint)", WEIGHTS_2020_ONLY, window_2020_winner_id, window_2020_metrics),
-        render_track("2025-Window Winner (2025-only checkpoint)", WEIGHTS_2025_ONLY, window_2025_winner_id, window_2025_metrics),
-        "## Path 2 — Unconstrained Window Winners",
+        render_track("2017 窗口赢家", WEIGHTS_2017_ONLY, window_2017_winner_id, window_2017_metrics),
+        render_track("2023 窗口赢家", WEIGHTS_2023_ONLY, window_2023_winner_id, window_2023_metrics),
+        render_track("2020 窗口赢家", WEIGHTS_2020_ONLY, window_2020_winner_id, window_2020_metrics),
+        render_track("2025 窗口赢家", WEIGHTS_2025_ONLY, window_2025_winner_id, window_2025_metrics),
+        "## Path 2：窗口跟踪赢家",
         "",
-        render_track("2017-Window Winner (Path 2)", WEIGHTS_2017_ONLY, path2_window_2017_id, path2_window_2017_metrics),
-        render_track("2023-Window Winner (Path 2)", WEIGHTS_2023_ONLY, path2_window_2023_id, path2_window_2023_metrics),
-        render_track("2020-Window Winner (Path 2)", WEIGHTS_2020_ONLY, path2_window_2020_id, path2_window_2020_metrics),
-        render_track("2025-Window Winner (Path 2)", WEIGHTS_2025_ONLY, path2_window_2025_id, path2_window_2025_metrics),
-        "## Path 2 — Max-Return Candidate",
+        render_track("2017 窗口赢家（Path 2）", WEIGHTS_2017_ONLY, path2_window_2017_id, path2_window_2017_metrics),
+        render_track("2023 窗口赢家（Path 2）", WEIGHTS_2023_ONLY, path2_window_2023_id, path2_window_2023_metrics),
+        render_track("2020 窗口赢家（Path 2）", WEIGHTS_2020_ONLY, path2_window_2020_id, path2_window_2020_metrics),
+        render_track("2025 窗口赢家（Path 2）", WEIGHTS_2025_ONLY, path2_window_2025_id, path2_window_2025_metrics),
+        "## Path 2：鲁棒候选",
         "",
-        render_path2("Best Robust Candidate (4-window)", path2_id, path2_summary),
+        render_path2("四窗口鲁棒候选", path2_id, path2_summary),
     ]
     return "\n".join(parts).strip() + "\n"
 
@@ -566,8 +639,9 @@ def main() -> None:
         raise RuntimeError("No strategies with complete 2017/2020/2023 windows found in comparison CSV.")
 
     prefix = load_winner_core_prefix()
-    winner_core_ids = load_winner_core_family_ids()
-    if not winner_core_ids:
+    path1_family_ids = load_path1_family_ids()
+    active_family_ids = load_active_family_ids()
+    if not path1_family_ids:
         raise RuntimeError(f"No winner-core strategies found with prefix={prefix!r}")
 
     existing_path1_winners = _load_existing_path1_winners(args.write_json)
@@ -575,6 +649,8 @@ def main() -> None:
 
     def metrics_for(base_id: str, sample_tag: str) -> TrackMetrics:
         group = by_id.get(str(base_id), pd.DataFrame())
+        if group.empty or "sample_tag" not in group.columns:
+            return TrackMetrics(cagr=float("nan"), sharpe=float("nan"), max_drawdown=float("nan"), turnover=float("nan"))
         return _compute_single_window_metrics(group, sample_tag)
 
     def resolve_path1_winner(track_key: str, sample_tag: str) -> tuple[str, TrackMetrics]:
@@ -585,7 +661,7 @@ def main() -> None:
             candidates: list[tuple[str, TrackMetrics]] = []
             for base_id, group in latest.groupby("strategy_base_id"):
                 base_id_str = str(base_id)
-                if base_id_str not in winner_core_ids:
+                if base_id_str not in path1_family_ids or base_id_str not in active_family_ids:
                     continue
                 tags = set(group["sample_tag"].astype(str))
                 if sample_tag != "since_2025_01" and not set(WEIGHTED_WINDOW_TAGS).issubset(tags):
@@ -606,7 +682,7 @@ def main() -> None:
         if not ranked:
             raise RuntimeError(f"No winner-core strategies found for sample_tag={sample_tag!r}")
 
-        if not current_id_str or current_id_str not in winner_core_ids:
+        if not current_id_str or current_id_str not in path1_family_ids or current_id_str not in active_family_ids:
             return ranked[0]
 
         current_metrics = metrics_for(current_id_str, sample_tag)
@@ -627,11 +703,11 @@ def main() -> None:
     window_2023_id, window_2023_metrics = resolve_path1_winner("since_2023_only", "since_2023_01")
     window_2020_id, window_2020_metrics = resolve_path1_winner("since_2020_only", "since_2020_01")
     window_2025_id, window_2025_metrics = resolve_path1_winner("since_2025_only", "since_2025_01")
-    path2_window_2017_id, path2_window_2017_metrics = _pick_single_window_winner(latest, "since_2017_01")
-    path2_window_2023_id, path2_window_2023_metrics = _pick_single_window_winner(latest, "since_2023_01")
-    path2_window_2020_id, path2_window_2020_metrics = _pick_single_window_winner(latest, "since_2020_01")
-    path2_window_2025_id, path2_window_2025_metrics = _pick_single_window_winner(latest, "since_2025_01")
-    path2_id, path2_summary = _pick_path2_candidate(latest)
+    path2_window_2017_id, path2_window_2017_metrics = _pick_single_window_winner(latest, "since_2017_01", allowed_base_ids=active_family_ids)
+    path2_window_2023_id, path2_window_2023_metrics = _pick_single_window_winner(latest, "since_2023_01", allowed_base_ids=active_family_ids)
+    path2_window_2020_id, path2_window_2020_metrics = _pick_single_window_winner(latest, "since_2020_01", allowed_base_ids=active_family_ids)
+    path2_window_2025_id, path2_window_2025_metrics = _pick_single_window_winner(latest, "since_2025_01", allowed_base_ids=active_family_ids)
+    path2_id, path2_summary = _pick_path2_candidate(latest[latest["strategy_base_id"].astype(str).isin(active_family_ids)])
     sample_end = max(info["sample_end"] for info in strategies.values())
 
     payload = {

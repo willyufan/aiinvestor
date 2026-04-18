@@ -22,135 +22,135 @@
 
 <!-- AUTO:WEIGHTED-WINNERS:START -->
 
-This repo tracks **two research paths**:
+项目当前维护 **两条研究路线**：
 
-- **Path 1 (winner-core family constrained):** progressive optimization path, targeting roughly `25%~30%+ CAGR` while keeping the current winner-core framework tradable and controlled.
-- **Path 2 (unconstrained max-return):** upper-bound search path, free to leave the current framework entirely and prioritize much higher CAGR, with the near-term target of pushing the `2020` and `2023` windows toward `40%+ CAGR`. Path 2 is recorded as its own evolving leaderboard and does not need to beat Path 1 before its window winners or robust candidate are updated.
+- **Path 1（胜出者核心主线）**：渐进优化路线，目标是在保持当前 winner-core 框架可交易、可控回撤的前提下，把长期 CAGR 持续推向 `25%~30%+`。
+- **Path 2（无约束上限探索）**：追求更高收益上限的独立路线，可以脱离当前框架自由试验；近期重点是优先把 `2020` 与 `2023` 两个窗口推向 `40%+ CAGR`。Path 2 会独立记录自己的窗口赢家与鲁棒候选，不需要先超过 Path 1 才更新。
 
-Validation windows:
+当前验证窗口：
 
-- `since_2017_01` (long window)
-- `since_2020_01` (mid window)
-- `since_2023_01` (short window)
-- `since_2025_01` (very short window)
+- `since_2017_01`：长窗口
+- `since_2020_01`：中窗口
+- `since_2023_01`：短窗口
+- `since_2025_01`：超短窗口
 
-## Path 1 — Winner-Core Tracked Winners
+## Path 1：窗口跟踪赢家
 
-### 2017-Window Winner
+### 2017 窗口赢家
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6` (核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只)
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `22.33%` / `0.9442` / `-22.02%` / `2.67`
+- 策略：`core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__sat_three_stage_buffered`（核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只__卫星周频三档风控(双周确认)）
+- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`25.14%` / `0.9207` / `-21.59%` / `0.67`
 
-Window metrics (as of `2026-04-18`, weights: 2017-01=100%):
+窗口指标（截至 `2026-04-19`，权重：2017-01=100%）：
 
-- `2017-01-01` → `2026-04-18`: CAGR `22.33%`, Max DD `-22.02%`, Sharpe `0.9442`
-- `2020-01-01` → `2026-04-18`: CAGR `24.26%`, Max DD `-20.95%`, Sharpe `0.8945`
-- `2023-01-01` → `2026-04-18`: CAGR `26.78%`, Max DD `-24.63%`, Sharpe `0.9020`
-- `2025-01-01` → `2026-04-18`: CAGR `85.42%`, Max DD `-12.24%`, Sharpe `1.9672`
+- `2017-01-01` → `2026-04-19`: CAGR `25.14%`, Max DD `-21.59%`, Sharpe `0.9207`
+- `2020-01-01` → `2026-04-19`: CAGR `25.14%`, Max DD `-21.59%`, Sharpe `0.9207`
+- `2023-01-01` → `2026-04-19`: CAGR `25.47%`, Max DD `-27.62%`, Sharpe `0.8526`
+- `2025-01-01` → `2026-04-19`: CAGR `87.44%`, Max DD `-12.19%`, Sharpe `1.9598`
 
-### 2023-Window Winner
+### 2023 窗口赢家
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off` (核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓))
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `27.95%` / `1.1571` / `-12.34%` / `2.41`
+- 策略：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__sat_three_stage_risk`（核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓)__卫星周频三档风控）
+- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`26.69%` / `1.1035` / `-12.34%` / `0.96`
 
-Window metrics (as of `2026-04-18`, weights: 2023-01=100%):
+窗口指标（截至 `2026-04-19`，权重：2023-01=100%）：
 
-- `2017-01-01` → `2026-04-18`: CAGR `18.19%`, Max DD `-13.20%`, Sharpe `0.9975`
-- `2020-01-01` → `2026-04-18`: CAGR `21.27%`, Max DD `-21.64%`, Sharpe `0.9068`
-- `2023-01-01` → `2026-04-18`: CAGR `27.95%`, Max DD `-12.34%`, Sharpe `1.1571`
-- `2025-01-01` → `2026-04-18`: CAGR `101.06%`, Max DD `-10.98%`, Sharpe `2.3449`
+- `2017-01-01` → `2026-04-19`: CAGR `23.44%`, Max DD `-13.70%`, Sharpe `0.9935`
+- `2020-01-01` → `2026-04-19`: CAGR `23.44%`, Max DD `-13.70%`, Sharpe `0.9935`
+- `2023-01-01` → `2026-04-19`: CAGR `26.69%`, Max DD `-12.34%`, Sharpe `1.1035`
+- `2025-01-01` → `2026-04-19`: CAGR `102.01%`, Max DD `-10.99%`, Sharpe `2.3317`
 
-### 2020-Window Winner (2020-only checkpoint)
+### 2020 窗口赢家
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` (核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只)
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `25.58%` / `0.9122` / `-21.84%` / `2.86`
+- 策略：`core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__sat_three_stage_buffered`（核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只__卫星周频三档风控(双周确认)）
+- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`25.14%` / `0.9207` / `-21.59%` / `0.67`
 
-Window metrics (as of `2026-04-18`, weights: 2020-01=100%):
+窗口指标（截至 `2026-04-19`，权重：2020-01=100%）：
 
-- `2017-01-01` → `2026-04-18`: CAGR `19.74%`, Max DD `-22.50%`, Sharpe `0.8480`
-- `2020-01-01` → `2026-04-18`: CAGR `25.58%`, Max DD `-21.84%`, Sharpe `0.9122`
-- `2023-01-01` → `2026-04-18`: CAGR `25.36%`, Max DD `-24.37%`, Sharpe `0.8533`
-- `2025-01-01` → `2026-04-18`: CAGR `95.16%`, Max DD `-9.75%`, Sharpe `1.9736`
+- `2017-01-01` → `2026-04-19`: CAGR `25.14%`, Max DD `-21.59%`, Sharpe `0.9207`
+- `2020-01-01` → `2026-04-19`: CAGR `25.14%`, Max DD `-21.59%`, Sharpe `0.9207`
+- `2023-01-01` → `2026-04-19`: CAGR `25.47%`, Max DD `-27.62%`, Sharpe `0.8526`
+- `2025-01-01` → `2026-04-19`: CAGR `87.44%`, Max DD `-12.19%`, Sharpe `1.9598`
 
-### 2025-Window Winner (2025-only checkpoint)
+### 2025 窗口赢家
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and` (核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓, and 规则))
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `100.61%` / `2.0129` / `-11.17%` / `4.25`
+- 策略：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off`（核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓)）
+- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`102.01%` / `2.3317` / `-10.99%` / `4.44`
 
-Window metrics (as of `2026-04-18`, weights: 2025-01=100%):
+窗口指标（截至 `2026-04-19`，权重：2025-01=100%）：
 
-- `2017-01-01` → `2026-04-18`: CAGR `22.89%`, Max DD `-36.13%`, Sharpe `0.9644`
-- `2020-01-01` → `2026-04-18`: CAGR `21.90%`, Max DD `-38.21%`, Sharpe `0.8105`
-- `2023-01-01` → `2026-04-18`: CAGR `16.73%`, Max DD `-29.78%`, Sharpe `0.6637`
-- `2025-01-01` → `2026-04-18`: CAGR `100.61%`, Max DD `-11.17%`, Sharpe `2.0129`
+- `2017-01-01` → `2026-04-19`: CAGR `22.23%`, Max DD `-15.47%`, Sharpe `0.9466`
+- `2020-01-01` → `2026-04-19`: CAGR `22.23%`, Max DD `-15.47%`, Sharpe `0.9466`
+- `2023-01-01` → `2026-04-19`: CAGR `26.48%`, Max DD `-12.34%`, Sharpe `1.0938`
+- `2025-01-01` → `2026-04-19`: CAGR `102.01%`, Max DD `-10.99%`, Sharpe `2.3317`
 
-## Path 2 — Unconstrained Window Winners
+## Path 2：窗口跟踪赢家
 
-### 2017-Window Winner (Path 2)
+### 2017 窗口赢家（Path 2）
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and` (核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓, and 规则))
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `22.89%` / `0.9644` / `-36.13%` / `3.02`
+- 策略：`core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__sat_three_stage_buffered`（核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只__卫星周频三档风控(双周确认)）
+- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`25.14%` / `0.9207` / `-21.59%` / `0.67`
 
-Window metrics (as of `2026-04-18`, weights: 2017-01=100%):
+窗口指标（截至 `2026-04-19`，权重：2017-01=100%）：
 
-- `2017-01-01` → `2026-04-18`: CAGR `22.89%`, Max DD `-36.13%`, Sharpe `0.9644`
-- `2020-01-01` → `2026-04-18`: CAGR `21.90%`, Max DD `-38.21%`, Sharpe `0.8105`
-- `2023-01-01` → `2026-04-18`: CAGR `16.73%`, Max DD `-29.78%`, Sharpe `0.6637`
-- `2025-01-01` → `2026-04-18`: CAGR `100.61%`, Max DD `-11.17%`, Sharpe `2.0129`
+- `2017-01-01` → `2026-04-19`: CAGR `25.14%`, Max DD `-21.59%`, Sharpe `0.9207`
+- `2020-01-01` → `2026-04-19`: CAGR `25.14%`, Max DD `-21.59%`, Sharpe `0.9207`
+- `2023-01-01` → `2026-04-19`: CAGR `25.47%`, Max DD `-27.62%`, Sharpe `0.8526`
+- `2025-01-01` → `2026-04-19`: CAGR `87.44%`, Max DD `-12.19%`, Sharpe `1.9598`
 
-### 2023-Window Winner (Path 2)
+### 2023 窗口赢家（Path 2）
 
-- Strategy: `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap40` (核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(核心6-1动量, 关闭熊市降仓, 单票40%))
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `43.22%` / `0.9846` / `-46.15%` / `5.24`
+- 策略：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__sat_three_stage_risk`（核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓)__卫星周频三档风控）
+- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`26.69%` / `1.1035` / `-12.34%` / `0.96`
 
-Window metrics (as of `2026-04-18`, weights: 2023-01=100%):
+窗口指标（截至 `2026-04-19`，权重：2023-01=100%）：
 
-- `2017-01-01` → `2026-04-18`: CAGR `15.41%`, Max DD `-58.61%`, Sharpe `0.6245`
-- `2020-01-01` → `2026-04-18`: CAGR `20.91%`, Max DD `-61.49%`, Sharpe `0.6845`
-- `2023-01-01` → `2026-04-18`: CAGR `43.22%`, Max DD `-46.15%`, Sharpe `0.9846`
-- `2025-01-01` → `2026-04-18`: CAGR `68.33%`, Max DD `-11.71%`, Sharpe `1.7160`
+- `2017-01-01` → `2026-04-19`: CAGR `23.44%`, Max DD `-13.70%`, Sharpe `0.9935`
+- `2020-01-01` → `2026-04-19`: CAGR `23.44%`, Max DD `-13.70%`, Sharpe `0.9935`
+- `2023-01-01` → `2026-04-19`: CAGR `26.69%`, Max DD `-12.34%`, Sharpe `1.1035`
+- `2025-01-01` → `2026-04-19`: CAGR `102.01%`, Max DD `-10.99%`, Sharpe `2.3317`
 
-### 2020-Window Winner (Path 2)
+### 2020 窗口赢家（Path 2）
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` (核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只)
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `25.58%` / `0.9122` / `-21.84%` / `2.86`
+- 策略：`core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__sat_three_stage_buffered`（核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只__卫星周频三档风控(双周确认)）
+- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`25.14%` / `0.9207` / `-21.59%` / `0.67`
 
-Window metrics (as of `2026-04-18`, weights: 2020-01=100%):
+窗口指标（截至 `2026-04-19`，权重：2020-01=100%）：
 
-- `2017-01-01` → `2026-04-18`: CAGR `19.74%`, Max DD `-22.50%`, Sharpe `0.8480`
-- `2020-01-01` → `2026-04-18`: CAGR `25.58%`, Max DD `-21.84%`, Sharpe `0.9122`
-- `2023-01-01` → `2026-04-18`: CAGR `25.36%`, Max DD `-24.37%`, Sharpe `0.8533`
-- `2025-01-01` → `2026-04-18`: CAGR `95.16%`, Max DD `-9.75%`, Sharpe `1.9736`
+- `2017-01-01` → `2026-04-19`: CAGR `25.14%`, Max DD `-21.59%`, Sharpe `0.9207`
+- `2020-01-01` → `2026-04-19`: CAGR `25.14%`, Max DD `-21.59%`, Sharpe `0.9207`
+- `2023-01-01` → `2026-04-19`: CAGR `25.47%`, Max DD `-27.62%`, Sharpe `0.8526`
+- `2025-01-01` → `2026-04-19`: CAGR `87.44%`, Max DD `-12.19%`, Sharpe `1.9598`
 
-### 2025-Window Winner (Path 2)
+### 2025 窗口赢家（Path 2）
 
-- Strategy: `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off` (核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓))
-- Weighted (CAGR / Sharpe / Max DD / Turnover): `108.23%` / `2.5481` / `-8.11%` / `4.96`
+- 策略：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off`（核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓)）
+- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`102.01%` / `2.3317` / `-10.99%` / `4.44`
 
-Window metrics (as of `2026-04-18`, weights: 2025-01=100%):
+窗口指标（截至 `2026-04-19`，权重：2025-01=100%）：
 
-- `2017-01-01` window: n/a
-- `2020-01-01` → `2026-04-18`: CAGR `23.46%`, Max DD `-24.37%`, Sharpe `0.9750`
-- `2023-01-01` → `2026-04-18`: CAGR `28.21%`, Max DD `-11.30%`, Sharpe `1.1717`
-- `2025-01-01` → `2026-04-18`: CAGR `108.23%`, Max DD `-8.11%`, Sharpe `2.5481`
+- `2017-01-01` → `2026-04-19`: CAGR `22.23%`, Max DD `-15.47%`, Sharpe `0.9466`
+- `2020-01-01` → `2026-04-19`: CAGR `22.23%`, Max DD `-15.47%`, Sharpe `0.9466`
+- `2023-01-01` → `2026-04-19`: CAGR `26.48%`, Max DD `-12.34%`, Sharpe `1.0938`
+- `2025-01-01` → `2026-04-19`: CAGR `102.01%`, Max DD `-10.99%`, Sharpe `2.3317`
 
-## Path 2 — Max-Return Candidate
+## Path 2：鲁棒候选
 
-### Best Robust Candidate (4-window)
+### 四窗口鲁棒候选
 
-- Strategy: `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off` (核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓))
-- Robust (mean CAGR / min CAGR / mean Sharpe / worst Max DD / mean Turnover): `42.12%` / `18.19%` / `1.3516` / `-21.64%` / `2.92`
+- 策略：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__sat_three_stage_buffered`（核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓)__卫星周频三档风控(双周确认)）
+- 鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）：`43.93%` / `23.52%` / `1.3570` / `-13.70%` / `0.96`
 
-Window metrics:
+窗口指标：
 
-- `2017-01-01` → `2026-04-18`: CAGR `18.19%`, Max DD `-13.20%`, Sharpe `0.9975`
-- `2020-01-01` → `2026-04-18`: CAGR `21.27%`, Max DD `-21.64%`, Sharpe `0.9068`
-- `2023-01-01` → `2026-04-18`: CAGR `27.95%`, Max DD `-12.34%`, Sharpe `1.1571`
-- `2025-01-01` → `2026-04-18`: CAGR `101.06%`, Max DD `-10.98%`, Sharpe `2.3449`
+- `2017-01-01` → `2026-04-19`: CAGR `23.52%`, Max DD `-13.70%`, Sharpe `0.9967`
+- `2020-01-01` → `2026-04-19`: CAGR `23.52%`, Max DD `-13.70%`, Sharpe `0.9967`
+- `2023-01-01` → `2026-04-19`: CAGR `26.68%`, Max DD `-12.34%`, Sharpe `1.1028`
+- `2025-01-01` → `2026-04-19`: CAGR `102.01%`, Max DD `-10.99%`, Sharpe `2.3317`
 
 <!-- AUTO:WEIGHTED-WINNERS:END -->
 
-当不同窗口的赢家不同时，项目会同时保留它们，作为防过拟合的护栏。README 中的 `strategy_comparison_*` 图展示跟踪赢家，`strategy_family_*` 图展示完整策略家族，而且完整家族图只使用已有结果文件，不额外触发回测。
+当不同窗口的赢家不同时，项目会同时保留它们，作为防过拟合的护栏。README 中的 `strategy_comparison_*` 图展示跟踪赢家，`strategy_family_*` 图现在只展示默认参与比较的 **active family**。历史实验策略会保留在 `results/` 中作为 **archive family** 供追溯，但默认不再进入 README、默认图表和默认比较脚本。
 
 当前主策略框架使用：
 
@@ -165,175 +165,57 @@ Window metrics:
 
 ## 中文详细说明
 
-下面是当前的中文详细说明与图表区。
+README 中间这部分只解释当前研究框架，不重复写死顶部自动区块里的最新数值。
 
-## 英文说明
+当前项目已经从“只追一个总冠军策略”，演进成 **两条研究路径 + 四个验证窗口**：
 
-An A-share portfolio backtesting and strategy-iteration project based on Tushare Pro.
+- **Path 1：渐进优化路径**
+  - 仍然基于 `winner_core` 主线持续优化
+  - 目标是在可交易、可控回撤的前提下，把现阶段常见的 `20%~26% CAGR` 推向 `25%~30%+`
+  - 重点关注：晋升机制、核心/卫星结构、仓位节奏、系统风控
 
-The project focuses on building and iterating a monthly-rebalanced stock-selection framework for the China A-share market, with emphasis on:
+- **Path 2：无约束上限探索**
+  - 不受当前框架限制，可以尝试更激进或完全不同的方案
+  - 目标优先冲收益上限，近期重点是先把 `2020` 和 `2023` 两个窗口推向 `40%+ CAGR`
+  - 这条路径会独立记录自己的窗口赢家与鲁棒候选，不需要先打赢 Path 1 才保留
 
-- dynamic stock pools instead of hindsight-picked static lists
-- market-cap weighted portfolio construction with realistic trading costs
-- core / explore / seed style discovery logic for finding emerging leaders
-- reproducible outputs with local caching
+四个验证窗口分别是：
 
-## English Strategy Structure
+- `2017-01 起`：长窗口，检验跨牛熊长期稳定性
+- `2020-01 起`：中窗口，当前最重要的主比较窗口
+- `2023-01 起`：短窗口，检验近年行情适应性
+- `2025-01 起`：超短窗口，检验最新市场环境下的爆发力
 
-The project currently contains several strategy branches for comparison:
+### 当前主框架
 
-- `index_core`: the core sleeve stays anchored to index constituents
-- `winner_core`: strong names discovered in explore/seed can be promoted into the core sleeve
-- `pure_core_growth`: an experimental concentrated growth-only version without market risk control
+目前项目的主框架仍然是：
 
-The main production-style framework is `core_explore`, which combines:
+- 动态股票池，而不是固定后视镜冠军池
+- `核心 / 探索 / 种子` 三层结构，负责“发现 -> 验证 -> 放大”
+- `winner_core` 负责把探索层跑出来的强者逐步提升为核心重仓
+- 真实计入佣金、印花税和调仓成本
 
-- a core sleeve for relatively stable leaders
-- an explore sleeve for faster iteration
-- a seed sleeve for earlier-stage discovery
-- staged promotion and slower demotion for promoted core names
+核心资产的发现逻辑，当前更强调：
 
-## English Data And Rules
+- 中期动量与短期回避
+- 行业强度与行业内龙头强度
+- 业绩加速与质量过滤
+- 晋升核心后的分阶段加仓
 
-- data source: `Tushare Pro`
-- prices: forward-adjusted close built from `daily.close` and `adj_factor`
-- market cap: `daily_basic.total_mv`
-- rebalance timing:
-  - use the last trading day of each month to compute target weights
-  - trade on the first trading day of the next month
-- costs:
-  - buy commission: `0.03%`
-  - sell commission: `0.03%`
-  - stamp duty:
-    - `0.10%` before `2023-08-28`
-    - `0.05%` on and after `2023-08-28`
+### Active Family 与 Archive Family
 
-## English Repository Files
+当前项目不再把“历史上试过的所有策略”都混在默认比较里，而是分成两层：
 
-- `backtest_marketcap_etf.py`: main backtest program
-- `requirements.txt`: Python dependencies
-- `README.md`: project overview
+- **active family**
+  - 当前仍在持续研究、会进入 README 默认展示和默认图表的策略集合
+  - 目前主要集中在 `核心80_探索20` 的 `index_core / winner_core` 主线，以及其现役卫星风控变体
 
-The following directories are intentionally kept out of git:
+- **archive family**
+  - 历史上做过、但当前不再作为默认比较对象的旧策略
+  - 结果仍保留在 `results/` 中方便追溯
+  - 默认不会再进入 README 顶部摘要、默认图表和默认比较脚本
 
-- `data_cache/`: local Tushare cache
-- `results/`: backtest output files
-- `.venv/`: local Python environment
-
-## English Quick Start
-
-```bash
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/python backtest_marketcap_etf.py
-```
-
-## English Output Files
-
-Each strategy run writes results under `results/`, including:
-
-- `equity_curve.csv`
-- `monthly_returns.csv`
-- `annual_returns.csv`
-- `latest_weights.csv`
-- `weights_history.csv` (每月末持仓权重快照，含 `CASH` 现金行)
-- `turnover.csv`
-- `summary.json`
-- `equity_curve.png`
-
-There is also a strategy comparison table:
-
-- `results/strategy_comparison_base_method.csv`
-
-## English Notes
-
-- The current implementation includes a Tushare token directly in the script for local research use.
-- Local cache is used to reduce repeated API requests.
-- Some historical index constituents may be unavailable in `stock_basic`; these are logged and excluded explicitly instead of being silently skipped.
-
-## English Status
-
-The project has already been initialized as a git repository and synced to GitHub:
-
-- repository: `willyufan/aiinvestor`
-- URL: `https://github.com/willyufan/aiinvestor`
-
-当前项目里最值得继续迭代的版本，不是纯核心集中策略，而是：
-
-- `核心80_探索20_总市值底座_胜出者核心 (进攻10/90 快速加仓)`
-
-这套框架的核心思想是：
-
-- 核心池提供相对稳定的底座，来源于 `沪深300 + 科创50`
-- 探索池和种子池负责更早发现潜在强者，来源于 `中证500 + 科创100 + 科创200`
-- 强势个股不是一直留在卫星仓，而是可以逐步晋升到 `winner_core`
-- 核心仓内部继续拆成“稳定核心”和“晋升核心”，前者更稳，后者更偏进攻
-
-这次重点优化的 4 个方向如下：
-
-1. 行业强度信号接入探索 / 种子层  
-   探索和种子层不再只看个股涨幅，而是同时看行业强度、行业内龙头强度、动量和突破信号，尽量做到“先选对赛道，再选赛道里的强股”。
-
-2. 双轨晋升到 `winner_core`  
-   既保留普通晋升路径，也保留快速晋升路径。普通晋升要求更连续，快速晋升要求更强的行业强度、放量和突破确认。
-
-3. 晋升核心分阶段加仓  
-   新晋升的核心股不是一步到位给满，而是按阶段逐步放大权重，减少误判时的大回撤。
-
-4. 核心内部拆成“稳定核心 + 晋升核心”  
-   稳定核心更偏成熟龙头，晋升核心更偏正在走强的新胜出者，组合层面兼顾稳定性和超额收益。
-
-### 三窗口验证结果
-
-为了减少过拟合风险，当前每个重要策略都会同时跑三档样本：
-
-- `2017-01 起`：长样本，约 9 年
-- `2020-01 起`：中样本，约 6 年
-- `2023-01 起`：短样本，约 3 年
-
-当前“生产候选版本”仍然是：
-
-- `核心80_探索20_总市值底座_胜出者核心 (进攻10/90 快速加仓)`
-
-它在三档样本里的表现分别是：
-
-- `2017-01 起`：累计收益 `472.27%`，CAGR `20.55%`，最大回撤 `-22.50%`，夏普 `0.8980`
-- `2020-01 起`：累计收益 `282.72%`，CAGR `23.60%`，最大回撤 `-24.66%`，夏普 `0.8845`
-- `2023-01 起`：累计收益 `92.11%`，CAGR `21.64%`，最大回撤 `-23.75%`，夏普 `0.8062`
-
-以 `核心80_探索20_总市值底座_指数核心` 作为优化前基线，对比优化后的 `核心80_探索20_总市值底座_胜出者核心 (进攻10/90 快速加仓)`：
-
-- `2020-01` 主样本里，累计收益从 `83.19%` 提升到 `282.72%`
-- `2020-01` 主样本里，CAGR 从 `10.03%` 提升到 `23.60%`
-- `2017-01` 长样本里，累计收益从 `105.60%` 提升到 `472.27%`
-- `2017-01` 长样本里，CAGR 从 `8.03%` 提升到 `20.55%`
-- 最新组合持仓仍然明显集中在少数胜出者核心上
-
-这一轮新增的关键动作是：
-
-- 修正 `winner_core` 的降级方向，让晋升核心真正按“连续掉队”而不是“连续保留”来退出
-- 把风险状态下的卫星仓暴露进一步收缩到 `0.30`，让探索 / 种子层在逆风期更主动减仓
-- 把核心内部权重进一步调整为 `稳定核心 10% + 晋升核心 90%`，并把新晋升核心的加仓节奏提前，让真正跑出来的胜出者更早拿到更高权重
-
-这说明当前动态发现框架已经不只是“能跑通”，而是在长中短三档窗口里都具备了比较稳定的超额收益能力。
-
-但也要明确一点：
-
-- 这套“市场发现”策略目前仍然明显落后于你最初给定的静态冠军池
-- `大市值池`：累计收益 `390.94%`，CAGR `28.56%`，最大回撤 `-19.03%`
-- `科创选股`：累计收益 `200.11%`，CAGR `18.95%`，最大回撤 `-24.00%`
-
-所以现在更准确的结论是：
-
-- 这轮优化已经把动态发现框架从“能跑”推到“有明显改进”
-- 但它还没有做到“比后视镜精选冠军池更早、更重地抓住真正的大牛股”
-- 下一步最有价值的方向，仍然是继续加强探索 / 种子层的早期发现能力，而不是把仓位继续往纯核心集中上推
-
-另外，短窗口也给了一个重要提示：
-
-- `2023-01` 这档短样本里，最好的并不是“进攻10/90 快速加仓”，而是标准版 `核心80_探索20_总市值底座_胜出者核心`
-- 这说明策略越激进，越容易在短窗口里出现表现顺序切换
-- 也正因为如此，README 和图表现在都会同时展示 `2017 / 2020 / 2023` 三档结果，而不再只看单一窗口
+这样做的目的，是把当前真正还在竞争的策略与历史试验策略隔离开，避免 README 和图表被旧版本噪音干扰。
 
 ### 结果对比图
 
@@ -375,22 +257,23 @@ The project has already been initialized as a git repository and synced to GitHu
 
 ![Strategy Comparison Since 2025-01](docs/strategy_comparison_since_2025_01.png)
 
-### 完整策略家族对比图
+### Active Family 对比图
 
-下面四张图使用同一批已有回测结果，展示更完整的策略家族，不需要额外重跑回测：
+下面四张图只展示当前默认参与比较的 **active family**。  
+已经淘汰的旧策略仍然保留在 `results/` 中作为 archive family，但默认不再出现在这里。
 
-#### 2017-01 起（完整家族）
+#### 2017-01 起（active family）
 
 ![Strategy Family Since 2017-01](docs/strategy_family_since_2017_01.png)
 
-#### 2020-01 起（完整家族）
+#### 2020-01 起（active family）
 
 ![Strategy Family Since 2020-01](docs/strategy_family_since_2020_01.png)
 
-#### 2023-01 起（完整家族）
+#### 2023-01 起（active family）
 
 ![Strategy Family Since 2023-01](docs/strategy_family_since_2023_01.png)
 
-#### 2025-01 起（完整家族）
+#### 2025-01 起（active family）
 
 ![Strategy Family Since 2025-01](docs/strategy_family_since_2025_01.png)

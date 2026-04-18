@@ -392,6 +392,17 @@ WINNER_CORE_VARIANTS = [
 FACTOR_CACHE_VERSION = "v1"
 WINNER_ONLY_STRATEGY_ID = "core_explore_80_20_total_mv_winner_core"
 INDEX_CORE_BASE_ID = "core_explore_80_20_total_mv_index_core"
+ACTIVE_FAMILY_BASE_PREFIXES = [
+    "core_explore_80_20_total_mv_index_core",
+    "core_explore_80_20_total_mv_winner_core",
+]
+ARCHIVE_FAMILY_BASE_PREFIXES = [
+    "core_explore_70_30_",
+    "core_explore_60_40_",
+    "core_explore_80_20_index_weight_",
+    "core_explore_80_20_equal_weight_",
+    "pure_core_growth_",
+]
 
 CORE_EXPLORE_RATIO_CONFIGS = [
     {"strategy_id": "core_explore_80_20", "strategy_name": "核心80_探索20", "core_ratio": 0.80, "explore_ratio": 0.20},
@@ -3616,8 +3627,71 @@ def get_winner_only_base_ids() -> Set[str]:
     return winner_base_ids
 
 
+def _matches_family_prefix(base_id: str, prefixes: Iterable[str]) -> bool:
+    base_id = str(base_id)
+    for prefix in prefixes:
+        prefix_str = str(prefix)
+        if base_id == prefix_str or base_id.startswith(f"{prefix_str}__"):
+            return True
+    return False
+
+
+def get_all_generated_strategy_base_ids() -> Set[str]:
+    generated_ids: Set[str] = set()
+    for ratio_config in CORE_EXPLORE_RATIO_CONFIGS:
+        strategy_id = str(ratio_config["strategy_id"])
+        strategy_kind = str(ratio_config.get("strategy_kind", "core_explore"))
+        for base_weight_config in BASE_WEIGHT_METHODS:
+            base_weight_method = str(base_weight_config["base_weight_method"])
+            for core_source_config in CORE_SOURCE_MODES:
+                core_source_mode = str(core_source_config["core_source_mode"])
+                if strategy_kind == "pure_core_growth":
+                    if core_source_mode != "pure_core_growth":
+                        continue
+                else:
+                    if core_source_mode == "pure_core_growth":
+                        continue
+                generated_ids.add(f"{strategy_id}_{base_weight_method}_{core_source_mode}")
+    return generated_ids
+
+
 def get_active_strategy_base_ids() -> Set[str]:
-    return {INDEX_CORE_BASE_ID} | get_winner_only_base_ids()
+    active_ids = {
+        base_id
+        for base_id in get_all_generated_strategy_base_ids()
+        if _matches_family_prefix(base_id, ACTIVE_FAMILY_BASE_PREFIXES)
+    }
+    winner_variant_ids = get_winner_only_base_ids()
+    active_ids |= {
+        base_id
+        for base_id in winner_variant_ids
+        if _matches_family_prefix(base_id, ACTIVE_FAMILY_BASE_PREFIXES)
+    }
+    active_ids |= {
+        f"{base_id}{suffix}"
+        for base_id in winner_variant_ids
+        for suffix in (SAT_WEEKLY_RISK_SUFFIX, SAT_THREE_STAGE_SUFFIX, SAT_THREE_STAGE_BUFFERED_SUFFIX)
+        if _matches_family_prefix(base_id, ACTIVE_FAMILY_BASE_PREFIXES)
+    }
+    return active_ids
+
+
+def get_archive_strategy_base_ids() -> Set[str]:
+    active_ids = get_active_strategy_base_ids()
+    archive_ids = get_all_generated_strategy_base_ids() - active_ids
+    archive_ids |= {
+        base_id
+        for base_id in archive_ids
+        if _matches_family_prefix(base_id, ARCHIVE_FAMILY_BASE_PREFIXES)
+    }
+    winner_variant_ids = get_winner_only_base_ids()
+    archive_ids |= {
+        f"{base_id}{suffix}"
+        for base_id in winner_variant_ids
+        for suffix in (SAT_WEEKLY_RISK_SUFFIX, SAT_THREE_STAGE_SUFFIX, SAT_THREE_STAGE_BUFFERED_SUFFIX)
+        if not _matches_family_prefix(base_id, ACTIVE_FAMILY_BASE_PREFIXES)
+    }
+    return archive_ids
 
 
 def build_satellite_overlay_variants(base_id: str, base_name: str, base_config: Dict[str, object]) -> List[Dict[str, object]]:
@@ -3684,9 +3758,9 @@ def main(argv: list[str] | None = None) -> None:
     )
     parser.add_argument(
         "--family-scope",
-        choices=["active", "all"],
+        choices=["active", "archive", "all"],
         default="active",
-        help="策略家族范围：active 只跑当前活跃家族，all 跑全部历史家族。",
+        help="策略家族范围：active 只跑当前活跃家族，archive 只跑归档家族，all 跑全部历史家族。",
     )
     args = parser.parse_args(argv)
 
@@ -3698,6 +3772,8 @@ def main(argv: list[str] | None = None) -> None:
         selected_base_ids = get_winner_only_base_ids()
     elif not selected_base_ids and args.family_scope == "active":
         selected_base_ids = get_active_strategy_base_ids()
+    elif not selected_base_ids and args.family_scope == "archive":
+        selected_base_ids = get_archive_strategy_base_ids()
 
     end_date = pd.Timestamp.today().normalize()
     pro = ts.pro_api(TOKEN)

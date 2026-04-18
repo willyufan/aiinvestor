@@ -132,19 +132,46 @@ def _parse_python_constants(path: Path, names: set[str]) -> dict[str, object]:
 
 def load_active_dynamic_family_ids() -> set[str]:
     try:
-        consts = _parse_python_constants(BACKTEST_SCRIPT_PATH, {"WINNER_ONLY_STRATEGY_ID", "WINNER_CORE_VARIANTS", "INDEX_CORE_BASE_ID"})
+        consts = _parse_python_constants(
+            BACKTEST_SCRIPT_PATH,
+            {
+                "ACTIVE_FAMILY_BASE_PREFIXES",
+                "WINNER_ONLY_STRATEGY_ID",
+                "WINNER_CORE_VARIANTS",
+                "INDEX_CORE_BASE_ID",
+                "SAT_WEEKLY_RISK_SUFFIX",
+                "SAT_THREE_STAGE_SUFFIX",
+                "SAT_THREE_STAGE_BUFFERED_SUFFIX",
+            },
+        )
+        active_prefixes = list(consts.get("ACTIVE_FAMILY_BASE_PREFIXES") or [])
         winner_only_id = str(consts.get("WINNER_ONLY_STRATEGY_ID") or "core_explore_80_20_total_mv_winner_core")
         index_core_id = str(consts.get("INDEX_CORE_BASE_ID") or "core_explore_80_20_total_mv_index_core")
         variants = consts.get("WINNER_CORE_VARIANTS", [])
+        overlay_suffixes = [
+            str(consts.get("SAT_WEEKLY_RISK_SUFFIX") or "__sat_weekly_risk"),
+            str(consts.get("SAT_THREE_STAGE_SUFFIX") or "__sat_three_stage_risk"),
+            str(consts.get("SAT_THREE_STAGE_BUFFERED_SUFFIX") or "__sat_three_stage_buffered"),
+        ]
     except Exception:
+        active_prefixes = ["core_explore_80_20_total_mv_index_core", "core_explore_80_20_total_mv_winner_core"]
         winner_only_id = "core_explore_80_20_total_mv_winner_core"
         index_core_id = "core_explore_80_20_total_mv_index_core"
         variants = []
+        overlay_suffixes = ["__sat_weekly_risk", "__sat_three_stage_risk", "__sat_three_stage_buffered"]
     active_ids = {winner_only_id, index_core_id}
     if isinstance(variants, list):
         for variant in variants:
             if isinstance(variant, dict) and variant.get("variant_id"):
-                active_ids.add(f"{winner_only_id}__{variant['variant_id']}")
+                variant_base_id = f"{winner_only_id}__{variant['variant_id']}"
+                active_ids.add(variant_base_id)
+                for suffix in overlay_suffixes:
+                    active_ids.add(f"{variant_base_id}{suffix}")
+    active_ids = {
+        base_id
+        for base_id in active_ids
+        if any(base_id == prefix or base_id.startswith(f"{prefix}__") for prefix in active_prefixes)
+    }
     return active_ids
 
 
@@ -543,7 +570,7 @@ def load_strategy_window(config: dict, sample_tag: str) -> tuple[pd.DataFrame, d
     raise FileNotFoundError(f"{config['label']} missing {sample_tag}")
 
 
-def load_full_family_strategies() -> list[dict]:
+def load_active_family_strategies() -> list[dict]:
     strategies = list(STATIC_STRATEGIES)
     if not COMPARISON_CSV.exists():
         return strategies + list(COMPACT_STRATEGIES)
@@ -860,7 +887,7 @@ def render_window_chart(
 
     handles, labels = axes[0].get_legend_handles_labels()
     legend_cols = 3 if not family_mode else 4
-    title_prefix = "aiinvestor Strategy Comparison" if not family_mode else "aiinvestor Full Strategy Family"
+    title_prefix = "aiinvestor Strategy Comparison" if not family_mode else "aiinvestor Active Strategy Family"
     fig.suptitle(f"{title_prefix}: {sample_window['title']}", fontsize=18, fontweight="bold", y=0.985)
     fig.legend(handles, labels, loc="upper center", ncol=legend_cols, frameon=False, bbox_to_anchor=(0.5, 0.955))
     fig.tight_layout(rect=(0.03, 0.03, 0.97, 0.88 if not family_mode else 0.89))
@@ -874,10 +901,10 @@ def main() -> None:
     _configure_matplotlib_fonts()
     render_summary_card()
     comparison_strategies = load_tracked_comparison_strategies()
-    full_family_strategies = load_full_family_strategies()
+    active_family_strategies = load_active_family_strategies()
     for sample_window in SAMPLE_WINDOWS:
         render_window_chart(sample_window, comparison_strategies, OUTPUT_PATHS[sample_window["sample_tag"]], family_mode=False)
-        render_window_chart(sample_window, full_family_strategies, FAMILY_OUTPUT_PATHS[sample_window["sample_tag"]], family_mode=True)
+        render_window_chart(sample_window, active_family_strategies, FAMILY_OUTPUT_PATHS[sample_window["sample_tag"]], family_mode=True)
 
 
 if __name__ == "__main__":
