@@ -236,9 +236,9 @@ def _slice_window_from_existing_results(base_id: str, sample_tag: str) -> dict[s
     else:
         candidate_dirs = [
             RESULTS_DIR / f"{base_id}__since_2025_01",
-            RESULTS_DIR / f"{base_id}__since_2023_01",
             RESULTS_DIR / f"{base_id}__since_2020_01",
             RESULTS_DIR / f"{base_id}__since_2017_01",
+            RESULTS_DIR / f"{base_id}__since_2023_01",
         ]
 
     for result_dir in candidate_dirs:

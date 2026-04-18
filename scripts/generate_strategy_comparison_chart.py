@@ -47,6 +47,7 @@ OUTPUT_PATHS = {
     "since_2023_01": DOCS_DIR / "strategy_comparison_since_2023_01.png",
     "since_2025_01": DOCS_DIR / "strategy_comparison_since_2025_01.png",
 }
+SUMMARY_OUTPUT_PATH = DOCS_DIR / "strategy_tracked_winners_summary.png"
 FAMILY_OUTPUT_PATHS = {
     "since_2017_01": DOCS_DIR / "strategy_family_since_2017_01.png",
     "since_2020_01": DOCS_DIR / "strategy_family_since_2020_01.png",
@@ -460,7 +461,7 @@ def load_strategy_window(config: dict, sample_tag: str) -> tuple[pd.DataFrame, d
     if sample_tag != "since_2025_01":
         raise FileNotFoundError(f"{config['label']} missing {sample_tag}")
 
-    for fallback_tag in ("since_2023_01", "since_2020_01", "since_2017_01"):
+    for fallback_tag in ("since_2020_01", "since_2017_01", "since_2023_01"):
         summary_path = build_result_path(config["base_id"], fallback_tag, "summary.json")
         equity_path = build_result_path(config["base_id"], fallback_tag, "equity_curve.csv")
         monthly_path = build_result_path(config["base_id"], fallback_tag, "monthly_returns.csv")
@@ -568,7 +569,7 @@ def plot_nav_curves(ax: plt.Axes, sample_tag: str, title: str, strategies: list[
             linestyle=linestyle,
         )
 
-    ax.set_title(title, fontsize=13, fontweight="bold")
+    ax.set_title("NAV Curves", fontsize=13, fontweight="bold", pad=10)
     ax.set_ylabel("NAV")
     ax.grid(alpha=0.25)
 
@@ -708,6 +709,27 @@ def build_winner_note() -> str | None:
     return note
 
 
+def render_summary_card() -> None:
+    note = build_winner_note()
+    if not note:
+        return
+    fig, ax = plt.subplots(figsize=(12, 2.4))
+    ax.axis("off")
+    ax.text(
+        0.01,
+        0.96,
+        note,
+        va="top",
+        ha="left",
+        fontsize=11,
+        transform=ax.transAxes,
+        bbox={"boxstyle": "round,pad=0.45", "facecolor": "white", "edgecolor": "#cbd5e1", "alpha": 0.96},
+    )
+    fig.tight_layout()
+    fig.savefig(SUMMARY_OUTPUT_PATH, dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
 def render_window_chart(
     sample_window: dict,
     strategies: list[dict],
@@ -720,7 +742,7 @@ def render_window_chart(
         3 if not family_mode else 2,
         1,
         figsize=(12, 12 if not family_mode else 9.5),
-        constrained_layout=True,
+        constrained_layout=False,
         gridspec_kw={"height_ratios": [2.2, 1.5, 1.7] if not family_mode else [2.5, 1.8]},
     )
     plot_nav_curves(axes[0], sample_window["sample_tag"], sample_window["title"], strategies)
@@ -730,20 +752,10 @@ def render_window_chart(
 
     handles, labels = axes[0].get_legend_handles_labels()
     legend_cols = 3 if not family_mode else 4
-    fig.legend(handles, labels, loc="upper center", ncol=legend_cols, frameon=False, bbox_to_anchor=(0.5, 1.02))
     title_prefix = "aiinvestor Strategy Comparison" if not family_mode else "aiinvestor Full Strategy Family"
-    fig.suptitle(f"{title_prefix}: {sample_window['title']}", fontsize=18, fontweight="bold")
-    note = build_winner_note()
-    if note:
-        fig.text(
-            0.01,
-            0.995,
-            note,
-            va="top",
-            ha="left",
-            fontsize=9.3,
-            bbox={"boxstyle": "round,pad=0.35", "facecolor": "white", "edgecolor": "#cbd5e1", "alpha": 0.92},
-        )
+    fig.suptitle(f"{title_prefix}: {sample_window['title']}", fontsize=18, fontweight="bold", y=0.985)
+    fig.legend(handles, labels, loc="upper center", ncol=legend_cols, frameon=False, bbox_to_anchor=(0.5, 0.955))
+    fig.tight_layout(rect=(0.03, 0.03, 0.97, 0.88 if not family_mode else 0.89))
     fig.savefig(output_path, dpi=180, bbox_inches="tight")
     plt.close(fig)
 
@@ -752,6 +764,7 @@ def main() -> None:
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
     plt.style.use("seaborn-v0_8-whitegrid")
     _configure_matplotlib_fonts()
+    render_summary_card()
     comparison_strategies = load_tracked_comparison_strategies()
     full_family_strategies = load_full_family_strategies()
     for sample_window in SAMPLE_WINDOWS:
