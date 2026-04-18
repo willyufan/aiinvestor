@@ -13,6 +13,7 @@ import numpy as np
 
 matplotlib.use("Agg")
 from matplotlib import font_manager
+from matplotlib import colors as mcolors
 
 
 def _configure_matplotlib_fonts() -> None:
@@ -40,7 +41,16 @@ import matplotlib.pyplot as plt
 
 RESULTS_DIR = ROOT / "results"
 DOCS_DIR = ROOT / "docs"
-OUTPUT_PATH = DOCS_DIR / "strategy_comparison.png"
+OUTPUT_PATHS = {
+    "since_2017_01": DOCS_DIR / "strategy_comparison_since_2017_01.png",
+    "since_2020_01": DOCS_DIR / "strategy_comparison_since_2020_01.png",
+    "since_2023_01": DOCS_DIR / "strategy_comparison_since_2023_01.png",
+}
+FAMILY_OUTPUT_PATHS = {
+    "since_2017_01": DOCS_DIR / "strategy_family_since_2017_01.png",
+    "since_2020_01": DOCS_DIR / "strategy_family_since_2020_01.png",
+    "since_2023_01": DOCS_DIR / "strategy_family_since_2023_01.png",
+}
 COMPARISON_CSV = RESULTS_DIR / "strategy_comparison_base_method.csv"
 WEIGHTED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
 
@@ -56,7 +66,7 @@ TRACK_WEIGHTS = {
     "since_2020_only": {"since_2020_01": 1.00},
 }
 
-STRATEGIES = [
+STATIC_STRATEGIES = [
     {
         "base_id": "large_cap_pool",
         "label": "Large Cap Static",
@@ -71,6 +81,9 @@ STRATEGIES = [
         "kind": "static",
         "available_sample_tags": {"since_2020_01", "since_2023_01"},
     },
+]
+
+COMPACT_STRATEGIES = [
     {"base_id": "core_explore_80_20_total_mv_index_core", "label": "80/20 Index Core", "color": "#94a3b8"},
     {"base_id": "core_explore_80_20_total_mv_winner_core", "label": "80/20 Winner Core", "color": "#2563eb"},
     {
@@ -81,7 +94,7 @@ STRATEGIES = [
     {"base_id": "pure_core_growth_6", "label": "Pure Core 6", "color": "#7c3aed"},
 ]
 
-STRATEGY_LABEL_BY_ID = {item["base_id"]: item["label"] for item in STRATEGIES}
+STRATEGY_LABEL_BY_ID = {item["base_id"]: item["label"] for item in STATIC_STRATEGIES + COMPACT_STRATEGIES}
 
 
 def _fmt_pct(value: float, digits: int = 2) -> str:
@@ -188,7 +201,7 @@ def winner_tags(base_id: str) -> set[str]:
 
 
 def _maybe_add_tracked_winners() -> None:
-    existing = {item["base_id"] for item in STRATEGIES}
+    existing = {item["base_id"] for item in COMPACT_STRATEGIES}
     winners = [
         ("short", SHORT_WINNER_ID, "#2563eb"),
         ("mid", MID_WINNER_ID, "#dc2626"),
@@ -201,7 +214,7 @@ def _maybe_add_tracked_winners() -> None:
         strategy_name = ""
         if isinstance(strategy_meta, dict):
             strategy_name = str(strategy_meta.get(base_id, {}).get("strategy_base_name") or "")
-        STRATEGIES.append(
+        COMPACT_STRATEGIES.append(
             {
                 "base_id": base_id,
                 "label": strategy_name or base_id,
@@ -287,9 +300,47 @@ def load_strategy_window(config: dict, sample_tag: str) -> tuple[pd.DataFrame, d
     return equity, summary["metrics"]
 
 
-def build_comparison_frame(sample_tag: str) -> pd.DataFrame:
+def load_full_family_strategies() -> list[dict]:
+    strategies = list(STATIC_STRATEGIES)
+    if not COMPARISON_CSV.exists():
+        return strategies + list(COMPACT_STRATEGIES)
+
+    frame = pd.read_csv(COMPARISON_CSV)
+    if frame.empty:
+        return strategies + list(COMPACT_STRATEGIES)
+
+    latest = (
+        frame.assign(sample_end=pd.to_datetime(frame["sample_end"], errors="coerce"))
+        .dropna(subset=["sample_end"])
+        .sort_values(["strategy_base_id", "sample_tag", "sample_end"])
+        .groupby(["strategy_base_id", "sample_tag"], as_index=False)
+        .tail(1)
+    )
+    grouped = (
+        latest.sort_values(["strategy_base_name", "strategy_base_id"])
+        .drop_duplicates(subset=["strategy_base_id"])
+        [["strategy_base_id", "strategy_base_name"]]
+    )
+    dynamic_ids = [str(item) for item in grouped["strategy_base_id"].tolist()]
+    cmap = plt.get_cmap("tab20")
+    dynamic_strategies: list[dict] = []
+    for idx, row in enumerate(grouped.itertuples(index=False)):
+        base_id = str(row.strategy_base_id)
+        label = str(row.strategy_base_name) if pd.notna(row.strategy_base_name) and str(row.strategy_base_name).strip() else base_id
+        color = mcolors.to_hex(cmap(idx % 20))
+        dynamic_strategies.append({"base_id": base_id, "label": label, "color": color})
+        STRATEGY_LABEL_BY_ID.setdefault(base_id, label)
+
+    priority_ids = [base_id for base_id in [SHORT_WINNER_ID, MID_WINNER_ID, WINDOW_2020_WINNER_ID] if base_id in dynamic_ids]
+    priority_set = set(priority_ids)
+    prioritized = [item for item in dynamic_strategies if item["base_id"] in priority_set]
+    remaining = [item for item in dynamic_strategies if item["base_id"] not in priority_set]
+    return strategies + prioritized + remaining
+
+
+def build_comparison_frame(sample_tag: str, strategies: list[dict]) -> pd.DataFrame:
     rows: list[dict] = []
-    for config in STRATEGIES:
+    for config in strategies:
         try:
             _, metrics = load_strategy_window(config, sample_tag)
         except FileNotFoundError:
@@ -308,8 +359,8 @@ def build_comparison_frame(sample_tag: str) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def plot_nav_curves(ax: plt.Axes, sample_tag: str, title: str) -> None:
-    for config in STRATEGIES:
+def plot_nav_curves(ax: plt.Axes, sample_tag: str, title: str, strategies: list[dict]) -> None:
+    for config in strategies:
         try:
             equity, _ = load_strategy_window(config, sample_tag)
         except FileNotFoundError:
@@ -332,7 +383,7 @@ def plot_nav_curves(ax: plt.Axes, sample_tag: str, title: str) -> None:
             equity["nav"],
             label=config["label"],
             color=config["color"],
-            linewidth=2.8 if highlight else 1.8,
+            linewidth=2.8 if highlight else 1.4,
             alpha=1.0 if highlight else 0.9,
             linestyle=linestyle,
         )
@@ -422,71 +473,89 @@ def plot_metric_table(ax: plt.Axes, frame: pd.DataFrame, title: str) -> None:
                 cell.set_facecolor("#fef3c7")
 
 
-def main() -> None:
-    DOCS_DIR.mkdir(parents=True, exist_ok=True)
-    plt.style.use("seaborn-v0_8-whitegrid")
-    _configure_matplotlib_fonts()
-    fig, axes = plt.subplots(
-        3,
-        len(SAMPLE_WINDOWS),
-        figsize=(18, 12),
-        constrained_layout=True,
-        gridspec_kw={"height_ratios": [2.0, 1.4, 1.6]},
+def build_winner_note() -> str | None:
+    if not (WEIGHTED_WINNERS and SHORT_WINNER_ID and MID_WINNER_ID and WINDOW_2020_WINNER_ID):
+        return None
+    short_metrics = WEIGHTED_WINNERS["tracks"]["short_cycle_30_30_40"]["metrics"]
+    mid_metrics = WEIGHTED_WINNERS["tracks"]["mid_cycle_30_40_30"]["metrics"]
+    window_2020_metrics = WEIGHTED_WINNERS["tracks"]["since_2020_only"]["metrics"]
+    short_label = STRATEGY_LABEL_BY_ID.get(SHORT_WINNER_ID, SHORT_WINNER_ID)
+    mid_label = STRATEGY_LABEL_BY_ID.get(MID_WINNER_ID, MID_WINNER_ID)
+    window_2020_label = STRATEGY_LABEL_BY_ID.get(WINDOW_2020_WINNER_ID, WINDOW_2020_WINNER_ID)
+    as_of = WEIGHTED_WINNERS.get("as_of", "n/a")
+    return (
+        "Weighted winners (as of {as_of})\n"
+        "Short-cycle 30/30/40: {short_label} | wCAGR {scagr}, wSharpe {ssharpe:.3f}, wMaxDD {sdd}, wTurn {sturn:.2f}\n"
+        "Mid-cycle 30/40/30: {mid_label} | wCAGR {mcagr}, wSharpe {msharpe:.3f}, wMaxDD {mdd}, wTurn {mturn:.2f}\n"
+        "2020-only checkpoint: {w20_label} | CAGR {w20cagr}, Sharpe {w20sharpe:.3f}, MaxDD {w20dd}, Turn {w20turn:.2f}"
+    ).format(
+        as_of=as_of,
+        short_label=short_label,
+        scagr=_fmt_pct(short_metrics.get("weighted_cagr")),
+        ssharpe=float(short_metrics.get("weighted_sharpe")),
+        sdd=_fmt_pct(short_metrics.get("weighted_max_drawdown")),
+        sturn=float(short_metrics.get("weighted_turnover")),
+        mid_label=mid_label,
+        mcagr=_fmt_pct(mid_metrics.get("weighted_cagr")),
+        msharpe=float(mid_metrics.get("weighted_sharpe")),
+        mdd=_fmt_pct(mid_metrics.get("weighted_max_drawdown")),
+        mturn=float(mid_metrics.get("weighted_turnover")),
+        w20_label=window_2020_label,
+        w20cagr=_fmt_pct(window_2020_metrics.get("weighted_cagr")),
+        w20sharpe=float(window_2020_metrics.get("weighted_sharpe")),
+        w20dd=_fmt_pct(window_2020_metrics.get("weighted_max_drawdown")),
+        w20turn=float(window_2020_metrics.get("weighted_turnover")),
     )
 
-    for col_idx, sample_window in enumerate(SAMPLE_WINDOWS):
-        frame = build_comparison_frame(sample_window["sample_tag"])
-        plot_nav_curves(axes[0, col_idx], sample_window["sample_tag"], sample_window["title"])
-        plot_risk_return(axes[1, col_idx], frame, sample_window["short_label"])
-        plot_metric_table(axes[2, col_idx], frame, sample_window["short_label"])
 
-    handles, labels = axes[0, 0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="upper center", ncol=3, frameon=False, bbox_to_anchor=(0.5, 1.02))
-    fig.suptitle("aiinvestor Strategy Comparison Across 9Y / 6Y / 3Y Windows", fontsize=18, fontweight="bold")
-    if WEIGHTED_WINNERS and SHORT_WINNER_ID and MID_WINNER_ID and WINDOW_2020_WINNER_ID:
-        short_metrics = WEIGHTED_WINNERS["tracks"]["short_cycle_30_30_40"]["metrics"]
-        mid_metrics = WEIGHTED_WINNERS["tracks"]["mid_cycle_30_40_30"]["metrics"]
-        window_2020_metrics = WEIGHTED_WINNERS["tracks"]["since_2020_only"]["metrics"]
-        short_label = STRATEGY_LABEL_BY_ID.get(SHORT_WINNER_ID, SHORT_WINNER_ID)
-        mid_label = STRATEGY_LABEL_BY_ID.get(MID_WINNER_ID, MID_WINNER_ID)
-        window_2020_label = STRATEGY_LABEL_BY_ID.get(WINDOW_2020_WINNER_ID, WINDOW_2020_WINNER_ID)
-        as_of = WEIGHTED_WINNERS.get("as_of", "n/a")
-        note = (
-            "Weighted multi-window winners (as of {as_of})\\n"
-            "Short-cycle (30/30/40): {short_label}  "
-            "wCAGR {scagr}, wSharpe {ssharpe:.3f}, wMaxDD {sdd}, wTurn {sturn:.2f}\\n"
-            "Mid-cycle (30/40/30): {mid_label}  "
-            "wCAGR {mcagr}, wSharpe {msharpe:.3f}, wMaxDD {mdd}, wTurn {mturn:.2f}\\n"
-            "2020-only checkpoint: {w20_label}  "
-            "CAGR {w20cagr}, Sharpe {w20sharpe:.3f}, MaxDD {w20dd}, Turn {w20turn:.2f}"
-        ).format(
-            as_of=as_of,
-            short_label=short_label,
-            scagr=_fmt_pct(short_metrics.get("weighted_cagr")),
-            ssharpe=float(short_metrics.get("weighted_sharpe")),
-            sdd=_fmt_pct(short_metrics.get("weighted_max_drawdown")),
-            sturn=float(short_metrics.get("weighted_turnover")),
-            mid_label=mid_label,
-            mcagr=_fmt_pct(mid_metrics.get("weighted_cagr")),
-            msharpe=float(mid_metrics.get("weighted_sharpe")),
-            mdd=_fmt_pct(mid_metrics.get("weighted_max_drawdown")),
-            mturn=float(mid_metrics.get("weighted_turnover")),
-            w20_label=window_2020_label,
-            w20cagr=_fmt_pct(window_2020_metrics.get("weighted_cagr")),
-            w20sharpe=float(window_2020_metrics.get("weighted_sharpe")),
-            w20dd=_fmt_pct(window_2020_metrics.get("weighted_max_drawdown")),
-            w20turn=float(window_2020_metrics.get("weighted_turnover")),
-        )
+def render_window_chart(
+    sample_window: dict,
+    strategies: list[dict],
+    output_path: Path,
+    *,
+    family_mode: bool = False,
+) -> None:
+    frame = build_comparison_frame(sample_window["sample_tag"], strategies)
+    fig, axes = plt.subplots(
+        3 if not family_mode else 2,
+        1,
+        figsize=(12, 12 if not family_mode else 9.5),
+        constrained_layout=True,
+        gridspec_kw={"height_ratios": [2.2, 1.5, 1.7] if not family_mode else [2.5, 1.8]},
+    )
+    plot_nav_curves(axes[0], sample_window["sample_tag"], sample_window["title"], strategies)
+    plot_risk_return(axes[1], frame, sample_window["short_label"])
+    if not family_mode:
+        plot_metric_table(axes[2], frame, sample_window["short_label"])
+
+    handles, labels = axes[0].get_legend_handles_labels()
+    legend_cols = 3 if not family_mode else 4
+    fig.legend(handles, labels, loc="upper center", ncol=legend_cols, frameon=False, bbox_to_anchor=(0.5, 1.02))
+    title_prefix = "aiinvestor Strategy Comparison" if not family_mode else "aiinvestor Full Strategy Family"
+    fig.suptitle(f"{title_prefix}: {sample_window['title']}", fontsize=18, fontweight="bold")
+    note = build_winner_note()
+    if note:
         fig.text(
             0.01,
             0.995,
             note,
             va="top",
             ha="left",
-            fontsize=9.5,
+            fontsize=9.3,
             bbox={"boxstyle": "round,pad=0.35", "facecolor": "white", "edgecolor": "#cbd5e1", "alpha": 0.92},
         )
-    fig.savefig(OUTPUT_PATH, dpi=180, bbox_inches="tight")
+    fig.savefig(output_path, dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
+def main() -> None:
+    DOCS_DIR.mkdir(parents=True, exist_ok=True)
+    plt.style.use("seaborn-v0_8-whitegrid")
+    _configure_matplotlib_fonts()
+    full_family_strategies = load_full_family_strategies()
+    for sample_window in SAMPLE_WINDOWS:
+        render_window_chart(sample_window, COMPACT_STRATEGIES, OUTPUT_PATHS[sample_window["sample_tag"]], family_mode=False)
+        render_window_chart(sample_window, full_family_strategies, FAMILY_OUTPUT_PATHS[sample_window["sample_tag"]], family_mode=True)
 
 
 if __name__ == "__main__":

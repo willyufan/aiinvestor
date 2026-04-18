@@ -180,6 +180,9 @@ WINNER_CORE_VARIANTS = [
     },
 ]
 
+FACTOR_CACHE_VERSION = "v1"
+WINNER_ONLY_STRATEGY_ID = "core_explore_80_20_total_mv_winner_core"
+
 CORE_EXPLORE_RATIO_CONFIGS = [
     {"strategy_id": "core_explore_80_20", "strategy_name": "核心80_探索20", "core_ratio": 0.80, "explore_ratio": 0.20},
     {"strategy_id": "core_explore_70_30", "strategy_name": "核心70_探索30", "core_ratio": 0.70, "explore_ratio": 0.30},
@@ -196,11 +199,6 @@ CORE_SOURCE_MODES = [
     {"core_source_mode": "winner_core", "core_source_name": "胜出者核心"},
 ]
 
-PURE_CORE_GROWTH_CONFIGS = [
-    {"strategy_id": "pure_core_growth_6", "strategy_name": "纯核心成长6只", "max_holdings": 6},
-    {"strategy_id": "pure_core_growth_7", "strategy_name": "纯核心成长7只", "max_holdings": 7},
-    {"strategy_id": "pure_core_growth_8", "strategy_name": "纯核心成长8只", "max_holdings": 8},
-]
 PURE_CORE_AMOUNT_THRESHOLD = 50000.0
 PURE_CORE_BUY_BUFFER_MULTIPLIER = 1.0
 PURE_CORE_KEEP_BUFFER_MULTIPLIER = 2.0
@@ -217,6 +215,26 @@ DAILY_BASIC_DIR = CACHE_DIR / "daily_basic"
 FINA_DIR = CACHE_DIR / "fina_indicator"
 INDEX_DIR = CACHE_DIR / "index_daily"
 INDEX_WEIGHT_DIR = CACHE_DIR / "index_weight"
+FACTOR_PANEL_DIR = CACHE_DIR / "monthly_factor_cache"
+
+
+@dataclass
+class MonthlyFactorCache:
+    standard_eligible_codes_by_date: Dict[pd.Timestamp, List[str]]
+    seed_eligible_codes_by_date: Dict[pd.Timestamp, List[str]]
+    signal_mvs_by_date: Dict[pd.Timestamp, pd.Series]
+    avg_daily_amount_by_date: Dict[pd.Timestamp, pd.Series]
+    amount_surge_ratio_by_date: Dict[pd.Timestamp, pd.Series]
+    recent_1m_returns_by_date: Dict[pd.Timestamp, pd.Series]
+    core_signal_scores_by_date: Dict[pd.Timestamp, pd.Series]
+    momentum_6_1_by_date: Dict[pd.Timestamp, pd.Series]
+    momentum_3_1_by_date: Dict[pd.Timestamp, pd.Series]
+    breakout_signal_by_date: Dict[pd.Timestamp, pd.Series]
+    quality_scores_by_date: Dict[pd.Timestamp, pd.Series]
+    growth_quality_scores_by_date: Dict[pd.Timestamp, pd.Series]
+    growth_acceleration_scores_by_date: Dict[pd.Timestamp, pd.Series]
+    industry_strength_scores_by_date: Dict[pd.Timestamp, pd.Series]
+    industry_leader_scores_by_date: Dict[pd.Timestamp, pd.Series]
 
 
 @dataclass
@@ -238,6 +256,7 @@ class PreparedData:
     core_index_weights_by_date: Dict[pd.Timestamp, pd.Series]
     explore_index_weights_by_date: Dict[pd.Timestamp, pd.Series]
     data_warnings: List[str]
+    monthly_factor_cache: MonthlyFactorCache | None = None
 
 
 def normalize_codes(raw_codes: Iterable[str]) -> List[str]:
@@ -264,7 +283,7 @@ def normalize_codes(raw_codes: Iterable[str]) -> List[str]:
 
 
 def ensure_directories() -> None:
-    for path in [CACHE_DIR, DAILY_DIR, ADJ_DIR, DAILY_BASIC_DIR, FINA_DIR, INDEX_DIR, INDEX_WEIGHT_DIR, RESULTS_DIR]:
+    for path in [CACHE_DIR, DAILY_DIR, ADJ_DIR, DAILY_BASIC_DIR, FINA_DIR, INDEX_DIR, INDEX_WEIGHT_DIR, FACTOR_PANEL_DIR, RESULTS_DIR]:
         path.mkdir(parents=True, exist_ok=True)
 
 
@@ -1112,6 +1131,196 @@ def compute_market_exposure(market_monthly_close: pd.Series, signal_date: pd.Tim
         "satellite_target_exposure": satellite_target_exposure,
         "portfolio_target_exposure": core_target_exposure,
     }
+
+
+def build_factor_cache_path(prepared: PreparedData) -> Path:
+    cache_key = "_".join(
+        [
+            FACTOR_CACHE_VERSION,
+            prepared.month_end_dates[0].strftime("%Y%m%d"),
+            prepared.month_end_dates[-1].strftime("%Y%m%d"),
+            str(len(prepared.code_to_name)),
+        ]
+    )
+    return FACTOR_PANEL_DIR / f"{cache_key}.pkl"
+
+
+def load_monthly_factor_cache(path: Path) -> MonthlyFactorCache | None:
+    if not path.exists():
+        return None
+    payload = pd.read_pickle(path)
+    if not isinstance(payload, dict) or "version" not in payload or payload["version"] != FACTOR_CACHE_VERSION:
+        return None
+    return MonthlyFactorCache(**payload["cache"])
+
+
+def save_monthly_factor_cache(cache: MonthlyFactorCache, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "version": FACTOR_CACHE_VERSION,
+        "cache": {
+            "standard_eligible_codes_by_date": cache.standard_eligible_codes_by_date,
+            "seed_eligible_codes_by_date": cache.seed_eligible_codes_by_date,
+            "signal_mvs_by_date": cache.signal_mvs_by_date,
+            "avg_daily_amount_by_date": cache.avg_daily_amount_by_date,
+            "amount_surge_ratio_by_date": cache.amount_surge_ratio_by_date,
+            "recent_1m_returns_by_date": cache.recent_1m_returns_by_date,
+            "core_signal_scores_by_date": cache.core_signal_scores_by_date,
+            "momentum_6_1_by_date": cache.momentum_6_1_by_date,
+            "momentum_3_1_by_date": cache.momentum_3_1_by_date,
+            "breakout_signal_by_date": cache.breakout_signal_by_date,
+            "quality_scores_by_date": cache.quality_scores_by_date,
+            "growth_quality_scores_by_date": cache.growth_quality_scores_by_date,
+            "growth_acceleration_scores_by_date": cache.growth_acceleration_scores_by_date,
+            "industry_strength_scores_by_date": cache.industry_strength_scores_by_date,
+            "industry_leader_scores_by_date": cache.industry_leader_scores_by_date,
+        },
+    }
+    pd.to_pickle(payload, path)
+
+
+def build_monthly_factor_cache(prepared: PreparedData) -> MonthlyFactorCache:
+    price_exact = prepared.price_exact
+    price_ffill = prepared.price_ffill
+    total_mv = prepared.total_mv
+    month_end_price_panel = price_ffill.reindex(pd.Index(prepared.month_end_dates))
+
+    standard_eligible_codes_by_date: Dict[pd.Timestamp, List[str]] = {}
+    seed_eligible_codes_by_date: Dict[pd.Timestamp, List[str]] = {}
+    signal_mvs_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    avg_daily_amount_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    amount_surge_ratio_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    recent_1m_returns_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    core_signal_scores_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    momentum_6_1_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    momentum_3_1_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    breakout_signal_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    quality_scores_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    growth_quality_scores_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    growth_acceleration_scores_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    industry_strength_scores_by_date: Dict[pd.Timestamp, pd.Series] = {}
+    industry_leader_scores_by_date: Dict[pd.Timestamp, pd.Series] = {}
+
+    for idx in range(len(prepared.month_end_dates) - 1):
+        signal_date = prepared.month_end_dates[idx]
+        signal_prices = price_exact.loc[signal_date] if signal_date in price_exact.index else pd.Series(dtype=float)
+        signal_mvs = total_mv.loc[signal_date] if signal_date in total_mv.index else pd.Series(dtype=float)
+
+        standard_eligible_codes: List[str] = []
+        seed_eligible_codes: List[str] = []
+        for ts_code in prepared.code_to_name:
+            list_date = prepared.code_to_list_date[ts_code]
+            if pd.isna(list_date):
+                continue
+            if ts_code not in signal_prices.index or pd.isna(signal_prices.get(ts_code)):
+                continue
+            if ts_code not in signal_mvs.index or pd.isna(signal_mvs.get(ts_code)):
+                continue
+            if list_date <= signal_date - pd.DateOffset(months=SEED_MIN_LISTING_MONTHS):
+                seed_eligible_codes.append(ts_code)
+            if list_date <= signal_date - pd.DateOffset(months=MIN_LISTING_MONTHS):
+                standard_eligible_codes.append(ts_code)
+
+        eligible_codes = seed_eligible_codes
+        standard_eligible_codes_by_date[signal_date] = standard_eligible_codes
+        seed_eligible_codes_by_date[signal_date] = seed_eligible_codes
+        signal_mvs_by_date[signal_date] = signal_mvs.reindex(eligible_codes).dropna().astype(float)
+
+        amount_history = prepared.daily_amount.reindex(columns=eligible_codes).loc[:signal_date]
+        liquidity_window = amount_history.tail(ROLLING_AMOUNT_WINDOW)
+        avg_daily_amount = liquidity_window.mean(skipna=True)
+        prior_liquidity_window = amount_history.iloc[:-ROLLING_AMOUNT_WINDOW].tail(ROLLING_AMOUNT_WINDOW)
+        prior_avg_daily_amount = prior_liquidity_window.mean(skipna=True)
+        amount_surge_ratio = (avg_daily_amount / prior_avg_daily_amount.replace(0.0, np.nan)).replace([np.inf, -np.inf], np.nan)
+        avg_daily_amount_by_date[signal_date] = avg_daily_amount
+        amount_surge_ratio_by_date[signal_date] = amount_surge_ratio
+
+        recent_1m_returns = pd.Series(dtype=float)
+        core_signal_scores = pd.Series(dtype=float)
+        momentum_6_1 = pd.Series(dtype=float)
+        momentum_3_1 = pd.Series(dtype=float)
+
+        if idx >= 1:
+            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
+            curr_prices = month_end_price_panel.loc[signal_date, eligible_codes]
+            valid_recent = prev_1m_prices.notna() & curr_prices.notna() & (prev_1m_prices > 0)
+            if valid_recent.any():
+                recent_1m_returns = (curr_prices.loc[valid_recent] / prev_1m_prices.loc[valid_recent]) - 1.0
+        if idx >= 12:
+            prev_12m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 12], eligible_codes]
+            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
+            valid_mom = prev_12m_prices.notna() & prev_1m_prices.notna() & (prev_12m_prices > 0)
+            if valid_mom.any():
+                core_signal_scores = (prev_1m_prices.loc[valid_mom] / prev_12m_prices.loc[valid_mom]) - 1.0
+        elif idx >= 6:
+            prev_6m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 6], eligible_codes]
+            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
+            valid_mom = prev_6m_prices.notna() & prev_1m_prices.notna() & (prev_6m_prices > 0)
+            if valid_mom.any():
+                core_signal_scores = (prev_1m_prices.loc[valid_mom] / prev_6m_prices.loc[valid_mom]) - 1.0
+                momentum_6_1 = core_signal_scores.copy()
+        if idx >= 6 and momentum_6_1.empty:
+            prev_6m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 6], eligible_codes]
+            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
+            valid_mom_6 = prev_6m_prices.notna() & prev_1m_prices.notna() & (prev_6m_prices > 0)
+            if valid_mom_6.any():
+                momentum_6_1 = (prev_1m_prices.loc[valid_mom_6] / prev_6m_prices.loc[valid_mom_6]) - 1.0
+        if idx >= 3:
+            prev_3m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 3], eligible_codes]
+            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
+            valid_mom_3 = prev_3m_prices.notna() & prev_1m_prices.notna() & (prev_3m_prices > 0)
+            if valid_mom_3.any():
+                momentum_3_1 = (prev_1m_prices.loc[valid_mom_3] / prev_3m_prices.loc[valid_mom_3]) - 1.0
+
+        recent_1m_returns_by_date[signal_date] = recent_1m_returns
+        core_signal_scores_by_date[signal_date] = core_signal_scores
+        momentum_6_1_by_date[signal_date] = momentum_6_1
+        momentum_3_1_by_date[signal_date] = momentum_3_1
+
+        breakout_signal = pd.Series(False, index=pd.Index(eligible_codes), dtype=bool)
+        rolling_window = SEED_BREAKOUT_LOOKBACK_DAYS + 1
+        price_history = price_ffill.reindex(columns=eligible_codes).loc[:signal_date].tail(rolling_window)
+        if len(price_history) >= 2:
+            prior_high = price_history.iloc[:-1].max()
+            current_price = price_history.iloc[-1]
+            breakout_signal = (current_price >= prior_high.fillna(np.inf) * 0.995).fillna(False)
+        breakout_signal_by_date[signal_date] = breakout_signal
+
+        quality_scores, quality_df = compute_quality_scores(prepared, eligible_codes, signal_date)
+        growth_quality_scores = compute_growth_quality_scores(quality_df)
+        growth_acceleration_scores = compute_growth_acceleration_scores(quality_df)
+        industry_strength_scores, industry_leader_scores = compute_industry_relative_strength_scores(
+            code_to_industry=prepared.code_to_industry,
+            candidate_codes=eligible_codes,
+            momentum_6_1=momentum_6_1,
+            momentum_3_1=momentum_3_1,
+            amount_surge_ratio=amount_surge_ratio,
+            breakout_signal=breakout_signal,
+            growth_acceleration_scores=growth_acceleration_scores,
+        )
+        quality_scores_by_date[signal_date] = quality_scores
+        growth_quality_scores_by_date[signal_date] = growth_quality_scores
+        growth_acceleration_scores_by_date[signal_date] = growth_acceleration_scores
+        industry_strength_scores_by_date[signal_date] = industry_strength_scores
+        industry_leader_scores_by_date[signal_date] = industry_leader_scores
+
+    return MonthlyFactorCache(
+        standard_eligible_codes_by_date=standard_eligible_codes_by_date,
+        seed_eligible_codes_by_date=seed_eligible_codes_by_date,
+        signal_mvs_by_date=signal_mvs_by_date,
+        avg_daily_amount_by_date=avg_daily_amount_by_date,
+        amount_surge_ratio_by_date=amount_surge_ratio_by_date,
+        recent_1m_returns_by_date=recent_1m_returns_by_date,
+        core_signal_scores_by_date=core_signal_scores_by_date,
+        momentum_6_1_by_date=momentum_6_1_by_date,
+        momentum_3_1_by_date=momentum_3_1_by_date,
+        breakout_signal_by_date=breakout_signal_by_date,
+        quality_scores_by_date=quality_scores_by_date,
+        growth_quality_scores_by_date=growth_quality_scores_by_date,
+        growth_acceleration_scores_by_date=growth_acceleration_scores_by_date,
+        industry_strength_scores_by_date=industry_strength_scores_by_date,
+        industry_leader_scores_by_date=industry_leader_scores_by_date,
+    )
 
 
 def build_single_sleeve_weights(
@@ -2038,7 +2247,7 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
         }
         financials_by_code[ts_code] = fina_indicator
 
-    return build_monthly_panel(
+    prepared = build_monthly_panel(
         normalized_codes,
         stock_basic,
         calendar,
@@ -2051,6 +2260,17 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
         explore_index_weights_by_date,
         data_warnings,
     )
+    factor_cache_path = build_factor_cache_path(prepared)
+    monthly_factor_cache = load_monthly_factor_cache(factor_cache_path)
+    if monthly_factor_cache is None:
+        print("[Cache] 月度因子缓存不存在或失效，开始构建。")
+        monthly_factor_cache = build_monthly_factor_cache(prepared)
+        save_monthly_factor_cache(monthly_factor_cache, factor_cache_path)
+        print(f"[Cache] 月度因子缓存已写入: {factor_cache_path}")
+    else:
+        print(f"[Cache] 已加载月度因子缓存: {factor_cache_path}")
+    prepared.monthly_factor_cache = monthly_factor_cache
+    return prepared
 
 
 def save_pool_comparison(comparison_rows: List[Dict[str, object]], comparison_csv: Path | None = None) -> None:
@@ -2245,92 +2465,29 @@ def run_backtest(
         holding_month_end = prepared.month_end_dates[idx + 1]
         rebalance_date = prepared.month_start_dates[idx + 1]
 
-        signal_prices = price_exact.loc[signal_date] if signal_date in price_exact.index else pd.Series(dtype=float)
-        signal_mvs = total_mv.loc[signal_date] if signal_date in total_mv.index else pd.Series(dtype=float)
-
-        standard_eligible_codes: List[str] = []
-        seed_eligible_codes: List[str] = []
-        for ts_code in prepared.code_to_name:
-            list_date = prepared.code_to_list_date[ts_code]
-            if pd.isna(list_date):
-                continue
-            if ts_code not in signal_prices.index or pd.isna(signal_prices.get(ts_code)):
-                continue
-            if ts_code not in signal_mvs.index or pd.isna(signal_mvs.get(ts_code)):
-                continue
-            if list_date <= signal_date - pd.DateOffset(months=SEED_MIN_LISTING_MONTHS):
-                seed_eligible_codes.append(ts_code)
-            if list_date <= signal_date - pd.DateOffset(months=MIN_LISTING_MONTHS):
-                standard_eligible_codes.append(ts_code)
-
+        factor_cache = prepared.monthly_factor_cache
+        if factor_cache is None:
+            raise RuntimeError("PreparedData 缺少 monthly_factor_cache，无法运行回测。")
+        standard_eligible_codes = factor_cache.standard_eligible_codes_by_date.get(signal_date, [])
+        seed_eligible_codes = factor_cache.seed_eligible_codes_by_date.get(signal_date, [])
         eligible_codes = seed_eligible_codes
-        raw_weights = signal_mvs.loc[eligible_codes].astype(float)
-        amount_history = prepared.daily_amount.reindex(columns=eligible_codes).loc[:signal_date]
-        liquidity_window = amount_history.tail(ROLLING_AMOUNT_WINDOW)
-        avg_daily_amount = liquidity_window.mean(skipna=True)
-        prior_liquidity_window = amount_history.iloc[:-ROLLING_AMOUNT_WINDOW].tail(ROLLING_AMOUNT_WINDOW)
-        prior_avg_daily_amount = prior_liquidity_window.mean(skipna=True)
-        amount_surge_ratio = (avg_daily_amount / prior_avg_daily_amount.replace(0.0, np.nan)).replace([np.inf, -np.inf], np.nan)
+        raw_weights = factor_cache.signal_mvs_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+        avg_daily_amount = factor_cache.avg_daily_amount_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+        amount_surge_ratio = factor_cache.amount_surge_ratio_by_date.get(signal_date, pd.Series(dtype=float)).copy()
         actual_core_members = prepared.core_members_by_date.get(signal_date, set())
         actual_explore_members = prepared.explore_members_by_date.get(signal_date, set())
         core_universe_codes = set(actual_core_members) | set(promoted_core_codes)
         explore_universe_codes = set(actual_explore_members) - set(promoted_core_codes)
-        core_signal_scores = pd.Series(dtype=float)
-        momentum_6_1 = pd.Series(dtype=float)
-        momentum_3_1 = pd.Series(dtype=float)
-        recent_1m_returns = pd.Series(dtype=float)
-        if idx >= 1:
-            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
-            curr_prices = month_end_price_panel.loc[signal_date, eligible_codes]
-            valid_recent = prev_1m_prices.notna() & curr_prices.notna() & (prev_1m_prices > 0)
-            if valid_recent.any():
-                recent_1m_returns = (curr_prices.loc[valid_recent] / prev_1m_prices.loc[valid_recent]) - 1.0
-        if idx >= 12:
-            prev_12m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 12], eligible_codes]
-            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
-            valid_mom = prev_12m_prices.notna() & prev_1m_prices.notna() & (prev_12m_prices > 0)
-            if valid_mom.any():
-                core_signal_scores = (prev_1m_prices.loc[valid_mom] / prev_12m_prices.loc[valid_mom]) - 1.0
-        elif idx >= 6:
-            prev_6m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 6], eligible_codes]
-            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
-            valid_mom = prev_6m_prices.notna() & prev_1m_prices.notna() & (prev_6m_prices > 0)
-            if valid_mom.any():
-                core_signal_scores = (prev_1m_prices.loc[valid_mom] / prev_6m_prices.loc[valid_mom]) - 1.0
-                momentum_6_1 = core_signal_scores.copy()
-        if idx >= 6 and momentum_6_1.empty:
-            prev_6m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 6], eligible_codes]
-            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
-            valid_mom_6 = prev_6m_prices.notna() & prev_1m_prices.notna() & (prev_6m_prices > 0)
-            if valid_mom_6.any():
-                momentum_6_1 = (prev_1m_prices.loc[valid_mom_6] / prev_6m_prices.loc[valid_mom_6]) - 1.0
-        if idx >= 3:
-            prev_3m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 3], eligible_codes]
-            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
-            valid_mom_3 = prev_3m_prices.notna() & prev_1m_prices.notna() & (prev_3m_prices > 0)
-            if valid_mom_3.any():
-                momentum_3_1 = (prev_1m_prices.loc[valid_mom_3] / prev_3m_prices.loc[valid_mom_3]) - 1.0
-
-        breakout_signal = pd.Series(False, index=pd.Index(eligible_codes), dtype=bool)
-        rolling_window = SEED_BREAKOUT_LOOKBACK_DAYS + 1
-        price_history = price_ffill.reindex(columns=eligible_codes).loc[:signal_date].tail(rolling_window)
-        if len(price_history) >= 2:
-            prior_high = price_history.iloc[:-1].max()
-            current_price = price_history.iloc[-1]
-            breakout_signal = (current_price >= prior_high.fillna(np.inf) * 0.995).fillna(False)
-
-        quality_scores, quality_df = compute_quality_scores(prepared, eligible_codes, signal_date)
-        growth_quality_scores = compute_growth_quality_scores(quality_df)
-        growth_acceleration_scores = compute_growth_acceleration_scores(quality_df)
-        industry_strength_scores, industry_leader_scores = compute_industry_relative_strength_scores(
-            code_to_industry=prepared.code_to_industry,
-            candidate_codes=eligible_codes,
-            momentum_6_1=momentum_6_1,
-            momentum_3_1=momentum_3_1,
-            amount_surge_ratio=amount_surge_ratio,
-            breakout_signal=breakout_signal,
-            growth_acceleration_scores=growth_acceleration_scores,
-        )
+        core_signal_scores = factor_cache.core_signal_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+        momentum_6_1 = factor_cache.momentum_6_1_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+        momentum_3_1 = factor_cache.momentum_3_1_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+        recent_1m_returns = factor_cache.recent_1m_returns_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+        breakout_signal = factor_cache.breakout_signal_by_date.get(signal_date, pd.Series(dtype=bool)).copy()
+        quality_scores = factor_cache.quality_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+        growth_quality_scores = factor_cache.growth_quality_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+        growth_acceleration_scores = factor_cache.growth_acceleration_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+        industry_strength_scores = factor_cache.industry_strength_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+        industry_leader_scores = factor_cache.industry_leader_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
         explore_signal_scores = blend_ranked_components(
             [
                 (industry_strength_scores, 0.40),
@@ -2749,6 +2906,13 @@ def _parse_csv_list(value: str) -> list[str]:
     return [item.strip() for item in value.split(",") if item.strip()]
 
 
+def get_winner_only_base_ids() -> Set[str]:
+    winner_base_ids = {WINNER_ONLY_STRATEGY_ID}
+    for variant in WINNER_CORE_VARIANTS:
+        winner_base_ids.add(f"{WINNER_ONLY_STRATEGY_ID}__{variant['variant_id']}")
+    return winner_base_ids
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Run aiinvestor backtests (supports offline cached runs).")
     parser.add_argument(
@@ -2767,6 +2931,11 @@ def main(argv: list[str] | None = None) -> None:
         default="",
         help="Optional output CSV path. When omitted, writes the standard results/*.csv files.",
     )
+    parser.add_argument(
+        "--winner-only",
+        action="store_true",
+        help="只运行当前 winner_core 候选家族（80/20 + total_mv + winner_core 及其变体）。",
+    )
     args = parser.parse_args(argv)
 
     pd.options.display.float_format = lambda value: f"{value:.8f}"
@@ -2779,6 +2948,8 @@ def main(argv: list[str] | None = None) -> None:
 
     selected_sample_tags = set(_parse_csv_list(args.sample_tags)) if args.sample_tags else set()
     selected_base_ids = set(_parse_csv_list(args.only_base_ids)) if args.only_base_ids else set()
+    if args.winner_only and not selected_base_ids:
+        selected_base_ids = get_winner_only_base_ids()
     comparison_csv = Path(args.comparison_csv).expanduser() if args.comparison_csv else None
 
     sample_windows = (
@@ -2854,35 +3025,6 @@ def main(argv: list[str] | None = None) -> None:
                             save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
                             print_summary(summary, latest_weights)
                             append_comparison_row(comparison_rows, summary)
-
-        for pure_core_config in PURE_CORE_GROWTH_CONFIGS:
-            strategy_base_id = str(pure_core_config["strategy_id"])
-            if selected_base_ids and strategy_base_id not in selected_base_ids:
-                continue
-            strategy_base_name = str(pure_core_config["strategy_name"])
-            strategy_config = {
-                **pure_core_config,
-                **sample_window,
-                "strategy_kind": "pure_core_growth",
-                "strategy_base_id": strategy_base_id,
-                "strategy_base_name": strategy_base_name,
-                "strategy_id": f"{strategy_base_id}__{sample_window['sample_tag']}",
-                "strategy_name": f"{strategy_base_name} ({sample_window['sample_label']})",
-                "base_weight_method": "total_mv",
-                "base_weight_name": "总市值底座",
-                "core_source_mode": "pure_core_growth",
-                "core_source_name": "纯核心成长",
-                "core_ratio": 1.0,
-                "explore_ratio": 0.0,
-                "pure_core_max_holdings": pure_core_config["max_holdings"],
-            }
-            equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary = run_backtest(prepared, strategy_config)
-            summary["pool_id"] = "dynamic_index_core_explore_universe"
-            summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
-            output_dir = build_pool_output_dir(strategy_base_id, str(sample_window["sample_tag"]))
-            save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, turnover, summary, output_dir)
-            print_summary(summary, latest_weights)
-            append_comparison_row(comparison_rows, summary)
 
     save_pool_comparison(comparison_rows, comparison_csv=comparison_csv)
 

@@ -64,7 +64,7 @@ Window metrics (as of `2026-04-17`, weights: 2020-01=100%):
 <!-- AUTO:WEIGHTED-WINNERS:END -->
 
 When the winner tracks differ, we keep all of them (short-cycle vs mid-cycle vs 2020-only checkpoint) as an anti-overfitting guardrail.
-The comparison chart in `docs/strategy_comparison.png` highlights the tracked winners.
+The comparison charts in `docs/strategy_comparison_since_2017_01.png`, `docs/strategy_comparison_since_2020_01.png`, and `docs/strategy_comparison_since_2023_01.png` highlight the tracked winners. The full-family views in `docs/strategy_family_since_2017_01.png`, `docs/strategy_family_since_2020_01.png`, and `docs/strategy_family_since_2023_01.png` show the broader strategy set using the same cached results.
 
 This strategy uses:
 
@@ -237,13 +237,13 @@ The project has already been initialized as a git repository and synced to GitHu
 
 ### 结果对比图
 
-下图对比了几个最关键版本，并同时展示：
+下面三张图分别展示：
 
 - `2017-01 起` 长样本
 - `2020-01 起` 中样本
 - `2023-01 起` 短样本
 
-每一列都包含：
+每张图都包含：
 
 - 净值曲线
 - 风险收益散点
@@ -258,4 +258,30 @@ The project has already been initialized as a git repository and synced to GitHu
 - `80/20 Winner Core (Aggressive)`：当前长中样本的最佳动态版本
 - `Pure Core 6`：纯核心集中实验版
 
-![Strategy Comparison](docs/strategy_comparison.png)
+#### 2017-01 起
+
+![Strategy Comparison Since 2017-01](docs/strategy_comparison_since_2017_01.png)
+
+#### 2020-01 起
+
+![Strategy Comparison Since 2020-01](docs/strategy_comparison_since_2020_01.png)
+
+#### 2023-01 起
+
+![Strategy Comparison Since 2023-01](docs/strategy_comparison_since_2023_01.png)
+
+### 完整策略家族对比图
+
+下面三张图使用同一批已有回测结果，展示更完整的策略家族，不需要额外重跑回测：
+
+#### 2017-01 起（完整家族）
+
+![Strategy Family Since 2017-01](docs/strategy_family_since_2017_01.png)
+
+#### 2020-01 起（完整家族）
+
+![Strategy Family Since 2020-01](docs/strategy_family_since_2020_01.png)
+
+#### 2023-01 起（完整家族）
+
+![Strategy Family Since 2023-01](docs/strategy_family_since_2023_01.png)
