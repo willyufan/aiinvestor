@@ -327,3 +327,74 @@ README 中间这部分只解释当前研究框架，不重复写死顶部自动�
 #### 2025-01 起（core active family）
 
 ![Strategy Family Since 2025-01](docs/strategy_family_since_2025_01.png)
+
+## 实盘交易平台（MVP）
+
+项目当前已经同步搭建了一个可用于日常实盘操作的网页平台，定位是：
+
+- 单用户
+- 多账户
+- 策略白名单只来自 tracked winners
+- 人工执行调仓，不直接对接券商交易接口
+- 研究端低频更新，实盘端日频查看与执行
+
+当前实盘平台主程序：
+
+- [live_trading_platform.py](live_trading_platform.py)
+- [scripts/export_live_platform_data.py](scripts/export_live_platform_data.py)
+
+### 当前已支持的能力
+
+- 展示 tracked winners 白名单策略
+- 单用户、多账户管理
+- 账户绑定策略
+- 手工输入 / 编辑当前持仓
+- 自动拉取当前价格
+  - 交易时间优先分钟线实时价
+  - 非交易时间显示上一交易日收盘价
+- 展示当前持仓盈亏、账户总盈亏、账户总盈亏率
+- 生成正式调仓单与偏离修正单
+- 任务页逐笔录入实际成交
+- 当累计成交与建议股数一致时自动标记任务为已执行
+- 交易流水记录
+  - 实际成交
+  - 估算执行
+  - 手工持仓同步
+  - 手工新增 / 编辑交易
+
+### 当前实盘平台的使用方式
+
+1. 研究端先导出可实盘策略快照
+2. 在实盘平台中创建账户并绑定某个 tracked winner 策略
+3. 手工录入当前账户持仓
+4. 每天查看今日建议
+   - 正式调仓
+   - 偏离修正
+   - 策略切换建议
+   - 无需操作
+5. 生成任务单并人工去券商执行
+6. 在任务页逐笔录入实际成交，平台自动回写账户
+
+### 启动方式
+
+```bash
+cd /Users/valselee/my-code/aiinvestor
+.venv/bin/python scripts/export_live_platform_data.py
+.venv/bin/python live_trading_platform.py
+```
+
+浏览器打开：
+
+- [http://127.0.0.1:8787](http://127.0.0.1:8787)
+
+### 当前定位
+
+这套平台当前仍然是 **Stage 1：研究结果到人工执行之间的操作平台**。
+
+也就是说：
+
+- 平台负责生成建议与任务
+- 你负责实际下单
+- 平台负责回写与留痕
+
+后续如果需要，再继续往 CSV 导入、券商接口对接、自动执行等方向扩展。
