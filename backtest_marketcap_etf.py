@@ -434,6 +434,17 @@ ACTIVE_FAMILY_BASE_PREFIXES = [
     "core_explore_80_20_total_mv_index_core",
     "core_explore_80_20_total_mv_winner_core",
 ]
+CORE_ACTIVE_FAMILY_BASE_IDS = [
+    "core_explore_80_20_total_mv_index_core",
+    "core_explore_80_20_total_mv_winner_core",
+    "core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp",
+    "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6",
+    "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__sat_three_stage_buffered",
+    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off",
+    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__sat_three_stage_risk",
+    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and",
+    "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60",
+]
 ARCHIVE_FAMILY_BASE_PREFIXES = [
     "core_explore_70_30_",
     "core_explore_60_40_",
@@ -3714,6 +3725,14 @@ def get_active_strategy_base_ids() -> Set[str]:
     return active_ids
 
 
+def get_core_active_strategy_base_ids() -> Set[str]:
+    return {base_id for base_id in get_active_strategy_base_ids() if base_id in CORE_ACTIVE_FAMILY_BASE_IDS}
+
+
+def get_research_active_strategy_base_ids() -> Set[str]:
+    return get_active_strategy_base_ids()
+
+
 def get_archive_strategy_base_ids() -> Set[str]:
     active_ids = get_active_strategy_base_ids()
     archive_ids = get_all_generated_strategy_base_ids() - active_ids
@@ -3796,9 +3815,14 @@ def main(argv: list[str] | None = None) -> None:
     )
     parser.add_argument(
         "--family-scope",
-        choices=["active", "archive", "all"],
-        default="active",
-        help="策略家族范围：active 只跑当前活跃家族，archive 只跑归档家族，all 跑全部历史家族。",
+        choices=["core_active", "research_active", "active", "archive", "all"],
+        default="research_active",
+        help=(
+            "策略家族范围：research_active 跑更宽的研究活跃家族，"
+            "core_active 只跑展示层的精简核心家族，"
+            "active 作为 research_active 的兼容别名，"
+            "archive 只跑归档家族，all 跑全部历史家族。"
+        ),
     )
     args = parser.parse_args(argv)
 
@@ -3808,8 +3832,10 @@ def main(argv: list[str] | None = None) -> None:
     selected_base_ids = set(_parse_csv_list(args.only_base_ids)) if args.only_base_ids else set()
     if args.winner_only and not selected_base_ids:
         selected_base_ids = get_winner_only_base_ids()
-    elif not selected_base_ids and args.family_scope == "active":
-        selected_base_ids = get_active_strategy_base_ids()
+    elif not selected_base_ids and args.family_scope == "core_active":
+        selected_base_ids = get_core_active_strategy_base_ids()
+    elif not selected_base_ids and args.family_scope in {"research_active", "active"}:
+        selected_base_ids = get_research_active_strategy_base_ids()
     elif not selected_base_ids and args.family_scope == "archive":
         selected_base_ids = get_archive_strategy_base_ids()
 

@@ -133,12 +133,13 @@ def _parse_python_constants(path: Path, names: set[str]) -> dict[str, object]:
     return found
 
 
-def load_active_dynamic_family_ids() -> set[str]:
+def load_core_active_dynamic_family_ids() -> set[str]:
     try:
         consts = _parse_python_constants(
             BACKTEST_SCRIPT_PATH,
             {
                 "ACTIVE_FAMILY_BASE_PREFIXES",
+                "CORE_ACTIVE_FAMILY_BASE_IDS",
                 "WINNER_ONLY_STRATEGY_ID",
                 "WINNER_CORE_VARIANTS",
                 "INDEX_CORE_BASE_ID",
@@ -148,6 +149,7 @@ def load_active_dynamic_family_ids() -> set[str]:
             },
         )
         active_prefixes = list(consts.get("ACTIVE_FAMILY_BASE_PREFIXES") or [])
+        core_active_ids = {str(item) for item in consts.get("CORE_ACTIVE_FAMILY_BASE_IDS") or []}
         winner_only_id = str(consts.get("WINNER_ONLY_STRATEGY_ID") or "core_explore_80_20_total_mv_winner_core")
         index_core_id = str(consts.get("INDEX_CORE_BASE_ID") or "core_explore_80_20_total_mv_index_core")
         variants = consts.get("WINNER_CORE_VARIANTS", [])
@@ -158,6 +160,10 @@ def load_active_dynamic_family_ids() -> set[str]:
         ]
     except Exception:
         active_prefixes = ["core_explore_80_20_total_mv_index_core", "core_explore_80_20_total_mv_winner_core"]
+        core_active_ids = {
+            "core_explore_80_20_total_mv_index_core",
+            "core_explore_80_20_total_mv_winner_core",
+        }
         winner_only_id = "core_explore_80_20_total_mv_winner_core"
         index_core_id = "core_explore_80_20_total_mv_index_core"
         variants = []
@@ -175,10 +181,10 @@ def load_active_dynamic_family_ids() -> set[str]:
         for base_id in active_ids
         if any(base_id == prefix or base_id.startswith(f"{prefix}__") for prefix in active_prefixes)
     }
-    return active_ids
+    return {base_id for base_id in active_ids if base_id in core_active_ids}
 
 
-ACTIVE_DYNAMIC_FAMILY_IDS = load_active_dynamic_family_ids()
+CORE_ACTIVE_DYNAMIC_FAMILY_IDS = load_core_active_dynamic_family_ids()
 
 
 def _fmt_pct(value: float, digits: int = 2) -> str:
@@ -599,7 +605,7 @@ def load_active_family_strategies() -> list[dict]:
     dynamic_strategies: list[dict] = []
     for idx, row in enumerate(grouped.itertuples(index=False)):
         base_id = str(row.strategy_base_id)
-        if base_id not in ACTIVE_DYNAMIC_FAMILY_IDS:
+        if base_id not in CORE_ACTIVE_DYNAMIC_FAMILY_IDS:
             continue
         label = str(row.strategy_base_name) if pd.notna(row.strategy_base_name) and str(row.strategy_base_name).strip() else base_id
         color = mcolors.to_hex(cmap(idx % 20))
@@ -890,7 +896,7 @@ def render_window_chart(
 
     handles, labels = axes[0].get_legend_handles_labels()
     legend_cols = 3 if not family_mode else 4
-    title_prefix = "aiinvestor Strategy Comparison" if not family_mode else "aiinvestor Active Strategy Family"
+    title_prefix = "aiinvestor Strategy Comparison" if not family_mode else "aiinvestor Core Active Strategy Family"
     fig.suptitle(f"{title_prefix}: {sample_window['title']}", fontsize=18, fontweight="bold", y=0.985)
     fig.legend(handles, labels, loc="upper center", ncol=legend_cols, frameon=False, bbox_to_anchor=(0.5, 0.955))
     fig.tight_layout(rect=(0.03, 0.03, 0.97, 0.88 if not family_mode else 0.89))

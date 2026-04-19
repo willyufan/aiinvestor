@@ -22,7 +22,7 @@
 
 - 不单独评选新的 `2026-window winner`
 - 不加入 tracked winners 保存逻辑
-- 不加入 active family 默认比较
+- 不加入 core active family 默认比较
 - 只出现在 tracked-winners 对比图里，作为今年以来的附加观察窗
 
 自动任务会把最新赢家和指标更新到下面这个区块：
@@ -167,7 +167,7 @@
 
 <!-- AUTO:WEIGHTED-WINNERS:END -->
 
-当不同窗口的赢家不同时，项目会同时保留它们，作为防过拟合的护栏。README 中的 `strategy_comparison_*` 图展示跟踪赢家，`strategy_family_*` 图现在只展示默认参与比较的 **active family**。历史实验策略会保留在 `results/` 中作为 **archive family** 供追溯，但默认不再进入 README、默认图表和默认比较脚本。
+当不同窗口的赢家不同时，项目会同时保留它们，作为防过拟合的护栏。README 中的 `strategy_comparison_*` 图展示跟踪赢家，`strategy_family_*` 图现在只展示默认参与展示的 **core active family**。更宽的 **research active family** 仍继续参与回测与迭代，用于保留更大的候选范围；历史实验策略会保留在 `results/` 中作为 **archive family** 供追溯，但默认不再进入 README、默认图表和默认比较脚本。
 
 两个路径在四个窗口下的赢家变化历史，持续记录在：
 
@@ -283,23 +283,23 @@ README 中间这部分只解释当前研究框架，不重复写死顶部自动�
 
 ![Strategy Comparison Since 2026-01](docs/strategy_comparison_since_2026_01.png)
 
-### Active Family 对比图
+### Core Active Family 对比图
 
-下面四张图只展示当前默认参与比较的 **active family**。  
-已经淘汰的旧策略仍然保留在 `results/` 中作为 archive family，但默认不再出现在这里。
+下面四张图只展示当前默认参与展示的 **core active family**。  
+更宽的 **research active family** 仍然继续跑，用于给自动迭代提供更大的候选空间；已经淘汰的旧策略则保留在 `results/` 中作为 archive family，默认不再出现在这里。
 
-#### 2017-01 起（active family）
+#### 2017-01 起（core active family）
 
 ![Strategy Family Since 2017-01](docs/strategy_family_since_2017_01.png)
 
-#### 2020-01 起（active family）
+#### 2020-01 起（core active family）
 
 ![Strategy Family Since 2020-01](docs/strategy_family_since_2020_01.png)
 
-#### 2023-01 起（active family）
+#### 2023-01 起（core active family）
 
 ![Strategy Family Since 2023-01](docs/strategy_family_since_2023_01.png)
 
-#### 2025-01 起（active family）
+#### 2025-01 起（core active family）
 
 ![Strategy Family Since 2025-01](docs/strategy_family_since_2025_01.png)
