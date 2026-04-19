@@ -19,6 +19,7 @@ SAMPLE_LABELS = {
     "since_2025_only": "2025-window winner",
     "robust_candidate": "robust candidate",
 }
+HISTORY_WINDOW_SNAPSHOTS = 12
 
 
 def build_result_path(base_id: str, sample_tag: str, filename: str) -> Path:
@@ -27,6 +28,61 @@ def build_result_path(base_id: str, sample_tag: str, filename: str) -> Path:
 
 def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _build_weight_history_windows(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    try:
+        frame = pd.read_csv(path)
+    except Exception:
+        return []
+    required = {"date", "ts_code", "name", "weight"}
+    if frame.empty or not required.issubset(frame.columns):
+        return []
+    frame = frame.copy()
+    frame["date"] = pd.to_datetime(frame["date"], errors="coerce")
+    frame = frame.dropna(subset=["date"])
+    if frame.empty:
+        return []
+    frame = frame.sort_values(["date", "weight"], ascending=[False, False])
+    snapshot_dates = sorted(frame["date"].drop_duplicates().tolist(), reverse=True)
+    windows: list[dict[str, Any]] = []
+    for idx in range(0, len(snapshot_dates), HISTORY_WINDOW_SNAPSHOTS):
+        chunk_dates = snapshot_dates[idx : idx + HISTORY_WINDOW_SNAPSHOTS]
+        if not chunk_dates:
+            continue
+        chunk_rows = frame[frame["date"].isin(chunk_dates)].copy()
+        snapshots: list[dict[str, Any]] = []
+        for snapshot_date, sub in chunk_rows.groupby("date", sort=False):
+            holdings = [
+                {
+                    "ts_code": str(row["ts_code"]),
+                    "name": str(row["name"]),
+                    "weight": float(row["weight"]),
+                }
+                for row in sub.sort_values("weight", ascending=False).to_dict("records")
+            ]
+            snapshots.append(
+                {
+                    "date": pd.Timestamp(snapshot_date).strftime("%Y-%m-%d"),
+                    "holdings": holdings,
+                }
+            )
+        snapshots.sort(key=lambda item: item["date"], reverse=True)
+        window_end = snapshots[0]["date"]
+        window_start = snapshots[-1]["date"]
+        windows.append(
+            {
+                "window_index": len(windows),
+                "label": f"{window_start} → {window_end}",
+                "start_date": window_start,
+                "end_date": window_end,
+                "snapshot_count": len(snapshots),
+                "snapshots": snapshots,
+            }
+        )
+    return windows
 
 
 def guess_sample_tag(track_key: str) -> str:
@@ -65,6 +121,7 @@ def load_strategy_snapshot(base_id: str, sample_tag: str) -> dict[str, Any]:
 
     latest_weights_path = build_result_path(base_id, sample_tag, "latest_weights.csv")
     monthly_path = build_result_path(base_id, sample_tag, "monthly_returns.csv")
+    weight_history_path = build_result_path(base_id, sample_tag, "weights_history.csv")
 
     latest_weights: list[dict[str, Any]] = []
     target_exposure = 1.0
@@ -107,6 +164,7 @@ def load_strategy_snapshot(base_id: str, sample_tag: str) -> dict[str, Any]:
         "target_total_exposure": target_exposure,
         "risk_state": risk_state,
         "latest_weights": latest_weights,
+        "history_windows": _build_weight_history_windows(weight_history_path),
         "summary_meta": {
             "path": summary.get("strategy_id"),
             "strategy_kind": summary.get("strategy_kind"),

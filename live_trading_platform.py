@@ -1708,7 +1708,7 @@ def strategies_html() -> str:
     return render_page("策略中心", "<h1>策略中心</h1><div class='grid grid-2'>" + "".join(cards) + "</div>")
 
 
-def strategy_detail_html(strategy_id: str) -> str:
+def strategy_detail_html(strategy_id: str, history_window_index: int = 0) -> str:
     item = load_strategy_snapshot(strategy_id)
     windows = item["windows"]
     rows = []
@@ -1724,6 +1724,46 @@ def strategy_detail_html(strategy_id: str) -> str:
         weight_rows.append(
             f"<tr><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td>{fmt_pct(float(row['weight']))}</td><td>{fmt_amt(float(row['latest_price'] or 0.0)) if row['latest_price'] is not None else 'n/a'}</td></tr>"
         )
+
+    history_windows = item.get("history_windows") or []
+    if history_windows:
+        history_window_index = max(0, min(history_window_index, len(history_windows) - 1))
+    else:
+        history_window_index = 0
+    selected_history = history_windows[history_window_index] if history_windows else None
+    history_selector = ""
+    history_html = "<div class='muted'>暂无历史持仓快照。</div>"
+    if history_windows:
+        options = []
+        for hist in history_windows:
+            selected = " selected" if int(hist["window_index"]) == history_window_index else ""
+            options.append(
+                f"<option value='{int(hist['window_index'])}'{selected}>{html.escape(str(hist['label']))}（{int(hist['snapshot_count'])} 次快照）</option>"
+            )
+        history_selector = (
+            f"<form method='get' action='/strategies/{quote(strategy_id)}' style='margin:12px 0 16px 0'>"
+            "<label>历史持仓窗口（按调仓日，每12个月分组）</label>"
+            f"<select name='history_window' style='display:block;margin-top:8px;padding:8px 10px;min-width:320px'>{''.join(options)}</select>"
+            "<div style='margin-top:10px'><button>切换窗口</button></div>"
+            "</form>"
+        )
+        snapshot_blocks = []
+        for snapshot in selected_history["snapshots"]:
+            rows_html = "".join(
+                f"<tr><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td>{fmt_pct(float(row['weight']))}</td></tr>"
+                for row in snapshot["holdings"]
+            )
+            snapshot_blocks.append(
+                "<div class='card' style='margin-top:12px'>"
+                f"<h3>调仓日：{html.escape(snapshot['date'])}</h3>"
+                "<table><thead><tr><th>代码</th><th>名称</th><th>权重</th></tr></thead><tbody>"
+                + rows_html
+                + "</tbody></table></div>"
+            )
+        history_html = (
+            f"<p class='muted'>当前展示窗口：{html.escape(selected_history['label'])}。每个快照日期均为该次调仓后的目标持仓日期。</p>"
+            + "".join(snapshot_blocks)
+        )
     body = (
         f"<h1>{html.escape(item['display_name'])}</h1>"
         f"<p><code>{html.escape(strategy_id)}</code></p>"
@@ -1734,6 +1774,10 @@ def strategy_detail_html(strategy_id: str) -> str:
         + "<div class='card' style='margin-top:16px'><h2>最新目标持仓</h2><table><thead><tr><th>代码</th><th>名称</th><th>目标权重</th><th>最新价格</th></tr></thead><tbody>"
         + "".join(weight_rows)
         + "</tbody></table></div>"
+        + "<div class='card' style='margin-top:16px'><h2>历史持仓（12个月维度）</h2>"
+        + history_selector
+        + history_html
+        + "</div>"
     )
     return render_page("策略详情", body)
 
@@ -2116,7 +2160,13 @@ class Handler(BaseHTTPRequestHandler):
                 return
             if path.startswith("/strategies/"):
                 strategy_id = path.split("/strategies/", 1)[1]
-                self._html(strategy_detail_html(strategy_id))
+                query = parse_qs(parsed.query)
+                history_window = 0
+                try:
+                    history_window = int((query.get("history_window") or ["0"])[0])
+                except Exception:
+                    history_window = 0
+                self._html(strategy_detail_html(strategy_id, history_window_index=history_window))
                 return
             if path == "/accounts":
                 self._html(accounts_html())
