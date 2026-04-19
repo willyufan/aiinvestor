@@ -183,7 +183,7 @@ def main() -> None:
         default="",
         help="Optional: scan ALL cached strategies in comparison CSV that start with this prefix (ignores backtest-script family list).",
     )
-    parser.add_argument("--min-cagr-improvement", type=float, default=0.0010, help="Absolute CAGR improvement threshold (e.g. 0.001 = 0.10%).")
+    parser.add_argument("--min-cagr-improvement", type=float, default=0.0010, help="Absolute CAGR improvement threshold (e.g. 0.001 = 0.10%%).")
     parser.add_argument("--min-sharpe-improvement", type=float, default=0.0050, help="Sharpe ratio improvement threshold.")
     parser.add_argument("--max-dd-worsen", type=float, default=0.0050, help="Max drawdown can worsen by at most this absolute amount.")
     parser.add_argument("--max-turnover-increase", type=float, default=0.15, help="Turnover can increase by at most this amount.")

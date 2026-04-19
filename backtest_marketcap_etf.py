@@ -425,6 +425,31 @@ WINNER_CORE_VARIANTS = [
         "satellite_risk_off_exposure": 1.0,
         "weight_cap": 0.60,
     },
+    {
+        "variant_id": "aggr_05_95_prom3_core_6_1_cap60",
+        "variant_name": "进攻5/95 晋升3只(核心6-1动量, 单票60%)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "weight_cap": 0.60,
+    },
+    {
+        "variant_id": "aggr_05_95_prom3_core_6_1_cash_off_and_cap60",
+        "variant_name": "进攻5/95 晋升3只(核心6-1动量, 熊市空仓 and, 单票60%)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 0.60,
+    },
 ]
 
 FACTOR_CACHE_VERSION = "v1"
@@ -3593,7 +3618,10 @@ def run_backtest(
         "explore_ratio": float(strategy_config["explore_ratio"]),
         "seed_max_portfolio_ratio": SEED_MAX_PORTFOLIO_RATIO,
         "seed_ratio": min(float(strategy_config["explore_ratio"]), SEED_MAX_PORTFOLIO_RATIO),
-        "explore_main_ratio": max(0.0, float(strategy_config["explore_ratio"]) - min(float(strategy_config["explore_ratio"]), SEED_MAX_PORTFOLIO_RATIO)),
+        "explore_main_ratio": max(
+            0.0,
+            float(strategy_config["explore_ratio"]) - min(float(strategy_config["explore_ratio"]), SEED_MAX_PORTFOLIO_RATIO),
+        ),
         "pure_core_max_holdings": int(strategy_config.get("pure_core_max_holdings", 0)),
         "core_index_codes": CORE_INDEX_CODES,
         "explore_index_codes": EXPLORE_INDEX_CODES,
