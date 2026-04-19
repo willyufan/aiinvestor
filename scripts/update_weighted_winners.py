@@ -28,6 +28,7 @@ SAMPLE_TAG_STARTS = {
     "since_2020_01": pd.Timestamp("2020-01-01"),
     "since_2023_01": pd.Timestamp("2023-01-01"),
     "since_2025_01": pd.Timestamp("2025-01-01"),
+    "since_2026_01": pd.Timestamp("2026-01-01"),
 }
 STATIC_BASE_IDS = {"large_cap_pool", "kechuang_xuangu"}
 
@@ -528,8 +529,16 @@ def _slice_window_from_existing_results(base_id: str, sample_tag: str) -> dict[s
     if base_id in STATIC_BASE_IDS:
         candidate_dirs = [RESULTS_DIR / base_id]
     elif sample_tag == "since_2025_01":
-        # since_2025 is a dedicated window in this project: avoid path-dependent slicing from longer runs.
+        # since_2025 is a dedicated tracked window in this project: prefer its dedicated run.
         candidate_dirs = [RESULTS_DIR / f"{base_id}__since_2025_01"]
+    elif sample_tag == "since_2026_01":
+        # since_2026 is a display-only YTD window: derive from the shortest available recent run first.
+        candidate_dirs = [
+            RESULTS_DIR / f"{base_id}__since_2025_01",
+            RESULTS_DIR / f"{base_id}__since_2023_01",
+            RESULTS_DIR / f"{base_id}__since_2020_01",
+            RESULTS_DIR / f"{base_id}__since_2017_01",
+        ]
     else:
         # Prefer a dedicated run for the requested window when available.
         preferred = RESULTS_DIR / f"{base_id}__{sample_tag}"
@@ -594,34 +603,35 @@ def _augment_with_synthetic_windows(latest: pd.DataFrame) -> pd.DataFrame:
         "since_2020_01": ("2020-01 起", "2020-01"),
         "since_2023_01": ("2023-01 起", "2023-01"),
         "since_2025_01": ("2025-01 起", "2025-01"),
+        "since_2026_01": ("2026-01 起", "2026-01"),
     }
     for base_id in sorted(set(existing["strategy_base_id"].astype(str)) | STATIC_BASE_IDS):
-        # Only synthesize the since_2025 window: the base comparison CSV is intentionally limited to
-        # since_2017/2020/2023, and slicing longer runs into those windows is path-dependent.
-        sample_tag = "since_2025_01"
-        if (base_id, sample_tag) in existing_keys:
-            continue
-        metrics = _slice_window_from_existing_results(base_id, sample_tag)
-        if metrics is None:
-            continue
-        sample_start = SAMPLE_TAG_STARTS[sample_tag]
-        sample_label, sample_short_label = sample_labels[sample_tag]
-        needed_rows.append(
-            {
-                "strategy_base_id": base_id,
-                "strategy_base_name": base_name_map.get(base_id, base_id),
-                "sample_tag": sample_tag,
-                "sample_label": sample_label,
-                "sample_short_label": sample_short_label,
-                "sample_start": sample_start,
-                "sample_end": sample_end_map.get(base_id, pd.Timestamp.today().normalize()),
-                "cagr": metrics["cagr"],
-                "sharpe_ratio": metrics["sharpe_ratio"],
-                "max_drawdown": metrics["max_drawdown"],
-                "average_annual_turnover": metrics["average_annual_turnover"],
-                "total_return": metrics["total_return"],
-            }
-        )
+        # Only synthesize short windows that are derived from existing longer runs:
+        # since_2025 is part of tracking, while since_2026 is a display-only "this year" window.
+        for sample_tag in ("since_2025_01", "since_2026_01"):
+            if (base_id, sample_tag) in existing_keys:
+                continue
+            metrics = _slice_window_from_existing_results(base_id, sample_tag)
+            if metrics is None:
+                continue
+            sample_start = SAMPLE_TAG_STARTS[sample_tag]
+            sample_label, sample_short_label = sample_labels[sample_tag]
+            needed_rows.append(
+                {
+                    "strategy_base_id": base_id,
+                    "strategy_base_name": base_name_map.get(base_id, base_id),
+                    "sample_tag": sample_tag,
+                    "sample_label": sample_label,
+                    "sample_short_label": sample_short_label,
+                    "sample_start": sample_start,
+                    "sample_end": sample_end_map.get(base_id, pd.Timestamp.today().normalize()),
+                    "cagr": metrics["cagr"],
+                    "sharpe_ratio": metrics["sharpe_ratio"],
+                    "max_drawdown": metrics["max_drawdown"],
+                    "average_annual_turnover": metrics["average_annual_turnover"],
+                    "total_return": metrics["total_return"],
+                }
+            )
     if not needed_rows:
         return existing
     return pd.concat([existing, pd.DataFrame(needed_rows)], ignore_index=True)
@@ -713,6 +723,7 @@ def _render_block(
                 render_window("since_2020_01"),
                 render_window("since_2023_01"),
                 render_window("since_2025_01"),
+                render_window("since_2026_01"),
                 "",
             ]
         )
@@ -742,6 +753,7 @@ def _render_block(
                 render_window("since_2020_01"),
                 render_window("since_2023_01"),
                 render_window("since_2025_01"),
+                render_window("since_2026_01"),
                 "",
             ]
         )
@@ -758,6 +770,7 @@ def _render_block(
         "- `since_2020_01`：中窗口",
         "- `since_2023_01`：短窗口",
         "- `since_2025_01`：超短窗口",
+        "- `since_2026_01`：今年窗口（只用于展示当前四个窗口赢家今年以来表现，不单独评选 winner）",
         "",
         "## Path 1：窗口跟踪赢家",
         "",

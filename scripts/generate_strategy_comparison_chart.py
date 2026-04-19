@@ -47,6 +47,7 @@ OUTPUT_PATHS = {
     "since_2020_01": DOCS_DIR / "strategy_comparison_since_2020_01.png",
     "since_2023_01": DOCS_DIR / "strategy_comparison_since_2023_01.png",
     "since_2025_01": DOCS_DIR / "strategy_comparison_since_2025_01.png",
+    "since_2026_01": DOCS_DIR / "strategy_comparison_since_2026_01.png",
 }
 SUMMARY_OUTPUT_PATH = DOCS_DIR / "strategy_tracked_winners_summary.png"
 FAMILY_OUTPUT_PATHS = {
@@ -64,6 +65,7 @@ SAMPLE_WINDOWS = [
     {"sample_tag": "since_2020_01", "title": "6Y Window (Since 2020-01)", "short_label": "2020-01"},
     {"sample_tag": "since_2023_01", "title": "3Y Window (Since 2023-01)", "short_label": "2023-01"},
     {"sample_tag": "since_2025_01", "title": "1Y Window (Since 2025-01)", "short_label": "2025-01"},
+    {"sample_tag": "since_2026_01", "title": "YTD Window (Since 2026-01)", "short_label": "2026-01"},
 ]
 
 TRACK_WEIGHTS = {
@@ -78,6 +80,7 @@ SAMPLE_STARTS = {
     "since_2020_01": pd.Timestamp("2020-01-01"),
     "since_2023_01": pd.Timestamp("2023-01-01"),
     "since_2025_01": pd.Timestamp("2025-01-01"),
+    "since_2026_01": pd.Timestamp("2026-01-01"),
 }
 
 STATIC_STRATEGIES = [
@@ -86,21 +89,21 @@ STATIC_STRATEGIES = [
         "label": "SSE Composite",
         "color": "#111827",
         "kind": "benchmark",
-        "available_sample_tags": {"since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01"},
+        "available_sample_tags": {"since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"},
     },
     {
         "base_id": "large_cap_pool",
         "label": "Large Cap Static",
         "color": "#0f766e",
         "kind": "static",
-        "available_sample_tags": {"since_2020_01", "since_2023_01", "since_2025_01"},
+        "available_sample_tags": {"since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"},
     },
     {
         "base_id": "kechuang_xuangu",
         "label": "Kechuang Static",
         "color": "#1d4ed8",
         "kind": "static",
-        "available_sample_tags": {"since_2020_01", "since_2023_01", "since_2025_01"},
+        "available_sample_tags": {"since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"},
     },
 ]
 
@@ -534,7 +537,7 @@ def load_static_window(base_id: str, sample_tag: str) -> tuple[pd.DataFrame, dic
     if sample_tag == "since_2020_01":
         return equity, summary["metrics"]
 
-    if sample_tag not in {"since_2023_01", "since_2025_01"}:
+    if sample_tag not in {"since_2023_01", "since_2025_01", "since_2026_01"}:
         raise FileNotFoundError(f"Static strategy {base_id} does not support {sample_tag}")
     return slice_equity_window(equity, monthly_returns, turnover, SAMPLE_STARTS[sample_tag])
 
@@ -553,10 +556,10 @@ def load_strategy_window(config: dict, sample_tag: str) -> tuple[pd.DataFrame, d
         equity = pd.read_csv(build_result_path(config["base_id"], sample_tag, "equity_curve.csv"), parse_dates=["date"])
         return equity, summary["metrics"]
 
-    if sample_tag != "since_2025_01":
+    if sample_tag not in {"since_2025_01", "since_2026_01"}:
         raise FileNotFoundError(f"{config['label']} missing {sample_tag}")
 
-    for fallback_tag in ("since_2020_01", "since_2017_01", "since_2023_01"):
+    for fallback_tag in ("since_2025_01", "since_2020_01", "since_2017_01", "since_2023_01"):
         summary_path = build_result_path(config["base_id"], fallback_tag, "summary.json")
         equity_path = build_result_path(config["base_id"], fallback_tag, "equity_curve.csv")
         monthly_path = build_result_path(config["base_id"], fallback_tag, "monthly_returns.csv")
@@ -903,8 +906,10 @@ def main() -> None:
     comparison_strategies = load_tracked_comparison_strategies()
     active_family_strategies = load_active_family_strategies()
     for sample_window in SAMPLE_WINDOWS:
-        render_window_chart(sample_window, comparison_strategies, OUTPUT_PATHS[sample_window["sample_tag"]], family_mode=False)
-        render_window_chart(sample_window, active_family_strategies, FAMILY_OUTPUT_PATHS[sample_window["sample_tag"]], family_mode=True)
+        sample_tag = sample_window["sample_tag"]
+        render_window_chart(sample_window, comparison_strategies, OUTPUT_PATHS[sample_tag], family_mode=False)
+        if sample_tag in FAMILY_OUTPUT_PATHS:
+            render_window_chart(sample_window, active_family_strategies, FAMILY_OUTPUT_PATHS[sample_tag], family_mode=True)
 
 
 if __name__ == "__main__":
