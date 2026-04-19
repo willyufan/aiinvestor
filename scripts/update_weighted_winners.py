@@ -16,6 +16,8 @@ RESULTS_DIR = ROOT / "results"
 DEFAULT_COMPARISON_CSV = RESULTS_DIR / "strategy_comparison_base_method.csv"
 README_PATH = ROOT / "README.md"
 BACKTEST_SCRIPT_PATH = ROOT / "backtest_marketcap_etf.py"
+TRACKED_HISTORY_JSON_PATH = RESULTS_DIR / "tracked_winner_history.json"
+TRACKED_HISTORY_MD_PATH = ROOT / "docs" / "tracked_winner_history.md"
 
 AUTO_START = "<!-- AUTO:WEIGHTED-WINNERS:START -->"
 AUTO_END = "<!-- AUTO:WEIGHTED-WINNERS:END -->"
@@ -33,6 +35,12 @@ WEIGHTS_2017_ONLY = {"since_2017_01": 1.00}
 WEIGHTS_2023_ONLY = {"since_2023_01": 1.00}
 WEIGHTS_2020_ONLY = {"since_2020_01": 1.00}
 WEIGHTS_2025_ONLY = {"since_2025_01": 1.00}
+TRACK_SEQUENCE = [
+    ("since_2017_only", "since_2017_01", "2017 窗口"),
+    ("since_2020_only", "since_2020_01", "2020 窗口"),
+    ("since_2023_only", "since_2023_01", "2023 窗口"),
+    ("since_2025_only", "since_2025_01", "2025 窗口"),
+]
 
 
 @dataclass(frozen=True)
@@ -341,7 +349,149 @@ def _pick_single_window_winner(
 
 
 def _fmt_pct(value: float, digits: int = 2) -> str:
+    if pd.isna(value):
+        return "n/a"
     return f"{value * 100:.{digits}f}%"
+
+
+def _metrics_close(a: float, b: float, tol: float = 1e-12) -> bool:
+    if pd.isna(a) and pd.isna(b):
+        return True
+    return abs(float(a) - float(b)) <= tol
+
+
+def _load_history(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {"path1": {}, "path2": {}}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {"path1": {}, "path2": {}}
+    if not isinstance(payload, dict):
+        return {"path1": {}, "path2": {}}
+    payload.setdefault("path1", {})
+    payload.setdefault("path2", {})
+    return payload
+
+
+def _window_metrics_for_strategy(strategies: dict[str, dict], winner_id: str, sample_tag: str) -> dict[str, float]:
+    info = strategies[winner_id]
+    window = info["windows"].get(sample_tag, {})
+    return {
+        "total_return": float(window.get("total_return", float("nan"))),
+        "cagr": float(window.get("cagr", float("nan"))),
+        "max_drawdown": float(window.get("max_drawdown", float("nan"))),
+        "sharpe": float(window.get("sharpe", float("nan"))),
+        "turnover": float(window.get("turnover", float("nan"))),
+    }
+
+
+def _build_history_entry(*, as_of: str, winner_id: str, strategy_name: str, sample_tag: str, metrics: dict[str, float]) -> dict[str, Any]:
+    return {
+        "as_of": as_of,
+        "sample_tag": sample_tag,
+        "winner": winner_id,
+        "strategy_base_name": strategy_name,
+        "total_return": metrics["total_return"],
+        "cagr": metrics["cagr"],
+        "max_drawdown": metrics["max_drawdown"],
+        "sharpe": metrics["sharpe"],
+        "turnover": metrics["turnover"],
+    }
+
+
+def _history_entry_changed(old_entry: dict[str, Any], new_entry: dict[str, Any]) -> bool:
+    if not old_entry:
+        return True
+    if str(old_entry.get("winner", "")) != str(new_entry.get("winner", "")):
+        return True
+    if str(old_entry.get("strategy_base_name", "")) != str(new_entry.get("strategy_base_name", "")):
+        return True
+    for key in ("total_return", "cagr", "max_drawdown", "sharpe", "turnover"):
+        if not _metrics_close(old_entry.get(key, float("nan")), new_entry.get(key, float("nan"))):
+            return True
+    return False
+
+
+def render_history_markdown(history: dict[str, Any]) -> str:
+    lines: list[str] = [
+        "# 跟踪赢家历史",
+        "",
+        "这个文档记录两条研究路径在四个窗口下的赢家变化历史。",
+        "仅当赢家策略或关键指标发生变化时，才会追加新记录。",
+        "",
+    ]
+    path_titles = {
+        "path1": "Path 1：渐进优化路径",
+        "path2": "Path 2：无约束上限探索",
+    }
+    for path_key in ("path1", "path2"):
+        lines.extend([f"## {path_titles[path_key]}", ""])
+        path_bucket = history.get(path_key, {})
+        for track_key, _, track_label in TRACK_SEQUENCE:
+            lines.extend([f"### {track_label}", ""])
+            entries = list(path_bucket.get(track_key, []))
+            if not entries:
+                lines.extend(["暂无记录。", ""])
+                continue
+            lines.append("| 日期 | 策略ID | 策略名称 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |")
+            lines.append("| --- | --- | --- | --- | --- | --- | --- | --- |")
+            for entry in reversed(entries):
+                lines.append(
+                    "| "
+                    + " | ".join(
+                        [
+                            str(entry.get("as_of", "")),
+                            f"`{entry.get('winner', '')}`",
+                            str(entry.get("strategy_base_name", "")),
+                            _fmt_pct(float(entry.get("total_return", float("nan")))),
+                            _fmt_pct(float(entry.get("cagr", float("nan")))),
+                            _fmt_pct(float(entry.get("max_drawdown", float("nan")))),
+                            f"{float(entry.get('sharpe', float('nan'))):.4f}",
+                            f"{float(entry.get('turnover', float('nan'))):.2f}",
+                        ]
+                    )
+                    + " |"
+                )
+            lines.append("")
+    return "\n".join(lines).strip() + "\n"
+
+
+def update_history(
+    *,
+    history_path: Path,
+    markdown_path: Path,
+    as_of: str,
+    strategies: dict[str, dict],
+    path1_winners: dict[str, str],
+    path2_winners: dict[str, str],
+) -> dict[str, Any]:
+    history = _load_history(history_path)
+    for path_key, winners in (("path1", path1_winners), ("path2", path2_winners)):
+        path_bucket = history.setdefault(path_key, {})
+        for track_key, sample_tag, _ in TRACK_SEQUENCE:
+            winner_id = winners.get(track_key, "")
+            if not winner_id or winner_id not in strategies:
+                continue
+            strategy_name = str(strategies[winner_id]["strategy_base_name"])
+            metrics = _window_metrics_for_strategy(strategies, winner_id, sample_tag)
+            new_entry = _build_history_entry(
+                as_of=as_of,
+                winner_id=winner_id,
+                strategy_name=strategy_name,
+                sample_tag=sample_tag,
+                metrics=metrics,
+            )
+            entries = list(path_bucket.get(track_key, []))
+            last_entry = entries[-1] if entries else {}
+            if _history_entry_changed(last_entry, new_entry):
+                entries.append(new_entry)
+            path_bucket[track_key] = entries
+    history_path.parent.mkdir(parents=True, exist_ok=True)
+    history_path.write_text(json.dumps(history, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    markdown_path.parent.mkdir(parents=True, exist_ok=True)
+    markdown_path.write_text(render_history_markdown(history), encoding="utf-8")
+    return history
 
 
 def _compute_window_metrics(equity: pd.DataFrame, monthly_returns: pd.DataFrame, turnover: pd.DataFrame) -> dict[str, float]:
@@ -645,6 +795,8 @@ def main() -> None:
     parser.add_argument("--comparison-csv", type=Path, default=DEFAULT_COMPARISON_CSV)
     parser.add_argument("--readme", type=Path, default=README_PATH)
     parser.add_argument("--write-json", type=Path, default=RESULTS_DIR / "weighted_track_winners.json")
+    parser.add_argument("--history-json", type=Path, default=TRACKED_HISTORY_JSON_PATH)
+    parser.add_argument("--history-md", type=Path, default=TRACKED_HISTORY_MD_PATH)
     args = parser.parse_args()
 
     frame = pd.read_csv(args.comparison_csv)
@@ -873,9 +1025,31 @@ def main() -> None:
         sample_end,
     )
     update_readme(args.readme, block)
+    path1_winners = {
+        "since_2017_only": window_2017_id,
+        "since_2020_only": window_2020_id,
+        "since_2023_only": window_2023_id,
+        "since_2025_only": window_2025_id,
+    }
+    path2_winners = {
+        "since_2017_only": path2_window_2017_id,
+        "since_2020_only": path2_window_2020_id,
+        "since_2023_only": path2_window_2023_id,
+        "since_2025_only": path2_window_2025_id,
+    }
+    update_history(
+        history_path=args.history_json,
+        markdown_path=args.history_md,
+        as_of=sample_end,
+        strategies=strategies,
+        path1_winners=path1_winners,
+        path2_winners=path2_winners,
+    )
 
     print(f"[OK] Updated {args.readme}")
     print(f"[OK] Wrote {args.write_json}")
+    print(f"[OK] Wrote {args.history_json}")
+    print(f"[OK] Wrote {args.history_md}")
     print(f"[OK] 2017-window winner: {window_2017_id} (CAGR={_fmt_pct(window_2017_metrics.cagr)}, Sharpe={window_2017_metrics.sharpe:.4f})")
     print(f"[OK] 2023-window winner: {window_2023_id} (CAGR={_fmt_pct(window_2023_metrics.cagr)}, Sharpe={window_2023_metrics.sharpe:.4f})")
     print(f"[OK] 2020-window winner: {window_2020_id} (CAGR={_fmt_pct(window_2020_metrics.cagr)}, Sharpe={window_2020_metrics.sharpe:.4f})")
