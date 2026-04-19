@@ -154,7 +154,7 @@
 
 两个路径在四个窗口下的赢家变化历史，持续记录在：
 
-- [docs/tracked_winner_history.md](docs/tracked_winner_history.md)
+- [HISTORY.md](HISTORY.md)
 
 当前主策略框架使用：
 

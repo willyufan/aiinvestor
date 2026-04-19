@@ -17,7 +17,7 @@ DEFAULT_COMPARISON_CSV = RESULTS_DIR / "strategy_comparison_base_method.csv"
 README_PATH = ROOT / "README.md"
 BACKTEST_SCRIPT_PATH = ROOT / "backtest_marketcap_etf.py"
 TRACKED_HISTORY_JSON_PATH = RESULTS_DIR / "tracked_winner_history.json"
-TRACKED_HISTORY_MD_PATH = ROOT / "docs" / "tracked_winner_history.md"
+TRACKED_HISTORY_MD_PATH = ROOT / "HISTORY.md"
 
 AUTO_START = "<!-- AUTO:WEIGHTED-WINNERS:START -->"
 AUTO_END = "<!-- AUTO:WEIGHTED-WINNERS:END -->"
