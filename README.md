@@ -152,6 +152,10 @@
 
 当不同窗口的赢家不同时，项目会同时保留它们，作为防过拟合的护栏。README 中的 `strategy_comparison_*` 图展示跟踪赢家，`strategy_family_*` 图现在只展示默认参与比较的 **active family**。历史实验策略会保留在 `results/` 中作为 **archive family** 供追溯，但默认不再进入 README、默认图表和默认比较脚本。
 
+两个路径在四个窗口下的赢家变化历史，持续记录在：
+
+- [docs/tracked_winner_history.md](docs/tracked_winner_history.md)
+
 当前主策略框架使用：
 
 - 核心池：`沪深300 + 科创50`
