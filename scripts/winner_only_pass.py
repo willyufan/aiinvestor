@@ -110,16 +110,23 @@ def _parse_python_constants(path: Path, names: Iterable[str]) -> dict[str, Any]:
 
 
 def load_winner_core_family_ids(backtest_path: Path) -> list[str]:
-    consts = _parse_python_constants(backtest_path, ["WINNER_ONLY_STRATEGY_ID", "WINNER_CORE_VARIANTS"])
+    consts = _parse_python_constants(
+        backtest_path,
+        ["WINNER_ONLY_STRATEGY_ID", "WINNER_CORE_VARIANTS", "PATH1_FAST_PASS_VARIANT_IDS"],
+    )
     base = str(consts["WINNER_ONLY_STRATEGY_ID"])
     variants = consts["WINNER_CORE_VARIANTS"]
+    fast_pass_variant_ids = set(map(str, consts.get("PATH1_FAST_PASS_VARIANT_IDS") or []))
     if not isinstance(variants, list):
         raise TypeError("WINNER_CORE_VARIANTS is not a list")
     base_ids = [base]
     for variant in variants:
         if not isinstance(variant, dict) or "variant_id" not in variant:
             raise TypeError("WINNER_CORE_VARIANTS item missing variant_id")
-        base_ids.append(f"{base}__{variant['variant_id']}")
+        variant_id = str(variant["variant_id"])
+        if fast_pass_variant_ids and variant_id not in fast_pass_variant_ids:
+            continue
+        base_ids.append(f"{base}__{variant_id}")
     return sorted(set(map(str, base_ids)))
 
 

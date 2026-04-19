@@ -452,6 +452,33 @@ WINNER_CORE_VARIANTS = [
     },
 ]
 
+PATH1_FAST_PASS_VARIANT_IDS = [
+    "aggr_10_90_fast_ramp",
+    "aggr_10_90_prom6",
+    "aggr_08_92_prom6_cash_off",
+    "aggr_08_92_prom6_cash_off_and",
+    "aggr_10_90_prom6_cash_off",
+    "aggr_10_90_fast_ramp_cash_off",
+]
+
+PATH2_SCAN_BASE_PREFIXES = [
+    "core_explore_80_20_equal_weight_winner_core",
+    "momentum_top_",
+]
+
+PATH2_SCAN_VARIANT_IDS = [
+    "aggr_08_92_prom6_cash_off_and",
+    "aggr_10_90_fast_ramp_cash_off_and",
+    "aggr_08_92_prom6_full_risk",
+    "aggr_08_92_prom6_core_6_1_full_risk",
+    "aggr_08_92_prom6_core_6_1_full_risk_cap40",
+    "aggr_08_92_prom6_core_6_1_full_risk_cap60",
+    "aggr_05_95_prom3_core_6_1_full_risk",
+    "aggr_05_95_prom3_core_6_1_full_risk_cap60",
+    "aggr_05_95_prom3_core_6_1_cap60",
+    "aggr_05_95_prom3_core_6_1_cash_off_and_cap60",
+]
+
 FACTOR_CACHE_VERSION = "v1"
 WINNER_ONLY_STRATEGY_ID = "core_explore_80_20_total_mv_winner_core"
 INDEX_CORE_BASE_ID = "core_explore_80_20_total_mv_index_core"

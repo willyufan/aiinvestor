@@ -42,6 +42,7 @@ TRACK_SEQUENCE = [
     ("since_2023_only", "since_2023_01", "2023 窗口"),
     ("since_2025_only", "since_2025_01", "2025 窗口"),
 ]
+ROBUST_TRACK_KEY = "robust_candidate"
 
 
 @dataclass(frozen=True)
@@ -455,6 +456,31 @@ def render_history_markdown(history: dict[str, Any]) -> str:
                     + " |"
                 )
             lines.append("")
+        robust_entries = list(path_bucket.get(ROBUST_TRACK_KEY, []))
+        lines.extend(["### 鲁棒候选", ""])
+        if not robust_entries:
+            lines.extend(["暂无记录。", ""])
+        else:
+            lines.append("| 日期 | 策略ID | 策略名称 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |")
+            lines.append("| --- | --- | --- | --- | --- | --- | --- | --- |")
+            for entry in reversed(robust_entries):
+                lines.append(
+                    "| "
+                    + " | ".join(
+                        [
+                            str(entry.get("as_of", "")),
+                            f"`{entry.get('winner', '')}`",
+                            str(entry.get("strategy_base_name", "")),
+                            _fmt_pct(float(entry.get("total_return", float("nan")))),
+                            _fmt_pct(float(entry.get("cagr", float("nan")))),
+                            _fmt_pct(float(entry.get("max_drawdown", float("nan")))),
+                            f"{float(entry.get('sharpe', float('nan'))):.4f}",
+                            f"{float(entry.get('turnover', float('nan'))):.2f}",
+                        ]
+                    )
+                    + " |"
+                )
+            lines.append("")
     return "\n".join(lines).strip() + "\n"
 
 
@@ -466,6 +492,8 @@ def update_history(
     strategies: dict[str, dict],
     path1_winners: dict[str, str],
     path2_winners: dict[str, str],
+    path1_robust_id: str | None = None,
+    path2_robust_id: str | None = None,
 ) -> dict[str, Any]:
     history = _load_history(history_path)
     for path_key, winners in (("path1", path1_winners), ("path2", path2_winners)):
@@ -488,6 +516,24 @@ def update_history(
             if _history_entry_changed(last_entry, new_entry):
                 entries.append(new_entry)
             path_bucket[track_key] = entries
+    for path_key, robust_id in (("path1", path1_robust_id), ("path2", path2_robust_id)):
+        if not robust_id or robust_id not in strategies:
+            continue
+        path_bucket = history.setdefault(path_key, {})
+        strategy_name = str(strategies[robust_id]["strategy_base_name"])
+        metrics = _window_metrics_for_strategy(strategies, robust_id, "since_2020_01")
+        new_entry = _build_history_entry(
+            as_of=as_of,
+            winner_id=robust_id,
+            strategy_name=strategy_name,
+            sample_tag="since_2020_01",
+            metrics=metrics,
+        )
+        entries = list(path_bucket.get(ROBUST_TRACK_KEY, []))
+        last_entry = entries[-1] if entries else {}
+        if _history_entry_changed(last_entry, new_entry):
+            entries.append(new_entry)
+        path_bucket[ROBUST_TRACK_KEY] = entries
     history_path.parent.mkdir(parents=True, exist_ok=True)
     history_path.write_text(json.dumps(history, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     markdown_path.parent.mkdir(parents=True, exist_ok=True)
@@ -676,6 +722,46 @@ def _pick_path2_candidate(latest: pd.DataFrame) -> tuple[str, dict[str, float]]:
     return candidates[0]
 
 
+def _pick_robust_candidate(latest: pd.DataFrame, *, allowed_base_ids: set[str] | None = None) -> tuple[str, dict[str, float]]:
+    required_tags = {"since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01"}
+    candidates: list[tuple[str, dict[str, float]]] = []
+    for base_id, group in latest.groupby("strategy_base_id"):
+        base_id_str = str(base_id)
+        if allowed_base_ids is not None and base_id_str not in allowed_base_ids:
+            continue
+        tags = set(group["sample_tag"].astype(str))
+        if not required_tags.issubset(tags):
+            continue
+        metrics_by_tag = {tag: _compute_single_window_metrics(group, tag) for tag in sorted(required_tags)}
+        if any(any(np.isnan(v) for v in (m.cagr, m.sharpe, m.max_drawdown, m.turnover)) for m in metrics_by_tag.values()):
+            continue
+        cagr_values = [m.cagr for m in metrics_by_tag.values()]
+        sharpe_values = [m.sharpe for m in metrics_by_tag.values()]
+        maxdd_values = [m.max_drawdown for m in metrics_by_tag.values()]
+        turn_values = [m.turnover for m in metrics_by_tag.values()]
+        summary = {
+            "cagr_mean": float(np.mean(cagr_values)),
+            "cagr_min": float(np.min(cagr_values)),
+            "sharpe_mean": float(np.mean(sharpe_values)),
+            "max_drawdown_worst": float(np.min(maxdd_values)),
+            "turnover_mean": float(np.mean(turn_values)),
+        }
+        candidates.append((base_id_str, summary))
+    if not candidates:
+        raise RuntimeError("No strategies have all four windows to compute robust candidate.")
+    candidates.sort(
+        key=lambda item: (
+            item[1]["cagr_mean"],
+            item[1]["cagr_min"],
+            item[1]["sharpe_mean"],
+            item[1]["max_drawdown_worst"],
+            -item[1]["turnover_mean"],
+        ),
+        reverse=True,
+    )
+    return candidates[0]
+
+
 def _render_block(
     strategies: dict[str, dict],
     window_2017_winner_id: str,
@@ -686,6 +772,8 @@ def _render_block(
     window_2020_metrics: TrackMetrics,
     window_2025_winner_id: str,
     window_2025_metrics: TrackMetrics,
+    path1_robust_id: str,
+    path1_summary: dict[str, float],
     path2_window_2017_id: str,
     path2_window_2017_metrics: TrackMetrics,
     path2_window_2023_id: str,
@@ -706,8 +794,12 @@ def _render_block(
             if tag not in windows:
                 return f"- `{SAMPLE_TAG_STARTS[tag].date()}` 窗口：n/a"
             return (
-                f"- `{SAMPLE_TAG_STARTS[tag].date()}` → `{sample_end}`: CAGR `{_fmt_pct(windows[tag]['cagr'])}`, "
-                f"Max DD `{_fmt_pct(windows[tag]['max_drawdown'])}`, Sharpe `{windows[tag]['sharpe']:.4f}`"
+                f"- `{SAMPLE_TAG_STARTS[tag].date()}` → `{sample_end}`: "
+                f"Total Return `{_fmt_pct(windows[tag]['total_return'])}`, "
+                f"CAGR `{_fmt_pct(windows[tag]['cagr'])}`, "
+                f"Max DD `{_fmt_pct(windows[tag]['max_drawdown'])}`, "
+                f"Sharpe `{windows[tag]['sharpe']:.4f}`, "
+                f"Turnover `{windows[tag]['turnover']:.2f}`"
             )
         return "\n".join(
             [
@@ -735,8 +827,12 @@ def _render_block(
             if tag not in windows:
                 return f"- `{SAMPLE_TAG_STARTS[tag].date()}` 窗口：n/a"
             return (
-                f"- `{SAMPLE_TAG_STARTS[tag].date()}` → `{sample_end}`: CAGR `{_fmt_pct(windows[tag]['cagr'])}`, "
-                f"Max DD `{_fmt_pct(windows[tag]['max_drawdown'])}`, Sharpe `{windows[tag]['sharpe']:.4f}`"
+                f"- `{SAMPLE_TAG_STARTS[tag].date()}` → `{sample_end}`: "
+                f"Total Return `{_fmt_pct(windows[tag]['total_return'])}`, "
+                f"CAGR `{_fmt_pct(windows[tag]['cagr'])}`, "
+                f"Max DD `{_fmt_pct(windows[tag]['max_drawdown'])}`, "
+                f"Sharpe `{windows[tag]['sharpe']:.4f}`, "
+                f"Turnover `{windows[tag]['turnover']:.2f}`"
             )
         return "\n".join(
             [
@@ -778,6 +874,9 @@ def _render_block(
         render_track("2023 窗口赢家", WEIGHTS_2023_ONLY, window_2023_winner_id, window_2023_metrics),
         render_track("2020 窗口赢家", WEIGHTS_2020_ONLY, window_2020_winner_id, window_2020_metrics),
         render_track("2025 窗口赢家", WEIGHTS_2025_ONLY, window_2025_winner_id, window_2025_metrics),
+        "## Path 1：鲁棒候选",
+        "",
+        render_path2("四窗口鲁棒候选", path1_robust_id, path1_summary),
         "## Path 2：窗口跟踪赢家",
         "",
         render_track("2017 窗口赢家（Path 2）", WEIGHTS_2017_ONLY, path2_window_2017_id, path2_window_2017_metrics),
@@ -883,6 +982,9 @@ def main() -> None:
     window_2023_id, window_2023_metrics = resolve_path1_winner("since_2023_only", "since_2023_01")
     window_2020_id, window_2020_metrics = resolve_path1_winner("since_2020_only", "since_2020_01")
     window_2025_id, window_2025_metrics = resolve_path1_winner("since_2025_only", "since_2025_01")
+    path1_robust_id, path1_summary = _pick_robust_candidate(
+        latest[latest["strategy_base_id"].astype(str).isin(path1_family_ids & active_family_ids)]
+    )
     # Path 2 is intentionally unconstrained: scan all cached strategies (excluding static baseline rows).
     path2_allowed_ids = set(latest["strategy_base_id"].astype(str).unique()) - STATIC_BASE_IDS
     path2_window_2017_id, path2_window_2017_metrics = _pick_single_window_winner(
@@ -945,6 +1047,10 @@ def main() -> None:
                     "weighted_turnover": window_2025_metrics.turnover,
                 },
             },
+            "robust_candidate": {
+                "strategy_base_id": path1_robust_id,
+                "robust_metrics": path1_summary,
+            },
         },
         "path2": {
             "tracks": {
@@ -1004,6 +1110,7 @@ def main() -> None:
                 window_2023_id,
                 window_2020_id,
                 window_2025_id,
+                path1_robust_id,
                 path2_window_2017_id,
                 path2_window_2023_id,
                 path2_window_2020_id,
@@ -1025,6 +1132,8 @@ def main() -> None:
         window_2020_metrics,
         window_2025_id,
         window_2025_metrics,
+        path1_robust_id,
+        path1_summary,
         path2_window_2017_id,
         path2_window_2017_metrics,
         path2_window_2023_id,
@@ -1057,6 +1166,8 @@ def main() -> None:
         strategies=strategies,
         path1_winners=path1_winners,
         path2_winners=path2_winners,
+        path1_robust_id=path1_robust_id,
+        path2_robust_id=path2_id,
     )
 
     print(f"[OK] Updated {args.readme}")
@@ -1067,6 +1178,7 @@ def main() -> None:
     print(f"[OK] 2023-window winner: {window_2023_id} (CAGR={_fmt_pct(window_2023_metrics.cagr)}, Sharpe={window_2023_metrics.sharpe:.4f})")
     print(f"[OK] 2020-window winner: {window_2020_id} (CAGR={_fmt_pct(window_2020_metrics.cagr)}, Sharpe={window_2020_metrics.sharpe:.4f})")
     print(f"[OK] 2025-window winner: {window_2025_id} (CAGR={_fmt_pct(window_2025_metrics.cagr)}, Sharpe={window_2025_metrics.sharpe:.4f})")
+    print(f"[OK] Path 1 candidate:   {path1_robust_id} (meanCAGR={_fmt_pct(path1_summary['cagr_mean'])}, minCAGR={_fmt_pct(path1_summary['cagr_min'])})")
     print(f"[OK] Path2 2017-window winner: {path2_window_2017_id} (CAGR={_fmt_pct(path2_window_2017_metrics.cagr)}, Sharpe={path2_window_2017_metrics.sharpe:.4f})")
     print(f"[OK] Path2 2023-window winner: {path2_window_2023_id} (CAGR={_fmt_pct(path2_window_2023_metrics.cagr)}, Sharpe={path2_window_2023_metrics.sharpe:.4f})")
     print(f"[OK] Path2 2020-window winner: {path2_window_2020_id} (CAGR={_fmt_pct(path2_window_2020_metrics.cagr)}, Sharpe={path2_window_2020_metrics.sharpe:.4f})")
