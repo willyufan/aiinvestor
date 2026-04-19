@@ -130,6 +130,50 @@ def load_winner_core_family_ids(backtest_path: Path) -> list[str]:
     return sorted(set(map(str, base_ids)))
 
 
+def load_path1_fast_config(backtest_path: Path) -> tuple[list[str], list[str], dict[str, list[str]]]:
+    consts = _parse_python_constants(
+        backtest_path,
+        [
+            "WINNER_ONLY_STRATEGY_ID",
+            "WINNER_CORE_VARIANTS",
+            "PATH1_FAST_PASS_VARIANT_IDS",
+            "PATH1_FAST_PASS_DIRECTION_GROUPS",
+            "SAT_WEEKLY_RISK_SUFFIX",
+            "SAT_THREE_STAGE_SUFFIX",
+            "SAT_THREE_STAGE_BUFFERED_SUFFIX",
+        ],
+    )
+    base = str(consts["WINNER_ONLY_STRATEGY_ID"])
+    variants = consts["WINNER_CORE_VARIANTS"]
+    fast_pass_variant_ids = set(map(str, consts.get("PATH1_FAST_PASS_VARIANT_IDS") or []))
+    direction_groups_raw = consts.get("PATH1_FAST_PASS_DIRECTION_GROUPS") or {}
+    direction_groups = {
+        str(name): [str(item) for item in items]
+        for name, items in direction_groups_raw.items()
+    }
+    if not isinstance(variants, list):
+        raise TypeError("WINNER_CORE_VARIANTS is not a list")
+    base_ids = [base]
+    for variant in variants:
+        if not isinstance(variant, dict) or "variant_id" not in variant:
+            raise TypeError("WINNER_CORE_VARIANTS item missing variant_id")
+        variant_id = str(variant["variant_id"])
+        if fast_pass_variant_ids and variant_id not in fast_pass_variant_ids:
+            continue
+        base_ids.append(f"{base}__{variant_id}")
+
+    overlay_suffixes = [
+        str(consts.get("SAT_WEEKLY_RISK_SUFFIX") or "__sat_weekly_risk"),
+        str(consts.get("SAT_THREE_STAGE_SUFFIX") or "__sat_three_stage_risk"),
+        str(consts.get("SAT_THREE_STAGE_BUFFERED_SUFFIX") or "__sat_three_stage_buffered"),
+    ]
+    family_ids: set[str] = set(base_ids)
+    for base_id in base_ids:
+        for suffix in overlay_suffixes:
+            family_ids.add(f"{base_id}{suffix}")
+    return sorted(base_ids), sorted(family_ids), direction_groups
+
+
 def _load_tracked_winners(path: Path) -> dict[str, str]:
     if not path.exists():
         return {}
@@ -217,8 +261,11 @@ def main() -> None:
         base_ids = sorted({bid for bid in latest["strategy_base_id"].unique() if str(bid).startswith(str(args.scan_prefix))})
         family_label = f"scan_prefix={args.scan_prefix}"
     else:
-        base_ids = load_winner_core_family_ids(args.backtest_script)
-        family_label = "winner_core_family"
+        base_strategy_ids, base_ids, direction_groups = load_path1_fast_config(args.backtest_script)
+        family_label = "path1_fast_family"
+    if args.scan_prefix:
+        direction_groups = {}
+        base_strategy_ids = list(base_ids)
 
     by_id: dict[str, pd.DataFrame] = {base_id: group for base_id, group in latest.groupby("strategy_base_id")}
 
@@ -326,6 +373,14 @@ def main() -> None:
     out = {
         "as_of": as_of,
         "family": family_label,
+        "base_candidate_count": len(base_strategy_ids),
+        "candidate_count": len(base_ids),
+        "overlay_candidate_count": len(base_ids) - len(base_strategy_ids),
+        "direction_groups": direction_groups,
+        "direction_candidate_counts": {
+            group_name: len(variant_ids)
+            for group_name, variant_ids in direction_groups.items()
+        },
         "thresholds": asdict(thresholds),
         "tracked_winners": tracked_winners,
         "improvements": improvements,
@@ -333,7 +388,15 @@ def main() -> None:
     args.write_json.parent.mkdir(parents=True, exist_ok=True)
     args.write_json.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    print(f"[OK] as_of={as_of} family={family_label} candidates={len(base_ids)} evaluated={len(window_2017_ranked)}")
+    print(
+        f"[OK] as_of={as_of} family={family_label} "
+        f"base_candidates={len(base_strategy_ids)} total_candidates={len(base_ids)} "
+        f"evaluated={len(window_2017_ranked)}"
+    )
+    if direction_groups:
+        print("[OK] path1 direction groups:")
+        for group_name, variant_ids in direction_groups.items():
+            print(f"       - {group_name}: {len(variant_ids)} variants -> {', '.join(variant_ids)}")
     print(f"[OK] thresholds: min_cagr={thresholds.min_cagr_improvement:.4f} min_sharpe={thresholds.min_sharpe_improvement:.4f} "
           f"max_dd_worsen={thresholds.max_drawdown_worsen_abs:.4f} max_turnover_inc={thresholds.max_turnover_increase:.2f}")
     print("")

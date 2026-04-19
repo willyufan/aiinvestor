@@ -452,19 +452,84 @@ WINNER_CORE_VARIANTS = [
     },
 ]
 
+PATH1_FAST_PASS_DIRECTION_GROUPS = {
+    "promotion_ramp": [
+        "aggr_10_90_fast_ramp",
+        "aggr_10_90_prom6",
+        "aggr_10_90_prom7_ramp90",
+    ],
+    "satellite_defense": [
+        "aggr_08_92_prom6_cash_off",
+        "aggr_08_92_prom6_cash_off_and",
+        "aggr_10_90_fast_ramp_cash_off",
+    ],
+    "signal_variants": [
+        "aggr_08_92_prom6_core_6_1",
+        "aggr_10_90_prom6_core_6_1",
+    ],
+    "holding_shape": [
+        "share_15_85_hold_4_6",
+        "aggr_09_91_prom7",
+    ],
+    "supporting_variants": [
+        "aggr_08_92_prom6",
+        "aggr_08_92_prom6_ramp90",
+    ],
+}
+
 PATH1_FAST_PASS_VARIANT_IDS = [
+    "share_15_85_hold_4_6",
     "aggr_10_90_fast_ramp",
     "aggr_10_90_prom6",
+    "aggr_10_90_prom7_ramp90",
+    "aggr_08_92_prom6",
+    "aggr_08_92_prom6_ramp90",
     "aggr_08_92_prom6_cash_off",
     "aggr_08_92_prom6_cash_off_and",
-    "aggr_10_90_prom6_cash_off",
     "aggr_10_90_fast_ramp_cash_off",
+    "aggr_08_92_prom6_core_6_1",
+    "aggr_10_90_prom6_core_6_1",
+    "aggr_09_91_prom7",
 ]
 
 PATH2_SCAN_BASE_PREFIXES = [
     "core_explore_80_20_equal_weight_winner_core",
     "momentum_top_",
 ]
+
+PATH2_SCAN_FAMILY_RULES = {
+    "high_concentration_breakout": {
+        "prefixes": ["core_explore_80_20_equal_weight_winner_core"],
+        "variant_ids": [
+            "aggr_05_95_prom3_core_6_1_full_risk",
+            "aggr_05_95_prom3_core_6_1_full_risk_cap60",
+            "aggr_05_95_prom3_core_6_1_cap60",
+            "aggr_05_95_prom3_core_6_1_cash_off_and_cap60",
+        ],
+        "target_candidates": 6,
+    },
+    "high_growth_theme": {
+        "variant_ids": [
+            "aggr_08_92_prom6_full_risk",
+            "aggr_08_92_prom6_core_6_1_full_risk",
+            "aggr_08_92_prom6_core_6_1_full_risk_cap40",
+            "aggr_08_92_prom6_core_6_1_full_risk_cap60",
+            "aggr_10_90_fast_ramp_cash_off_and",
+        ],
+        "target_candidates": 6,
+    },
+    "momentum_equal_weight_elastic": {
+        "prefixes": [
+            "momentum_top_",
+            "core_explore_80_20_equal_weight_winner_core",
+        ],
+        "variant_ids": [
+            "aggr_08_92_prom6_cash_off_and",
+            "aggr_05_95_prom3_core_6_1_cash_off_and_cap60",
+        ],
+        "target_candidates": 6,
+    },
+}
 
 PATH2_SCAN_VARIANT_IDS = [
     "aggr_08_92_prom6_cash_off_and",

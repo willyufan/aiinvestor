@@ -19,6 +19,7 @@ BACKTEST_SCRIPT_PATH = ROOT / "backtest_marketcap_etf.py"
 DEFAULT_WRITE_JSON = RESULTS_DIR / "path2_candidate_pass.json"
 
 WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
+WEIGHTED_REQUIRED_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01")
 
 
 def _parse_python_constants(path: Path, names: Iterable[str]) -> dict[str, Any]:
@@ -40,11 +41,22 @@ def _parse_python_constants(path: Path, names: Iterable[str]) -> dict[str, Any]:
     return result
 
 
-def load_path2_scan_rules(backtest_path: Path) -> tuple[list[str], list[str]]:
-    consts = _parse_python_constants(backtest_path, ["PATH2_SCAN_BASE_PREFIXES", "PATH2_SCAN_VARIANT_IDS"])
+def load_path2_scan_rules(backtest_path: Path) -> tuple[list[str], list[str], dict[str, dict[str, Any]]]:
+    consts = _parse_python_constants(
+        backtest_path,
+        ["PATH2_SCAN_BASE_PREFIXES", "PATH2_SCAN_VARIANT_IDS", "PATH2_SCAN_FAMILY_RULES"],
+    )
     prefixes = [str(item) for item in consts.get("PATH2_SCAN_BASE_PREFIXES") or []]
     variant_ids = [str(item) for item in consts.get("PATH2_SCAN_VARIANT_IDS") or []]
-    return prefixes, variant_ids
+    family_rules_raw = consts.get("PATH2_SCAN_FAMILY_RULES") or {}
+    family_rules: dict[str, dict[str, Any]] = {}
+    for family_name, family_meta in family_rules_raw.items():
+        family_rules[str(family_name)] = {
+            "prefixes": [str(item) for item in family_meta.get("prefixes") or []],
+            "variant_ids": [str(item) for item in family_meta.get("variant_ids") or []],
+            "target_candidates": int(family_meta.get("target_candidates") or 0),
+        }
+    return prefixes, variant_ids, family_rules
 
 
 def _latest_per_strategy_window(frame: pd.DataFrame) -> pd.DataFrame:
@@ -59,6 +71,18 @@ def _matches_path2(base_id: str, prefixes: list[str], variant_ids: list[str]) ->
     if any(base_id.startswith(prefix) for prefix in prefixes):
         return True
     return any(base_id.endswith(f"__{variant_id}") for variant_id in variant_ids)
+
+
+def _match_families(base_id: str, family_rules: dict[str, dict[str, Any]]) -> list[str]:
+    matched: list[str] = []
+    for family_name, family_meta in family_rules.items():
+        prefixes = family_meta.get("prefixes") or []
+        variant_ids = family_meta.get("variant_ids") or []
+        if any(base_id.startswith(prefix) for prefix in prefixes) or any(
+            base_id.endswith(f"__{variant_id}") for variant_id in variant_ids
+        ):
+            matched.append(family_name)
+    return matched
 
 
 def _compute_single_window_metrics(group: pd.DataFrame, sample_tag: str) -> dict[str, float]:
@@ -81,7 +105,7 @@ def main() -> None:
     parser.add_argument("--write-json", type=Path, default=DEFAULT_WRITE_JSON)
     args = parser.parse_args()
 
-    prefixes, variant_ids = load_path2_scan_rules(args.backtest_script)
+    prefixes, variant_ids, family_rules = load_path2_scan_rules(args.backtest_script)
     frame = pd.read_csv(args.comparison_csv)
     latest = _augment_with_synthetic_windows(_latest_per_strategy_window(frame))
     latest["strategy_base_id"] = latest["strategy_base_id"].astype(str)
@@ -94,6 +118,13 @@ def main() -> None:
             if _matches_path2(str(base_id), prefixes, variant_ids)
         }
     )
+    family_candidates: dict[str, list[str]] = {family_name: [] for family_name in family_rules}
+    candidate_family_membership: dict[str, list[str]] = {}
+    for base_id in candidate_ids:
+        matched_families = _match_families(base_id, family_rules)
+        candidate_family_membership[base_id] = matched_families
+        for family_name in matched_families:
+            family_candidates.setdefault(family_name, []).append(base_id)
 
     by_id = {str(base_id): group for base_id, group in latest.groupby("strategy_base_id")}
     window_winners: dict[str, dict[str, Any]] = {}
@@ -104,6 +135,10 @@ def main() -> None:
         for base_id in candidate_ids:
             group = by_id.get(base_id, pd.DataFrame())
             tags = set(group["sample_tag"].astype(str)) if not group.empty else set()
+            # For comparable window winners, require the strategy to also have the other long windows,
+            # except for the synthetic short window (since_2025_01) which is tracked independently.
+            if sample_tag != "since_2025_01" and not set(WEIGHTED_REQUIRED_TAGS).issubset(tags):
+                continue
             if sample_tag not in tags:
                 continue
             metrics = _compute_single_window_metrics(group, sample_tag)
@@ -164,10 +199,54 @@ def main() -> None:
         reverse=True,
     )
 
+    family_ranked_candidates: dict[str, list[dict[str, Any]]] = {}
+    for family_name, family_ids in family_candidates.items():
+        ranked: list[tuple[str, float, float, float, float]] = []
+        for base_id in sorted(set(family_ids)):
+            group = by_id.get(base_id, pd.DataFrame())
+            tags = set(group["sample_tag"].astype(str)) if not group.empty else set()
+            if not set(WEIGHTED_REQUIRED_TAGS).issubset(tags):
+                continue
+            metrics_2020 = _compute_single_window_metrics(group, "since_2020_01")
+            metrics_2023 = _compute_single_window_metrics(group, "since_2023_01")
+            if not metrics_2020 or not metrics_2023:
+                continue
+            score = (
+                0.55 * metrics_2020["cagr"]
+                + 0.45 * metrics_2023["cagr"]
+                + 0.05 * metrics_2020["sharpe"]
+                + 0.05 * metrics_2023["sharpe"]
+            )
+            ranked.append(
+                (
+                    base_id,
+                    score,
+                    metrics_2020["cagr"],
+                    metrics_2023["cagr"],
+                    min(metrics_2020["max_drawdown"], metrics_2023["max_drawdown"]),
+                )
+            )
+        ranked.sort(key=lambda item: (item[1], item[2], item[3], item[4]), reverse=True)
+        family_ranked_candidates[family_name] = [
+            {
+                "strategy_base_id": base_id,
+                "score": score,
+                "cagr_2020": cagr_2020,
+                "cagr_2023": cagr_2023,
+                "worst_max_drawdown": worst_max_drawdown,
+            }
+            for base_id, score, cagr_2020, cagr_2023, worst_max_drawdown in ranked[
+                : max(1, family_rules.get(family_name, {}).get("target_candidates", 0))
+            ]
+        ]
+
     payload = {
         "candidate_prefixes": prefixes,
         "candidate_variant_ids": variant_ids,
+        "candidate_families": family_rules,
         "candidate_count": len(candidate_ids),
+        "family_candidate_counts": {family_name: len(sorted(set(ids))) for family_name, ids in family_candidates.items()},
+        "candidate_family_membership": candidate_family_membership,
         "window_winners": window_winners,
         "robust_candidate": (
             {"strategy_base_id": robust_candidates[0][0], "metrics": robust_candidates[0][1]}
@@ -175,11 +254,22 @@ def main() -> None:
             else None
         ),
         "ranked_candidates": ranked_candidates,
+        "family_ranked_candidates": family_ranked_candidates,
     }
     args.write_json.parent.mkdir(parents=True, exist_ok=True)
     args.write_json.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     print(f"[OK] path2 candidates={len(candidate_ids)} prefixes={prefixes} variants={variant_ids}")
+    if family_rules:
+        print("[OK] path2 candidate families:")
+        for family_name, family_meta in family_rules.items():
+            family_size = len(sorted(set(family_candidates.get(family_name, []))))
+            target = int(family_meta.get("target_candidates") or 0)
+            print(
+                f"       - {family_name}: {family_size} candidates "
+                f"(target {target}, prefixes={family_meta.get('prefixes') or []}, "
+                f"variants={family_meta.get('variant_ids') or []})"
+            )
     for sample_tag, winner in window_winners.items():
         metrics = winner["metrics"]
         print(

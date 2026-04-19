@@ -205,6 +205,22 @@ def load_active_family_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[st
     return active_ids
 
 
+def load_path2_scan_rules(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> tuple[list[str], list[str]]:
+    try:
+        consts = _parse_python_constants(backtest_path, ["PATH2_SCAN_BASE_PREFIXES", "PATH2_SCAN_VARIANT_IDS"])
+    except Exception:
+        return ([], [])
+    prefixes = [str(item) for item in consts.get("PATH2_SCAN_BASE_PREFIXES") or []]
+    variant_ids = [str(item) for item in consts.get("PATH2_SCAN_VARIANT_IDS") or []]
+    return prefixes, variant_ids
+
+
+def _matches_path2(base_id: str, prefixes: list[str], variant_ids: list[str]) -> bool:
+    if any(base_id.startswith(prefix) for prefix in prefixes):
+        return True
+    return any(base_id.endswith(f"__{variant_id}") for variant_id in variant_ids)
+
+
 def _load_existing_path1_winners(path: Path) -> dict[str, str]:
     if not path.exists():
         return {}
@@ -415,6 +431,20 @@ def _history_entry_changed(old_entry: dict[str, Any], new_entry: dict[str, Any])
     return False
 
 
+def _dedupe_entries_by_as_of(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    if not entries:
+        return entries
+    seen: set[str] = set()
+    kept_reversed: list[dict[str, Any]] = []
+    for entry in reversed(entries):
+        key = str(entry.get("as_of", ""))
+        if key in seen:
+            continue
+        seen.add(key)
+        kept_reversed.append(entry)
+    return list(reversed(kept_reversed))
+
+
 def render_history_markdown(history: dict[str, Any]) -> str:
     lines: list[str] = [
         "# 跟踪赢家历史",
@@ -511,10 +541,14 @@ def update_history(
                 sample_tag=sample_tag,
                 metrics=metrics,
             )
-            entries = list(path_bucket.get(track_key, []))
+            entries = _dedupe_entries_by_as_of(list(path_bucket.get(track_key, [])))
             last_entry = entries[-1] if entries else {}
-            if _history_entry_changed(last_entry, new_entry):
-                entries.append(new_entry)
+            if entries and str(last_entry.get("as_of", "")) == str(as_of):
+                if _history_entry_changed(last_entry, new_entry):
+                    entries[-1] = new_entry
+            else:
+                if _history_entry_changed(last_entry, new_entry):
+                    entries.append(new_entry)
             path_bucket[track_key] = entries
     for path_key, robust_id in (("path1", path1_robust_id), ("path2", path2_robust_id)):
         if not robust_id or robust_id not in strategies:
@@ -529,10 +563,14 @@ def update_history(
             sample_tag="since_2020_01",
             metrics=metrics,
         )
-        entries = list(path_bucket.get(ROBUST_TRACK_KEY, []))
+        entries = _dedupe_entries_by_as_of(list(path_bucket.get(ROBUST_TRACK_KEY, [])))
         last_entry = entries[-1] if entries else {}
-        if _history_entry_changed(last_entry, new_entry):
-            entries.append(new_entry)
+        if entries and str(last_entry.get("as_of", "")) == str(as_of):
+            if _history_entry_changed(last_entry, new_entry):
+                entries[-1] = new_entry
+        else:
+            if _history_entry_changed(last_entry, new_entry):
+                entries.append(new_entry)
         path_bucket[ROBUST_TRACK_KEY] = entries
     history_path.parent.mkdir(parents=True, exist_ok=True)
     history_path.write_text(json.dumps(history, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -985,8 +1023,17 @@ def main() -> None:
     path1_robust_id, path1_summary = _pick_robust_candidate(
         latest[latest["strategy_base_id"].astype(str).isin(path1_family_ids & active_family_ids)]
     )
-    # Path 2 is intentionally unconstrained: scan all cached strategies (excluding static baseline rows).
-    path2_allowed_ids = set(latest["strategy_base_id"].astype(str).unique()) - STATIC_BASE_IDS
+    path2_prefixes, path2_variant_ids = load_path2_scan_rules()
+    path2_allowed_ids = {
+        str(base_id)
+        for base_id in set(latest["strategy_base_id"].astype(str).unique())
+        if _matches_path2(str(base_id), path2_prefixes, path2_variant_ids)
+    } - STATIC_BASE_IDS
+    if not path2_allowed_ids:
+        raise RuntimeError(
+            "Path 2 candidate universe is empty. "
+            "Check PATH2_SCAN_BASE_PREFIXES / PATH2_SCAN_VARIANT_IDS in backtest_marketcap_etf.py."
+        )
     path2_window_2017_id, path2_window_2017_metrics = _pick_single_window_winner(
         latest, "since_2017_01", allowed_base_ids=path2_allowed_ids
     )
@@ -999,7 +1046,9 @@ def main() -> None:
     path2_window_2025_id, path2_window_2025_metrics = _pick_single_window_winner(
         latest, "since_2025_01", allowed_base_ids=path2_allowed_ids
     )
-    path2_id, path2_summary = _pick_path2_candidate(latest[latest["strategy_base_id"].astype(str).isin(path2_allowed_ids)])
+    path2_id, path2_summary = _pick_path2_candidate(
+        latest[latest["strategy_base_id"].astype(str).isin(path2_allowed_ids)]
+    )
     sample_end = max(info["sample_end"] for info in strategies.values())
 
     payload = {
