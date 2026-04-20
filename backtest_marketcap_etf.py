@@ -21,7 +21,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
-TOKEN = "REDACTED_TOKEN_DAILY"
+TOKEN = os.environ.get("TUSHARE_TOKEN", "")
 PRIMARY_SAMPLE_START = pd.Timestamp("2020-01-01")
 ROBUSTNESS_SAMPLE_START = pd.Timestamp("2017-01-01")
 SHORT_SAMPLE_START = pd.Timestamp("2023-01-01")
