@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 
 
 def _load_token() -> str:
-    t = os.environ.get("TUSHARE_TOKEN", "")
+    t = os.environ.get("TUSHARE_TOKEN_DAILY", "")
     if not t:
         try:
             import importlib

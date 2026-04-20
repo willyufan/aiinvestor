@@ -26,8 +26,8 @@ DEFAULT_CAPITAL = 1_000_000.0
 DEFAULT_TRACKED_WINNER_KEY = "since_2020_only"
 
 def _load_tushare_tokens() -> tuple[str, str]:
-    daily  = os.environ.get("TUSHARE_DAILY_TOKEN",  "")
-    minute = os.environ.get("TUSHARE_MINUTE_TOKEN", "")
+    daily  = os.environ.get("TUSHARE_TOKEN_DAILY",  "")
+    minute = os.environ.get("TUSHARE_TOKEN_MINUTE", "")
     if not daily or not minute:
         try:
             import importlib
