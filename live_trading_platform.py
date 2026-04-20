@@ -25,14 +25,21 @@ DEFAULT_ACCOUNT_BROKER = "手工测试"
 DEFAULT_CAPITAL = 1_000_000.0
 DEFAULT_TRACKED_WINNER_KEY = "since_2020_only"
 
-TUSHARE_DAILY_TOKEN = os.getenv(
-    "TUSHARE_DAILY_TOKEN",
-    "REDACTED_TOKEN_DAILY",
-)
-TUSHARE_MINUTE_TOKEN = os.getenv(
-    "TUSHARE_MINUTE_TOKEN",
-    "REDACTED_TOKEN_DAILY_MINUTE",
-)
+def _load_tushare_tokens() -> tuple[str, str]:
+    daily  = os.environ.get("TUSHARE_DAILY_TOKEN",  "")
+    minute = os.environ.get("TUSHARE_MINUTE_TOKEN", "")
+    if not daily or not minute:
+        try:
+            import importlib
+            import config as _cfg
+            importlib.reload(_cfg)
+            daily  = daily  or getattr(_cfg, "TUSHARE_TOKEN_DAILY",  "") or ""
+            minute = minute or getattr(_cfg, "TUSHARE_TOKEN_MINUTE", "") or ""
+        except Exception:
+            pass
+    return daily, minute
+
+TUSHARE_DAILY_TOKEN, TUSHARE_MINUTE_TOKEN = _load_tushare_tokens()
 
 BUY_COMMISSION = 0.0003
 SELL_COMMISSION = 0.0003

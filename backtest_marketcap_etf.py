@@ -21,7 +21,19 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
-TOKEN = os.environ.get("TUSHARE_TOKEN", "")
+def _load_token() -> str:
+    t = os.environ.get("TUSHARE_TOKEN", "")
+    if not t:
+        try:
+            import importlib
+            import config as _cfg
+            importlib.reload(_cfg)
+            t = getattr(_cfg, "TUSHARE_TOKEN_DAILY", "") or ""
+        except Exception:
+            pass
+    return t
+
+TOKEN = _load_token()
 PRIMARY_SAMPLE_START = pd.Timestamp("2020-01-01")
 ROBUSTNESS_SAMPLE_START = pd.Timestamp("2017-01-01")
 SHORT_SAMPLE_START = pd.Timestamp("2023-01-01")
