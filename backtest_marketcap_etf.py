@@ -462,6 +462,88 @@ WINNER_CORE_VARIANTS = [
         "satellite_risk_off_exposure": 0.0,
         "weight_cap": 0.60,
     },
+    {
+        "variant_id": "aggr_08_92_prom6_core_6_1_full_risk_cap60_biweekly",
+        "variant_name": "进攻8/92 晋升6只(核心6-1动量, 满风险, 单票60%, 双周)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "core_risk_off_exposure": 1.0,
+        "satellite_risk_off_exposure": 1.0,
+        "weight_cap": 0.60,
+        "rebalance_frequency": "biweekly",
+    },
+    {
+        "variant_id": "aggr_05_95_prom3_core_6_1_full_risk_cap60_biweekly",
+        "variant_name": "进攻5/95 晋升3只(核心6-1动量, 满风险, 单票60%, 双周)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "core_risk_off_exposure": 1.0,
+        "satellite_risk_off_exposure": 1.0,
+        "weight_cap": 0.60,
+        "rebalance_frequency": "biweekly",
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_cash_off_and_biweekly",
+        "variant_name": "进攻8/92 晋升6只(熊市空仓, and 规则, 双周)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "rebalance_frequency": "biweekly",
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly",
+        "variant_name": "进攻8/92 晋升6只(核心6-1动量, 满风险, 单票60%, 单周)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "core_risk_off_exposure": 1.0,
+        "satellite_risk_off_exposure": 1.0,
+        "weight_cap": 0.60,
+        "rebalance_frequency": "weekly",
+    },
+    {
+        "variant_id": "aggr_05_95_prom3_core_6_1_full_risk_cap60_weekly",
+        "variant_name": "进攻5/95 晋升3只(核心6-1动量, 满风险, 单票60%, 单周)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "core_risk_off_exposure": 1.0,
+        "satellite_risk_off_exposure": 1.0,
+        "weight_cap": 0.60,
+        "rebalance_frequency": "weekly",
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_cash_off_and_weekly",
+        "variant_name": "进攻8/92 晋升6只(熊市空仓, and 规则, 单周)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "rebalance_frequency": "weekly",
+    },
 ]
 
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
@@ -506,26 +588,43 @@ PATH1_FAST_PASS_VARIANT_IDS = [
 
 PATH2_SCAN_BASE_PREFIXES = [
     "core_explore_80_20_equal_weight_winner_core",
+    "core_explore_70_30_equal_weight_winner_core",
+    "core_explore_60_40_equal_weight_winner_core",
+    "core_explore_40_60_equal_weight_winner_core",
+    "core_explore_20_80_equal_weight_winner_core",
+    "satellite_mom_0_100_equal_weight_winner_core",
     "momentum_top_",
 ]
 
 PATH2_SCAN_FAMILY_RULES = {
     "high_concentration_breakout": {
-        "prefixes": ["core_explore_80_20_equal_weight_winner_core"],
+        "prefixes": [
+            "core_explore_80_20_equal_weight_winner_core",
+            "core_explore_70_30_equal_weight_winner_core",
+        ],
         "variant_ids": [
             "aggr_05_95_prom3_core_6_1_full_risk",
             "aggr_05_95_prom3_core_6_1_full_risk_cap60",
             "aggr_05_95_prom3_core_6_1_cap60",
             "aggr_05_95_prom3_core_6_1_cash_off_and_cap60",
+            "aggr_05_95_prom7_core_6_1_full_risk",
+            "aggr_05_95_prom7_core_6_1_full_risk_cap40",
+            "aggr_05_95_prom7_core_3_1_full_risk_cap40",
         ],
         "target_candidates": 6,
     },
     "high_growth_theme": {
+        "prefixes": [
+            "core_explore_80_20_equal_weight_winner_core",
+            "core_explore_20_80_equal_weight_winner_core",
+        ],
         "variant_ids": [
             "aggr_08_92_prom6_full_risk",
             "aggr_08_92_prom6_core_6_1_full_risk",
             "aggr_08_92_prom6_core_6_1_full_risk_cap40",
             "aggr_08_92_prom6_core_6_1_full_risk_cap60",
+            "aggr_08_92_prom6_core_3_1_full_risk_cap40",
+            "aggr_10_90_fast_ramp_cash_off",
             "aggr_10_90_fast_ramp_cash_off_and",
         ],
         "target_candidates": 6,
@@ -534,19 +633,52 @@ PATH2_SCAN_FAMILY_RULES = {
         "prefixes": [
             "momentum_top_",
             "core_explore_80_20_equal_weight_winner_core",
+            "satellite_mom_0_100_equal_weight_winner_core",
         ],
         "variant_ids": [
+            "aggr_08_92_prom6_cash_off",
             "aggr_08_92_prom6_cash_off_and",
             "aggr_05_95_prom3_core_6_1_cash_off_and_cap60",
+            "aggr_10_90_prom6",
+        ],
+        "target_candidates": 6,
+    },
+    "biweekly_rebalance_aggressive": {
+        "prefixes": [
+            "core_explore_80_20_equal_weight_winner_core",
+            "core_explore_70_30_equal_weight_winner_core",
+            "momentum_top_",
+        ],
+        "variant_ids": [
+            "aggr_08_92_prom6_core_6_1_full_risk_cap60_biweekly",
+            "aggr_05_95_prom3_core_6_1_full_risk_cap60_biweekly",
+            "aggr_08_92_prom6_cash_off_and_biweekly",
+        ],
+        "target_candidates": 6,
+    },
+    "weekly_rebalance_aggressive": {
+        "prefixes": [
+            "core_explore_80_20_equal_weight_winner_core",
+            "core_explore_70_30_equal_weight_winner_core",
+            "momentum_top_",
+        ],
+        "variant_ids": [
+            "aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly",
+            "aggr_05_95_prom3_core_6_1_full_risk_cap60_weekly",
+            "aggr_08_92_prom6_cash_off_and_weekly",
         ],
         "target_candidates": 6,
     },
 }
 
 PATH2_SCAN_VARIANT_IDS = [
+    "aggr_08_92_prom6_cash_off",
     "aggr_08_92_prom6_cash_off_and",
+    "aggr_10_90_fast_ramp_cash_off",
     "aggr_10_90_fast_ramp_cash_off_and",
+    "aggr_10_90_prom6",
     "aggr_08_92_prom6_full_risk",
+    "aggr_08_92_prom6_core_3_1_full_risk_cap40",
     "aggr_08_92_prom6_core_6_1_full_risk",
     "aggr_08_92_prom6_core_6_1_full_risk_cap40",
     "aggr_08_92_prom6_core_6_1_full_risk_cap60",
@@ -554,9 +686,18 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_05_95_prom3_core_6_1_full_risk_cap60",
     "aggr_05_95_prom3_core_6_1_cap60",
     "aggr_05_95_prom3_core_6_1_cash_off_and_cap60",
+    "aggr_05_95_prom7_core_6_1_full_risk",
+    "aggr_05_95_prom7_core_6_1_full_risk_cap40",
+    "aggr_05_95_prom7_core_3_1_full_risk_cap40",
+    "aggr_08_92_prom6_core_6_1_full_risk_cap60_biweekly",
+    "aggr_05_95_prom3_core_6_1_full_risk_cap60_biweekly",
+    "aggr_08_92_prom6_cash_off_and_biweekly",
+    "aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly",
+    "aggr_05_95_prom3_core_6_1_full_risk_cap60_weekly",
+    "aggr_08_92_prom6_cash_off_and_weekly",
 ]
 
-FACTOR_CACHE_VERSION = "v1"
+FACTOR_CACHE_VERSION = "v2"
 WINNER_ONLY_STRATEGY_ID = "core_explore_80_20_total_mv_winner_core"
 INDEX_CORE_BASE_ID = "core_explore_80_20_total_mv_index_core"
 ACTIVE_FAMILY_BASE_PREFIXES = [
@@ -1646,6 +1787,26 @@ def build_factor_cache_path(prepared: PreparedData) -> Path:
     return FACTOR_PANEL_DIR / f"{cache_key}.pkl"
 
 
+def get_factor_signal_dates(prepared: PreparedData) -> List[pd.Timestamp]:
+    return sorted(set(prepared.month_end_dates) | set(prepared.week_end_dates))
+
+
+def get_rebalance_signal_dates(prepared: PreparedData, rebalance_frequency: str) -> List[pd.Timestamp]:
+    freq = str(rebalance_frequency or "monthly").strip().lower()
+    if freq == "weekly":
+        return list(prepared.week_end_dates)
+    if freq == "biweekly":
+        return [date for idx, date in enumerate(prepared.week_end_dates) if idx % 2 == 1]
+    return list(prepared.month_end_dates)
+
+
+def get_next_trading_day(trading_dates: pd.Index, signal_date: pd.Timestamp) -> pd.Timestamp | None:
+    position = int(trading_dates.searchsorted(signal_date, side="right"))
+    if position >= len(trading_dates):
+        return None
+    return pd.Timestamp(trading_dates[position])
+
+
 def build_prepared_cache_path(
     normalized_codes: List[str],
     start_date: pd.Timestamp,
@@ -1746,6 +1907,9 @@ def build_monthly_factor_cache(prepared: PreparedData) -> MonthlyFactorCache:
     price_ffill = prepared.price_ffill
     total_mv = prepared.total_mv
     month_end_price_panel = price_ffill.reindex(pd.Index(prepared.month_end_dates))
+    month_end_index = pd.Index(prepared.month_end_dates)
+    month_end_set = set(prepared.month_end_dates)
+    factor_signal_dates = get_factor_signal_dates(prepared)
 
     standard_eligible_codes_by_date: Dict[pd.Timestamp, List[str]] = {}
     seed_eligible_codes_by_date: Dict[pd.Timestamp, List[str]] = {}
@@ -1763,8 +1927,7 @@ def build_monthly_factor_cache(prepared: PreparedData) -> MonthlyFactorCache:
     industry_strength_scores_by_date: Dict[pd.Timestamp, pd.Series] = {}
     industry_leader_scores_by_date: Dict[pd.Timestamp, pd.Series] = {}
 
-    for idx in range(len(prepared.month_end_dates) - 1):
-        signal_date = prepared.month_end_dates[idx]
+    for signal_date in factor_signal_dates:
         signal_prices = price_exact.loc[signal_date] if signal_date in price_exact.index else pd.Series(dtype=float)
         signal_mvs = total_mv.loc[signal_date] if signal_date in total_mv.index else pd.Series(dtype=float)
 
@@ -1802,37 +1965,64 @@ def build_monthly_factor_cache(prepared: PreparedData) -> MonthlyFactorCache:
         momentum_6_1 = pd.Series(dtype=float)
         momentum_3_1 = pd.Series(dtype=float)
 
-        if idx >= 1:
-            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
-            curr_prices = month_end_price_panel.loc[signal_date, eligible_codes]
-            valid_recent = prev_1m_prices.notna() & curr_prices.notna() & (prev_1m_prices > 0)
-            if valid_recent.any():
-                recent_1m_returns = (curr_prices.loc[valid_recent] / prev_1m_prices.loc[valid_recent]) - 1.0
-        if idx >= 12:
-            prev_12m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 12], eligible_codes]
-            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
-            valid_mom = prev_12m_prices.notna() & prev_1m_prices.notna() & (prev_12m_prices > 0)
-            if valid_mom.any():
-                core_signal_scores = (prev_1m_prices.loc[valid_mom] / prev_12m_prices.loc[valid_mom]) - 1.0
-        elif idx >= 6:
-            prev_6m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 6], eligible_codes]
-            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
-            valid_mom = prev_6m_prices.notna() & prev_1m_prices.notna() & (prev_6m_prices > 0)
-            if valid_mom.any():
-                core_signal_scores = (prev_1m_prices.loc[valid_mom] / prev_6m_prices.loc[valid_mom]) - 1.0
-                momentum_6_1 = core_signal_scores.copy()
-        if idx >= 6 and momentum_6_1.empty:
-            prev_6m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 6], eligible_codes]
-            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
-            valid_mom_6 = prev_6m_prices.notna() & prev_1m_prices.notna() & (prev_6m_prices > 0)
-            if valid_mom_6.any():
-                momentum_6_1 = (prev_1m_prices.loc[valid_mom_6] / prev_6m_prices.loc[valid_mom_6]) - 1.0
-        if idx >= 3:
-            prev_3m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 3], eligible_codes]
-            prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[idx - 1], eligible_codes]
-            valid_mom_3 = prev_3m_prices.notna() & prev_1m_prices.notna() & (prev_3m_prices > 0)
-            if valid_mom_3.any():
-                momentum_3_1 = (prev_1m_prices.loc[valid_mom_3] / prev_3m_prices.loc[valid_mom_3]) - 1.0
+        month_anchor_pos = int(month_end_index.searchsorted(signal_date, side="right")) - 1
+        if month_anchor_pos >= 0:
+            current_signal_prices = price_ffill.loc[signal_date, eligible_codes]
+            if signal_date in month_end_set:
+                current_signal_prices = month_end_price_panel.loc[signal_date, eligible_codes]
+            if month_anchor_pos >= 1:
+                prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[month_anchor_pos - 1], eligible_codes]
+                valid_recent = prev_1m_prices.notna() & current_signal_prices.notna() & (prev_1m_prices > 0)
+                if valid_recent.any():
+                    recent_1m_returns = (current_signal_prices.loc[valid_recent] / prev_1m_prices.loc[valid_recent]) - 1.0
+            if signal_date in month_end_set:
+                if month_anchor_pos >= 12:
+                    prev_12m_prices = month_end_price_panel.loc[prepared.month_end_dates[month_anchor_pos - 12], eligible_codes]
+                    prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[month_anchor_pos - 1], eligible_codes]
+                    valid_mom = prev_12m_prices.notna() & prev_1m_prices.notna() & (prev_12m_prices > 0)
+                    if valid_mom.any():
+                        core_signal_scores = (prev_1m_prices.loc[valid_mom] / prev_12m_prices.loc[valid_mom]) - 1.0
+                elif month_anchor_pos >= 6:
+                    prev_6m_prices = month_end_price_panel.loc[prepared.month_end_dates[month_anchor_pos - 6], eligible_codes]
+                    prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[month_anchor_pos - 1], eligible_codes]
+                    valid_mom = prev_6m_prices.notna() & prev_1m_prices.notna() & (prev_6m_prices > 0)
+                    if valid_mom.any():
+                        core_signal_scores = (prev_1m_prices.loc[valid_mom] / prev_6m_prices.loc[valid_mom]) - 1.0
+                        momentum_6_1 = core_signal_scores.copy()
+                if month_anchor_pos >= 6 and momentum_6_1.empty:
+                    prev_6m_prices = month_end_price_panel.loc[prepared.month_end_dates[month_anchor_pos - 6], eligible_codes]
+                    prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[month_anchor_pos - 1], eligible_codes]
+                    valid_mom_6 = prev_6m_prices.notna() & prev_1m_prices.notna() & (prev_6m_prices > 0)
+                    if valid_mom_6.any():
+                        momentum_6_1 = (prev_1m_prices.loc[valid_mom_6] / prev_6m_prices.loc[valid_mom_6]) - 1.0
+                if month_anchor_pos >= 3:
+                    prev_3m_prices = month_end_price_panel.loc[prepared.month_end_dates[month_anchor_pos - 3], eligible_codes]
+                    prev_1m_prices = month_end_price_panel.loc[prepared.month_end_dates[month_anchor_pos - 1], eligible_codes]
+                    valid_mom_3 = prev_3m_prices.notna() & prev_1m_prices.notna() & (prev_3m_prices > 0)
+                    if valid_mom_3.any():
+                        momentum_3_1 = (prev_1m_prices.loc[valid_mom_3] / prev_3m_prices.loc[valid_mom_3]) - 1.0
+            else:
+                if month_anchor_pos >= 12:
+                    prev_12m_prices = month_end_price_panel.loc[prepared.month_end_dates[month_anchor_pos - 12], eligible_codes]
+                    valid_mom = prev_12m_prices.notna() & current_signal_prices.notna() & (prev_12m_prices > 0)
+                    if valid_mom.any():
+                        core_signal_scores = (current_signal_prices.loc[valid_mom] / prev_12m_prices.loc[valid_mom]) - 1.0
+                elif month_anchor_pos >= 6:
+                    prev_6m_prices = month_end_price_panel.loc[prepared.month_end_dates[month_anchor_pos - 6], eligible_codes]
+                    valid_mom = prev_6m_prices.notna() & current_signal_prices.notna() & (prev_6m_prices > 0)
+                    if valid_mom.any():
+                        core_signal_scores = (current_signal_prices.loc[valid_mom] / prev_6m_prices.loc[valid_mom]) - 1.0
+                        momentum_6_1 = core_signal_scores.copy()
+                if month_anchor_pos >= 6 and momentum_6_1.empty:
+                    prev_6m_prices = month_end_price_panel.loc[prepared.month_end_dates[month_anchor_pos - 6], eligible_codes]
+                    valid_mom_6 = prev_6m_prices.notna() & current_signal_prices.notna() & (prev_6m_prices > 0)
+                    if valid_mom_6.any():
+                        momentum_6_1 = (current_signal_prices.loc[valid_mom_6] / prev_6m_prices.loc[valid_mom_6]) - 1.0
+                if month_anchor_pos >= 3:
+                    prev_3m_prices = month_end_price_panel.loc[prepared.month_end_dates[month_anchor_pos - 3], eligible_codes]
+                    valid_mom_3 = prev_3m_prices.notna() & current_signal_prices.notna() & (prev_3m_prices > 0)
+                    if valid_mom_3.any():
+                        momentum_3_1 = (current_signal_prices.loc[valid_mom_3] / prev_3m_prices.loc[valid_mom_3]) - 1.0
 
         recent_1m_returns_by_date[signal_date] = recent_1m_returns
         core_signal_scores_by_date[signal_date] = core_signal_scores
@@ -2919,19 +3109,30 @@ def apply_weekly_satellite_risk_overlay(
     }, overlay_state
 
 
-def compute_metrics(equity_curve: pd.DataFrame, monthly_returns: pd.DataFrame, turnover: pd.DataFrame) -> Dict[str, float]:
+def compute_metrics(
+    equity_curve: pd.DataFrame,
+    monthly_returns: pd.DataFrame,
+    turnover: pd.DataFrame,
+    *,
+    rebalance_frequency: str = "monthly",
+) -> Dict[str, float]:
     nav = equity_curve["nav"].astype(float)
-    monthly_net = monthly_returns["net_return"].astype(float)
+    period_net = monthly_returns["net_return"].astype(float)
+    periods_per_year = 12.0
+    if str(rebalance_frequency).strip().lower() == "weekly":
+        periods_per_year = 52.0
+    elif str(rebalance_frequency).strip().lower() == "biweekly":
+        periods_per_year = 26.0
 
     total_return = float(nav.iloc[-1] - 1.0)
-    periods = len(monthly_net)
-    years = periods / 12.0 if periods > 0 else np.nan
+    periods = len(period_net)
+    years = periods / periods_per_year if periods > 0 else np.nan
     cagr = float(nav.iloc[-1] ** (1 / years) - 1) if periods > 0 and nav.iloc[-1] > 0 else np.nan
     max_drawdown = float(equity_curve["drawdown"].min())
-    win_rate = float((monthly_net > 0).mean()) if periods > 0 else np.nan
-    annual_volatility = float(monthly_net.std(ddof=1) * math.sqrt(12)) if periods > 1 else np.nan
-    sharpe_ratio = float((monthly_net.mean() / monthly_net.std(ddof=1)) * math.sqrt(12)) if periods > 1 and monthly_net.std(ddof=1) > 0 else np.nan
-    average_annual_turnover = float(turnover["one_way_turnover"].mean() * 12) if not turnover.empty else np.nan
+    win_rate = float((period_net > 0).mean()) if periods > 0 else np.nan
+    annual_volatility = float(period_net.std(ddof=1) * math.sqrt(periods_per_year)) if periods > 1 else np.nan
+    sharpe_ratio = float((period_net.mean() / period_net.std(ddof=1)) * math.sqrt(periods_per_year)) if periods > 1 and period_net.std(ddof=1) > 0 else np.nan
+    average_annual_turnover = float(turnover["one_way_turnover"].mean() * periods_per_year) if not turnover.empty else np.nan
     cumulative_trading_cost = float(turnover["trading_cost"].sum()) if not turnover.empty else 0.0
 
     return {
@@ -2991,8 +3192,14 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
     data_start_date = start_date - pd.DateOffset(months=DATA_HISTORY_MONTHS)
     stock_basic = load_or_fetch_stock_basic(pro)
     calendar = load_or_fetch_trade_calendar(pro, data_start_date, end_date)
-    month_end_dates, _, _, _ = build_month_boundaries(calendar)
-    signal_dates = [date for date in month_end_dates if date >= start_date - pd.DateOffset(months=1)]
+    month_end_dates, _, week_end_dates, _ = build_month_boundaries(calendar)
+    signal_dates = sorted(
+        {
+            date
+            for date in list(month_end_dates) + list(week_end_dates)
+            if date >= start_date - pd.DateOffset(months=1)
+        }
+    )
     market_index_df = load_or_fetch_index_daily(pro, MARKET_INDEX_CODE, data_start_date, end_date)
     load_or_fetch_index_daily(pro, BENCHMARK_INDEX_CODE, data_start_date, end_date)
 
@@ -3031,6 +3238,11 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
     prepared_cached = load_prepared_cache(prepared_cache_path)
     if prepared_cached is not None:
         print(f"[Cache] 已加载 prepared panel cache: {prepared_cache_path}")
+        prepared_cached.core_members_by_date = core_members_by_date
+        prepared_cached.explore_members_by_date = explore_members_by_date
+        prepared_cached.core_index_weights_by_date = core_index_weights_by_date
+        prepared_cached.explore_index_weights_by_date = explore_index_weights_by_date
+        prepared_cached.week_end_dates = week_end_dates
         factor_cache_path = build_factor_cache_path(prepared_cached)
         monthly_factor_cache = load_monthly_factor_cache(factor_cache_path)
         if monthly_factor_cache is None:
@@ -3246,18 +3458,20 @@ def run_backtest(
     price_exact = prepared.price_exact
     price_ffill = prepared.price_ffill
     total_mv = prepared.total_mv
-    month_end_price_panel = price_exact.reindex(pd.Index(prepared.month_end_dates))
+    rebalance_frequency = str(strategy_config.get("rebalance_frequency", "monthly") or "monthly").strip().lower()
+    signal_schedule = get_rebalance_signal_dates(prepared, rebalance_frequency)
+    trading_dates = price_ffill.index
 
-    if len(prepared.month_end_dates) < 2:
-        raise RuntimeError("交易日历不足以构造月度回测。")
+    if len(signal_schedule) < 2:
+        raise RuntimeError("交易日历不足以构造回测。")
 
     report_start_idx = None
-    for idx in range(len(prepared.month_end_dates) - 1):
-        if prepared.month_end_dates[idx + 1] >= sample_start:
+    for idx in range(len(signal_schedule) - 1):
+        if signal_schedule[idx + 1] >= sample_start:
             report_start_idx = idx
             break
     if report_start_idx is None:
-        raise RuntimeError("设定的回测起点晚于当前可用月度数据。")
+        raise RuntimeError("设定的回测起点晚于当前可用调仓数据。")
 
     positions = pd.Series(dtype=float)
     cash_value = 1.0
@@ -3278,10 +3492,12 @@ def run_backtest(
         {"date": sample_start, "portfolio_return": 0.0, "nav": 1.0, "drawdown": 0.0, "trading_cost": 0.0}
     ]
 
-    for idx in range(report_start_idx, len(prepared.month_end_dates) - 1):
-        signal_date = prepared.month_end_dates[idx]
-        holding_month_end = prepared.month_end_dates[idx + 1]
-        rebalance_date = prepared.month_start_dates[idx + 1]
+    for idx in range(report_start_idx, len(signal_schedule) - 1):
+        signal_date = signal_schedule[idx]
+        holding_month_end = signal_schedule[idx + 1]
+        rebalance_date = get_next_trading_day(trading_dates, signal_date)
+        if rebalance_date is None or rebalance_date > holding_month_end:
+            continue
 
         factor_cache = prepared.monthly_factor_cache
         if factor_cache is None:
@@ -3336,14 +3552,18 @@ def run_backtest(
         core_risk_on_exposure = float(strategy_config.get("core_risk_on_exposure", CORE_RISK_ON_EXPOSURE))
         satellite_risk_off_exposure = float(strategy_config.get("satellite_risk_off_exposure", SATELLITE_RISK_OFF_EXPOSURE))
         satellite_risk_on_exposure = float(strategy_config.get("satellite_risk_on_exposure", SATELLITE_RISK_ON_EXPOSURE))
+        market_close_series = prepared.market_monthly_close if rebalance_frequency == "monthly" else prepared.market_weekly_close
         market_regime = compute_market_exposure(
-            prepared.market_monthly_close,
+            market_close_series,
             signal_date,
             risk_off_rule=market_risk_off_rule,
             core_risk_off_exposure=core_risk_off_exposure,
             core_risk_on_exposure=core_risk_on_exposure,
             satellite_risk_off_exposure=satellite_risk_off_exposure,
             satellite_risk_on_exposure=satellite_risk_on_exposure,
+            momentum_lookback=MONTHLY_MOMENTUM_LOOKBACK if rebalance_frequency == "monthly" else WEEKLY_MOMENTUM_LOOKBACK,
+            momentum_skip=MONTHLY_MOMENTUM_SKIP if rebalance_frequency == "monthly" else WEEKLY_MOMENTUM_SKIP,
+            ma_lookback=MONTHLY_MA_LOOKBACK if rebalance_frequency == "monthly" else WEEKLY_MA_LOOKBACK,
         )
         if strategy_kind == "pure_core_growth":
             market_regime = {
@@ -3659,7 +3879,7 @@ def run_backtest(
         .reset_index(name="annual_return")
     )
 
-    metrics = compute_metrics(equity_curve, monthly_returns, turnover)
+    metrics = compute_metrics(equity_curve, monthly_returns, turnover, rebalance_frequency=rebalance_frequency)
 
     latest_weights = pd.DataFrame(columns=["ts_code", "name", "weight"])
     latest_nav = float(positions.sum() + cash_value)
@@ -3694,7 +3914,7 @@ def run_backtest(
 
     summary = {
         "sample_start": sample_start.strftime("%Y-%m-%d"),
-        "sample_end": prepared.month_end_dates[-1].strftime("%Y-%m-%d"),
+        "sample_end": signal_schedule[-1].strftime("%Y-%m-%d"),
         "sample_tag": sample_tag,
         "sample_label": sample_label,
         "sample_short_label": sample_short_label,
@@ -3709,9 +3929,17 @@ def run_backtest(
         "base_weight_name": str(strategy_config["base_weight_name"]),
         "core_source_mode": str(strategy_config["core_source_mode"]),
         "core_source_name": str(strategy_config["core_source_name"]),
-        "rebalance_frequency": "monthly",
-        "signal_date_rule": "使用每个月最后一个交易日的 total_mv 与前复权价格",
-        "execution_rule": "在下一个交易月第一个交易日扣除交易费用并切换到目标权重",
+        "rebalance_frequency": rebalance_frequency,
+        "signal_date_rule": (
+            "使用每个月最后一个交易日的 total_mv 与前复权价格"
+            if rebalance_frequency == "monthly"
+            else ("使用每两周最后一个交易日的信号点与最新前复权价格" if rebalance_frequency == "biweekly" else "使用每周最后一个交易日的信号点与最新前复权价格")
+        ),
+        "execution_rule": (
+            "在下一个交易月第一个交易日扣除交易费用并切换到目标权重"
+            if rebalance_frequency == "monthly"
+            else "在信号日后的下一个交易日扣除交易费用并切换到目标权重"
+        ),
         "selection_overlay": selection_overlay,
         "price_rule": "前复权收盘价 = close * adj_factor / latest_adj_factor",
         "listing_filter": listing_filter,

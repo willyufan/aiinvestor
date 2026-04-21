@@ -11,7 +11,7 @@
 1. 先做出显著更高的收益上限
 2. 再讨论如何把极端回撤收回来
 
-当前已把 `Path 2` 的单轮探索预算提升到 **`12-18` 个候选 / `3` 条独立候选族**，并要求每条候选族固定保留 `4-6` 个代表候选。
+当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个候选 / `4-5` 条独立候选族**，并要求每条候选族固定保留 `4-6` 个代表候选。
 
 ## 1. 当前目标
 
@@ -23,9 +23,9 @@
 - 现实检查（基于当前缓存结果）：截至 `2026-04-19`，`since_2020_01` 窗口在现有策略家族里上限约 `~25% CAGR`，要冲击 `40%+` 需要新增更激进的候选族（或更激进的信号/约束组合），并针对 `since_2020_01` 补跑小批量回测。
 - 当前研究原则：
   - 不受 `winner_core` 主线约束
-  - 每次迭代固定覆盖 `3` 条独立候选族
+- 每次迭代固定覆盖 `4-5` 条独立候选族
   - 每条候选族内部保留 `4-6` 个有代表性的候选
-  - 单轮快筛候选预算控制在 `12-18` 个
+  - 单轮快筛候选预算控制在 `24-36` 个
 
 ## 2. 当前主线假设
 
@@ -46,7 +46,7 @@
 
 ## 3. 当前独立候选族
 
-目前 `Path 2` 已经开始用独立候选扫描逻辑，当前重点拆成三类候选族：
+目前 `Path 2` 已经开始用独立候选扫描逻辑，当前重点拆成五类候选族：
 
 ### A. 高集中突破
 
@@ -95,13 +95,41 @@
 - `aggr_08_92_prom6_cash_off_and`
 - `aggr_05_95_prom3_core_6_1_cash_off_and_cap60`
 
+### D. 双周调仓高收益族
+
+特点：
+
+- 以双周调仓代替月度调仓
+- 比月度更快响应，但不至于像单周那样过于高噪音
+- 优先观察 `since_2020_01 / since_2023_01`
+
+当前代表方向（目标 `4-6` 个）：
+
+- `aggr_08_92_prom6_core_6_1_full_risk_cap60_biweekly`
+- `aggr_05_95_prom3_core_6_1_full_risk_cap60_biweekly`
+- `aggr_08_92_prom6_cash_off_and_biweekly`
+
+### E. 单周调仓高收益族
+
+特点：
+
+- 以单周调仓追求更高收益上限
+- 更适合高集中突破 / 高弹性动量候选
+- 更容易带来更高换手和更深波动
+
+当前代表方向（目标 `4-6` 个）：
+
+- `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`
+- `aggr_05_95_prom3_core_6_1_full_risk_cap60_weekly`
+- `aggr_08_92_prom6_cash_off_and_weekly`
+
 ## 4. 当前默认候选生成
 
 当前 `Path 2` 使用独立扫描脚本：
 
 - [scripts/path2_candidate_pass.py](/Users/valselee/my-code/aiinvestor/scripts/path2_candidate_pass.py)
 
-当前候选来源已经从“统一候选池”升级成**显式三族生成**：
+当前候选来源已经从“统一候选池”升级成**显式多候选族生成**：
 
 1. `high_concentration_breakout`
    - 更高集中
@@ -127,9 +155,9 @@
 
 ## 5. 下一轮优先尝试的方向
 
-## 5.0 本轮（2026-04-19）执行清单（覆盖 3 条独立候选族）
+## 5.0 上轮（2026-04-19）执行清单（覆盖 3 条独立候选族）
 
-本轮 `Path 2` 严格按“独立候选族”推进，优先覆盖 3 条候选族（每条内部只观察 3-5 个代表候选，不做无差别全扫）：
+上轮 `Path 2` 严格按“独立候选族”推进，优先覆盖 3 条候选族（每条内部只观察 3-5 个代表候选，不做无差别全扫）：
 
 1. **高集中突破族**：围绕 `aggr_05_95_prom3_core_6_1_full_risk(_cap60)` 这一支，重点看 `since_2023_01 / since_2025_01` 是否继续维持 `40%+` 的上限弹性。
 2. **高成长主线族**：围绕 `aggr_08_92_prom6_core_6_1_full_risk_(cap40/cap60)`，优先把 `since_2020_01 / since_2023_01` 往 `40%+` 推。
@@ -139,7 +167,8 @@
 
 - 每轮至少覆盖 `3` 条独立候选族
 - 每条候选族至少保留 `4-6` 个代表候选
-- 单轮快筛总预算目标 `12-18` 个
+- 单轮快筛总预算目标 `24-36` 个
+- 脚本侧每族目标预算默认按 `target_candidates=6` 执行（3 族合计 `<=18`），避免无意义扩大代表候选数
 
 对应的执行约束：
 
@@ -154,6 +183,36 @@
 - 当前（缓存结果）仍然显示：
   - `since_2023_01` / `since_2025_01` 上限主要来自 `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`（收益上限高，但回撤深）。
   - `since_2020_01` 在现有候选宇宙内仍停留在 `~25% CAGR` 附近，需要更独立、更激进（且针对 2020 的）新候选族才有机会冲击 `40%+`。
+
+## 5.1 本轮（2026-04-20）执行清单（覆盖 5 条独立候选族）
+
+本轮 `Path 2` 继续严格按“独立候选族”推进，覆盖以下 5 条候选族（不要求先打赢 Path 1 才记录）：
+
+1. **高集中突破族**：继续围绕 `aggr_05_95_prom3_core_6_1_*`，重点看 `since_2023_01 / since_2025_01` 的上限弹性是否可持续。
+2. **高成长主线族**：继续围绕 `aggr_08_92_prom6*_full_risk*` 与 `aggr_10_90_fast_ramp_cash_off_and`，优先把 `since_2020_01` 往 `40%+ CAGR` 推。
+3. **动量 / 等权高弹性族**：继续把 `momentum_top_*` 与 `cash_off_and` 线作为“弱底座 + 高弹性”的候选来源，观察是否能在 `2020/2023/2025` 形成更一致的强势版本。
+4. **双周调仓高收益族**：新增 `*_biweekly` 变体，验证“更快调仓但不至于像单周一样高噪音”的中间解是否能抬高 `2020/2023`。
+5. **单周调仓高收益族**：新增 `*_weekly` 变体，验证更高频调仓是否能给高集中突破和高弹性候选带来更高上限。
+
+对应执行约束（本轮继续沿用）：
+
+- 必须先独立运行 `scripts/path2_candidate_pass.py`，并以 `backtest_marketcap_etf.py` 中 `PATH2_SCAN_BASE_PREFIXES / PATH2_SCAN_VARIANT_IDS / PATH2_SCAN_FAMILY_RULES` 定义的候选宇宙为准。
+- Path 2 必须持续单独维护四窗口赢家 + 四窗口鲁棒候选。
+- 若本轮没有出现新的窗口赢家或鲁棒候选改写，则只更新本文档的研究记录，不额外补跑确认回测。
+
+### 本轮快筛记录（2026-04-20）
+
+- 先后运行 `.venv/bin/python scripts/path2_candidate_pass.py`（基于缓存对比 CSV）：
+  - 扩展 `PATH2_SCAN_BASE_PREFIXES / PATH2_SCAN_VARIANT_IDS / PATH2_SCAN_FAMILY_RULES` 后，`path2 candidates=43`；四窗口赢家与四窗口鲁棒候选均未改写。
+- 补充（2026-04-20 13:21）：重跑 `scripts/path2_candidate_pass.py`，四窗口赢家与四窗口鲁棒候选结论不变。
+- 补充（2026-04-20 18:54）：再次重跑 `scripts/path2_candidate_pass.py`，`candidates=43`；四窗口赢家与四窗口鲁棒候选结论不变。
+- 补充（2026-04-20 20:23）：运行 `scripts/path2_candidate_pass.py`，`candidates=43`；四窗口赢家与四窗口鲁棒候选结论不变。
+- 当前（缓存结果）四窗口赢家与鲁棒候选：
+  - `since_2017_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60`（CAGR `31.53%`）
+  - `since_2020_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60`（CAGR `35.85%`，仍未到 `40%+`）
+  - `since_2023_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（CAGR `56.01%`）
+  - `since_2025_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60`（CAGR `124.08%`）
+  - `robust`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80`（meanCAGR `57.11%` / minCAGR `26.93%`）
 
 ### A. 更高集中度的突破线
 
@@ -243,7 +302,7 @@
 
 1. 先跑独立 candidate pass，而不是复用 Path 1 fast pass。
 2. 每轮固定覆盖 `3` 条独立候选族。
-3. 每条候选族内部保留 `4-6` 个代表候选，单轮总预算目标 `12-18` 个。
+3. 每条候选族内部保留 `4-6` 个代表候选，单轮总预算目标 `24-36` 个。
 4. 若某方向虽然收益高，但连续多轮只在一个窗口短暂领先、且回撤极端失控，应写入“暂缓/观察”。
 5. 若某候选在 `2020 / 2023 / 2025` 都显著强，应优先进入 `Path 2 robust candidate` 比较。
 
