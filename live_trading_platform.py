@@ -92,6 +92,14 @@ def describe_price_source(source: str) -> str:
     return mapping.get(source, source)
 
 
+def market_scope_label(scope: str) -> str:
+    mapping = {
+        "a_share": "A股",
+        "hkconnect": "沪港通",
+    }
+    return mapping.get(scope, scope)
+
+
 def _select_previous_close(rows: list[dict[str, str]], today_tag: str) -> float | None:
     eligible = [row for row in rows if str(row.get("trade_date") or "") < today_tag]
     candidate = eligible[-1] if eligible else (rows[-1] if rows else None)
@@ -1700,19 +1708,29 @@ def dashboard_html() -> str:
 
 def strategies_html() -> str:
     registry = load_registry()["strategies"]
-    cards = []
+    groups = {"a_share": [], "hkconnect": []}
     for item in registry:
-        metrics = item["summary_metrics"]
-        cards.append(
-            "<div class='card'>"
-            f"<div class='pill'>{html.escape(item['path'])} / {html.escape(item['winner_type'])}</div>"
-            f"<h3 style='margin-top:12px'><a href='/strategies/{item['strategy_id']}'>{html.escape(item['display_name'])}</a></h3>"
-            f"<div class='muted'><code>{html.escape(item['strategy_id'])}</code></div>"
-            f"<p>Total Return {fmt_pct(float(metrics.get('total_return', 0.0)))} | CAGR {fmt_pct(float(metrics.get('cagr', 0.0)))} | MaxDD {fmt_pct(float(metrics.get('max_drawdown', 0.0)))} | Sharpe {float(metrics.get('sharpe_ratio', 0.0)):.4f} | Turn {float(metrics.get('average_annual_turnover', 0.0)):.2f}</p>"
-            f"<p>当前总仓位建议: {fmt_pct(float(item['target_total_exposure']))} | 风险状态: {html.escape(item['risk_state'])} | 更新: {html.escape(str(item['updated_at']))}</p>"
-            "</div>"
-        )
-    return render_page("策略中心", "<h1>策略中心</h1><div class='grid grid-2'>" + "".join(cards) + "</div>")
+        groups.setdefault(str(item.get("market_scope", "a_share")), []).append(item)
+
+    sections = []
+    for scope in ("a_share", "hkconnect"):
+        items = groups.get(scope, [])
+        if not items:
+            continue
+        cards = []
+        for item in items:
+            metrics = item["summary_metrics"]
+            cards.append(
+                "<div class='card'>"
+                f"<div class='pill'>{html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} / {html.escape(item['path'])} / {html.escape(item['winner_type'])}</div>"
+                f"<h3 style='margin-top:12px'><a href='/strategies/{item['strategy_id']}'>{html.escape(item['display_name'])}</a></h3>"
+                f"<div class='muted'><code>{html.escape(item['strategy_id'])}</code></div>"
+                f"<p>Total Return {fmt_pct(float(metrics.get('total_return', 0.0)))} | CAGR {fmt_pct(float(metrics.get('cagr', 0.0)))} | MaxDD {fmt_pct(float(metrics.get('max_drawdown', 0.0)))} | Sharpe {float(metrics.get('sharpe_ratio', 0.0)):.4f} | Turn {float(metrics.get('average_annual_turnover', 0.0)):.2f}</p>"
+                f"<p>当前总仓位建议: {fmt_pct(float(item['target_total_exposure']))} | 风险状态: {html.escape(item['risk_state'])} | 更新: {html.escape(str(item['updated_at']))}</p>"
+                "</div>"
+            )
+        sections.append(f"<h2>{html.escape(market_scope_label(scope))}策略</h2><div class='grid grid-2'>{''.join(cards)}</div>")
+    return render_page("策略中心", "<h1>策略中心</h1>" + "".join(sections))
 
 
 def strategy_detail_html(strategy_id: str, history_window_index: int = 0) -> str:
@@ -1774,7 +1792,7 @@ def strategy_detail_html(strategy_id: str, history_window_index: int = 0) -> str
     body = (
         f"<h1>{html.escape(item['display_name'])}</h1>"
         f"<p><code>{html.escape(strategy_id)}</code></p>"
-        f"<p>路径: {html.escape(item['path'])} | 类型: {html.escape(item['winner_type'])} | 当前建议仓位: {fmt_pct(float(item['target_total_exposure']))} | 风险状态: {html.escape(item['risk_state'])}</p>"
+        f"<p>市场: {html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} | 路径: {html.escape(item['path'])} | 类型: {html.escape(item['winner_type'])} | 当前建议仓位: {fmt_pct(float(item['target_total_exposure']))} | 风险状态: {html.escape(item['risk_state'])}</p>"
         "<div class='card'><h2>窗口表现</h2><table><thead><tr><th>窗口</th><th>Total Return</th><th>CAGR</th><th>MaxDD</th><th>Sharpe</th><th>Turnover</th></tr></thead><tbody>"
         + "".join(rows)
         + "</tbody></table></div>"
@@ -1804,7 +1822,7 @@ def accounts_html() -> str:
     options = []
     for item in registry:
         options.append(
-            f"<option value='{html.escape(item['strategy_id'])}'>{html.escape(item['path'])} / {html.escape(item['winner_type'])} / {html.escape(item['display_name'])}</option>"
+            f"<option value='{html.escape(item['strategy_id'])}'>{html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} / {html.escape(item['path'])} / {html.escape(item['winner_type'])} / {html.escape(item['display_name'])}</option>"
         )
     return render_page(
         "账户中心",
@@ -1880,7 +1898,7 @@ def account_detail_html(account_id: int, *, show_editor: bool = False) -> str:
     for item in registry:
         selected = " selected" if item["strategy_id"] == binding["strategy_id"] else ""
         strategy_options.append(
-            f"<option value='{html.escape(item['strategy_id'])}'{selected}>{html.escape(item['path'])} / {html.escape(item['winner_type'])} / {html.escape(item['display_name'])}</option>"
+            f"<option value='{html.escape(item['strategy_id'])}'{selected}>{html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} / {html.escape(item['path'])} / {html.escape(item['winner_type'])} / {html.escape(item['display_name'])}</option>"
         )
     holding_editor_rows = "".join(
         f"<tr>"
@@ -2018,7 +2036,7 @@ def account_switch_strategy_html(account_id: int, *, success: bool = False) -> s
     for item in registry:
         selected = " selected" if item["strategy_id"] == binding["strategy_id"] else ""
         strategy_options.append(
-            f"<option value='{html.escape(item['strategy_id'])}'{selected}>{html.escape(item['path'])} / {html.escape(item['winner_type'])} / {html.escape(item['display_name'])}</option>"
+            f"<option value='{html.escape(item['strategy_id'])}'{selected}>{html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} / {html.escape(item['path'])} / {html.escape(item['winner_type'])} / {html.escape(item['display_name'])}</option>"
         )
     body = (
         f"<h1>切换策略 - {html.escape(account['name'])}</h1>"

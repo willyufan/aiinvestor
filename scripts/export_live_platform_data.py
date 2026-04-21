@@ -8,9 +8,11 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS_DIR = ROOT / "results"
+HK_RESULTS_DIR = ROOT / "results_hkconnect"
 LIVE_DIR = RESULTS_DIR / "live"
 TRACKED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
 DAILY_CACHE_DIR = ROOT / "data_cache" / "daily"
+HK_DAILY_CACHE_DIR = ROOT / "data_cache" / "hkconnect" / "daily_adj"
 
 SAMPLE_LABELS = {
     "since_2017_only": "2017-window winner",
@@ -20,14 +22,43 @@ SAMPLE_LABELS = {
     "robust_candidate": "robust candidate",
 }
 HISTORY_WINDOW_SNAPSHOTS = 12
+SAMPLE_TAGS = ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"]
 
 
 def build_result_path(base_id: str, sample_tag: str, filename: str) -> Path:
     return RESULTS_DIR / f"{base_id}__{sample_tag}" / filename
 
 
+def build_hk_result_path(base_id: str, sample_tag: str, filename: str) -> Path:
+    return HK_RESULTS_DIR / f"{base_id}__{sample_tag}" / filename
+
+
 def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _collect_windows(base_id: str, *, market_scope: str = "a_share") -> dict[str, Any]:
+    path_builder = build_hk_result_path if market_scope == "hkconnect" else build_result_path
+    windows: dict[str, Any] = {}
+    for sample_tag in SAMPLE_TAGS:
+        summary_path = path_builder(base_id, sample_tag, "summary.json")
+        if not summary_path.exists():
+            continue
+        try:
+            summary = load_json(summary_path)
+            metrics = summary.get("metrics", {})
+            windows[sample_tag] = {
+                "total_return": float(metrics.get("total_return", 0.0)),
+                "cagr": float(metrics.get("cagr", 0.0)),
+                "max_drawdown": float(metrics.get("max_drawdown", 0.0)),
+                "sharpe": float(metrics.get("sharpe_ratio", 0.0)),
+                "turnover": float(metrics.get("average_annual_turnover", 0.0)),
+                "sample_start": summary.get("sample_start"),
+                "sample_end": summary.get("sample_end"),
+            }
+        except Exception:
+            continue
+    return windows
 
 
 def _build_weight_history_windows(path: Path) -> list[dict[str, Any]]:
@@ -98,7 +129,8 @@ def guess_sample_tag(track_key: str) -> str:
 
 
 def find_latest_price(ts_code: str) -> float | None:
-    path = DAILY_CACHE_DIR / f"{ts_code}.csv"
+    cache_dir = HK_DAILY_CACHE_DIR if ts_code.endswith(".HK") else DAILY_CACHE_DIR
+    path = cache_dir / f"{ts_code}.csv"
     if not path.exists():
         return None
     try:
@@ -113,15 +145,16 @@ def find_latest_price(ts_code: str) -> float | None:
         return None
 
 
-def load_strategy_snapshot(base_id: str, sample_tag: str) -> dict[str, Any]:
-    summary_path = build_result_path(base_id, sample_tag, "summary.json")
+def load_strategy_snapshot(base_id: str, sample_tag: str, *, market_scope: str = "a_share") -> dict[str, Any]:
+    path_builder = build_hk_result_path if market_scope == "hkconnect" else build_result_path
+    summary_path = path_builder(base_id, sample_tag, "summary.json")
     if not summary_path.exists():
         raise FileNotFoundError(f"Missing summary for {base_id} / {sample_tag}")
     summary = load_json(summary_path)
 
-    latest_weights_path = build_result_path(base_id, sample_tag, "latest_weights.csv")
-    monthly_path = build_result_path(base_id, sample_tag, "monthly_returns.csv")
-    weight_history_path = build_result_path(base_id, sample_tag, "weights_history.csv")
+    latest_weights_path = path_builder(base_id, sample_tag, "latest_weights.csv")
+    monthly_path = path_builder(base_id, sample_tag, "monthly_returns.csv")
+    weight_history_path = path_builder(base_id, sample_tag, "weights_history.csv")
 
     latest_weights: list[dict[str, Any]] = []
     target_exposure = 1.0
@@ -156,11 +189,11 @@ def load_strategy_snapshot(base_id: str, sample_tag: str) -> dict[str, Any]:
 
     return {
         "strategy_id": base_id,
-        "display_name": summary.get("strategy_base_name", base_id),
+        "display_name": summary.get("strategy_base_name") or summary.get("strategy_name") or base_id,
         "sample_tag": sample_tag,
         "updated_at": summary.get("sample_end"),
         "summary_metrics": summary.get("metrics", {}),
-        "windows": {},
+        "windows": _collect_windows(base_id, market_scope=market_scope),
         "target_total_exposure": target_exposure,
         "risk_state": risk_state,
         "latest_weights": latest_weights,
@@ -171,7 +204,87 @@ def load_strategy_snapshot(base_id: str, sample_tag: str) -> dict[str, Any]:
             "base_weight_method": summary.get("base_weight_method"),
             "core_source_mode": summary.get("core_source_mode"),
         },
+        "market_scope": market_scope,
     }
+
+
+def _pick_hk_robust_candidate(df: pd.DataFrame, path_name: str) -> str | None:
+    subset = df[df["path"] == path_name].copy()
+    if subset.empty:
+        return None
+    metrics_rows: list[dict[str, Any]] = []
+    for strategy_id, sub in subset.groupby("strategy_id"):
+        metrics_rows.append(
+            {
+                "strategy_id": strategy_id,
+                "avg_cagr": float(sub["cagr"].mean()),
+                "min_cagr": float(sub["cagr"].min()),
+                "avg_sharpe": float(sub["sharpe_ratio"].mean()),
+                "worst_dd": float(sub["max_drawdown"].min()),
+                "avg_turn": float(sub["average_annual_turnover"].mean()),
+            }
+        )
+    ranked = pd.DataFrame(metrics_rows).sort_values(
+        ["avg_cagr", "min_cagr", "avg_sharpe", "worst_dd", "avg_turn"],
+        ascending=[False, False, False, False, True],
+    )
+    return str(ranked.iloc[0]["strategy_id"]) if not ranked.empty else None
+
+
+def load_hkconnect_registry() -> list[dict[str, Any]]:
+    comparison_path = HK_RESULTS_DIR / "strategy_comparison_hkconnect.csv"
+    if not comparison_path.exists():
+        return []
+    try:
+        df = pd.read_csv(comparison_path)
+    except Exception:
+        return []
+    required = {"sample_tag", "path", "strategy_id", "cagr", "max_drawdown", "sharpe_ratio", "average_annual_turnover"}
+    if df.empty or not required.issubset(df.columns):
+        return []
+
+    dedup: dict[str, dict[str, Any]] = {}
+
+    def add_entry(*, path_name: str, winner_type: str, strategy_id: str, sample_tag: str) -> None:
+        if strategy_id in dedup:
+            dedup[strategy_id]["winner_tags"].append(f"hkconnect:{path_name}:{winner_type}")
+            return
+        snapshot = load_strategy_snapshot(strategy_id, sample_tag, market_scope="hkconnect")
+        snapshot["path"] = path_name
+        snapshot["winner_type"] = winner_type
+        snapshot["winner_tags"] = [f"hkconnect:{path_name}:{winner_type}"]
+        snapshot["market_scope"] = "hkconnect"
+        dedup[strategy_id] = snapshot
+
+    for sample_tag, winner_type in [
+        ("since_2017_01", "2017-window winner"),
+        ("since_2020_01", "2020-window winner"),
+        ("since_2023_01", "2023-window winner"),
+        ("since_2025_01", "2025-window winner"),
+    ]:
+        sample_df = df[df["sample_tag"] == sample_tag]
+        for path_name in ("path1", "path2"):
+            sub = sample_df[sample_df["path"] == path_name].sort_values(["cagr", "sharpe_ratio"], ascending=[False, False])
+            if sub.empty:
+                continue
+            add_entry(
+                path_name=path_name,
+                winner_type=winner_type,
+                strategy_id=str(sub.iloc[0]["strategy_id"]),
+                sample_tag=sample_tag,
+            )
+
+    for path_name in ("path1", "path2"):
+        robust_id = _pick_hk_robust_candidate(df, path_name)
+        if robust_id:
+            add_entry(
+                path_name=path_name,
+                winner_type="robust candidate",
+                strategy_id=robust_id,
+                sample_tag="since_2020_01",
+            )
+
+    return list(dedup.values())
 
 
 def export_live_data() -> dict[str, Any]:
@@ -186,11 +299,12 @@ def export_live_data() -> dict[str, Any]:
             dedup[strategy_id]["winner_tags"].append(f"{path_name}:{winner_type}")
             return
         tracked_info = strategies_map[strategy_id]
-        snapshot = load_strategy_snapshot(strategy_id, sample_tag)
+        snapshot = load_strategy_snapshot(strategy_id, sample_tag, market_scope="a_share")
         snapshot["path"] = path_name
         snapshot["winner_type"] = winner_type
         snapshot["winner_tags"] = [f"{path_name}:{winner_type}"]
         snapshot["windows"] = tracked_info["windows"]
+        snapshot["market_scope"] = "a_share"
         dedup[strategy_id] = snapshot
 
     for track_key, track_meta in payload["tracks"].items():
@@ -231,9 +345,12 @@ def export_live_data() -> dict[str, Any]:
             sample_tag="since_2020_01",
         )
 
+    registry = list(dedup.values())
+    registry.extend(load_hkconnect_registry())
     registry = sorted(
-        dedup.values(),
+        registry,
         key=lambda item: (
+            item.get("market_scope", "a_share"),
             item["path"],
             item["winner_type"],
             -float(item["summary_metrics"].get("cagr", 0.0)),
@@ -253,6 +370,7 @@ def export_live_data() -> dict[str, Any]:
                 "strategy_id": item["strategy_id"],
                 "display_name": item["display_name"],
                 "path": item["path"],
+                "market_scope": item.get("market_scope", "a_share"),
                 "winner_type": item["winner_type"],
                 "winner_tags": item["winner_tags"],
                 "target_total_exposure": item["target_total_exposure"],
