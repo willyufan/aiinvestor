@@ -20,6 +20,12 @@ DEFAULT_WRITE_JSON = RESULTS_DIR / "path2_candidate_pass.json"
 
 WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
 WEIGHTED_REQUIRED_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01")
+PATH2_PROMOTION_SCORE_POLICY = {
+    "cagr_2020_weight": 0.70,
+    "cagr_2023_weight": 0.30,
+    "sharpe_2020_weight": 0.07,
+    "sharpe_2023_weight": 0.03,
+}
 
 
 def _parse_python_constants(path: Path, names: Iterable[str]) -> dict[str, Any]:
@@ -212,10 +218,10 @@ def main() -> None:
             if not metrics_2020 or not metrics_2023:
                 continue
             score = (
-                0.55 * metrics_2020["cagr"]
-                + 0.45 * metrics_2023["cagr"]
-                + 0.05 * metrics_2020["sharpe"]
-                + 0.05 * metrics_2023["sharpe"]
+                PATH2_PROMOTION_SCORE_POLICY["cagr_2020_weight"] * metrics_2020["cagr"]
+                + PATH2_PROMOTION_SCORE_POLICY["cagr_2023_weight"] * metrics_2023["cagr"]
+                + PATH2_PROMOTION_SCORE_POLICY["sharpe_2020_weight"] * metrics_2020["sharpe"]
+                + PATH2_PROMOTION_SCORE_POLICY["sharpe_2023_weight"] * metrics_2023["sharpe"]
             )
             ranked.append(
                 (
@@ -244,6 +250,7 @@ def main() -> None:
         "candidate_prefixes": prefixes,
         "candidate_variant_ids": variant_ids,
         "candidate_families": family_rules,
+        "promotion_score_policy": PATH2_PROMOTION_SCORE_POLICY,
         "candidate_count": len(candidate_ids),
         "family_candidate_counts": {family_name: len(sorted(set(ids))) for family_name, ids in family_candidates.items()},
         "candidate_family_membership": candidate_family_membership,

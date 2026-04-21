@@ -85,6 +85,17 @@ RISK_EVAL_FREQUENCY_WEEKLY = "weekly"
 SAT_WEEKLY_RISK_SUFFIX = "__sat_weekly_risk"
 SAT_THREE_STAGE_SUFFIX = "__sat_three_stage_risk"
 SAT_THREE_STAGE_BUFFERED_SUFFIX = "__sat_three_stage_buffered"
+PORT_WEEKLY_EXPOSURE_SUFFIX = "__port_weekly_exposure"
+PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX = "__port_weekly_exposure_buffered"
+PORT_WEEKLY_EXPOSURE_ASYM_SUFFIX = "__port_weekly_exposure_asym"
+WEEKLY_OVERLAY_SUFFIXES = (
+    SAT_WEEKLY_RISK_SUFFIX,
+    SAT_THREE_STAGE_SUFFIX,
+    SAT_THREE_STAGE_BUFFERED_SUFFIX,
+    PORT_WEEKLY_EXPOSURE_SUFFIX,
+    PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX,
+    PORT_WEEKLY_EXPOSURE_ASYM_SUFFIX,
+)
 CORE_RISK_OFF_EXPOSURE = 0.60
 CORE_RISK_ON_EXPOSURE = 1.00
 CORE_CAUTION_EXPOSURE = 0.85
@@ -98,6 +109,7 @@ WEEKLY_MOMENTUM_LOOKBACK = 52
 WEEKLY_MOMENTUM_SKIP = 4
 WEEKLY_MA_LOOKBACK = 40
 WEEKLY_STAGE_CONFIRM_WEEKS = 2
+WEEKLY_PORTFOLIO_RAMP_UP = 0.15
 MARKET_INDEX_CODE = "000300.SH"
 BENCHMARK_INDEX_CODE = "000001.SH"
 CORE_INDEX_CODES = ["000300.SH", "000688.SH"]
@@ -438,6 +450,19 @@ WINNER_CORE_VARIANTS = [
         "weight_cap": 0.60,
     },
     {
+        "variant_id": "aggr_05_95_prom3_core_6_1_full_risk_cap80",
+        "variant_name": "进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票80%)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "core_risk_off_exposure": 1.0,
+        "satellite_risk_off_exposure": 1.0,
+        "weight_cap": 0.80,
+    },
+    {
         "variant_id": "aggr_05_95_prom3_core_6_1_cap60",
         "variant_name": "进攻5/95 晋升3只(核心6-1动量, 单票60%)",
         "winner_core_stable_share": 0.05,
@@ -461,6 +486,61 @@ WINNER_CORE_VARIANTS = [
         "core_risk_off_exposure": 0.0,
         "satellite_risk_off_exposure": 0.0,
         "weight_cap": 0.60,
+    },
+    {
+        "variant_id": "aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80",
+        "variant_name": "进攻5/95 晋升3只(核心6-1动量, 熊市降到30% and, 单票80%)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.30,
+        "satellite_risk_off_exposure": 0.30,
+        "weight_cap": 0.80,
+    },
+    {
+        "variant_id": "aggr_03_97_prom2_core_6_1_full_risk_cap80",
+        "variant_name": "进攻3/97 晋升2只(核心6-1动量, 关闭熊市降仓, 单票80%)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "core_risk_off_exposure": 1.0,
+        "satellite_risk_off_exposure": 1.0,
+        "weight_cap": 0.80,
+    },
+    {
+        "variant_id": "aggr_03_97_prom2_core_6_1_full_risk_cap80_biweekly",
+        "variant_name": "进攻3/97 晋升2只(核心6-1动量, 满风险, 单票80%, 双周)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "core_risk_off_exposure": 1.0,
+        "satellite_risk_off_exposure": 1.0,
+        "weight_cap": 0.80,
+        "rebalance_frequency": "biweekly",
+    },
+    {
+        "variant_id": "aggr_03_97_prom2_core_6_1_full_risk_cap80_weekly",
+        "variant_name": "进攻3/97 晋升2只(核心6-1动量, 满风险, 单票80%, 单周)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "core_risk_off_exposure": 1.0,
+        "satellite_risk_off_exposure": 1.0,
+        "weight_cap": 0.80,
+        "rebalance_frequency": "weekly",
     },
     {
         "variant_id": "aggr_08_92_prom6_core_6_1_full_risk_cap60_biweekly",
@@ -549,12 +629,15 @@ WINNER_CORE_VARIANTS = [
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
     "promotion_ramp": [
         "aggr_10_90_fast_ramp",
+        "aggr_10_90_prom5",
         "aggr_10_90_prom6",
+        "aggr_10_90_prom7",
         "aggr_10_90_prom7_ramp90",
     ],
     "satellite_defense": [
         "aggr_08_92_prom6_cash_off",
         "aggr_08_92_prom6_cash_off_and",
+        "aggr_10_90_prom6_cash_off",
         "aggr_10_90_fast_ramp_cash_off",
     ],
     "signal_variants": [
@@ -563,27 +646,38 @@ PATH1_FAST_PASS_DIRECTION_GROUPS = {
     ],
     "holding_shape": [
         "share_15_85_hold_4_6",
+        "aggr_10_90_hold_4_6",
+        "share_12_88_hold_4_6",
         "aggr_09_91_prom7",
     ],
     "supporting_variants": [
         "aggr_08_92_prom6",
         "aggr_08_92_prom6_ramp90",
+        "aggr_08_92_prom7",
+        "aggr_08_92_prom7_ramp90",
     ],
 }
 
 PATH1_FAST_PASS_VARIANT_IDS = [
     "share_15_85_hold_4_6",
     "aggr_10_90_fast_ramp",
+    "aggr_10_90_hold_4_6",
+    "aggr_10_90_prom5",
     "aggr_10_90_prom6",
+    "aggr_10_90_prom7",
     "aggr_10_90_prom7_ramp90",
     "aggr_08_92_prom6",
     "aggr_08_92_prom6_ramp90",
+    "aggr_08_92_prom7",
+    "aggr_08_92_prom7_ramp90",
     "aggr_08_92_prom6_cash_off",
     "aggr_08_92_prom6_cash_off_and",
+    "aggr_10_90_prom6_cash_off",
     "aggr_10_90_fast_ramp_cash_off",
     "aggr_08_92_prom6_core_6_1",
     "aggr_10_90_prom6_core_6_1",
     "aggr_09_91_prom7",
+    "share_12_88_hold_4_6",
 ]
 
 PATH2_SCAN_BASE_PREFIXES = [
@@ -603,10 +697,13 @@ PATH2_SCAN_FAMILY_RULES = {
             "core_explore_70_30_equal_weight_winner_core",
         ],
         "variant_ids": [
+            "aggr_03_97_prom2_core_6_1_full_risk_cap80",
             "aggr_05_95_prom3_core_6_1_full_risk",
             "aggr_05_95_prom3_core_6_1_full_risk_cap60",
+            "aggr_05_95_prom3_core_6_1_full_risk_cap80",
             "aggr_05_95_prom3_core_6_1_cap60",
             "aggr_05_95_prom3_core_6_1_cash_off_and_cap60",
+            "aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80",
             "aggr_05_95_prom7_core_6_1_full_risk",
             "aggr_05_95_prom7_core_6_1_full_risk_cap40",
             "aggr_05_95_prom7_core_3_1_full_risk_cap40",
@@ -650,6 +747,7 @@ PATH2_SCAN_FAMILY_RULES = {
             "momentum_top_",
         ],
         "variant_ids": [
+            "aggr_03_97_prom2_core_6_1_full_risk_cap80_biweekly",
             "aggr_08_92_prom6_core_6_1_full_risk_cap60_biweekly",
             "aggr_05_95_prom3_core_6_1_full_risk_cap60_biweekly",
             "aggr_08_92_prom6_cash_off_and_biweekly",
@@ -663,6 +761,7 @@ PATH2_SCAN_FAMILY_RULES = {
             "momentum_top_",
         ],
         "variant_ids": [
+            "aggr_03_97_prom2_core_6_1_full_risk_cap80_weekly",
             "aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly",
             "aggr_05_95_prom3_core_6_1_full_risk_cap60_weekly",
             "aggr_08_92_prom6_cash_off_and_weekly",
@@ -682,10 +781,15 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_08_92_prom6_core_6_1_full_risk",
     "aggr_08_92_prom6_core_6_1_full_risk_cap40",
     "aggr_08_92_prom6_core_6_1_full_risk_cap60",
+    "aggr_03_97_prom2_core_6_1_full_risk_cap80",
+    "aggr_03_97_prom2_core_6_1_full_risk_cap80_biweekly",
+    "aggr_03_97_prom2_core_6_1_full_risk_cap80_weekly",
     "aggr_05_95_prom3_core_6_1_full_risk",
     "aggr_05_95_prom3_core_6_1_full_risk_cap60",
+    "aggr_05_95_prom3_core_6_1_full_risk_cap80",
     "aggr_05_95_prom3_core_6_1_cap60",
     "aggr_05_95_prom3_core_6_1_cash_off_and_cap60",
+    "aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80",
     "aggr_05_95_prom7_core_6_1_full_risk",
     "aggr_05_95_prom7_core_6_1_full_risk_cap40",
     "aggr_05_95_prom7_core_3_1_full_risk_cap40",
@@ -2911,6 +3015,21 @@ def build_satellite_overlay_target_weights(
     return pd.concat(parts).groupby(level=0).sum().sort_values(ascending=False)
 
 
+def build_portfolio_overlay_target_weights(
+    base_target_weights: pd.Series,
+    *,
+    portfolio_total_weight: float,
+) -> pd.Series:
+    target = base_target_weights[base_target_weights > 1e-12].copy()
+    if target.empty:
+        return pd.Series(dtype=float)
+    base_total_weight = float(target.sum())
+    if base_total_weight <= 0:
+        return pd.Series(dtype=float)
+    portfolio_total_weight = max(0.0, min(1.0, float(portfolio_total_weight)))
+    return (target / base_total_weight * portfolio_total_weight).sort_values(ascending=False)
+
+
 def _risk_stage_rank(stage: str) -> int:
     mapping = {"risk_on": 0, "caution": 1, "risk_off": 2}
     return mapping.get(str(stage), 0)
@@ -2963,6 +3082,7 @@ def apply_weekly_satellite_risk_overlay(
     gross_cash_value: float,
     rebalance_date: pd.Timestamp,
     holding_month_end: pd.Timestamp,
+    base_target_weights: pd.Series,
     core_codes: Set[str],
     satellite_codes: Set[str],
     strategy_config: Dict[str, object],
@@ -2970,7 +3090,7 @@ def apply_weekly_satellite_risk_overlay(
 ) -> Tuple[pd.Series, float, pd.Series, float, List[Dict[str, object]], Dict[str, float], Dict[str, object]]:
     risk_frequency = str(strategy_config.get("risk_evaluation_frequency", RISK_EVAL_FREQUENCY_MONTHLY) or RISK_EVAL_FREQUENCY_MONTHLY)
     overlay_scope = str(strategy_config.get("risk_overlay_scope", "") or "")
-    if risk_frequency != RISK_EVAL_FREQUENCY_WEEKLY or overlay_scope != "satellite_only":
+    if risk_frequency != RISK_EVAL_FREQUENCY_WEEKLY or overlay_scope not in {"satellite_only", "portfolio_only"}:
         return positions, cash_value, gross_positions, gross_cash_value, [], {
             "weekly_overlay_trade_count": 0,
             "weekly_overlay_trading_cost": 0.0,
@@ -2978,7 +3098,13 @@ def apply_weekly_satellite_risk_overlay(
         }, overlay_state
 
     overlay_dates = [date for date in prepared.week_end_dates if rebalance_date < date < holding_month_end]
-    if not overlay_dates or not satellite_codes:
+    if not overlay_dates:
+        return positions, cash_value, gross_positions, gross_cash_value, [], {
+            "weekly_overlay_trade_count": 0,
+            "weekly_overlay_trading_cost": 0.0,
+            "weekly_overlay_avg_one_way_turnover": 0.0,
+        }, overlay_state
+    if overlay_scope == "satellite_only" and not satellite_codes:
         return positions, cash_value, gross_positions, gross_cash_value, [], {
             "weekly_overlay_trade_count": 0,
             "weekly_overlay_trading_cost": 0.0,
@@ -2986,6 +3112,7 @@ def apply_weekly_satellite_risk_overlay(
         }, overlay_state
 
     explore_ratio = float(strategy_config.get("explore_ratio", 0.0))
+    core_ratio = float(strategy_config.get("core_ratio", 0.0))
     market_risk_off_rule = str(strategy_config.get("market_risk_off_rule", "or") or "or").strip().lower()
     risk_staging_mode = str(strategy_config.get("risk_staging_mode", "two_stage") or "two_stage").strip().lower()
     use_buffered_stage = bool(strategy_config.get("risk_stage_buffered", False))
@@ -2993,6 +3120,8 @@ def apply_weekly_satellite_risk_overlay(
     satellite_risk_off_exposure = float(strategy_config.get("satellite_risk_off_exposure", SATELLITE_RISK_OFF_EXPOSURE))
     satellite_risk_on_exposure = float(strategy_config.get("satellite_risk_on_exposure", SATELLITE_RISK_ON_EXPOSURE))
     satellite_caution_exposure = float(strategy_config.get("satellite_caution_exposure", SATELLITE_CAUTION_EXPOSURE))
+    portfolio_ramp_up = float(strategy_config.get("weekly_portfolio_ramp_up", WEEKLY_PORTFOLIO_RAMP_UP))
+    use_asymmetric_portfolio_ramp = bool(strategy_config.get("weekly_portfolio_asymmetric", False))
 
     overlay_turnover_rows: List[Dict[str, object]] = []
     overlay_count = 0
@@ -3042,13 +3171,28 @@ def apply_weekly_satellite_risk_overlay(
             satellite_target_exposure = satellite_caution_exposure
         else:
             satellite_target_exposure = satellite_risk_on_exposure
-        target_weights = build_satellite_overlay_target_weights(
-            positions,
-            cash_value,
-            core_codes=core_codes,
-            satellite_codes=satellite_codes,
-            satellite_total_weight=float(explore_ratio) * satellite_target_exposure,
-        )
+        if overlay_scope == "satellite_only":
+            target_weights = build_satellite_overlay_target_weights(
+                positions,
+                cash_value,
+                core_codes=core_codes,
+                satellite_codes=satellite_codes,
+                satellite_total_weight=float(explore_ratio) * satellite_target_exposure,
+            )
+        else:
+            raw_total_exposure = float(core_ratio) * float(regime["core_target_exposure"]) + float(explore_ratio) * satellite_target_exposure
+            if use_asymmetric_portfolio_ramp:
+                nav_now = float(positions.sum() + cash_value)
+                current_total_exposure = float(positions.sum()) / nav_now if nav_now > 0 else 0.0
+                target_total_exposure = raw_total_exposure
+                if raw_total_exposure > current_total_exposure:
+                    target_total_exposure = min(raw_total_exposure, current_total_exposure + portfolio_ramp_up)
+            else:
+                target_total_exposure = raw_total_exposure
+            target_weights = build_portfolio_overlay_target_weights(
+                base_target_weights,
+                portfolio_total_weight=target_total_exposure,
+            )
         tradable_codes = []
         if overlay_date in prepared.price_exact.index:
             exact_prices = prepared.price_exact.loc[overlay_date]
@@ -3729,6 +3873,7 @@ def run_backtest(
             gross_cash_value=gross_cash_value,
             rebalance_date=rebalance_date,
             holding_month_end=holding_month_end,
+            base_target_weights=target_weights,
             core_codes=core_bucket_codes,
             satellite_codes=satellite_bucket_codes,
             strategy_config=strategy_config,
@@ -4079,7 +4224,7 @@ def get_active_strategy_base_ids() -> Set[str]:
     active_ids |= {
         f"{base_id}{suffix}"
         for base_id in winner_variant_ids
-        for suffix in (SAT_WEEKLY_RISK_SUFFIX, SAT_THREE_STAGE_SUFFIX, SAT_THREE_STAGE_BUFFERED_SUFFIX)
+        for suffix in WEEKLY_OVERLAY_SUFFIXES
         if _matches_family_prefix(base_id, ACTIVE_FAMILY_BASE_PREFIXES)
     }
     return active_ids
@@ -4105,7 +4250,7 @@ def get_archive_strategy_base_ids() -> Set[str]:
     archive_ids |= {
         f"{base_id}{suffix}"
         for base_id in winner_variant_ids
-        for suffix in (SAT_WEEKLY_RISK_SUFFIX, SAT_THREE_STAGE_SUFFIX, SAT_THREE_STAGE_BUFFERED_SUFFIX)
+        for suffix in WEEKLY_OVERLAY_SUFFIXES
         if not _matches_family_prefix(base_id, ACTIVE_FAMILY_BASE_PREFIXES)
     }
     return archive_ids
@@ -4145,6 +4290,37 @@ def build_satellite_overlay_variants(base_id: str, base_name: str, base_config: 
             "risk_overlay_scope": "satellite_only",
             "risk_stage_buffered": True,
             "risk_stage_confirm_weeks": WEEKLY_STAGE_CONFIRM_WEEKS,
+            "satellite_caution_exposure": SATELLITE_CAUTION_EXPOSURE,
+        },
+        {
+            **base_config,
+            "strategy_base_id": f"{base_id}{PORT_WEEKLY_EXPOSURE_SUFFIX}",
+            "strategy_base_name": f"{base_name}__月度选股_周度仓位调整",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_staging_mode": "three_stage",
+            "risk_overlay_scope": "portfolio_only",
+            "satellite_caution_exposure": SATELLITE_CAUTION_EXPOSURE,
+        },
+        {
+            **base_config,
+            "strategy_base_id": f"{base_id}{PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX}",
+            "strategy_base_name": f"{base_name}__月度选股_周度仓位调整(双周确认)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_staging_mode": "three_stage",
+            "risk_overlay_scope": "portfolio_only",
+            "risk_stage_buffered": True,
+            "risk_stage_confirm_weeks": WEEKLY_STAGE_CONFIRM_WEEKS,
+            "satellite_caution_exposure": SATELLITE_CAUTION_EXPOSURE,
+        },
+        {
+            **base_config,
+            "strategy_base_id": f"{base_id}{PORT_WEEKLY_EXPOSURE_ASYM_SUFFIX}",
+            "strategy_base_name": f"{base_name}__月度选股_周度仓位调整(快减慢加)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_staging_mode": "three_stage",
+            "risk_overlay_scope": "portfolio_only",
+            "weekly_portfolio_asymmetric": True,
+            "weekly_portfolio_ramp_up": WEEKLY_PORTFOLIO_RAMP_UP,
             "satellite_caution_exposure": SATELLITE_CAUTION_EXPOSURE,
         },
     ]
@@ -4231,10 +4407,12 @@ def main(argv: list[str] | None = None) -> None:
                         f"{strategy_base_id}{SAT_WEEKLY_RISK_SUFFIX}",
                         f"{strategy_base_id}{SAT_THREE_STAGE_SUFFIX}",
                         f"{strategy_base_id}{SAT_THREE_STAGE_BUFFERED_SUFFIX}",
+                        f"{strategy_base_id}{PORT_WEEKLY_EXPOSURE_SUFFIX}",
+                        f"{strategy_base_id}{PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX}",
+                        f"{strategy_base_id}{PORT_WEEKLY_EXPOSURE_ASYM_SUFFIX}",
                     }
-                    satellite_overlay_variant_ids.update({f"{variant_id}{SAT_WEEKLY_RISK_SUFFIX}" for variant_id in winner_core_variants})
-                    satellite_overlay_variant_ids.update({f"{variant_id}{SAT_THREE_STAGE_SUFFIX}" for variant_id in winner_core_variants})
-                    satellite_overlay_variant_ids.update({f"{variant_id}{SAT_THREE_STAGE_BUFFERED_SUFFIX}" for variant_id in winner_core_variants})
+                    for suffix in WEEKLY_OVERLAY_SUFFIXES:
+                        satellite_overlay_variant_ids.update({f"{variant_id}{suffix}" for variant_id in winner_core_variants})
                     should_consider_base = not selected_base_ids or (
                         strategy_base_id in selected_base_ids
                         or any(variant_id in selected_base_ids for variant_id in winner_core_variants)
@@ -4283,7 +4461,7 @@ def main(argv: list[str] | None = None) -> None:
                     ) or any(
                         f"{strategy_base_id}__{variant['variant_id']}{suffix}" in selected_base_ids
                         for variant in WINNER_CORE_VARIANTS
-                        for suffix in (SAT_WEEKLY_RISK_SUFFIX, SAT_THREE_STAGE_SUFFIX, SAT_THREE_STAGE_BUFFERED_SUFFIX)
+                        for suffix in WEEKLY_OVERLAY_SUFFIXES
                     )
                     should_run_winner_core_variants = (
                         core_source_config["core_source_mode"] == "winner_core"
@@ -4300,9 +4478,8 @@ def main(argv: list[str] | None = None) -> None:
                         for variant in WINNER_CORE_VARIANTS:
                             variant_base_id = f"{strategy_base_id}__{variant['variant_id']}"
                             variant_overlay_ids = {
-                                f"{variant_base_id}{SAT_WEEKLY_RISK_SUFFIX}",
-                                f"{variant_base_id}{SAT_THREE_STAGE_SUFFIX}",
-                                f"{variant_base_id}{SAT_THREE_STAGE_BUFFERED_SUFFIX}",
+                                f"{variant_base_id}{suffix}"
+                                for suffix in WEEKLY_OVERLAY_SUFFIXES
                             }
                             if selected_base_ids and variant_base_id not in selected_base_ids and not any(
                                 overlay_id in selected_base_ids for overlay_id in variant_overlay_ids

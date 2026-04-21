@@ -2,7 +2,7 @@
 
 本文档用于约束和记录 `Path 1`（胜出者核心主线）的研究方向。  
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
-当前已把 `Path 1` 的单轮探索预算提升到 **`8-12` 个候选 / `3-5` 个方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
+当前已把 `Path 1` 的单轮探索预算提升到 **`16-20` 个候选 / `5-6` 个方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
 ## 1. 当前目标
 
@@ -14,8 +14,8 @@
 - 当前研究原则：
   - 尽量不破坏现有 `winner_core` 主线
   - 优先动系统风险层、晋升节奏、卫星仓行为
-  - 每次迭代固定试 `3-5` 个有明确假设的方向
-  - 单轮快筛候选预算控制在 `8-12` 个
+  - 每次迭代固定试 `5` 个有明确假设的方向
+  - 单轮快筛候选预算控制在 `16-20` 个
 
 ## 2. 当前主线假设
 
@@ -28,40 +28,119 @@
 5. Path 1 的优化应该优先来自：
    - 卫星仓风控
    - 晋升核心后的加仓节奏
+   - 月度选股 + 周度仓位调整
    - 触发机制的节奏控制
    而不是频繁改动股票池或彻底换框架。
 
 ## 3. 当前默认候选生成
 
 当前 `Path 1` 快速迭代不是扫全部 `winner_core` 变体，而是从显式候选方向组中生成。  
-当前默认是 **`5` 个方向组 / `12` 个 fast-pass 候选**（以 `backtest_marketcap_etf.py` 中 `PATH1_FAST_PASS_DIRECTION_GROUPS / PATH1_FAST_PASS_VARIANT_IDS` 为准）：
+当前默认是 **`5` 个方向组 / `19` 个 fast-pass 候选**（以 `backtest_marketcap_etf.py` 中 `PATH1_FAST_PASS_DIRECTION_GROUPS / PATH1_FAST_PASS_VARIANT_IDS` 为准）；周频 companion 和月度选股/周度仓位调整 companion 会在此基础上自动展开到更大的快筛集合：
 
 1. `promotion_ramp`
    - `aggr_10_90_fast_ramp`
+   - `aggr_10_90_prom5`
    - `aggr_10_90_prom6`
+   - `aggr_10_90_prom7`
    - `aggr_10_90_prom7_ramp90`
 2. `satellite_defense`
    - `aggr_08_92_prom6_cash_off`
    - `aggr_08_92_prom6_cash_off_and`
+   - `aggr_10_90_prom6_cash_off`
    - `aggr_10_90_fast_ramp_cash_off`
 3. `signal_variants`
    - `aggr_08_92_prom6_core_6_1`
    - `aggr_10_90_prom6_core_6_1`
 4. `holding_shape`
    - `share_15_85_hold_4_6`
+   - `aggr_10_90_hold_4_6`
+   - `share_12_88_hold_4_6`
    - `aggr_09_91_prom7`
 5. `supporting_variants`
    - `aggr_08_92_prom6`
    - `aggr_08_92_prom6_ramp90`
+   - `aggr_08_92_prom7`
+   - `aggr_08_92_prom7_ramp90`
 
 说明：
 
 - 这组候选是“Path 1 fast pass”的研究入口，不代表全部可用策略。
 - 正式确认回测仍然可以扩展到更宽的 `research active family`。
 - 如果某一轮出现更优的 companion 版本（例如卫星风控 companion），可以追加进入 fast pass 候选，但应写明加入原因。
-- 每轮不要求 12 个候选都进入完整确认；fast pass 的职责是先筛出每个方向里最值得晋级的 `1-2` 个。
+- 每轮不要求全部候选都进入完整确认；fast pass 的职责是先筛出每个方向里最值得晋级的 `1-2` 个。
+- 对 `weekly_exposure_path`，完整确认只允许以下 3 个版本参与：
+  - `__port_weekly_exposure`
+  - `__port_weekly_exposure_buffered`
+  - `__port_weekly_exposure_asym`
 
-## 4. 下一轮优先尝试的方向（每轮 3-5 个）
+## 4. 下一轮优先尝试的方向（每轮固定 5 个）
+
+## 4.1 本轮（2026-04-21）执行清单（限定 5 个方向）
+
+本轮 `Path 1` 研究严格限定在以下 `5` 个方向内（其余方向不主动展开）：
+
+1. **晋升核心后的分阶段加仓节奏（promotion_ramp）**：继续围绕 `ramp90` 与更快晋升/加仓的组合，优先看 `since_2020_01 / since_2023_01` 是否能抬高 `CAGR` 且不明显恶化 `Max DD / Turnover`。
+2. **卫星仓防守（satellite_defense）**：只围绕“卫星仓风控 overlay”相关候选（含 `cash_off(_and)` 线），不扩大到全组合周频 overlay。
+3. **持仓形态与晋升容量（holding_shape）**：把 `share / prom` 结构性候选作为独立方向，观察结构变化对 `Sharpe / Turnover` 的影响。
+4. **月度选股 + 周度仓位调整（weekly_exposure_path）**：月度篮子固定、周内只调总仓位，优先检验它是否能在不明显伤害 `CAGR` 的前提下改善 `Max DD / Sharpe`，并更贴近真实执行节奏。该方向下只比较 `__port_weekly_exposure / __port_weekly_exposure_buffered / __port_weekly_exposure_asym` 三个 companion。
+5. **支持性微调（supporting_variants）**：仅保留 `aggr_08_92_prom6(_ramp90)` 作为“更接近主线”的对照与补位候选，避免新增大范围参数扫。
+
+对应的执行约束（本轮继续沿用）：
+
+- 快筛只跑 `scripts/winner_only_pass.py`，候选只来自 `winner_core` 主线 + 显式 fast-pass 变体（含卫星 overlay 与月度选股/周度仓位调整 companion）。
+- 只有当候选**明确改写**某个窗口赢家，且指标满足“不明显恶化回撤/换手”的阈值，才考虑补跑必要确认回测。
+- 本轮暂不把 `signal_variants` 作为主攻方向（过去多次出现“CAGR 上升但 Sharpe/回撤/换手显著恶化”的形态）。
+- `weekly_exposure_path` 的晋级优先级固定为：
+  1. `__port_weekly_exposure_buffered`
+  2. `__port_weekly_exposure_asym`
+  3. `__port_weekly_exposure`
+- `weekly_exposure_path` 的最小判定口径固定为：
+  - `since_2020_01`
+  - `since_2023_01`
+  - `Total Return / CAGR / MaxDD / Sharpe / Turnover`
+- 当前默认推进结论：
+  - `aggr_10_90_prom6` 主线优先继续压回撤
+  - `aggr_08_92_prom6_cash_off` 主线优先继续观察 `buffered`
+
+### 本轮已完成的最小对照（2026-04-21）
+
+#### A. `aggr_10_90_prom6`
+
+- `since_2020_01`
+  - 原版：`Total Return 291.43% / CAGR 24.04% / MaxDD -21.61% / Sharpe 0.8899 / Turnover 2.88`
+  - `__port_weekly_exposure`：`336.49% / 26.20% / -24.36% / 0.9077 / 0.90`
+  - `__port_weekly_exposure_buffered`：`339.65% / 26.34% / -23.59% / 0.9103 / 0.86`
+  - `__port_weekly_exposure_asym`：`327.60% / 25.79% / -23.87% / 0.9189 / 0.83`
+- `since_2023_01`
+  - 原版：`Total Return 110.05% / CAGR 24.94% / MaxDD -28.32% / Sharpe 0.8459 / Turnover 2.96`
+  - `__port_weekly_exposure`：`122.75% / 27.16% / -32.14% / 0.8391 / 0.99`
+  - `__port_weekly_exposure_buffered`：`123.02% / 27.21% / -31.55% / 0.8415 / 0.95`
+  - `__port_weekly_exposure_asym`：`116.16% / 26.02% / -31.22% / 0.8430 / 0.88`
+
+结论：
+
+- `weekly_exposure_path` 在该主线上是有效方向；
+- `buffered` 当前是默认主攻版本；
+- `asym` 作为“快减慢加”备选保留，但下一轮重点应转向继续压回撤。
+
+#### B. `aggr_08_92_prom6_cash_off`
+
+- `since_2020_01`
+  - 原版：`Total Return 256.63% / CAGR 22.23% / MaxDD -15.47% / Sharpe 0.9466 / Turnover 2.23`
+  - `__port_weekly_exposure`：`255.40% / 22.17% / -14.31% / 0.9632 / 0.54`
+  - `__port_weekly_exposure_buffered`：`258.12% / 22.31% / -15.06% / 0.9622 / 0.53`
+  - `__port_weekly_exposure_asym`：`253.89% / 22.09% / -14.31% / 0.9614 / 0.54`
+- `since_2023_01`
+  - 原版：`Total Return 118.80% / CAGR 26.48% / MaxDD -12.34% / Sharpe 1.0938 / Turnover 2.41`
+  - `__port_weekly_exposure`：`120.29% / 26.74% / -12.55% / 1.1176 / 0.58`
+  - `__port_weekly_exposure_buffered`：`121.32% / 26.91% / -12.55% / 1.1251 / 0.57`
+  - `__port_weekly_exposure_asym`：`120.26% / 26.73% / -12.55% / 1.1175 / 0.58`
+
+结论：
+
+- `weekly_exposure_path` 在该防守主线上也成立；
+- `buffered` 当前是更稳健的默认候选；
+- 下一轮优先保留 `buffered`，其余两个版本仅作为对照。
 
 ## 4.0 上轮（2026-04-19）执行清单（限定 5 个方向）
 
@@ -172,7 +251,11 @@
 - 补充（2026-04-20 13:21）：重跑 `scripts/winner_only_pass.py`，结论不变（`evaluated=26`）。
 - 补充（2026-04-20 18:54）：再次重跑 `scripts/winner_only_pass.py`，结论不变（`base_candidates=13 / total_candidates=52 / evaluated=26`）。
 - 补充（2026-04-20 20:23）：运行 `scripts/winner_only_pass.py`，结论不变（`base_candidates=13 / total_candidates=52 / evaluated=26`）。
-- 扫描范围（fast pass + 卫星 overlay）：`base_candidates=13 / total_candidates=52 / evaluated=26`。
+- 补充（2026-04-21 10:17）：先重建 `strategy_comparison_base_method.csv`（覆盖 `since_2017_01/2020_01/2023_01`）后运行 `scripts/winner_only_pass.py`，`as_of=2026-04-21`；仍未发现“清晰改写”窗口赢家的候选。
+- 补充（2026-04-21 12:13）：运行 `scripts/winner_only_pass.py`，结论不变（`base_candidates=13 / total_candidates=52 / evaluated=26`）。
+- 补充（2026-04-21 14:18）：运行 `scripts/winner_only_pass.py --scan-prefix core_explore_80_20_total_mv_winner_core`，结论不变（`base_candidates=66 / evaluated=47`）。
+- 补充（2026-04-21 16:36）：运行 `scripts/winner_only_pass.py`，结论不变（`base_candidates=13 / total_candidates=91 / evaluated=26`）。
+- 扫描范围（fast pass + 卫星/组合 overlay）：`base_candidates=13 / total_candidates=91 / evaluated=26`。
 - 当前阈值（guardrails）：`minCAGR=+0.10%`、`minSharpe=+0.005`、`MaxDD` 允许恶化 `<=0.50%`、`Turnover` 允许上升 `<=+0.15`。
 - 近似候选（但未通过回撤/换手/Sharpe 阈值）：
   - `since_2020_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__sat_three_stage_buffered`（ΔCAGR `+0.18%`、ΔSharpe `+0.0031`，Sharpe 改善不足且 MaxDD 略差）。
