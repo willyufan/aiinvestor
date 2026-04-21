@@ -1611,6 +1611,134 @@ def fmt_amt(value: float) -> str:
     return f"{value:,.2f}"
 
 
+def flatten_history_snapshots(history_windows: list[dict]) -> list[dict]:
+    snapshots: list[dict] = []
+    seen_dates: set[str] = set()
+    for window in history_windows:
+        for snapshot in window.get("snapshots", []):
+            date = str(snapshot.get("date", ""))
+            if not date or date in seen_dates:
+                continue
+            seen_dates.add(date)
+            snapshots.append(snapshot)
+    snapshots.sort(key=lambda item: str(item.get("date", "")), reverse=True)
+    return snapshots
+
+
+def build_history_selection(history_windows: list[dict], history_window_key: str) -> tuple[str, dict | None]:
+    if not history_windows:
+        return "0", None
+    all_snapshots = flatten_history_snapshots(history_windows)
+    if history_window_key == "all":
+        return "all", {
+            "window_index": "all",
+            "label": "全部历史",
+            "start_date": all_snapshots[-1]["date"] if all_snapshots else "",
+            "end_date": all_snapshots[0]["date"] if all_snapshots else "",
+            "snapshot_count": len(all_snapshots),
+            "snapshots": all_snapshots,
+        }
+    try:
+        history_window_index = int(history_window_key)
+    except Exception:
+        history_window_index = 0
+    history_window_index = max(0, min(history_window_index, len(history_windows) - 1))
+    return str(history_window_index), history_windows[history_window_index]
+
+
+def render_exposure_return_curve(snapshots: list[dict], equity_curve_points: list[dict], start_date: str = "", end_date: str = "") -> str:
+    if not snapshots:
+        return "<div class='muted'>暂无仓位与收益率曲线。</div>"
+    ordered = sorted(snapshots, key=lambda item: str(item.get("date", "")))
+    dates: list[str] = []
+    exposures: list[float] = []
+    for snapshot in ordered:
+        cash_weight = 0.0
+        for row in snapshot.get("holdings", []):
+            if str(row.get("ts_code")) == "CASH":
+                cash_weight = float(row.get("weight", 0.0))
+                break
+        dates.append(str(snapshot.get("date", "")))
+        exposures.append(max(0.0, min(1.0, 1.0 - cash_weight)))
+    curve_points = equity_curve_points or []
+    if start_date and end_date:
+        curve_points = [point for point in curve_points if start_date <= str(point.get("date", "")) <= end_date]
+    curve_map = {str(point.get("date", "")): float(point.get("nav", 1.0)) - 1.0 for point in curve_points}
+    returns = [curve_map.get(date, 0.0) for date in dates]
+    width = 980
+    height = 260
+    pad_left = 48
+    pad_right = 48
+    pad_top = 20
+    pad_bottom = 32
+    plot_width = width - pad_left - pad_right
+    plot_height = height - pad_top - pad_bottom
+    if len(exposures) == 1:
+        x_positions = [pad_left + plot_width / 2]
+    else:
+        x_positions = [pad_left + plot_width * i / (len(exposures) - 1) for i in range(len(exposures))]
+    exposure_points = []
+    for x, exposure in zip(x_positions, exposures):
+        y = pad_top + (1.0 - exposure) * plot_height
+        exposure_points.append(f"{x:.1f},{y:.1f}")
+    min_return = min(returns) if returns else 0.0
+    max_return = max(returns) if returns else 0.0
+    if abs(max_return - min_return) < 1e-9:
+        min_return = min(min_return, 0.0)
+        max_return = max(max_return, 0.01)
+    return_points = []
+    for x, ret in zip(x_positions, returns):
+        normalized = (ret - min_return) / (max_return - min_return)
+        y = pad_top + (1.0 - normalized) * plot_height
+        return_points.append(f"{x:.1f},{y:.1f}")
+    grid_lines = []
+    left_labels = []
+    for pct in (0.0, 0.25, 0.5, 0.75, 1.0):
+        y = pad_top + (1.0 - pct) * plot_height
+        grid_lines.append(
+            f"<line x1='{pad_left}' y1='{y:.1f}' x2='{width - pad_right}' y2='{y:.1f}' stroke='#e5e7eb' stroke-width='1' />"
+        )
+        left_labels.append(f"<text x='8' y='{y + 4:.1f}' fill='#64748b' font-size='12'>{pct * 100:.0f}%</text>")
+    right_labels = []
+    for pct in (0.0, 0.25, 0.5, 0.75, 1.0):
+        y = pad_top + (1.0 - pct) * plot_height
+        value = min_return + (max_return - min_return) * pct
+        right_labels.append(
+            f"<text x='{width - pad_right + 6}' y='{y + 4:.1f}' fill='#64748b' font-size='12'>{value * 100:.1f}%</text>"
+        )
+    tick_labels = []
+    for idx in sorted({0, len(dates) // 2, len(dates) - 1}):
+        x = x_positions[idx]
+        tick_labels.append(
+            f"<text x='{x:.1f}' y='{height - 8}' text-anchor='middle' fill='#64748b' font-size='12'>{html.escape(dates[idx])}</text>"
+        )
+    latest_exposure = exposures[-1]
+    latest_return = returns[-1] if returns else 0.0
+    summary = f"最新总仓位 {fmt_pct(latest_exposure)}，区间收益率 {fmt_pct(latest_return)}，共 {len(exposures)} 个调仓快照。"
+    return (
+        "<div class='card' style='margin-top:16px'>"
+        "<h2>总仓位 + 收益率曲线</h2>"
+        f"<p class='muted'>{summary}</p>"
+        "<p class='muted'>蓝线为总仓位，绿线为累计收益率（相对样本起点）。</p>"
+        f"<svg viewBox='0 0 {width} {height}' width='100%' height='{height}' role='img' aria-label='总仓位与收益率曲线'>"
+        + "".join(grid_lines)
+        + "".join(left_labels)
+        + "".join(right_labels)
+        + f"<polyline fill='none' stroke='#2563eb' stroke-width='3' points='{' '.join(exposure_points)}' />"
+        + f"<polyline fill='none' stroke='#16a34a' stroke-width='3' points='{' '.join(return_points)}' />"
+        + "".join(
+            f"<circle cx='{x:.1f}' cy='{pad_top + (1.0 - exposure) * plot_height:.1f}' r='3.5' fill='#1d4ed8' />"
+            for x, exposure in zip(x_positions, exposures)
+        )
+        + "".join(
+            f"<circle cx='{x:.1f}' cy='{pad_top + (1.0 - ((ret - min_return) / (max_return - min_return))) * plot_height:.1f}' r='3.5' fill='#15803d' />"
+            for x, ret in zip(x_positions, returns)
+        )
+        + "".join(tick_labels)
+        + "</svg></div>"
+    )
+
+
 def task_type_label(task_type: str) -> str:
     return {
         "rebalance": "正式调仓",
@@ -1733,7 +1861,7 @@ def strategies_html() -> str:
     return render_page("策略中心", "<h1>策略中心</h1>" + "".join(sections))
 
 
-def strategy_detail_html(strategy_id: str, history_window_index: int = 0) -> str:
+def strategy_detail_html(strategy_id: str, history_window_key: str = "0") -> str:
     item = load_strategy_snapshot(strategy_id)
     windows = item["windows"]
     rows = []
@@ -1751,26 +1879,32 @@ def strategy_detail_html(strategy_id: str, history_window_index: int = 0) -> str
         )
 
     history_windows = item.get("history_windows") or []
-    if history_windows:
-        history_window_index = max(0, min(history_window_index, len(history_windows) - 1))
-    else:
-        history_window_index = 0
-    selected_history = history_windows[history_window_index] if history_windows else None
+    selected_key, selected_history = build_history_selection(history_windows, history_window_key)
     history_selector = ""
     history_html = "<div class='muted'>暂无历史持仓快照。</div>"
+    exposure_html = "<div class='muted'>暂无仓位与收益率曲线。</div>"
     if history_windows:
         options = []
+        all_selected = " selected" if selected_key == "all" else ""
+        all_snapshots = flatten_history_snapshots(history_windows)
+        options.append(f"<option value='all'{all_selected}>全部历史（{len(all_snapshots)} 次快照）</option>")
         for hist in history_windows:
-            selected = " selected" if int(hist["window_index"]) == history_window_index else ""
+            selected = " selected" if str(hist["window_index"]) == selected_key else ""
             options.append(
                 f"<option value='{int(hist['window_index'])}'{selected}>{html.escape(str(hist['label']))}（{int(hist['snapshot_count'])} 次快照）</option>"
             )
         history_selector = (
             f"<form method='get' action='/strategies/{quote(strategy_id)}' style='margin:12px 0 16px 0'>"
-            "<label>历史持仓窗口（按调仓日，每12个月分组）</label>"
+                "<label>历史持仓窗口（按调仓日，每12个月分组）</label>"
             f"<select name='history_window' style='display:block;margin-top:8px;padding:8px 10px;min-width:320px'>{''.join(options)}</select>"
             "<div style='margin-top:10px'><button>切换窗口</button></div>"
             "</form>"
+        )
+        exposure_html = render_exposure_return_curve(
+            selected_history["snapshots"],
+            item.get("equity_curve_points") or [],
+            start_date=str(selected_history.get("start_date", "")),
+            end_date=str(selected_history.get("end_date", "")),
         )
         snapshot_blocks = []
         for snapshot in selected_history["snapshots"]:
@@ -1799,6 +1933,7 @@ def strategy_detail_html(strategy_id: str, history_window_index: int = 0) -> str
         + "<div class='card' style='margin-top:16px'><h2>最新目标持仓</h2><table><thead><tr><th>代码</th><th>名称</th><th>目标权重</th><th>最新价格</th></tr></thead><tbody>"
         + "".join(weight_rows)
         + "</tbody></table></div>"
+        + exposure_html
         + "<div class='card' style='margin-top:16px'><h2>历史持仓（12个月维度）</h2>"
         + history_selector
         + history_html
@@ -2186,12 +2321,8 @@ class Handler(BaseHTTPRequestHandler):
             if path.startswith("/strategies/"):
                 strategy_id = path.split("/strategies/", 1)[1]
                 query = parse_qs(parsed.query)
-                history_window = 0
-                try:
-                    history_window = int((query.get("history_window") or ["0"])[0])
-                except Exception:
-                    history_window = 0
-                self._html(strategy_detail_html(strategy_id, history_window_index=history_window))
+                history_window_key = (query.get("history_window") or ["0"])[0]
+                self._html(strategy_detail_html(strategy_id, history_window_key=history_window_key))
                 return
             if path == "/accounts":
                 self._html(accounts_html())

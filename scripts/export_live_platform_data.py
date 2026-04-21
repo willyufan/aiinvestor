@@ -116,6 +116,31 @@ def _build_weight_history_windows(path: Path) -> list[dict[str, Any]]:
     return windows
 
 
+def _load_equity_curve_points(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    try:
+        frame = pd.read_csv(path)
+    except Exception:
+        return []
+    required = {"date", "nav"}
+    if frame.empty or not required.issubset(frame.columns):
+        return []
+    points: list[dict[str, Any]] = []
+    for row in frame.to_dict("records"):
+        try:
+            points.append(
+                {
+                    "date": str(row["date"]),
+                    "nav": float(row["nav"]),
+                    "drawdown": float(row.get("drawdown", 0.0)),
+                }
+            )
+        except Exception:
+            continue
+    return points
+
+
 def guess_sample_tag(track_key: str) -> str:
     if track_key == "since_2017_only":
         return "since_2017_01"
@@ -155,6 +180,7 @@ def load_strategy_snapshot(base_id: str, sample_tag: str, *, market_scope: str =
     latest_weights_path = path_builder(base_id, sample_tag, "latest_weights.csv")
     monthly_path = path_builder(base_id, sample_tag, "monthly_returns.csv")
     weight_history_path = path_builder(base_id, sample_tag, "weights_history.csv")
+    equity_curve_path = path_builder(base_id, sample_tag, "equity_curve.csv")
 
     latest_weights: list[dict[str, Any]] = []
     target_exposure = 1.0
@@ -198,6 +224,7 @@ def load_strategy_snapshot(base_id: str, sample_tag: str, *, market_scope: str =
         "risk_state": risk_state,
         "latest_weights": latest_weights,
         "history_windows": _build_weight_history_windows(weight_history_path),
+        "equity_curve_points": _load_equity_curve_points(equity_curve_path),
         "summary_meta": {
             "path": summary.get("strategy_id"),
             "strategy_kind": summary.get("strategy_kind"),
