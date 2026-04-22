@@ -603,9 +603,14 @@ def load_active_family_strategies() -> list[dict]:
     dynamic_ids = [str(item) for item in grouped["strategy_base_id"].tolist()]
     cmap = plt.get_cmap("tab20")
     dynamic_strategies: list[dict] = []
+    tracked_winner_ids = {
+        base_id
+        for base_id in [WINDOW_2017_WINNER_ID, WINDOW_2023_WINNER_ID, WINDOW_2020_WINNER_ID, WINDOW_2025_WINNER_ID]
+        if base_id
+    }
     for idx, row in enumerate(grouped.itertuples(index=False)):
         base_id = str(row.strategy_base_id)
-        if base_id not in CORE_ACTIVE_DYNAMIC_FAMILY_IDS:
+        if base_id not in CORE_ACTIVE_DYNAMIC_FAMILY_IDS and base_id not in tracked_winner_ids:
             continue
         label = str(row.strategy_base_name) if pd.notna(row.strategy_base_name) and str(row.strategy_base_name).strip() else base_id
         color = mcolors.to_hex(cmap(idx % 20))

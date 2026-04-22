@@ -361,3 +361,25 @@
 - `2026-04-22 14:30 CST` 再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`：输出仍为 `as_of=2026-04-22 base=20 total=140 eval=34`，四窗口 tracked winner 继续不变。
 - 本次重跑没有改变近似 challenger 的排序判断：`since_2020_01` 仍应只保留 `aggr_08_92_prom6__sat_three_stage_buffered` 作为最接近挑战者；`since_2023_01` 虽然 raw-CAGR 最高仍来自 `core_6_1` 线，但真正值得保留的 sidecar challenger 仍是 `aggr_10_90_fast_ramp_cash_off`，问题继续集中在 `Turnover 2.37` 过高。
 - 因此下一轮 `Path 1` 继续严格限定在 `promotion_ramp / satellite_defense / weekly_exposure_path` 三个方向内，不补确认回测，也不把 `signal_variants` 拉回主攻列表。
+
+## 12. 本轮补充（2026-04-22 23:27 CST）
+
+- 再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`：输出仍为 `as_of=2026-04-22 base=20 total=140 eval=34`，四窗口赢家继续不变。
+- `since_2020_01` 当前最接近挑战者仍是 `aggr_08_92_prom6__sat_three_stage_buffered`：`25.46% CAGR / 0.9253 Sharpe / -21.83% MaxDD / 0.66 Turn`；相对当前 tracked winner 只有很小收益优势，但 `MaxDD` 略差，仍不补确认回测。
+- `since_2023_01` 真正值得保留的 sidecar challenger 仍是 `aggr_10_90_fast_ramp_cash_off`：`27.06% CAGR / 1.1488 Sharpe / -9.90% MaxDD / 2.37 Turn`；`core_6_1` 两条线虽然 raw CAGR 更高，但仍明显恶化 `Sharpe / MaxDD / Turnover`，不回到主攻列表。
+- 下一轮继续只在 `promotion_ramp / satellite_defense / weekly_exposure_path` 三个方向内推进；`signal_variants` 继续只保留观察，不追加新 family，也不补 A 股 Path 1 确认回测。
+
+## 13. 本轮补充（2026-04-23 01:32 CST）
+
+- 运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`：`as_of=2026-04-23 base=20 total=140 eval=140`；本轮首次在 `Path 1 fast-pass family` 内出现 3 个明确改写窗口赢家的候选。
+- 当前 Path 1 tracked winners 已同步为：
+  - `since_2017_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered`（`24.50% CAGR / 1.1638 Sharpe / -10.65% MaxDD / 0.62 Turn`）
+  - `since_2020_01`：`core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__sat_three_stage_buffered`（`25.78% CAGR / 0.9271 Sharpe / -21.59% MaxDD / 0.67 Turn`，本轮不变）
+  - `since_2023_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered`（`26.91% CAGR / 1.1251 Sharpe / -12.55% MaxDD / 0.57 Turn`）
+  - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1__port_weekly_exposure_asym`（`103.32% CAGR / 2.3086 Sharpe / -9.54% MaxDD / 1.39 Turn`）
+- 本轮同时修正了 `scripts/update_weighted_winners.py` 的 Path 1 口径：`tracked winner` 同步现在会纳入 `weekly_exposure_path` 允许的 `__port_weekly_exposure / __port_weekly_exposure_buffered / __port_weekly_exposure_asym` 三个 companion，但仍只限于 `PATH1_FAST_PASS_VARIANT_IDS`，避免把 Path 2 的高集中原型误并入 Path 1。
+- 本轮没有再补额外确认回测：因为上述 3 个晋级候选在当前 `results/strategy_comparison_base_method.csv` 中已经具备完整四窗口结果；需要补的不是回测本身，而是把 README / HISTORY / tracked winner 数据与对比图同步到正确口径。
+- 当前四窗口鲁棒候选更新为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`（`meanCAGR 47.55% / minCAGR 27.01%`）。下一轮 `Path 1` 继续只围绕两个已证实有效的周度仓位 companion 推进：
+  - `aggr_08_92_prom6_cash_off + __port_weekly_exposure_buffered`
+  - `aggr_08_92_prom6_core_6_1 + __port_weekly_exposure_asym`
+  不重新打开非 fast-pass family。

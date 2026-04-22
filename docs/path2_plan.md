@@ -446,3 +446,33 @@
 - `2026-04-22 14:30 CST` 再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py`：候选数维持 `63`，四窗口 winner 与 `robust` 候选继续完全不变。
 - 当前五个候选族的规模与前排顺位也没有漂移：`43 / 43 / 44 / 41 / 41` 的 family counts 继续稳定，而 `since_2020_01` 仍由 `aggr_03_97_prom2_core_6_1_cash_off_and_cap80` 领跑在 `32.07% CAGR`，离 `40%+` 目标仍有明显距离。
 - 本轮再次确认：新增预算不该再投向频率克隆或 family 内参数平移；下一轮 `Path 2` 应继续优先寻找新的中周期高收益原型，同时把现有 `prom2_cap80` 与 `full_risk_cap80/cap60` 只保留为锚点和对照。
+
+## 14. 本轮补充（2026-04-22 23:27 CST）
+
+- 再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py`：候选数维持 `63`，四窗口 winner 与 `robust` 候选继续完全不变。
+- 当前 tracked winners 仍是：
+  - `since_2017_01`：`aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`
+  - `since_2020_01 / since_2025_01`：`aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
+  - `since_2023_01`：`aggr_05_95_prom3_core_6_1_full_risk_cap80`
+  - `robust`：`aggr_05_95_prom3_core_6_1_full_risk_cap60`
+- 五个候选族的规模与前排顺位继续稳定在 `43 / 43 / 44 / 41 / 41`；新增双周/单周族与 `prom2_cap80` 原型已经进入扫描宇宙，但还没有形成新的独立 family leader。
+- 当前 `since_2020_01` 仍只到 `32.07% CAGR`，距离 `40%+` 目标还有明显缺口；下一轮新增预算仍应优先投向新的中周期高收益原型，而不是继续复制 `monthly -> biweekly -> weekly` 频率克隆。
+- `3_1` 短周期变体继续只保留在扫描宇宙里做观察；在它们没有明确打赢当前 `6_1` 主锚点之前，不升级成新的主攻候选族。
+
+## 15. 本轮补充（2026-04-23 01:32 CST）
+
+- 运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py`：当前独立候选宇宙为 `32` 个候选，五个候选族规模为 `14 / 7 / 8 / 6 / 6`；最近几轮文档里引用的 `63` 候选快照已经不是当前 comparison CSV 的真实状态。
+- 按本轮 `path2_candidate_pass.json` 与 `weighted_track_winners.json` 重新同步后，当前 Path 2 tracked winners 为：
+  - `since_2017_01 / since_2020_01 / since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
+  - `since_2023_01`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`
+  - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`
+- 当前关键指标是：
+  - `since_2020_01` winner 只到 `26.20% CAGR / 1.0012 Sharpe / -28.09% MaxDD / 2.84 Turn`
+  - `since_2023_01` winner 为 `52.24% CAGR / 1.1933 Sharpe / -49.35% MaxDD / 5.43 Turn`
+  - `robust` 候选为 `meanCAGR 58.88% / minCAGR 17.57%`
+  这说明当前瓶颈比前一版文档记录的 `32%+` 还更低，`since_2020_01 40%+ CAGR` 目标仍有明显距离。
+- 本轮 family leader 也给出更清晰的取舍：
+  - `high_concentration_breakout` 仍由 `aggr_05_95_prom3_core_6_1_full_risk(_cap80)` 系列主导
+  - `momentum_equal_weight_elastic` 当前真正的窗口赢家已切到 `aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
+  - `biweekly / weekly_rebalance_aggressive` 的前排仍只是底座级别基线，没有出现能改写四窗口 winner 的高频 leader
+- 因此下一轮 `Path 2` 继续把新增预算优先投向新的中周期高收益原型，不再给 `biweekly / weekly` 的频率克隆额外预算；它们继续只保留为对照，不升级成新的主攻族。

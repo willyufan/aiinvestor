@@ -141,19 +141,53 @@ def load_winner_core_family_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> s
 
 
 def load_path1_family_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[str]:
-    winner_ids = load_winner_core_family_ids(backtest_path)
     try:
         consts = _parse_python_constants(
             backtest_path,
-            ["SAT_WEEKLY_RISK_SUFFIX", "SAT_THREE_STAGE_SUFFIX", "SAT_THREE_STAGE_BUFFERED_SUFFIX"],
+            [
+                "WINNER_ONLY_STRATEGY_ID",
+                "WINNER_CORE_VARIANTS",
+                "PATH1_FAST_PASS_VARIANT_IDS",
+                "SAT_WEEKLY_RISK_SUFFIX",
+                "SAT_THREE_STAGE_SUFFIX",
+                "SAT_THREE_STAGE_BUFFERED_SUFFIX",
+                "PORT_WEEKLY_EXPOSURE_SUFFIX",
+                "PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX",
+                "PORT_WEEKLY_EXPOSURE_ASYM_SUFFIX",
+            ],
         )
+        winner_base = str(consts.get("WINNER_ONLY_STRATEGY_ID") or "").strip() or load_winner_core_prefix(backtest_path)
+        variants = consts.get("WINNER_CORE_VARIANTS") or []
+        fast_pass_variant_ids = {str(item) for item in consts.get("PATH1_FAST_PASS_VARIANT_IDS") or []}
+        winner_ids = {winner_base}
+        if isinstance(variants, list):
+            for variant in variants:
+                if not isinstance(variant, dict):
+                    continue
+                variant_id = str(variant.get("variant_id") or "").strip()
+                if not variant_id:
+                    continue
+                if fast_pass_variant_ids and variant_id not in fast_pass_variant_ids:
+                    continue
+                winner_ids.add(f"{winner_base}__{variant_id}")
         overlay_suffixes = [
             str(consts.get("SAT_WEEKLY_RISK_SUFFIX") or "__sat_weekly_risk"),
             str(consts.get("SAT_THREE_STAGE_SUFFIX") or "__sat_three_stage_risk"),
             str(consts.get("SAT_THREE_STAGE_BUFFERED_SUFFIX") or "__sat_three_stage_buffered"),
+            str(consts.get("PORT_WEEKLY_EXPOSURE_SUFFIX") or "__port_weekly_exposure"),
+            str(consts.get("PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX") or "__port_weekly_exposure_buffered"),
+            str(consts.get("PORT_WEEKLY_EXPOSURE_ASYM_SUFFIX") or "__port_weekly_exposure_asym"),
         ]
     except Exception:
-        overlay_suffixes = ["__sat_weekly_risk", "__sat_three_stage_risk", "__sat_three_stage_buffered"]
+        winner_ids = load_winner_core_family_ids(backtest_path)
+        overlay_suffixes = [
+            "__sat_weekly_risk",
+            "__sat_three_stage_risk",
+            "__sat_three_stage_buffered",
+            "__port_weekly_exposure",
+            "__port_weekly_exposure_buffered",
+            "__port_weekly_exposure_asym",
+        ]
     path1_ids = set(winner_ids)
     path1_ids |= {f"{base_id}{suffix}" for base_id in winner_ids for suffix in overlay_suffixes}
     return path1_ids
@@ -170,6 +204,9 @@ def load_active_family_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[st
                 "SAT_WEEKLY_RISK_SUFFIX",
                 "SAT_THREE_STAGE_SUFFIX",
                 "SAT_THREE_STAGE_BUFFERED_SUFFIX",
+                "PORT_WEEKLY_EXPOSURE_SUFFIX",
+                "PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX",
+                "PORT_WEEKLY_EXPOSURE_ASYM_SUFFIX",
             ],
         )
     except Exception:
@@ -185,6 +222,9 @@ def load_active_family_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[st
         str(consts.get("SAT_WEEKLY_RISK_SUFFIX") or "__sat_weekly_risk"),
         str(consts.get("SAT_THREE_STAGE_SUFFIX") or "__sat_three_stage_risk"),
         str(consts.get("SAT_THREE_STAGE_BUFFERED_SUFFIX") or "__sat_three_stage_buffered"),
+        str(consts.get("PORT_WEEKLY_EXPOSURE_SUFFIX") or "__port_weekly_exposure"),
+        str(consts.get("PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX") or "__port_weekly_exposure_buffered"),
+        str(consts.get("PORT_WEEKLY_EXPOSURE_ASYM_SUFFIX") or "__port_weekly_exposure_asym"),
     ]
 
     active_ids: set[str] = set()
