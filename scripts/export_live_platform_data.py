@@ -23,6 +23,13 @@ SAMPLE_LABELS = {
 }
 HISTORY_WINDOW_SNAPSHOTS = 12
 SAMPLE_TAGS = ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"]
+SAMPLE_TAG_LABELS = {
+    "since_2017_01": "2017窗口",
+    "since_2020_01": "2020窗口",
+    "since_2023_01": "2023窗口",
+    "since_2025_01": "2025窗口",
+    "since_2026_01": "2026观察窗",
+}
 
 
 def build_result_path(base_id: str, sample_tag: str, filename: str) -> Path:
@@ -170,11 +177,11 @@ def find_latest_price(ts_code: str) -> float | None:
         return None
 
 
-def load_strategy_snapshot(base_id: str, sample_tag: str, *, market_scope: str = "a_share") -> dict[str, Any]:
+def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_share") -> dict[str, Any] | None:
     path_builder = build_hk_result_path if market_scope == "hkconnect" else build_result_path
     summary_path = path_builder(base_id, sample_tag, "summary.json")
     if not summary_path.exists():
-        raise FileNotFoundError(f"Missing summary for {base_id} / {sample_tag}")
+        return None
     summary = load_json(summary_path)
 
     latest_weights_path = path_builder(base_id, sample_tag, "latest_weights.csv")
@@ -214,23 +221,62 @@ def load_strategy_snapshot(base_id: str, sample_tag: str, *, market_scope: str =
                 risk_state = "caution"
 
     return {
-        "strategy_id": base_id,
-        "display_name": summary.get("strategy_base_name") or summary.get("strategy_name") or base_id,
         "sample_tag": sample_tag,
+        "sample_tag_label": SAMPLE_TAG_LABELS.get(sample_tag, sample_tag),
         "updated_at": summary.get("sample_end"),
+        "rebalance_frequency": summary.get("rebalance_frequency", "monthly"),
         "summary_metrics": summary.get("metrics", {}),
-        "windows": _collect_windows(base_id, market_scope=market_scope),
         "target_total_exposure": target_exposure,
         "risk_state": risk_state,
         "latest_weights": latest_weights,
         "history_windows": _build_weight_history_windows(weight_history_path),
         "equity_curve_points": _load_equity_curve_points(equity_curve_path),
         "summary_meta": {
+            "sample_start": summary.get("sample_start"),
+            "sample_end": summary.get("sample_end"),
+            "sample_label": summary.get("sample_label"),
+            "sample_short_label": summary.get("sample_short_label"),
+            "strategy_name": summary.get("strategy_name"),
+            "strategy_base_name": summary.get("strategy_base_name"),
             "path": summary.get("strategy_id"),
             "strategy_kind": summary.get("strategy_kind"),
             "base_weight_method": summary.get("base_weight_method"),
             "core_source_mode": summary.get("core_source_mode"),
+            "rebalance_frequency": summary.get("rebalance_frequency", "monthly"),
         },
+    }
+
+
+def load_strategy_snapshot(base_id: str, sample_tag: str, *, market_scope: str = "a_share") -> dict[str, Any]:
+    sample_view = _load_sample_view(base_id, sample_tag, market_scope=market_scope)
+    if sample_view is None:
+        raise FileNotFoundError(f"Missing summary for {base_id} / {sample_tag}")
+    sample_views: dict[str, Any] = {}
+    for tag in SAMPLE_TAGS:
+        view = _load_sample_view(base_id, tag, market_scope=market_scope)
+        if view is not None:
+            sample_views[tag] = view
+
+    display_name = (
+        sample_view.get("summary_meta", {}).get("strategy_base_name")
+        or sample_view.get("summary_meta", {}).get("strategy_name")
+        or base_id
+    )
+    return {
+        "strategy_id": base_id,
+        "display_name": display_name,
+        "sample_tag": sample_tag,
+        "updated_at": sample_view["updated_at"],
+        "rebalance_frequency": sample_view["rebalance_frequency"],
+        "summary_metrics": sample_view["summary_metrics"],
+        "windows": _collect_windows(base_id, market_scope=market_scope),
+        "sample_views": sample_views,
+        "target_total_exposure": sample_view["target_total_exposure"],
+        "risk_state": sample_view["risk_state"],
+        "latest_weights": sample_view["latest_weights"],
+        "history_windows": sample_view["history_windows"],
+        "equity_curve_points": sample_view["equity_curve_points"],
+        "summary_meta": sample_view["summary_meta"],
         "market_scope": market_scope,
     }
 
