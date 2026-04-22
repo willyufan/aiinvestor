@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import html
 import json
+import mimetypes
 import os
 import sqlite3
 from datetime import datetime, timedelta
@@ -98,6 +99,35 @@ def market_scope_label(scope: str) -> str:
         "hkconnect": "沪港通",
     }
     return mapping.get(scope, scope)
+
+
+def rebalance_frequency_label(freq: str) -> str:
+    mapping = {
+        "monthly": "月度",
+        "biweekly": "双周",
+        "weekly": "单周",
+    }
+    return mapping.get(str(freq or "monthly"), str(freq or "monthly"))
+
+
+def winner_windows_label(winner_tags: list[str] | None) -> str:
+    if not winner_tags:
+        return ""
+    label_map = {
+        "2017-window winner": "2017",
+        "2020-window winner": "2020",
+        "2023-window winner": "2023",
+        "2025-window winner": "2025",
+        "2026-window winner": "2026",
+    }
+    windows: list[str] = []
+    for tag in winner_tags:
+        winner_type = str(tag).split(":")[-1]
+        label = label_map.get(winner_type)
+        if label and label not in windows:
+            windows.append(label)
+    ordered = [key for key in ("2017", "2020", "2023", "2025", "2026") if key in windows]
+    return " / ".join(ordered)
 
 
 def _select_previous_close(rows: list[dict[str, str]], today_tag: str) -> float | None:
@@ -1848,37 +1878,106 @@ def strategies_html() -> str:
         cards = []
         for item in items:
             metrics = item["summary_metrics"]
+            windows_text = winner_windows_label(item.get("winner_tags"))
+            windows_html = (
+                f"<p class='muted'>胜出窗口：{html.escape(windows_text)}</p>"
+                if windows_text
+                else ""
+            )
             cards.append(
                 "<div class='card'>"
                 f"<div class='pill'>{html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} / {html.escape(item['path'])} / {html.escape(item['winner_type'])}</div>"
                 f"<h3 style='margin-top:12px'><a href='/strategies/{item['strategy_id']}'>{html.escape(item['display_name'])}</a></h3>"
                 f"<div class='muted'><code>{html.escape(item['strategy_id'])}</code></div>"
+                f"{windows_html}"
                 f"<p>Total Return {fmt_pct(float(metrics.get('total_return', 0.0)))} | CAGR {fmt_pct(float(metrics.get('cagr', 0.0)))} | MaxDD {fmt_pct(float(metrics.get('max_drawdown', 0.0)))} | Sharpe {float(metrics.get('sharpe_ratio', 0.0)):.4f} | Turn {float(metrics.get('average_annual_turnover', 0.0)):.2f}</p>"
                 f"<p>当前总仓位建议: {fmt_pct(float(item['target_total_exposure']))} | 风险状态: {html.escape(item['risk_state'])} | 更新: {html.escape(str(item['updated_at']))}</p>"
                 "</div>"
             )
-        sections.append(f"<h2>{html.escape(market_scope_label(scope))}策略</h2><div class='grid grid-2'>{''.join(cards)}</div>")
+        section_html = f"<h2>{html.escape(market_scope_label(scope))}策略</h2><div class='grid grid-2'>{''.join(cards)}</div>"
+        if scope == "a_share":
+            chart_specs = [
+                ("2017窗口", "/docs/strategy_family_since_2017_01.png"),
+                ("2020窗口", "/docs/strategy_family_since_2020_01.png"),
+                ("2023窗口", "/docs/strategy_family_since_2023_01.png"),
+                ("2025窗口", "/docs/strategy_family_since_2025_01.png"),
+            ]
+            chart_cards = []
+            for label, url in chart_specs:
+                chart_cards.append(
+                    "<div class='card'>"
+                    f"<h3>{html.escape(label)} core active family 对比图</h3>"
+                    f"<div class='muted' style='margin-bottom:12px'>当前默认展示的是 core active family。</div>"
+                    f"<img src='{html.escape(url)}' alt='{html.escape(label)} core active family 对比图' style='width:100%;border-radius:12px;border:1px solid #dbeafe' />"
+                    "</div>"
+                )
+            section_html += "<div style='margin-top:20px'><h2>A股 Core Family 对比图</h2><div class='grid grid-2'>" + "".join(chart_cards) + "</div></div>"
+        sections.append(section_html)
     return render_page("策略中心", "<h1>策略中心</h1>" + "".join(sections))
 
 
-def strategy_detail_html(strategy_id: str, history_window_key: str = "0") -> str:
+def strategy_detail_html(strategy_id: str, history_window_key: str = "all", sample_view_tag: str = "") -> str:
     item = load_strategy_snapshot(strategy_id)
     windows = item["windows"]
+    sample_views = item.get("sample_views") or {}
+    selected_sample_tag = sample_view_tag or str(item.get("sample_tag") or "since_2020_01")
+    if selected_sample_tag not in sample_views and sample_views:
+        selected_sample_tag = str(item.get("sample_tag") or next(iter(sample_views.keys())))
+    active_view = sample_views.get(selected_sample_tag) or {
+        "updated_at": item.get("updated_at"),
+        "rebalance_frequency": item.get("rebalance_frequency"),
+        "summary_metrics": item.get("summary_metrics"),
+        "target_total_exposure": item.get("target_total_exposure"),
+        "risk_state": item.get("risk_state"),
+        "latest_weights": item.get("latest_weights"),
+        "history_windows": item.get("history_windows"),
+        "equity_curve_points": item.get("equity_curve_points"),
+        "summary_meta": item.get("summary_meta"),
+        "sample_tag": selected_sample_tag,
+        "sample_tag_label": selected_sample_tag,
+    }
+    rebalance_frequency = rebalance_frequency_label(str(active_view.get("rebalance_frequency", item.get("rebalance_frequency", "monthly"))))
+    active_meta = active_view.get("summary_meta") or {}
+    active_sample_label = str(active_meta.get("sample_label") or active_view.get("sample_tag_label") or selected_sample_tag)
+    active_sample_start = str(active_meta.get("sample_start") or "")
+    active_sample_end = str(active_meta.get("sample_end") or active_view.get("updated_at") or "")
+
+    sample_options = []
+    for key in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"):
+        view = sample_views.get(key)
+        if not view:
+            continue
+        selected = " selected" if key == selected_sample_tag else ""
+        label = html.escape(str(view.get("sample_tag_label") or key))
+        meta = view.get("summary_meta") or {}
+        range_text = f"{meta.get('sample_start', '')} → {meta.get('sample_end', '')}"
+        sample_options.append(f"<option value='{html.escape(key)}'{selected}>{label}（{html.escape(range_text)}）</option>")
+    sample_selector = ""
+    if sample_options:
+        sample_selector = (
+            f"<form method='get' action='/strategies/{quote(strategy_id)}' style='margin:12px 0 16px 0'>"
+            "<label>实际回测窗口</label>"
+            f"<select name='sample_view' style='display:block;margin-top:8px;padding:8px 10px;min-width:320px'>{''.join(sample_options)}</select>"
+            f"<input type='hidden' name='history_window' value='{html.escape(history_window_key or 'all')}' />"
+            "<div style='margin-top:10px'><button>切换窗口</button></div>"
+            "</form>"
+        )
     rows = []
     for key in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"):
         if key not in windows:
             continue
         w = windows[key]
+        row_style = " style='background:#eff6ff;font-weight:600'" if key == selected_sample_tag else ""
         rows.append(
-            f"<tr><td>{html.escape(key)}</td><td>{fmt_pct(float(w['total_return']))}</td><td>{fmt_pct(float(w['cagr']))}</td><td>{fmt_pct(float(w['max_drawdown']))}</td><td>{float(w['sharpe']):.4f}</td><td>{float(w['turnover']):.2f}</td></tr>"
+            f"<tr{row_style}><td>{html.escape(key)}</td><td>{fmt_pct(float(w['total_return']))}</td><td>{fmt_pct(float(w['cagr']))}</td><td>{fmt_pct(float(w['max_drawdown']))}</td><td>{float(w['sharpe']):.4f}</td><td>{float(w['turnover']):.2f}</td></tr>"
         )
     weight_rows = []
-    for row in item["latest_weights"]:
+    for row in active_view["latest_weights"]:
         weight_rows.append(
             f"<tr><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td>{fmt_pct(float(row['weight']))}</td><td>{fmt_amt(float(row['latest_price'] or 0.0)) if row['latest_price'] is not None else 'n/a'}</td></tr>"
         )
 
-    history_windows = item.get("history_windows") or []
+    history_windows = active_view.get("history_windows") or []
     selected_key, selected_history = build_history_selection(history_windows, history_window_key)
     history_selector = ""
     history_html = "<div class='muted'>暂无历史持仓快照。</div>"
@@ -1895,14 +1994,15 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "0") -> str
             )
         history_selector = (
             f"<form method='get' action='/strategies/{quote(strategy_id)}' style='margin:12px 0 16px 0'>"
-                "<label>历史持仓窗口（按调仓日，每12个月分组）</label>"
+            f"<label>历史调仓建议窗口（按实际调仓日展示，当前频率：{html.escape(rebalance_frequency)}；每组最近12次调仓）</label>"
             f"<select name='history_window' style='display:block;margin-top:8px;padding:8px 10px;min-width:320px'>{''.join(options)}</select>"
+            f"<input type='hidden' name='sample_view' value='{html.escape(selected_sample_tag)}' />"
             "<div style='margin-top:10px'><button>切换窗口</button></div>"
             "</form>"
         )
         exposure_html = render_exposure_return_curve(
             selected_history["snapshots"],
-            item.get("equity_curve_points") or [],
+            active_view.get("equity_curve_points") or [],
             start_date=str(selected_history.get("start_date", "")),
             end_date=str(selected_history.get("end_date", "")),
         )
@@ -1920,21 +2020,23 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "0") -> str
                 + "</tbody></table></div>"
             )
         history_html = (
-            f"<p class='muted'>当前展示窗口：{html.escape(selected_history['label'])}。每个快照日期均为该次调仓后的目标持仓日期。</p>"
+            f"<p class='muted'>当前展示窗口：{html.escape(selected_history['label'])}。每个快照日期均为该次调仓后的目标持仓日期；{html.escape(rebalance_frequency)}策略会展示对应的月度/双周/单周调仓建议。</p>"
             + "".join(snapshot_blocks)
         )
     body = (
         f"<h1>{html.escape(item['display_name'])}</h1>"
         f"<p><code>{html.escape(strategy_id)}</code></p>"
-        f"<p>市场: {html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} | 路径: {html.escape(item['path'])} | 类型: {html.escape(item['winner_type'])} | 当前建议仓位: {fmt_pct(float(item['target_total_exposure']))} | 风险状态: {html.escape(item['risk_state'])}</p>"
+        f"<p>市场: {html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} | 路径: {html.escape(item['path'])} | 类型: {html.escape(item['winner_type'])} | 调仓频率: {html.escape(rebalance_frequency)} | 当前建议仓位: {fmt_pct(float(active_view['target_total_exposure']))} | 风险状态: {html.escape(active_view['risk_state'])}</p>"
+        + sample_selector
+        + f"<div class='card'><h2>当前查看窗口</h2><p>{html.escape(active_sample_label)}：{html.escape(active_sample_start)} → {html.escape(active_sample_end)}</p></div>"
         "<div class='card'><h2>窗口表现</h2><table><thead><tr><th>窗口</th><th>Total Return</th><th>CAGR</th><th>MaxDD</th><th>Sharpe</th><th>Turnover</th></tr></thead><tbody>"
         + "".join(rows)
         + "</tbody></table></div>"
-        + "<div class='card' style='margin-top:16px'><h2>最新目标持仓</h2><table><thead><tr><th>代码</th><th>名称</th><th>目标权重</th><th>最新价格</th></tr></thead><tbody>"
+        + f"<div class='card' style='margin-top:16px'><h2>最新调仓建议（{html.escape(rebalance_frequency)} / {html.escape(active_sample_label)}）</h2><table><thead><tr><th>代码</th><th>名称</th><th>目标权重</th><th>最新价格</th></tr></thead><tbody>"
         + "".join(weight_rows)
         + "</tbody></table></div>"
         + exposure_html
-        + "<div class='card' style='margin-top:16px'><h2>历史持仓（12个月维度）</h2>"
+        + "<div class='card' style='margin-top:16px'><h2>历史调仓建议</h2>"
         + history_selector
         + history_html
         + "</div>"
@@ -2312,6 +2414,14 @@ class Handler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         path = parsed.path.rstrip("/") or "/"
         try:
+            if path.startswith("/docs/"):
+                target = (ROOT / path.lstrip("/")).resolve()
+                docs_root = (ROOT / "docs").resolve()
+                if not str(target).startswith(str(docs_root)) or not target.exists() or not target.is_file():
+                    self.send_error(HTTPStatus.NOT_FOUND)
+                    return
+                self._send_file(target)
+                return
             if path == "/":
                 self._html(dashboard_html())
                 return
@@ -2321,8 +2431,9 @@ class Handler(BaseHTTPRequestHandler):
             if path.startswith("/strategies/"):
                 strategy_id = path.split("/strategies/", 1)[1]
                 query = parse_qs(parsed.query)
-                history_window_key = (query.get("history_window") or ["0"])[0]
-                self._html(strategy_detail_html(strategy_id, history_window_key=history_window_key))
+                history_window_key = (query.get("history_window") or ["all"])[0]
+                sample_view_tag = (query.get("sample_view") or [""])[0]
+                self._html(strategy_detail_html(strategy_id, history_window_key=history_window_key, sample_view_tag=sample_view_tag))
                 return
             if path == "/accounts":
                 self._html(accounts_html())
@@ -2532,6 +2643,15 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(303)
         self.send_header("Location", location)
         self.end_headers()
+
+    def _send_file(self, path: Path) -> None:
+        data = path.read_bytes()
+        content_type, _ = mimetypes.guess_type(str(path))
+        self.send_response(200)
+        self.send_header("Content-Type", content_type or "application/octet-stream")
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        self.wfile.write(data)
 
 
 def main() -> None:
