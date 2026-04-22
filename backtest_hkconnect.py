@@ -388,11 +388,9 @@ def load_or_fetch_hk_trade_calendar(pro, start_date: pd.Timestamp, end_date: pd.
 
     try:
         fetched = call_tushare_with_retry(
-            pro.trade_cal,
-            exchange="XHKG",
+            pro.hk_tradecal,
             start_date=start_date.strftime("%Y%m%d"),
             end_date=end_date.strftime("%Y%m%d"),
-            fields="exchange,cal_date,is_open,pretrade_date",
         )
     except RuntimeError:
         if not cached.empty:
@@ -400,6 +398,8 @@ def load_or_fetch_hk_trade_calendar(pro, start_date: pd.Timestamp, end_date: pd.
             return cached.reset_index(drop=True)
         raise
 
+    if "exchange" not in fetched.columns:
+        fetched["exchange"] = "XHKG"
     fetched["cal_date"] = pd.to_datetime(fetched["cal_date"], format="%Y%m%d", errors="coerce")
     calendar = fetched.sort_values("cal_date").drop_duplicates(subset=["cal_date"]).reset_index(drop=True)
     save_csv(calendar, cache_path)
@@ -979,7 +979,8 @@ def run_hk_backtest(
     prepared: HKPreparedData,
     strategy_config: Dict[str, object],
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, Dict[str, object]]:
-    sample_start = pd.Timestamp(strategy_config["sample_start"])
+    requested_sample_start = pd.Timestamp(strategy_config["sample_start"])
+    sample_start = requested_sample_start
     sample_tag = str(strategy_config["sample_tag"])
     sample_label = str(strategy_config["sample_label"])
     sample_short_label = str(strategy_config["sample_short_label"])
@@ -992,7 +993,7 @@ def run_hk_backtest(
 
     report_start_idx = None
     for idx in range(len(signal_schedule) - 1):
-        if signal_schedule[idx + 1] >= sample_start:
+        if signal_schedule[idx] >= sample_start:
             report_start_idx = idx
             break
     if report_start_idx is None:
@@ -1005,9 +1006,8 @@ def run_hk_backtest(
     monthly_rows: List[Dict[str, object]] = []
     turnover_rows: List[Dict[str, object]] = []
     weights_history_rows: List[Dict[str, object]] = []
-    equity_rows: List[Dict[str, object]] = [
-        {"date": sample_start, "portfolio_return": 0.0, "nav": 1.0, "drawdown": 0.0, "trading_cost": 0.0}
-    ]
+    equity_rows: List[Dict[str, object]] = []
+    effective_sample_start: pd.Timestamp | None = None
 
     for idx in range(report_start_idx, len(signal_schedule) - 1):
         signal_date = signal_schedule[idx]
@@ -1019,6 +1019,26 @@ def run_hk_backtest(
         eligible_codes = prepared.factor_cache.eligible_codes_by_date.get(signal_date, [])
         if not eligible_codes:
             continue
+
+        if effective_sample_start is None:
+            effective_sample_start = pd.Timestamp(rebalance_date)
+            if effective_sample_start > requested_sample_start:
+                warnings.append(
+                    "回测起点被后移："
+                    f"requested={requested_sample_start.strftime('%Y-%m-%d')} "
+                    f"effective={effective_sample_start.strftime('%Y-%m-%d')} "
+                    "(受可用调仓点/数据覆盖影响)"
+                )
+            equity_rows.append(
+                {
+                    "date": effective_sample_start,
+                    "portfolio_return": 0.0,
+                    "nav": nav_at_signal_date,
+                    "drawdown": 0.0,
+                    "trading_cost": 0.0,
+                }
+            )
+
         signal_scores = build_hk_signal_scores(prepared, signal_date, str(strategy_config["signal_family"]))
         base_weights = build_hk_base_weights(prepared, signal_date, eligible_codes, str(strategy_config["base_weight_method"]))
         recent_1m_returns = prepared.factor_cache.recent_1m_returns_by_date.get(signal_date, pd.Series(dtype=float))
@@ -1144,6 +1164,9 @@ def run_hk_backtest(
         )
         equity_rows.append({"date": period_end, "portfolio_return": net_return, "nav": nav_end, "drawdown": 0.0, "trading_cost": trade_stats["trading_cost"]})
 
+    if effective_sample_start is None or len(equity_rows) < 2:
+        raise RuntimeError("设定的回测起点晚于当前可用调仓数据。")
+
     equity_curve = pd.DataFrame(equity_rows)
     equity_curve["date"] = pd.to_datetime(equity_curve["date"])
     equity_curve["nav"] = equity_curve["nav"].astype(float)
@@ -1185,8 +1208,8 @@ def run_hk_backtest(
     summary = {
         "pool_id": "hkconnect_static_latest",
         "pool_name": "沪港通静态标的池（最新可得名单）",
-        "sample_start": sample_start.strftime("%Y-%m-%d"),
-        "sample_end": signal_schedule[-1].strftime("%Y-%m-%d"),
+        "sample_start": equity_curve["date"].iloc[0].strftime("%Y-%m-%d"),
+        "sample_end": equity_curve["date"].iloc[-1].strftime("%Y-%m-%d"),
         "sample_tag": sample_tag,
         "sample_label": sample_label,
         "sample_short_label": sample_short_label,
