@@ -1,12 +1,18 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from backtest_marketcap_etf import CORE_ACTIVE_FAMILY_BASE_IDS
+
 RESULTS_DIR = ROOT / "results"
 HK_RESULTS_DIR = ROOT / "results_hkconnect"
 LIVE_DIR = RESULTS_DIR / "live"
@@ -30,6 +36,14 @@ SAMPLE_TAG_LABELS = {
     "since_2025_01": "2025窗口",
     "since_2026_01": "2026观察窗",
 }
+
+
+def pick_preferred_sample_tag(base_id: str, *, market_scope: str = "a_share") -> str:
+    path_builder = build_hk_result_path if market_scope == "hkconnect" else build_result_path
+    for sample_tag in ("since_2020_01", "since_2017_01", "since_2023_01", "since_2025_01", "since_2026_01"):
+        if path_builder(base_id, sample_tag, "summary.json").exists():
+            return sample_tag
+    return "since_2020_01"
 
 
 def build_result_path(base_id: str, sample_tag: str, filename: str) -> Path:
@@ -430,9 +444,42 @@ def export_live_data() -> dict[str, Any]:
         ),
     )
 
+    path2_known_ids = {
+        str(meta["winner"]) for meta in payload["path2"]["tracks"].values()
+    }
+    if payload["path2"].get("strategy_base_id"):
+        path2_known_ids.add(str(payload["path2"]["strategy_base_id"]))
+
+    core_active_registry: list[dict[str, Any]] = []
+    for strategy_id in CORE_ACTIVE_FAMILY_BASE_IDS:
+        if strategy_id in dedup:
+            continue
+        try:
+            sample_tag = pick_preferred_sample_tag(strategy_id, market_scope="a_share")
+            snapshot = load_strategy_snapshot(strategy_id, sample_tag, market_scope="a_share")
+        except Exception:
+            continue
+        snapshot["path"] = "path2" if strategy_id in path2_known_ids or "equal_weight_winner_core" in strategy_id else "path1"
+        snapshot["winner_type"] = "core active"
+        snapshot["winner_tags"] = []
+        snapshot["market_scope"] = "a_share"
+        core_active_registry.append(snapshot)
+
+    core_active_registry = sorted(
+        core_active_registry,
+        key=lambda item: (
+            item["path"],
+            -float(item["summary_metrics"].get("cagr", 0.0)),
+            item["strategy_id"],
+        ),
+    )
+
     LIVE_DIR.mkdir(parents=True, exist_ok=True)
     (LIVE_DIR / "strategies").mkdir(parents=True, exist_ok=True)
-    for item in registry:
+    snapshot_items: dict[str, dict[str, Any]] = {item["strategy_id"]: item for item in registry}
+    for item in core_active_registry:
+        snapshot_items.setdefault(item["strategy_id"], item)
+    for item in snapshot_items.values():
         strategy_path = LIVE_DIR / "strategies" / f"{item['strategy_id']}.json"
         strategy_path.write_text(json.dumps(item, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
@@ -452,6 +499,21 @@ def export_live_data() -> dict[str, Any]:
                 "updated_at": item["updated_at"],
             }
             for item in registry
+        ],
+        "core_active_strategies": [
+            {
+                "strategy_id": item["strategy_id"],
+                "display_name": item["display_name"],
+                "path": item["path"],
+                "market_scope": item.get("market_scope", "a_share"),
+                "winner_type": item["winner_type"],
+                "winner_tags": item["winner_tags"],
+                "target_total_exposure": item["target_total_exposure"],
+                "risk_state": item["risk_state"],
+                "summary_metrics": item["summary_metrics"],
+                "updated_at": item["updated_at"],
+            }
+            for item in core_active_registry
         ],
     }
     (LIVE_DIR / "strategy_registry.json").write_text(

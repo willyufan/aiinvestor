@@ -130,6 +130,23 @@ def winner_windows_label(winner_tags: list[str] | None) -> str:
     return " / ".join(ordered)
 
 
+def winner_identity_label(winner_tags: list[str] | None) -> str:
+    if not winner_tags:
+        return ""
+    labels: list[str] = []
+    for tag in winner_tags:
+        winner_type = str(tag).split(":")[-1]
+        if winner_type.endswith("window winner"):
+            label = "窗口赢家"
+        elif winner_type == "robust candidate":
+            label = "鲁棒候选"
+        else:
+            label = winner_type
+        if label not in labels:
+            labels.append(label)
+    return " / ".join(labels)
+
+
 def _select_previous_close(rows: list[dict[str, str]], today_tag: str) -> float | None:
     eligible = [row for row in rows if str(row.get("trade_date") or "") < today_tag]
     candidate = eligible[-1] if eligible else (rows[-1] if rows else None)
@@ -1676,6 +1693,77 @@ def build_history_selection(history_windows: list[dict], history_window_key: str
     return str(history_window_index), history_windows[history_window_index]
 
 
+def build_rebalance_change_rows(latest_weights: list[dict], history_windows: list[dict]) -> dict | None:
+    snapshots = flatten_history_snapshots(history_windows)
+    if len(snapshots) < 2:
+        return None
+    current_snapshot = snapshots[0]
+    previous_snapshot = snapshots[1]
+    latest_price_map = {
+        str(row.get("ts_code")): row.get("latest_price")
+        for row in latest_weights or []
+        if row.get("ts_code")
+    }
+    current_map = {
+        str(row.get("ts_code")): {
+            "ts_code": str(row.get("ts_code")),
+            "name": str(row.get("name", "")),
+            "weight": float(row.get("weight", 0.0)),
+            "latest_price": latest_price_map.get(str(row.get("ts_code"))),
+        }
+        for row in current_snapshot.get("holdings", [])
+        if row.get("ts_code")
+    }
+    previous_map = {
+        str(row.get("ts_code")): {
+            "ts_code": str(row.get("ts_code")),
+            "name": str(row.get("name", "")),
+            "weight": float(row.get("weight", 0.0)),
+        }
+        for row in previous_snapshot.get("holdings", [])
+        if row.get("ts_code")
+    }
+    all_codes = sorted(set(current_map.keys()) | set(previous_map.keys()))
+    rows: list[dict] = []
+    summary = {"新增": 0, "加仓": 0, "减仓": 0, "清仓": 0}
+    for code in all_codes:
+        current = current_map.get(code, {"ts_code": code, "name": "", "weight": 0.0, "latest_price": None})
+        previous = previous_map.get(code, {"ts_code": code, "name": "", "weight": 0.0})
+        current_weight = float(current.get("weight", 0.0))
+        previous_weight = float(previous.get("weight", 0.0))
+        diff = current_weight - previous_weight
+        if abs(diff) < 1e-9:
+            continue
+        if previous_weight <= 1e-9 and current_weight > 1e-9:
+            action = "新增"
+        elif current_weight <= 1e-9 and previous_weight > 1e-9:
+            action = "清仓"
+        elif diff > 0:
+            action = "加仓"
+        else:
+            action = "减仓"
+        summary[action] += 1
+        rows.append(
+            {
+                "ts_code": code,
+                "name": str(current.get("name") or previous.get("name") or ""),
+                "current_weight": current_weight,
+                "previous_weight": previous_weight,
+                "diff_weight": diff,
+                "action": action,
+                "latest_price": current.get("latest_price"),
+            }
+        )
+    action_order = {"新增": 0, "加仓": 1, "减仓": 2, "清仓": 3}
+    rows.sort(key=lambda item: (action_order.get(str(item["action"]), 9), -abs(float(item["diff_weight"])), str(item["ts_code"])))
+    return {
+        "current_date": str(current_snapshot.get("date", "")),
+        "previous_date": str(previous_snapshot.get("date", "")),
+        "rows": rows,
+        "summary": summary,
+    }
+
+
 def render_exposure_return_curve(snapshots: list[dict], equity_curve_points: list[dict], start_date: str = "", end_date: str = "") -> str:
     if not snapshots:
         return "<div class='muted'>暂无仓位与收益率曲线。</div>"
@@ -1865,7 +1953,9 @@ def dashboard_html() -> str:
 
 
 def strategies_html() -> str:
-    registry = load_registry()["strategies"]
+    payload = load_registry()
+    registry = payload["strategies"]
+    core_active_registry = payload.get("core_active_strategies", [])
     groups = {"a_share": [], "hkconnect": []}
     for item in registry:
         groups.setdefault(str(item.get("market_scope", "a_share")), []).append(item)
@@ -1878,7 +1968,13 @@ def strategies_html() -> str:
         cards = []
         for item in items:
             metrics = item["summary_metrics"]
+            identity_text = winner_identity_label(item.get("winner_tags"))
             windows_text = winner_windows_label(item.get("winner_tags"))
+            identity_html = (
+                f"<p class='muted'>身份：{html.escape(identity_text)}</p>"
+                if identity_text
+                else ""
+            )
             windows_html = (
                 f"<p class='muted'>胜出窗口：{html.escape(windows_text)}</p>"
                 if windows_text
@@ -1889,6 +1985,7 @@ def strategies_html() -> str:
                 f"<div class='pill'>{html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} / {html.escape(item['path'])} / {html.escape(item['winner_type'])}</div>"
                 f"<h3 style='margin-top:12px'><a href='/strategies/{item['strategy_id']}'>{html.escape(item['display_name'])}</a></h3>"
                 f"<div class='muted'><code>{html.escape(item['strategy_id'])}</code></div>"
+                f"{identity_html}"
                 f"{windows_html}"
                 f"<p>Total Return {fmt_pct(float(metrics.get('total_return', 0.0)))} | CAGR {fmt_pct(float(metrics.get('cagr', 0.0)))} | MaxDD {fmt_pct(float(metrics.get('max_drawdown', 0.0)))} | Sharpe {float(metrics.get('sharpe_ratio', 0.0)):.4f} | Turn {float(metrics.get('average_annual_turnover', 0.0)):.2f}</p>"
                 f"<p>当前总仓位建议: {fmt_pct(float(item['target_total_exposure']))} | 风险状态: {html.escape(item['risk_state'])} | 更新: {html.escape(str(item['updated_at']))}</p>"
@@ -1913,6 +2010,27 @@ def strategies_html() -> str:
                 )
             section_html += "<div style='margin-top:20px'><h2>A股 Core Family 对比图</h2><div class='grid grid-2'>" + "".join(chart_cards) + "</div></div>"
         sections.append(section_html)
+    core_cards = []
+    for item in core_active_registry:
+        metrics = item["summary_metrics"]
+        core_cards.append(
+            "<div class='card'>"
+            f"<div class='pill'>A股 / {html.escape(item['path'])} / core active</div>"
+            f"<h3 style='margin-top:12px'><a href='/strategies/{item['strategy_id']}'>{html.escape(item['display_name'])}</a></h3>"
+            f"<div class='muted'><code>{html.escape(item['strategy_id'])}</code></div>"
+            "<p class='muted'>观察区：接近实盘候选，但当前不在 tracked winners 白名单内。</p>"
+            f"<p>Total Return {fmt_pct(float(metrics.get('total_return', 0.0)))} | CAGR {fmt_pct(float(metrics.get('cagr', 0.0)))} | MaxDD {fmt_pct(float(metrics.get('max_drawdown', 0.0)))} | Sharpe {float(metrics.get('sharpe_ratio', 0.0)):.4f} | Turn {float(metrics.get('average_annual_turnover', 0.0)):.2f}</p>"
+            f"<p>当前总仓位建议: {fmt_pct(float(item['target_total_exposure']))} | 风险状态: {html.escape(item['risk_state'])} | 更新: {html.escape(str(item['updated_at']))}</p>"
+            "</div>"
+        )
+    if core_cards:
+        sections.append(
+            "<div style='margin-top:20px'>"
+            "<h2>A股 Core Active Family 观察区</h2>"
+            "<div class='muted' style='margin-bottom:12px'>这里展示的是 winner 之外最值得持续观察的核心活跃候选，默认仅供比较查看，不进入账户绑定白名单。</div>"
+            f"<div class='grid grid-2'>{''.join(core_cards)}</div>"
+            "</div>"
+        )
     return render_page("策略中心", "<h1>策略中心</h1>" + "".join(sections))
 
 
@@ -1971,13 +2089,56 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         rows.append(
             f"<tr{row_style}><td>{html.escape(key)}</td><td>{fmt_pct(float(w['total_return']))}</td><td>{fmt_pct(float(w['cagr']))}</td><td>{fmt_pct(float(w['max_drawdown']))}</td><td>{float(w['sharpe']):.4f}</td><td>{float(w['turnover']):.2f}</td></tr>"
         )
+    history_windows = active_view.get("history_windows") or []
+    rebalance_change = build_rebalance_change_rows(active_view.get("latest_weights") or [], history_windows)
+    change_summary_html = ""
+    change_rows_html = ""
+    if rebalance_change:
+        summary = rebalance_change["summary"]
+        summary_parts = []
+        for key in ("新增", "加仓", "减仓", "清仓"):
+            count = int(summary.get(key, 0))
+            if count:
+                summary_parts.append(f"{key} {count} 只")
+        summary_text = " | ".join(summary_parts) if summary_parts else "本次相对上次调仓没有权重变化。"
+        change_summary_html = (
+            "<div class='card' style='margin-top:16px'><h2>相对上次调仓的变化</h2>"
+            f"<p class='muted'>当前调仓日：{html.escape(rebalance_change['current_date'])} | 上次调仓日：{html.escape(rebalance_change['previous_date'])}</p>"
+            f"<p>{summary_text}</p>"
+            "</div>"
+        )
+        change_rows = []
+        for row in rebalance_change["rows"]:
+            diff_weight = float(row["diff_weight"])
+            abs_diff = abs(diff_weight)
+            row_style = ""
+            if abs_diff >= 0.10:
+                row_style = " style='background:#dbeafe;font-weight:700'"
+            elif abs_diff >= 0.05:
+                row_style = " style='background:#eff6ff;font-weight:600'"
+            elif row["action"] in {"新增", "清仓"}:
+                row_style = " style='background:#f8fafc'"
+            action_style = ""
+            if row["action"] in {"新增", "加仓"}:
+                action_style = " style='color:#166534;font-weight:700'"
+            elif row["action"] in {"减仓", "清仓"}:
+                action_style = " style='color:#b45309;font-weight:700'"
+            change_rows.append(
+                f"<tr{row_style}><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td{action_style}>{html.escape(row['action'])}</td><td>{fmt_pct(float(row['previous_weight']))}</td><td>{fmt_pct(float(row['current_weight']))}</td><td>{fmt_pct(diff_weight)}</td><td>{fmt_amt(float(row['latest_price'] or 0.0)) if row['latest_price'] is not None else 'n/a'}</td></tr>"
+            )
+        change_rows_html = (
+            "<div class='card' style='margin-top:16px'><h2>最新调仓建议变化明细</h2>"
+            "<p class='muted'>变化≥10% 的行会重点高亮，变化≥5% 的行会浅色高亮；新增/清仓也会单独标识。</p>"
+            "<table><thead><tr><th>代码</th><th>名称</th><th>动作</th><th>上次权重</th><th>当前权重</th><th>变化</th><th>最新价格</th></tr></thead><tbody>"
+            + "".join(change_rows)
+            + "</tbody></table></div>"
+        )
     weight_rows = []
     for row in active_view["latest_weights"]:
         weight_rows.append(
             f"<tr><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td>{fmt_pct(float(row['weight']))}</td><td>{fmt_amt(float(row['latest_price'] or 0.0)) if row['latest_price'] is not None else 'n/a'}</td></tr>"
         )
 
-    history_windows = active_view.get("history_windows") or []
     selected_key, selected_history = build_history_selection(history_windows, history_window_key)
     history_selector = ""
     history_html = "<div class='muted'>暂无历史持仓快照。</div>"
@@ -2035,6 +2196,8 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         + f"<div class='card' style='margin-top:16px'><h2>最新调仓建议（{html.escape(rebalance_frequency)} / {html.escape(active_sample_label)}）</h2><table><thead><tr><th>代码</th><th>名称</th><th>目标权重</th><th>最新价格</th></tr></thead><tbody>"
         + "".join(weight_rows)
         + "</tbody></table></div>"
+        + change_summary_html
+        + change_rows_html
         + exposure_html
         + "<div class='card' style='margin-top:16px'><h2>历史调仓建议</h2>"
         + history_selector
