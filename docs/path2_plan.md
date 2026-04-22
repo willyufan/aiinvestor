@@ -489,3 +489,10 @@
   - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
   - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`
 - 关键约束没有变：即使在完整口径下，`since_2020_01` 当前 tracked winner 也只到 `32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`，距离 `40%+ CAGR` 目标仍有明显缺口。所以下一轮新增预算依然应该优先投向新的中周期高收益原型，而不是继续复制 `biweekly / weekly` 频率克隆。
+
+## 17. 本轮补充（2026-04-23 05:29 CST）
+
+- 再次运行 `./.venv/bin/python scripts/path2_candidate_pass.py`：当前独立候选宇宙仍为 `87` 个候选；四窗口 tracked winners 与 `robust_candidate` 均未改写，`since_2020_01` 仍由 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80` 领跑，但也只做到 `32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`。
+- 本轮新增的研究发现不是 winner 改写，而是 `family_ranked_candidates` 口径仍存在串线：由于 `PATH2_SCAN_FAMILY_RULES` 里的宽前缀（尤其是 `core_explore_80_20_equal_weight_winner_core` 一类）会把同一批 `80/20` 高集中候选同时并入多个 family，当前五个 family leaderboard 仍被几乎相同的候选占满，不能真实反映“独立候选族”的前排顺位。
+- 这意味着下一轮 `Path 2` 的第一优先级不该是继续追加 `biweekly / weekly` 克隆，而是先收紧 family membership 口径，再把新增预算投向真正面向 `since_2020_01` 的中周期高收益原型；否则 family 级排序会持续高估同一批 `80/20` 高集中等权版本。
+- 本轮随后执行 `./.venv/bin/python scripts/update_weighted_winners.py` 与 `./.venv/bin/python scripts/generate_strategy_comparison_chart.py`：Path 2 的 tracked winners / robust candidate 文本口径没有继续漂移，但 A 股对比图按当前 tracked 基线重绘后发生了实际 binary diff，因此本轮保留 `sync-only` 提交即可，不额外补跑确认回测。

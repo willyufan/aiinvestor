@@ -390,3 +390,10 @@
 - `since_2020_01` 当前最接近过线的仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure_buffered`：`27.59% CAGR / 0.9338 Sharpe / -23.01% MaxDD / 0.87 Turn`。它相对当前 winner 确实提高了 `CAGR / Sharpe`，但 `MaxDD` 与 `Turnover` 都明显超出 `clear improvement` 阈值，因此本轮继续不补确认回测。
 - `since_2023_01` 最接近挑战者仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`：`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`；问题仍然不是收益不够，而是回撤和风险调整后收益明显差于当前 tracked winner。
 - 结论不变：`Path 1` 下一轮继续只保留 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path` 里的快筛观察，不新增确认回测，也不把 `signal_variants` 拉回主攻列表。
+
+## 15. 本轮补充（2026-04-23 05:29 CST）
+
+- 再次运行 `./.venv/bin/python scripts/winner_only_pass.py`：输出仍为 `as_of=2026-04-23 family=path1_fast_family base_candidates=20 total_candidates=140 evaluated=140`，四窗口 tracked winners 与 `robust_candidate` 继续完全不变。
+- `since_2020_01` 当前最接近阈值的仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure_buffered`（`27.59% CAGR / 0.9338 Sharpe / -23.01% MaxDD / 0.87 Turn`）；`since_2023_01` 最接近挑战者仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`（`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`）。两者都仍卡在 `MaxDD / Turnover` 约束，不补确认回测。
+- 本轮随后执行 `./.venv/bin/python scripts/update_weighted_winners.py` 与 `./.venv/bin/python scripts/generate_strategy_comparison_chart.py`：`README / HISTORY / results/weighted_track_winners.json` 没有新增漂移，但 A 股对比图与 tracked-winner 汇总图按当前基线重绘后发生了实际 binary diff，因此本轮允许作为 `sync-only` artifact refresh 提交。
+- 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path` 四个既定方向内推进，不新增 fast-pass family，也不重新打开 `signal_variants`。
