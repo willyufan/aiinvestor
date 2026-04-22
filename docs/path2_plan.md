@@ -476,3 +476,16 @@
   - `momentum_equal_weight_elastic` 当前真正的窗口赢家已切到 `aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
   - `biweekly / weekly_rebalance_aggressive` 的前排仍只是底座级别基线，没有出现能改写四窗口 winner 的高频 leader
 - 因此下一轮 `Path 2` 继续把新增预算优先投向新的中周期高收益原型，不再给 `biweekly / weekly` 的频率克隆额外预算；它们继续只保留为对照，不升级成新的主攻族。
+
+## 16. 本轮补充（2026-04-23 03:33 CST）
+
+- 本轮修正了一个真实缺口：`PATH2_SCAN_VARIANT_IDS / PATH2_SCAN_FAMILY_RULES` 已经声明了 `aggr_08_92_prom6_core_3_1_full_risk_cap40`、`aggr_05_95_prom7_core_6_1_full_risk`、`aggr_05_95_prom7_core_6_1_full_risk_cap40`、`aggr_05_95_prom7_core_3_1_full_risk_cap40`，但 `WINNER_CORE_VARIANTS` 里此前没有这些定义，导致 candidate pass 实际跑不到它们。本轮已补齐这 4 个变体，并离线补跑 `since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01 / since_2026_01`。
+- 新补变体里最有价值的观察是：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_3_1_full_risk_cap40` 在 `since_2023_01` 做到了 `40.40% CAGR / 1.0147 Sharpe / -45.82% MaxDD / 507.33% Turnover`，说明 `prom7 + 3_1` 确实具备独立的高弹性；但它仍明显落后于当前 `since_2023_01` winner `aggr_05_95_prom3_core_6_1_full_risk_cap80` 的 `56.40% CAGR`，因此只保留为 sidecar prototype，不晋升为新主线。
+- 在把新增变体结果并回全量 `summary.json` 后，重建出的 `results/strategy_comparison_base_method.csv` 已恢复到完整口径（`1744` 行 / `466` 个 base strategies）。基于这份完整 CSV，再次运行 `./.venv/bin/python scripts/path2_candidate_pass.py` 后，当前独立候选宇宙恢复为 `87` 个候选，而不是上一版局部 CSV 下看到的 `32` 个。
+- 以这次完整重建后的口径为准，当前 Path 2 tracked winners 已同步为：
+  - `since_2017_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`
+  - `since_2020_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
+  - `since_2023_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`
+  - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
+  - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`
+- 关键约束没有变：即使在完整口径下，`since_2020_01` 当前 tracked winner 也只到 `32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`，距离 `40%+ CAGR` 目标仍有明显缺口。所以下一轮新增预算依然应该优先投向新的中周期高收益原型，而不是继续复制 `biweekly / weekly` 频率克隆。

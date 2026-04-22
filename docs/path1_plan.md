@@ -383,3 +383,10 @@
   - `aggr_08_92_prom6_cash_off + __port_weekly_exposure_buffered`
   - `aggr_08_92_prom6_core_6_1 + __port_weekly_exposure_asym`
   不重新打开非 fast-pass family。
+
+## 14. 本轮补充（2026-04-23 03:33 CST）
+
+- 本轮先补齐了 `Path 2` 计划里已声明但未实际生成的 4 个候选变体，并用离线缓存补跑后重建了 `results/strategy_comparison_base_method.csv`（`1744` 行 / `466` 个 base strategies）；随后再次运行 `./.venv/bin/python scripts/winner_only_pass.py`，输出仍为 `as_of=2026-04-23 base=20 total=140 eval=140`，四窗口 tracked winners 继续不变。
+- `since_2020_01` 当前最接近过线的仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure_buffered`：`27.59% CAGR / 0.9338 Sharpe / -23.01% MaxDD / 0.87 Turn`。它相对当前 winner 确实提高了 `CAGR / Sharpe`，但 `MaxDD` 与 `Turnover` 都明显超出 `clear improvement` 阈值，因此本轮继续不补确认回测。
+- `since_2023_01` 最接近挑战者仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`：`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`；问题仍然不是收益不够，而是回撤和风险调整后收益明显差于当前 tracked winner。
+- 结论不变：`Path 1` 下一轮继续只保留 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path` 里的快筛观察，不新增确认回测，也不把 `signal_variants` 拉回主攻列表。
