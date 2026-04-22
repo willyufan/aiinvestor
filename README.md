@@ -205,7 +205,7 @@
 - Path 2：
   - `since_2017_01 / since_2020_01`：`hkconnect_path2_theme_monthly`
   - `since_2023_01 / since_2025_01`：`hkconnect_path2_theme_biweekly`
-  - robust candidate：`hkconnect_path2_breakout_monthly`
+  - robust candidate：`hkconnect_path2_theme_biweekly`
 - `since_2026_01`：只做观察，不进入 tracked winners；当前 raw leader 分别是 `hkconnect_path1_monthly_lowvol`（Path 1）与 `hkconnect_path2_breakout_monthly`（Path 2）
 
 关键窗口指标：

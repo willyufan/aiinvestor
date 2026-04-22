@@ -110,15 +110,16 @@ def _pick_robust(subset: pd.DataFrame) -> tuple[str, dict[str, float]]:
         tags = set(group["sample_tag"].astype(str))
         if not set(WINDOW_TAGS).issubset(tags):
             continue
+        tracked = group[group["sample_tag"].isin(WINDOW_TAGS)].copy()
         rows.append(
             (
                 str(strategy_id),
                 {
-                    "cagr_mean": float(group["cagr"].mean()),
-                    "cagr_min": float(group["cagr"].min()),
-                    "sharpe_mean": float(group["sharpe_ratio"].mean()),
-                    "max_drawdown_worst": float(group["max_drawdown"].min()),
-                    "turnover_mean": float(group["average_annual_turnover"].mean()),
+                    "cagr_mean": float(tracked["cagr"].mean()),
+                    "cagr_min": float(tracked["cagr"].min()),
+                    "sharpe_mean": float(tracked["sharpe_ratio"].mean()),
+                    "max_drawdown_worst": float(tracked["max_drawdown"].min()),
+                    "turnover_mean": float(tracked["average_annual_turnover"].mean()),
                 },
             )
         )

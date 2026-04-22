@@ -90,4 +90,5 @@
 
 - Path 1：四窗口 tracked winner 继续全部为 `hkconnect_path1_monthly_equal_buffered`；当前 `since_2020_01` / `since_2023_01` 指标分别为 `23.47% CAGR / -14.78% MaxDD / 1.3697 Sharpe / 2.88 Turnover` 与 `34.37% CAGR / -14.78% MaxDD / 1.7044 Sharpe / 2.89 Turnover`。
 - Path 2：`since_2017_01 / since_2020_01` winner 切换为 `hkconnect_path2_theme_monthly`，`since_2023_01 / since_2025_01` winner 切换为 `hkconnect_path2_theme_biweekly`；当前 `since_2020_01` / `since_2023_01` 指标分别为 `23.15% CAGR / -18.86% MaxDD / 1.1825 Sharpe / 6.64 Turnover` 与 `49.30% CAGR / -16.47% MaxDD / 1.5442 Sharpe / 14.46 Turnover`。
+- 港股 artifact 口径修正：`robust_candidate` 现在只按四个 tracked windows（`2017/2020/2023/2025`）计算，Path 2 的当前四窗口 robust candidate 因而从 `hkconnect_path2_breakout_monthly` 更正为 `hkconnect_path2_theme_biweekly`；Path 1 的 robust candidate 仍为 `hkconnect_path1_monthly_equal_buffered`。
 - 港股 `since_2026_01` 仍只作为观察窗，不进入 tracked winners；当前 raw leader 是 `hkconnect_path1_monthly_lowvol`（Path 1）与 `hkconnect_path2_breakout_monthly`（Path 2）。
