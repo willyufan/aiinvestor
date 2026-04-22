@@ -255,7 +255,8 @@
 - 补充（2026-04-21 12:13）：运行 `scripts/winner_only_pass.py`，结论不变（`base_candidates=13 / total_candidates=52 / evaluated=26`）。
 - 补充（2026-04-21 14:18）：运行 `scripts/winner_only_pass.py --scan-prefix core_explore_80_20_total_mv_winner_core`，结论不变（`base_candidates=66 / evaluated=47`）。
 - 补充（2026-04-21 16:36）：运行 `scripts/winner_only_pass.py`，结论不变（`base_candidates=13 / total_candidates=91 / evaluated=26`）。
-- 扫描范围（fast pass + 卫星/组合 overlay）：`base_candidates=13 / total_candidates=91 / evaluated=26`。
+- 补充（2026-04-21 17:57）：运行 `scripts/winner_only_pass.py`，结论不变（`base_candidates=20 / total_candidates=140 / evaluated=34`）。
+- 扫描范围（fast pass + 卫星/组合 overlay）：`base_candidates=20 / total_candidates=140 / evaluated=34`。
 - 当前阈值（guardrails）：`minCAGR=+0.10%`、`minSharpe=+0.005`、`MaxDD` 允许恶化 `<=0.50%`、`Turnover` 允许上升 `<=+0.15`。
 - 近似候选（但未通过回撤/换手/Sharpe 阈值）：
   - `since_2020_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__sat_three_stage_buffered`（ΔCAGR `+0.18%`、ΔSharpe `+0.0031`，Sharpe 改善不足且 MaxDD 略差）。
@@ -331,3 +332,29 @@
 - `results/weighted_track_winners.json`
 
 为准。
+
+## 8. 本轮补充（2026-04-21 18:24）
+
+- 重跑 `scripts/winner_only_pass.py`（Path 1 fast-pass）：未发现“清晰改写窗口赢家”的候选（主要问题仍集中在 `MaxDD/Turnover` 约束未通过）。
+
+## 9. 本轮补充（2026-04-21 20:18）
+
+- 重跑 `scripts/winner_only_pass.py`（Path 1 fast-pass）：结论不变，未发现满足阈值的 `clear improvement`。
+
+## 10. 本轮补充（2026-04-21 22:20）
+
+- 运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`（Path 1 fast-pass）：`as_of=2026-04-21 base=20 total=140 eval=34`；四窗口赢家不变，未出现满足阈值的 `clear improvement`。
+
+## 11. 本轮补充（2026-04-22）
+
+- 运行 `.venv/bin/python scripts/winner_only_pass.py`（Path 1 fast-pass）：`as_of=2026-04-22 base=20 total=140 eval=34`；四窗口赢家继续不变，未出现满足阈值的 `clear improvement`。
+- `since_2020_01` 最接近改写的仍是 `aggr_08_92_prom6__sat_three_stage_buffered`：`CAGR 25.33% / Sharpe 0.9238 / MaxDD -21.83% / Turn 0.67`，相对当前 `aggr_10_90_prom6__sat_three_stage_buffered` 只有很小收益优势，但 `MaxDD` 略差，未通过阈值。
+- `since_2023_01` 继续最值得保留的近似候选是 `aggr_10_90_fast_ramp_cash_off`：`CAGR 27.06% / Sharpe 1.1488 / MaxDD -9.90%`，但 `Turnover 2.37` 仍明显高于当前赢家 `0.96`，问题仍是换手。
+- `since_2017_01` 的 `aggr_08_92_prom6_cash_off_and` 依旧表现为“收益/Sharpe 更高但回撤与换手显著恶化”的形态，因此下一轮不应把 `cash_off_and` 扩成主攻方向。
+- 下一轮默认继续只压 `promotion_ramp / satellite_defense / weekly_exposure_path` 三个方向；`signal_variants` 仍只保留观察，不回到主攻列表。
+- 本次再次用 `AIINVESTOR_FORCE_OFFLINE=1` 重跑后，`since_2023_01` 的 raw-CAGR 前两名仍是 `aggr_08_92_prom6_core_6_1 / aggr_10_90_prom6_core_6_1`，但两者的 `Sharpe / MaxDD / Turnover` 都明显差于当前赢家；因此真正保留为下一轮 sidecar challenger 的仍应是 `aggr_10_90_fast_ramp_cash_off`，而不是把 `signal_variants` 重新拉回主攻清单。
+- `2026-04-22 06:27 CST` 再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`：输出与上述一致，四窗口仍无 `clear improvement`；因此本轮不补任何 A 股 Path 1 确认回测。
+- 在新增 `Path 2` 原型并重建 `results/strategy_comparison_base_method.csv` 后，再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`：输出仍为 `as_of=2026-04-22 base=20 total=140 eval=34`，说明 `Path 1` 的近似 challenger 顺位没有被旁路线干扰。
+- 当前最接近改写 `since_2020_01` 的仍是 `aggr_08_92_prom6__sat_three_stage_buffered`，最值得保留的 `since_2023_01` sidecar challenger 仍是 `aggr_10_90_fast_ramp_cash_off`；因此本轮结束时 `Path 1` 继续只保留快筛记录，不新增确认回测。
+- 当日后续先用缓存重建了 `results/strategy_comparison_base_method.csv`（`427` 行 / `154` 个 base strategies），再运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`：结论仍不变，说明此前被局部回测覆盖过的 comparison CSV 已恢复到可用基线。
+- 以这次重建后的完整 comparison CSV 为准，`since_2020_01` 当前赢家是 `aggr_10_90_prom6__sat_three_stage_buffered`（`25.27% CAGR / 0.9222 Sharpe / -21.59% MaxDD / 0.67 Turn`）；最接近挑战者 `aggr_08_92_prom6__sat_three_stage_buffered` 只做到 `25.46% / 0.9253 / -21.83% / 0.66`，仍因 `Sharpe` 改善不足且 `MaxDD` 略差而未过阈值，所以本轮继续不补确认回测。

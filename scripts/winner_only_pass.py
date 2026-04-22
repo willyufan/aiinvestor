@@ -141,6 +141,9 @@ def load_path1_fast_config(backtest_path: Path) -> tuple[list[str], list[str], d
             "SAT_WEEKLY_RISK_SUFFIX",
             "SAT_THREE_STAGE_SUFFIX",
             "SAT_THREE_STAGE_BUFFERED_SUFFIX",
+            "PORT_WEEKLY_EXPOSURE_SUFFIX",
+            "PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX",
+            "PORT_WEEKLY_EXPOSURE_ASYM_SUFFIX",
         ],
     )
     base = str(consts["WINNER_ONLY_STRATEGY_ID"])
@@ -166,6 +169,9 @@ def load_path1_fast_config(backtest_path: Path) -> tuple[list[str], list[str], d
         str(consts.get("SAT_WEEKLY_RISK_SUFFIX") or "__sat_weekly_risk"),
         str(consts.get("SAT_THREE_STAGE_SUFFIX") or "__sat_three_stage_risk"),
         str(consts.get("SAT_THREE_STAGE_BUFFERED_SUFFIX") or "__sat_three_stage_buffered"),
+        str(consts.get("PORT_WEEKLY_EXPOSURE_SUFFIX") or "__port_weekly_exposure"),
+        str(consts.get("PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX") or "__port_weekly_exposure_buffered"),
+        str(consts.get("PORT_WEEKLY_EXPOSURE_ASYM_SUFFIX") or "__port_weekly_exposure_asym"),
     ]
     family_ids: set[str] = set(base_ids)
     for base_id in base_ids:

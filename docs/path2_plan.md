@@ -65,6 +65,12 @@
 - `aggr_05_95_prom3_core_6_1_cap60`
 - `aggr_05_95_prom3_core_6_1_cash_off_and_cap60`
 
+近期新增的 bridging 原型（用于验证“更高集中 + 明确 risk-off”是否能改善 `since_2020_01`）：
+
+- `aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
+- `aggr_03_97_prom2_core_6_1_cash_off_and_risk30_cap80`
+- `aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`
+
 ### B. 高成长主线
 
 特点：
@@ -185,6 +191,17 @@
   - 保留双周 / 单周候选族
   - 但新增探索强度优先投向更适配 `since_2020_01` 的中周期高收益原型
   - 不再平均强化 `since_2023_01 / since_2025_01`
+
+### 本轮快筛记录（2026-04-21 17:57）
+
+- 运行 `scripts/path2_candidate_pass.py`：候选数 `49`，四窗口赢家与四窗口鲁棒候选均未改写。
+- 当前（缓存结果）仍然显示：
+  - `since_2017_01 / since_2020_01 / since_2025_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60`（`since_2020_01` 仍约 `35.85% CAGR`）。
+  - `since_2023_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（上限高但回撤深）。
+  - `robust`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80`（`meanCAGR~57.11% / minCAGR~26.93%`）。
+- 补充（2026-04-21 18:02）：
+  - 新增两条候选：`aggr_05_95_prom3_core_6_1_cash_off_and_cap80`、`aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80`，并各自跑了 `since_2017_01/2020_01/2023_01` 离线微回测（复用缓存）后重建对比 CSV。
+  - 重跑 `scripts/path2_candidate_pass.py`：候选数增至 `51`，四窗口赢家与鲁棒候选仍未改写；新变体在 `since_2020_01` 上限仅约 `26% CAGR`，明显不具竞争力。
 
 ## 5.0 上轮（2026-04-19）执行清单（覆盖 3 条独立候选族）
 
@@ -387,3 +404,42 @@
 - `results/path2_candidate_pass.json`
 
 为准。
+
+## 10. 本轮补充（2026-04-21 18:24）
+
+- 重跑 `scripts/path2_candidate_pass.py`：候选数仍为 `51`，四窗口赢家与 `robust` 候选均未改写。
+
+## 11. 本轮补充（2026-04-21 20:18）
+
+- 重跑 `scripts/path2_candidate_pass.py`：候选数 `51`，四窗口赢家与 `robust` 候选结论不变。
+
+## 12. 本轮补充（2026-04-21 22:20）
+
+- 运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py`：候选数 `51`；四窗口赢家与 `robust` 候选均未改写（近期目标 `since_2020_01 40%+ CAGR` 仍需新增更独立、更激进的候选族）。
+
+## 13. 本轮补充（2026-04-22）
+
+- 运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选数仍为 `51`；四窗口赢家与 `robust` 候选继续不变。
+- 当前五个候选族的前排仍被同一批高集中等权变体占住，说明“新增周频/双周频族”目前主要是在扩扫描宇宙，还没有形成真正独立的 `since_2020_01` 赢家族。
+- `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80` 仍是几乎所有候选族里的最高 promotion-score 候选：`since_2020_01 CAGR 35.76% / since_2023_01 CAGR 50.65% / worst MaxDD -38.62%`；它强化了 `2023`，但仍没有把 `2020` 推到 `40%+`。
+- `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60` 继续是 `since_2020_01` 窗口赢家（`35.85% CAGR`），`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80` 继续是 `since_2023_01` 窗口赢家（`56.01% CAGR`）。
+- 下一轮新增探索预算不应继续平均投向提频变体；更合理的方向是新增真正面向 `2020` 的中周期高收益原型，而不是再复制一轮 `monthly -> biweekly -> weekly` 频率克隆。
+- 本次再次用 `AIINVESTOR_FORCE_OFFLINE=1` 重跑后，五个候选族的前二仍被同一组 `aggr_05_95_prom3_core_6_1_*` 高集中等权变体占据；`risk30_cap80` 的 promotion score 仍约 `0.5033`，而 `cap60` 仍是 `since_2020_01` 的最高窗口赢家（`35.85% CAGR`），说明现有扫描宇宙新增部分还没有产出新的独立 family leader。
+- `2026-04-22 06:27 CST` 再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py`：候选数仍为 `51`，窗口赢家与 `robust` 候选继续不变。
+- 追加了一个只看 `since_2020_01 / since_2023_01` 的 sidecar 微回测：把 `aggr_05_95_prom3_core_6_1_cash_off_and_cap60 / risk30_cap80 / risk50_cap80` 从 `80/20` 扩到 `70/30`、`60/40` 等权底座后，全部都弱于当前 `80/20` 主线。
+- 其中新组里表现最好的也只有：
+  - `since_2020_01`：`core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60`，`CAGR 26.86% / MaxDD -22.83% / Sharpe 1.0641 / Turnover 3.11`
+  - `since_2023_01`：`core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80`，`CAGR 37.72% / MaxDD -28.76% / Sharpe 1.2732 / Turnover 3.98`
+- 结论：当前瓶颈不在 `core/explore` 比例本身，而在候选原型没有真正把 `since_2020_01` 推过 `40%+`；下一轮不应继续把新增预算投到 `80/20 -> 70/30/60/40` 的比例克隆上。
+- 本轮继续新增了 `prom2 + cash_off_and + cap80` 三个原型，并离线补跑 `since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01` 后重建对比 CSV，再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py`：候选数从 `51` 增至 `63`。
+- 新组里表现最好的 `since_2020_01` 候选是 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`，仅到 `32.07% CAGR / -23.02% MaxDD / 1.1480 Sharpe / 2.95 Turnover`；仍明显弱于当前 `since_2020_01` winner `aggr_05_95_prom3_core_6_1_cash_off_and_cap60` 的 `35.85% CAGR`。
+- 但 `since_2025_01` 窗口赢家被这条新原型改写：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80` 以 `128.06% CAGR / -12.42% MaxDD / 2.1335 Sharpe / 5.80 Turnover` 超过原先的 `aggr_05_95_prom3_core_6_1_cash_off_and_cap60`（`124.08% CAGR / -13.73% MaxDD / 2.1116 Sharpe / 6.18 Turnover`）。
+- 结论更新：`prom2 + cash_off_and + cap80` 已经成为新的超短窗口赢家，但它仍不是把 `since_2020_01` 推到 `40%+` 的解。下一轮新增预算应继续面向“中周期高收益原型”，而不是继续复制 `prom2` 的频率或比例分支。
+- 当日后续先用缓存重建了 `results/strategy_comparison_base_method.csv`（`427` 行 / `154` 个 base strategies），再运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py`：候选数维持 `63`，但也暴露出此前 `weighted_track_winners.json` 相对当前 `summary.json` 已经滞后。
+- 按这次重建后的完整 comparison CSV 重新同步后，当前真实 tracked winners 改写为：
+  - `since_2017_01`：`aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`（`28.08% CAGR / -46.94% MaxDD / 1.0061 Sharpe / 3.89 Turnover`）
+  - `since_2020_01`：`aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`32.07% CAGR / -23.02% MaxDD / 1.1480 Sharpe / 2.95 Turnover`）
+  - `since_2023_01`：`aggr_05_95_prom3_core_6_1_full_risk_cap80`（`56.40% CAGR / -50.82% MaxDD / 1.1727 Sharpe / 5.32 Turnover`）
+  - `since_2025_01`：`aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`128.06% CAGR / -12.42% MaxDD / 2.1335 Sharpe / 5.80 Turnover`）
+  - `robust`：`aggr_05_95_prom3_core_6_1_full_risk_cap60`（`meanCAGR 54.57% / minCAGR 17.70%`）
+- 这次同步后的关键信号是：当前“真实 `since_2020_01` 窗口赢家”已经降到 `32.07% CAGR`，距离 `40%+` 目标比旧快照显示的更远；因此下一轮新增探索预算必须继续投向新的中周期原型，而不是再把 `cap60 / risk30 / equal_elastic` 一类旧锚点当成已验证高水位。
