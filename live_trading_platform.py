@@ -2368,7 +2368,7 @@ def account_detail_html(account_id: int, *, show_editor: bool = False) -> str:
         + f"<h1>账户详情 - {html.escape(account['name'])}</h1>"
         f"<p>券商: {html.escape(account['broker'])} | 初始本金: {fmt_amt(initial_capital)} | 总资产: {fmt_amt(float(current['total_assets']))} | 现金: {fmt_amt(float(account['cash']))} | 股票市值: {fmt_amt(current['market_value'])}</p>"
         f"<p>总盈亏: {fmt_amt(total_pnl)} | 总盈亏率: {fmt_pct(total_pnl_pct)}</p>"
-        f"<p>当前策略: {html.escape(strategy['display_name'])} | 当前建议仓位: {fmt_pct(float(strategy['target_total_exposure']))} | 风险状态: {html.escape(strategy['risk_state'])}</p>"
+        f"<p>当前策略: <a href='/strategies/{quote(str(strategy['strategy_id']))}'>{html.escape(strategy['display_name'])}</a> | 当前建议仓位: {fmt_pct(float(strategy['target_total_exposure']))} | 风险状态: {html.escape(strategy['risk_state'])}</p>"
         f"<p class='muted'>当前价格来源：{html.escape(current['price_source_label'])}</p>"
         + "</div>"
         + "<div style='display:flex;gap:8px;flex-wrap:wrap'>"
@@ -2382,7 +2382,7 @@ def account_detail_html(account_id: int, *, show_editor: bool = False) -> str:
         + f"<form method='post' action='/accounts/{account_id}/tasks/drift-fix'><button class='secondary'>生成偏离修正单</button></form>"
         + "</div></div>"
         + ("<div class='card' style='margin-top:16px'><h2>策略切换建议</h2>"
-           f"<p>建议策略：<code>{html.escape(suggestion['suggested_strategy_id'])}</code></p>"
+           f"<p>建议策略：<a href='/strategies/{quote(str(suggestion['suggested_strategy_id']))}'>{html.escape(suggestion.get('suggested_display_name', suggestion['suggested_strategy_id']))}</a> <span class='muted'><code>{html.escape(suggestion['suggested_strategy_id'])}</code></span></p>"
            f"<p>{html.escape(suggestion['reason'])}</p></div>" if suggestion else "")
         + "<div class='card' style='margin-top:16px'><h2>当前持仓盈亏</h2><table><thead><tr><th>代码</th><th>名称</th><th>数量</th><th>成本价</th><th>当前价</th><th>当前市值</th><th>浮盈亏</th><th>收益率</th></tr></thead><tbody>"
         + "".join(pnl_rows)
