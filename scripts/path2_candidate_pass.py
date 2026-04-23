@@ -59,6 +59,7 @@ def load_path2_scan_rules(backtest_path: Path) -> tuple[list[str], list[str], di
     for family_name, family_meta in family_rules_raw.items():
         family_rules[str(family_name)] = {
             "prefixes": [str(item) for item in family_meta.get("prefixes") or []],
+            "prefix_only_prefixes": [str(item) for item in family_meta.get("prefix_only_prefixes") or []],
             "variant_ids": [str(item) for item in family_meta.get("variant_ids") or []],
             "target_candidates": int(family_meta.get("target_candidates") or 0),
         }
@@ -79,14 +80,23 @@ def _matches_path2(base_id: str, prefixes: list[str], variant_ids: list[str]) ->
     return any(base_id.endswith(f"__{variant_id}") for variant_id in variant_ids)
 
 
+def _extract_variant_id(base_id: str) -> str | None:
+    if "__" not in base_id:
+        return None
+    return base_id.rsplit("__", 1)[1]
+
+
 def _match_families(base_id: str, family_rules: dict[str, dict[str, Any]]) -> list[str]:
     matched: list[str] = []
+    variant_id = _extract_variant_id(base_id)
     for family_name, family_meta in family_rules.items():
         prefixes = family_meta.get("prefixes") or []
+        prefix_only_prefixes = family_meta.get("prefix_only_prefixes") or []
         variant_ids = family_meta.get("variant_ids") or []
-        if any(base_id.startswith(prefix) for prefix in prefixes) or any(
-            base_id.endswith(f"__{variant_id}") for variant_id in variant_ids
-        ):
+        prefix_ok = not prefixes or any(base_id.startswith(prefix) for prefix in prefixes)
+        variant_match = bool(variant_id and variant_id in variant_ids and prefix_ok)
+        prefix_only_match = any(base_id.startswith(prefix) for prefix in prefix_only_prefixes)
+        if variant_match or prefix_only_match:
             matched.append(family_name)
     return matched
 
@@ -275,6 +285,7 @@ def main() -> None:
             print(
                 f"       - {family_name}: {family_size} candidates "
                 f"(target {target}, prefixes={family_meta.get('prefixes') or []}, "
+                f"prefix_only={family_meta.get('prefix_only_prefixes') or []}, "
                 f"variants={family_meta.get('variant_ids') or []})"
             )
     for sample_tag, winner in window_winners.items():

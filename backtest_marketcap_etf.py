@@ -816,6 +816,7 @@ PATH2_SCAN_FAMILY_RULES = {
         "prefixes": [
             "core_explore_80_20_equal_weight_winner_core",
             "core_explore_70_30_equal_weight_winner_core",
+            "core_explore_60_40_equal_weight_winner_core",
         ],
         "variant_ids": [
             "aggr_03_97_prom2_core_6_1_cash_off_and_cap80",
@@ -840,6 +841,7 @@ PATH2_SCAN_FAMILY_RULES = {
         "prefixes": [
             "core_explore_80_20_equal_weight_winner_core",
             "core_explore_20_80_equal_weight_winner_core",
+            "core_explore_40_60_equal_weight_winner_core",
         ],
         "variant_ids": [
             "aggr_08_92_prom6_full_risk",
@@ -854,18 +856,18 @@ PATH2_SCAN_FAMILY_RULES = {
     },
     "momentum_equal_weight_elastic": {
         "prefixes": [
-            "momentum_top_",
             "core_explore_80_20_equal_weight_winner_core",
+        ],
+        "prefix_only_prefixes": [
+            "momentum_top_",
             "satellite_mom_0_100_equal_weight_winner_core",
         ],
         "variant_ids": [
             "aggr_08_92_prom6_cash_off",
             "aggr_08_92_prom6_cash_off_and",
-            "aggr_03_97_prom2_core_6_1_cash_off_and_cap80",
-            "aggr_03_97_prom2_core_6_1_cash_off_and_risk30_cap80",
-            "aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80",
-            "aggr_05_95_prom3_core_6_1_cash_off_and_cap60",
             "aggr_10_90_prom6",
+            "aggr_10_90_fast_ramp_cash_off",
+            "aggr_10_90_fast_ramp_cash_off_and",
         ],
         "target_candidates": 6,
     },
@@ -873,7 +875,9 @@ PATH2_SCAN_FAMILY_RULES = {
         "prefixes": [
             "core_explore_80_20_equal_weight_winner_core",
             "core_explore_70_30_equal_weight_winner_core",
-            "momentum_top_",
+            "core_explore_60_40_equal_weight_winner_core",
+            "core_explore_40_60_equal_weight_winner_core",
+            "core_explore_20_80_equal_weight_winner_core",
         ],
         "variant_ids": [
             "aggr_03_97_prom2_core_6_1_full_risk_cap80_biweekly",
@@ -887,7 +891,9 @@ PATH2_SCAN_FAMILY_RULES = {
         "prefixes": [
             "core_explore_80_20_equal_weight_winner_core",
             "core_explore_70_30_equal_weight_winner_core",
-            "momentum_top_",
+            "core_explore_60_40_equal_weight_winner_core",
+            "core_explore_40_60_equal_weight_winner_core",
+            "core_explore_20_80_equal_weight_winner_core",
         ],
         "variant_ids": [
             "aggr_03_97_prom2_core_6_1_full_risk_cap80_weekly",
