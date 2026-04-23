@@ -512,3 +512,15 @@
   - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
   - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`（`meanCAGR 58.88% / minCAGR 17.57%`）
 - 五个 family 的规模继续维持在 `57 / 45 / 49 / 47 / 47`，且前排仍被同一批 `80/20` 高集中等权候选反复占据；因此下一轮第一优先级仍是收紧 `family membership` 口径，再把新增预算投向真正面向 `since_2020_01` 的中周期高收益原型，而不是继续扩 `biweekly / weekly` 频率克隆。
+
+## 19. 本轮补充（2026-04-23 14:58 CST）
+
+- 本轮沿用同一份 A 股本地 `results` 镜像与重建后的完整 comparison CSV（`1441` 行 / `488` 个 `base strategies`），再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py`：当前独立候选宇宙为 `86` 个候选。
+- 当前四窗口赢家与 `robust_candidate` 继续维持不变：
+  - `since_2017_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`（`28.48% CAGR / 1.0116 Sharpe / -46.94% MaxDD / 3.89 Turn`）
+  - `since_2020_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`）
+  - `since_2023_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（`58.03% CAGR / 1.1874 Sharpe / -50.82% MaxDD / 5.32 Turn`）
+  - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`145.68% CAGR / 2.1978 Sharpe / -12.20% MaxDD / 5.29 Turn`）
+  - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`（`meanCAGR 58.88% / minCAGR 17.57%`）
+- 本轮变化仍然不是新 winner，而是完整口径下 `README / HISTORY / 对比图` 继续向当前缓存结果同步：`since_2017_01` 与 `since_2023_01` 的 Path 2 tracked metrics 都出现了最新一日的轻微上修，但 `since_2020_01` 仍只停在 `32.07% CAGR`，距离 `40%+` 目标依旧有明显缺口。
+- 因此下一轮 `Path 2` 的优先级不变：新增预算继续投向真正面向 `since_2020_01` 的中周期高收益原型，不把 `biweekly / weekly` 频率克隆重新升格为主攻族。

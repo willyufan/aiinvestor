@@ -139,3 +139,13 @@
   - `since_2023_01`：`34.83% CAGR / -14.78% MaxDD / 1.7134 Sharpe / 2.89 Turn`
   - `since_2025_01`：`42.89% CAGR / -14.78% MaxDD / 1.5796 Sharpe / 3.47 Turn`
 - `since_2026_01` 观察窗 raw leader 仍是 `hkconnect_path1_monthly_lowvol`（`-3.57% CAGR / -5.52% MaxDD / -0.1460 Sharpe / 3.10 Turn`）。因此下一轮港股 `Path 1` 继续只保留 `monthly_equal_buffered` 主攻和 `monthly_lowvol` 对照，不新增候选族，也不把这轮更新解读成新的 winner 改写。
+
+## 本轮补充（2026-04-23 14:58 CST）
+
+- 本轮再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01` 并执行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`：`trade_calendar` 与 `02940.HK` 更新失败时继续回退本地缓存，但回测与 artifact 刷新均完成。
+- 港股 `Path 1` 的 tracked winner 依旧没有变化：`hkconnect_path1_monthly_equal_buffered` 继续占据 `since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01` 四窗口，当前指标更新为：
+  - `since_2017_01 / since_2020_01`：`23.72% CAGR / -14.78% MaxDD / 1.3757 Sharpe / 2.88 Turn`
+  - `since_2023_01`：`34.83% CAGR / -14.78% MaxDD / 1.7134 Sharpe / 2.89 Turn`
+  - `since_2025_01`：`42.89% CAGR / -14.78% MaxDD / 1.5796 Sharpe / 3.47 Turn`
+- `since_2026_01` 继续只作为观察窗；当前 Path 1 raw leader 仍是 `hkconnect_path1_monthly_lowvol`（`-3.57% CAGR / -5.52% MaxDD / -0.1460 Sharpe / 3.10 Turn`），因此下一轮仍只保留 `monthly_equal_buffered` 主攻和 `monthly_lowvol` 对照，不新增候选族。
+- 本轮回测后，港股 comparison / tracked-winner artifact 已刷新到 `results_hkconnect/strategy_comparison_hkconnect.csv = 64b36ccb6a6e8e2f2f6aa58f90d7bcaceddfff1c4252add7e9d5312c84567283`、`results_hkconnect/tracked_winners_hkconnect.json = e6a839d2c4315bbe0691ad4d52ddc697ebeb846652d5bc5c2662212e5b9f27b5`；Path 1 自身没有 winner 漂移，但需要接受这次指标与图表同步刷新。

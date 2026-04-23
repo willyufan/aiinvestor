@@ -162,3 +162,15 @@
   - `since_2025_01`：改写为 `hkconnect_path2_breakout_biweekly`（`138.42% CAGR / -8.87% MaxDD / 2.1944 Sharpe / 18.58 Turn`），以纯 `CAGR` 略高于此前的 `hkconnect_path2_theme_biweekly`（`136.98% CAGR / -10.15% MaxDD / 2.5461 Sharpe / 15.28 Turn`）
   - `robust`：仍为 `hkconnect_path2_theme_biweekly`
 - `since_2026_01` 观察窗 raw leader 继续是 `hkconnect_path2_breakout_monthly`（`213.86% CAGR / -4.77% MaxDD / 2.4182 Sharpe / 7.47 Turn`）。因此下一轮港股 `Path 2` 的默认推进结论更新为：保留 `theme_monthly` 作为 `2017/2020` 锚点、`theme_biweekly` 作为 `2023 + robust` 锚点，同时把 `breakout_biweekly` 视为新的 `since_2025_01` sprint leader；不新增候选族，只继续观察这三条现有主线的分工是否稳定。
+
+## 本轮补充（2026-04-23 14:58 CST）
+
+- 本轮再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01` 并执行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`：缓存回退路径继续正常，但这次不再是“纯确认稳定”。
+- 当前港股 `Path 2` tracked winners 更新为：
+  - `since_2017_01 / since_2020_01`：`hkconnect_path2_theme_monthly`（`23.65% CAGR / -18.86% MaxDD / 1.1944 Sharpe / 6.64 Turn`）
+  - `since_2023_01`：`hkconnect_path2_theme_biweekly`（`49.09% CAGR / -16.47% MaxDD / 1.5382 Sharpe / 14.46 Turn`）
+  - `since_2025_01`：`hkconnect_path2_breakout_biweekly`（`138.42% CAGR / -8.87% MaxDD / 2.1944 Sharpe / 18.58 Turn`）
+  - `robust`：`hkconnect_path2_theme_biweekly`（`meanCAGR 57.74% / minCAGR 22.44%`）
+- 关键变化是：`since_2025_01` winner 从 `hkconnect_path2_theme_biweekly` 改写为 `hkconnect_path2_breakout_biweekly`。它这次凭借略高的 `CAGR`（`138.42%` vs `136.98%`）和更浅的 `MaxDD`（`-8.87%` vs `-10.15%`）完成超短窗口翻盘；但 `theme_biweekly` 仍稳住 `since_2023_01` 与四窗口 `robust_candidate`，因此下一轮主线仍不改成全量 `breakout`。
+- `since_2020_01` 最接近主线的 challenger 仍是 `hkconnect_path2_theme_biweekly`（`22.44% CAGR / -29.05% MaxDD / 0.9153 Sharpe / 15.03 Turn`）；`since_2026_01` raw leader 继续是 `hkconnect_path2_breakout_monthly`（`213.86% CAGR / -4.77% MaxDD / 2.4182 Sharpe / 7.47 Turn`）。因此下一轮继续沿 `theme_monthly / theme_biweekly` 两条中长窗主线推进，同时把 `breakout_biweekly` 升格为超短窗口 sidecar 主攻，把 `breakout_monthly` 保留为观察窗对照。
+- 本轮回测后，港股 comparison / tracked-winner artifact 已刷新到 `results_hkconnect/strategy_comparison_hkconnect.csv = 64b36ccb6a6e8e2f2f6aa58f90d7bcaceddfff1c4252add7e9d5312c84567283`、`results_hkconnect/tracked_winners_hkconnect.json = e6a839d2c4315bbe0691ad4d52ddc697ebeb846652d5bc5c2662212e5b9f27b5`；README 与港股对比图需要跟着这次 winner 改写同步刷新。
