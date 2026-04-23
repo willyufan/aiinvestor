@@ -7,8 +7,8 @@
 
 ### 2026-04-23
 
-- Path 1 四窗口 tracked winner 继续全部维持 `hkconnect_path1_monthly_equal_buffered`；最新口径更新为：`since_2020_01 23.72% CAGR / -14.78% MaxDD / 1.3757 Sharpe / 2.88 Turn`，`since_2023_01 34.83% CAGR / -14.78% MaxDD / 1.7134 Sharpe / 2.89 Turn`。
-- Path 2 的 `since_2025_01` tracked winner 从 `hkconnect_path2_theme_biweekly` 切到 `hkconnect_path2_breakout_biweekly`，当前指标为 `138.42% CAGR / -8.87% MaxDD / 2.1944 Sharpe / 18.58 Turn`；`since_2017_01 / since_2020_01` 仍是 `hkconnect_path2_theme_monthly`，`since_2023_01` 与 `robust candidate` 仍是 `hkconnect_path2_theme_biweekly`。
+- Path 1 四窗口 tracked winner 继续全部维持 `hkconnect_path1_monthly_equal_buffered`；当前同日重跑后的最新口径为：`since_2020_01 23.43% CAGR / -14.78% MaxDD / 1.3685 Sharpe / 2.88 Turn`，`since_2023_01 34.29% CAGR / -14.78% MaxDD / 1.7026 Sharpe / 2.89 Turn`，`since_2025_01 41.42% CAGR / -14.78% MaxDD / 1.5498 Sharpe / 3.47 Turn`。
+- Path 2 的 `since_2025_01` tracked winner 继续维持 `hkconnect_path2_breakout_biweekly`，当前指标同步为 `137.32% CAGR / -8.87% MaxDD / 2.1812 Sharpe / 18.58 Turn`；`since_2017_01 / since_2020_01` 仍是 `hkconnect_path2_theme_monthly`（`23.41% CAGR / -18.86% MaxDD / 1.1891 Sharpe / 6.64 Turn`），`since_2023_01` 与 `robust candidate` 仍是 `hkconnect_path2_theme_biweekly`（`48.66% CAGR / -16.47% MaxDD / 1.5256 Sharpe / 14.46 Turn`）。
 - `since_2026_01` 继续只作观察窗，不进入 tracked winners；当前 raw leader 仍分别是 `hkconnect_path1_monthly_lowvol`（Path 1）与 `hkconnect_path2_breakout_monthly`（Path 2）。
 
 ## Path 1：渐进优化路径

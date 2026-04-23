@@ -211,12 +211,12 @@
 
 关键窗口指标：
 
-- Path 1 `since_2020_01`：`23.72% CAGR / -14.78% MaxDD / 1.3757 Sharpe / 2.88 Turnover`
-- Path 1 `since_2023_01`：`34.83% CAGR / -14.78% MaxDD / 1.7134 Sharpe / 2.89 Turnover`
-- Path 1 `since_2025_01`：`42.89% CAGR / -14.78% MaxDD / 1.5796 Sharpe / 3.47 Turnover`
-- Path 2 `since_2020_01`：`23.65% CAGR / -18.86% MaxDD / 1.1944 Sharpe / 6.64 Turnover`
-- Path 2 `since_2023_01`：`49.09% CAGR / -16.47% MaxDD / 1.5382 Sharpe / 14.46 Turnover`
-- Path 2 `since_2025_01`：`138.42% CAGR / -8.87% MaxDD / 2.1944 Sharpe / 18.58 Turnover`（`hkconnect_path2_breakout_biweekly`）
+- Path 1 `since_2020_01`：`23.43% CAGR / -14.78% MaxDD / 1.3685 Sharpe / 2.88 Turnover`
+- Path 1 `since_2023_01`：`34.29% CAGR / -14.78% MaxDD / 1.7026 Sharpe / 2.89 Turnover`
+- Path 1 `since_2025_01`：`41.42% CAGR / -14.78% MaxDD / 1.5498 Sharpe / 3.47 Turnover`
+- Path 2 `since_2020_01`：`23.41% CAGR / -18.86% MaxDD / 1.1891 Sharpe / 6.64 Turnover`
+- Path 2 `since_2023_01`：`48.66% CAGR / -16.47% MaxDD / 1.5256 Sharpe / 14.46 Turnover`
+- Path 2 `since_2025_01`：`137.32% CAGR / -8.87% MaxDD / 2.1812 Sharpe / 18.58 Turnover`（`hkconnect_path2_breakout_biweekly`）
 
 相关产物：
 
