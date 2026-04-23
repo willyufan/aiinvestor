@@ -195,7 +195,7 @@
 
 沪港通结果独立维护，不并入 A 股 `winner_only` 结论。`2026-04-22` 起，港股窗口的 `sample_start` 统一对齐到**首个可执行调仓点**，因此本节数值应以这次重算后的基线为准。
 
-当前 tracked winners（截至 `2026-04-22`）：
+当前 tracked winners（截至 `2026-04-23`）：
 
 当前港股 `since_2017_01 / since_2020_01` 两个窗口都从首个可执行调仓点 `2020-12-01` 起算，因此这两个窗口的港股指标当前相同。
 
@@ -204,16 +204,18 @@
   - robust candidate：`hkconnect_path1_monthly_equal_buffered`
 - Path 2：
   - `since_2017_01 / since_2020_01`：`hkconnect_path2_theme_monthly`
-  - `since_2023_01 / since_2025_01`：`hkconnect_path2_theme_biweekly`
+  - `since_2023_01`：`hkconnect_path2_theme_biweekly`
+  - `since_2025_01`：`hkconnect_path2_breakout_biweekly`
   - robust candidate：`hkconnect_path2_theme_biweekly`
 - `since_2026_01`：只做观察，不进入 tracked winners；当前 raw leader 分别是 `hkconnect_path1_monthly_lowvol`（Path 1）与 `hkconnect_path2_breakout_monthly`（Path 2）
 
 关键窗口指标：
 
-- Path 1 `since_2020_01`：`23.47% CAGR / -14.78% MaxDD / 1.3697 Sharpe / 2.88 Turnover`
-- Path 1 `since_2023_01`：`34.37% CAGR / -14.78% MaxDD / 1.7044 Sharpe / 2.89 Turnover`
-- Path 2 `since_2020_01`：`23.15% CAGR / -18.86% MaxDD / 1.1825 Sharpe / 6.64 Turnover`
-- Path 2 `since_2023_01`：`49.30% CAGR / -16.47% MaxDD / 1.5442 Sharpe / 14.46 Turnover`
+- Path 1 `since_2020_01`：`23.72% CAGR / -14.78% MaxDD / 1.3757 Sharpe / 2.88 Turnover`
+- Path 1 `since_2023_01`：`34.83% CAGR / -14.78% MaxDD / 1.7134 Sharpe / 2.89 Turnover`
+- Path 2 `since_2020_01`：`23.65% CAGR / -18.86% MaxDD / 1.1944 Sharpe / 6.64 Turnover`
+- Path 2 `since_2023_01`：`49.09% CAGR / -16.47% MaxDD / 1.5382 Sharpe / 14.46 Turnover`
+- Path 2 `since_2025_01`：`138.42% CAGR / -8.87% MaxDD / 2.1944 Sharpe / 18.58 Turnover`
 
 相关产物：
 
