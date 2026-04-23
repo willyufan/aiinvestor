@@ -3,6 +3,14 @@
 这个文档记录两条研究路径在四个窗口下的赢家变化历史。
 仅当赢家策略或关键指标发生变化时，才会追加新记录。
 
+## 沪港通独立研究线
+
+### 2026-04-23
+
+- Path 1 四窗口 tracked winner 继续全部维持 `hkconnect_path1_monthly_equal_buffered`；最新口径更新为：`since_2020_01 23.72% CAGR / -14.78% MaxDD / 1.3757 Sharpe / 2.88 Turn`，`since_2023_01 34.83% CAGR / -14.78% MaxDD / 1.7134 Sharpe / 2.89 Turn`。
+- Path 2 的 `since_2025_01` tracked winner 从 `hkconnect_path2_theme_biweekly` 切到 `hkconnect_path2_breakout_biweekly`，当前指标为 `138.42% CAGR / -8.87% MaxDD / 2.1944 Sharpe / 18.58 Turn`；`since_2017_01 / since_2020_01` 仍是 `hkconnect_path2_theme_monthly`，`since_2023_01` 与 `robust candidate` 仍是 `hkconnect_path2_theme_biweekly`。
+- `since_2026_01` 继续只作观察窗，不进入 tracked winners；当前 raw leader 仍分别是 `hkconnect_path1_monthly_lowvol`（Path 1）与 `hkconnect_path2_breakout_monthly`（Path 2）。
+
 ## Path 1：渐进优化路径
 
 ### 2017 窗口
@@ -93,11 +101,3 @@
 | 2026-04-22 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | 267.88% | 22.84% | -67.17% | 0.6521 | 5.88 |
 | 2026-04-20 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 熊市空仓 and, 留30%仓位, 单票80%) | 593.37% | 35.76% | -38.62% | 0.9175 | 4.79 |
 | 2026-04-19 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | 267.88% | 22.84% | -67.17% | 0.6521 | 5.88 |
-
-## 沪港通独立研究线
-
-### 2026-04-23
-
-- Path 1 四窗口 winner 继续全部是 `hkconnect_path1_monthly_equal_buffered`；以 `2020-12-01` 起算的 `since_2017_01 / since_2020_01` 指标同步上修到 `23.72% CAGR / -14.78% MaxDD / 1.3757 Sharpe / 2.88 Turnover`，`since_2023_01` 为 `34.83% / -14.78% / 1.7134 / 2.89`，`since_2025_01` 为 `42.89% / -14.78% / 1.5796 / 3.47`。
-- Path 2 的 `since_2025_01` winner 从 `hkconnect_path2_theme_biweekly` 改写为 `hkconnect_path2_breakout_biweekly`，当前指标为 `138.42% CAGR / -8.87% MaxDD / 2.1944 Sharpe / 18.58 Turnover`；其余 tracked winners 继续是 `hkconnect_path2_theme_monthly`（`2017 / 2020`）与 `hkconnect_path2_theme_biweekly`（`2023`），`robust candidate` 仍为 `hkconnect_path2_theme_biweekly`。
-- `since_2026_01` 继续只作观察窗，raw leader 仍分别是 `hkconnect_path1_monthly_lowvol`（`-3.57% CAGR / -5.52% MaxDD`）与 `hkconnect_path2_breakout_monthly`（`213.86% CAGR / -4.77% MaxDD`）。

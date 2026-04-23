@@ -572,8 +572,11 @@ def save_hk_prepare_progress(
         "pending_codes": pending_codes,
         "updated_at": pd.Timestamp.now(tz="Asia/Shanghai").isoformat(),
     }
-    with open(HK_PROGRESS_PATH, "w", encoding="utf-8") as fp:
-        json.dump(payload, fp, ensure_ascii=False, indent=2)
+    try:
+        with open(HK_PROGRESS_PATH, "w", encoding="utf-8") as fp:
+            json.dump(payload, fp, ensure_ascii=False, indent=2)
+    except OSError as exc:
+        print(f"[Warn] 无法写入港股准备进度文件 {HK_PROGRESS_PATH}: {exc}")
 
 
 def build_hk_market_series(price_ffill: pd.DataFrame) -> pd.Series:

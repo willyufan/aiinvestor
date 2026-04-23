@@ -49,9 +49,9 @@
   - `2023` 窗口能否维持爆发力
 - 当前默认锚点已切换为：
   - `hkconnect_path2_theme_monthly`（`2017 / 2020` 窗口）
-  - `hkconnect_path2_theme_biweekly`（`2023` 窗口）
-  - `hkconnect_path2_breakout_biweekly`（`2025` 短窗口）
-  - `robust candidate`：`hkconnect_path2_theme_biweekly`
+  - `hkconnect_path2_theme_biweekly`（`2023` 窗口与四窗口 `robust candidate`）
+  - `hkconnect_path2_breakout_biweekly`（`2025` 窗口）
+  - `hkconnect_path2_theme_biweekly`（当前四窗口 robust candidate）
 - 双周 / 单周候选继续保留，但不因为更高频而自动获得更高优先级。
 - 若某候选只强化 `2025 / 2026` 而不能改善 `2020`，默认不作为下一轮主攻方向。
 
@@ -153,14 +153,12 @@
   - `robust`：`hkconnect_path2_theme_biweekly`
 - `since_2026_01` raw leader 继续是 `hkconnect_path2_breakout_monthly`；下一轮仍以 `theme_monthly / theme_biweekly` 为港股 `Path 2` 主线，把 `breakout_monthly` 只保留为观察窗突破对照，不新增候选族。
 
-## 本轮补充（2026-04-23 09:30 CST）
+## 本轮补充（2026-04-23 09:33 CST）
 
-- 本轮再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01` 并执行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`：缓存回退路径继续正常，但这次不再只是“确认稳定”，而是 `since_2025_01` 出现了新的 tracked winner。
-- 回测后 `results_hkconnect/strategy_comparison_hkconnect.csv` 与 `tracked_winners_hkconnect.json` 的 SHA256 更新为 `64b36ccb6a6e8e2f2f6aa58f90d7bcaceddfff1c4252add7e9d5312c84567283` 与 `e6a839d2c4315bbe0691ad4d52ddc697ebeb846652d5bc5c2662212e5b9f27b5`；当前 tracked winners 改写为：
-  - `since_2017_01 / since_2020_01`：`hkconnect_path2_theme_monthly`（`23.65% CAGR / -18.86% MaxDD / 1.1944 Sharpe / 6.64 Turn`）
-  - `since_2023_01`：`hkconnect_path2_theme_biweekly`（`49.09% CAGR / -16.47% MaxDD / 1.5382 Sharpe / 14.46 Turn`）
-  - `since_2025_01`：`hkconnect_path2_breakout_biweekly`（`138.42% CAGR / -8.87% MaxDD / 2.1944 Sharpe / 18.58 Turn`）
-  - `robust`：`hkconnect_path2_theme_biweekly`（`meanCAGR 57.74% / minCAGR 22.44%`）
-- 这次改写的含义是：`breakout_biweekly` 终于在短窗口上正式打赢 `theme_biweekly`，而且不仅 `CAGR` 更高（`138.42% > 136.98%`），`MaxDD` 也更浅（`-8.87% > -10.15%`）；但它的 `Turnover 18.58` 仍显著高于 `theme_biweekly 15.28`，所以暂时应把它视为“2025 窗口 leader / sidecar 主攻”，而不是直接把整条港股 Path 2 主线切换到 breakout family。
-- `since_2020_01` 最接近主线的 challengers 仍没有变化：`theme_biweekly` 仍只做到 `22.44% CAGR / -29.05% MaxDD / 0.9153 Sharpe / 14.31 Turn`，说明下一轮研究重心依旧应该放在“如何把 2020 窗口抬高”，而不是继续单纯复制高频 breakout 克隆。
-- `since_2026_01` 观察窗 raw leader 仍是 `hkconnect_path2_breakout_monthly`（`213.86% CAGR / -4.77% MaxDD / 2.4182 Sharpe / 7.47 Turn`）。下一轮港股 `Path 2` 继续以 `theme_monthly`（长窗口锚点）和 `theme_biweekly`（2023/robust 锚点）为主，同时把 `breakout_biweekly` 正式提升为 `since_2025_01` 窗口 leader，不新增候选族。
+- 本轮再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01` 并执行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`；缓存回退路径继续正常，`prepare_progress.json` 因共享目录不可写而只打印 warning，但不会再中断整个港股回测。
+- 这轮出现了一个真实的窗口 winner 改写：
+  - `since_2017_01 / since_2020_01`：仍为 `hkconnect_path2_theme_monthly`（`23.65% CAGR / -18.86% MaxDD / 1.1944 Sharpe / 6.64 Turn`）
+  - `since_2023_01`：仍为 `hkconnect_path2_theme_biweekly`（`49.09% CAGR / -16.47% MaxDD / 1.5382 Sharpe / 14.46 Turn`）
+  - `since_2025_01`：改写为 `hkconnect_path2_breakout_biweekly`（`138.42% CAGR / -8.87% MaxDD / 2.1944 Sharpe / 18.58 Turn`），以纯 `CAGR` 略高于此前的 `hkconnect_path2_theme_biweekly`（`136.98% CAGR / -10.15% MaxDD / 2.5461 Sharpe / 15.28 Turn`）
+  - `robust`：仍为 `hkconnect_path2_theme_biweekly`
+- `since_2026_01` 观察窗 raw leader 继续是 `hkconnect_path2_breakout_monthly`（`213.86% CAGR / -4.77% MaxDD / 2.4182 Sharpe / 7.47 Turn`）。因此下一轮港股 `Path 2` 的默认推进结论更新为：保留 `theme_monthly` 作为 `2017/2020` 锚点、`theme_biweekly` 作为 `2023 + robust` 锚点，同时把 `breakout_biweekly` 视为新的 `since_2025_01` sprint leader；不新增候选族，只继续观察这三条现有主线的分工是否稳定。
