@@ -2051,6 +2051,13 @@ def get_next_trading_day(trading_dates: pd.Index, signal_date: pd.Timestamp) -> 
     return pd.Timestamp(trading_dates[position])
 
 
+def get_latest_available_trading_day(trading_dates: pd.Index, target_date: pd.Timestamp) -> pd.Timestamp | None:
+    position = int(trading_dates.searchsorted(target_date, side="right")) - 1
+    if position < 0:
+        return None
+    return pd.Timestamp(trading_dates[position])
+
+
 def build_prepared_cache_path(
     normalized_codes: List[str],
     start_date: pd.Timestamp,
@@ -3775,12 +3782,16 @@ def run_backtest(
     equity_rows: List[Dict[str, object]] = [
         {"date": sample_start, "portfolio_return": 0.0, "nav": 1.0, "drawdown": 0.0, "trading_cost": 0.0}
     ]
+    realized_schedule_end = signal_schedule[report_start_idx]
 
     for idx in range(report_start_idx, len(signal_schedule) - 1):
         signal_date = signal_schedule[idx]
         holding_month_end = signal_schedule[idx + 1]
+        holding_period_end = get_latest_available_trading_day(trading_dates, holding_month_end)
+        if holding_period_end is None or holding_period_end < signal_date:
+            continue
         rebalance_date = get_next_trading_day(trading_dates, signal_date)
-        if rebalance_date is None or rebalance_date > holding_month_end:
+        if rebalance_date is None or rebalance_date > holding_period_end:
             continue
 
         factor_cache = prepared.monthly_factor_cache
@@ -4012,7 +4023,7 @@ def run_backtest(
             gross_positions=gross_positions,
             gross_cash_value=gross_cash_value,
             rebalance_date=rebalance_date,
-            holding_month_end=holding_month_end,
+            holding_month_end=holding_period_end,
             base_target_weights=target_weights,
             core_codes=core_bucket_codes,
             satellite_codes=satellite_bucket_codes,
@@ -4022,12 +4033,12 @@ def run_backtest(
         if risk_evaluation_frequency != RISK_EVAL_FREQUENCY_WEEKLY:
             if not positions.empty:
                 rebalance_prices = price_ffill.loc[rebalance_date, positions.index]
-                month_end_prices = price_ffill.loc[holding_month_end, positions.index]
+                month_end_prices = price_ffill.loc[holding_period_end, positions.index]
                 holding_growth = month_end_prices / rebalance_prices
                 positions = positions * holding_growth
             if not gross_positions.empty:
                 gross_rebalance_prices = price_ffill.loc[rebalance_date, gross_positions.index]
-                gross_month_end_prices = price_ffill.loc[holding_month_end, gross_positions.index]
+                gross_month_end_prices = price_ffill.loc[holding_period_end, gross_positions.index]
                 gross_holding_growth = gross_month_end_prices / gross_rebalance_prices
                 gross_positions = gross_positions * gross_holding_growth
 
@@ -4038,7 +4049,7 @@ def run_backtest(
                 for ts_code, weight in month_weights.items():
                     weights_history_rows.append(
                         {
-                            "date": holding_month_end,
+                            "date": holding_period_end,
                             "ts_code": ts_code,
                             "name": prepared.code_to_name.get(ts_code, ""),
                             "weight": float(weight),
@@ -4048,7 +4059,7 @@ def run_backtest(
             if cash_weight > 1e-12:
                 weights_history_rows.append(
                     {
-                        "date": holding_month_end,
+                        "date": holding_period_end,
                         "ts_code": "CASH",
                         "name": "现金",
                         "weight": cash_weight,
@@ -4060,7 +4071,7 @@ def run_backtest(
 
         monthly_rows.append(
             {
-                "date": holding_month_end,
+                "date": holding_period_end,
                 "portfolio_return": net_return,
                 "gross_return": gross_return,
                 "net_return": net_return,
@@ -4133,13 +4144,14 @@ def run_backtest(
         turnover_rows.extend(weekly_overlay_turnover_rows)
         equity_rows.append(
             {
-                "date": holding_month_end,
+                "date": holding_period_end,
                 "portfolio_return": net_return,
                 "nav": nav_end,
                 "drawdown": 0.0,
                 "trading_cost": trade_stats["trading_cost"],
             }
         )
+        realized_schedule_end = holding_period_end
 
     equity_curve = pd.DataFrame(equity_rows)
     equity_curve["date"] = pd.to_datetime(equity_curve["date"])
@@ -4199,7 +4211,7 @@ def run_backtest(
 
     summary = {
         "sample_start": sample_start.strftime("%Y-%m-%d"),
-        "sample_end": signal_schedule[-1].strftime("%Y-%m-%d"),
+        "sample_end": realized_schedule_end.strftime("%Y-%m-%d"),
         "sample_tag": sample_tag,
         "sample_label": sample_label,
         "sample_short_label": sample_short_label,
