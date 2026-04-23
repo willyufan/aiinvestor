@@ -101,3 +101,10 @@
 | 2026-04-22 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | 267.88% | 22.84% | -67.17% | 0.6521 | 5.88 |
 | 2026-04-20 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 熊市空仓 and, 留30%仓位, 单票80%) | 593.37% | 35.76% | -38.62% | 0.9175 | 4.79 |
 | 2026-04-19 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | 267.88% | 22.84% | -67.17% | 0.6521 | 5.88 |
+
+## 沪港通独立研究线
+
+### 2026-04-23
+
+- Path 1：四窗口 tracked winner 继续都是 `hkconnect_path1_monthly_equal_buffered`；`since_2017_01 / since_2020_01` 为 `23.72% CAGR / -14.78% MaxDD / 1.3757 Sharpe / 2.88 Turnover`，`since_2023_01` 为 `34.83% / -14.78% / 1.7134 / 2.89`，`since_2025_01` 为 `42.89% / -14.78% / 1.5796 / 3.47`；robust candidate 仍为 `hkconnect_path1_monthly_equal_buffered`。
+- Path 2：`since_2017_01 / since_2020_01` 继续是 `hkconnect_path2_theme_monthly`（`23.65% CAGR / -18.86% MaxDD / 1.1944 Sharpe / 6.64 Turnover`），`since_2023_01` 继续是 `hkconnect_path2_theme_biweekly`（`49.09% / -16.47% / 1.5382 / 14.46`），`since_2025_01` 改写为 `hkconnect_path2_breakout_biweekly`（`138.42% / -8.87% / 2.1944 / 18.58`，替代 `theme_biweekly`）；robust candidate 仍为 `hkconnect_path2_theme_biweekly`。

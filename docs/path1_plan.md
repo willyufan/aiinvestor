@@ -398,15 +398,9 @@
 - 本轮随后执行 `./.venv/bin/python scripts/update_weighted_winners.py` 与 `./.venv/bin/python scripts/generate_strategy_comparison_chart.py`：`README / HISTORY / results/weighted_track_winners.json` 没有新增漂移，但 A 股对比图与 tracked-winner 汇总图按当前基线重绘后发生了实际 binary diff，因此本轮允许作为 `sync-only` artifact refresh 提交。
 - 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path` 四个既定方向内推进，不新增 fast-pass family，也不重新打开 `signal_variants`。
 
-## 16. 本轮补充（2026-04-23 09:33 CST）
+## 16. 本轮补充（2026-04-23 17:57 CST）
 
-- 本轮先把自动迭代 worktree 的文件内容重新对齐到本地 `origin/main` 快照，再运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`；输出仍为 `as_of=2026-04-23 family=path1_fast_family base_candidates=20 total_candidates=140 evaluated=140`，四窗口 tracked winners 与 `robust_candidate` 均未改写。
-- `since_2020_01` 当前最接近阈值的仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure_buffered`（`27.59% CAGR / 0.9338 Sharpe / -23.01% MaxDD / 0.87 Turn`）；`since_2023_01` 最接近挑战者仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`（`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`）。二者都继续卡在 `MaxDD / Turnover` guardrail，不补确认回测。
-- 下一轮仍只保留 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path` 四个既定方向推进；`signal_variants` 继续只做观察，不重新拉回主攻列表。
-
-## 17. 本轮补充（2026-04-23 14:58 CST）
-
-- 本轮先修正了 automation worktree 的执行基线：检测到 `results` 是指向主工作树的共享符号链接后，先在当前 worktree 内用共享 `summary.json / equity_curve.csv / monthly_returns.csv / turnover.csv` 落了一个本地轻量镜像，再基于这份镜像重建 `results/strategy_comparison_base_method.csv`，避免把 A 股 comparison CSV 直接写回主工作树。
-- 这次本地重建后的 comparison CSV 为 `1441` 行 / `488` 个 `base strategies`；随后再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`，输出仍为 `as_of=2026-04-23 family=path1_fast_family base_candidates=20 total_candidates=140 evaluated=140`，四窗口 tracked winners 与 `robust_candidate` 继续完全不变。
-- `since_2020_01` 最接近过线的仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure_buffered`（`27.59% CAGR / 0.9338 Sharpe / -23.01% MaxDD / 0.87 Turn`）；`since_2023_01` 最接近挑战者仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`（`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`）。两者依旧都卡在 `MaxDD / Turnover` 约束，因此本轮继续不补确认回测。
-- 本轮 `Path 1` 的实质结论仍然不变：下一轮继续只保留 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path` 四个既定方向，不新增 fast-pass family，也不把 `signal_variants` 拉回主攻列表。
+- 再次运行 `./.venv/bin/python scripts/winner_only_pass.py`：输出仍为 `as_of=2026-04-23 family=path1_fast_family base_candidates=20 total_candidates=140 evaluated=140`，四窗口 tracked winners 与 `robust_candidate` 继续完全不变，没有新的 `clear improvement`。
+- `since_2020_01` 最接近阈值的仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure_buffered`（`27.59% CAGR / 0.9338 Sharpe / -23.01% MaxDD / 0.87 Turn`）；`since_2023_01` 最接近挑战者仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`（`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`）。两者都仍卡在 `MaxDD / Turnover` 约束，因此本轮继续不补确认回测。
+- 本轮随后再次执行 `./.venv/bin/python scripts/update_weighted_winners.py` 与 `./.venv/bin/python scripts/generate_strategy_comparison_chart.py`：A 股 tracked winner ID 本身没有变化，但 `README / HISTORY / results/weighted_track_winners.json` 与对比图已按 `2026-04-23` 最新 close 刷新到当前口径，因此本轮继续允许作为 `sync-only` artifact refresh 提交。
+- 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path` 四个既定方向内推进，不新增 fast-pass family，也不重新打开 `signal_variants`。
