@@ -166,13 +166,12 @@
   - `theme_biweekly`：中窗口/鲁棒锚点（`2023 / robust`）
   - `breakout_biweekly`：新晋 `2025` 短窗口 winner
 
-## 本轮补充（2026-04-23 23:58 CST）
+## 本轮补充（2026-04-24 CST）
 
-- 本轮再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01` 并执行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`：缓存回退路径继续正常，但结果不再是纯确认稳定。
-- 当前 `results_hkconnect/strategy_comparison_hkconnect.csv` 与 `tracked_winners_hkconnect.json` 的 SHA256 已进一步更新为 `a35621c7dfce801291e6c2482ef4a17a6071deeeb30a238adee9a34200bf98af` 与 `d38da4f2fe2153343282d623af2dfe093d69e566437463bd3d22c8f97751dcbd`；不过 tracked winner ID 没有继续改写，只是同日缓存重跑后的指标同步。
-- 当前 tracked winners 继续维持：
+- 本轮再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01` 并执行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`：缓存回退路径继续正常，这次属于“同一组 tracked winners 的指标同步修正”，不是新的 winner 改写。
+- 当前 `results_hkconnect/strategy_comparison_hkconnect.csv` 与 `tracked_winners_hkconnect.json` 的 SHA256 已更新为 `a35621c7dfce801291e6c2482ef4a17a6071deeeb30a238adee9a34200bf98af` 与 `d38da4f2fe2153343282d623af2dfe093d69e566437463bd3d22c8f97751dcbd`；当前 tracked winners 继续维持：
   - `since_2017_01 / since_2020_01`：`hkconnect_path2_theme_monthly`（`23.41% CAGR / -18.86% MaxDD / 1.1891 Sharpe / 6.64 Turn`）
   - `since_2023_01`：`hkconnect_path2_theme_biweekly`（`48.66% CAGR / -16.47% MaxDD / 1.5256 Sharpe / 14.46 Turn`）
   - `since_2025_01`：`hkconnect_path2_breakout_biweekly`（`137.32% CAGR / -8.87% MaxDD / 2.1812 Sharpe / 18.58 Turn`）
   - `robust`：`hkconnect_path2_theme_biweekly`（`meanCAGR 57.09% / minCAGR 22.22%`）
-- `since_2026_01` raw leader 仍是 `hkconnect_path2_breakout_monthly`（`197.67% CAGR / -4.77% MaxDD / 2.3069 Sharpe / 7.47 Turn`）。下一轮港股 `Path 2` 继续维持三条线并行：`theme_monthly` 负责 `2017 / 2020`，`theme_biweekly` 负责 `2023 / robust`，`breakout_biweekly` 保持 `2025` 短窗口 winner。
+- `since_2026_01` raw leader 仍是 `hkconnect_path2_breakout_monthly`，但观察窗口径同步修正为 `197.67% CAGR / -4.77% MaxDD / 2.3069 Sharpe / 7.47 Turn`。结论不变：下一轮继续围绕 `theme_monthly / theme_biweekly / breakout_biweekly` 三条线推进，把 `breakout_monthly` 只保留为观察窗 leader / 月频突破对照，不新增候选族。

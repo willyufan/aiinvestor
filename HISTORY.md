@@ -5,6 +5,12 @@
 
 ## 沪港通独立研究线
 
+### 2026-04-24
+
+- Path 1 四窗口 tracked winner 继续全部维持 `hkconnect_path1_monthly_equal_buffered`；`2026-04-24` 以离线缓存重跑后，关键指标同步修正为：`since_2020_01 23.43% CAGR / -14.78% MaxDD / 1.3685 Sharpe / 2.88 Turn`，`since_2023_01 34.29% CAGR / -14.78% MaxDD / 1.7026 Sharpe / 2.89 Turn`，`since_2025_01 41.42% CAGR / -14.78% MaxDD / 1.5498 Sharpe / 3.47 Turn`。
+- Path 2 的 tracked winner 结构继续维持 `theme_monthly / theme_biweekly / breakout_biweekly`：`since_2017_01 / since_2020_01` 仍是 `hkconnect_path2_theme_monthly`（`23.41% CAGR / -18.86% MaxDD / 1.1891 Sharpe / 6.64 Turn`），`since_2023_01` 仍是 `hkconnect_path2_theme_biweekly`（`48.66% / -16.47% / 1.5256 / 14.46`），`since_2025_01` 仍是 `hkconnect_path2_breakout_biweekly`（`137.32% / -8.87% / 2.1812 / 18.58`）；`robust candidate` 继续是 `hkconnect_path2_theme_biweekly`（`meanCAGR 57.09% / minCAGR 22.22%`）。
+- `since_2026_01` 继续只作观察窗，不进入 tracked winners；当前 raw leader 更新为 `hkconnect_path1_monthly_lowvol`（Path 1，`-1.47% CAGR / -5.52% MaxDD / -0.0174 Sharpe / 3.10 Turn`）与 `hkconnect_path2_breakout_monthly`（Path 2，`197.67% CAGR / -4.77% MaxDD / 2.3069 Sharpe / 7.47 Turn`）。
+
 ### 2026-04-23
 
 - Path 1 四窗口 tracked winner 继续全部维持 `hkconnect_path1_monthly_equal_buffered`；当前同日重跑后的最新口径为：`since_2020_01 23.43% CAGR / -14.78% MaxDD / 1.3685 Sharpe / 2.88 Turn`，`since_2023_01 34.29% CAGR / -14.78% MaxDD / 1.7026 Sharpe / 2.89 Turn`，`since_2025_01 41.42% CAGR / -14.78% MaxDD / 1.5498 Sharpe / 3.47 Turn`。
