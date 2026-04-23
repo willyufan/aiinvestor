@@ -405,8 +405,8 @@
 - 本轮随后再次执行 `./.venv/bin/python scripts/update_weighted_winners.py` 与 `./.venv/bin/python scripts/generate_strategy_comparison_chart.py`：A 股 tracked winner ID 本身没有变化，但 `README / HISTORY / results/weighted_track_winners.json` 与对比图已按 `2026-04-23` 最新 close 刷新到当前口径，因此本轮继续允许作为 `sync-only` artifact refresh 提交。
 - 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path` 四个既定方向内推进，不新增 fast-pass family，也不重新打开 `signal_variants`。
 
-## 17. 本轮补充（2026-04-24 CST）
+## 17. 本轮补充（2026-04-24 04:02 CST）
 
-- 再次运行 `./.venv/bin/python scripts/winner_only_pass.py`：输出更新为 `as_of=2026-04-24 family=path1_fast_family base_candidates=20 total_candidates=140 evaluated=140`，但四窗口 tracked winners 继续完全不变，也没有新的 `clear improvement`。
-- `since_2020_01` 最接近阈值的仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure_buffered`（`27.59% CAGR / 0.9338 Sharpe / -23.01% MaxDD / 0.87 Turn`）；`since_2023_01` 仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`（`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`）；`since_2025_01` 的 raw-CAGR 最强者回到 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`（`106.75% CAGR / 1.9259 Sharpe / -10.61% MaxDD / 1.16 Turn`），但仍因 Sharpe 与回撤不如当前 tracked winner 而不晋级。
-- 结论不变：本轮 A 股 `Path 1` 只记录快筛结果，不补确认回测；下一轮继续严格限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path` 四个既定方向内，不重新打开 `signal_variants`。
+- 运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`：输出仍为 `as_of=2026-04-24 family=path1_fast_family base_candidates=20 total_candidates=140 evaluated=140`，四窗口 tracked winners 与 `robust_candidate` 继续完全不变，没有新的 `clear improvement`。
+- `since_2020_01` 最接近阈值的仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure_buffered`（`27.59% CAGR / 0.9338 Sharpe / -23.01% MaxDD / 0.87 Turn`）；`since_2023_01` 最接近挑战者仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`（`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`）；`since_2025_01` 的 raw-CAGR 最强候选继续是 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`（`106.75% CAGR / 1.9259 Sharpe / -10.61% MaxDD / 1.16 Turn`），但 `Sharpe / MaxDD` 仍不如当前 tracked winner。
+- 结论不变：本轮不补 A 股 `Path 1` 确认回测；下一轮继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path` 四个既定方向内推进，不重新打开 `signal_variants`。
