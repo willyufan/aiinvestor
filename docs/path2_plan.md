@@ -515,9 +515,9 @@
 - 本轮随后再次执行 `./.venv/bin/python scripts/update_weighted_winners.py` 与 `./.venv/bin/python scripts/generate_strategy_comparison_chart.py`：Path 2 的 winner/robust 文本口径仍未改写，但 README/HISTORY 与 A 股对比图已经同步到最新 `as_of=2026-04-23` 指标，因此本轮继续保留 `sync-only` 提交即可，不额外补跑确认回测。
 - 下一轮 `Path 2` 继续把新增预算优先投向新的中周期高收益原型，并优先收紧 family membership 口径；不继续给 `biweekly / weekly` 频率克隆追加预算。
 
-## 19. 本轮补充（2026-04-24 04:02 CST）
+## 19. 本轮补充（2026-04-24 08:08 CST）
 
-- 运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py`：当前独立候选宇宙仍为 `86` 个候选，五个候选族规模继续是 `21 / 8 / 9 / 4 / 4`；四窗口 tracked winners 与 `robust_candidate` 均未改写。
+- 再次运行 `./.venv/bin/python scripts/path2_candidate_pass.py`：当前独立候选宇宙仍为 `86` 个候选，五个候选族规模分别维持在 `21 / 8 / 9 / 4 / 4`；四窗口 tracked winners 与 `robust_candidate` 继续完全不变。
 - 当前 tracked winners 继续维持：
   - `since_2017_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`
   - `since_2020_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
