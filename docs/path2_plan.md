@@ -531,3 +531,16 @@
   - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`
 - 本轮随后再次执行 `./.venv/bin/python scripts/update_weighted_winners.py`、`./.venv/bin/python scripts/generate_strategy_comparison_chart.py` 与 `./.venv/bin/python scripts/export_live_platform_data.py`：README / HISTORY / `results/weighted_track_winners.json` / `results/live` 已同步到 `as_of=2026-04-24`，但 Path 2 仍属于 `sync-only` 指标更新，没有新的窗口 winner 改写。
 - 下一轮继续优先新增更适配 `since_2020_01` 的中周期高收益原型，不给 `biweekly / weekly` 两个高频族额外预算。
+
+## 20. 本轮补充（2026-04-25）
+
+- 本轮同样先在独立 worktree 对齐主工作树 `main`：本地 `git fetch /Users/valselee/my-code/aiinvestor main` 成功并已 `reset --hard FETCH_HEAD`；`git fetch origin` 受 sandbox 限制失败，但不是阻塞条件。
+- 随后运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py`：当前独立候选宇宙继续是 `103` 个 candidates，五个 family 规模仍为 `43 / 23 / 16 / 4 / 4`，说明上一轮扩容后的 family membership 口径没有再次漂移。
+- 四窗口 tracked winners 与 `robust_candidate` 继续不变：
+  - `since_2017_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`（`28.48% CAGR / 1.0116 Sharpe / -46.94% MaxDD / 3.89 Turn`）
+  - `since_2020_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`）
+  - `since_2023_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（`58.03% CAGR / 1.1874 Sharpe / -50.82% MaxDD / 5.32 Turn`）
+  - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`145.68% CAGR / 2.1978 Sharpe / -12.20% MaxDD / 5.29 Turn`）
+  - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`（`meanCAGR 58.88% / minCAGR 17.57%`）
+- 当前最核心的缺口仍没变：`since_2020_01` tracked winner 仍只有 `32.07% CAGR`，距离 `40%+` 目标明显不足；因此本轮继续不补确认回测，也不把新增预算重新分给 `biweekly / weekly` 高频克隆。
+- 下一轮 `Path 2` 继续优先扩更适配 `since_2020_01` 的中周期高收益原型，并维持当前更严格的 family membership 口径，避免不同 family 再被同一批高集中候选压扁。

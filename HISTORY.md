@@ -103,3 +103,12 @@
 | 2026-04-22 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | 267.88% | 22.84% | -67.17% | 0.6521 | 5.88 |
 | 2026-04-20 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 熊市空仓 and, 留30%仓位, 单票80%) | 593.37% | 35.76% | -38.62% | 0.9175 | 4.79 |
 | 2026-04-19 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | 267.88% | 22.84% | -67.17% | 0.6521 | 5.88 |
+
+## 沪港通同步记录
+
+### 2026-04-25
+
+- 在独立 worktree 对齐主工作树 `main` 后，以 `AIINVESTOR_FORCE_OFFLINE=1` 重跑港股回测并同步 `results_hkconnect/tracked_winners_hkconnect.json` 与 `results/live`；`git fetch origin` 受 sandbox 禁网限制失败，但不影响本轮基于本地主工作树 `main` 的运行。
+- Path 1 四窗口 tracked winner 继续全部是 `hkconnect_path1_monthly_equal_buffered`，当前 `since_2020_01 / since_2023_01 / since_2025_01` 指标为 `23.29% / 34.40% / 41.72% CAGR`，`robust_candidate` 仍是同一策略（`meanCAGR 30.68% / minCAGR 23.29%`）。
+- Path 2 tracked winners 继续维持 `hkconnect_path2_theme_monthly`（`2017 / 2020`）、`hkconnect_path2_theme_biweekly`（`2023 / robust`）和 `hkconnect_path2_breakout_biweekly`（`2025`）；当前对应 `CAGR` 为 `23.33% / 48.92% / 136.68%`，`robust_candidate` 仍为 `hkconnect_path2_theme_biweekly`（`meanCAGR 57.66% / minCAGR 22.70%`）。
+- `since_2026_01` 观察窗 raw leaders 仍为 `hkconnect_path1_monthly_lowvol`（`1.41% CAGR / -5.52% MaxDD / 0.1367 Sharpe / 3.10 Turn`）与 `hkconnect_path2_breakout_monthly`（`188.57% CAGR / -4.77% MaxDD / 2.2393 Sharpe / 7.47 Turn`）；本轮属于港股 `sync-only` 指标漂移同步，不是新的 winner 改写。

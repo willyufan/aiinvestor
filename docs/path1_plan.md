@@ -420,3 +420,15 @@
   - `since_2017_01 / since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered` 具备更高 raw CAGR，但分别因为 `Sharpe / MaxDD` 不过线而不晋级。
 - 本轮随后再次执行 `./.venv/bin/python scripts/update_weighted_winners.py`、`./.venv/bin/python scripts/generate_strategy_comparison_chart.py` 与 `./.venv/bin/python scripts/export_live_platform_data.py`：`README / HISTORY / results/weighted_track_winners.json / results/live` 已同步到 `2026-04-24` 口径，但结论仍是“扩容后没有新的 clear winner”。
 - 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 这五个既定方向内推进；`signal_variants` 仍只保留观察，不补确认回测。
+
+## 18. 本轮补充（2026-04-25）
+
+- 按自动化规则先在独立 worktree 读取主工作树 `/Users/valselee/my-code/aiinvestor` 的 `main` HEAD，再执行 `git fetch /Users/valselee/my-code/aiinvestor main` 并 `git reset --hard FETCH_HEAD`；额外的 `git fetch origin` 因 sandbox 禁网失败，但不影响本轮本地基线对齐。
+- 运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`：输出为 `as_of=2026-04-25 family=path1_fast_family base_candidates=24 total_candidates=168 evaluated=168`；四窗口 tracked winners 与 `robust_candidate` 继续完全不变，没有新的 `clear improvement`。
+- 当前最强但仍不过阈值的挑战者继续集中在既定五方向内：
+  - `since_2017_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`（`27.61% CAGR / 1.0369 Sharpe / -25.40% MaxDD / 0.88 Turn`）
+  - `since_2020_01`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered`（`28.30% CAGR / 1.0296 Sharpe / -25.00% MaxDD / 0.67 Turn`）
+  - `since_2023_01`：`core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`（`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`）
+  - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`（`106.75% CAGR / 1.9259 Sharpe / -10.61% MaxDD / 1.16 Turn`）
+- 这些挑战者的共同问题仍然是 `MaxDD / Sharpe / Turnover` 约束不过线，因此本轮继续不补任何 A 股 `Path 1` 确认回测，也不重写 A 股 tracked winners / README / HISTORY。
+- 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 这五个既定方向内推进；`weekly_exposure_path` 仍保持 `buffered -> asym -> plain` 的 companion 优先级，`signal_variants` 不重新打开。
