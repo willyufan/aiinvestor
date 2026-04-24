@@ -2,7 +2,7 @@
 
 本文档用于约束和记录 `Path 1`（胜出者核心主线）的研究方向。  
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
-当前已把 `Path 1` 的单轮探索预算提升到 **`16-20` 个候选 / `5-6` 个方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
+当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
 ## 1. 当前目标
 
@@ -15,7 +15,7 @@
   - 尽量不破坏现有 `winner_core` 主线
   - 优先动系统风险层、晋升节奏、卫星仓行为
   - 每次迭代固定试 `5` 个有明确假设的方向
-  - 单轮快筛候选预算控制在 `16-20` 个
+  - 单轮快筛候选预算控制在 `24-28` 个 base candidates
 
 ## 2. 当前主线假设
 
@@ -35,7 +35,7 @@
 ## 3. 当前默认候选生成
 
 当前 `Path 1` 快速迭代不是扫全部 `winner_core` 变体，而是从显式候选方向组中生成。  
-当前默认是 **`5` 个方向组 / `19` 个 fast-pass 候选**（以 `backtest_marketcap_etf.py` 中 `PATH1_FAST_PASS_DIRECTION_GROUPS / PATH1_FAST_PASS_VARIANT_IDS` 为准）；周频 companion 和月度选股/周度仓位调整 companion 会在此基础上自动展开到更大的快筛集合：
+当前默认是 **`5` 个方向组 / `23` 个 fast-pass 变体（对应 `24` 个 base candidates）**（以 `backtest_marketcap_etf.py` 中 `PATH1_FAST_PASS_DIRECTION_GROUPS / PATH1_FAST_PASS_VARIANT_IDS` 为准）；周频 companion 和月度选股/周度仓位调整 companion 会在此基础上自动展开到更大的快筛集合：
 
 1. `promotion_ramp`
    - `aggr_10_90_fast_ramp`
@@ -48,6 +48,7 @@
    - `aggr_08_92_prom6_cash_off_and`
    - `aggr_10_90_prom6_cash_off`
    - `aggr_10_90_fast_ramp_cash_off`
+   - `aggr_10_90_fast_ramp_cash_off_and`
 3. `signal_variants`
    - `aggr_08_92_prom6_core_6_1`
    - `aggr_10_90_prom6_core_6_1`
@@ -56,6 +57,9 @@
    - `aggr_10_90_hold_4_6`
    - `share_12_88_hold_4_6`
    - `aggr_09_91_prom7`
+   - `aggr_08_92_hold_3_6`
+   - `aggr_08_92_hold_3_6_ramp90`
+   - `aggr_05_95_prom7`
 5. `supporting_variants`
    - `aggr_08_92_prom6`
    - `aggr_08_92_prom6_ramp90`
@@ -68,6 +72,7 @@
 - 正式确认回测仍然可以扩展到更宽的 `research active family`。
 - 如果某一轮出现更优的 companion 版本（例如卫星风控 companion），可以追加进入 fast pass 候选，但应写明加入原因。
 - 每轮不要求全部候选都进入完整确认；fast pass 的职责是先筛出每个方向里最值得晋级的 `1-2` 个。
+- `2026-04-24` 起，`fast_ramp_cash_off_and / hold_3_6 / hold_3_6_ramp90 / aggr_05_95_prom7` 已正式纳入 `Path 1 fast pass`，用于把固定方向内的 base budget 提升到 `24`，但仍不把 `signal_variants` 重新拉回主攻列表。
 - 对 `weekly_exposure_path`，完整确认只允许以下 3 个版本参与：
   - `__port_weekly_exposure`
   - `__port_weekly_exposure_buffered`
@@ -405,8 +410,13 @@
 - 本轮随后再次执行 `./.venv/bin/python scripts/update_weighted_winners.py` 与 `./.venv/bin/python scripts/generate_strategy_comparison_chart.py`：A 股 tracked winner ID 本身没有变化，但 `README / HISTORY / results/weighted_track_winners.json` 与对比图已按 `2026-04-23` 最新 close 刷新到当前口径，因此本轮继续允许作为 `sync-only` artifact refresh 提交。
 - 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path` 四个既定方向内推进，不新增 fast-pass family，也不重新打开 `signal_variants`。
 
-## 17. 本轮补充（2026-04-24 08:08 CST）
+## 17. 本轮补充（2026-04-24）
 
-- 再次运行 `./.venv/bin/python scripts/winner_only_pass.py`：输出为 `as_of=2026-04-24 family=path1_fast_family base_candidates=20 total_candidates=140 evaluated=140`；四窗口 tracked winners 与 `robust_candidate` 继续完全不变，没有新的 `clear improvement`。
-- `since_2020_01` 当前最接近阈值的仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure_buffered`（`27.59% CAGR / 0.9338 Sharpe / -23.01% MaxDD / 0.87 Turn`）；`since_2023_01` 最接近挑战者仍是 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`（`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`）。两者都继续卡在 `MaxDD / Turnover` 约束，不补确认回测。
-- 结论不变：下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path` 四个既定方向内推进；`signal_variants` 继续只保留观察，不拉回主攻列表。
+- 按自动化规则先把独立 worktree 对齐到主工作树 `main`，随后以 continuity 基线重建 `results/weighted_track_winners.json` 并运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`：输出为 `as_of=2026-04-24 family=path1_fast_family base_candidates=24 total_candidates=168 evaluated=168`。
+- 本轮 `Path 1 fast pass` 已正式纳入 `aggr_10_90_fast_ramp_cash_off_and`、`aggr_08_92_hold_3_6`、`aggr_08_92_hold_3_6_ramp90`、`aggr_05_95_prom7`，固定五方向的 base budget 提升到 `24`；但在保留既有 tracked-winner continuity 口径后，四窗口 tracked winners 与 `robust_candidate` 继续保持不变。
+- 当前最强但未过 `clear improvement` 阈值的挑战者是：
+  - `since_2020_01`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered`（`28.30% CAGR / 1.0296 Sharpe / -25.00% MaxDD / 0.67 Turn`）
+  - `since_2023_01`：`core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`（`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`）
+  - `since_2017_01 / since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered` 具备更高 raw CAGR，但分别因为 `Sharpe / MaxDD` 不过线而不晋级。
+- 本轮随后再次执行 `./.venv/bin/python scripts/update_weighted_winners.py`、`./.venv/bin/python scripts/generate_strategy_comparison_chart.py` 与 `./.venv/bin/python scripts/export_live_platform_data.py`：`README / HISTORY / results/weighted_track_winners.json / results/live` 已同步到 `2026-04-24` 口径，但结论仍是“扩容后没有新的 clear winner”。
+- 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 这五个既定方向内推进；`signal_variants` 仍只保留观察，不补确认回测。

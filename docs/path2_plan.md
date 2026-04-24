@@ -11,7 +11,7 @@
 1. 先做出显著更高的收益上限
 2. 再讨论如何把极端回撤收回来
 
-当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个候选 / `5` 条独立候选族**，并要求每条候选族固定保留 `4-6` 个代表候选。
+当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
 ## 1. 当前目标
 
@@ -25,7 +25,7 @@
   - 不受 `winner_core` 主线约束
 - 每次迭代固定覆盖 `5` 条独立候选族
   - 每条候选族内部保留 `4-6` 个有代表性的候选
-  - 单轮快筛候选预算控制在 `24-36` 个
+  - 单轮显式原型预算控制在 `24-36` 个，family-ranked universe 目标保持在 `100+`
 
 ## 2. 当前主线假设
 
@@ -92,7 +92,7 @@
 
 特点：
 
-- 不再以 `total_mv` 为强约束底座
+- 不再限定为单一底座（等权 / `total_mv` 均可）
 - 更强调动量、等权、高弹性
 - 更容易在短中窗口做出很高收益
 
@@ -155,6 +155,8 @@
 - 候选族规模
 - 每族目标预算
 - 每族排序后的代表候选
+
+当前默认扫描宇宙（`2026-04-24`）已提升到 `103` 个 candidates；五个 family 的当前规模分别为 `43 / 23 / 16 / 4 / 4`。其中 `high_concentration_breakout / high_growth_theme / momentum_equal_weight_elastic` 三条长周期 family 已显式纳入 `core_explore_80_20_total_mv_winner_core` 这一窄 prefix，避免当前 `since_2025 / robust` 的 `total_mv` tracked winners 脱离 family ranking。
 
 说明：
 
@@ -515,14 +517,17 @@
 - 本轮随后再次执行 `./.venv/bin/python scripts/update_weighted_winners.py` 与 `./.venv/bin/python scripts/generate_strategy_comparison_chart.py`：Path 2 的 winner/robust 文本口径仍未改写，但 README/HISTORY 与 A 股对比图已经同步到最新 `as_of=2026-04-23` 指标，因此本轮继续保留 `sync-only` 提交即可，不额外补跑确认回测。
 - 下一轮 `Path 2` 继续把新增预算优先投向新的中周期高收益原型，并优先收紧 family membership 口径；不继续给 `biweekly / weekly` 频率克隆追加预算。
 
-## 19. 本轮补充（2026-04-24 08:08 CST）
+## 19. 本轮补充（2026-04-24）
 
-- 再次运行 `./.venv/bin/python scripts/path2_candidate_pass.py`：当前独立候选宇宙仍为 `86` 个候选，五个候选族规模分别维持在 `21 / 8 / 9 / 4 / 4`；四窗口 tracked winners 与 `robust_candidate` 继续完全不变。
-- 当前 tracked winners 继续维持：
+- 本轮先把 `PATH2_SCAN_VARIANT_IDS / PATH2_SCAN_FAMILY_RULES` 扩到当前缓存里已经存在的一批中周期 `total_mv` 原型，并补上 `core_explore_80_20_total_mv_winner_core` 在三条长周期 family 里的窄 prefix 归类。随后运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py`：当前独立候选宇宙已提升到 `103` 个 candidates，五个 family 规模分别为 `43 / 23 / 16 / 4 / 4`。
+- 这次扩容的目的不是立刻改写 winner，而是解决两个结构性缺口：
+  - 当前 `since_2025_01` winner 与 `robust_candidate` 都落在 `total_mv` 原型上，但旧的 family rules 不能把它们纳入 family ranking。
+  - `since_2020_01` 仍只有 `32.07% CAGR`，因此需要把 `aggr_05_95_prom7 / aggr_07_93_prom6 / aggr_07_93_prom8(_ramp85) / risk_on / conc35 / balance_* / mid_15_85_prom7 / share_12_88_hold_3_7` 这一批中周期原型正式纳入扫描宇宙，而不是继续只扩高频克隆。
+- 扩容后四窗口 tracked winners 与 `robust_candidate` 继续不变：
   - `since_2017_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`
   - `since_2020_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
   - `since_2023_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`
   - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
   - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`
-- 关键约束仍未缓解：`since_2020_01` 当前 winner 仍只做到 `32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`，离 `40%+ CAGR` 目标还有明显缺口；`since_2023_01` 当前 winner 虽来到 `58.03% CAGR / 1.1874 Sharpe / -50.82% MaxDD / 5.32 Turn`，但高频 `biweekly / weekly` 两个候选族仍都只有 `4` 个候选，继续没有形成能改写主线的新 leader。
-- 下一轮 `Path 2` 继续把新增预算优先投向新的中周期高收益原型，并优先收紧 family membership 口径；不继续给 `biweekly / weekly` 频率克隆追加预算，也不补额外确认回测。
+- 本轮随后再次执行 `./.venv/bin/python scripts/update_weighted_winners.py`、`./.venv/bin/python scripts/generate_strategy_comparison_chart.py` 与 `./.venv/bin/python scripts/export_live_platform_data.py`：README / HISTORY / `results/weighted_track_winners.json` / `results/live` 已同步到 `as_of=2026-04-24`，但 Path 2 仍属于 `sync-only` 指标更新，没有新的窗口 winner 改写。
+- 下一轮继续优先新增更适配 `since_2020_01` 的中周期高收益原型，不给 `biweekly / weekly` 两个高频族额外预算。
