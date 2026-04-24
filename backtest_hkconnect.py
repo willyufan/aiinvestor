@@ -757,11 +757,18 @@ def prepare_hkconnect_data(
 
     calendar = load_or_fetch_hk_trade_calendar(pro_daily, data_start_date, end_date)
     month_end_dates, month_start_dates, week_end_dates, full_calendar_index = build_month_boundaries(calendar)
-    today_local = pd.Timestamp.now(tz="Asia/Shanghai").tz_localize(None).normalize()
+    now_local = pd.Timestamp.now(tz="Asia/Shanghai").tz_localize(None)
+    today_local = now_local.normalize()
     if len(full_calendar_index) == 0:
         raise RuntimeError("港股交易日历为空，无法准备缓存。")
     if end_date.normalize() >= today_local:
-        eligible_cache_dates = [date for date in full_calendar_index if date < today_local]
+        # Nightly runs happen after the close; allow using today's HK close once the
+        # post-close data window has passed instead of always falling back to T-1.
+        hk_post_close_ready = now_local >= (today_local + pd.Timedelta(hours=18))
+        if hk_post_close_ready:
+            eligible_cache_dates = [date for date in full_calendar_index if date <= today_local]
+        else:
+            eligible_cache_dates = [date for date in full_calendar_index if date < today_local]
         cache_target_date = eligible_cache_dates[-1] if eligible_cache_dates else full_calendar_index[-1]
     else:
         eligible_cache_dates = [date for date in full_calendar_index if date <= end_date.normalize()]
