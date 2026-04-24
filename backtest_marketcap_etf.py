@@ -3072,7 +3072,20 @@ def compute_rebalance_trades(
     sell_commission_rate: float = SELL_COMMISSION,
     stamp_rate_override: float | None = None,
 ) -> Tuple[pd.Series, float, pd.Series, float, Dict[str, float]]:
-    current_values = current_values[current_values.abs() > 1e-12].copy()
+    def _normalize_position_series(values: pd.Series) -> pd.Series:
+        if values.empty:
+            return pd.Series(dtype=float)
+        cleaned = values[values.abs() > 1e-12].copy()
+        valid_mask = pd.Index(cleaned.index).notna()
+        cleaned = cleaned.loc[valid_mask]
+        if cleaned.empty:
+            return pd.Series(dtype=float)
+        # Some aggressive path variants can transiently emit duplicate or NaN-coded holdings.
+        # Collapse duplicates by code and drop invalid labels before trade accounting.
+        cleaned = cleaned.groupby(cleaned.index).sum()
+        return cleaned[cleaned.abs() > 1e-12].sort_index()
+
+    current_values = _normalize_position_series(current_values)
     tradable_list = sorted(set(tradable_codes))
     tradable_set = set(tradable_list)
     locked_codes = [code for code in current_values.index if code not in tradable_set]
@@ -3149,12 +3162,8 @@ def compute_rebalance_trades(
     gross_positions = current_tradable_values + trade_deltas
     gross_cash = pre_trade_nav - locked_value - float(gross_positions.sum())
 
-    post_trade_positions = pd.concat([locked_values, desired_tradable_values])
-    post_trade_positions = post_trade_positions.groupby(level=0).sum()
-    post_trade_positions = post_trade_positions[post_trade_positions > 1e-12].sort_index()
-    gross_positions = pd.concat([locked_values, gross_positions])
-    gross_positions = gross_positions.groupby(level=0).sum()
-    gross_positions = gross_positions[gross_positions > 1e-12].sort_index()
+    post_trade_positions = _normalize_position_series(pd.concat([locked_values, desired_tradable_values]))
+    gross_positions = _normalize_position_series(pd.concat([locked_values, gross_positions]))
 
     two_way_turnover = (buy_amount + sell_amount) / pre_trade_nav if pre_trade_nav > 0 else 0.0
     one_way_turnover = two_way_turnover / 2.0

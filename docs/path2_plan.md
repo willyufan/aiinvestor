@@ -534,13 +534,21 @@
 
 ## 20. 本轮补充（2026-04-25）
 
-- 本轮同样先在独立 worktree 对齐主工作树 `main`：本地 `git fetch /Users/valselee/my-code/aiinvestor main` 成功并已 `reset --hard FETCH_HEAD`；`git fetch origin` 受 sandbox 限制失败，但不是阻塞条件。
-- 随后运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py`：当前独立候选宇宙继续是 `103` 个 candidates，五个 family 规模仍为 `43 / 23 / 16 / 4 / 4`，说明上一轮扩容后的 family membership 口径没有再次漂移。
-- 四窗口 tracked winners 与 `robust_candidate` 继续不变：
-  - `since_2017_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`（`28.48% CAGR / 1.0116 Sharpe / -46.94% MaxDD / 3.89 Turn`）
-  - `since_2020_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`）
-  - `since_2023_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（`58.03% CAGR / 1.1874 Sharpe / -50.82% MaxDD / 5.32 Turn`）
-  - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`145.68% CAGR / 2.1978 Sharpe / -12.20% MaxDD / 5.29 Turn`）
-  - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`（`meanCAGR 58.88% / minCAGR 17.57%`）
-- 当前最核心的缺口仍没变：`since_2020_01` tracked winner 仍只有 `32.07% CAGR`，距离 `40%+` 目标明显不足；因此本轮继续不补确认回测，也不把新增预算重新分给 `biweekly / weekly` 高频克隆。
-- 下一轮 `Path 2` 继续优先扩更适配 `since_2020_01` 的中周期高收益原型，并维持当前更严格的 family membership 口径，避免不同 family 再被同一批高集中候选压扁。
+- 本轮先按自动化规则把独立 worktree 对齐到主工作树 `main`，随后用缓存重建了 `results/strategy_comparison_base_method.csv`（`1899` 行 / `491` 个 base strategies）；这次重建把此前未并入 comparison CSV 的 cached summaries 补回到了 `Path 2` 扫描宇宙里，并把整条 A 股 artifact 链重新同步到 `sample_end=2026-04-24`。
+- 本轮同时修掉了一个真实的 `Path 2` 执行层问题：极端高集中候选在周频 overlay 调仓里会把 `NaN` code 混进持仓序列，导致 `compute_rebalance_trades()` 在持仓聚合时崩溃。当前已在 `backtest_marketcap_etf.py` 中加上“丢弃空索引 + 合并重复 code”的最小修复；用 `core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80__sat_three_stage_buffered` 做窄复现后，回测已能完整跑通。
+- 在这份重建后的完整 comparison CSV 上再次运行 `./.venv/bin/python scripts/path2_candidate_pass.py`：
+  - `candidate_count=104`
+  - family 规模为 `43 / 23 / 16 / 4 / 4`
+  - 四窗口 tracked winners 与 `robust_candidate` 继续完全不变。
+- 当前 Path 2 tracked winners 仍维持：
+  - `since_2017_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`
+  - `since_2020_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
+  - `since_2023_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`
+  - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
+  - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`
+- 这轮最有价值的新信息不是 winner 改写，而是“口径补齐后结论仍不变”：
+  - `since_2020_01` 上限仍只到 `32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`
+  - `robust_candidate` 仍是 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`（`meanCAGR 58.51% / minCAGR 17.57%`）
+  - `biweekly / weekly` 两个高频族依旧只有 `4 / 4` 个候选，继续没有改写主线的证据
+  - 新补回 CSV 的候选只把扫描宇宙从 `103` 推到 `104`，没有改变五族的主次关系。
+- 因此本轮继续作为 `sync-only` 提交：同步了完整 comparison CSV、刷新了 `Path 2` tracked artifact，并把高集中候选的回测崩溃点修掉；下一轮仍优先把新增预算投向更适配 `since_2020_01` 的中周期高收益原型，而不是继续扩高频克隆。

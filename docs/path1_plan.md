@@ -423,12 +423,15 @@
 
 ## 18. 本轮补充（2026-04-25）
 
-- 按自动化规则先在独立 worktree 读取主工作树 `/Users/valselee/my-code/aiinvestor` 的 `main` HEAD，再执行 `git fetch /Users/valselee/my-code/aiinvestor main` 并 `git reset --hard FETCH_HEAD`；额外的 `git fetch origin` 因 sandbox 禁网失败，但不影响本轮本地基线对齐。
-- 运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`：输出为 `as_of=2026-04-25 family=path1_fast_family base_candidates=24 total_candidates=168 evaluated=168`；四窗口 tracked winners 与 `robust_candidate` 继续完全不变，没有新的 `clear improvement`。
-- 当前最强但仍不过阈值的挑战者继续集中在既定五方向内：
-  - `since_2017_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`（`27.61% CAGR / 1.0369 Sharpe / -25.40% MaxDD / 0.88 Turn`）
-  - `since_2020_01`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered`（`28.30% CAGR / 1.0296 Sharpe / -25.00% MaxDD / 0.67 Turn`）
+- 本轮先按自动化规则把独立 worktree 对齐到主工作树 `main`，随后用缓存重建 `results/strategy_comparison_base_method.csv`（`1899` 行 / `491` 个 base strategies）；重建后的 A 股真实 `sample_end` 已恢复到 `2026-04-24`，`README / HISTORY / results/weighted_track_winners.json` 也已同步到同一口径。
+- 本轮没有新增 `Path 1` winner，但在尝试扩扫 A 股 active family 时踩出了一个真实的 Path 2 边缘 bug：极端高集中候选在周频 overlay 调仓里会把 `NaN` code 混进持仓序列，进而在 `compute_rebalance_trades()` 的持仓聚合处触发崩溃。当前已在 `backtest_marketcap_etf.py` 中加上“丢弃空索引 + 合并重复 code”的最小修复，后续 `Path 1 / Path 2` 的激进候选都可以继续跑，不会因为脏索引中断。
+- 在这份重建后的完整 comparison CSV 上再次运行 `./.venv/bin/python scripts/winner_only_pass.py`：输出为 `as_of=2026-04-24 family=path1_fast_family base_candidates=24 total_candidates=168 evaluated=168`；四窗口 tracked winners 与 `robust_candidate` 继续完全不变，没有新的 `clear improvement`。
+- 当前仍最值得观察但未过阈值的挑战者没有变化：
+  - `since_2020_01`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered`（`27.83% CAGR / 1.0264 Sharpe / -25.00% MaxDD / 0.67 Turn`）
   - `since_2023_01`：`core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`（`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`）
-  - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`（`106.75% CAGR / 1.9259 Sharpe / -10.61% MaxDD / 1.16 Turn`）
-- 这些挑战者的共同问题仍然是 `MaxDD / Sharpe / Turnover` 约束不过线，因此本轮继续不补任何 A 股 `Path 1` 确认回测，也不重写 A 股 tracked winners / README / HISTORY。
-- 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 这五个既定方向内推进；`weekly_exposure_path` 仍保持 `buffered -> asym -> plain` 的 companion 优先级，`signal_variants` 不重新打开。
+  - `since_2017_01 / since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered` 仍具更高 raw CAGR，但继续因为 `Sharpe / MaxDD` 不过线而不晋级。
+- 本轮允许作为 `sync-only` 提交的原因，不是出现了新 winner，而是：
+  - A 股 comparison CSV 已从旧的局部口径恢复到完整口径；
+  - `README / HISTORY / results/weighted_track_winners.json / results/live` 已按真实 `sample_end=2026-04-24` 重新同步；
+  - `Path 2` 高集中候选会炸的持仓索引问题已在回测内核修掉。
+- 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个既定方向内推进；`weekly_exposure_path` 仍固定优先 `buffered > asym > base`，`signal_variants` 不重新打开。
