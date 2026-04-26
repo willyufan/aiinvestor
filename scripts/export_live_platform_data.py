@@ -38,6 +38,28 @@ SAMPLE_TAG_LABELS = {
 }
 
 
+def infer_adjustment_style(strategy_id: str, rebalance_frequency: str) -> str:
+    strategy_id = str(strategy_id or "")
+    rebalance_frequency = str(rebalance_frequency or "monthly")
+    if "__port_weekly_exposure_buffered" in strategy_id:
+        return "月度换股 + 周度总仓位（双周确认）"
+    if "__port_weekly_exposure_asym" in strategy_id:
+        return "月度换股 + 周度总仓位（快减慢加）"
+    if "__port_weekly_exposure" in strategy_id:
+        return "月度换股 + 周度总仓位"
+    if "__sat_three_stage_buffered" in strategy_id:
+        return "月度换股 + 周度卫星仓位（双周确认）"
+    if "__sat_three_stage_risk" in strategy_id:
+        return "月度换股 + 周度卫星仓位（三档风控）"
+    if "__sat_weekly_risk" in strategy_id:
+        return "月度换股 + 周度卫星仓位"
+    if rebalance_frequency == "biweekly":
+        return "双周换股"
+    if rebalance_frequency == "weekly":
+        return "单周换股"
+    return "月度换股"
+
+
 def pick_preferred_sample_tag(base_id: str, *, market_scope: str = "a_share") -> str:
     path_builder = build_hk_result_path if market_scope == "hkconnect" else build_result_path
     for sample_tag in ("since_2020_01", "since_2017_01", "since_2023_01", "since_2025_01", "since_2026_01"):
@@ -282,6 +304,7 @@ def load_strategy_snapshot(base_id: str, sample_tag: str, *, market_scope: str =
         "sample_tag": sample_tag,
         "updated_at": sample_view["updated_at"],
         "rebalance_frequency": sample_view["rebalance_frequency"],
+        "adjustment_style": infer_adjustment_style(base_id, str(sample_view["rebalance_frequency"])),
         "summary_metrics": sample_view["summary_metrics"],
         "windows": _collect_windows(base_id, market_scope=market_scope),
         "sample_views": sample_views,
@@ -493,6 +516,7 @@ def export_live_data() -> dict[str, Any]:
                 "market_scope": item.get("market_scope", "a_share"),
                 "winner_type": item["winner_type"],
                 "winner_tags": item["winner_tags"],
+                "adjustment_style": item["adjustment_style"],
                 "target_total_exposure": item["target_total_exposure"],
                 "risk_state": item["risk_state"],
                 "summary_metrics": item["summary_metrics"],
@@ -508,6 +532,7 @@ def export_live_data() -> dict[str, Any]:
                 "market_scope": item.get("market_scope", "a_share"),
                 "winner_type": item["winner_type"],
                 "winner_tags": item["winner_tags"],
+                "adjustment_style": item["adjustment_style"],
                 "target_total_exposure": item["target_total_exposure"],
                 "risk_state": item["risk_state"],
                 "summary_metrics": item["summary_metrics"],

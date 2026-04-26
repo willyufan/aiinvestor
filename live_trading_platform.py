@@ -110,6 +110,10 @@ def rebalance_frequency_label(freq: str) -> str:
     return mapping.get(str(freq or "monthly"), str(freq or "monthly"))
 
 
+def adjustment_style_label(item: dict) -> str:
+    return str(item.get("adjustment_style") or "月度换股")
+
+
 def winner_windows_label(winner_tags: list[str] | None) -> str:
     if not winner_tags:
         return ""
@@ -1988,6 +1992,7 @@ def strategies_html() -> str:
                 f"{identity_html}"
                 f"{windows_html}"
                 f"<p>Total Return {fmt_pct(float(metrics.get('total_return', 0.0)))} | CAGR {fmt_pct(float(metrics.get('cagr', 0.0)))} | MaxDD {fmt_pct(float(metrics.get('max_drawdown', 0.0)))} | Sharpe {float(metrics.get('sharpe_ratio', 0.0)):.4f} | Turn {float(metrics.get('average_annual_turnover', 0.0)):.2f}</p>"
+                f"<p>实际调整频率类型：{html.escape(adjustment_style_label(item))}</p>"
                 f"<p>当前总仓位建议: {fmt_pct(float(item['target_total_exposure']))} | 风险状态: {html.escape(item['risk_state'])} | 更新: {html.escape(str(item['updated_at']))}</p>"
                 "</div>"
             )
@@ -2020,6 +2025,7 @@ def strategies_html() -> str:
             f"<div class='muted'><code>{html.escape(item['strategy_id'])}</code></div>"
             "<p class='muted'>观察区：接近实盘候选，但当前不在 tracked winners 白名单内。</p>"
             f"<p>Total Return {fmt_pct(float(metrics.get('total_return', 0.0)))} | CAGR {fmt_pct(float(metrics.get('cagr', 0.0)))} | MaxDD {fmt_pct(float(metrics.get('max_drawdown', 0.0)))} | Sharpe {float(metrics.get('sharpe_ratio', 0.0)):.4f} | Turn {float(metrics.get('average_annual_turnover', 0.0)):.2f}</p>"
+            f"<p>实际调整频率类型：{html.escape(adjustment_style_label(item))}</p>"
             f"<p>当前总仓位建议: {fmt_pct(float(item['target_total_exposure']))} | 风险状态: {html.escape(item['risk_state'])} | 更新: {html.escape(str(item['updated_at']))}</p>"
             "</div>"
         )
@@ -2055,6 +2061,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         "sample_tag_label": selected_sample_tag,
     }
     rebalance_frequency = rebalance_frequency_label(str(active_view.get("rebalance_frequency", item.get("rebalance_frequency", "monthly"))))
+    adjustment_style = adjustment_style_label(item)
     active_meta = active_view.get("summary_meta") or {}
     active_sample_label = str(active_meta.get("sample_label") or active_view.get("sample_tag_label") or selected_sample_tag)
     active_sample_start = str(active_meta.get("sample_start") or "")
@@ -2187,7 +2194,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
     body = (
         f"<h1>{html.escape(item['display_name'])}</h1>"
         f"<p><code>{html.escape(strategy_id)}</code></p>"
-        f"<p>市场: {html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} | 路径: {html.escape(item['path'])} | 类型: {html.escape(item['winner_type'])} | 调仓频率: {html.escape(rebalance_frequency)} | 当前建议仓位: {fmt_pct(float(active_view['target_total_exposure']))} | 风险状态: {html.escape(active_view['risk_state'])}</p>"
+        f"<p>市场: {html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} | 路径: {html.escape(item['path'])} | 类型: {html.escape(item['winner_type'])} | 调仓频率: {html.escape(rebalance_frequency)} | 实际调整频率类型: {html.escape(adjustment_style)} | 当前建议仓位: {fmt_pct(float(active_view['target_total_exposure']))} | 风险状态: {html.escape(active_view['risk_state'])}</p>"
         + sample_selector
         + f"<div class='card'><h2>当前查看窗口</h2><p>{html.escape(active_sample_label)}：{html.escape(active_sample_start)} → {html.escape(active_sample_end)}</p></div>"
         "<div class='card'><h2>窗口表现</h2><table><thead><tr><th>窗口</th><th>Total Return</th><th>CAGR</th><th>MaxDD</th><th>Sharpe</th><th>Turnover</th></tr></thead><tbody>"
