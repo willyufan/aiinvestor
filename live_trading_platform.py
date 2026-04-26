@@ -114,6 +114,17 @@ def adjustment_style_label(item: dict) -> str:
     return str(item.get("adjustment_style") or "月度换股")
 
 
+def schedule_kind_label(schedule_kind: str) -> str:
+    mapping = {
+        "monthly": "纯月度",
+        "portfolio_weekly_overlay": "月度换股 + 周度总仓位",
+        "satellite_weekly_overlay": "月度换股 + 周度卫星仓位",
+        "biweekly": "双周换股",
+        "weekly": "单周换股",
+    }
+    return mapping.get(str(schedule_kind or ""), "未识别")
+
+
 def winner_windows_label(winner_tags: list[str] | None) -> str:
     if not winner_tags:
         return ""
@@ -2066,6 +2077,13 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
     active_sample_label = str(active_meta.get("sample_label") or active_view.get("sample_tag_label") or selected_sample_tag)
     active_sample_start = str(active_meta.get("sample_start") or "")
     active_sample_end = str(active_meta.get("sample_end") or active_view.get("updated_at") or "")
+    formal_schedule = active_view.get("formal_schedule") or item.get("formal_schedule") or {}
+    data_as_of = str(formal_schedule.get("data_as_of") or active_sample_end or "")
+    suggestion_effective_date = str(formal_schedule.get("suggestion_effective_date") or "")
+    basket_effective_date = str(formal_schedule.get("basket_effective_date") or "")
+    exposure_effective_date = str(formal_schedule.get("exposure_effective_date") or "")
+    schedule_kind = str(formal_schedule.get("schedule_kind") or "")
+    split_view = active_view.get("split_view") or {}
 
     sample_options = []
     for key in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"):
@@ -2145,6 +2163,36 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         weight_rows.append(
             f"<tr><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td>{fmt_pct(float(row['weight']))}</td><td>{fmt_amt(float(row['latest_price'] or 0.0)) if row['latest_price'] is not None else 'n/a'}</td></tr>"
         )
+    split_latest_html = ""
+    if str(split_view.get("mode") or "") == "satellite_weekly_overlay":
+        basket_rows = []
+        for row in split_view.get("basket_weights") or []:
+            basket_rows.append(
+                f"<tr><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td>{fmt_pct(float(row['weight']))}</td><td>{fmt_amt(float(row['latest_price'] or 0.0)) if row['latest_price'] is not None else 'n/a'}</td></tr>"
+            )
+        overlay_summary = split_view.get("overlay_summary") or {}
+        market_momentum = overlay_summary.get("market_12_1_momentum")
+        split_latest_html = (
+            "<div class='card' style='margin-top:16px'><h2>当前建议内容（正式拆分）</h2>"
+            "<p class='muted'>这类策略拆成两层：月末股票池生效日对应真实月末确定的股票池/目标权重；周度卫星仓位状态生效日对应周频风控后当前实际卫星仓暴露。月中若只发生风控/仓位切换，不会误显示成重新换股。</p>"
+            "</div>"
+            + f"<div class='card' style='margin-top:16px'><h2>月末股票池</h2><p>月末股票池生效日：{html.escape(basket_effective_date or 'n/a')}</p><table><thead><tr><th>代码</th><th>名称</th><th>月末目标权重</th><th>最新价格</th></tr></thead><tbody>"
+            + "".join(basket_rows)
+            + "</tbody></table></div>"
+            + "<div class='card' style='margin-top:16px'><h2>周度卫星仓位状态</h2>"
+            + f"<p>周度卫星仓位状态生效日：{html.escape(exposure_effective_date or 'n/a')}</p>"
+            + f"<p>总仓位目标：{fmt_pct(float(overlay_summary.get('target_total_exposure') or 0.0))}</p>"
+            + f"<p>核心仓位目标：{fmt_pct(float(overlay_summary.get('core_exposure_target') or 0.0))}</p>"
+            + f"<p>卫星仓位目标：{fmt_pct(float(overlay_summary.get('satellite_exposure_target') or 0.0))}</p>"
+            + f"<p>风险状态：{html.escape(str(overlay_summary.get('risk_state') or 'n/a'))}</p>"
+            + (
+                f"<p>市场12-1动量：{fmt_pct(float(market_momentum))}</p>"
+                if market_momentum is not None
+                else ""
+            )
+            + f"<p>本期周度 overlay 交易次数：{int(overlay_summary.get('weekly_overlay_trade_count') or 0)}</p>"
+            + "</div>"
+        )
 
     selected_key, selected_history = build_history_selection(history_windows, history_window_key)
     history_selector = ""
@@ -2197,12 +2245,34 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         f"<p>市场: {html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} | 路径: {html.escape(item['path'])} | 类型: {html.escape(item['winner_type'])} | 调仓频率: {html.escape(rebalance_frequency)} | 实际调整频率类型: {html.escape(adjustment_style)} | 当前建议仓位: {fmt_pct(float(active_view['target_total_exposure']))} | 风险状态: {html.escape(active_view['risk_state'])}</p>"
         + sample_selector
         + f"<div class='card'><h2>当前查看窗口</h2><p>{html.escape(active_sample_label)}：{html.escape(active_sample_start)} → {html.escape(active_sample_end)}</p></div>"
-        "<div class='card'><h2>窗口表现</h2><table><thead><tr><th>窗口</th><th>Total Return</th><th>CAGR</th><th>MaxDD</th><th>Sharpe</th><th>Turnover</th></tr></thead><tbody>"
+        + (
+            "<div class='card' style='margin-top:16px'><h2>当前建议时点</h2>"
+            f"<p>数据截止日：{html.escape(data_as_of or 'n/a')}</p>"
+            + (
+                f"<p>月末股票池生效日：{html.escape(basket_effective_date or 'n/a')}</p>"
+                f"<p>周度卫星仓位状态生效日：{html.escape(exposure_effective_date or 'n/a')}</p>"
+                if schedule_kind == 'satellite_weekly_overlay'
+                else f"<p>当前建议生效日：{html.escape(suggestion_effective_date or 'n/a')}</p>"
+            )
+            + (
+                f"<p>股票池生效日：{html.escape(basket_effective_date or 'n/a')}</p>"
+                f"<p>仓位状态生效日：{html.escape(exposure_effective_date or 'n/a')}</p>"
+                if schedule_kind == 'portfolio_weekly_overlay'
+                else ""
+            )
+            + f"<p class='muted'>判定口径：{html.escape(schedule_kind_label(schedule_kind))}。月度策略按真实月末，周度/双周策略按实际评估点更新“当前建议”；数据截止日可继续前进，但建议日期不一定每天变化。</p>"
+            "</div>"
+        )
+        + "<div class='card'><h2>窗口表现</h2><table><thead><tr><th>窗口</th><th>Total Return</th><th>CAGR</th><th>MaxDD</th><th>Sharpe</th><th>Turnover</th></tr></thead><tbody>"
         + "".join(rows)
         + "</tbody></table></div>"
-        + f"<div class='card' style='margin-top:16px'><h2>最新调仓建议（{html.escape(rebalance_frequency)} / {html.escape(active_sample_label)}）</h2><table><thead><tr><th>代码</th><th>名称</th><th>目标权重</th><th>最新价格</th></tr></thead><tbody>"
-        + "".join(weight_rows)
-        + "</tbody></table></div>"
+        + (
+            split_latest_html
+            if split_latest_html
+            else f"<div class='card' style='margin-top:16px'><h2>最新调仓建议（{html.escape(rebalance_frequency)} / {html.escape(active_sample_label)}）</h2><table><thead><tr><th>代码</th><th>名称</th><th>目标权重</th><th>最新价格</th></tr></thead><tbody>"
+            + "".join(weight_rows)
+            + "</tbody></table></div>"
+        )
         + change_summary_html
         + change_rows_html
         + exposure_html

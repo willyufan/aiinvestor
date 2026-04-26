@@ -1225,34 +1225,35 @@ def load_or_fetch_stock_basic(pro) -> pd.DataFrame:
 def load_or_fetch_trade_calendar(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
     cache_path = CACHE_DIR / "trade_calendar.csv"
     cached = read_cached_csv(cache_path, date_columns=["cal_date"])
+    required_end_date = max(end_date.normalize(), (end_date + pd.offsets.MonthEnd(0)).normalize())
 
     if not cached.empty:
         cached = cached.sort_values("cal_date").drop_duplicates(subset=["cal_date"])
         cached_start = cached["cal_date"].min()
         cached_end = cached["cal_date"].max()
-        if cached_start <= start_date and cached_end >= end_date:
-            return cached
+        if cached_start <= start_date and cached_end >= required_end_date:
+            return cached[(cached["cal_date"] >= start_date) & (cached["cal_date"] <= required_end_date)].reset_index(drop=True)
 
     if not cached.empty and TUSHARE_OFFLINE_MODE:
-        return cached.reset_index(drop=True)
+        return cached[(cached["cal_date"] >= start_date) & (cached["cal_date"] <= required_end_date)].reset_index(drop=True)
 
     try:
         fetched = call_tushare_with_retry(
             pro.trade_cal,
             exchange="SSE",
             start_date=start_date.strftime("%Y%m%d"),
-            end_date=end_date.strftime("%Y%m%d"),
+            end_date=required_end_date.strftime("%Y%m%d"),
             fields="exchange,cal_date,is_open,pretrade_date",
         )
     except RuntimeError:
         if not cached.empty:
             print("[Warn] trade_calendar 增量更新失败，回退使用本地缓存。")
-            return cached.reset_index(drop=True)
+            return cached[(cached["cal_date"] >= start_date) & (cached["cal_date"] <= required_end_date)].reset_index(drop=True)
         raise
     fetched["cal_date"] = pd.to_datetime(fetched["cal_date"], format="%Y%m%d", errors="coerce")
     calendar = fetched.sort_values("cal_date").drop_duplicates(subset=["cal_date"]).reset_index(drop=True)
     save_csv(calendar, cache_path)
-    return calendar
+    return calendar[(calendar["cal_date"] >= start_date) & (calendar["cal_date"] <= required_end_date)].reset_index(drop=True)
 
 
 def build_pool_output_dir(pool_id: str, sample_tag: str | None = None) -> Path:

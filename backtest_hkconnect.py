@@ -381,21 +381,22 @@ def ensure_hk_directories() -> None:
 def load_or_fetch_hk_trade_calendar(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
     cache_path = HK_BASIC_DIR / "trade_calendar_hk.csv"
     cached = read_cached_csv(cache_path, date_columns=["cal_date"])
+    required_end_date = max(end_date.normalize(), (end_date + pd.offsets.MonthEnd(0)).normalize())
     if not cached.empty:
         cached = cached.sort_values("cal_date").drop_duplicates(subset=["cal_date"])
-        if cached["cal_date"].min() <= start_date and cached["cal_date"].max() >= end_date:
-            return cached.reset_index(drop=True)
+        if cached["cal_date"].min() <= start_date and cached["cal_date"].max() >= required_end_date:
+            return cached[(cached["cal_date"] >= start_date) & (cached["cal_date"] <= required_end_date)].reset_index(drop=True)
 
     try:
         fetched = call_tushare_with_retry(
             pro.hk_tradecal,
             start_date=start_date.strftime("%Y%m%d"),
-            end_date=end_date.strftime("%Y%m%d"),
+            end_date=required_end_date.strftime("%Y%m%d"),
         )
     except RuntimeError:
         if not cached.empty:
             print("[Warn] 港股 trade_calendar 更新失败，回退使用本地缓存。")
-            return cached.reset_index(drop=True)
+            return cached[(cached["cal_date"] >= start_date) & (cached["cal_date"] <= required_end_date)].reset_index(drop=True)
         raise
 
     if "exchange" not in fetched.columns:
@@ -403,7 +404,7 @@ def load_or_fetch_hk_trade_calendar(pro, start_date: pd.Timestamp, end_date: pd.
     fetched["cal_date"] = pd.to_datetime(fetched["cal_date"], format="%Y%m%d", errors="coerce")
     calendar = fetched.sort_values("cal_date").drop_duplicates(subset=["cal_date"]).reset_index(drop=True)
     save_csv(calendar, cache_path)
-    return calendar
+    return calendar[(calendar["cal_date"] >= start_date) & (calendar["cal_date"] <= required_end_date)].reset_index(drop=True)
 
 
 def load_or_fetch_hk_basic(pro) -> pd.DataFrame:

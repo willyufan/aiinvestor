@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import functools
 import json
 import sys
 from pathlib import Path
@@ -19,6 +20,8 @@ LIVE_DIR = RESULTS_DIR / "live"
 TRACKED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
 DAILY_CACHE_DIR = ROOT / "data_cache" / "daily"
 HK_DAILY_CACHE_DIR = ROOT / "data_cache" / "hkconnect" / "daily_adj"
+A_SHARE_TRADE_CALENDAR_PATH = ROOT / "data_cache" / "trade_calendar.csv"
+HK_TRADE_CALENDAR_PATH = ROOT / "data_cache" / "hkconnect" / "basic" / "trade_calendar_hk.csv"
 
 SAMPLE_LABELS = {
     "since_2017_only": "2017-window winner",
@@ -58,6 +61,177 @@ def infer_adjustment_style(strategy_id: str, rebalance_frequency: str) -> str:
     if rebalance_frequency == "weekly":
         return "单周换股"
     return "月度换股"
+
+
+def infer_schedule_kind(strategy_id: str, rebalance_frequency: str) -> str:
+    strategy_id = str(strategy_id or "")
+    rebalance_frequency = str(rebalance_frequency or "monthly")
+    if "__port_weekly_exposure" in strategy_id:
+        return "portfolio_weekly_overlay"
+    if "__sat_" in strategy_id:
+        return "satellite_weekly_overlay"
+    if rebalance_frequency == "biweekly":
+        return "biweekly"
+    if rebalance_frequency == "weekly":
+        return "weekly"
+    return "monthly"
+
+
+@functools.lru_cache(maxsize=4)
+def load_open_trade_dates(market_scope: str) -> list[pd.Timestamp]:
+    calendar_path = HK_TRADE_CALENDAR_PATH if market_scope == "hkconnect" else A_SHARE_TRADE_CALENDAR_PATH
+    if not calendar_path.exists():
+        return []
+    try:
+        frame = pd.read_csv(calendar_path)
+    except Exception:
+        return []
+    if frame.empty or "cal_date" not in frame.columns:
+        return []
+    frame = frame.copy()
+    frame["cal_date"] = pd.to_datetime(frame["cal_date"], errors="coerce")
+    frame = frame.dropna(subset=["cal_date"])
+    if "is_open" in frame.columns:
+        frame = frame[frame["is_open"] == 1]
+    frame = frame.sort_values("cal_date").drop_duplicates(subset=["cal_date"])
+    return [pd.Timestamp(value) for value in frame["cal_date"].tolist()]
+
+
+@functools.lru_cache(maxsize=4)
+def build_formal_trade_boundaries(market_scope: str) -> tuple[list[pd.Timestamp], list[pd.Timestamp]]:
+    open_dates = load_open_trade_dates(market_scope)
+    if not open_dates:
+        return [], []
+    frame = pd.DataFrame({"cal_date": pd.to_datetime(open_dates)})
+    frame["month"] = frame["cal_date"].dt.to_period("M")
+    frame["week"] = frame["cal_date"].dt.to_period("W-FRI")
+    month_end_dates = [pd.Timestamp(value) for value in frame.groupby("month")["cal_date"].max().sort_values().tolist()]
+    week_end_dates = [pd.Timestamp(value) for value in frame.groupby("week")["cal_date"].max().sort_values().tolist()]
+    return month_end_dates, week_end_dates
+
+
+def last_date_on_or_before(dates: list[pd.Timestamp], as_of: pd.Timestamp) -> str | None:
+    chosen: pd.Timestamp | None = None
+    for value in dates:
+        if value <= as_of:
+            chosen = value
+        else:
+            break
+    return chosen.strftime("%Y-%m-%d") if chosen is not None else None
+
+
+def build_formal_schedule_meta(
+    *,
+    strategy_id: str,
+    rebalance_frequency: str,
+    sample_end: str | None,
+    market_scope: str,
+) -> dict[str, Any]:
+    if not sample_end:
+        return {}
+    as_of = pd.Timestamp(sample_end)
+    month_end_dates, week_end_dates = build_formal_trade_boundaries(market_scope)
+    schedule_kind = infer_schedule_kind(strategy_id, rebalance_frequency)
+    data_as_of = as_of.strftime("%Y-%m-%d")
+    basket_effective_date = last_date_on_or_before(month_end_dates, as_of)
+    weekly_effective_date = last_date_on_or_before(week_end_dates, as_of)
+    biweekly_dates = [date for idx, date in enumerate(week_end_dates) if idx % 2 == 1]
+    biweekly_effective_date = last_date_on_or_before(biweekly_dates, as_of)
+
+    if schedule_kind == "monthly":
+        suggestion_effective_date = basket_effective_date
+        exposure_effective_date = basket_effective_date
+    elif schedule_kind == "portfolio_weekly_overlay":
+        suggestion_effective_date = weekly_effective_date or basket_effective_date
+        exposure_effective_date = weekly_effective_date or basket_effective_date
+    elif schedule_kind == "satellite_weekly_overlay":
+        suggestion_effective_date = weekly_effective_date or basket_effective_date
+        exposure_effective_date = weekly_effective_date or basket_effective_date
+    elif schedule_kind == "biweekly":
+        suggestion_effective_date = biweekly_effective_date
+        basket_effective_date = biweekly_effective_date
+        exposure_effective_date = biweekly_effective_date
+    else:
+        suggestion_effective_date = weekly_effective_date
+        basket_effective_date = weekly_effective_date
+        exposure_effective_date = weekly_effective_date
+
+    return {
+        "data_as_of": data_as_of,
+        "schedule_kind": schedule_kind,
+        "suggestion_effective_date": suggestion_effective_date,
+        "basket_effective_date": basket_effective_date,
+        "exposure_effective_date": exposure_effective_date,
+    }
+
+
+def normalize_holdings_with_cash(holdings: list[dict[str, Any]], target_exposure: float | None = None) -> list[dict[str, Any]]:
+    if not holdings:
+        return []
+    exposure = float(target_exposure if target_exposure is not None else 1.0)
+    exposure = max(0.0, min(1.0, exposure))
+    non_cash = [row for row in holdings if str(row.get("ts_code")) != "CASH"]
+    non_cash_total = sum(max(0.0, float(row.get("weight", 0.0))) for row in non_cash)
+    latest_price_map = {str(row.get("ts_code")): row.get("latest_price") for row in holdings}
+    normalized: list[dict[str, Any]] = []
+    if non_cash_total > 0 and exposure > 0:
+        for row in sorted(non_cash, key=lambda item: float(item.get("weight", 0.0)), reverse=True):
+            base_weight = max(0.0, float(row.get("weight", 0.0)))
+            normalized.append(
+                {
+                    "ts_code": str(row.get("ts_code")),
+                    "name": str(row.get("name", "")),
+                    "weight": exposure * base_weight / non_cash_total,
+                    "latest_price": latest_price_map.get(str(row.get("ts_code"))),
+                }
+            )
+    cash_weight = max(0.0, 1.0 - exposure)
+    if cash_weight > 1e-12:
+        normalized.append({"ts_code": "CASH", "name": "现金", "weight": cash_weight, "latest_price": None})
+    return normalized
+
+
+def load_weight_history_snapshot_map(path: Path) -> dict[str, list[dict[str, Any]]]:
+    if not path.exists():
+        return {}
+    try:
+        frame = pd.read_csv(path)
+    except Exception:
+        return {}
+    required = {"date", "ts_code", "name", "weight"}
+    if frame.empty or not required.issubset(frame.columns):
+        return {}
+    frame = frame.copy()
+    frame["date"] = pd.to_datetime(frame["date"], errors="coerce")
+    frame = frame.dropna(subset=["date"])
+    if frame.empty:
+        return {}
+    snapshot_map: dict[str, list[dict[str, Any]]] = {}
+    for snapshot_date, sub in frame.groupby("date", sort=False):
+        snapshot_map[pd.Timestamp(snapshot_date).strftime("%Y-%m-%d")] = [
+            {
+                "ts_code": str(row["ts_code"]),
+                "name": str(row["name"]),
+                "weight": float(row["weight"]),
+            }
+            for row in sub.sort_values("weight", ascending=False).to_dict("records")
+        ]
+    return snapshot_map
+
+
+def attach_latest_prices(rows: list[dict[str, Any]], latest_price_map: dict[str, float | None]) -> list[dict[str, Any]]:
+    attached = []
+    for row in rows:
+        ts_code = str(row.get("ts_code"))
+        attached.append(
+            {
+                "ts_code": ts_code,
+                "name": str(row.get("name", "")),
+                "weight": float(row.get("weight", 0.0)),
+                "latest_price": latest_price_map.get(ts_code),
+            }
+        )
+    return attached
 
 
 def pick_preferred_sample_tag(base_id: str, *, market_scope: str = "a_share") -> str:
@@ -104,43 +278,21 @@ def _collect_windows(base_id: str, *, market_scope: str = "a_share") -> dict[str
     return windows
 
 
-def _build_weight_history_windows(path: Path) -> list[dict[str, Any]]:
-    if not path.exists():
+def _build_weight_history_windows(snapshot_map: dict[str, list[dict[str, Any]]]) -> list[dict[str, Any]]:
+    if not snapshot_map:
         return []
-    try:
-        frame = pd.read_csv(path)
-    except Exception:
-        return []
-    required = {"date", "ts_code", "name", "weight"}
-    if frame.empty or not required.issubset(frame.columns):
-        return []
-    frame = frame.copy()
-    frame["date"] = pd.to_datetime(frame["date"], errors="coerce")
-    frame = frame.dropna(subset=["date"])
-    if frame.empty:
-        return []
-    frame = frame.sort_values(["date", "weight"], ascending=[False, False])
-    snapshot_dates = sorted(frame["date"].drop_duplicates().tolist(), reverse=True)
+    snapshot_dates = sorted(snapshot_map.keys(), reverse=True)
     windows: list[dict[str, Any]] = []
     for idx in range(0, len(snapshot_dates), HISTORY_WINDOW_SNAPSHOTS):
         chunk_dates = snapshot_dates[idx : idx + HISTORY_WINDOW_SNAPSHOTS]
         if not chunk_dates:
             continue
-        chunk_rows = frame[frame["date"].isin(chunk_dates)].copy()
         snapshots: list[dict[str, Any]] = []
-        for snapshot_date, sub in chunk_rows.groupby("date", sort=False):
-            holdings = [
-                {
-                    "ts_code": str(row["ts_code"]),
-                    "name": str(row["name"]),
-                    "weight": float(row["weight"]),
-                }
-                for row in sub.sort_values("weight", ascending=False).to_dict("records")
-            ]
+        for snapshot_date in chunk_dates:
             snapshots.append(
                 {
-                    "date": pd.Timestamp(snapshot_date).strftime("%Y-%m-%d"),
-                    "holdings": holdings,
+                    "date": snapshot_date,
+                    "holdings": snapshot_map.get(snapshot_date, []),
                 }
             )
         snapshots.sort(key=lambda item: item["date"], reverse=True)
@@ -224,6 +376,7 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
     monthly_path = path_builder(base_id, sample_tag, "monthly_returns.csv")
     weight_history_path = path_builder(base_id, sample_tag, "weights_history.csv")
     equity_curve_path = path_builder(base_id, sample_tag, "equity_curve.csv")
+    history_snapshot_map = load_weight_history_snapshot_map(weight_history_path)
 
     latest_weights: list[dict[str, Any]] = []
     target_exposure = 1.0
@@ -256,6 +409,55 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
             else:
                 risk_state = "caution"
 
+    formal_schedule = build_formal_schedule_meta(
+        strategy_id=base_id,
+        rebalance_frequency=str(summary.get("rebalance_frequency", "monthly")),
+        sample_end=str(summary.get("sample_end") or ""),
+        market_scope=market_scope,
+    )
+    schedule_kind = str(formal_schedule.get("schedule_kind") or "")
+    latest_price_map = {str(row["ts_code"]): row.get("latest_price") for row in latest_weights}
+    split_view: dict[str, Any] = {}
+
+    if schedule_kind == "monthly":
+        basket_date = str(formal_schedule.get("basket_effective_date") or "")
+        if basket_date and basket_date in history_snapshot_map:
+            latest_weights = attach_latest_prices(history_snapshot_map[basket_date], latest_price_map)
+            cash_weight = sum(float(row["weight"]) for row in latest_weights if row["ts_code"] == "CASH")
+            target_exposure = max(0.0, 1.0 - cash_weight)
+            if target_exposure >= 0.999:
+                risk_state = "risk_on"
+            elif target_exposure <= 0.001:
+                risk_state = "risk_off"
+            else:
+                risk_state = "caution"
+    elif schedule_kind == "portfolio_weekly_overlay":
+        basket_date = str(formal_schedule.get("basket_effective_date") or "")
+        if basket_date and basket_date in history_snapshot_map:
+            latest_weights = normalize_holdings_with_cash(
+                attach_latest_prices(history_snapshot_map[basket_date], latest_price_map),
+                target_exposure=target_exposure,
+            )
+    elif schedule_kind == "satellite_weekly_overlay":
+        basket_date = str(formal_schedule.get("basket_effective_date") or "")
+        basket_weights: list[dict[str, Any]] = []
+        if basket_date and basket_date in history_snapshot_map:
+            basket_weights = attach_latest_prices(history_snapshot_map[basket_date], latest_price_map)
+        overlay_summary = {
+            "risk_state": risk_state,
+            "target_total_exposure": target_exposure,
+            "core_exposure_target": float(last["core_exposure_target"]) if monthly_path.exists() and not monthly.empty and "core_exposure_target" in monthly.columns else None,
+            "satellite_exposure_target": float(last["satellite_exposure_target"]) if monthly_path.exists() and not monthly.empty and "satellite_exposure_target" in monthly.columns else None,
+            "market_risk_off": bool(last["market_risk_off"]) if monthly_path.exists() and not monthly.empty and "market_risk_off" in monthly.columns else None,
+            "market_12_1_momentum": float(last["market_12_1_momentum"]) if monthly_path.exists() and not monthly.empty and "market_12_1_momentum" in monthly.columns else None,
+            "weekly_overlay_trade_count": int(last["weekly_overlay_trade_count"]) if monthly_path.exists() and not monthly.empty and "weekly_overlay_trade_count" in monthly.columns and pd.notna(last["weekly_overlay_trade_count"]) else 0,
+        }
+        split_view = {
+            "mode": "satellite_weekly_overlay",
+            "basket_weights": basket_weights,
+            "overlay_summary": overlay_summary,
+        }
+
     return {
         "sample_tag": sample_tag,
         "sample_tag_label": SAMPLE_TAG_LABELS.get(sample_tag, sample_tag),
@@ -265,8 +467,10 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
         "target_total_exposure": target_exposure,
         "risk_state": risk_state,
         "latest_weights": latest_weights,
-        "history_windows": _build_weight_history_windows(weight_history_path),
+        "history_windows": _build_weight_history_windows(history_snapshot_map),
         "equity_curve_points": _load_equity_curve_points(equity_curve_path),
+        "formal_schedule": formal_schedule,
+        "split_view": split_view,
         "summary_meta": {
             "sample_start": summary.get("sample_start"),
             "sample_end": summary.get("sample_end"),
@@ -313,6 +517,8 @@ def load_strategy_snapshot(base_id: str, sample_tag: str, *, market_scope: str =
         "latest_weights": sample_view["latest_weights"],
         "history_windows": sample_view["history_windows"],
         "equity_curve_points": sample_view["equity_curve_points"],
+        "formal_schedule": sample_view.get("formal_schedule", {}),
+        "split_view": sample_view.get("split_view", {}),
         "summary_meta": sample_view["summary_meta"],
         "market_scope": market_scope,
     }
