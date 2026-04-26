@@ -94,3 +94,11 @@
 | 2026-04-22 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | 239.88% | 21.31% | -66.07% | 0.6184 | 5.66 |
 | 2026-04-20 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 熊市空仓 and, 留30%仓位, 单票80%) | 593.37% | 35.76% | -38.62% | 0.9175 | 4.79 |
 | 2026-04-19 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | 267.88% | 22.84% | -67.17% | 0.6521 | 5.88 |
+
+## 沪港通独立研究线
+
+### 2026-04-27
+
+- Path 1 四窗口 tracked winner 继续是 `hkconnect_path1_monthly_equal_buffered`，当前 `sample_end=2026-04-30`，`since_2020_01 / since_2023_01 / since_2025_01` 指标为 `23.12% / 34.40% / 41.72% CAGR`；`robust_candidate` 继续不变，`since_2026_01` raw leader 仍是 `hkconnect_path1_monthly_lowvol`。
+- Path 2 当前同步为新的月频锚点：`since_2017_01 / since_2020_01 / since_2023_01` 都是 `hkconnect_path2_theme_monthly`，`since_2025_01` 切到 `hkconnect_path2_breakout_monthly`，`robust_candidate` 也切回 `hkconnect_path2_theme_monthly`；对应 `since_2023_01 / since_2025_01` 关键指标为 `32.43% CAGR / -16.07% MaxDD / 1.4541 Sharpe / 6.01 Turn` 与 `99.22% CAGR / -7.72% MaxDD / 2.6848 Sharpe / 8.62 Turn`。
+- 当前港股 artifacts 的 SHA256 已同步为 `83885b39cb11f568d0ce2772e4cbaa9a0c6c1b62c089127e89eb39bbba12ceed`（`results_hkconnect/strategy_comparison_hkconnect.csv`）与 `d5d3bc0cf9a03aeb713d76efd76d2687be6d0d47f65f784dcd12734bf1062d4f`（`results_hkconnect/tracked_winners_hkconnect.json`）。
