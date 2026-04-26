@@ -552,3 +552,23 @@
   - `biweekly / weekly` 两个高频族依旧只有 `4 / 4` 个候选，继续没有改写主线的证据
   - 新补回 CSV 的候选只把扫描宇宙从 `103` 推到 `104`，没有改变五族的主次关系。
 - 因此本轮继续作为 `sync-only` 提交：同步了完整 comparison CSV、刷新了 `Path 2` tracked artifact，并把高集中候选的回测崩溃点修掉；下一轮仍优先把新增预算投向更适配 `since_2020_01` 的中周期高收益原型，而不是继续扩高频克隆。
+
+## 21. 本轮补充（2026-04-26）
+
+- 本轮按自动化规则先把独立 worktree 对齐到主工作树 `main` 基线后，再运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py`。由于 `git fetch origin` 受网络限制失败，远端线没有参与本轮 continuity 更新。
+- 当前 `path2_candidate_pass.json` 的真实口径已扩到 `candidate_count=117`；五个 family 的规模分别为：
+  - `high_concentration_breakout=49`
+  - `high_growth_theme=23`
+  - `momentum_equal_weight_elastic=16`
+  - `biweekly_rebalance_aggressive=4`
+  - `weekly_rebalance_aggressive=4`
+- 四窗口 tracked winners 与 `robust_candidate` 继续不变：
+  - `since_2017_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`
+  - `since_2020_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（仍只做到 `32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`）
+  - `since_2023_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（`55.97% CAGR / 1.1684 Sharpe / -50.82% MaxDD / 5.32 Turn`）
+  - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
+  - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`（`meanCAGR 58.51% / minCAGR 17.57%`）
+- 当前最有价值的新信息仍然不是 winner 改写，而是“候选宇宙已经够宽，但高频族依旧没有证据值得追加预算”：
+  - family 宇宙已稳定超过 `100+`
+  - `biweekly / weekly` 仍只各有 `4` 个候选，且没有改写主线
+  - 下一轮新增预算继续优先投向更适配 `since_2020_01` 的中周期高收益原型，而不是继续追加频率克隆

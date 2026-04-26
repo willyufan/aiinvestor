@@ -3,6 +3,14 @@
 这个文档记录两条研究路径在四个窗口下的赢家变化历史。
 仅当赢家策略或关键指标发生变化时，才会追加新记录。
 
+## 沪港通独立研究线（Sync-only 摘要）
+
+- `2026-04-26`：以 `AIINVESTOR_FORCE_OFFLINE=1` 重跑 `backtest_hkconnect.py`，随后执行 `scripts/update_hkconnect_artifacts.py` 与 `scripts/export_live_platform_data.py`。`trade_calendar` 在线更新继续失败，但本地缓存回退路径正常。
+- 当前港股 tracked payload 仍停留在 `sample_end=2026-04-24`，但本轮发生了有效的同口径 metrics 漂移：`results_hkconnect/strategy_comparison_hkconnect.csv` / `tracked_winners_hkconnect.json` 的 SHA256 已更新为 `54097028c3eaea664cb74a26890358c0ff5934a75943a3b0c591655fc4c9efbc` / `6ee86d107dc61a23e9b0ef45b839507a34bca7f9a86139c0ee3cb365d0dfe2e8`。
+- 港股 Path 1 四窗口 winner 继续全部是 `hkconnect_path1_monthly_equal_buffered`；当前 `since_2020_01 / since_2023_01 / since_2025_01` 指标同步为 `23.32% / 34.40% / 41.72% CAGR`，`robust_candidate` 仍是同一策略（`meanCAGR 30.69% / minCAGR 23.32%`）。
+- 港股 Path 2 winner 继续维持 `theme_monthly (2017/2020)`、`theme_biweekly (2023/robust)`、`breakout_biweekly (2025)`；当前 `since_2020_01 / since_2023_01 / since_2025_01` 指标同步为 `23.89% / 48.92% / 136.68% CAGR`，`robust_candidate` 仍是 `hkconnect_path2_theme_biweekly`（`meanCAGR 57.71% / minCAGR 22.79%`）。
+- `since_2026_01` 继续只作观察窗；当前 raw leader 仍分别是 `hkconnect_path1_monthly_lowvol`（`1.41% CAGR / -5.52% MaxDD / 0.1367 Sharpe`）与 `hkconnect_path2_breakout_monthly`（`188.57% CAGR / -4.77% MaxDD / 2.2393 Sharpe`）。
+
 ## Path 1：渐进优化路径
 
 ### 2017 窗口

@@ -435,3 +435,16 @@
   - `README / HISTORY / results/weighted_track_winners.json / results/live` 已按真实 `sample_end=2026-04-24` 重新同步；
   - `Path 2` 高集中候选会炸的持仓索引问题已在回测内核修掉。
 - 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个既定方向内推进；`weekly_exposure_path` 仍固定优先 `buffered > asym > base`，`signal_variants` 不重新打开。
+
+## 19. 本轮补充（2026-04-26）
+
+- 本轮按自动化规则先读取主工作树 `main` 与当前 worktree 已知 `origin/main`；尝试 `git fetch origin` 因网络受限失败。由于已知 `origin/main` 不是主工作树 `main` 的后继，本轮基线按规则回退到主工作树 `main`，随后在独立 worktree 中用 `FETCH_HEAD` 对齐后再继续研究。
+- 运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`：输出为 `as_of=2026-04-26 family=path1_fast_family base_candidates=24 total_candidates=168 evaluated=168`；四窗口 tracked winners 与 `robust_candidate` 继续完全不变，没有新的 `clear improvement`。
+- 当前最强但仍未过 `clear improvement` 阈值的挑战者没有变化：
+  - `since_2020_01`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered`（`27.83% CAGR / 1.0264 Sharpe / -25.00% MaxDD / 0.67 Turn`）
+  - `since_2023_01`：`core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`（`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`）
+  - `since_2017_01 / since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered` 仍具更高 raw CAGR，但继续因为 `Sharpe / MaxDD` 不过线而不晋级。
+- 这轮最值得保留的结论仍然是“快筛预算已经够宽，但问题仍集中在风控约束而不是收益不够高”：
+  - `weekly_exposure_path` 继续固定优先 `buffered > asym > base`
+  - `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个既定方向继续有效
+  - `signal_variants` 继续只保留观察，不重新打开，也不补确认回测
