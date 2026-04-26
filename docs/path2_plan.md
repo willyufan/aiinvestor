@@ -568,13 +568,14 @@
 
 ## 22. 本轮补充（2026-04-27）
 
-- 本轮同样先按自动化基线规则重查 publish baseline：`git fetch origin` 失败后，自动化 worktree 已知 `origin/main` 与本地主工作树 `main` 同步落在 `39cf735`，因此直接在该已知 `origin/main` 上重跑独立扫描。
-- 运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py` 后，当前 `Path 2` 独立候选宇宙仍为 `117` 个 candidates；五条 family 的规模继续是 `49 / 23 / 16 / 4 / 4`，说明这轮没有新的 family 扩容或高频分支回流。
-- 四窗口 tracked winners 与 `robust_candidate` 继续完全不变：
+- 本轮同样先按自动化基线规则重查 publish baseline：`git -C /Users/valselee/my-code/aiinvestor fetch origin main` 成功后，确认最新 `origin/main` 位于 `fd4b214`，领先于本地主工作树 `main`（`39cf735`），因此独立扫描直接基于该远端基线重放。
+- 运行 `./.venv/bin/python scripts/path2_candidate_pass.py` 后，当前 `Path 2` 独立候选宇宙收敛到 `104` 个 candidates；五条 family 的规模分别是 `43 / 23 / 16 / 4 / 4`，说明这轮主要是继续压紧 `high_concentration_breakout` 的 family membership 口径，而不是扩新的高频分支。
+- 四窗口 tracked winners 继续完全不变，`robust_candidate` 同步落在更稳的 `cap80` 版本：
   - `since_2017_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`
   - `since_2020_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
   - `since_2023_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`
   - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
-  - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`
-- 这轮真正新增的信息仍然是“口径确认后结论不变”：`since_2020_01` ceiling 继续停在 `32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`，`biweekly / weekly` 两条高频族依旧只有 `4 / 4` 个候选，且没有任何一条接近改写主线。
+  - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`
+- 这轮新增的信息主要是“收紧 membership 后结论仍不变”：当前 `since_2020_01` ceiling 仍停在 `32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`，而 `robust_candidate` 的四窗汇总同步为 `meanCAGR 58.06% / minCAGR 18.04%`；`biweekly / weekly` 两条高频族依旧只有 `4 / 4` 个候选，继续没有改写主线的证据。
+- 除了导出 `results/live` 依赖所需的 summary replay 之外，这轮没有再补新的 `Path 2` 确认回测；本轮价值主要是把 `results/path2_candidate_pass.json` 从旧的 `117` 候选、过宽 family membership 与 `cap60` robust 口径，同步回当前 `104` 候选、压紧 membership、`cap80` robust 的真实状态。
 - 下一轮继续把新增预算优先投向更适配 `since_2020_01` 的中周期高收益原型，不给 `biweekly / weekly` 高频克隆追加预算；若要扩新族，优先考虑月频或中周期原型，而不是继续放大家族内的高频副本。

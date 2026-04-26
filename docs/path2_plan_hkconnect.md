@@ -202,14 +202,11 @@
 
 ## 本轮补充（2026-04-27）
 
-- 本轮再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，随后执行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py` 与 `./.venv/bin/python scripts/export_live_platform_data.py`：缓存回退路径继续正常，这次同步把当前主分支基线里缺失的港股 `Path 2` 月频 winner 结构重新写回 tracked payload。
-- 当前 `results_hkconnect/strategy_comparison_hkconnect.csv` 与 `tracked_winners_hkconnect.json` 的 SHA256 分别是 `83885b39cb11f568d0ce2772e4cbaa9a0c6c1b62c089127e89eb39bbba12ceed` 与 `d5d3bc0cf9a03aeb713d76efd76d2687be6d0d47f65f784dcd12734bf1062d4f`；当前 tracked winners 已同步为：
-  - `since_2017_01 / since_2020_01 / since_2023_01`：`hkconnect_path2_theme_monthly`（对应 `22.79% CAGR / -18.86% MaxDD / 1.1654 Sharpe / 6.62 Turn` 与 `32.43% CAGR / -16.07% MaxDD / 1.4541 Sharpe / 6.01 Turn`）
-  - `since_2025_01`：`hkconnect_path2_breakout_monthly`（`99.22% CAGR / -7.72% MaxDD / 2.6848 Sharpe / 8.62 Turn`）
-  - `robust`：`hkconnect_path2_theme_monthly`（`meanCAGR 38.73% / minCAGR 22.79%`）
-- 这意味着当前港股 `Path 2` 的默认锚点已经从 `theme_biweekly / breakout_biweekly` 重新回到月频主线：`theme_monthly` 同时占住 `2017 / 2020 / 2023 / robust`，而 `breakout_monthly` 接管 `2025` 短窗口 winner。`since_2026_01` raw leader 仍是 `hkconnect_path2_breakout_monthly`（`188.57% CAGR / -4.77% MaxDD / 2.2393 Sharpe / 7.47 Turn`）。
-- 当前 sidecar challenger 顺位也随之收窄到月频族优先：
-  - `since_2020_01`：`hkconnect_path2_equal_elastic_monthly` 仍是最接近主线的 challenger（`18.33% CAGR / -36.76% MaxDD / 0.8263 Sharpe / 6.58 Turn`）
-  - `since_2023_01`：`hkconnect_path2_breakout_monthly` 是当前最接近 `theme_monthly` 的 challenger（`23.31% CAGR / -30.38% MaxDD / 0.9455 Sharpe / 8.61 Turn`）
-  - `since_2025_01`：`hkconnect_path2_equal_elastic_monthly` 仍是最接近 `breakout_monthly` 的 challenger（`90.24% CAGR / -8.40% MaxDD / 2.6254 Sharpe / 6.64 Turn`）
-- 下一轮港股 `Path 2` 继续优先围绕 `theme_monthly / breakout_monthly / equal_elastic_monthly` 这三条月频主线推进，不新增港股高频候选族，也不把 `biweekly / weekly` 重新拉回默认锚点。
+- 本轮再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，随后执行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py` 与 `./.venv/bin/python scripts/export_live_platform_data.py`：缓存回退路径继续正常，这次同步的重点是把主分支里误写成 `2026-04-30` 月频锚点的 `Path 2` 结论纠回当前真实缓存口径。
+- 当前 `results_hkconnect/strategy_comparison_hkconnect.csv` 与 `tracked_winners_hkconnect.json` 的 SHA256 分别是 `54097028c3eaea664cb74a26890358c0ff5934a75943a3b0c591655fc4c9efbc` 与 `6ee86d107dc61a23e9b0ef45b839507a34bca7f9a86139c0ee3cb365d0dfe2e8`；当前 tracked winners 继续维持：
+  - `since_2017_01 / since_2020_01`：`hkconnect_path2_theme_monthly`（`23.89% CAGR / -18.86% MaxDD / 1.2055 Sharpe / 6.62 Turn`）
+  - `since_2023_01`：`hkconnect_path2_theme_biweekly`（`48.92% CAGR / -16.47% MaxDD / 1.5334 Sharpe / 14.46 Turn`）
+  - `since_2025_01`：`hkconnect_path2_breakout_biweekly`（`136.68% CAGR / -8.87% MaxDD / 2.1734 Sharpe / 18.58 Turn`）
+  - `robust`：`hkconnect_path2_theme_biweekly`（`meanCAGR 57.71% / minCAGR 22.79%`）
+- 这意味着当前港股 `Path 2` 的默认锚点并没有回到月频全覆盖，而是继续保持 `theme_monthly / theme_biweekly / breakout_biweekly` 的分工结构；`since_2026_01` raw leader 仍是 `hkconnect_path2_breakout_monthly`（`188.57% CAGR / -4.77% MaxDD / 2.2393 Sharpe / 7.47 Turn`）。
+- 下一轮港股 `Path 2` 继续维持 `theme_monthly / theme_biweekly / breakout_biweekly` 三条主线，不新增港股候选族，也不把 `biweekly / weekly` 从当前 tracked winner 结构中移除。
