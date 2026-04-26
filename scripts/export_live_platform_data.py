@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -12,6 +13,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from backtest_marketcap_etf import CORE_ACTIVE_FAMILY_BASE_IDS
+from scripts.suggestion_intervals import load_interval_archive as load_research_interval_archive
 
 RESULTS_DIR = ROOT / "results"
 HK_RESULTS_DIR = ROOT / "results_hkconnect"
@@ -36,6 +38,7 @@ SAMPLE_TAG_LABELS = {
     "since_2025_01": "2025窗口",
     "since_2026_01": "2026观察窗",
 }
+SUGGESTION_INTERVAL_LIMIT = 200
 
 
 def infer_adjustment_style(strategy_id: str, rebalance_frequency: str) -> str:
@@ -184,6 +187,130 @@ def _load_equity_curve_points(path: Path) -> list[dict[str, Any]]:
     return points
 
 
+def _normalize_holdings_for_signature(holdings: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    normalized: list[dict[str, Any]] = []
+    for row in holdings or []:
+        ts_code = str(row.get("ts_code") or "").strip()
+        if not ts_code:
+            continue
+        normalized.append(
+            {
+                "ts_code": ts_code,
+                "name": str(row.get("name") or ts_code),
+                "weight": round(float(row.get("weight", 0.0)), 8),
+            }
+        )
+    normalized.sort(key=lambda item: item["ts_code"])
+    return normalized
+
+
+def _canonicalize_holdings_for_exposure(holdings: list[dict[str, Any]], target_total_exposure: float) -> list[dict[str, Any]]:
+    normalized = _normalize_holdings_for_signature(holdings)
+    if normalized:
+        return normalized
+    target_total_exposure = float(target_total_exposure)
+    if target_total_exposure <= 1e-6:
+        return [{"ts_code": "CASH", "name": "现金", "weight": 1.0}]
+    return normalized
+
+
+def _build_suggestion_content_hash(target_total_exposure: float, holdings: list[dict[str, Any]]) -> str:
+    holdings = _canonicalize_holdings_for_exposure(holdings, target_total_exposure)
+    payload = {
+        "target_total_exposure": round(float(target_total_exposure), 8),
+        "holdings": holdings,
+    }
+    encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def _target_exposure_from_holdings(holdings: list[dict[str, Any]]) -> float:
+    if not holdings:
+        return 0.0
+    cash_weight = 0.0
+    for row in holdings or []:
+        if str(row.get("ts_code")) == "CASH":
+            cash_weight = float(row.get("weight", 0.0))
+            break
+    return max(0.0, min(1.0, 1.0 - cash_weight))
+
+
+def _bootstrap_suggestion_intervals(history_windows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    snapshots: list[dict[str, Any]] = []
+    seen_dates: set[str] = set()
+    for window in history_windows or []:
+        for snapshot in window.get("snapshots", []):
+            date = str(snapshot.get("date") or "")
+            if not date or date in seen_dates:
+                continue
+            seen_dates.add(date)
+            snapshots.append(snapshot)
+    snapshots.sort(key=lambda item: str(item.get("date", "")))
+    intervals: list[dict[str, Any]] = []
+    for snapshot in snapshots:
+        holdings = _normalize_holdings_for_signature(snapshot.get("holdings", []))
+        target_total_exposure = _target_exposure_from_holdings(holdings)
+        holdings = _canonicalize_holdings_for_exposure(holdings, target_total_exposure)
+        content_hash = _build_suggestion_content_hash(target_total_exposure, holdings)
+        date = str(snapshot.get("date") or "")
+        if intervals and intervals[-1]["content_hash"] == content_hash:
+            intervals[-1]["last_confirmed_date"] = date
+            intervals[-1]["updated_at"] = date
+            intervals[-1]["holdings"] = holdings
+            intervals[-1]["target_total_exposure"] = target_total_exposure
+            continue
+        intervals.append(
+            {
+                "first_effective_date": date,
+                "last_confirmed_date": date,
+                "updated_at": date,
+                "target_total_exposure": target_total_exposure,
+                "holdings": holdings,
+                "content_hash": content_hash,
+                "source": "snapshot_backfill",
+            }
+        )
+    return intervals[-SUGGESTION_INTERVAL_LIMIT:]
+
+
+def _load_existing_suggestion_intervals(strategy_id: str, sample_tag: str, *, market_scope: str = "a_share") -> list[dict[str, Any]]:
+    path_builder = build_hk_result_path if market_scope == "hkconnect" else build_result_path
+    result_dir = path_builder(strategy_id, sample_tag, "summary.json").parent
+    return load_research_interval_archive(result_dir)[-SUGGESTION_INTERVAL_LIMIT:]
+
+
+def _attach_suggestion_intervals(strategy_id: str, sample_view: dict[str, Any], *, market_scope: str = "a_share") -> dict[str, Any]:
+    sample_tag = str(sample_view.get("sample_tag") or "")
+    history_windows = sample_view.get("history_windows") or []
+    intervals = _load_existing_suggestion_intervals(strategy_id, sample_tag, market_scope=market_scope) or _bootstrap_suggestion_intervals(history_windows)
+    holdings = _canonicalize_holdings_for_exposure(sample_view.get("latest_weights") or [], float(sample_view.get("target_total_exposure", 0.0)))
+    target_total_exposure = float(sample_view.get("target_total_exposure", 0.0))
+    current_date = str(sample_view.get("updated_at") or "")
+    content_hash = _build_suggestion_content_hash(target_total_exposure, holdings)
+    if intervals and intervals[-1]["content_hash"] == content_hash:
+        intervals[-1]["last_confirmed_date"] = max(str(intervals[-1]["last_confirmed_date"]), current_date)
+        intervals[-1]["updated_at"] = current_date
+        intervals[-1]["target_total_exposure"] = target_total_exposure
+        intervals[-1]["holdings"] = holdings
+        intervals[-1]["source"] = "persisted"
+    else:
+        intervals.append(
+            {
+                "first_effective_date": current_date,
+                "last_confirmed_date": current_date,
+                "updated_at": current_date,
+                "target_total_exposure": target_total_exposure,
+                "holdings": holdings,
+                "content_hash": content_hash,
+                "source": "persisted",
+            }
+        )
+    intervals = intervals[-SUGGESTION_INTERVAL_LIMIT:]
+    sample_view["suggestion_intervals"] = intervals
+    sample_view["current_suggestion_interval"] = intervals[-1] if intervals else None
+    return sample_view
+
+
 def guess_sample_tag(track_key: str) -> str:
     if track_key == "since_2017_only":
         return "since_2017_01"
@@ -256,6 +383,11 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
             else:
                 risk_state = "caution"
 
+    history_windows = _build_weight_history_windows(weight_history_path)
+    latest_weights = _canonicalize_holdings_for_exposure(latest_weights, target_exposure)
+    if latest_weights and latest_weights[0].get("ts_code") == "CASH":
+        latest_weights = [{"ts_code": "CASH", "name": "现金", "weight": 1.0, "latest_price": None}]
+
     return {
         "sample_tag": sample_tag,
         "sample_tag_label": SAMPLE_TAG_LABELS.get(sample_tag, sample_tag),
@@ -265,7 +397,7 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
         "target_total_exposure": target_exposure,
         "risk_state": risk_state,
         "latest_weights": latest_weights,
-        "history_windows": _build_weight_history_windows(weight_history_path),
+        "history_windows": history_windows,
         "equity_curve_points": _load_equity_curve_points(equity_curve_path),
         "summary_meta": {
             "sample_start": summary.get("sample_start"),
@@ -287,11 +419,12 @@ def load_strategy_snapshot(base_id: str, sample_tag: str, *, market_scope: str =
     sample_view = _load_sample_view(base_id, sample_tag, market_scope=market_scope)
     if sample_view is None:
         raise FileNotFoundError(f"Missing summary for {base_id} / {sample_tag}")
+    sample_view = _attach_suggestion_intervals(base_id, sample_view, market_scope=market_scope)
     sample_views: dict[str, Any] = {}
     for tag in SAMPLE_TAGS:
         view = _load_sample_view(base_id, tag, market_scope=market_scope)
         if view is not None:
-            sample_views[tag] = view
+            sample_views[tag] = _attach_suggestion_intervals(base_id, view, market_scope=market_scope)
 
     display_name = (
         sample_view.get("summary_meta", {}).get("strategy_base_name")

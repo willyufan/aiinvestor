@@ -2,11 +2,14 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 os.environ.setdefault("MPLCONFIGDIR", str(ROOT / "data_cache" / "mplconfig"))
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 import matplotlib
 import numpy as np
@@ -17,6 +20,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
 from matplotlib.patches import Rectangle
+from scripts.suggestion_intervals import sync_interval_archives_from_frame
 
 
 RESULTS_DIR = ROOT / "results_hkconnect"
@@ -288,10 +292,12 @@ def main() -> None:
 
     payload = _build_payload(latest)
     TRACKED_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    synced = sync_interval_archives_from_frame(latest, RESULTS_DIR, id_column="strategy_id")
     for path_name in ("path1", "path2"):
         _render_chart(latest, payload, path_name)
 
     print(f"[OK] wrote {TRACKED_JSON}")
+    print(f"[OK] synced suggestion intervals for {synced} HK Connect result dirs")
     for path_name, output_path in OUTPUT_PATHS.items():
         print(f"[OK] wrote {path_name} chart: {output_path}")
 

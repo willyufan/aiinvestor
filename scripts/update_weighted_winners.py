@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import ast
 import json
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
@@ -12,6 +13,10 @@ import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.suggestion_intervals import sync_interval_archives_from_frame
 RESULTS_DIR = ROOT / "results"
 DEFAULT_COMPARISON_CSV = RESULTS_DIR / "strategy_comparison_base_method.csv"
 README_PATH = ROOT / "README.md"
@@ -1258,11 +1263,13 @@ def main() -> None:
         path1_robust_id=path1_robust_id,
         path2_robust_id=path2_id,
     )
+    synced = sync_interval_archives_from_frame(latest, RESULTS_DIR, id_column="strategy_base_id")
 
     print(f"[OK] Updated {args.readme}")
     print(f"[OK] Wrote {args.write_json}")
     print(f"[OK] Wrote {args.history_json}")
     print(f"[OK] Wrote {args.history_md}")
+    print(f"[OK] Synced suggestion intervals for {synced} A-share result dirs")
     print(f"[OK] 2017-window winner: {window_2017_id} (CAGR={_fmt_pct(window_2017_metrics.cagr)}, Sharpe={window_2017_metrics.sharpe:.4f})")
     print(f"[OK] 2023-window winner: {window_2023_id} (CAGR={_fmt_pct(window_2023_metrics.cagr)}, Sharpe={window_2023_metrics.sharpe:.4f})")
     print(f"[OK] 2020-window winner: {window_2020_id} (CAGR={_fmt_pct(window_2020_metrics.cagr)}, Sharpe={window_2020_metrics.sharpe:.4f})")

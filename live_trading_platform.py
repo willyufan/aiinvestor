@@ -1768,6 +1768,22 @@ def build_rebalance_change_rows(latest_weights: list[dict], history_windows: lis
     }
 
 
+def filter_suggestion_intervals(intervals: list[dict], start_date: str = "", end_date: str = "") -> list[dict]:
+    if not intervals:
+        return []
+    filtered: list[dict] = []
+    for interval in intervals:
+        first_date = str(interval.get("first_effective_date") or "")
+        last_date = str(interval.get("last_confirmed_date") or "")
+        if start_date and last_date and last_date < start_date:
+            continue
+        if end_date and first_date and first_date > end_date:
+            continue
+        filtered.append(interval)
+    filtered.sort(key=lambda item: (str(item.get("first_effective_date", "")), str(item.get("last_confirmed_date", ""))), reverse=True)
+    return filtered
+
+
 def render_exposure_return_curve(snapshots: list[dict], equity_curve_points: list[dict], start_date: str = "", end_date: str = "") -> str:
     if not snapshots:
         return "<div class='muted'>暂无仓位与收益率曲线。</div>"
@@ -2066,6 +2082,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
     active_sample_label = str(active_meta.get("sample_label") or active_view.get("sample_tag_label") or selected_sample_tag)
     active_sample_start = str(active_meta.get("sample_start") or "")
     active_sample_end = str(active_meta.get("sample_end") or active_view.get("updated_at") or "")
+    current_interval = active_view.get("current_suggestion_interval") or {}
 
     sample_options = []
     for key in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"):
@@ -2150,6 +2167,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
     history_selector = ""
     history_html = "<div class='muted'>暂无历史持仓快照。</div>"
     exposure_html = "<div class='muted'>暂无仓位与收益率曲线。</div>"
+    interval_summary_html = ""
     if history_windows:
         options = []
         all_selected = " selected" if selected_key == "all" else ""
@@ -2174,21 +2192,56 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             start_date=str(selected_history.get("start_date", "")),
             end_date=str(selected_history.get("end_date", "")),
         )
+        interval_summary = current_interval if isinstance(current_interval, dict) else {}
+        if interval_summary:
+            first_effective = str(interval_summary.get("first_effective_date") or "")
+            last_confirmed = str(interval_summary.get("last_confirmed_date") or "")
+            unchanged_text = "建议自首次生效以来持续未变。" if first_effective and last_confirmed and first_effective != last_confirmed else "当前建议为最新已记录状态。"
+            interval_summary_html = (
+                "<div class='card' style='margin-top:16px'><h2>当前建议区间</h2>"
+                f"<p>首次生效日：{html.escape(first_effective)} | 最新确认日：{html.escape(last_confirmed)}</p>"
+                f"<p class='muted'>{html.escape(unchanged_text)}</p>"
+                "</div>"
+            )
+        intervals = filter_suggestion_intervals(
+            active_view.get("suggestion_intervals") or [],
+            start_date=str(selected_history.get("start_date", "")),
+            end_date=str(selected_history.get("end_date", "")),
+        )
         snapshot_blocks = []
-        for snapshot in selected_history["snapshots"]:
-            rows_html = "".join(
-                f"<tr><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td>{fmt_pct(float(row['weight']))}</td></tr>"
-                for row in snapshot["holdings"]
-            )
-            snapshot_blocks.append(
-                "<div class='card' style='margin-top:12px'>"
-                f"<h3>调仓日：{html.escape(snapshot['date'])}</h3>"
-                "<table><thead><tr><th>代码</th><th>名称</th><th>权重</th></tr></thead><tbody>"
-                + rows_html
-                + "</tbody></table></div>"
-            )
+        if intervals:
+            for interval in intervals:
+                rows_html = "".join(
+                    f"<tr><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td>{fmt_pct(float(row['weight']))}</td></tr>"
+                    for row in interval.get("holdings", [])
+                )
+                first_effective = str(interval.get("first_effective_date") or "")
+                last_confirmed = str(interval.get("last_confirmed_date") or "")
+                snapshot_blocks.append(
+                    "<div class='card' style='margin-top:12px'>"
+                    f"<h3>首次生效日：{html.escape(first_effective)} | 最新确认日：{html.escape(last_confirmed)}</h3>"
+                    f"<p class='muted'>建议仓位：{fmt_pct(float(interval.get('target_total_exposure', 0.0)))}；同一条建议内容在该区间内持续未变。</p>"
+                    "<table><thead><tr><th>代码</th><th>名称</th><th>权重</th></tr></thead><tbody>"
+                    + rows_html
+                    + "</tbody></table></div>"
+                )
+        else:
+            for snapshot in selected_history["snapshots"]:
+                rows_html = "".join(
+                    f"<tr><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td>{fmt_pct(float(row['weight']))}</td></tr>"
+                    for row in snapshot["holdings"]
+                )
+                snapshot_blocks.append(
+                    "<div class='card' style='margin-top:12px'>"
+                    f"<h3>调仓日：{html.escape(snapshot['date'])}</h3>"
+                    "<table><thead><tr><th>代码</th><th>名称</th><th>权重</th></tr></thead><tbody>"
+                    + rows_html
+                    + "</tbody></table></div>"
+                )
+        note = "历史建议区间优先展示“首次生效日 / 最新确认日”。较早历史若当时尚未做建议区间存档，则只能按现有快照日期回填。"
         history_html = (
-            f"<p class='muted'>当前展示窗口：{html.escape(selected_history['label'])}。每个快照日期均为该次调仓后的目标持仓日期；{html.escape(rebalance_frequency)}策略会展示对应的月度/双周/单周调仓建议。</p>"
+            f"<p class='muted'>当前展示窗口：{html.escape(selected_history['label'])}。每条建议内容不变时，会合并为一个建议区间；{html.escape(rebalance_frequency)}策略会展示对应的月度/双周/单周建议。</p>"
+            f"<p class='muted'>{html.escape(note)}</p>"
             + "".join(snapshot_blocks)
         )
     body = (
@@ -2203,6 +2256,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         + f"<div class='card' style='margin-top:16px'><h2>最新调仓建议（{html.escape(rebalance_frequency)} / {html.escape(active_sample_label)}）</h2><table><thead><tr><th>代码</th><th>名称</th><th>目标权重</th><th>最新价格</th></tr></thead><tbody>"
         + "".join(weight_rows)
         + "</tbody></table></div>"
+        + interval_summary_html
         + change_summary_html
         + change_rows_html
         + exposure_html
