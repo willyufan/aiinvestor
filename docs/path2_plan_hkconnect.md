@@ -198,4 +198,4 @@
   - `since_2023_01`：`hkconnect_path2_theme_biweekly`（`48.92% CAGR / -16.47% MaxDD / 1.5334 Sharpe / 14.46 Turn`）
   - `since_2025_01`：`hkconnect_path2_breakout_biweekly`（`136.68% CAGR / -8.87% MaxDD / 2.1734 Sharpe / 18.58 Turn`）
   - `robust`：`hkconnect_path2_theme_biweekly`（`meanCAGR 57.71% / minCAGR 22.79%`）
-- `since_2026_01` raw leader 仍是 `hkconnect_path2_breakout_monthly`，当前为 `188.57% CAGR / -4.77% MaxDD / 2.2393 Sharpe / 7.47 Turn`。下一轮继续维持 `theme_monthly / theme_biweekly / breakout_biweekly` 三条主线，不新增港股候选族；本轮只做 tracked payload、README / HISTORY 与港股对比图的 sync-only 刷新。
+- `since_2026_01` raw leader 仍是 `hkconnect_path2_breakout_monthly`，当前为 `188.57% CAGR / -4.77% MaxDD / 2.2393 Sharpe / 7.47 Turn`。下一轮继续维持 `theme_monthly / theme_biweekly / breakout_biweekly` 三条主线，不新增港股候选族；本轮只做 tracked payload、README 港股摘要与港股对比图的 sync-only 刷新。

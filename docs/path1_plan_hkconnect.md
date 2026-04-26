@@ -165,11 +165,11 @@
 
 ## 本轮补充（2026-04-26）
 
-- 本轮再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，随后执行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py` 与 `./.venv/bin/python scripts/export_live_platform_data.py`：`trade_calendar` 在线更新继续失败，但本地缓存回退路径正常，港股 Path 1 独立评估未受阻。
-- 当前 `results_hkconnect/strategy_comparison_hkconnect.csv` 与 `tracked_winners_hkconnect.json` 的 SHA256 分别更新为 `54097028c3eaea664cb74a26890358c0ff5934a75943a3b0c591655fc4c9efbc` 与 `6ee86d107dc61a23e9b0ef45b839507a34bca7f9a86139c0ee3cb365d0dfe2e8`；这轮仍是同一 `sample_end=2026-04-24` 下的 metrics 漂移同步，不是新的 winner 切换。
+- 本轮再次运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，随后执行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py` 与 `./.venv/bin/python scripts/export_live_platform_data.py`：`trade_calendar` 在线更新继续失败，但离线缓存回退路径正常，港股 `Path 1` 独立评估未受阻。
+- 当前 `results_hkconnect/strategy_comparison_hkconnect.csv` 与 `tracked_winners_hkconnect.json` 的 SHA256 分别是 `54097028c3eaea664cb74a26890358c0ff5934a75943a3b0c591655fc4c9efbc` 与 `6ee86d107dc61a23e9b0ef45b839507a34bca7f9a86139c0ee3cb365d0dfe2e8`；这轮仍是同一 `sample_end=2026-04-24` 下的 metrics 漂移同步，不是新的 `Path 1` winner 切换。
 - 当前四窗口 tracked winner 继续全部是 `hkconnect_path1_monthly_equal_buffered`：
   - `since_2017_01 / since_2020_01`：`23.32% CAGR / -14.78% MaxDD / 1.3625 Sharpe / 2.88 Turn`
   - `since_2023_01`：`34.40% CAGR / -14.78% MaxDD / 1.7051 Sharpe / 2.89 Turn`
   - `since_2025_01`：`41.72% CAGR / -14.78% MaxDD / 1.5563 Sharpe / 3.47 Turn`
 - `robust_candidate` 继续是 `hkconnect_path1_monthly_equal_buffered`（`meanCAGR 30.69% / minCAGR 23.32%`）；`since_2026_01` 观察窗 raw leader 仍是 `hkconnect_path1_monthly_lowvol`（`1.41% CAGR / -5.52% MaxDD / 0.1367 Sharpe / 3.10 Turn`）。
-- 本轮需要同步刷新 README / HISTORY / 港股对比图与 tracked payload，但不新增港股 `Path 1` 候选族；下一轮仍只保留 `monthly_equal_buffered` 主攻和 `monthly_lowvol` 低回撤对照。
+- 本轮只把 README 港股摘要、tracked payload 与港股对比图同步到当前数值，不新增港股 `Path 1` 候选族；下一轮继续只保留 `monthly_equal_buffered` 主攻和 `monthly_lowvol` 低回撤对照。

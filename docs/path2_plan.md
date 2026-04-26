@@ -555,20 +555,13 @@
 
 ## 21. 本轮补充（2026-04-26）
 
-- 本轮按自动化规则先把独立 worktree 对齐到主工作树 `main` 基线后，再运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py`。由于 `git fetch origin` 受网络限制失败，远端线没有参与本轮 continuity 更新。
-- 当前 `path2_candidate_pass.json` 的真实口径已扩到 `candidate_count=117`；五个 family 的规模分别为：
-  - `high_concentration_breakout=49`
-  - `high_growth_theme=23`
-  - `momentum_equal_weight_elastic=16`
-  - `biweekly_rebalance_aggressive=4`
-  - `weekly_rebalance_aggressive=4`
+- 本轮同样先重查基线：`git fetch origin` 失败后，因当前 worktree 已知 `origin/main` 不是主工作树 `main` 的后继，本轮回退到本地主工作树 `main`（`bb3a7d7`）作为 publish baseline，再在该基线上重跑独立扫描。
+- 运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py` 后，当前 `Path 2` 独立候选宇宙为 `117` 个 candidates；五条 family 的规模分别为 `49 / 23 / 16 / 4 / 4`。新增体量主要重新落在 `high_concentration_breakout`，说明这轮更多是在完整缓存口径下把高集中家族成员补齐，而不是出现新的高频主线。
 - 四窗口 tracked winners 与 `robust_candidate` 继续不变：
   - `since_2017_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`
-  - `since_2020_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（仍只做到 `32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`）
-  - `since_2023_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（`55.97% CAGR / 1.1684 Sharpe / -50.82% MaxDD / 5.32 Turn`）
+  - `since_2020_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
+  - `since_2023_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`
   - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`
-  - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`（`meanCAGR 58.51% / minCAGR 17.57%`）
-- 当前最有价值的新信息仍然不是 winner 改写，而是“候选宇宙已经够宽，但高频族依旧没有证据值得追加预算”：
-  - family 宇宙已稳定超过 `100+`
-  - `biweekly / weekly` 仍只各有 `4` 个候选，且没有改写主线
-  - 下一轮新增预算继续优先投向更适配 `since_2020_01` 的中周期高收益原型，而不是继续追加频率克隆
+  - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`
+- 这轮最关键的约束没有变化：`since_2020_01` 上限依旧停在 `32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`，而 `biweekly / weekly` 两条高频族依旧只有 `4 / 4` 个候选，且没有任何一条能接近改写主线。因此本轮只把 `results/path2_candidate_pass.json`、README 自动区块与 A 股对比图同步到当前口径，不额外补跑确认回测。
+- 下一轮继续把新增预算优先投向更适配 `since_2020_01` 的中周期高收益原型，并继续压紧 family membership 口径；不继续给 `biweekly / weekly` 高频克隆追加预算。
