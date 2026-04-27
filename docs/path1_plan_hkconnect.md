@@ -1,5 +1,17 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-04-28）
+
+- 本轮继续单独运行 `./.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，港股 Path 1 结论不并入 A 股 winner。
+- Path 1 仍只保留 `hkconnect_path1_monthly_equal_buffered` 主攻与 `hkconnect_path1_monthly_lowvol` 低回撤对照，不新增候选族。
+- 跑完后以 `results_hkconnect/strategy_comparison_hkconnect.csv` 与 `results_hkconnect/tracked_winners_hkconnect.json` 为准，确认是否只是 sample/metrics 同步还是出现窗口赢家切换。
+
+### 本轮快筛记录（2026-04-28 00:08 CST）
+
+- 运行 `./.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`：`trade_calendar` 在线更新失败，已回退本地缓存。
+- 运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py` 后，港股 Path 1 tracked payload 与图表没有新增 git diff。
+- 当前四窗口 winner 继续全部是 `hkconnect_path1_monthly_equal_buffered`；`sample_end` 仍为 `2026-03-31`，`robust_candidate` 仍是同一策略（meanCAGR `27.97% / minCAGR 21.77%`）。
+
 ## 定位
 - 独立于当前 A 股 Path 1
 - 仅限沪港通标的（当前使用 Tushare `stock_hsgt` 最新可得名单作为静态池）

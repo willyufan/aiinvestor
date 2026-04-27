@@ -13,6 +13,18 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-04-28）
+
+- 本轮继续独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，不要求先打赢 Path 1 才记录结果。
+- 候选宇宙维持五个 family：`high_concentration_breakout / high_growth_theme / momentum_equal_weight_elastic / biweekly_rebalance_aggressive / weekly_rebalance_aggressive`。
+- 重点仍是维持 `100+` family-ranked universe，并优先观察是否出现更适配 `since_2020_01` 的中周期高收益原型；若无 winner 改写，只同步记录扫描结果。
+
+### 本轮快筛记录（2026-04-28 00:06 CST）
+
+- 运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选数 `103`，五个 family 规模继续为 `43 / 23 / 16 / 4 / 4`。
+- 四窗口 tracked winner 与 robust candidate 的身份未改写，只出现缓存指标小幅漂移：`since_2020_01` winner 仍是 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（CAGR `32.07%`），`robust` 仍是 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（meanCAGR `57.28% / minCAGR 17.78%`）。
+- 当前 `since_2020_01` 仍未冲到 `40%+ CAGR`，下一轮继续优先寻找更适配 2020 的中周期高收益原型，而不是扩大高频候选权重。
+
 ## 1. 当前目标
 
 - 路线：`Path 2` 无约束上限探索

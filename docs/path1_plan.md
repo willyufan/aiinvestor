@@ -4,6 +4,18 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-04-28）
+
+- 本轮继续限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不新增 Path 1 候选族。
+- 快筛优先运行 `.venv/bin/python scripts/winner_only_pass.py`，维持约 `24-28` 个 fast-pass base candidates 的预算。
+- `weekly_exposure_path` 仍优先比较 `__port_weekly_exposure_buffered` 与 `__port_weekly_exposure_asym`，只在候选明确改写窗口赢家时补跑确认回测。
+
+### 本轮快筛记录（2026-04-28 00:05 CST）
+
+- 运行 `.venv/bin/python scripts/winner_only_pass.py`：`base_candidates=24 / total_candidates=168 / evaluated=168`。
+- 四个 tracked winners 未改写；本轮不触发确认回测。
+- 最接近但未通过阈值的候选仍集中在 `holding_shape / weekly_exposure_path`：`since_2020_01` 的 `aggr_05_95_prom7__sat_three_stage_buffered` 把 CAGR 抬到 `27.83%`，但 MaxDD 扩到 `-25.00%`；`since_2025_01` 的 `aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered` 把 CAGR 抬到 `104.59%`，但 Sharpe 低于当前 tracked winner。
+
 ## 1. 当前目标
 
 - 路线：`Path 1` 渐进优化

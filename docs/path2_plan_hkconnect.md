@@ -1,5 +1,17 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-04-28）
+
+- 本轮继续单独评估港股 Path 2 的 `theme_monthly / breakout_monthly / equal_elastic_monthly` 当前锚点结构，不复用 A 股 Path 2 结论。
+- 默认比较对象仍是现有 7 个港股 Path 2 候选，`since_2026_01` 只作为观察窗。
+- 跑完后重点核对 `robust_candidate` 是否仍由 `hkconnect_path2_equal_elastic_monthly` 占据，以及 `since_2025_01 / since_2026_01` 是否继续由 `breakout_monthly` 领先。
+
+### 本轮快筛记录（2026-04-28 00:08 CST）
+
+- 港股五窗口回测完成，并已运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`；本轮未产生新的港股 tracked JSON 或港股图表 git diff。
+- 当前 Path 2 tracked winners 继续维持：`since_2017_01 / since_2020_01 / since_2023_01` 为 `hkconnect_path2_theme_monthly`，`since_2025_01` 为 `hkconnect_path2_breakout_monthly`。
+- `robust_candidate` 继续是 `hkconnect_path2_equal_elastic_monthly`（meanCAGR `36.01% / minCAGR 17.59% / worstMaxDD -38.60%`）；`since_2026_01` 仍只作为观察窗。
+
 ## 定位
 - 独立于当前 A 股 Path 2
 - 仅限沪港通标的（当前使用 Tushare `stock_hsgt` 最新可得名单作为静态池）
