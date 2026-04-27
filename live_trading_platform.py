@@ -1776,9 +1776,10 @@ def render_page(title: str, body: str) -> str:
     /* ── Header / Nav ── */
     header {{ border-bottom: 1.5px solid var(--rule); padding: 0; }}
     header nav {{ max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 24px; }}
-    nav a {{ color: var(--ink); text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .55; transition: opacity .15s; }}
+    nav a {{ color: var(--ink); text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .45; transition: opacity .15s; }}
     nav a:hover {{ opacity: 1; }}
     nav a:first-child {{ font-family: var(--serif); font-size: 16px; letter-spacing: -.01em; text-transform: none; font-weight: 400; opacity: 1; }}
+    nav a.active {{ opacity: 1; border-bottom: 2px solid var(--ink); padding-bottom: 2px; }}
     /* ── Main ── */
     main {{ max-width: 1280px; margin: 0 auto; padding: 32px 32px 64px; }}
     /* ── Typography ── */
@@ -1843,8 +1844,8 @@ def render_page(title: str, body: str) -> str:
   <header>
     <nav>
       <a href="/">AI Investor</a>
-      <a href="/strategies">策略中心</a>
-      <a href="/accounts">账户中心</a>
+      <a href="/strategies"{"class='active'" if "策略" in title else ""}>策略中心</a>
+      <a href="/accounts"{"class='active'" if "账户" in title else ""}>账户中心</a>
     </nav>
   </header>
   <main>{body}</main>
