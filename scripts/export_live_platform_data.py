@@ -223,12 +223,15 @@ def attach_latest_prices(rows: list[dict[str, Any]], latest_price_map: dict[str,
     attached = []
     for row in rows:
         ts_code = str(row.get("ts_code"))
+        latest_price = latest_price_map.get(ts_code)
+        if latest_price is None and ts_code != "CASH":
+            latest_price = find_latest_price(ts_code)
         attached.append(
             {
                 "ts_code": ts_code,
                 "name": str(row.get("name", "")),
                 "weight": float(row.get("weight", 0.0)),
-                "latest_price": latest_price_map.get(ts_code),
+                "latest_price": latest_price,
             }
         )
     return attached
