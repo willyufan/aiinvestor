@@ -1760,35 +1760,89 @@ def render_page(title: str, body: str) -> str:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{html.escape(title)}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; background: #f5f7fb; color: #1f2937; }}
-    header {{ background: #0f172a; color: white; padding: 16px 24px; }}
-    nav a {{ color: white; margin-right: 16px; text-decoration: none; font-weight: 600; }}
-    main {{ padding: 24px; max-width: 1280px; margin: 0 auto; }}
+    *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+    :root {{
+      --bg: #f9f6f1; --ink: #0f0f0f; --muted: #6b6b6b; --rule: #0f0f0f;
+      --accent: #c8392b; --green: #1a7a4a; --amber: #b06000;
+      --card-bg: #f2ede5;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
+    }}
+    body {{ font-family: var(--sans); background: var(--bg); color: var(--ink); font-size: 14px; line-height: 1.6; }}
+    /* ── Header / Nav ── */
+    header {{ border-bottom: 1.5px solid var(--rule); padding: 0; }}
+    header nav {{ max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 24px; }}
+    nav a {{ color: var(--ink); text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .55; transition: opacity .15s; }}
+    nav a:hover {{ opacity: 1; }}
+    nav a:first-child {{ font-family: var(--serif); font-size: 16px; letter-spacing: -.01em; text-transform: none; font-weight: 400; opacity: 1; }}
+    /* ── Main ── */
+    main {{ max-width: 1280px; margin: 0 auto; padding: 32px 32px 64px; }}
+    /* ── Typography ── */
+    h1 {{ font-family: var(--serif); font-size: clamp(28px,4vw,44px); letter-spacing: -.02em; line-height: 1.1; margin-bottom: 16px; }}
+    h2 {{ font-family: var(--serif); font-size: clamp(18px,2.5vw,26px); letter-spacing: -.01em; margin-bottom: 12px; }}
+    h3 {{ font-size: 13px; font-weight: 700; letter-spacing: .06em; margin-bottom: 8px; }}
+    p {{ margin-bottom: 8px; }}
+    a {{ color: var(--ink); }}
+    code {{ font-size: 12px; background: #ede8df; padding: 2px 6px; letter-spacing: .02em; }}
+    label {{ font-size: 12px; font-weight: 600; letter-spacing: .06em; color: var(--muted); display: block; margin-bottom: 4px; }}
+    /* ── Grid ── */
     .grid {{ display: grid; gap: 16px; }}
     .grid-4 {{ grid-template-columns: repeat(4, minmax(0, 1fr)); }}
     .grid-2 {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
-    .card {{ background: white; border-radius: 14px; padding: 18px; box-shadow: 0 4px 16px rgba(15,23,42,.08); }}
-    h1,h2,h3 {{ margin: 0 0 12px 0; }}
-    table {{ width: 100%; border-collapse: collapse; background: white; }}
-    th, td {{ padding: 10px 12px; border-bottom: 1px solid #e5e7eb; text-align: left; font-size: 14px; }}
-    th {{ background: #eef2ff; }}
-    .muted {{ color: #64748b; }}
-    .pill {{ display: inline-block; padding: 4px 10px; border-radius: 999px; background: #e0f2fe; color: #075985; font-size: 12px; font-weight: 700; }}
-    .danger {{ background: #fee2e2; color: #991b1b; }}
-    .warn {{ background: #fef3c7; color: #92400e; }}
-    .ok {{ background: #dcfce7; color: #166534; }}
+    /* ── Card ── */
+    .card {{ background: var(--card-bg); padding: 20px; border-top: 2px solid var(--ink); margin-bottom: 16px; }}
+    /* ── Tables ── */
+    table {{ width: 100%; border-collapse: collapse; }}
+    th {{ font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 8px 12px; text-align: left; border-bottom: 1.5px solid var(--rule); background: transparent; }}
+    td {{ padding: 9px 12px; border-bottom: 1px solid #e0d8cc; font-size: 13px; }}
+    tr:hover td {{ background: #ede8df; }}
+    /* ── Badges / pills ── */
+    .muted {{ color: var(--muted); }}
+    .pill {{ display: inline-block; padding: 2px 8px; font-size: 11px; font-weight: 700; letter-spacing: .06em; }}
+    .danger {{ background: #f8d7da; color: #721c24; }}
+    .warn   {{ background: #fff3cd; color: #856404; }}
+    .ok     {{ background: #d4edda; color: #155724; }}
+    /* ── Forms ── */
+    select, input[type=text], input[type=number] {{
+      font-family: var(--sans); font-size: 13px; padding: 8px 10px;
+      border: 1.5px solid var(--ink); background: var(--bg); color: var(--ink);
+      border-radius: 0; outline: none; width: 100%;
+    }}
+    select {{ cursor: pointer; }}
     .actions form {{ display: inline-block; margin-right: 8px; }}
-    button {{ background: #2563eb; color: white; border: 0; border-radius: 8px; padding: 8px 12px; cursor: pointer; }}
-    button.secondary {{ background: #475569; }}
-    a.button {{ display: inline-block; background: #2563eb; color: white; padding: 8px 12px; border-radius: 8px; text-decoration: none; }}
-    code {{ background: #f1f5f9; padding: 2px 5px; border-radius: 6px; }}
+    /* ── Buttons ── */
+    button {{
+      font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; background: var(--ink); color: var(--bg);
+      border: 1.5px solid var(--ink); padding: 8px 16px; cursor: pointer;
+      border-radius: 0; transition: background .15s, color .15s;
+    }}
+    button:hover {{ background: #2a2a2a; }}
+    button.secondary {{ background: transparent; color: var(--ink); }}
+    button.secondary:hover {{ background: var(--ink); color: var(--bg); }}
+    a.button {{
+      display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; background: var(--ink); color: var(--bg);
+      border: 1.5px solid var(--ink); padding: 8px 16px; text-decoration: none;
+      transition: background .15s;
+    }}
+    a.button:hover {{ background: #2a2a2a; }}
+    /* ── Details / summary ── */
+    details summary {{ cursor: pointer; padding: 10px 0; font-weight: 600; }}
+    /* ── Misc ── */
+    hr {{ border: none; border-top: 1px solid #e0d8cc; margin: 20px 0; }}
+    ul, ol {{ padding-left: 20px; }}
+    li {{ margin-bottom: 4px; font-size: 13px; }}
   </style>
 </head>
 <body>
   <header>
     <nav>
-      <a href="/">Dashboard</a>
+      <a href="/">AI Investor</a>
       <a href="/strategies">策略中心</a>
       <a href="/accounts">账户中心</a>
     </nav>
