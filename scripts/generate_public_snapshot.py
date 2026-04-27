@@ -22,7 +22,9 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.export_live_platform_data import (
+    _load_sample_view,
     build_strategy_detail_payload,
+    guess_sample_tag,
     SAMPLE_LABELS,
     SAMPLE_TAGS,
     load_json,
