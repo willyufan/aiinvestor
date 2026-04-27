@@ -490,7 +490,7 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
     }
 
 
-def load_strategy_snapshot(base_id: str, sample_tag: str, *, market_scope: str = "a_share") -> dict[str, Any]:
+def build_strategy_detail_payload(base_id: str, sample_tag: str, *, market_scope: str = "a_share") -> dict[str, Any]:
     sample_view = _load_sample_view(base_id, sample_tag, market_scope=market_scope)
     if sample_view is None:
         raise FileNotFoundError(f"Missing summary for {base_id} / {sample_tag}")
@@ -525,6 +525,10 @@ def load_strategy_snapshot(base_id: str, sample_tag: str, *, market_scope: str =
         "summary_meta": sample_view["summary_meta"],
         "market_scope": market_scope,
     }
+
+
+def load_strategy_snapshot(base_id: str, sample_tag: str, *, market_scope: str = "a_share") -> dict[str, Any]:
+    return build_strategy_detail_payload(base_id, sample_tag, market_scope=market_scope)
 
 
 def _pick_hk_robust_candidate(df: pd.DataFrame, path_name: str) -> str | None:

@@ -22,11 +22,11 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.export_live_platform_data import (
-    _load_sample_view,
-    guess_sample_tag,
+    build_strategy_detail_payload,
     SAMPLE_LABELS,
     SAMPLE_TAGS,
     load_json,
+    pick_preferred_sample_tag,
 )
 
 RESULTS_DIR = ROOT / "results"
@@ -232,11 +232,13 @@ def export_strategy_detail(
     winner_type: str,
 ) -> None:
     """Export per-strategy detail JSON for strategy.html detail tab."""
+    preferred_tag = pick_preferred_sample_tag(strategy_id, market_scope=market_scope)
+    try:
+        detail = build_strategy_detail_payload(strategy_id, preferred_tag, market_scope=market_scope)
+    except FileNotFoundError:
+        return
     sample_views_out: dict[str, Any] = {}
-    for tag in SAMPLE_TAGS:
-        view = _load_sample_view(strategy_id, tag, market_scope=market_scope)
-        if view is None:
-            continue
+    for tag, view in (detail.get("sample_views") or {}).items():
         sample_views_out[tag] = {
             "sample_tag": tag,
             "sample_tag_label": view.get("sample_tag_label", tag),
@@ -259,9 +261,9 @@ def export_strategy_detail(
         return
 
     out = {
-        "strategy_id": strategy_id,
-        "display_name": display_name,
-        "market_scope": market_scope,
+        "strategy_id": detail.get("strategy_id", strategy_id),
+        "display_name": detail.get("display_name", display_name),
+        "market_scope": detail.get("market_scope", market_scope),
         "path": path,
         "winner_type": winner_type,
         "sample_views": sample_views_out,
