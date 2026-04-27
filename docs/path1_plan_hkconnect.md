@@ -195,3 +195,13 @@
   - `since_2025_01`：`41.72% CAGR / -14.78% MaxDD / 1.5563 Sharpe / 3.47 Turn`
 - `robust_candidate` 继续是 `hkconnect_path1_monthly_equal_buffered`（`meanCAGR 30.59% / minCAGR 23.12%`）；`since_2026_01` 观察窗 raw leader 仍是 `hkconnect_path1_monthly_lowvol`（`1.41% CAGR / -5.52% MaxDD / 0.1367 Sharpe / 3.10 Turn`）。
 - 下一轮港股 `Path 1` 继续只保留 `monthly_equal_buffered` 主攻和 `monthly_lowvol` 低回撤对照，不新增候选族。
+
+## 本轮补充（2026-04-27 18:09 CST）
+
+- 本轮在主工作树直接运行 `./.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，随后执行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py` 与 `./.venv/bin/python scripts/export_live_platform_data.py`。回测完整完成，但当前 tracked payload 的真实 `as_of` 仍是 `2026-04-24`，月频样本止于 `2026-03-31`，不是上一条记录里的 `2026-04-30` 口径。
+- Path 1 四窗口 tracked winner 没有切换，继续全部是 `hkconnect_path1_monthly_equal_buffered`：
+  - `since_2017_01 / since_2020_01`：`21.77% CAGR / -14.78% MaxDD / 1.2947 Sharpe / 2.91 Turn`
+  - `since_2023_01`：`32.23% CAGR / -14.78% MaxDD / 1.6150 Sharpe / 2.93 Turn`
+  - `since_2025_01`：`36.11% CAGR / -14.78% MaxDD / 1.3635 Sharpe / 3.60 Turn`
+- `robust_candidate` 继续是 `hkconnect_path1_monthly_equal_buffered`（`meanCAGR 27.97% / minCAGR 21.77%`）；`since_2026_01` 观察窗 raw leader 仍是 `hkconnect_path1_monthly_lowvol`（`-27.91% CAGR / -5.52% MaxDD / -2.2545 Sharpe / 3.74 Turn`）。
+- 本轮需要同步 README 与 tracked payload 来纠正港股摘要的 stale `2026-04-30` 数值；下一轮仍只保留 `monthly_equal_buffered` 主攻和 `monthly_lowvol` 低回撤对照，不新增港股 Path 1 候选族。

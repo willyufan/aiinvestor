@@ -591,3 +591,15 @@
   - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`145.68% CAGR / 2.1978 Sharpe / -12.20% MaxDD / 5.29 Turn`）
 - 当前 tracked `robust_candidate` 也回到了更稳的 `cap60` 版本：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`（`meanCAGR 58.51% / minCAGR 17.57% / meanSharpe 1.1406 / worstMaxDD -66.07%`）。这说明最新 shared payload 的真实状态不是上一条记录里的 `cap80 robust`。
 - 下一轮继续把新增预算优先投向更适配 `since_2020_01` 的中周期高收益原型，不给 `biweekly / weekly` 高频克隆追加预算；若要扩新族，优先考虑月频或中周期原型，而不是继续放大家族内的高频副本。
+
+## 24. 本轮补充（2026-04-27 18:09 CST）
+
+- 本轮在主工作树 `main` 上运行 `./.venv/bin/python scripts/path2_candidate_pass.py`，当前 `Path 2` 独立候选宇宙为 `103` 个 candidates；五条 family 规模继续是 `43 / 23 / 16 / 4 / 4`，满足 `100+` family-ranked universe 的最低要求。
+- 四窗口 tracked winners 与本轮扫描输出保持为：
+  - `since_2017_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`（`27.95% CAGR / 1.0039 Sharpe / -46.94% MaxDD / 3.89 Turn`）
+  - `since_2020_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`）
+  - `since_2023_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（`55.29% CAGR / 1.1612 Sharpe / -50.82% MaxDD / 5.32 Turn`）
+  - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`145.68% CAGR / 2.1978 Sharpe / -12.20% MaxDD / 5.29 Turn`）
+  - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（`meanCAGR 58.06% / minCAGR 18.04%`）
+- 关键约束继续不变：`since_2020_01` 上限仍停在 `32.07% CAGR`，距离 `40%+` 目标仍有明显缺口；`biweekly / weekly` 两个高频族各只有 `4` 个候选，且仍没有改写主线。
+- 下一轮继续优先新增更适配 `since_2020_01` 的中周期/月频高收益原型，并继续压紧 family membership 口径；不把预算继续投向高频克隆扩张。

@@ -468,3 +468,13 @@
   - `since_2017_01 / since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered` 仍具更高 raw CAGR，但继续因为 `Sharpe / MaxDD` 不过线而不晋级。
 - 这轮真正发生漂移的是 tracked payload 而不是 fast pass 胜负：`results/weighted_track_winners.json` 的 `robust_candidate` 现已同步为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`（`meanCAGR 47.28% / minCAGR 25.91%`），替代了此前文档里残留的 `ramp90` 口径；因此本轮属于有效的 `sync-only` 刷新。
 - 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个既定方向内推进；`weekly_exposure_path` 仍固定优先 `buffered > asym > base`，不重新打开 `signal_variants`。
+
+## 22. 本轮补充（2026-04-27 18:09 CST）
+
+- 本轮在主工作树 `main` 上重新检查基线：工作树起始干净，`git fetch origin` 因 SSH 网络限制失败，因此按自动化规则继续基于本地 `main`（`40d124d`）运行；本轮没有触碰策略代码。
+- 运行 `./.venv/bin/python scripts/winner_only_pass.py`：输出为 `as_of=2026-04-27 family=path1_fast_family base_candidates=24 total_candidates=168 evaluated=168`，固定五方向候选预算维持在 `24` 个 base candidates。
+- 四窗口 tracked winners 继续没有 clear improvement。当前最接近但未过阈值的候选是：
+  - `since_2020_01`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered`（`27.83% CAGR / 1.0264 Sharpe / -25.00% MaxDD / 0.67 Turn`），收益与 Sharpe 更好，但回撤从当前 winner 的 `-21.59%` 加深到 `-25.00%`，不补确认回测。
+  - `since_2023_01`：`core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`（`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`），仍是收益更高但回撤/风险调整收益明显不合格。
+  - `since_2017_01 / since_2025_01`：`aggr_08_92_prom6_ramp90__port_weekly_exposure_buffered` 系列具备更高 raw CAGR，但继续因为 Sharpe 或 MaxDD 不过线而不晋级。
+- 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个既定方向内推进；`weekly_exposure_path` 仍优先比较 `buffered` 与 `asym`，不重新打开额外信号族。

@@ -100,3 +100,12 @@
 | 2026-04-22 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | 239.88% | 21.31% | -66.07% | 0.6184 | 5.66 |
 | 2026-04-20 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 熊市空仓 and, 留30%仓位, 单票80%) | 593.37% | 35.76% | -38.62% | 0.9175 | 4.79 |
 | 2026-04-19 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | 267.88% | 22.84% | -67.17% | 0.6521 | 5.88 |
+
+## 沪港通独立研究线
+
+### 2026-04-27 同步记录
+
+- 本轮港股 tracked payload 的真实 `as_of` 为 `2026-04-24`，月频样本止于 `2026-03-31`；README 中此前残留的 `2026-04-30` 摘要已同步修正。
+- Path 1 四窗口 winner 继续全部是 `hkconnect_path1_monthly_equal_buffered`，robust candidate 也保持不变；关键窗口为 `since_2020_01 21.77% CAGR / -14.78% MaxDD / 1.2947 Sharpe / 2.91 Turn`、`since_2023_01 32.23% CAGR / -14.78% MaxDD / 1.6150 Sharpe / 2.93 Turn`、`since_2025_01 36.11% CAGR / -14.78% MaxDD / 1.3635 Sharpe / 3.60 Turn`。
+- Path 2 的 tracked winners 为 `hkconnect_path2_theme_monthly`（`since_2017_01 / since_2020_01 / since_2023_01`）与 `hkconnect_path2_breakout_monthly`（`since_2025_01`）；robust candidate 同步为 `hkconnect_path2_equal_elastic_monthly`（`meanCAGR 36.01% / minCAGR 17.59% / worstMaxDD -38.60%`）。
+- `since_2026_01` 仍只作为观察窗：Path 1 raw leader 为 `hkconnect_path1_monthly_lowvol`（`-27.91% CAGR / -5.52% MaxDD`），Path 2 raw leader 为 `hkconnect_path2_breakout_monthly`（`197.40% CAGR / -4.77% MaxDD`）。

@@ -225,3 +225,17 @@
   - `since_2025_01`：`99.22% CAGR / -7.72% MaxDD / 2.6848 Sharpe / 8.62 Turn`
   - `robust_candidate`：`hkconnect_path2_theme_monthly`（`meanCAGR 38.73% / minCAGR 22.79%`）
 - 这说明在样本真正推进到 `2026-04-30` 后，`theme_biweekly / breakout_biweekly` 的 tracked 结构不再成立；下一轮港股 `Path 2` 继续以 `theme_monthly` 作为中长窗口与鲁棒锚点，把 `breakout_monthly` 保留为 `since_2025_01 / since_2026_01` 的短窗口与观察窗 leader，`biweekly / weekly` 版本降回 challenger，不新增候选族。
+
+## 本轮补充（2026-04-27 18:09 CST）
+
+- 本轮在主工作树直接运行 `./.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，随后执行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py` 与 `./.venv/bin/python scripts/export_live_platform_data.py`。这次回测把港股 Path 2 摘要从 stale `2026-04-30` 文案纠回当前真实 tracked payload：`as_of=2026-04-24`，月频样本止于 `2026-03-31`。
+- 当前 Path 2 tracked winners 为：
+  - `since_2017_01 / since_2020_01 / since_2023_01`：`hkconnect_path2_theme_monthly`
+  - `since_2025_01`：`hkconnect_path2_breakout_monthly`
+  - `robust`：`hkconnect_path2_equal_elastic_monthly`
+- 关键指标同步为：
+  - `since_2020_01`：`21.17% CAGR / -18.86% MaxDD / 1.1011 Sharpe / 6.64 Turn`
+  - `since_2023_01`：`29.77% CAGR / -16.07% MaxDD / 1.3587 Sharpe / 6.04 Turn`
+  - `since_2025_01`：`94.85% CAGR / -7.72% MaxDD / 2.5222 Sharpe / 8.65 Turn`
+  - `robust_candidate`：`hkconnect_path2_equal_elastic_monthly`（`meanCAGR 36.01% / minCAGR 17.59% / worstMaxDD -38.60%`）
+- `since_2026_01` 仍只做观察窗：当前 raw leader 是 `hkconnect_path2_breakout_monthly`（`197.40% CAGR / -4.77% MaxDD / 1.6881 Sharpe / 7.10 Turn`）。下一轮继续以 `theme_monthly` 作为中长窗口锚点、`breakout_monthly` 作为短窗口/观察窗锚点，`equal_elastic_monthly` 只作为 robust payload 的当前胜出者保留；不新增港股候选族。
