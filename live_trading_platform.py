@@ -2158,11 +2158,6 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             + "".join(change_rows)
             + "</tbody></table></div>"
         )
-    weight_rows = []
-    for row in active_view["latest_weights"]:
-        weight_rows.append(
-            f"<tr><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td>{fmt_pct(float(row['weight']))}</td><td>{fmt_amt(float(row['latest_price'] or 0.0)) if row['latest_price'] is not None else 'n/a'}</td></tr>"
-        )
     split_latest_html = ""
     if str(split_view.get("mode") or "") == "satellite_weekly_overlay":
         basket_rows = []
@@ -2266,13 +2261,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         + "<div class='card'><h2>窗口表现</h2><table><thead><tr><th>窗口</th><th>Total Return</th><th>CAGR</th><th>MaxDD</th><th>Sharpe</th><th>Turnover</th></tr></thead><tbody>"
         + "".join(rows)
         + "</tbody></table></div>"
-        + (
-            split_latest_html
-            if split_latest_html
-            else f"<div class='card' style='margin-top:16px'><h2>最新调仓建议（{html.escape(rebalance_frequency)} / {html.escape(active_sample_label)}）</h2><table><thead><tr><th>代码</th><th>名称</th><th>目标权重</th><th>最新价格</th></tr></thead><tbody>"
-            + "".join(weight_rows)
-            + "</tbody></table></div>"
-        )
+        + split_latest_html
         + change_summary_html
         + change_rows_html
         + exposure_html
