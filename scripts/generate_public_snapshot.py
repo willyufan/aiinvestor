@@ -25,6 +25,7 @@ from scripts.export_live_platform_data import (
     _load_sample_view,
     guess_sample_tag,
     SAMPLE_LABELS,
+    SAMPLE_TAGS,
     load_json,
 )
 
@@ -33,6 +34,7 @@ HK_RESULTS_DIR = ROOT / "results_hkconnect"
 TRACKED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
 HK_TRACKED_WINNERS_JSON = HK_RESULTS_DIR / "tracked_winners_hkconnect.json"
 OUTPUT_PATH = RESULTS_DIR / "public_snapshot.json"
+STRATEGIES_DIR = RESULTS_DIR / "strategies"
 
 WINDOW_TRACK_KEYS = ["since_2017_only", "since_2020_only", "since_2023_only", "since_2025_only"]
 WINDOW_LABELS = {
@@ -201,6 +203,74 @@ def build_hk_entries(hk_payload: dict[str, Any]) -> list[dict]:
     return entries
 
 
+def flatten_snapshots(history_windows: list[dict]) -> list[dict]:
+    """Deduplicate and sort all historical snapshots from history_windows."""
+    seen: set[str] = set()
+    all_snaps: list[dict] = []
+    for window in history_windows:
+        for snap in window.get("snapshots", []):
+            date = str(snap.get("date", ""))
+            if not date or date in seen:
+                continue
+            seen.add(date)
+            all_snaps.append({
+                "date": date,
+                "holdings": [
+                    {"ts_code": str(r["ts_code"]), "name": str(r["name"]), "weight": round(float(r["weight"]), 6)}
+                    for r in snap.get("holdings", [])
+                ],
+            })
+    all_snaps.sort(key=lambda x: x["date"])
+    return all_snaps
+
+
+def export_strategy_detail(
+    strategy_id: str,
+    display_name: str,
+    market_scope: str,
+    path: str,
+    winner_type: str,
+) -> None:
+    """Export per-strategy detail JSON for strategy.html detail tab."""
+    sample_views_out: dict[str, Any] = {}
+    for tag in SAMPLE_TAGS:
+        view = _load_sample_view(strategy_id, tag, market_scope=market_scope)
+        if view is None:
+            continue
+        sample_views_out[tag] = {
+            "sample_tag": tag,
+            "sample_tag_label": view.get("sample_tag_label", tag),
+            "summary_meta": view.get("summary_meta", {}),
+            "risk_state": view.get("risk_state", "unknown"),
+            "target_total_exposure": round(float(view.get("target_total_exposure", 1.0)), 4),
+            "latest_weights": [
+                {"ts_code": str(r["ts_code"]), "name": str(r["name"]), "weight": round(float(r["weight"]), 6)}
+                for r in (view.get("latest_weights") or [])
+            ],
+            "formal_schedule": view.get("formal_schedule", {}),
+            "equity_curve_points": [
+                {"date": str(p["date"]), "nav": round(float(p["nav"]), 6)}
+                for p in (view.get("equity_curve_points") or [])
+            ],
+            "snapshots": flatten_snapshots(view.get("history_windows") or []),
+        }
+
+    if not sample_views_out:
+        return
+
+    out = {
+        "strategy_id": strategy_id,
+        "display_name": display_name,
+        "market_scope": market_scope,
+        "path": path,
+        "winner_type": winner_type,
+        "sample_views": sample_views_out,
+    }
+    STRATEGIES_DIR.mkdir(parents=True, exist_ok=True)
+    dest = STRATEGIES_DIR / f"{strategy_id}.json"
+    dest.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
 def main() -> None:
     payload = load_json(TRACKED_WINNERS_JSON)
     strategies_map: dict[str, Any] = payload.get("strategies", {})
@@ -248,6 +318,25 @@ def main() -> None:
     OUTPUT_PATH.write_text(json.dumps(snapshot, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     total = len(path1_entries) + len(path2_entries) + len(hk_entries)
     print(f"✓ Exported {len(path1_entries)} path1 + {len(path2_entries)} path2 + {len(hk_entries)} hkconnect entries → {OUTPUT_PATH}")
+
+    # ── Per-strategy detail files ──
+    all_entries = path1_entries + path2_entries + hk_entries
+    seen_ids: set[str] = set()
+    detail_count = 0
+    for entry in all_entries:
+        sid = entry["strategy_id"]
+        if sid in seen_ids:
+            continue
+        seen_ids.add(sid)
+        export_strategy_detail(
+            strategy_id=sid,
+            display_name=entry["display_name"],
+            market_scope=entry["market_scope"],
+            path=entry["path"],
+            winner_type=entry["winner_type"],
+        )
+        detail_count += 1
+    print(f"✓ Exported {detail_count} strategy detail files → {STRATEGIES_DIR}/")
 
 
 if __name__ == "__main__":
