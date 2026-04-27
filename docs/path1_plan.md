@@ -457,3 +457,14 @@
   - `since_2017_01 / since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered` 仍具更高 raw CAGR，但继续因为 `Sharpe / MaxDD` 不过线而不晋级。
 - 为了恢复 `results/live` 的依赖，这轮只额外补跑了 tracked winners 与导出所需 sidecar summaries；因为没有任何候选达到 `clear improvement`，所以没有追加新的 `Path 1` 确认回测。
 - 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个既定方向内推进；`weekly_exposure_path` 仍固定优先 `buffered > asym > base`，并继续优先比较 `buffered` 与 `asym` 两条现役分支。
+
+## 21. 本轮补充（2026-04-27 09:08 CST）
+
+- 本轮按自动化基线规则重新检查后，`git fetch origin` 因沙箱网络限制失败；但当前 worktree 已知 `origin/main`（`5a87b29`）已验证是本地主工作树 `main`（`39cf735`）的后继，因此本轮直接以已知 `origin/main` 作为 publish baseline，并在独立 worktree 中对齐到该提交。
+- 随后运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`：输出为 `as_of=2026-04-27 family=path1_fast_family base_candidates=24 total_candidates=168 evaluated=168`，四窗口 tracked winners 继续完全不变，仍未出现满足阈值的 `clear improvement`。
+- 当前最接近阈值、但仍不补确认回测的挑战者依旧集中在既定五方向内：
+  - `since_2020_01`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered`（`27.83% CAGR / 1.0264 Sharpe / -25.00% MaxDD / 0.67 Turn`）
+  - `since_2023_01`：`core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`（`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`）
+  - `since_2017_01 / since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered` 仍具更高 raw CAGR，但继续因为 `Sharpe / MaxDD` 不过线而不晋级。
+- 这轮真正发生漂移的是 tracked payload 而不是 fast pass 胜负：`results/weighted_track_winners.json` 的 `robust_candidate` 现已同步为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`（`meanCAGR 47.28% / minCAGR 25.91%`），替代了此前文档里残留的 `ramp90` 口径；因此本轮属于有效的 `sync-only` 刷新。
+- 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个既定方向内推进；`weekly_exposure_path` 仍固定优先 `buffered > asym > base`，不重新打开 `signal_variants`。

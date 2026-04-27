@@ -579,3 +579,15 @@
 - 这轮新增的信息主要是“收紧 membership 后结论仍不变”：当前 `since_2020_01` ceiling 仍停在 `32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`，而 `robust_candidate` 的四窗汇总同步为 `meanCAGR 58.06% / minCAGR 18.04%`；`biweekly / weekly` 两条高频族依旧只有 `4 / 4` 个候选，继续没有改写主线的证据。
 - 除了导出 `results/live` 依赖所需的 summary replay 之外，这轮没有再补新的 `Path 2` 确认回测；本轮价值主要是把 `results/path2_candidate_pass.json` 从旧的 `117` 候选、过宽 family membership 与 `cap60` robust 口径，同步回当前 `104` 候选、压紧 membership、`cap80` robust 的真实状态。
 - 下一轮继续把新增预算优先投向更适配 `since_2020_01` 的中周期高收益原型，不给 `biweekly / weekly` 高频克隆追加预算；若要扩新族，优先考虑月频或中周期原型，而不是继续放大家族内的高频副本。
+
+## 23. 本轮补充（2026-04-27 09:08 CST）
+
+- 本轮同样先按自动化基线规则重查 publish baseline：`git fetch origin` 失败后，确认当前 worktree 已知 `origin/main`（`5a87b29`）仍是本地主工作树 `main`（`39cf735`）的后继，因此独立扫描直接基于该已知远端基线重放。
+- 运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/path2_candidate_pass.py` 后，当前 `Path 2` 独立候选宇宙恢复到 `117` 个 candidates；五条 family 的规模分别为 `49 / 23 / 16 / 4 / 4`。新增体量再次主要落在 `high_concentration_breakout`，说明当前 shared comparison CSV 的真实状态比上一版 `104` 候选更宽，而不是新的高频 family 扩张。
+- 四窗口 tracked winners 继续保持不变，但关键指标已经同步抬升到当前 `as_of=2026-04-27` 口径：
+  - `since_2017_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80`（`28.48% CAGR / 1.0116 Sharpe / -46.94% MaxDD / 3.89 Turn`）
+  - `since_2020_01`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`32.07% CAGR / 1.1480 Sharpe / -23.02% MaxDD / 2.95 Turn`）
+  - `since_2023_01`：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（`58.03% CAGR / 1.1874 Sharpe / -50.82% MaxDD / 5.32 Turn`）
+  - `since_2025_01`：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`145.68% CAGR / 2.1978 Sharpe / -12.20% MaxDD / 5.29 Turn`）
+- 当前 tracked `robust_candidate` 也回到了更稳的 `cap60` 版本：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60`（`meanCAGR 58.51% / minCAGR 17.57% / meanSharpe 1.1406 / worstMaxDD -66.07%`）。这说明最新 shared payload 的真实状态不是上一条记录里的 `cap80 robust`。
+- 下一轮继续把新增预算优先投向更适配 `since_2020_01` 的中周期高收益原型，不给 `biweekly / weekly` 高频克隆追加预算；若要扩新族，优先考虑月频或中周期原型，而不是继续放大家族内的高频副本。
