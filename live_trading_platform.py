@@ -125,6 +125,139 @@ def schedule_kind_label(schedule_kind: str) -> str:
     return mapping.get(str(schedule_kind or ""), "未识别")
 
 
+def strategy_detail_explanation_html(item: dict, active_view: dict, schedule_kind: str, active_sample_label: str) -> str:
+    strategy_id = str(item.get("strategy_id") or "")
+    display_name = str(item.get("display_name") or strategy_id)
+    market_scope = str(item.get("market_scope") or "a_share")
+    path_name = str(item.get("path") or "")
+    winner_type = str(item.get("winner_type") or "")
+    adjustment_style = adjustment_style_label(item)
+    windows_label = winner_windows_label(item.get("winner_tags") or [])
+    identity_label = winner_identity_label(item.get("winner_tags") or [])
+    metrics = active_view.get("summary_metrics") or {}
+
+    role_bits = [
+        market_scope_label(market_scope),
+        path_name.upper() if path_name else "",
+        identity_label or winner_type,
+        f"胜出窗口：{windows_label}" if windows_label else "",
+    ]
+    role_text = " / ".join(bit for bit in role_bits if bit)
+
+    universe = "沪港通标的池" if market_scope == "hkconnect" else "A股全市场研究池"
+    if "total_mv" in strategy_id:
+        core_source = "核心底座偏向总市值/大市值胜出者核心。"
+    elif "equal_weight" in strategy_id:
+        core_source = "核心底座采用等权胜出者核心，更强调弹性与分散。"
+    elif "index_core" in strategy_id:
+        core_source = "核心底座采用指数核心，更偏防守与市场代表性。"
+    elif market_scope == "hkconnect":
+        core_source = "策略仅在沪港通可交易标的内做优胜劣汰。"
+    else:
+        core_source = "核心底座采用当前策略族定义的胜出者核心。"
+
+    selection_lines: list[str] = []
+    if path_name == "path1":
+        selection_lines.append("Path 1 是主攻稳健线：优先在回撤、换手、Sharpe 和实盘可执行性之间做平衡。")
+    elif path_name == "path2":
+        selection_lines.append("Path 2 是高收益探索线：更重视 CAGR 上限突破，同时继续监控回撤和换手。")
+    if "aggr_10_90" in strategy_id:
+        selection_lines.append("进攻仓位配置约为 10/90，探索侧更积极。")
+    elif "aggr_08_92" in strategy_id:
+        selection_lines.append("进攻仓位配置约为 8/92，在进攻与风控之间相对折中。")
+    elif "aggr_05_95" in strategy_id:
+        selection_lines.append("进攻仓位配置约为 5/95，属于更集中、更高弹性的探索结构。")
+    elif "aggr_03_97" in strategy_id:
+        selection_lines.append("进攻仓位配置约为 3/97，属于高度集中、高弹性的探索结构。")
+    if "prom6" in strategy_id:
+        selection_lines.append("晋升池规模为 6 只，个股分散度高于 prom2/prom3 版本。")
+    elif "prom3" in strategy_id:
+        selection_lines.append("晋升池规模为 3 只，收益弹性更集中。")
+    elif "prom2" in strategy_id:
+        selection_lines.append("晋升池规模为 2 只，属于高集中度候选。")
+    if "core_6_1" in strategy_id:
+        selection_lines.append("包含核心 6-1 动量过滤，偏向保留中期趋势更强的标的。")
+    if "theme" in strategy_id:
+        selection_lines.append("沪港通高成长主线候选，偏向成长/主题强势标的。")
+    if "breakout" in strategy_id:
+        selection_lines.append("沪港通高集中突破候选，偏向强势突破与高弹性标的。")
+    if "equal_elastic" in strategy_id:
+        selection_lines.append("沪港通等权高弹性候选，强调弹性分散和等权暴露。")
+    if not selection_lines:
+        selection_lines.append("策略按当前研究配置从候选池中选择相对胜出的股票组合。")
+
+    risk_lines: list[str] = []
+    if "cash_off" in strategy_id:
+        risk_lines.append("包含熊市空仓/降风险逻辑，风险关闭时可以显著降低总仓位。")
+    if "risk30" in strategy_id:
+        risk_lines.append("熊市风险状态下目标仓位可降至约 30%。")
+    elif "risk50" in strategy_id:
+        risk_lines.append("熊市风险状态下目标仓位可降至约 50%。")
+    if "full_risk" in strategy_id:
+        risk_lines.append("关闭熊市降仓，风险暴露更高，收益弹性也更强。")
+    if "cap80" in strategy_id:
+        risk_lines.append("单票权重上限约 80%，允许高集中但保留上限约束。")
+    elif "cap60" in strategy_id:
+        risk_lines.append("单票权重上限约 60%，集中度略低于 cap80。")
+    if "sat_three_stage" in strategy_id:
+        risk_lines.append("卫星仓位采用周频三档风控，股票池不必月中重选，但卫星暴露会随周度状态变化。")
+    if "port_weekly_exposure" in strategy_id:
+        risk_lines.append("采用月度选股 + 周度总仓位调整，月中主要调整总暴露而不是重新换股。")
+    if "buffered" in strategy_id:
+        risk_lines.append("带 buffered 确认，降低单周信号噪声导致的来回切换。")
+    if "asym" in strategy_id:
+        risk_lines.append("采用快减慢加的不对称仓位路径，风险变差时更快降仓，恢复时更慢加仓。")
+    if not risk_lines:
+        risk_lines.append("风险控制主要来自策略自身的趋势、动量、仓位或调仓频率约束。")
+
+    schedule_lines = {
+        "monthly": "当前建议按真实月末换股生成；数据截止日可以每天推进，但月度股票池本身不应被临时月末提前改写。",
+        "portfolio_weekly_overlay": "股票池按真实月末确定；周度只更新总仓位/风险暴露，因此实盘上可能不等到月末就先降仓或加仓。",
+        "satellite_weekly_overlay": "月末确定股票池和目标权重；周度只调整卫星仓位状态，因此页面会把月末股票池与周度卫星暴露拆开看。",
+        "biweekly": "策略按双周评估点换股，当前建议会在双周信号日更新。",
+        "weekly": "策略按周评估点换股，当前建议会在周度信号日更新。",
+    }
+    schedule_text = schedule_lines.get(str(schedule_kind or ""), "当前建议按策略定义的实际评估点更新。")
+
+    metric_parts = []
+    for key, label in (
+        ("total_return", "Total Return"),
+        ("cagr", "CAGR"),
+        ("max_drawdown", "MaxDD"),
+        ("sharpe_ratio", "Sharpe"),
+        ("average_annual_turnover", "Turnover"),
+    ):
+        if key not in metrics:
+            continue
+        value = float(metrics[key])
+        if key in {"sharpe_ratio", "average_annual_turnover"}:
+            formatted = f"{value:.2f}"
+        else:
+            formatted = fmt_pct(value)
+        metric_parts.append(f"{label} {formatted}")
+    metrics_text = " | ".join(metric_parts) if metric_parts else "暂无窗口指标。"
+
+    def list_html(lines: list[str]) -> str:
+        return "<ul>" + "".join(f"<li>{html.escape(line)}</li>" for line in lines) + "</ul>"
+
+    return (
+        "<details class='card' style='margin-top:16px'>"
+        "<summary style='cursor:pointer;font-size:20px;font-weight:700'>策略详细说明</summary>"
+        f"<p><strong>{html.escape(display_name)}</strong></p>"
+        f"<p class='muted'>{html.escape(role_text)}</p>"
+        f"<p>当前查看窗口：{html.escape(active_sample_label)}；{html.escape(metrics_text)}</p>"
+        "<h3>策略定位</h3>"
+        + list_html([f"标的范围：{universe}。", core_source])
+        + "<h3>选股与组合结构</h3>"
+        + list_html(selection_lines)
+        + "<h3>仓位与风控</h3>"
+        + list_html(risk_lines)
+        + "<h3>调仓/生效规则</h3>"
+        + list_html([f"实际调整类型：{adjustment_style}。", f"当前判定口径：{schedule_kind_label(schedule_kind)}。", schedule_text])
+        + "</details>"
+    )
+
+
 def winner_windows_label(winner_tags: list[str] | None) -> str:
     if not winner_tags:
         return ""
@@ -2240,6 +2373,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         f"<p>市场: {html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} | 路径: {html.escape(item['path'])} | 类型: {html.escape(item['winner_type'])} | 调仓频率: {html.escape(rebalance_frequency)} | 实际调整频率类型: {html.escape(adjustment_style)} | 当前建议仓位: {fmt_pct(float(active_view['target_total_exposure']))} | 风险状态: {html.escape(active_view['risk_state'])}</p>"
         + sample_selector
         + f"<div class='card'><h2>当前查看窗口</h2><p>{html.escape(active_sample_label)}：{html.escape(active_sample_start)} → {html.escape(active_sample_end)}</p></div>"
+        + strategy_detail_explanation_html(item, active_view, schedule_kind, active_sample_label)
         + (
             "<div class='card' style='margin-top:16px'><h2>当前建议时点</h2>"
             f"<p>数据截止日：{html.escape(data_as_of or 'n/a')}</p>"
