@@ -774,6 +774,12 @@ def prepare_hkconnect_data(
     else:
         eligible_cache_dates = [date for date in full_calendar_index if date <= end_date.normalize()]
         cache_target_date = eligible_cache_dates[-1] if eligible_cache_dates else full_calendar_index[-1]
+    full_calendar_index = [date for date in full_calendar_index if date <= cache_target_date]
+    month_end_dates = [date for date in month_end_dates if date <= cache_target_date]
+    month_start_dates = [date for date in month_start_dates if date <= cache_target_date]
+    week_end_dates = [date for date in week_end_dates if date <= cache_target_date]
+    if len(full_calendar_index) == 0:
+        raise RuntimeError("港股可用交易日历为空，无法准备缓存。")
 
     price_frames: List[pd.DataFrame] = []
     mv_frames: List[pd.DataFrame] = []
