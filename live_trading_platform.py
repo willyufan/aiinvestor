@@ -1843,7 +1843,7 @@ def render_page(title: str, body: str) -> str:
 <body>
   <header>
     <nav>
-      <a href="/">AI Investor</a>
+      <a href="/">Dashboard</a>
       <a href="/strategies"{"class='active'" if "策略" in title else ""}>策略中心</a>
       <a href="/accounts"{"class='active'" if "账户" in title else ""}>账户中心</a>
     </nav>
