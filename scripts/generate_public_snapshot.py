@@ -127,18 +127,6 @@ def build_strategy_entry(
     }
 
 
-def build_robust_entry(
-    strategy_id: str,
-    path_name: str,
-    strategies_map: dict[str, Any],
-    market_scope: str = "a_share",
-) -> dict[str, Any]:
-    entry = build_strategy_entry(strategy_id, "since_2020_only", path_name, strategies_map, market_scope)
-    entry["winner_type"] = "robust candidate"
-    entry["window_label"] = "稳健候选"
-    return entry
-
-
 def build_hk_entries(hk_payload: dict[str, Any]) -> list[dict]:
     """Build HK Connect strategy entries.
     HK JSON structure: tracks.path1.since_2017_01.winner / tracks.path2.since_2017_01.winner
@@ -289,10 +277,6 @@ def main() -> None:
         entry = build_strategy_entry(track["winner"], track_key, "path1", strategies_map)
         path1_entries.append(entry)
 
-    robust = payload["tracks"].get("robust_candidate")
-    if robust:
-        path1_entries.append(build_robust_entry(robust["strategy_base_id"], "path1", strategies_map))
-
     # ── A股 Path 2 ──
     path2_entries: list[dict] = []
     for track_key in WINDOW_TRACK_KEYS:
@@ -301,10 +285,6 @@ def main() -> None:
             continue
         entry = build_strategy_entry(track["winner"], track_key, "path2", strategies_map)
         path2_entries.append(entry)
-
-    p2_robust_id = payload["path2"].get("strategy_base_id")
-    if p2_robust_id:
-        path2_entries.append(build_robust_entry(p2_robust_id, "path2", strategies_map))
 
     # ── 沪港通 ──
     hk_entries: list[dict] = []
@@ -340,6 +320,9 @@ def main() -> None:
             winner_type=entry["winner_type"],
         )
         detail_count += 1
+    for stale_path in STRATEGIES_DIR.glob("*.json"):
+        if stale_path.stem not in seen_ids:
+            stale_path.unlink()
     print(f"✓ Exported {detail_count} strategy detail files → {STRATEGIES_DIR}/")
 
 
