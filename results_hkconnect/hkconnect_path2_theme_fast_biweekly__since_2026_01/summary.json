@@ -1,0 +1,35 @@
+{
+  "pool_id": "hkconnect_static_latest",
+  "pool_name": "沪港通静态标的池（最新可得名单）",
+  "sample_start": "2026-01-12",
+  "sample_end": "2026-04-17",
+  "sample_tag": "since_2026_01",
+  "sample_label": "2026-01 起（观察窗）",
+  "sample_short_label": "2026-01",
+  "stock_count": 596,
+  "strategy_name": "沪港通Path2 双周快速主线",
+  "strategy_id": "hkconnect_path2_theme_fast_biweekly",
+  "path": "path2",
+  "candidate_family": "high_growth_theme",
+  "rebalance_frequency": "biweekly",
+  "signal_family": "path2_theme",
+  "base_weight_method": "equal_weight",
+  "selection_overlay": "独立沪港通策略线：仅限最新可得沪港通（SH_HK/SZ_HK）名单内的港股，基于动量、突破、流动性与仓位风控做优胜劣汰。",
+  "universe_note": "受 Tushare stock_hsgt 历史覆盖限制，当前使用最新可得沪港通名单作为静态回测池。",
+  "transaction_cost_note": "当前港股交易成本采用近似双边佣金模型（无印花税建模），仅用于研究比较。",
+  "metrics": {
+    "total_return": -0.057547189369421825,
+    "cagr": -0.19759643081558698,
+    "max_drawdown": -0.0895342311260866,
+    "monthly_win_rate": 0.42857142857142855,
+    "annual_volatility": 0.22219782669703478,
+    "sharpe_ratio": -0.8898299486363364,
+    "average_annual_turnover": 17.25950271899898,
+    "cumulative_trading_cost": 0.0027896120089270513
+  },
+  "warnings": [
+    "沪港通历史标的列表受 Tushare stock_hsgt 接口限制（仅 2025-08-12 起可取），当前研究使用最新可得沪港通名单作为静态回测池。",
+    "02493.HK 缺少 hk_daily_adj 数据，已跳过。",
+    "回测起点被后移：requested=2026-01-01 effective=2026-01-12 (受可用调仓点/数据覆盖影响)"
+  ]
+}
