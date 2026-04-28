@@ -12,6 +12,12 @@
 - 当前 Path 2 tracked winners 继续维持：`since_2017_01 / since_2020_01 / since_2023_01` 为 `hkconnect_path2_theme_monthly`，`since_2025_01` 为 `hkconnect_path2_breakout_monthly`。
 - `robust_candidate` 继续是 `hkconnect_path2_equal_elastic_monthly`（meanCAGR `36.01% / minCAGR 17.59% / worstMaxDD -38.60%`）；`since_2026_01` 仍只作为观察窗。
 
+### 本轮快筛记录（2026-04-28 12:04 CST）
+
+- 重新完成港股五窗口回测，并已运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`；tracked JSON 与港股图表没有新增 git diff。
+- 当前 Path 2 tracked winners 继续维持：`since_2017_01 / since_2020_01 / since_2023_01` 为 `hkconnect_path2_theme_monthly`，`since_2025_01` 为 `hkconnect_path2_breakout_monthly`。
+- `robust_candidate` 继续是 `hkconnect_path2_equal_elastic_monthly`（meanCAGR `36.01% / minCAGR 17.59% / worstMaxDD -38.60%`）；`since_2026_01` raw leader 仍只作为观察窗，不进入 tracked winners。
+
 ## 定位
 - 独立于当前 A 股 Path 2
 - 仅限沪港通标的（当前使用 Tushare `stock_hsgt` 最新可得名单作为静态池）

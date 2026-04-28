@@ -12,6 +12,12 @@
 - 运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py` 后，港股 Path 1 tracked payload 与图表没有新增 git diff。
 - 当前四窗口 winner 继续全部是 `hkconnect_path1_monthly_equal_buffered`；`sample_end` 仍为 `2026-03-31`，`robust_candidate` 仍是同一策略（meanCAGR `27.97% / minCAGR 21.77%`）。
 
+### 本轮快筛记录（2026-04-28 12:04 CST）
+
+- 重新运行 `./.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，随后运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`。
+- 港股 Path 1 四窗口 winner 继续全部是 `hkconnect_path1_monthly_equal_buffered`，`sample_end` 仍为 `2026-03-31`，`robust_candidate` 仍是同一策略（meanCAGR `27.97% / minCAGR 21.77%`）。
+- 本次回测把 `02493.HK 缺少 hk_daily_adj 数据，已跳过。` 写入各港股 summary warning；这属于 `results_hkconnect/**` 研究产物同步，不代表 Path 1 winner 切换。
+
 ## 定位
 - 独立于当前 A 股 Path 1
 - 仅限沪港通标的（当前使用 Tushare `stock_hsgt` 最新可得名单作为静态池）

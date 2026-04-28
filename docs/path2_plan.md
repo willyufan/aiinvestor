@@ -25,6 +25,12 @@
 - 四窗口 tracked winner 与 robust candidate 的身份未改写，只出现缓存指标小幅漂移：`since_2020_01` winner 仍是 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（CAGR `32.07%`），`robust` 仍是 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（meanCAGR `57.28% / minCAGR 17.78%`）。
 - 当前 `since_2020_01` 仍未冲到 `40%+ CAGR`，下一轮继续优先寻找更适配 2020 的中周期高收益原型，而不是扩大高频候选权重。
 
+### 本轮快筛记录（2026-04-28 12:04 CST）
+
+- 重新运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选数仍为 `103`，五个 family 规模仍为 `43 / 23 / 16 / 4 / 4`。
+- 四窗口 tracked winner 与 robust candidate 身份继续不变：`since_2020_01` 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（CAGR `32.07%`），`robust` 仍为 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（meanCAGR `57.28% / minCAGR 17.78%`）。
+- 本轮没有找到能把 `since_2020_01` 推向 `40%+ CAGR` 的中周期高收益原型；下一轮继续优先扩大真正适配 2020 的独立原型，而不是简单增加周频/双周频权重。
+
 ## 1. 当前目标
 
 - 路线：`Path 2` 无约束上限探索
