@@ -197,25 +197,26 @@
 
 当前 tracked winners（截至 `2026-04-24`；本轮实际月频样本止于 `2026-03-31`，周频样本止于 `2026-04-24`）：
 
-当前港股 `since_2017_01 / since_2020_01` 两个窗口都从首个可执行调仓点 `2020-12-01` 起算，因此这两个窗口的港股指标当前相同。
+当前港股 `since_2017_01 / since_2020_01` 两个窗口都从首个可执行调仓点起算，因此这两个窗口的港股指标当前相同；周频 Path 1 起点为 `2020-11-16`，月频 Path 2 起点为 `2020-12-01`。
 
 - Path 1：
-  - `since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01`：`hkconnect_path1_monthly_equal_buffered`
-  - robust candidate：`hkconnect_path1_monthly_equal_buffered`
+  - `since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01`：`hkconnect_path1_weekly_equal_buffered`
+  - robust candidate：`hkconnect_path1_weekly_equal_buffered`
 - Path 2：
-  - `since_2017_01 / since_2020_01 / since_2023_01`：`hkconnect_path2_theme_monthly`
-  - `since_2025_01`：`hkconnect_path2_breakout_monthly`
-  - robust candidate：`hkconnect_path2_equal_elastic_monthly`
-- `since_2026_01`：只做观察，不进入 tracked winners；当前 raw leader 分别是 `hkconnect_path1_monthly_lowvol`（Path 1）与 `hkconnect_path2_breakout_monthly`（Path 2）
+  - `since_2017_01 / since_2020_01`：`hkconnect_path2_theme_monthly`
+  - `since_2023_01`：`hkconnect_path2_theme_fast_weekly`
+  - `since_2025_01`：`hkconnect_path2_breakout_concentrated_monthly`
+  - robust candidate：`hkconnect_path2_theme_fast_weekly`
+- `since_2026_01`：只做观察，不进入 tracked winners；当前 raw leader 分别是 `hkconnect_path1_weekly_lowvol`（Path 1）与 `hkconnect_path2_breakout_concentrated_monthly`（Path 2）
 
 关键窗口指标：
 
-- Path 1 `since_2020_01`：`21.77% CAGR / -14.78% MaxDD / 1.2947 Sharpe / 2.91 Turnover`
-- Path 1 `since_2023_01`：`32.23% CAGR / -14.78% MaxDD / 1.6150 Sharpe / 2.93 Turnover`
-- Path 1 `since_2025_01`：`36.11% CAGR / -14.78% MaxDD / 1.3635 Sharpe / 3.60 Turnover`
+- Path 1 `since_2020_01`：`23.08% CAGR / -13.41% MaxDD / 1.2383 Sharpe / 9.72 Turnover`
+- Path 1 `since_2023_01`：`35.04% CAGR / -13.41% MaxDD / 1.5530 Sharpe / 10.62 Turnover`
+- Path 1 `since_2025_01`：`49.82% CAGR / -13.41% MaxDD / 1.7137 Sharpe / 13.03 Turnover`
 - Path 2 `since_2020_01`：`21.17% CAGR / -18.86% MaxDD / 1.1011 Sharpe / 6.64 Turnover`
-- Path 2 `since_2023_01`：`29.77% CAGR / -16.07% MaxDD / 1.3587 Sharpe / 6.04 Turnover`
-- Path 2 `since_2025_01`：`94.85% CAGR / -7.72% MaxDD / 2.5222 Sharpe / 8.65 Turnover`（`hkconnect_path2_breakout_monthly`）
+- Path 2 `since_2023_01`：`41.12% CAGR / -19.56% MaxDD / 1.3340 Sharpe / 29.54 Turnover`（`hkconnect_path2_theme_fast_weekly`）
+- Path 2 `since_2025_01`：`98.05% CAGR / -7.23% MaxDD / 2.2794 Sharpe / 9.05 Turnover`（`hkconnect_path2_breakout_concentrated_monthly`）
 
 相关产物：
 

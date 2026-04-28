@@ -2,9 +2,9 @@
 
 ## 本轮执行计划（2026-04-28）
 
-- 本轮继续单独评估港股 Path 2 的 `theme_monthly / breakout_monthly / equal_elastic_monthly` 当前锚点结构，不复用 A 股 Path 2 结论。
-- 默认比较对象仍是现有 7 个港股 Path 2 候选，`since_2026_01` 只作为观察窗。
-- 跑完后重点核对 `robust_candidate` 是否仍由 `hkconnect_path2_equal_elastic_monthly` 占据，以及 `since_2025_01 / since_2026_01` 是否继续由 `breakout_monthly` 领先。
+- 本轮继续单独评估港股 Path 2 的 `theme_monthly / theme_fast_weekly / breakout_concentrated_monthly` 当前锚点结构，不复用 A 股 Path 2 结论。
+- 默认比较对象包括现有月频、双周与单周港股 Path 2 候选，`since_2026_01` 只作为观察窗。
+- 跑完后重点核对 `robust_candidate` 是否仍由 `hkconnect_path2_theme_fast_weekly` 占据，以及 `since_2025_01 / since_2026_01` 是否继续由更高集中月频突破候选领先。
 
 ### 本轮快筛记录（2026-04-28 00:08 CST）
 
@@ -17,6 +17,13 @@
 - 重新完成港股五窗口回测，并已运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`；tracked JSON 与港股图表没有新增 git diff。
 - 当前 Path 2 tracked winners 继续维持：`since_2017_01 / since_2020_01 / since_2023_01` 为 `hkconnect_path2_theme_monthly`，`since_2025_01` 为 `hkconnect_path2_breakout_monthly`。
 - `robust_candidate` 继续是 `hkconnect_path2_equal_elastic_monthly`（meanCAGR `36.01% / minCAGR 17.59% / worstMaxDD -38.60%`）；`since_2026_01` raw leader 仍只作为观察窗，不进入 tracked winners。
+
+### 本轮快筛记录（2026-04-28 18:29 CST）
+
+- 重新完成港股五窗口回测，并已运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`；本轮出现新的 Path 2 tracked winner 与 robust 改写。
+- 当前 Path 2 tracked winners 改为：`since_2017_01 / since_2020_01` 仍由 `hkconnect_path2_theme_monthly` 占据，`since_2023_01` 切到 `hkconnect_path2_theme_fast_weekly`，`since_2025_01` 切到 `hkconnect_path2_breakout_concentrated_monthly`。
+- `robust_candidate` 从 `hkconnect_path2_equal_elastic_monthly` 切到 `hkconnect_path2_theme_fast_weekly`（meanCAGR `40.60% / minCAGR 20.48% / worstMaxDD -33.61%`），收益鲁棒性改善但平均换手升至 `31.53`。
+- `since_2026_01` 仍只作为观察窗；当前 raw leader 为 `hkconnect_path2_breakout_concentrated_monthly`（`361.49% CAGR / -1.31% MaxDD / 2.2491 Sharpe / 7.51 Turnover`）。
 
 ## 定位
 - 独立于当前 A 股 Path 2
@@ -37,14 +44,11 @@
   - `since_2023_01`
   - `since_2025_01`
   - `since_2026_01`（观察窗）
-- 默认比较对象固定为当前 7 个港股 `Path 2` 候选：
-  - `hkconnect_path2_breakout_monthly`
-  - `hkconnect_path2_breakout_biweekly`
-  - `hkconnect_path2_breakout_weekly`
-  - `hkconnect_path2_theme_monthly`
-  - `hkconnect_path2_theme_biweekly`
-  - `hkconnect_path2_equal_elastic_monthly`
-  - `hkconnect_path2_equal_elastic_weekly`
+- 默认比较对象固定为当前港股 `Path 2` 月频 / 双周 / 单周候选集合：
+  - 高集中突破与极集中突破
+  - 高成长主线与快速主线
+  - 等权 / 逆市值高弹性
+  - 熊市空仓与风险收缩 sidecar
 - 下一轮港股 `Path 2` 的晋级优先顺序固定为：
   1. `since_2020_01` 是否显著改善
   2. `since_2023_01` 是否维持高收益上限
@@ -66,9 +70,9 @@
   - `2020` 窗口能否继续抬高
   - `2023` 窗口能否维持爆发力
 - 当前默认锚点已切换为：
-  - `hkconnect_path2_theme_monthly`（`2017 / 2020 / 2023` 窗口）
-  - `hkconnect_path2_breakout_monthly`（`2025` 窗口）
-  - `hkconnect_path2_theme_monthly`（当前四窗口 robust candidate）
+  - `hkconnect_path2_theme_monthly`（`2017 / 2020` 窗口）
+  - `hkconnect_path2_theme_fast_weekly`（`2023` 窗口与当前四窗口 robust candidate）
+  - `hkconnect_path2_breakout_concentrated_monthly`（`2025` 窗口与 `2026` 观察窗 raw leader）
 - 双周 / 单周候选继续保留，但当前只作为 sidecar challenger，不因为更高频而自动获得更高优先级。
 - 若某候选只强化 `2025 / 2026` 而不能改善 `2020`，默认不作为下一轮主攻方向。
 

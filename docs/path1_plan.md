@@ -22,6 +22,12 @@
 - 四个 tracked winners 继续未改写，因此不补跑确认回测。
 - 最近似候选仍不是合格晋级：`since_2020_01` 的 `aggr_05_95_prom7__sat_three_stage_buffered` 提升 CAGR 至 `27.83%`，但 MaxDD 扩到 `-25.00%`；`since_2025_01` 的 `aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered` 提升 CAGR 至 `104.59%`，但 Sharpe 降到 `2.2339`，低于当前 tracked winner。
 
+### 本轮快筛记录（2026-04-28 18:29 CST）
+
+- 重新运行 `.venv/bin/python scripts/winner_only_pass.py`：`base_candidates=24 / total_candidates=168 / evaluated=168`。
+- 四个 tracked winners 继续未改写，因此不补跑确认回测。
+- 最接近但未通过阈值的候选仍集中在 `holding_shape / weekly_exposure_path`：`since_2020_01` 的 `aggr_05_95_prom7__sat_three_stage_buffered` 达到 `27.83% CAGR`，但 MaxDD 扩到 `-25.00%`；`since_2025_01` 的 `aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered` 达到 `104.59% CAGR`，但 Sharpe `2.2339` 低于当前 tracked winner。
+
 ## 1. 当前目标
 
 - 路线：`Path 1` 渐进优化

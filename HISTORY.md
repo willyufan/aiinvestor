@@ -114,3 +114,23 @@
 | 2026-04-22 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | 239.88% | 21.31% | -66.07% | 0.6184 | 5.66 |
 | 2026-04-20 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 熊市空仓 and, 留30%仓位, 单票80%) | 593.37% | 35.76% | -38.62% | 0.9175 | 4.79 |
 | 2026-04-19 | `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_等权底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | 267.88% | 22.84% | -67.17% | 0.6521 | 5.88 |
+
+## 沪港通独立研究线
+
+### Path 1 窗口赢家
+
+| 日期 | 窗口 | 策略ID | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-04-28 | since_2017_01 / since_2020_01 | `hkconnect_path1_weekly_equal_buffered` | 208.45% | 23.08% | -13.41% | 1.2383 | 9.72 |
+| 2026-04-28 | since_2023_01 | `hkconnect_path1_weekly_equal_buffered` | 166.98% | 35.04% | -13.41% | 1.5530 | 10.62 |
+| 2026-04-28 | since_2025_01 | `hkconnect_path1_weekly_equal_buffered` | 69.66% | 49.82% | -13.41% | 1.7137 | 13.03 |
+| 2026-04-28 | robust | `hkconnect_path1_weekly_equal_buffered` | meanCAGR 32.76% | minCAGR 23.08% | worstDD -13.41% | meanSharpe 1.4358 | meanTurn 10.77 |
+
+### Path 2 窗口赢家
+
+| 日期 | 窗口 | 策略ID | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-04-28 | since_2017_01 / since_2020_01 | `hkconnect_path2_theme_monthly` | 178.51% | 21.17% | -18.86% | 1.1011 | 6.64 |
+| 2026-04-28 | since_2023_01 | `hkconnect_path2_theme_fast_weekly` | 208.33% | 41.12% | -19.56% | 1.3340 | 29.54 |
+| 2026-04-28 | since_2025_01 | `hkconnect_path2_breakout_concentrated_monthly` | 121.94% | 98.05% | -7.23% | 2.2794 | 9.05 |
+| 2026-04-28 | robust | `hkconnect_path2_theme_fast_weekly` | meanCAGR 40.60% | minCAGR 20.48% | worstDD -33.61% | meanSharpe 1.2048 | meanTurn 31.53 |

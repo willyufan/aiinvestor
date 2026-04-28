@@ -31,6 +31,12 @@
 - 四窗口 tracked winner 与 robust candidate 身份继续不变：`since_2020_01` 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（CAGR `32.07%`），`robust` 仍为 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（meanCAGR `57.28% / minCAGR 17.78%`）。
 - 本轮没有找到能把 `since_2020_01` 推向 `40%+ CAGR` 的中周期高收益原型；下一轮继续优先扩大真正适配 2020 的独立原型，而不是简单增加周频/双周频权重。
 
+### 本轮快筛记录（2026-04-28 18:29 CST）
+
+- 重新运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选数扩到 `116`，五个 family 规模为 `43 / 23 / 16 / 10 / 10`。
+- 四窗口 tracked winner 与 robust candidate 身份继续不变：`since_2020_01` 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（CAGR `32.07%`），`robust` 仍为 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（meanCAGR `57.28% / minCAGR 17.78%`）。
+- 本轮新增的周频/双周频候选规模提升了 family-ranked universe，但仍没有把 `since_2020_01` 推向 `40%+ CAGR`；下一轮继续优先寻找更适配 2020 的中周期高收益原型。
+
 ## 1. 当前目标
 
 - 路线：`Path 2` 无约束上限探索
@@ -174,7 +180,7 @@
 - 每族目标预算
 - 每族排序后的代表候选
 
-当前默认扫描宇宙（`2026-04-24`）已提升到 `103` 个 candidates；五个 family 的当前规模分别为 `43 / 23 / 16 / 4 / 4`。其中 `high_concentration_breakout / high_growth_theme / momentum_equal_weight_elastic` 三条长周期 family 已显式纳入 `core_explore_80_20_total_mv_winner_core` 这一窄 prefix，避免当前 `since_2025 / robust` 的 `total_mv` tracked winners 脱离 family ranking。
+当前默认扫描宇宙（`2026-04-28`）已提升到 `116` 个 candidates；五个 family 的当前规模分别为 `43 / 23 / 16 / 10 / 10`。其中 `high_concentration_breakout / high_growth_theme / momentum_equal_weight_elastic` 三条长周期 family 已显式纳入 `core_explore_80_20_total_mv_winner_core` 这一窄 prefix，避免当前 `since_2025 / robust` 的 `total_mv` tracked winners 脱离 family ranking。
 
 说明：
 

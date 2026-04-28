@@ -18,18 +18,17 @@
   "universe_note": "受 Tushare stock_hsgt 历史覆盖限制，当前使用最新可得沪港通名单作为静态回测池。",
   "transaction_cost_note": "当前港股交易成本采用近似双边佣金模型（无印花税建模），仅用于研究比较。",
   "metrics": {
-    "total_return": 1.307061174061289,
-    "cagr": 0.16969755795205277,
-    "max_drawdown": -0.10888279407800627,
+    "total_return": 1.307061174061292,
+    "cagr": 0.169697557952053,
+    "max_drawdown": -0.10888279407800572,
     "monthly_win_rate": 0.640625,
-    "annual_volatility": 0.1295206587993416,
-    "sharpe_ratio": 1.2809049748425665,
+    "annual_volatility": 0.12952065879934158,
+    "sharpe_ratio": 1.2809049748425687,
     "average_annual_turnover": 1.0196953656202585,
-    "cumulative_trading_cost": 0.00440357303612096
+    "cumulative_trading_cost": 0.004403573036120962
   },
   "warnings": [
     "沪港通历史标的列表受 Tushare stock_hsgt 接口限制（仅 2025-08-12 起可取），当前研究使用最新可得沪港通名单作为静态回测池。",
-    "02493.HK 缺少 hk_daily_adj 数据，已跳过。",
     "回测起点被后移：requested=2020-01-01 effective=2020-12-01 (受可用调仓点/数据覆盖影响)"
   ]
 }

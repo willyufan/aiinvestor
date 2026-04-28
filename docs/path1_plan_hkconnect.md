@@ -3,7 +3,7 @@
 ## 本轮执行计划（2026-04-28）
 
 - 本轮继续单独运行 `./.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，港股 Path 1 结论不并入 A 股 winner。
-- Path 1 仍只保留 `hkconnect_path1_monthly_equal_buffered` 主攻与 `hkconnect_path1_monthly_lowvol` 低回撤对照，不新增候选族。
+- Path 1 当前 tracked winner 已切到 `hkconnect_path1_weekly_equal_buffered`，但需要继续把 `hkconnect_path1_monthly_equal_buffered` 与 `hkconnect_path1_monthly_lowvol` 作为低换手/低回撤对照，不新增候选族。
 - 跑完后以 `results_hkconnect/strategy_comparison_hkconnect.csv` 与 `results_hkconnect/tracked_winners_hkconnect.json` 为准，确认是否只是 sample/metrics 同步还是出现窗口赢家切换。
 
 ### 本轮快筛记录（2026-04-28 00:08 CST）
@@ -18,6 +18,13 @@
 - 港股 Path 1 四窗口 winner 继续全部是 `hkconnect_path1_monthly_equal_buffered`，`sample_end` 仍为 `2026-03-31`，`robust_candidate` 仍是同一策略（meanCAGR `27.97% / minCAGR 21.77%`）。
 - 本次回测把 `02493.HK 缺少 hk_daily_adj 数据，已跳过。` 写入各港股 summary warning；这属于 `results_hkconnect/**` 研究产物同步，不代表 Path 1 winner 切换。
 
+### 本轮快筛记录（2026-04-28 18:29 CST）
+
+- 重新运行 `./.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，随后运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`。
+- 港股 Path 1 四窗口 winner 从 `hkconnect_path1_monthly_equal_buffered` 切换为 `hkconnect_path1_weekly_equal_buffered`，robust candidate 同步切换到该策略。
+- 新 Path 1 winner 的四窗口口径为：`since_2017_01 / since_2020_01` 均为 `23.08% CAGR / -13.41% MaxDD / 1.2383 Sharpe / 9.72 Turnover`，`since_2023_01` 为 `35.04% CAGR / -13.41% MaxDD / 1.5530 Sharpe / 10.62 Turnover`，`since_2025_01` 为 `49.82% CAGR / -13.41% MaxDD / 1.7137 Sharpe / 13.03 Turnover`。
+- 这次改写显著提高 CAGR 并小幅改善回撤，但换手从月频主线的约 `2.9-3.6` 抬到 `9.7-13.0`；下一轮需要继续用 `monthly_equal_buffered / lowvol` 做换手与低回撤对照。
+
 ## 定位
 - 独立于当前 A 股 Path 1
 - 仅限沪港通标的（当前使用 Tushare `stock_hsgt` 最新可得名单作为静态池）
@@ -31,10 +38,10 @@
   - 更直接的风险收缩
 
 ## 当前候选方向
-1. 月度稳健（混合权重）
-2. 月度熊市空仓
-3. 月度等权缓冲
-4. 月度低波偏稳
+1. 月度 / 双周 / 单周稳健（混合权重）
+2. 月度 / 双周 / 单周熊市空仓
+3. 月度 / 双周 / 单周等权缓冲
+4. 月度 / 双周 / 单周低波偏稳
 
 ## 本轮迭代执行规则
 
@@ -45,11 +52,11 @@
   - `since_2023_01`
   - `since_2025_01`
   - `since_2026_01`（观察窗）
-- 默认比较对象固定为当前 4 个港股 `Path 1` 候选：
-  - `hkconnect_path1_monthly_hybrid`
-  - `hkconnect_path1_monthly_cashoff`
-  - `hkconnect_path1_monthly_equal_buffered`
-  - `hkconnect_path1_monthly_lowvol`
+- 默认比较对象固定为当前 4 条港股 `Path 1` 候选主线，并同时比较月度 / 双周 / 单周调仓版本：
+  - `hkconnect_path1_*_hybrid`
+  - `hkconnect_path1_*_cashoff`
+  - `hkconnect_path1_*_equal_buffered`
+  - `hkconnect_path1_*_lowvol`
 - 下一轮港股 `Path 1` 的主判定口径：
   - 更看重 `since_2020_01 / since_2023_01`
   - 重点指标：
@@ -66,7 +73,8 @@
 ## 当前默认推进结论
 
 - 当前港股 `Path 1` 默认主攻版本是：
-  - `hkconnect_path1_monthly_equal_buffered`
+  - `hkconnect_path1_weekly_equal_buffered`
+- `monthly_equal_buffered / monthly_lowvol` 保留为低换手与低回撤对照。
 - `monthly_cashoff` 保留为更防守的候选。
 - `monthly_hybrid / monthly_lowvol` 继续作为对照，不轻易移出，直到多轮窗口表现明显失去竞争力。
 
