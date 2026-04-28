@@ -1834,6 +1834,27 @@ def render_page(title: str, body: str) -> str:
     a.button:hover {{ background: #2a2a2a; }}
     /* ── Details / summary ── */
     details summary {{ cursor: pointer; padding: 10px 0; font-weight: 600; }}
+    /* ── Stat cards ── */
+    .stat-label {{ font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }}
+    .stat-num {{ font-family: var(--serif); font-size: clamp(32px,4vw,48px); line-height: 1; letter-spacing: -.02em; }}
+    .stat-num.alert {{ color: var(--accent); }}
+    /* ── Colored values ── */
+    .pos {{ color: var(--green); font-weight: 600; }}
+    .neg {{ color: var(--accent); font-weight: 600; }}
+    /* ── Badges ── */
+    .badge {{ display: inline-block; padding: 2px 8px; font-size: 11px; font-weight: 700; letter-spacing: .05em; }}
+    .badge-red    {{ background: #f8d7da; color: #721c24; }}
+    .badge-amber  {{ background: #fff3cd; color: #856404; }}
+    .badge-green  {{ background: #d4edda; color: #155724; }}
+    .badge-blue   {{ background: #dbeafe; color: #1e40af; }}
+    .badge-muted  {{ background: #e2e3e5; color: #383d41; }}
+    /* ── Metric grid ── */
+    .metrics-row {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(90px,1fr)); gap: 14px; margin: 14px 0; padding: 14px 0; border-top: 1px solid #e0d8cc; border-bottom: 1px solid #e0d8cc; }}
+    .m-label {{ font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }}
+    .m-val {{ font-size: 17px; font-weight: 600; letter-spacing: -.01em; }}
+    /* ── Page section ── */
+    .page-section {{ margin-bottom: 36px; }}
+    .section-heading {{ font-family: var(--serif); font-size: clamp(18px,2.5vw,26px); letter-spacing: -.01em; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1.5px solid var(--rule); }}
     /* ── Misc ── */
     hr {{ border: none; border-top: 1px solid #e0d8cc; margin: 20px 0; }}
     ul, ol {{ padding-left: 20px; }}
@@ -1859,6 +1880,23 @@ def fmt_pct(value: float) -> str:
 
 def fmt_amt(value: float) -> str:
     return f"{value:,.2f}"
+
+
+def advice_badge(advice_type: str) -> str:
+    cls = {"正式调仓": "badge-red", "偏离修正": "badge-amber", "策略切换建议": "badge-blue"}.get(advice_type, "badge-muted")
+    return f"<span class='badge {cls}'>{html.escape(advice_type)}</span>"
+
+
+def risk_badge(risk_state: str) -> str:
+    label = {"risk_on": "满仓", "caution": "减仓", "risk_off": "空仓"}.get(risk_state, risk_state)
+    cls = {"risk_on": "badge-green", "caution": "badge-amber", "risk_off": "badge-red"}.get(risk_state, "badge-muted")
+    return f"<span class='badge {cls}'>{html.escape(label)}</span>"
+
+
+def signed_pct_html(value: float) -> str:
+    cls = "pos" if value > 0.0005 else ("neg" if value < -0.0005 else "")
+    sign = "+" if value > 0.0005 else ""
+    return f"<span class='{cls}'>{sign}{fmt_pct(value)}</span>" if cls else fmt_pct(value)
 
 
 def flatten_history_snapshots(history_windows: list[dict]) -> list[dict]:
@@ -2098,12 +2136,25 @@ def dashboard_html() -> str:
     switch_count = sum(1 for _, advice in advice_items if advice["type"] == "策略切换建议")
     updated_at = load_registry()["as_of"]
 
+    alert_cls = lambda n: " alert" if n > 0 else ""
     cards = f"""
-    <div class="grid grid-4">
-      <div class="card"><h3>今日正式调仓</h3><div style="font-size:32px;font-weight:700;">{open_rebalances}</div></div>
-      <div class="card"><h3>今日偏离修正</h3><div style="font-size:32px;font-weight:700;">{open_drift}</div></div>
-      <div class="card"><h3>切换建议</h3><div style="font-size:32px;font-weight:700;">{switch_count}</div></div>
-      <div class="card"><h3>研究数据更新</h3><div style="font-size:24px;font-weight:700;">{html.escape(updated_at)}</div></div>
+    <div class="grid grid-4" style="margin-bottom:32px">
+      <div class="card">
+        <div class="stat-label">今日正式调仓</div>
+        <div class="stat-num{alert_cls(open_rebalances)}">{open_rebalances}</div>
+      </div>
+      <div class="card">
+        <div class="stat-label">今日偏离修正</div>
+        <div class="stat-num{alert_cls(open_drift)}">{open_drift}</div>
+      </div>
+      <div class="card">
+        <div class="stat-label">策略切换建议</div>
+        <div class="stat-num{alert_cls(switch_count)}">{switch_count}</div>
+      </div>
+      <div class="card">
+        <div class="stat-label">研究数据截止</div>
+        <div class="stat-num" style="font-size:clamp(20px,2.5vw,28px)">{html.escape(updated_at)}</div>
+      </div>
     </div>
     """
 
@@ -2119,17 +2170,20 @@ def dashboard_html() -> str:
         total_pnl = float(current["total_assets"]) - initial_capital
         total_pnl_pct = (total_pnl / initial_capital) if initial_capital > 0 else 0.0
         rows.append(
-            f"<tr><td><a href='/accounts/{account['id']}'>{html.escape(account['name'])}</a></td>"
-            f"<td>{html.escape(strategy['display_name'])}</td>"
-            f"<td>{html.escape(advice['type'])}</td>"
-            f"<td>{html.escape(strategy['risk_state'])}</td>"
+            f"<tr>"
+            f"<td><a href='/accounts/{account['id']}'>{html.escape(account['name'])}</a></td>"
+            f"<td class='muted' style='font-size:12px'>{html.escape(strategy['display_name'][:40])}{'…' if len(strategy['display_name'])>40 else ''}</td>"
+            f"<td>{advice_badge(advice['type'])}</td>"
+            f"<td>{risk_badge(strategy['risk_state'])}</td>"
             f"<td>{fmt_pct(drift)}</td>"
-            f"<td>{fmt_amt(float(current['total_assets']))}</td>"
-            f"<td>{fmt_amt(total_pnl)}</td>"
-            f"<td>{fmt_pct(total_pnl_pct)}</td></tr>"
+            f"<td style='font-weight:600'>{fmt_amt(float(current['total_assets']))}</td>"
+            f"<td>{signed_pct_html(total_pnl_pct)}</td>"
+            f"</tr>"
         )
     accounts_table = (
-        "<div class='card'><h2>账户概览</h2><table><thead><tr><th>账户</th><th>当前策略</th><th>今日建议</th><th>风险状态</th><th>偏离度</th><th>总资产</th><th>总盈亏</th><th>总盈亏率</th></tr></thead><tbody>"
+        "<div class='page-section'>"
+        "<div class='section-heading'>账户概览</div>"
+        "<table><thead><tr><th>账户</th><th>当前策略</th><th>今日建议</th><th>风险状态</th><th>偏离度</th><th>总资产</th><th>总盈亏率</th></tr></thead><tbody>"
         + "".join(rows)
         + "</tbody></table></div>"
     )
@@ -2138,21 +2192,32 @@ def dashboard_html() -> str:
     for account in accounts:
         task_rows = []
         for task in get_tasks(int(account["id"]))[:5]:
+            status_cls = {"已执行": "badge-green", "待执行": "badge-amber", "部分成交": "badge-blue", "已忽略": "badge-muted"}.get(task_status_label(str(task["status"])), "badge-muted")
             task_rows.append(
-                f"<tr><td><a href='/tasks/{task['id']}'>任务 #{task['id']}</a></td><td>{html.escape(task_type_label(str(task['task_type'])))}</td><td>{html.escape(task_status_label(str(task['status'])))}</td><td>{html.escape(task['created_at'])}</td></tr>"
+                f"<tr>"
+                f"<td><a href='/tasks/{task['id']}'>#{task['id']}</a></td>"
+                f"<td>{html.escape(task_type_label(str(task['task_type'])))}</td>"
+                f"<td><span class='badge {status_cls}'>{html.escape(task_status_label(str(task['status'])))}</span></td>"
+                f"<td class='muted'>{html.escape(task['created_at'])}</td>"
+                f"</tr>"
             )
         if not task_rows:
             task_rows.append("<tr><td colspan='4' class='muted'>暂无任务</td></tr>")
         per_account_task_cards.append(
             "<div class='card'>"
-            f"<h2>{html.escape(account['name'])} 的任务</h2>"
+            f"<h2 style='margin-bottom:12px'>{html.escape(account['name'])}</h2>"
             "<table><thead><tr><th>任务</th><th>类型</th><th>状态</th><th>创建时间</th></tr></thead><tbody>"
             + "".join(task_rows)
             + "</tbody></table></div>"
         )
-    tasks_section = "<div class='grid grid-2' style='margin-top:16px'>" + "".join(per_account_task_cards) + "</div>"
+    tasks_section = (
+        "<div class='page-section'>"
+        "<div class='section-heading'>近期任务</div>"
+        "<div class='grid grid-2'>" + "".join(per_account_task_cards) + "</div>"
+        "</div>"
+    )
 
-    return render_page("Dashboard", f"<h1>aiinvestor 实盘平台</h1>{cards}<div style='margin-top:16px'>{accounts_table}</div>{tasks_section}")
+    return render_page("Dashboard", f"<h1>实盘平台</h1>{cards}{accounts_table}{tasks_section}")
 
 
 def strategies_html() -> str:
@@ -2163,78 +2228,87 @@ def strategies_html() -> str:
     for item in registry:
         groups.setdefault(str(item.get("market_scope", "a_share")), []).append(item)
 
+    def strategy_card(item: dict, extra_note: str = "") -> str:
+        metrics = item["summary_metrics"]
+        windows_text = winner_windows_label(item.get("winner_tags"))
+        tags_html = ""
+        if windows_text:
+            tags_html += f"<span class='badge badge-blue' style='margin-right:4px'>窗口 {html.escape(windows_text)}</span>"
+        tags_html += risk_badge(item["risk_state"])
+        return (
+            "<div class='card'>"
+            f"<div style='margin-bottom:8px'>{tags_html}</div>"
+            f"<h3><a href='/strategies/{item['strategy_id']}'>{html.escape(item['display_name'])}</a></h3>"
+            + (f"<p class='muted' style='font-size:12px;margin:4px 0 0'>{html.escape(extra_note)}</p>" if extra_note else "")
+            + f"<div class='metrics-row'>"
+            f"<div><div class='m-label'>CAGR</div><div class='m-val pos'>{fmt_pct(float(metrics.get('cagr',0)))}</div></div>"
+            f"<div><div class='m-label'>Sharpe</div><div class='m-val'>{float(metrics.get('sharpe_ratio',0)):.2f}</div></div>"
+            f"<div><div class='m-label'>Max DD</div><div class='m-val neg'>{fmt_pct(float(metrics.get('max_drawdown',0)))}</div></div>"
+            f"<div><div class='m-label'>总收益</div><div class='m-val'>{fmt_pct(float(metrics.get('total_return',0)))}</div></div>"
+            f"<div><div class='m-label'>换手率</div><div class='m-val'>{float(metrics.get('average_annual_turnover',0)):.2f}</div></div>"
+            f"<div><div class='m-label'>仓位</div><div class='m-val'>{fmt_pct(float(item['target_total_exposure']))}</div></div>"
+            f"</div>"
+            f"<div class='muted' style='font-size:11px'>{html.escape(adjustment_style_label(item))} · 更新 {html.escape(str(item['updated_at']))}</div>"
+            "</div>"
+        )
+
     sections = []
     for scope in ("a_share", "hkconnect"):
         items = groups.get(scope, [])
         if not items:
             continue
-        cards = []
-        for item in items:
-            metrics = item["summary_metrics"]
-            identity_text = winner_identity_label(item.get("winner_tags"))
-            windows_text = winner_windows_label(item.get("winner_tags"))
-            identity_html = (
-                f"<p class='muted'>身份：{html.escape(identity_text)}</p>"
-                if identity_text
-                else ""
-            )
-            windows_html = (
-                f"<p class='muted'>胜出窗口：{html.escape(windows_text)}</p>"
-                if windows_text
-                else ""
-            )
-            cards.append(
-                "<div class='card'>"
-                f"<div class='pill'>{html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} / {html.escape(item['path'])} / {html.escape(item['winner_type'])}</div>"
-                f"<h3 style='margin-top:12px'><a href='/strategies/{item['strategy_id']}'>{html.escape(item['display_name'])}</a></h3>"
-                f"<div class='muted'><code>{html.escape(item['strategy_id'])}</code></div>"
-                f"{identity_html}"
-                f"{windows_html}"
-                f"<p>Total Return {fmt_pct(float(metrics.get('total_return', 0.0)))} | CAGR {fmt_pct(float(metrics.get('cagr', 0.0)))} | MaxDD {fmt_pct(float(metrics.get('max_drawdown', 0.0)))} | Sharpe {float(metrics.get('sharpe_ratio', 0.0)):.4f} | Turn {float(metrics.get('average_annual_turnover', 0.0)):.2f}</p>"
-                f"<p>实际调整频率类型：{html.escape(adjustment_style_label(item))}</p>"
-                f"<p>当前总仓位建议: {fmt_pct(float(item['target_total_exposure']))} | 风险状态: {html.escape(item['risk_state'])} | 更新: {html.escape(str(item['updated_at']))}</p>"
-                "</div>"
-            )
-        section_html = f"<h2>{html.escape(market_scope_label(scope))}策略</h2><div class='grid grid-2'>{''.join(cards)}</div>"
+        # A股: split by path
         if scope == "a_share":
+            path_groups: dict[str, list] = {}
+            for item in items:
+                path_groups.setdefault(item["path"], []).append(item)
+            path_html = ""
+            for path_key in ("path1", "path2"):
+                path_items = path_groups.get(path_key, [])
+                if not path_items:
+                    continue
+                path_label = "Path 1 · 稳健路线" if path_key == "path1" else "Path 2 · 高收益探索"
+                path_html += (
+                    f"<div style='font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px'>{html.escape(path_label)}</div>"
+                    f"<div class='grid grid-2'>{''.join(strategy_card(it) for it in path_items)}</div>"
+                )
+            section_html = (
+                "<div class='page-section'>"
+                "<div class='section-heading'>A 股策略</div>"
+                + path_html + "</div>"
+            )
             chart_specs = [
                 ("2017窗口", "/docs/strategy_family_since_2017_01.png"),
                 ("2020窗口", "/docs/strategy_family_since_2020_01.png"),
                 ("2023窗口", "/docs/strategy_family_since_2023_01.png"),
                 ("2025窗口", "/docs/strategy_family_since_2025_01.png"),
             ]
-            chart_cards = []
-            for label, url in chart_specs:
-                chart_cards.append(
-                    "<div class='card'>"
-                    f"<h3>{html.escape(label)} core active family 对比图</h3>"
-                    f"<div class='muted' style='margin-bottom:12px'>当前默认展示的是 core active family。</div>"
-                    f"<img src='{html.escape(url)}' alt='{html.escape(label)} core active family 对比图' style='width:100%;border-radius:12px;border:1px solid #dbeafe' />"
-                    "</div>"
-                )
-            section_html += "<div style='margin-top:20px'><h2>A股 Core Family 对比图</h2><div class='grid grid-2'>" + "".join(chart_cards) + "</div></div>"
+            chart_cards = "".join(
+                f"<div class='card'><h3 style='margin-bottom:8px'>{html.escape(lbl)}</h3>"
+                f"<img src='{html.escape(url)}' alt='{html.escape(lbl)}' style='width:100%;border:1px solid #e0d8cc' /></div>"
+                for lbl, url in chart_specs
+            )
+            section_html += (
+                "<div class='page-section'>"
+                "<div class='section-heading'>Core Family 对比图</div>"
+                f"<div class='grid grid-2'>{chart_cards}</div></div>"
+            )
+        else:
+            section_html = (
+                "<div class='page-section'>"
+                "<div class='section-heading'>沪港通策略</div>"
+                f"<div class='grid grid-2'>{''.join(strategy_card(it) for it in items)}</div>"
+                "</div>"
+            )
         sections.append(section_html)
-    core_cards = []
-    for item in core_active_registry:
-        metrics = item["summary_metrics"]
-        core_cards.append(
-            "<div class='card'>"
-            f"<div class='pill'>A股 / {html.escape(item['path'])} / core active</div>"
-            f"<h3 style='margin-top:12px'><a href='/strategies/{item['strategy_id']}'>{html.escape(item['display_name'])}</a></h3>"
-            f"<div class='muted'><code>{html.escape(item['strategy_id'])}</code></div>"
-            "<p class='muted'>观察区：接近实盘候选，但当前不在 tracked winners 白名单内。</p>"
-            f"<p>Total Return {fmt_pct(float(metrics.get('total_return', 0.0)))} | CAGR {fmt_pct(float(metrics.get('cagr', 0.0)))} | MaxDD {fmt_pct(float(metrics.get('max_drawdown', 0.0)))} | Sharpe {float(metrics.get('sharpe_ratio', 0.0)):.4f} | Turn {float(metrics.get('average_annual_turnover', 0.0)):.2f}</p>"
-            f"<p>实际调整频率类型：{html.escape(adjustment_style_label(item))}</p>"
-            f"<p>当前总仓位建议: {fmt_pct(float(item['target_total_exposure']))} | 风险状态: {html.escape(item['risk_state'])} | 更新: {html.escape(str(item['updated_at']))}</p>"
-            "</div>"
-        )
-    if core_cards:
+
+    if core_active_registry:
+        core_html = "".join(strategy_card(it, extra_note="观察区：当前不在 tracked winners 白名单内") for it in core_active_registry)
         sections.append(
-            "<div style='margin-top:20px'>"
-            "<h2>A股 Core Active Family 观察区</h2>"
-            "<div class='muted' style='margin-bottom:12px'>这里展示的是 winner 之外最值得持续观察的核心活跃候选，默认仅供比较查看，不进入账户绑定白名单。</div>"
-            f"<div class='grid grid-2'>{''.join(core_cards)}</div>"
-            "</div>"
+            "<div class='page-section'>"
+            "<div class='section-heading'>A股 Core Active 观察区</div>"
+            "<p class='muted' style='margin-bottom:16px;font-size:13px'>winner 之外最值得持续观察的核心活跃候选，仅供比较查看，不进入账户绑定白名单。</p>"
+            f"<div class='grid grid-2'>{core_html}</div></div>"
         )
     return render_page("策略中心", "<h1>策略中心</h1>" + "".join(sections))
 
@@ -2482,20 +2556,23 @@ def accounts_html() -> str:
     return render_page(
         "账户中心",
         "<h1>账户中心</h1>"
-        + "<div class='card' style='margin-bottom:16px'><h2>新增账户</h2>"
-        + "<form method='post' action='/accounts/create'>"
-        + "<div class='grid grid-2'>"
-        + "<div><p>账户名称</p><input name='name' style='width:100%;padding:8px 10px'></div>"
-        + "<div><p>券商</p><input name='broker' style='width:100%;padding:8px 10px' value='手工测试'></div>"
-        + "<div><p>初始现金</p><input name='initial_cash' style='width:100%;padding:8px 10px' value='1000000'></div>"
-        + "<div><p>策略</p><select name='strategy_id' style='width:100%;padding:8px 10px'>" + "".join(options) + "</select></div>"
-        + "</div>"
-        + "<p>备注</p><input name='note' style='width:100%;padding:8px 10px'>"
-        + "<div style='margin-top:12px'><button>创建账户</button></div>"
-        + "</form></div>"
-        + "<div class='card'><table><thead><tr><th>账户</th><th>券商</th><th>当前策略</th><th>今日建议</th><th>偏离度</th><th>总资产</th></tr></thead><tbody>"
+        + "<div class='page-section'>"
+        + "<div class='section-heading'>账户列表</div>"
+        + "<table><thead><tr><th>账户</th><th>券商</th><th>当前策略</th><th>今日建议</th><th>偏离度</th><th>总资产</th></tr></thead><tbody>"
         + "".join(rows)
-        + "</tbody></table></div>",
+        + "</tbody></table></div>"
+        + "<div class='page-section'>"
+        + "<div class='section-heading'>新增账户</div>"
+        + "<div class='card'><form method='post' action='/accounts/create'>"
+        + "<div class='grid grid-2' style='gap:16px'>"
+        + "<div><label>账户名称</label><input name='name'></div>"
+        + "<div><label>券商</label><input name='broker' value='手工测试'></div>"
+        + "<div><label>初始现金</label><input name='initial_cash' value='1000000'></div>"
+        + "<div><label>策略</label><select name='strategy_id'>" + "".join(options) + "</select></div>"
+        + "</div>"
+        + "<div style='margin-top:12px'><label>备注</label><input name='note'></div>"
+        + "<div style='margin-top:16px'><button>创建账户</button></div>"
+        + "</form></div></div>",
     )
 
 
@@ -2520,35 +2597,77 @@ def account_detail_html(account_id: int, *, show_editor: bool = False) -> str:
     for target in strategy["latest_weights"]:
         cur = current_map.get(target["ts_code"])
         current_weight = float(cur["weight"]) if cur else 0.0
+        diff = float(target["weight"]) - current_weight
+        action_label = "买入" if diff > 0.001 else ("卖出" if diff < -0.001 else "持有")
+        action_cls = "pos" if action_label == "买入" else ("neg" if action_label == "卖出" else "muted")
         rows.append(
-            f"<tr><td>{html.escape(target['ts_code'])}</td><td>{html.escape(target['name'])}</td><td>{fmt_pct(current_weight)}</td><td>{fmt_pct(float(target['weight']))}</td><td>{fmt_pct(float(target['weight'])-current_weight)}</td><td>{'买入' if float(target['weight'])>current_weight else '持有/卖出'}</td></tr>"
+            f"<tr>"
+            f"<td style='font-family:monospace;font-size:12px;color:var(--muted)'>{html.escape(target['ts_code'])}</td>"
+            f"<td>{html.escape(target['name'])}</td>"
+            f"<td>{fmt_pct(current_weight)}</td>"
+            f"<td style='font-weight:600'>{fmt_pct(float(target['weight']))}</td>"
+            f"<td>{signed_pct_html(diff)}</td>"
+            f"<td><span class='{action_cls}'>{action_label}</span></td>"
+            f"</tr>"
         )
     tasks_rows = []
     for task in get_tasks(account_id)[:10]:
+        status_label = task_status_label(str(task["status"]))
+        status_cls = {"已执行": "badge-green", "待执行": "badge-amber", "部分成交": "badge-blue", "已忽略": "badge-muted"}.get(status_label, "badge-muted")
         tasks_rows.append(
-            f"<tr><td><a href='/tasks/{task['id']}'>#{task['id']}</a></td><td>{html.escape(task_type_label(str(task['task_type'])))}</td><td>{html.escape(task_status_label(str(task['status'])))}</td><td>{html.escape(task['created_at'])}</td></tr>"
+            f"<tr>"
+            f"<td><a href='/tasks/{task['id']}'>#{task['id']}</a></td>"
+            f"<td>{html.escape(task_type_label(str(task['task_type'])))}</td>"
+            f"<td><span class='badge {status_cls}'>{html.escape(status_label)}</span></td>"
+            f"<td class='muted'>{html.escape(task['created_at'])}</td>"
+            f"</tr>"
         )
     if not tasks_rows:
         tasks_rows.append("<tr><td colspan='4' class='muted'>暂无任务</td></tr>")
     existing_holdings = get_holdings(account_id)
     pnl_rows = []
     for row in current["positions"]:
+        pnl_cls = "pos" if float(row["unrealized_pnl"]) > 0 else ("neg" if float(row["unrealized_pnl"]) < 0 else "")
         pnl_rows.append(
-            f"<tr><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td>{row['shares']:.2f}</td><td>{fmt_amt(row['cost_price'])}</td><td>{fmt_amt(row['last_price'])}</td><td>{fmt_amt(row['market_value'])}</td><td>{fmt_amt(row['unrealized_pnl'])}</td><td>{fmt_pct(row['unrealized_pnl_pct'])}</td></tr>"
+            f"<tr>"
+            f"<td style='font-family:monospace;font-size:12px;color:var(--muted)'>{html.escape(row['ts_code'])}</td>"
+            f"<td>{html.escape(row['name'])}</td>"
+            f"<td>{row['shares']:.0f}</td>"
+            f"<td>{fmt_amt(row['cost_price'])}</td>"
+            f"<td>{fmt_amt(row['last_price'])}</td>"
+            f"<td style='font-weight:600'>{fmt_amt(row['market_value'])}</td>"
+            f"<td class='{pnl_cls}'>{fmt_amt(row['unrealized_pnl'])}</td>"
+            f"<td class='{pnl_cls}'>{fmt_pct(row['unrealized_pnl_pct'])}</td>"
+            f"</tr>"
         )
     trade_rows = []
     for trade in get_account_trades(account_id, limit=20):
-        realized_text = fmt_amt(float(trade["realized_pnl"])) if trade["realized_pnl"] is not None else "-"
+        realized_text = fmt_amt(float(trade["realized_pnl"])) if trade["realized_pnl"] is not None else "—"
+        side_label = "买入" if trade["side"] == "buy" else "卖出"
+        side_cls = "pos" if trade["side"] == "buy" else "neg"
         action_html = (
-            f"<a class='button' style='padding:6px 10px;font-size:12px' href='/trades/{int(trade['id'])}/edit'>编辑</a>"
+            f"<a class='button' style='padding:4px 8px;font-size:11px' href='/trades/{int(trade['id'])}/edit'>编辑</a>"
             if trade["task_id"] is None
-            else "<span class='muted'>任务生成</span>"
+            else "<span class='muted' style='font-size:11px'>任务生成</span>"
         )
         trade_rows.append(
-            f"<tr><td>{html.escape(trade['executed_at'])}</td><td>{html.escape(trade['ts_code'])}</td><td>{html.escape(trade['name'])}</td><td>{html.escape('买入' if trade['side']=='buy' else '卖出')}</td><td>{float(trade['shares']):.2f}</td><td>{fmt_amt(float(trade['price']))}</td><td>{fmt_amt(float(trade['gross_amount']))}</td><td>{fmt_amt(float(trade['fee']))}</td><td>{fmt_amt(float(trade['net_cash_change']))}</td><td>{realized_text}</td><td>{html.escape(trade_note_label(str(trade['note'] or '')))}</td><td>{action_html}</td></tr>"
+            f"<tr>"
+            f"<td class='muted'>{html.escape(trade['executed_at'])}</td>"
+            f"<td style='font-family:monospace;font-size:12px'>{html.escape(trade['ts_code'])}</td>"
+            f"<td>{html.escape(trade['name'])}</td>"
+            f"<td><span class='{side_cls}'>{side_label}</span></td>"
+            f"<td>{float(trade['shares']):.0f}</td>"
+            f"<td>{fmt_amt(float(trade['price']))}</td>"
+            f"<td>{fmt_amt(float(trade['gross_amount']))}</td>"
+            f"<td class='muted'>{fmt_amt(float(trade['fee']))}</td>"
+            f"<td>{fmt_amt(float(trade['net_cash_change']))}</td>"
+            f"<td>{realized_text}</td>"
+            f"<td class='muted'>{html.escape(trade_note_label(str(trade['note'] or '')))}</td>"
+            f"<td>{action_html}</td>"
+            f"</tr>"
         )
     if not trade_rows:
-        trade_rows.append("<tr><td colspan='11' class='muted'>暂无交易流水</td></tr>")
+        trade_rows.append("<tr><td colspan='12' class='muted'>暂无交易流水</td></tr>")
     strategy_options = []
     for item in registry:
         selected = " selected" if item["strategy_id"] == binding["strategy_id"] else ""
@@ -2617,44 +2736,84 @@ def account_detail_html(account_id: int, *, show_editor: bool = False) -> str:
         + f"<a class='button' href='/accounts/{account_id}?edit=1'>手工输入 / 编辑当前持仓</a>"
         + "</div>"
     )
+    pnl_cls = "pos" if total_pnl > 0 else ("neg" if total_pnl < 0 else "")
     body = (
-        "<div style='display:flex;justify-content:space-between;align-items:flex-start;gap:16px'>"
+        # ── Header ──
+        "<div class='page-section' style='display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap'>"
         + "<div>"
-        + f"<h1>账户详情 - {html.escape(account['name'])}</h1>"
-        f"<p>券商: {html.escape(account['broker'])} | 初始本金: {fmt_amt(initial_capital)} | 总资产: {fmt_amt(float(current['total_assets']))} | 现金: {fmt_amt(float(account['cash']))} | 股票市值: {fmt_amt(current['market_value'])}</p>"
-        f"<p>总盈亏: {fmt_amt(total_pnl)} | 总盈亏率: {fmt_pct(total_pnl_pct)}</p>"
-        f"<p>当前策略: <a href='/strategies/{quote(str(strategy['strategy_id']))}'>{html.escape(strategy['display_name'])}</a> | 当前建议仓位: {fmt_pct(float(strategy['target_total_exposure']))} | 风险状态: {html.escape(strategy['risk_state'])}</p>"
-        f"<p class='muted'>当前价格来源：{html.escape(current['price_source_label'])}</p>"
+        + f"<h1 style='margin:0 0 4px'>{html.escape(account['name'])}</h1>"
+        + f"<p class='muted' style='margin:0'>{html.escape(account['broker'])} · 价格来源：{html.escape(current['price_source_label'])}</p>"
         + "</div>"
         + "<div style='display:flex;gap:8px;flex-wrap:wrap'>"
         + f"<a class='button' href='/accounts/{account_id}/switch-strategy'>切换策略</a>"
         + f"<a class='button' style='background:#b91c1c' href='/accounts/{account_id}/delete-confirm'>删除账户</a>"
         + "</div></div>"
-        + "<div class='card'><h2>今日建议</h2>"
-        + f"<p><strong>{html.escape(advice['type'])}</strong>：{html.escape(advice['reason'])}</p>"
+        # ── Key metrics ──
+        + "<div class='page-section'>"
+        + "<div class='metrics-row'>"
+        + f"<div><span class='m-label'>总资产</span><span class='m-val'>{fmt_amt(float(current['total_assets']))}</span></div>"
+        + f"<div><span class='m-label'>初始本金</span><span class='m-val'>{fmt_amt(initial_capital)}</span></div>"
+        + f"<div><span class='m-label'>总盈亏</span><span class='m-val {pnl_cls}'>{fmt_amt(total_pnl)}</span></div>"
+        + f"<div><span class='m-label'>总盈亏率</span><span class='m-val {pnl_cls}'>{fmt_pct(total_pnl_pct)}</span></div>"
+        + f"<div><span class='m-label'>现金</span><span class='m-val'>{fmt_amt(float(account['cash']))}</span></div>"
+        + f"<div><span class='m-label'>股票市值</span><span class='m-val'>{fmt_amt(current['market_value'])}</span></div>"
+        + "</div></div>"
+        # ── Strategy binding ──
+        + "<div class='page-section'>"
+        + f"<p class='muted' style='margin:0 0 6px'>当前策略：<a href='/strategies/{quote(str(strategy['strategy_id']))}'>{html.escape(strategy['display_name'])}</a></p>"
+        + f"<p style='margin:0'>建议仓位 <strong>{fmt_pct(float(strategy['target_total_exposure']))}</strong> &nbsp;·&nbsp; 风险状态 {risk_badge(str(strategy['risk_state']))}</p>"
+        + "</div>"
+        # ── Today advice ──
+        + "<div class='page-section'>"
+        + "<h2 class='section-heading'>今日建议</h2>"
+        + "<div class='card'>"
+        + f"<p style='margin:0 0 10px'>{advice_badge(str(advice['type']))} <span style='margin-left:8px'>{html.escape(advice['reason'])}</span></p>"
         + "<div class='actions'>"
         + f"<form method='post' action='/accounts/{account_id}/tasks/rebalance'><button>生成正式调仓单</button></form>"
         + f"<form method='post' action='/accounts/{account_id}/tasks/drift-fix'><button class='secondary'>生成偏离修正单</button></form>"
-        + "</div></div>"
-        + ("<div class='card' style='margin-top:16px'><h2>策略切换建议</h2>"
-           f"<p>建议策略：<a href='/strategies/{quote(str(suggestion['suggested_strategy_id']))}'>{html.escape(suggestion.get('suggested_display_name', suggestion['suggested_strategy_id']))}</a> <span class='muted'><code>{html.escape(suggestion['suggested_strategy_id'])}</code></span></p>"
-           f"<p>{html.escape(suggestion['reason'])}</p></div>" if suggestion else "")
-        + "<div class='card' style='margin-top:16px'><h2>当前持仓盈亏</h2><table><thead><tr><th>代码</th><th>名称</th><th>数量</th><th>成本价</th><th>当前价</th><th>当前市值</th><th>浮盈亏</th><th>收益率</th></tr></thead><tbody>"
+        + "</div></div></div>"
+        # ── Strategy switch suggestion (conditional) ──
+        + (
+            "<div class='page-section'>"
+            + "<h2 class='section-heading'>策略切换建议</h2>"
+            + "<div class='card'>"
+            + f"<p style='margin:0 0 6px'>建议策略：<a href='/strategies/{quote(str(suggestion['suggested_strategy_id']))}'>{html.escape(suggestion.get('suggested_display_name', suggestion['suggested_strategy_id']))}</a></p>"
+            + f"<p class='muted' style='margin:0'>{html.escape(suggestion['reason'])}</p>"
+            + "</div></div>"
+            if suggestion else ""
+        )
+        # ── Holdings PnL ──
+        + "<div class='page-section'>"
+        + "<h2 class='section-heading'>当前持仓盈亏</h2>"
+        + "<div class='card'>"
+        + "<table><thead><tr><th>代码</th><th>名称</th><th>数量</th><th>成本价</th><th>当前价</th><th>当前市值</th><th>浮盈亏</th><th>收益率</th></tr></thead><tbody>"
         + "".join(pnl_rows)
         + "</tbody></table>"
         + holding_editor
-        + "</div>"
-        + "<div class='card' style='margin-top:16px'><h2>当前持仓 vs 目标持仓</h2><table><thead><tr><th>代码</th><th>名称</th><th>当前权重</th><th>目标权重</th><th>偏离</th><th>建议动作</th></tr></thead><tbody>"
+        + "</div></div>"
+        # ── Holdings diff ──
+        + "<div class='page-section'>"
+        + "<h2 class='section-heading'>当前持仓 vs 目标持仓</h2>"
+        + "<div class='card'>"
+        + "<table><thead><tr><th>代码</th><th>名称</th><th>当前权重</th><th>目标权重</th><th>偏离</th><th>建议动作</th></tr></thead><tbody>"
         + "".join(rows)
-        + "</tbody></table></div>"
-        + "<div class='card' style='margin-top:16px'><h2>最近任务</h2><table><thead><tr><th>任务</th><th>类型</th><th>状态</th><th>创建时间</th></tr></thead><tbody>"
+        + "</tbody></table></div></div>"
+        # ── Recent tasks ──
+        + "<div class='page-section'>"
+        + "<h2 class='section-heading'>最近任务</h2>"
+        + "<div class='card'>"
+        + "<table><thead><tr><th>任务</th><th>类型</th><th>状态</th><th>创建时间</th></tr></thead><tbody>"
         + "".join(tasks_rows)
-        + "</tbody></table></div>"
-        + "<div class='card' style='margin-top:16px'><h2>交易流水</h2><table><thead><tr><th>时间</th><th>代码</th><th>名称</th><th>方向</th><th>数量</th><th>价格</th><th>成交额</th><th>费用</th><th>现金变化</th><th>已实现盈亏</th><th>备注</th><th>操作</th></tr></thead><tbody>"
+        + "</tbody></table></div></div>"
+        # ── Trade history ──
+        + "<div class='page-section'>"
+        + "<h2 class='section-heading'>交易流水</h2>"
+        + "<div class='card'>"
+        + "<table><thead><tr><th>时间</th><th>代码</th><th>名称</th><th>方向</th><th>数量</th><th>价格</th><th>成交额</th><th>费用</th><th>现金变化</th><th>已实现盈亏</th><th>备注</th><th>操作</th></tr></thead><tbody>"
         + "".join(trade_rows)
         + "</tbody></table>"
         + f"<div style='margin-top:12px'><a class='button' href='/accounts/{account_id}/trades/new'>新增手工交易</a></div>"
-        + "</div>"
+        + "</div></div>"
     )
     return render_page("账户详情", body)
 
