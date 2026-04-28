@@ -1,0 +1,37 @@
+name: Sync results to vibehome
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'results/public_snapshot.json'
+      - 'results/strategies/**'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout aiinvestor
+        uses: actions/checkout@v4
+
+      - name: Checkout vibehome
+        uses: actions/checkout@v4
+        with:
+          repository: willyufan/vibehome
+          token: ${{ secrets.VIBEHOME_TOKEN }}
+          path: vibehome
+
+      - name: Copy results
+        run: |
+          mkdir -p vibehome/results/strategies
+          cp results/public_snapshot.json vibehome/results/
+          cp results/strategies/*.json vibehome/results/strategies/
+
+      - name: Commit and push
+        run: |
+          cd vibehome
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add results/
+          git diff --cached --quiet && echo "No changes" || \
+            git commit -m "Auto-sync results from aiinvestor" && git push
