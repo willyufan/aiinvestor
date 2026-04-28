@@ -610,6 +610,53 @@ def load_hkconnect_registry() -> list[dict[str, Any]]:
     return list(dedup.values())
 
 
+@functools.lru_cache(maxsize=4)
+def latest_market_data_as_of(market_scope: str) -> str | None:
+    cache_dir = HK_DAILY_CACHE_DIR if market_scope == "hkconnect" else DAILY_CACHE_DIR
+    if not cache_dir.exists():
+        return None
+    latest: pd.Timestamp | None = None
+    for path in cache_dir.glob("*.csv"):
+        try:
+            frame = pd.read_csv(path, usecols=["trade_date"])
+            if frame.empty:
+                continue
+            parsed = pd.to_datetime(frame["trade_date"], errors="coerce").max()
+            if pd.isna(parsed):
+                continue
+            latest = pd.Timestamp(parsed) if latest is None else max(latest, pd.Timestamp(parsed))
+        except (OSError, ValueError, pd.errors.EmptyDataError):
+            continue
+    return latest.strftime("%Y-%m-%d") if latest is not None else None
+
+
+def _registry_item(item: dict[str, Any]) -> dict[str, Any]:
+    formal_schedule = item.get("formal_schedule") or {}
+    market_scope = item.get("market_scope", "a_share")
+    data_as_of = latest_market_data_as_of(str(market_scope)) or formal_schedule.get("data_as_of") or item.get("updated_at")
+    signal_effective_date = formal_schedule.get("suggestion_effective_date") or item.get("updated_at")
+    basket_effective_date = formal_schedule.get("basket_effective_date") or signal_effective_date
+    exposure_effective_date = formal_schedule.get("exposure_effective_date") or signal_effective_date
+    return {
+        "strategy_id": item["strategy_id"],
+        "display_name": item["display_name"],
+        "path": item["path"],
+        "market_scope": market_scope,
+        "winner_type": item["winner_type"],
+        "winner_tags": item["winner_tags"],
+        "adjustment_style": item["adjustment_style"],
+        "target_total_exposure": item["target_total_exposure"],
+        "risk_state": item["risk_state"],
+        "summary_metrics": item["summary_metrics"],
+        "updated_at": item["updated_at"],
+        "data_as_of": data_as_of,
+        "signal_effective_date": signal_effective_date,
+        "basket_effective_date": basket_effective_date,
+        "exposure_effective_date": exposure_effective_date,
+        "schedule_kind": formal_schedule.get("schedule_kind", ""),
+    }
+
+
 def export_live_data() -> dict[str, Any]:
     payload = load_json(TRACKED_WINNERS_JSON)
     strategies_map: dict[str, Any] = payload["strategies"]
@@ -721,38 +768,8 @@ def export_live_data() -> dict[str, Any]:
 
     registry_payload = {
         "as_of": payload["as_of"],
-        "strategies": [
-            {
-                "strategy_id": item["strategy_id"],
-                "display_name": item["display_name"],
-                "path": item["path"],
-                "market_scope": item.get("market_scope", "a_share"),
-                "winner_type": item["winner_type"],
-                "winner_tags": item["winner_tags"],
-                "adjustment_style": item["adjustment_style"],
-                "target_total_exposure": item["target_total_exposure"],
-                "risk_state": item["risk_state"],
-                "summary_metrics": item["summary_metrics"],
-                "updated_at": item["updated_at"],
-            }
-            for item in registry
-        ],
-        "core_active_strategies": [
-            {
-                "strategy_id": item["strategy_id"],
-                "display_name": item["display_name"],
-                "path": item["path"],
-                "market_scope": item.get("market_scope", "a_share"),
-                "winner_type": item["winner_type"],
-                "winner_tags": item["winner_tags"],
-                "adjustment_style": item["adjustment_style"],
-                "target_total_exposure": item["target_total_exposure"],
-                "risk_state": item["risk_state"],
-                "summary_metrics": item["summary_metrics"],
-                "updated_at": item["updated_at"],
-            }
-            for item in core_active_registry
-        ],
+        "strategies": [_registry_item(item) for item in registry],
+        "core_active_strategies": [_registry_item(item) for item in core_active_registry],
     }
     (LIVE_DIR / "strategy_registry.json").write_text(
         json.dumps(registry_payload, ensure_ascii=False, indent=2) + "\n",

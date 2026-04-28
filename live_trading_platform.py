@@ -2233,6 +2233,8 @@ def strategies_html() -> str:
         winner_tags = item.get("winner_tags") or []
         is_robust = any(str(t).split(":")[-1] == "robust candidate" for t in winner_tags)
         windows_text = winner_windows_label(winner_tags)
+        data_as_of = str(item.get("data_as_of") or item.get("updated_at") or "")
+        signal_effective_date = str(item.get("signal_effective_date") or item.get("updated_at") or "")
         tags_html = ""
         if windows_text:
             robust_suffix = " / 鲁棒" if is_robust else ""
@@ -2253,7 +2255,7 @@ def strategies_html() -> str:
             f"<div><div class='m-label'>换手率</div><div class='m-val'>{float(metrics.get('average_annual_turnover',0)):.2f}</div></div>"
             f"<div><div class='m-label'>仓位</div><div class='m-val'>{fmt_pct(float(item['target_total_exposure']))}</div></div>"
             f"</div>"
-            f"<div class='muted' style='font-size:11px'>{html.escape(adjustment_style_label(item))} · 更新 {html.escape(str(item['updated_at']))}</div>"
+            f"<div class='muted' style='font-size:11px'>{html.escape(adjustment_style_label(item))} · 数据截止 {html.escape(data_as_of)} · 换股/信号 {html.escape(signal_effective_date)}</div>"
             "</div>"
         )
 
