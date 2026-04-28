@@ -2230,10 +2230,15 @@ def strategies_html() -> str:
 
     def strategy_card(item: dict, extra_note: str = "") -> str:
         metrics = item["summary_metrics"]
-        windows_text = winner_windows_label(item.get("winner_tags"))
+        winner_tags = item.get("winner_tags") or []
+        is_robust = any(str(t).split(":")[-1] == "robust candidate" for t in winner_tags)
+        windows_text = winner_windows_label(winner_tags)
         tags_html = ""
         if windows_text:
-            tags_html += f"<span class='badge badge-blue' style='margin-right:4px'>窗口 {html.escape(windows_text)}</span>"
+            robust_suffix = " / 鲁棒" if is_robust else ""
+            tags_html += f"<span class='badge badge-blue' style='margin-right:4px'>窗口 {html.escape(windows_text)}{robust_suffix}</span>"
+        elif is_robust:
+            tags_html += "<span class='badge badge-blue' style='margin-right:4px'>鲁棒</span>"
         tags_html += risk_badge(item["risk_state"])
         return (
             "<div class='card'>"
@@ -2277,22 +2282,6 @@ def strategies_html() -> str:
                 "<div class='section-heading'>A 股策略</div>"
                 + path_html + "</div>"
             )
-            chart_specs = [
-                ("2017窗口", "/docs/strategy_family_since_2017_01.png"),
-                ("2020窗口", "/docs/strategy_family_since_2020_01.png"),
-                ("2023窗口", "/docs/strategy_family_since_2023_01.png"),
-                ("2025窗口", "/docs/strategy_family_since_2025_01.png"),
-            ]
-            chart_cards = "".join(
-                f"<div class='card'><h3 style='margin-bottom:8px'>{html.escape(lbl)}</h3>"
-                f"<img src='{html.escape(url)}' alt='{html.escape(lbl)}' style='width:100%;border:1px solid #e0d8cc' /></div>"
-                for lbl, url in chart_specs
-            )
-            section_html += (
-                "<div class='page-section'>"
-                "<div class='section-heading'>Core Family 对比图</div>"
-                f"<div class='grid grid-2'>{chart_cards}</div></div>"
-            )
         else:
             section_html = (
                 "<div class='page-section'>"
@@ -2310,6 +2299,24 @@ def strategies_html() -> str:
             "<p class='muted' style='margin-bottom:16px;font-size:13px'>winner 之外最值得持续观察的核心活跃候选，仅供比较查看，不进入账户绑定白名单。</p>"
             f"<div class='grid grid-2'>{core_html}</div></div>"
         )
+
+    chart_specs = [
+        ("2017窗口", "/docs/strategy_family_since_2017_01.png"),
+        ("2020窗口", "/docs/strategy_family_since_2020_01.png"),
+        ("2023窗口", "/docs/strategy_family_since_2023_01.png"),
+        ("2025窗口", "/docs/strategy_family_since_2025_01.png"),
+    ]
+    chart_cards = "".join(
+        f"<div class='card'><h3 style='margin-bottom:8px'>{html.escape(lbl)}</h3>"
+        f"<img src='{html.escape(url)}' alt='{html.escape(lbl)}' style='width:100%;border:1px solid #e0d8cc' /></div>"
+        for lbl, url in chart_specs
+    )
+    sections.append(
+        "<div class='page-section'>"
+        "<div class='section-heading'>Core Family 对比图</div>"
+        f"<div class='grid grid-2'>{chart_cards}</div></div>"
+    )
+
     return render_page("策略中心", "<h1>策略中心</h1>" + "".join(sections))
 
 
