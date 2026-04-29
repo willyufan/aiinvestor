@@ -25,6 +25,7 @@ from scripts.export_live_platform_data import (
     _load_sample_view,
     build_strategy_detail_payload,
     guess_sample_tag,
+    latest_market_data_as_of,
     SAMPLE_LABELS,
     SAMPLE_TAGS,
     load_json,
@@ -111,6 +112,7 @@ def build_strategy_entry(
             })
 
     sched = view.get("formal_schedule", {}) if view else {}
+    market_data_as_of = latest_market_data_as_of(market_scope)
     return {
         "strategy_id":           strategy_id,
         "display_name":          base_name,
@@ -122,7 +124,7 @@ def build_strategy_entry(
         "risk_state":            view.get("risk_state", "unknown") if view else "unknown",
         "target_exposure":       round(float(view.get("target_total_exposure", 1.0)), 4) if view else 1.0,
         "updated_at":            view.get("updated_at", "") if view else "",
-        "data_as_of":            sched.get("data_as_of") or (view.get("updated_at", "") if view else ""),
+        "data_as_of":            market_data_as_of or sched.get("data_as_of") or (view.get("updated_at", "") if view else ""),
         "signal_effective_date": sched.get("suggestion_effective_date") or (view.get("updated_at", "") if view else ""),
         "metrics":               metrics,
         "window_metrics":        build_window_metrics(strategy_id, strategies_map),
@@ -179,6 +181,7 @@ def build_hk_entries(hk_payload: dict[str, Any]) -> list[dict]:
                         "weight":  round(float(row["weight"]), 6),
                     })
             sched = view.get("formal_schedule", {}) if view else {}
+            market_data_as_of = latest_market_data_as_of("hkconnect")
             entries.append({
                 "strategy_id":           strategy_id,
                 "display_name":          base_name,
@@ -190,7 +193,7 @@ def build_hk_entries(hk_payload: dict[str, Any]) -> list[dict]:
                 "risk_state":            view.get("risk_state", "unknown") if view else "unknown",
                 "target_exposure":       round(float(view.get("target_total_exposure", 1.0)), 4) if view else 1.0,
                 "updated_at":            view.get("updated_at", "") if view else "",
-                "data_as_of":            sched.get("data_as_of") or (view.get("updated_at", "") if view else ""),
+                "data_as_of":            market_data_as_of or sched.get("data_as_of") or (view.get("updated_at", "") if view else ""),
                 "signal_effective_date": sched.get("suggestion_effective_date") or (view.get("updated_at", "") if view else ""),
                 "metrics":               metrics,
                 "window_metrics":        build_window_metrics(strategy_id, strategies_map),
@@ -234,7 +237,11 @@ def export_strategy_detail(
     except FileNotFoundError:
         return
     sample_views_out: dict[str, Any] = {}
+    market_data_as_of = latest_market_data_as_of(market_scope)
     for tag, view in (detail.get("sample_views") or {}).items():
+        formal_schedule = dict(view.get("formal_schedule", {}))
+        if market_data_as_of:
+            formal_schedule["data_as_of"] = market_data_as_of
         sample_views_out[tag] = {
             "sample_tag": tag,
             "sample_tag_label": view.get("sample_tag_label", tag),
@@ -245,7 +252,7 @@ def export_strategy_detail(
                 {"ts_code": str(r["ts_code"]), "name": str(r["name"]), "weight": round(float(r["weight"]), 6)}
                 for r in (view.get("latest_weights") or [])
             ],
-            "formal_schedule": view.get("formal_schedule", {}),
+            "formal_schedule": formal_schedule,
             "equity_curve_points": [
                 {"date": str(p["date"]), "nav": round(float(p["nav"]), 6)}
                 for p in (view.get("equity_curve_points") or [])
