@@ -17,6 +17,12 @@
 - 四个 tracked winners 继续未改写，因此不补跑确认回测。
 - 最近似候选仍不满足替换条件：`since_2020_01` 的 `aggr_05_95_prom7__sat_three_stage_buffered` 达到 `27.83% CAGR / -25.00% MaxDD / 1.0264 Sharpe / 0.67 Turnover`，收益和 Sharpe 更高但回撤恶化超阈值；`since_2023_01` 的 `aggr_10_90_hold_4_6__port_weekly_exposure` 达到 `30.93% CAGR`，但 Sharpe 降到 `0.8987` 且 MaxDD 扩到 `-31.82%`；`since_2025_01` 的 `aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered` 达到 `104.59% CAGR`，但 Sharpe 低于当前 tracked winner。
 
+### 本轮补充（2026-04-30 06:35 CST）
+
+- 重新运行 `.venv/bin/python scripts/winner_only_pass.py`，并在 Path 2 微批量回测后重建完整 comparison CSV 再复跑一次；输出仍为 `as_of=2026-04-30 / base_candidates=24 / total_candidates=168 / evaluated=168`。
+- 四个 Path 1 tracked winners 均未改写，最近似候选仍是同一组：`since_2020_01` 的 `aggr_05_95_prom7__sat_three_stage_buffered` 回撤恶化过大，`since_2023_01` 的 `aggr_10_90_hold_4_6__port_weekly_exposure` Sharpe/MaxDD 不合格，`since_2025_01` 的 `aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered` Sharpe 低于当前 winner。
+- 本轮 Path 1 不触发确认回测；后续仍保留 `weekly_exposure_path` 中 `buffered / asym` 的固定对照顺序。
+
 ## 上轮执行计划（2026-04-29）
 
 - 本轮继续限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不新增 Path 1 候选族。

@@ -14,6 +14,12 @@
 - `since_2026_01` 仍只做观察窗；raw leader 继续为 `hkconnect_path2_breakout_concentrated_monthly`（`361.49% CAGR / -1.31% MaxDD / 2.2491 Sharpe / 7.51 Turnover`），不进入 tracked winners。
 - 本轮港股 tracked JSON 与港股对比图重写后没有实质 git diff；公开快照的有效同步来自 A 股 `data_as_of=2026-04-30` 更新，港股信号/换股生效日仍由真实周频或月频评估点决定。
 
+### 本轮补充（2026-04-30 06:35 CST）
+
+- 再次完成港股五窗口回测与 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`；tracked JSON 与 Path 2 图表重写后仍无实质 git diff。
+- Path 2 tracked winners 继续维持：`since_2017_01 / since_2020_01` 为 `hkconnect_path2_theme_monthly`，`since_2023_01` 为 `hkconnect_path2_theme_fast_weekly`，`since_2025_01` 为 `hkconnect_path2_breakout_concentrated_monthly`，四窗口 robust candidate 仍是 `hkconnect_path2_theme_fast_weekly`。
+- `since_2026_01` 继续只作为观察窗，raw leader 仍为 `hkconnect_path2_breakout_concentrated_monthly`；本轮不因月频当前胜出而移除双周/单周候选。
+
 ## 上轮执行计划（2026-04-29）
 
 - 本轮继续单独评估港股 Path 2 的 `theme_monthly / theme_fast_weekly / breakout_concentrated_monthly` 当前锚点结构，不复用 A 股 Path 2 结论。

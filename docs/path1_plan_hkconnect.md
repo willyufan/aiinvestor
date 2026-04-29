@@ -13,6 +13,12 @@
 - 关键指标未出现 winner 切换：`since_2017_01 / since_2020_01` 为 `23.08% CAGR / -13.41% MaxDD / 1.2383 Sharpe / 9.72 Turnover`，`since_2023_01` 为 `35.04% CAGR / -13.41% MaxDD / 1.5530 Sharpe / 10.62 Turnover`，`since_2025_01` 为 `49.82% CAGR / -13.41% MaxDD / 1.7137 Sharpe / 13.03 Turnover`。
 - `since_2026_01` 仍只作为观察窗；当前 Path 1 raw leader 是 `hkconnect_path1_weekly_lowvol`（`27.00% CAGR / -4.77% MaxDD / 1.6656 Sharpe / 5.33 Turnover`），不进入 tracked winners。本轮港股 tracked JSON 与港股对比图重写后没有实质 git diff，说明当前港股 Path 1 仍是确认性重跑。
 
+### 本轮补充（2026-04-30 06:35 CST）
+
+- 再次运行港股五窗口回测与 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`；`results_hkconnect/tracked_winners_hkconnect.json` 与港股 Path 1 图表重写后仍无实质 git diff。
+- Path 1 四窗口 tracked winner 继续全部是 `hkconnect_path1_weekly_equal_buffered`，`since_2026_01` 仍只保留为观察窗；本轮没有把月频、双周或低波候选晋升为 tracked winner。
+- 港股 Path 1 结论继续独立于 A 股，不并入 `winner_only_pass`；下一轮仍用 `monthly_equal_buffered / monthly_lowvol` 作为低换手、低回撤对照。
+
 ## 上轮执行计划（2026-04-29）
 
 - 本轮继续单独运行 `./.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，港股 Path 1 结论不并入 A 股 winner。
