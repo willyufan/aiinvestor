@@ -4,7 +4,20 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
-## 本轮执行计划（2026-04-29）
+## 本轮执行计划（2026-04-30）
+
+- 本轮继续限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不新增 Path 1 候选族。
+- 快筛优先运行 `.venv/bin/python scripts/winner_only_pass.py`，维持 `24` 个 fast-pass base candidates / `168` 个展开候选。
+- `weekly_exposure_path` 继续优先比较 `__port_weekly_exposure_buffered` 与 `__port_weekly_exposure_asym`；只有候选明确改写窗口赢家时，才补跑必要确认回测。
+
+### 本轮快筛记录（2026-04-30）
+
+- 先发现共享 `results/strategy_comparison_base_method.csv` 被压缩到 `73` 行，随后用本地 `summary.json` 缓存重建到 `1477` 行 / `500` 个 base strategies，再重跑 `.venv/bin/python scripts/winner_only_pass.py`。
+- 重跑后输出为：`as_of=2026-04-30 / base_candidates=24 / total_candidates=168 / evaluated=168`。
+- 四个 tracked winners 继续未改写，因此不补跑确认回测。
+- 最近似候选仍不满足替换条件：`since_2020_01` 的 `aggr_05_95_prom7__sat_three_stage_buffered` 达到 `27.83% CAGR / -25.00% MaxDD / 1.0264 Sharpe / 0.67 Turnover`，收益和 Sharpe 更高但回撤恶化超阈值；`since_2023_01` 的 `aggr_10_90_hold_4_6__port_weekly_exposure` 达到 `30.93% CAGR`，但 Sharpe 降到 `0.8987` 且 MaxDD 扩到 `-31.82%`；`since_2025_01` 的 `aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered` 达到 `104.59% CAGR`，但 Sharpe 低于当前 tracked winner。
+
+## 上轮执行计划（2026-04-29）
 
 - 本轮继续限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不新增 Path 1 候选族。
 - 快筛优先运行 `.venv/bin/python scripts/winner_only_pass.py`，维持约 `24-28` 个 fast-pass base candidates 的预算。

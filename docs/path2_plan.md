@@ -13,7 +13,21 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
-## 本轮执行计划（2026-04-29）
+## 本轮执行计划（2026-04-30）
+
+- 本轮继续独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，不要求先打赢 Path 1 才记录结果。
+- 候选宇宙继续维持五个 family：`high_concentration_breakout / high_growth_theme / momentum_equal_weight_elastic / biweekly_rebalance_aggressive / weekly_rebalance_aggressive`。
+- 重点仍是保持 `100+` family-ranked universe，并优先观察是否出现更适配 `since_2020_01` 的中周期高收益原型；若无 winner 改写，只同步记录扫描结果。
+
+### 本轮快筛记录（2026-04-30）
+
+- 在发现 A 股 comparison CSV 只剩 `73` 行后，先用缓存 summary 重建为 `1477` 行 / `500` 个 base strategies，再运行 `.venv/bin/python scripts/path2_candidate_pass.py`。
+- 本轮候选宇宙为 `115`，五个 family 规模为 `43 / 23 / 16 / 10 / 10`，仍满足 `100+` family-ranked universe 要求；减少的 `1` 个候选来自缓存中不再可匹配的空 membership 行，不影响五族结构。
+- 四窗口 tracked winner 身份继续不变：`since_2020_01` 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`32.07% CAGR / -23.02% MaxDD / 1.1480 Sharpe`）。
+- 四窗口 robust candidate 身份继续是 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`，指标随 `as_of=2026-04-30` 同步到 `meanCAGR 57.98% / minCAGR 18.01% / worstMaxDD -67.50%`。
+- 本轮仍没有找到能把 `since_2020_01` 推向 `40%+ CAGR` 的中周期高收益原型；价值主要是恢复完整候选扫描口径并同步 `2026-04-30` 指标漂移。
+
+## 上轮执行计划（2026-04-29）
 
 - 本轮继续独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，不要求先打赢 Path 1 才记录结果。
 - 候选宇宙维持五个 family：`high_concentration_breakout / high_growth_theme / momentum_equal_weight_elastic / biweekly_rebalance_aggressive / weekly_rebalance_aggressive`。

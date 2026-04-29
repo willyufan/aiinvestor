@@ -1,6 +1,20 @@
 # 沪港通 Path 2 研究计划
 
-## 本轮执行计划（2026-04-29）
+## 本轮执行计划（2026-04-30）
+
+- 本轮继续单独评估港股 Path 2 的 `theme_monthly / theme_fast_weekly / breakout_concentrated_monthly` 当前锚点结构，不复用 A 股 Path 2 结论。
+- 默认比较对象继续包括现有月频、双周与单周港股 Path 2 候选，`since_2026_01` 只作为观察窗。
+- 跑完后重点核对 `robust_candidate` 是否仍由 `hkconnect_path2_theme_fast_weekly` 占据，以及 `since_2025_01 / since_2026_01` 是否继续由更高集中月频突破候选领先。
+
+### 本轮快筛记录（2026-04-30）
+
+- 重新完成港股五窗口回测，并运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`；随后同步运行 live/public 导出。
+- 当前 tracked payload 的数据截止日仍为 `as_of=2026-04-24`；Path 2 tracked winners 继续维持：`since_2017_01 / since_2020_01` 为 `hkconnect_path2_theme_monthly`，`since_2023_01` 为 `hkconnect_path2_theme_fast_weekly`，`since_2025_01` 为 `hkconnect_path2_breakout_concentrated_monthly`。
+- `robust_candidate` 继续是 `hkconnect_path2_theme_fast_weekly`（`meanCAGR 40.60% / minCAGR 20.48% / worstMaxDD -33.61% / meanTurn 31.53`），保持高换手鲁棒锚点。
+- `since_2026_01` 仍只做观察窗；raw leader 继续为 `hkconnect_path2_breakout_concentrated_monthly`（`361.49% CAGR / -1.31% MaxDD / 2.2491 Sharpe / 7.51 Turnover`），不进入 tracked winners。
+- 本轮港股 tracked JSON 与港股对比图重写后没有实质 git diff；公开快照的有效同步来自 A 股 `data_as_of=2026-04-30` 更新，港股信号/换股生效日仍由真实周频或月频评估点决定。
+
+## 上轮执行计划（2026-04-29）
 
 - 本轮继续单独评估港股 Path 2 的 `theme_monthly / theme_fast_weekly / breakout_concentrated_monthly` 当前锚点结构，不复用 A 股 Path 2 结论。
 - 默认比较对象包括现有月频、双周与单周港股 Path 2 候选，`since_2026_01` 只作为观察窗。
