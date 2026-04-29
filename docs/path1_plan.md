@@ -17,6 +17,12 @@
 - 四个 tracked winners 继续未改写，因此不补跑确认回测；最接近的 `since_2020_01` challenger 是 `aggr_05_95_prom7__sat_three_stage_buffered`（`27.83% CAGR / -25.00% MaxDD / 1.0264 Sharpe`），收益和 Sharpe 更高但回撤恶化超阈值。
 - `since_2025_01` 最接近候选仍是 `aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered`（`104.59% CAGR / -11.26% MaxDD / 2.2339 Sharpe`），收益更高但 Sharpe 与回撤都不满足替换条件。
 
+### 本轮快筛记录（2026-04-29 18:50 CST）
+
+- 重新运行 `.venv/bin/python scripts/winner_only_pass.py`：`as_of=2026-04-29 / base_candidates=24 / total_candidates=168 / evaluated=168`。
+- 四个 tracked winners 仍未改写，因此不补跑确认回测。
+- 最近似候选继续是同一组：`since_2020_01` 的 `aggr_05_95_prom7__sat_three_stage_buffered` 达到 `27.83% CAGR / -25.00% MaxDD / 1.0264 Sharpe`，收益和 Sharpe 更高但回撤恶化超阈值；`since_2025_01` 的 `aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered` 达到 `104.59% CAGR / -11.26% MaxDD / 2.2339 Sharpe`，收益更高但 Sharpe 与回撤不满足替换条件。
+
 ## 上轮执行计划（2026-04-28）
 
 - 本轮继续限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不新增 Path 1 候选族。

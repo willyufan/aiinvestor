@@ -25,6 +25,12 @@
 - 四窗口 tracked winner 与 robust candidate 继续不变：`since_2020_01` 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`32.07% CAGR / -23.02% MaxDD / 1.1480 Sharpe`），`robust` 仍为 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（meanCAGR `57.28% / minCAGR 17.78%`）。
 - 本轮没有找到能把 `since_2020_01` 推向 `40%+ CAGR` 的中周期高收益原型；当前价值主要是恢复被局部 CSV 压缩掉的 `100+` 候选扫描口径。
 
+### 本轮快筛记录（2026-04-29 18:50 CST）
+
+- 重新运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选宇宙仍为 `116`，五个 family 规模继续为 `43 / 23 / 16 / 10 / 10`。
+- 四窗口 tracked winner 与 robust candidate 身份继续不变：`since_2020_01` 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80`（`32.07% CAGR / -23.02% MaxDD / 1.1480 Sharpe`），`robust` 仍为 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（meanCAGR `57.28% / minCAGR 17.78%`）。
+- 本轮新增价值仍是确认 `100+` family-ranked universe 的五族口径稳定；没有出现能把 `since_2020_01` 推向 `40%+ CAGR` 的中周期高收益原型。
+
 ## 上轮执行计划（2026-04-28）
 
 - 本轮继续独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，不要求先打赢 Path 1 才记录结果。
