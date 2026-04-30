@@ -23,6 +23,12 @@
 - 四个 Path 1 tracked winners 均未改写，最近似候选仍是同一组：`since_2020_01` 的 `aggr_05_95_prom7__sat_three_stage_buffered` 回撤恶化过大，`since_2023_01` 的 `aggr_10_90_hold_4_6__port_weekly_exposure` Sharpe/MaxDD 不合格，`since_2025_01` 的 `aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered` Sharpe 低于当前 winner。
 - 本轮 Path 1 不触发确认回测；后续仍保留 `weekly_exposure_path` 中 `buffered / asym` 的固定对照顺序。
 
+### 本轮补充（2026-04-30 12:12 CST）
+
+- 再次运行 `.venv/bin/python scripts/winner_only_pass.py`：`as_of=2026-04-30 / base_candidates=24 / total_candidates=168 / evaluated=168`。
+- 四个 Path 1 tracked winners 继续未改写；最近似候选仍被同一组回撤或 Sharpe 条件挡住，因此本轮不补跑确认回测。
+- 本轮新增的 A 股 Path 2 微批量只用于无约束上限探索，不并入 Path 1 候选池；Path 1 仍限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个方向内。
+
 ## 上轮执行计划（2026-04-29）
 
 - 本轮继续限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不新增 Path 1 候选族。

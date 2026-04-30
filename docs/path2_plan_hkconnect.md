@@ -20,6 +20,13 @@
 - Path 2 tracked winners 继续维持：`since_2017_01 / since_2020_01` 为 `hkconnect_path2_theme_monthly`，`since_2023_01` 为 `hkconnect_path2_theme_fast_weekly`，`since_2025_01` 为 `hkconnect_path2_breakout_concentrated_monthly`，四窗口 robust candidate 仍是 `hkconnect_path2_theme_fast_weekly`。
 - `since_2026_01` 继续只作为观察窗，raw leader 仍为 `hkconnect_path2_breakout_concentrated_monthly`；本轮不因月频当前胜出而移除双周/单周候选。
 
+### 本轮补充（2026-04-30 12:12 CST）
+
+- 再次完成港股五窗口回测与 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`，港股 Path 2 结论仍独立于 A 股 Path 2。
+- Path 2 tracked winners 继续维持：`since_2017_01 / since_2020_01` 为 `hkconnect_path2_theme_monthly`，`since_2023_01` 为 `hkconnect_path2_theme_fast_weekly`，`since_2025_01` 为 `hkconnect_path2_breakout_concentrated_monthly`。
+- 四窗口 robust candidate 仍是 `hkconnect_path2_theme_fast_weekly`；`since_2026_01` 继续只作为观察窗，当前不因短窗高弹性切换而改写 robust 口径。
+- 周频、双周、月频候选继续全部保留；本轮只是确认性重跑，没有因为月频或短窗候选当前领先而停止高频路线探索。
+
 ## 上轮执行计划（2026-04-29）
 
 - 本轮继续单独评估港股 Path 2 的 `theme_monthly / theme_fast_weekly / breakout_concentrated_monthly` 当前锚点结构，不复用 A 股 Path 2 结论。

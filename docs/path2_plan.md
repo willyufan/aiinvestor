@@ -35,6 +35,14 @@
 - 新原型的有效观察主要在 `since_2023_01` sidecar：`aggr_06_94_prom4_core_6_1_full_risk_cap70` 达到 `46.12% CAGR` 但 MaxDD 深至 `-47.32%`；`aggr_04_96_prom3_core_6_1_cash_off_and_risk50_cap70` 达到 `42.86% CAGR / 1.3744 Sharpe / -32.63% MaxDD`，仍低于当前 2023 winner 的 `57.48% CAGR`。
 - `since_2025_01` 新原型最好的是 `core_explore_80_20_total_mv_winner_core__aggr_04_96_prom3_core_6_1_cash_off_and_risk50_cap70`（`135.01% CAGR / -11.56% MaxDD / 2.3268 Sharpe`），仍低于当前短窗 winner `aggr_03_97_prom2_core_6_1_cash_off_and_cap80` 的 `145.68% CAGR`。
 
+### 本轮补充（2026-04-30 12:12 CST）
+
+- 先重新运行 `.venv/bin/python scripts/path2_candidate_pass.py`，基线仍为 `124` 个候选，五个 family 规模为 `47 / 27 / 16 / 10 / 10`，旧 `since_2020_01` winner 仍是 `aggr_03_97_prom2_core_6_1_cash_off_and_cap80`。
+- 新增 4 个围绕 `since_2020_01` 当前强点的中周期高集中原型，并只补跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座的四窗口微批量：`aggr_02_98_prom2_core_6_1_cash_off_and_cap90`、`aggr_02_98_prom2_core_6_1_cash_off_and_risk30_cap90`、`aggr_04_96_prom2_core_6_1_cash_off_and_cap80`、`aggr_04_96_prom2_core_6_1_cash_off_and_risk30_cap80`。
+- 微批量后用缓存 summary 重建 comparison CSV 到 `2011` 行 / `519` 个 base strategies，再运行 `.venv/bin/python scripts/path2_candidate_pass.py`；候选宇宙升至 `132`，五个 family 规模为 `55 / 27 / 16 / 10 / 10`。
+- `since_2020_01` Path 2 tracked winner 改写为 `core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_cash_off_and_cap90`：`32.19% CAGR / -22.77% MaxDD / 1.1480 Sharpe / 2.95 Turnover`，相对旧 winner `32.07% CAGR / -23.02% MaxDD / 1.1480 Sharpe / 2.95 Turnover` 小幅抬升收益并改善回撤。
+- 四窗口 robust candidate 仍是 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（meanCAGR `57.98% / minCAGR 18.01%`）；新原型的 `risk30` 版本在 2017 长窗进入前列，但 2020 回撤过深，不作为主 winner。
+
 ## 上轮执行计划（2026-04-29）
 
 - 本轮继续独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，不要求先打赢 Path 1 才记录结果。
