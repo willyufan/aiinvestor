@@ -281,34 +281,51 @@ def _collect_windows(base_id: str, *, market_scope: str = "a_share") -> dict[str
     return windows
 
 
-def _build_weight_history_windows(snapshot_map: dict[str, list[dict[str, Any]]]) -> list[dict[str, Any]]:
-    if not snapshot_map:
-        return []
-    snapshot_dates = sorted(snapshot_map.keys(), reverse=True)
-    windows: list[dict[str, Any]] = []
-    for idx in range(0, len(snapshot_dates), HISTORY_WINDOW_SNAPSHOTS):
-        chunk_dates = snapshot_dates[idx : idx + HISTORY_WINDOW_SNAPSHOTS]
-        if not chunk_dates:
+def _build_weight_history_windows(
+    snapshot_map: dict[str, list[dict[str, Any]]],
+    weekly_overlay_history: list[dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
+    history_items: list[dict[str, Any]] = []
+    for snapshot_date, holdings in snapshot_map.items():
+        history_items.append(
+            {
+                "date": snapshot_date,
+                "event_type": "holding_snapshot",
+                "holdings": holdings,
+            }
+        )
+    for event in weekly_overlay_history or []:
+        if not event.get("is_trade"):
             continue
-        snapshots: list[dict[str, Any]] = []
-        for snapshot_date in chunk_dates:
-            snapshots.append(
-                {
-                    "date": snapshot_date,
-                    "holdings": snapshot_map.get(snapshot_date, []),
-                }
-            )
-        snapshots.sort(key=lambda item: item["date"], reverse=True)
-        window_end = snapshots[0]["date"]
-        window_start = snapshots[-1]["date"]
+        history_items.append(
+            {
+                "date": str(event.get("date") or ""),
+                "event_type": "weekly_satellite_overlay",
+                "event_label": "周度卫星仓实际调仓",
+                "holdings": [],
+                "overlay_event": event,
+            }
+        )
+    history_items = [item for item in history_items if str(item.get("date") or "")]
+    if not history_items:
+        return []
+    history_items.sort(key=lambda item: str(item.get("date", "")), reverse=True)
+    windows: list[dict[str, Any]] = []
+    for idx in range(0, len(history_items), HISTORY_WINDOW_SNAPSHOTS):
+        chunk = history_items[idx : idx + HISTORY_WINDOW_SNAPSHOTS]
+        if not chunk:
+            continue
+        chunk.sort(key=lambda item: str(item.get("date", "")), reverse=True)
+        window_end = str(chunk[0]["date"])
+        window_start = str(chunk[-1]["date"])
         windows.append(
             {
                 "window_index": len(windows),
                 "label": f"{window_start} → {window_end}",
                 "start_date": window_start,
                 "end_date": window_end,
-                "snapshot_count": len(snapshots),
-                "snapshots": snapshots,
+                "snapshot_count": len(chunk),
+                "snapshots": chunk,
             }
         )
     return windows
@@ -337,6 +354,71 @@ def _load_equity_curve_points(path: Path) -> list[dict[str, Any]]:
         except Exception:
             continue
     return points
+
+
+def _load_weekly_overlay_history(path: Path, limit: int = 24) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    try:
+        frame = pd.read_csv(path)
+    except Exception:
+        return []
+    required = {"date", "event_type", "one_way_turnover", "two_way_turnover", "buy_amount", "sell_amount", "trading_cost"}
+    if frame.empty or not required.issubset(frame.columns):
+        return []
+    frame = frame[frame["event_type"].astype(str) == "weekly_satellite_overlay"].copy()
+    if frame.empty:
+        return []
+    frame["date"] = pd.to_datetime(frame["date"], errors="coerce")
+    frame = frame.dropna(subset=["date"]).sort_values("date", ascending=False)
+    rows: list[dict[str, Any]] = []
+    for row in frame.head(limit).to_dict("records"):
+        two_way_turnover = float(row.get("two_way_turnover", 0.0) or 0.0)
+        trade_details: list[dict[str, Any]] = []
+        trade_details_raw = row.get("trade_details_json")
+        if pd.notna(trade_details_raw) and str(trade_details_raw).strip():
+            try:
+                parsed = json.loads(str(trade_details_raw))
+            except Exception:
+                parsed = []
+            if isinstance(parsed, list):
+                for item in parsed:
+                    if not isinstance(item, dict):
+                        continue
+                    trade_details.append(
+                        {
+                            "ts_code": str(item.get("ts_code") or ""),
+                            "name": str(item.get("name") or ""),
+                            "side": str(item.get("side") or ""),
+                            "current_weight": float(item.get("current_weight") or 0.0),
+                            "target_weight": float(item.get("target_weight") or 0.0),
+                            "post_trade_weight": float(item.get("post_trade_weight") or 0.0),
+                            "diff_weight": float(item.get("diff_weight") or 0.0),
+                            "gross_amount": float(item.get("gross_amount") or 0.0),
+                            "gross_amount_pct_nav": float(item.get("gross_amount_pct_nav") or 0.0),
+                            "fee": float(item.get("fee") or 0.0),
+                            "fee_pct_nav": float(item.get("fee_pct_nav") or 0.0),
+                        }
+                    )
+        rows.append(
+            {
+                "date": pd.Timestamp(row["date"]).strftime("%Y-%m-%d"),
+                "risk_stage": str(row.get("risk_stage") or ""),
+                "raw_risk_stage": str(row.get("raw_risk_stage") or ""),
+                "one_way_turnover": float(row.get("one_way_turnover", 0.0) or 0.0),
+                "two_way_turnover": two_way_turnover,
+                "buy_amount": float(row.get("buy_amount", 0.0) or 0.0),
+                "sell_amount": float(row.get("sell_amount", 0.0) or 0.0),
+                "buy_amount_pct_nav": float(row.get("buy_amount_pct_nav", 0.0) or 0.0),
+                "sell_amount_pct_nav": float(row.get("sell_amount_pct_nav", 0.0) or 0.0),
+                "trading_cost": float(row.get("trading_cost", 0.0) or 0.0),
+                "trading_cost_pct_nav": float(row.get("trading_cost_pct_nav", 0.0) or 0.0),
+                "pre_trade_nav": float(row.get("pre_trade_nav", 0.0) or 0.0),
+                "is_trade": abs(two_way_turnover) > 1e-12,
+                "trade_details": trade_details,
+            }
+        )
+    return rows
 
 
 def guess_sample_tag(track_key: str) -> str:
@@ -379,6 +461,7 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
     monthly_path = path_builder(base_id, sample_tag, "monthly_returns.csv")
     weight_history_path = path_builder(base_id, sample_tag, "weights_history.csv")
     equity_curve_path = path_builder(base_id, sample_tag, "equity_curve.csv")
+    turnover_path = path_builder(base_id, sample_tag, "turnover.csv")
     history_snapshot_map = load_weight_history_snapshot_map(weight_history_path)
 
     latest_weights: list[dict[str, Any]] = []
@@ -421,6 +504,7 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
     schedule_kind = str(formal_schedule.get("schedule_kind") or "")
     latest_price_map = {str(row["ts_code"]): row.get("latest_price") for row in latest_weights}
     split_view: dict[str, Any] = {}
+    weekly_overlay_history: list[dict[str, Any]] = []
 
     if schedule_kind == "monthly":
         basket_date = str(formal_schedule.get("basket_effective_date") or "")
@@ -446,6 +530,8 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
         basket_weights: list[dict[str, Any]] = []
         if basket_date and basket_date in history_snapshot_map:
             basket_weights = attach_latest_prices(history_snapshot_map[basket_date], latest_price_map)
+        weekly_overlay_history = _load_weekly_overlay_history(turnover_path)
+        latest_overlay_trade = next((row for row in weekly_overlay_history if row.get("is_trade")), None)
         overlay_summary = {
             "risk_state": risk_state,
             "target_total_exposure": target_exposure,
@@ -454,11 +540,14 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
             "market_risk_off": bool(last["market_risk_off"]) if monthly_path.exists() and not monthly.empty and "market_risk_off" in monthly.columns else None,
             "market_12_1_momentum": float(last["market_12_1_momentum"]) if monthly_path.exists() and not monthly.empty and "market_12_1_momentum" in monthly.columns else None,
             "weekly_overlay_trade_count": int(last["weekly_overlay_trade_count"]) if monthly_path.exists() and not monthly.empty and "weekly_overlay_trade_count" in monthly.columns and pd.notna(last["weekly_overlay_trade_count"]) else 0,
+            "latest_overlay_date": weekly_overlay_history[0]["date"] if weekly_overlay_history else None,
+            "latest_overlay_trade_date": latest_overlay_trade["date"] if latest_overlay_trade else None,
         }
         split_view = {
             "mode": "satellite_weekly_overlay",
             "basket_weights": basket_weights,
             "overlay_summary": overlay_summary,
+            "overlay_history": weekly_overlay_history,
         }
 
     return {
@@ -470,7 +559,7 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
         "target_total_exposure": target_exposure,
         "risk_state": risk_state,
         "latest_weights": latest_weights,
-        "history_windows": _build_weight_history_windows(history_snapshot_map),
+        "history_windows": _build_weight_history_windows(history_snapshot_map, weekly_overlay_history),
         "equity_curve_points": _load_equity_curve_points(equity_curve_path),
         "formal_schedule": formal_schedule,
         "split_view": split_view,

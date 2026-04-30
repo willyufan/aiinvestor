@@ -209,16 +209,49 @@ def flatten_snapshots(history_windows: list[dict]) -> list[dict]:
     for window in history_windows:
         for snap in window.get("snapshots", []):
             date = str(snap.get("date", ""))
-            if not date or date in seen:
+            event_type = str(snap.get("event_type") or "holding_snapshot")
+            history_key = f"{date}:{event_type}"
+            if not date or history_key in seen:
                 continue
-            seen.add(date)
-            all_snaps.append({
+            seen.add(history_key)
+            out = {
                 "date": date,
+                "event_type": event_type,
                 "holdings": [
                     {"ts_code": str(r["ts_code"]), "name": str(r["name"]), "weight": round(float(r["weight"]), 6)}
                     for r in snap.get("holdings", [])
                 ],
-            })
+            }
+            if snap.get("overlay_event"):
+                event = snap["overlay_event"]
+                out["overlay_event"] = {
+                    "risk_stage": str(event.get("risk_stage") or ""),
+                    "raw_risk_stage": str(event.get("raw_risk_stage") or ""),
+                    "one_way_turnover": round(float(event.get("one_way_turnover") or 0.0), 6),
+                    "two_way_turnover": round(float(event.get("two_way_turnover") or 0.0), 6),
+                    "buy_amount": round(float(event.get("buy_amount") or 0.0), 6),
+                    "sell_amount": round(float(event.get("sell_amount") or 0.0), 6),
+                    "buy_amount_pct_nav": round(float(event.get("buy_amount_pct_nav") or 0.0), 6),
+                    "sell_amount_pct_nav": round(float(event.get("sell_amount_pct_nav") or 0.0), 6),
+                    "trading_cost": round(float(event.get("trading_cost") or 0.0), 6),
+                    "trading_cost_pct_nav": round(float(event.get("trading_cost_pct_nav") or 0.0), 6),
+                    "is_trade": bool(event.get("is_trade")),
+                    "trade_details": [
+                        {
+                            "ts_code": str(item.get("ts_code") or ""),
+                            "name": str(item.get("name") or ""),
+                            "side": str(item.get("side") or ""),
+                            "current_weight": round(float(item.get("current_weight") or 0.0), 6),
+                            "post_trade_weight": round(float(item.get("post_trade_weight") or 0.0), 6),
+                            "diff_weight": round(float(item.get("diff_weight") or 0.0), 6),
+                            "gross_amount_pct_nav": round(float(item.get("gross_amount_pct_nav") or 0.0), 6),
+                            "fee_pct_nav": round(float(item.get("fee_pct_nav") or 0.0), 6),
+                        }
+                        for item in event.get("trade_details", [])
+                        if isinstance(item, dict)
+                    ],
+                }
+            all_snaps.append(out)
     all_snaps.sort(key=lambda x: x["date"])
     return all_snaps
 
@@ -242,6 +275,53 @@ def export_strategy_detail(
         formal_schedule = dict(view.get("formal_schedule", {}))
         if market_data_as_of:
             formal_schedule["data_as_of"] = market_data_as_of
+        raw_split = view.get("split_view") or {}
+        split_view_out: dict[str, Any] = {}
+        if raw_split.get("mode") == "satellite_weekly_overlay":
+            overlay_summary = raw_split.get("overlay_summary") or {}
+            split_view_out = {
+                "mode": "satellite_weekly_overlay",
+                "basket_weights": [
+                    {"ts_code": str(r["ts_code"]), "name": str(r["name"]), "weight": round(float(r["weight"]), 6)}
+                    for r in (raw_split.get("basket_weights") or [])
+                ],
+                "overlay_summary": {
+                    "risk_state":                str(overlay_summary.get("risk_state") or ""),
+                    "target_total_exposure":     round(float(overlay_summary.get("target_total_exposure") or 0.0), 4),
+                    "core_exposure_target":      round(float(overlay_summary.get("core_exposure_target") or 0.0), 4),
+                    "satellite_exposure_target": round(float(overlay_summary.get("satellite_exposure_target") or 0.0), 4),
+                    "market_12_1_momentum":      round(float(overlay_summary.get("market_12_1_momentum") or 0.0), 4) if overlay_summary.get("market_12_1_momentum") is not None else None,
+                    "weekly_overlay_trade_count": int(overlay_summary.get("weekly_overlay_trade_count") or 0),
+                    "latest_overlay_trade_date": str(overlay_summary.get("latest_overlay_trade_date") or ""),
+                    "latest_overlay_date":       str(overlay_summary.get("latest_overlay_date") or ""),
+                },
+                "overlay_history": [
+                    {
+                        "date":                  str(row.get("date") or ""),
+                        "risk_stage":            str(row.get("risk_stage") or ""),
+                        "is_trade":              bool(row.get("is_trade")),
+                        "one_way_turnover":      round(float(row.get("one_way_turnover") or 0.0), 6),
+                        "two_way_turnover":      round(float(row.get("two_way_turnover") or 0.0), 6),
+                        "buy_amount_pct_nav":    round(float(row.get("buy_amount_pct_nav") or 0.0), 6),
+                        "sell_amount_pct_nav":   round(float(row.get("sell_amount_pct_nav") or 0.0), 6),
+                        "trading_cost_pct_nav":  round(float(row.get("trading_cost_pct_nav") or 0.0), 6),
+                        "trade_details": [
+                            {
+                                "ts_code":             str(item.get("ts_code") or ""),
+                                "name":                str(item.get("name") or ""),
+                                "side":                str(item.get("side") or ""),
+                                "current_weight":      round(float(item.get("current_weight") or 0.0), 6),
+                                "post_trade_weight":   round(float(item.get("post_trade_weight") or 0.0), 6),
+                                "diff_weight":         round(float(item.get("diff_weight") or 0.0), 6),
+                                "gross_amount_pct_nav":round(float(item.get("gross_amount_pct_nav") or 0.0), 6),
+                            }
+                            for item in (row.get("trade_details") or [])
+                            if isinstance(item, dict)
+                        ],
+                    }
+                    for row in (raw_split.get("overlay_history") or [])
+                ],
+            }
         sample_views_out[tag] = {
             "sample_tag": tag,
             "sample_tag_label": view.get("sample_tag_label", tag),
@@ -258,6 +338,7 @@ def export_strategy_detail(
                 for p in (view.get("equity_curve_points") or [])
             ],
             "snapshots": flatten_snapshots(view.get("history_windows") or []),
+            "split_view": split_view_out,
         }
 
     if not sample_views_out:

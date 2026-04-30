@@ -8,7 +8,7 @@ import os
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Set, Tuple
+from typing import Any, Dict, Iterable, List, Set, Tuple
 
 os.environ.setdefault("MPLCONFIGDIR", str(Path("data_cache") / "mplconfig"))
 
@@ -3399,7 +3399,7 @@ def compute_rebalance_trades(
     buy_commission: float = BUY_COMMISSION,
     sell_commission_rate: float = SELL_COMMISSION,
     stamp_rate_override: float | None = None,
-) -> Tuple[pd.Series, float, pd.Series, float, Dict[str, float]]:
+) -> Tuple[pd.Series, float, pd.Series, float, Dict[str, Any]]:
     def _normalize_position_series(values: pd.Series) -> pd.Series:
         if values.empty:
             return pd.Series(dtype=float)
@@ -3496,6 +3496,30 @@ def compute_rebalance_trades(
     two_way_turnover = (buy_amount + sell_amount) / pre_trade_nav if pre_trade_nav > 0 else 0.0
     one_way_turnover = two_way_turnover / 2.0
 
+    trade_details: List[Dict[str, object]] = []
+    if pre_trade_nav > 0:
+        for ts_code, delta in trade_deltas[trade_deltas.abs() > 1e-12].sort_index().items():
+            current_value = float(current_tradable_values.get(ts_code, 0.0))
+            target_value = float(desired_tradable_values.get(ts_code, 0.0))
+            trade_value = float(delta)
+            side = "buy" if trade_value > 0 else "sell"
+            gross_amount = abs(trade_value)
+            fee = gross_amount * buy_commission if side == "buy" else gross_amount * (sell_commission_rate + stamp_rate)
+            trade_details.append(
+                {
+                    "ts_code": str(ts_code),
+                    "side": side,
+                    "current_weight": current_value / pre_trade_nav,
+                    "target_weight": target_value / pre_trade_nav,
+                    "post_trade_weight": target_value / post_trade_nav if post_trade_nav > 0 else 0.0,
+                    "diff_weight": trade_value / pre_trade_nav,
+                    "gross_amount": gross_amount,
+                    "gross_amount_pct_nav": gross_amount / pre_trade_nav,
+                    "fee": fee,
+                    "fee_pct_nav": fee / pre_trade_nav,
+                }
+            )
+
     stats = {
         "buy_amount": buy_amount,
         "sell_amount": sell_amount,
@@ -3510,6 +3534,7 @@ def compute_rebalance_trades(
         "locked_value": locked_value,
         "locked_weight": locked_value / pre_trade_nav if pre_trade_nav > 0 else 0.0,
         "cash_after_trade": desired_cash,
+        "trade_details": trade_details,
     }
     return post_trade_positions, float(desired_cash), gross_positions, float(gross_cash), stats
 
@@ -3748,6 +3773,12 @@ def apply_weekly_satellite_risk_overlay(
             overlay_count += 1
             cumulative_cost += float(trade_stats["trading_cost"])
             overlay_turnovers.append(float(trade_stats["one_way_turnover"]))
+        trade_details = []
+        for detail in trade_stats.get("trade_details", []):
+            detail_row = dict(detail)
+            ts_code = str(detail_row.get("ts_code") or "")
+            detail_row["name"] = prepared.code_to_name.get(ts_code, "")
+            trade_details.append(detail_row)
         overlay_turnover_rows.append(
             {
                 "date": overlay_date,
@@ -3755,13 +3786,18 @@ def apply_weekly_satellite_risk_overlay(
                 "two_way_turnover": trade_stats["two_way_turnover"],
                 "buy_amount": trade_stats["buy_amount"],
                 "sell_amount": trade_stats["sell_amount"],
+                "buy_amount_pct_nav": trade_stats["buy_amount"] / trade_stats["pre_trade_nav"] if trade_stats["pre_trade_nav"] > 0 else 0.0,
+                "sell_amount_pct_nav": trade_stats["sell_amount"] / trade_stats["pre_trade_nav"] if trade_stats["pre_trade_nav"] > 0 else 0.0,
                 "trading_cost": trade_stats["trading_cost"],
+                "trading_cost_pct_nav": trade_stats["trading_cost"] / trade_stats["pre_trade_nav"] if trade_stats["pre_trade_nav"] > 0 else 0.0,
+                "pre_trade_nav": trade_stats["pre_trade_nav"],
                 "buy_cost": trade_stats["buy_cost"],
                 "sell_commission": trade_stats["sell_commission"],
                 "sell_stamp_duty": trade_stats["sell_stamp_duty"],
                 "event_type": "weekly_satellite_overlay",
                 "risk_stage": effective_stage,
                 "raw_risk_stage": str(regime["risk_stage"]),
+                "trade_details_json": json.dumps(trade_details, ensure_ascii=False) if trade_details else "",
             }
         )
         prev_date = overlay_date

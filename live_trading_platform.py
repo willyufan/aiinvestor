@@ -1882,6 +1882,33 @@ def fmt_amt(value: float) -> str:
     return f"{value:,.2f}"
 
 
+def render_overlay_trade_details(event: dict) -> str:
+    details = event.get("trade_details") or []
+    if not details:
+        return "<p class='muted'>暂无逐票交易明细。</p>"
+    rows = []
+    for detail in details:
+        side = str(detail.get("side") or "")
+        side_label = {"buy": "买入", "sell": "卖出"}.get(side, side or "n/a")
+        side_style = " style='color:#166534;font-weight:700'" if side == "buy" else " style='color:#b45309;font-weight:700'"
+        rows.append(
+            f"<tr><td>{html.escape(str(detail.get('ts_code') or ''))}</td>"
+            f"<td>{html.escape(str(detail.get('name') or ''))}</td>"
+            f"<td{side_style}>{html.escape(side_label)}</td>"
+            f"<td>{fmt_pct(float(detail.get('current_weight') or 0.0))}</td>"
+            f"<td>{fmt_pct(float(detail.get('post_trade_weight') or 0.0))}</td>"
+            f"<td>{fmt_pct(float(detail.get('diff_weight') or 0.0))}</td>"
+            f"<td>{fmt_pct(float(detail.get('gross_amount_pct_nav') or 0.0))}</td>"
+            f"<td>{fmt_pct(float(detail.get('fee_pct_nav') or 0.0))}</td></tr>"
+        )
+    return (
+        "<h4>逐票交易明细</h4>"
+        "<table><thead><tr><th>代码</th><th>名称</th><th>方向</th><th>调仓前权重</th><th>调仓后权重</th><th>权重变化</th><th>成交额/NAV</th><th>费用/NAV</th></tr></thead><tbody>"
+        + "".join(rows)
+        + "</tbody></table>"
+    )
+
+
 def advice_badge(advice_type: str) -> str:
     cls = {"正式调仓": "badge-red", "偏离修正": "badge-amber", "策略切换建议": "badge-blue"}.get(advice_type, "badge-muted")
     return f"<span class='badge {cls}'>{html.escape(advice_type)}</span>"
@@ -1905,9 +1932,11 @@ def flatten_history_snapshots(history_windows: list[dict]) -> list[dict]:
     for window in history_windows:
         for snapshot in window.get("snapshots", []):
             date = str(snapshot.get("date", ""))
-            if not date or date in seen_dates:
+            event_type = str(snapshot.get("event_type") or "holding_snapshot")
+            history_key = f"{date}:{event_type}"
+            if not date or history_key in seen_dates:
                 continue
-            seen_dates.add(date)
+            seen_dates.add(history_key)
             snapshots.append(snapshot)
     snapshots.sort(key=lambda item: str(item.get("date", "")), reverse=True)
     return snapshots
@@ -1935,7 +1964,7 @@ def build_history_selection(history_windows: list[dict], history_window_key: str
 
 
 def build_rebalance_change_rows(latest_weights: list[dict], history_windows: list[dict]) -> dict | None:
-    snapshots = flatten_history_snapshots(history_windows)
+    snapshots = [snapshot for snapshot in flatten_history_snapshots(history_windows) if snapshot.get("holdings")]
     if len(snapshots) < 2:
         return None
     current_snapshot = snapshots[0]
@@ -2006,6 +2035,7 @@ def build_rebalance_change_rows(latest_weights: list[dict], history_windows: lis
 
 
 def render_exposure_return_curve(snapshots: list[dict], equity_curve_points: list[dict], start_date: str = "", end_date: str = "") -> str:
+    snapshots = [snapshot for snapshot in snapshots if snapshot.get("holdings")]
     if not snapshots:
         return "<div class='muted'>暂无仓位与收益率曲线。</div>"
     ordered = sorted(snapshots, key=lambda item: str(item.get("date", "")))
@@ -2438,6 +2468,31 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             )
         overlay_summary = split_view.get("overlay_summary") or {}
         market_momentum = overlay_summary.get("market_12_1_momentum")
+        overlay_history_rows = []
+        for row in split_view.get("overlay_history") or []:
+            is_trade = bool(row.get("is_trade"))
+            trade_label = "实际调仓" if is_trade else "仅评估"
+            trade_style = " style='color:#166534;font-weight:700'" if is_trade else " class='muted'"
+            overlay_history_rows.append(
+                f"<tr><td>{html.escape(str(row.get('date') or ''))}</td>"
+                f"<td>{html.escape(str(row.get('risk_stage') or 'n/a'))}</td>"
+                f"<td>{html.escape(str(row.get('raw_risk_stage') or 'n/a'))}</td>"
+                f"<td{trade_style}>{trade_label}</td>"
+                f"<td>{fmt_pct(float(row.get('one_way_turnover') or 0.0))}</td>"
+                f"<td>{fmt_pct(float(row.get('two_way_turnover') or 0.0))}</td>"
+                f"<td>{fmt_pct(float(row.get('buy_amount_pct_nav') or 0.0))}</td>"
+                f"<td>{fmt_pct(float(row.get('sell_amount_pct_nav') or 0.0))}</td>"
+                f"<td>{fmt_pct(float(row.get('trading_cost_pct_nav') or 0.0))}</td></tr>"
+            )
+        overlay_history_html = ""
+        if overlay_history_rows:
+            overlay_history_html = (
+                "<div class='card' style='margin-top:16px'><h2>周度卫星仓位调仓/评估历史</h2>"
+                "<p class='muted'>这里来自回测 turnover 的 weekly_satellite_overlay 事件；“仅评估”表示周度状态更新但没有产生实际买卖。</p>"
+                "<table><thead><tr><th>日期</th><th>确认状态</th><th>原始状态</th><th>动作</th><th>单边换手</th><th>双边换手</th><th>买入/NAV</th><th>卖出/NAV</th><th>费用/NAV</th></tr></thead><tbody>"
+                + "".join(overlay_history_rows)
+                + "</tbody></table></div>"
+            )
         split_latest_html = (
             "<div class='card' style='margin-top:16px'><h2>当前建议内容（正式拆分）</h2>"
             "<p class='muted'>这类策略拆成两层：月末股票池生效日对应真实月末确定的股票池/目标权重；周度卫星仓位状态生效日对应周频风控后当前实际卫星仓暴露。月中若只发生风控/仓位切换，不会误显示成重新换股。</p>"
@@ -2446,7 +2501,8 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             + "".join(basket_rows)
             + "</tbody></table></div>"
             + "<div class='card' style='margin-top:16px'><h2>周度卫星仓位状态</h2>"
-            + f"<p>周度卫星仓位状态生效日：{html.escape(exposure_effective_date or 'n/a')}</p>"
+            + f"<p>周度卫星仓位状态评估日：{html.escape(exposure_effective_date or 'n/a')}</p>"
+            + f"<p>最近一次卫星仓实际交易日：{html.escape(str(overlay_summary.get('latest_overlay_trade_date') or 'n/a'))}</p>"
             + f"<p>总仓位目标：{fmt_pct(float(overlay_summary.get('target_total_exposure') or 0.0))}</p>"
             + f"<p>核心仓位目标：{fmt_pct(float(overlay_summary.get('core_exposure_target') or 0.0))}</p>"
             + f"<p>卫星仓位目标：{fmt_pct(float(overlay_summary.get('satellite_exposure_target') or 0.0))}</p>"
@@ -2458,6 +2514,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             )
             + f"<p>本期周度 overlay 交易次数：{int(overlay_summary.get('weekly_overlay_trade_count') or 0)}</p>"
             + "</div>"
+            + overlay_history_html
         )
 
     selected_key, selected_history = build_history_selection(history_windows, history_window_key)
@@ -2468,11 +2525,11 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         options = []
         all_selected = " selected" if selected_key == "all" else ""
         all_snapshots = flatten_history_snapshots(history_windows)
-        options.append(f"<option value='all'{all_selected}>全部历史（{len(all_snapshots)} 次快照）</option>")
+        options.append(f"<option value='all'{all_selected}>全部历史（{len(all_snapshots)} 条记录）</option>")
         for hist in history_windows:
             selected = " selected" if str(hist["window_index"]) == selected_key else ""
             options.append(
-                f"<option value='{int(hist['window_index'])}'{selected}>{html.escape(str(hist['label']))}（{int(hist['snapshot_count'])} 次快照）</option>"
+                f"<option value='{int(hist['window_index'])}'{selected}>{html.escape(str(hist['label']))}（{int(hist['snapshot_count'])} 条记录）</option>"
             )
         history_selector = (
             f"<form method='get' action='/strategies/{quote(strategy_id)}' style='margin:12px 0 16px 0'>"
@@ -2490,6 +2547,24 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         )
         snapshot_blocks = []
         for snapshot in selected_history["snapshots"]:
+            if str(snapshot.get("event_type") or "") == "weekly_satellite_overlay":
+                event = snapshot.get("overlay_event") or {}
+                snapshot_blocks.append(
+                    "<div class='card' style='margin-top:12px'>"
+                    f"<h3>调仓日：{html.escape(snapshot['date'])}（周度卫星仓实际调仓）</h3>"
+                    "<table><thead><tr><th>确认状态</th><th>原始状态</th><th>单边换手</th><th>双边换手</th><th>买入/NAV</th><th>卖出/NAV</th><th>费用/NAV</th></tr></thead><tbody>"
+                    f"<tr><td>{html.escape(str(event.get('risk_stage') or 'n/a'))}</td>"
+                    f"<td>{html.escape(str(event.get('raw_risk_stage') or 'n/a'))}</td>"
+                    f"<td>{fmt_pct(float(event.get('one_way_turnover') or 0.0))}</td>"
+                    f"<td>{fmt_pct(float(event.get('two_way_turnover') or 0.0))}</td>"
+                    f"<td>{fmt_pct(float(event.get('buy_amount_pct_nav') or 0.0))}</td>"
+                    f"<td>{fmt_pct(float(event.get('sell_amount_pct_nav') or 0.0))}</td>"
+                    f"<td>{fmt_pct(float(event.get('trading_cost_pct_nav') or 0.0))}</td></tr>"
+                    "</tbody></table>"
+                    + render_overlay_trade_details(event)
+                    + "</div>"
+                )
+                continue
             rows_html = "".join(
                 f"<tr><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td>{fmt_pct(float(row['weight']))}</td></tr>"
                 for row in snapshot["holdings"]
@@ -2502,7 +2577,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
                 + "</tbody></table></div>"
             )
         history_html = (
-            f"<p class='muted'>当前展示窗口：{html.escape(selected_history['label'])}。每个快照日期均为该次调仓后的目标持仓日期；{html.escape(rebalance_frequency)}策略会展示对应的月度/双周/单周调仓建议。</p>"
+            f"<p class='muted'>当前展示窗口：{html.escape(selected_history['label'])}。持仓快照展示目标持仓；周度卫星仓实际调仓展示换手摘要。</p>"
             + "".join(snapshot_blocks)
         )
     body = (
@@ -2517,7 +2592,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             f"<p>数据截止日：{html.escape(data_as_of or 'n/a')}</p>"
             + (
                 f"<p>月末股票池生效日：{html.escape(basket_effective_date or 'n/a')}</p>"
-                f"<p>周度卫星仓位状态生效日：{html.escape(exposure_effective_date or 'n/a')}</p>"
+                f"<p>周度卫星仓位状态评估日：{html.escape(exposure_effective_date or 'n/a')}</p>"
                 if schedule_kind == 'satellite_weekly_overlay'
                 else f"<p>当前建议生效日：{html.escape(suggestion_effective_date or 'n/a')}</p>"
             )
