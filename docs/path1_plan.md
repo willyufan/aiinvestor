@@ -17,6 +17,12 @@
 - 最近似候选仍被同一组风险约束挡住：`since_2020_01` 的 `aggr_05_95_prom7__sat_three_stage_buffered` 达到 `27.83% CAGR / -25.00% MaxDD / 1.0264 Sharpe / 0.67 Turnover`，但回撤恶化仍超过替换阈值；`since_2023_01` 的 `aggr_10_90_hold_4_6__port_weekly_exposure` 达到 `30.93% CAGR`，但 Sharpe 与 MaxDD 仍不合格。
 - 本轮新增的 A 股 Path 2 高集中原型不并入 Path 1 候选池；Path 1 继续保持固定方向和固定快筛预算。
 
+### 本轮补充（2026-05-01 06:11 CST）
+
+- 在 A 股 Path 2 微批量并重建 comparison CSV 后，重新运行 `.venv/bin/python scripts/winner_only_pass.py`：`as_of=2026-05-01 / base_candidates=24 / total_candidates=168 / evaluated=168`。
+- 四个 Path 1 tracked winners 仍未改写；`since_2020_01` 最近似候选仍是 `aggr_05_95_prom7__sat_three_stage_buffered`，但 `MaxDD -25.00%` 仍超过替换阈值。
+- 本轮 Path 1 不触发确认回测；新增的 A 股 Path 2 晋升 3 只高集中原型继续只服务无约束上限探索，不并入 Path 1。
+
 ## 本轮执行计划（2026-04-30）
 
 - 本轮继续限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不新增 Path 1 候选族。
