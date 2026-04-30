@@ -4,6 +4,19 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-01）
+
+- 本轮继续限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不新增 Path 1 候选族。
+- 快筛优先运行 `.venv/bin/python scripts/winner_only_pass.py`，维持 `24` 个 fast-pass base candidates / `168` 个展开候选。
+- `weekly_exposure_path` 继续优先比较 `__port_weekly_exposure_buffered` 与 `__port_weekly_exposure_asym`；只有候选明确改写窗口赢家时，才补跑必要确认回测。
+
+### 本轮快筛记录（2026-05-01）
+
+- 运行 `.venv/bin/python scripts/winner_only_pass.py`：`as_of=2026-05-01 / base_candidates=24 / total_candidates=168 / evaluated=168`。
+- 四个 Path 1 tracked winners 继续未改写，因此本轮不补跑确认回测。
+- 最近似候选仍被同一组风险约束挡住：`since_2020_01` 的 `aggr_05_95_prom7__sat_three_stage_buffered` 达到 `27.83% CAGR / -25.00% MaxDD / 1.0264 Sharpe / 0.67 Turnover`，但回撤恶化仍超过替换阈值；`since_2023_01` 的 `aggr_10_90_hold_4_6__port_weekly_exposure` 达到 `30.93% CAGR`，但 Sharpe 与 MaxDD 仍不合格。
+- 本轮新增的 A 股 Path 2 高集中原型不并入 Path 1 候选池；Path 1 继续保持固定方向和固定快筛预算。
+
 ## 本轮执行计划（2026-04-30）
 
 - 本轮继续限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不新增 Path 1 候选族。
