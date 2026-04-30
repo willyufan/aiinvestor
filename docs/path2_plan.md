@@ -43,6 +43,13 @@
 - `since_2020_01` Path 2 tracked winner 改写为 `core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_cash_off_and_cap90`：`32.19% CAGR / -22.77% MaxDD / 1.1480 Sharpe / 2.95 Turnover`，相对旧 winner `32.07% CAGR / -23.02% MaxDD / 1.1480 Sharpe / 2.95 Turnover` 小幅抬升收益并改善回撤。
 - 四窗口 robust candidate 仍是 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（meanCAGR `57.98% / minCAGR 18.01%`）；新原型的 `risk30` 版本在 2017 长窗进入前列，但 2020 回撤过深，不作为主 winner。
 
+### 本轮补充（2026-04-30 18:16 CST）
+
+- 在 `since_2020_01` 强点附近继续新增 4 个高集中 prom2 原型，并只补跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座四窗口微批量：`aggr_01_99_prom2_core_6_1_cash_off_and_cap95`、`aggr_02_98_prom2_core_6_1_cash_off_and_cap95`、`aggr_03_97_prom2_core_6_1_cash_off_and_cap90`、`aggr_04_96_prom2_core_6_1_cash_off_and_cap90`。
+- 微批量后用缓存 summary 重建 comparison CSV 到 `2043` 行 / `527` 个 base strategies，再运行 `.venv/bin/python scripts/path2_candidate_pass.py`；候选宇宙升至 `140`，五个 family 规模为 `63 / 27 / 16 / 10 / 10`。
+- `since_2020_01` Path 2 tracked winner 再次改写为 `core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95`：`32.25% CAGR / -22.51% MaxDD / 1.1511 Sharpe / 2.94 Turnover`，相对 12:12 winner 小幅抬升收益、Sharpe，并改善回撤与换手。
+- 四窗口 robust candidate 仍是 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（meanCAGR `57.98% / minCAGR 18.01%`）；新增 `cap95/cap90` 原型有效改善 2020 窗口，但还没有把 `since_2020_01` 推向 `40%+ CAGR`。
+
 ## 上轮执行计划（2026-04-29）
 
 - 本轮继续独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，不要求先打赢 Path 1 才记录结果。

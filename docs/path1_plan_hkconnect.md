@@ -25,6 +25,12 @@
 - Path 1 四窗口 tracked winner 继续全部是 `hkconnect_path1_weekly_equal_buffered`，robust candidate 也保持同一策略；本轮港股 Path 1 没有窗口赢家切换。
 - `since_2026_01` 继续只作为观察窗；月频、双周、低波候选继续保留为对照，不因为当前单周等权缓冲胜出而移出。
 
+### 本轮补充（2026-04-30 18:16 CST）
+
+- 再次完成港股五窗口回测与 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`；tracked payload 的数据截止日推进到 `as_of=2026-04-30`。
+- Path 1 四窗口 tracked winner 继续全部是 `hkconnect_path1_weekly_equal_buffered`：`since_2017_01 / since_2020_01` 为 `23.00% CAGR / -13.41% MaxDD / 1.2361 Sharpe / 9.72 Turnover`，`since_2023_01` 为 `34.80% CAGR`，`since_2025_01` 为 `48.95% CAGR`。
+- `since_2026_01` 仍只作为观察窗，raw leader 继续是 `hkconnect_path1_weekly_lowvol`（`26.25% CAGR / -4.77% MaxDD / 1.6746 Sharpe / 5.25 Turnover`）；月频、双周、低波候选继续保留为对照。
+
 ## 上轮执行计划（2026-04-29）
 
 - 本轮继续单独运行 `./.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，港股 Path 1 结论不并入 A 股 winner。

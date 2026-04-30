@@ -86,7 +86,7 @@
 
 | 日期 | 策略ID | 策略名称 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-04-30 | `core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_cash_off_and_cap90` | 核心80_探索20_等权底座_胜出者核心__进攻2/98 晋升2只(核心6-1动量, 熊市空仓 and, 单票90%) | 485.58% | 32.19% | -22.77% | 1.1480 | 2.95 |
+| 2026-04-30 | `core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95` | 核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 熊市空仓 and, 单票95%) | 487.14% | 32.25% | -22.51% | 1.1511 | 2.94 |
 | 2026-04-29 | `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80` | 核心80_探索20_等权底座_胜出者核心__进攻3/97 晋升2只(核心6-1动量, 熊市空仓 and, 单票80%) | 482.11% | 32.07% | -23.02% | 1.1480 | 2.95 |
 | 2026-04-28 | `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80` | 核心80_探索20_等权底座_胜出者核心__进攻3/97 晋升2只(核心6-1动量, 熊市空仓 and, 单票80%) | 482.11% | 32.07% | -23.02% | 1.1480 | 2.95 |
 | 2026-04-27 | `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80` | 核心80_探索20_等权底座_胜出者核心__进攻3/97 晋升2只(核心6-1动量, 熊市空仓 and, 单票80%) | 482.11% | 32.07% | -23.02% | 1.1480 | 2.95 |
