@@ -27,6 +27,13 @@
 - `since_2017_01` Path 2 tracked winner 改写为 `core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_cash_off_and_risk50_cap90`：`28.93% CAGR / -47.20% MaxDD / 1.0173 Sharpe / 3.89 Turnover`，相对旧 `1/99 risk50 cap95` 小幅抬升 CAGR 与 Sharpe，并略微改善回撤。
 - 新原型未改写 `since_2020_01`、`since_2023_01`、`since_2025_01` 或四窗口 robust candidate；新增 2017 winner 的 `since_2020_01` 只有 `26.04% CAGR / -54.33% MaxDD / 0.8418 Sharpe`，因此下一轮不应把 `risk50 cap90` 作为 2020 主攻线。
 
+### 本轮补充（2026-05-02 06:07 CST）
+
+- 重新运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选宇宙仍为 `180`，五个 family 规模为 `95 / 27 / 16 / 12 / 12`，说明 family membership 口径保持稳定。
+- 四窗口 tracked winner 身份未变化：`since_2017_01` 仍为 `aggr_02_98_prom2_core_6_1_cash_off_and_risk50_cap90`，`since_2020_01` 仍为 `aggr_01_99_prom2_core_6_1_cash_off_and_cap90`，`since_2023_01 / since_2025_01` 仍由 `aggr_05_95_prom3_core_6_1_full_risk_cap80` 系列占据。
+- 四窗口 robust candidate 仍是 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`，指标随当前 comparison CSV 漂移到 `meanCAGR 59.93% / minCAGR 18.16% / worstMaxDD -67.50% / meanTurn 5.53`；这属于同步修正，不是新候选突破。
+- 本轮仍没有把 `since_2020_01` 推向 `40%+ CAGR`；下一轮优先寻找更独立的 2020 中周期信号或底座组合，而不是继续沿 `risk50_cap90` 放松风险暴露。
+
 ## 本轮执行计划（2026-05-01）
 
 - 本轮继续独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，不要求先打赢 Path 1 才记录结果。
