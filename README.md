@@ -116,16 +116,16 @@
 
 ### 2017 窗口赢家（Path 2）
 
-- 策略：`core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_risk50_cap95`（核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 熊市降到50% and, 单票95%)）
-- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`28.89%` / `1.0140` / `-47.26%` / `3.89`
+- 策略：`core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_cash_off_and_risk50_cap90`（核心80_探索20_等权底座_胜出者核心__进攻2/98 晋升2只(核心6-1动量, 熊市降到50% and, 单票90%)）
+- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`28.93%` / `1.0173` / `-47.20%` / `3.89`
 
 窗口指标（截至 `2026-04-30`，权重：2017-01=100%）：
 
-- `2017-01-01` → `2026-04-30`: Total Return `968.44%`, CAGR `28.89%`, Max DD `-47.26%`, Sharpe `1.0140`, Turnover `3.89`
-- `2020-01-01` → `2026-04-30`: Total Return `334.41%`, CAGR `26.10%`, Max DD `-54.46%`, Sharpe `0.8429`, Turnover `4.42`
-- `2023-01-01` → `2026-04-30`: Total Return `149.58%`, CAGR `31.57%`, Max DD `-31.80%`, Sharpe `1.0900`, Turnover `4.22`
-- `2025-01-01` → `2026-04-30`: Total Return `180.64%`, CAGR `116.83%`, Max DD `-12.55%`, Sharpe `1.9901`, Turnover `6.55`
-- `2026-01-01` → `2026-04-30`: Total Return `33.12%`, CAGR `135.88%`, Max DD `0.00%`, Sharpe `4.4021`, Turnover `4.82`
+- `2017-01-01` → `2026-04-30`: Total Return `971.68%`, CAGR `28.93%`, Max DD `-47.20%`, Sharpe `1.0173`, Turnover `3.89`
+- `2020-01-01` → `2026-04-30`: Total Return `332.96%`, CAGR `26.04%`, Max DD `-54.33%`, Sharpe `0.8418`, Turnover `4.42`
+- `2023-01-01` → `2026-04-30`: Total Return `149.37%`, CAGR `31.54%`, Max DD `-31.72%`, Sharpe `1.0889`, Turnover `4.21`
+- `2025-01-01` → `2026-04-30`: Total Return `179.60%`, CAGR `116.23%`, Max DD `-12.50%`, Sharpe `1.9943`, Turnover `6.57`
+- `2026-01-01` → `2026-04-30`: Total Return `32.85%`, CAGR `134.48%`, Max DD `0.00%`, Sharpe `4.4093`, Turnover `4.85`
 
 ### 2023 窗口赢家（Path 2）
 

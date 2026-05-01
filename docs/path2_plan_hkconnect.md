@@ -1,5 +1,18 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-05-02）
+
+- 本轮继续单独评估港股 Path 2 的 `theme_monthly / theme_fast_weekly / breakout_concentrated_monthly` 当前锚点结构，不复用 A 股 Path 2 结论。
+- 默认比较对象继续包括现有月频、双周与单周港股 Path 2 候选，`since_2026_01` 只作为观察窗。
+- 跑完后重点核对 `robust_candidate` 是否仍由 `hkconnect_path2_theme_fast_weekly` 占据，以及 `since_2025_01 / since_2026_01` 是否继续由更高集中月频突破候选领先；不因月频当前胜出而停止高频路线探索。
+
+### 本轮快筛记录（2026-05-02）
+
+- 重新完成港股五窗口回测，并运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`；港股 Path 2 继续独立于 A 股 Path 2。
+- tracked payload 的数据截止日仍为 `as_of=2026-04-30`；Path 2 tracked winners 继续维持：`since_2017_01 / since_2020_01` 为 `hkconnect_path2_theme_monthly`（`22.32% CAGR / -18.86% MaxDD / 1.1522 Sharpe / 6.62 Turnover`），`since_2023_01` 为 `hkconnect_path2_theme_fast_weekly`（`41.78% CAGR / -19.56% MaxDD / 1.3529 Sharpe / 29.55 Turnover`），`since_2025_01` 为 `hkconnect_path2_breakout_concentrated_monthly`（`97.56% CAGR / -7.23% MaxDD / 2.3471 Sharpe / 9.05 Turnover`）。
+- 四窗口 robust candidate 仍是 `hkconnect_path2_theme_fast_weekly`（meanCAGR `41.33% / minCAGR 20.89% / worstMaxDD -33.61% / meanTurn 31.53`）。
+- `since_2026_01` 继续只作为观察窗；周频、双周、月频候选继续全部保留，本轮不因短窗月频突破候选领先而停止高频路线探索。
+
 ## 本轮执行计划（2026-05-01）
 
 - 本轮继续单独评估港股 Path 2 的 `theme_monthly / theme_fast_weekly / breakout_concentrated_monthly` 当前锚点结构，不复用 A 股 Path 2 结论。

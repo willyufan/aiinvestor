@@ -297,7 +297,7 @@ def _build_weight_history_windows(
     for event in weekly_overlay_history or []:
         if not event.get("is_trade"):
             continue
-        event_date = str(event.get("trade_date") or event.get("date") or "")
+        event_date = str(event.get("date") or event.get("signal_date") or "")
         history_items.append(
             {
                 "date": event_date,
@@ -380,6 +380,7 @@ def _load_weekly_overlay_history(path: Path, limit: int = 24) -> list[dict[str, 
         frame["trade_date"] = pd.to_datetime(frame["trade_date"], errors="coerce").fillna(frame["date"])
     else:
         frame["trade_date"] = frame["date"]
+    frame = frame.sort_values(["signal_date", "trade_date"], ascending=[False, False])
     rows: list[dict[str, Any]] = []
     for row in frame.head(limit).to_dict("records"):
         two_way_turnover = float(row.get("two_way_turnover", 0.0) or 0.0)
@@ -413,7 +414,7 @@ def _load_weekly_overlay_history(path: Path, limit: int = 24) -> list[dict[str, 
                     )
         rows.append(
             {
-                "date": trade_date,
+                "date": signal_date,
                 "signal_date": signal_date,
                 "trade_date": trade_date,
                 "risk_stage": str(row.get("risk_stage") or ""),

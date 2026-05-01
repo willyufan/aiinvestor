@@ -13,6 +13,20 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-02）
+
+- 本轮继续独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，不要求先打赢 Path 1 才记录结果。
+- 候选宇宙继续维持五个 family：`high_concentration_breakout / high_growth_theme / momentum_equal_weight_elastic / biweekly_rebalance_aggressive / weekly_rebalance_aggressive`。
+- 避开上一轮失效的“当前 `1/99 prom2` 月频强点直接改周频/双周频”路线，本轮只补 4 个更窄的中周期风险暴露原型：围绕 `2/98`、`3/97`、`4/96` 的 `risk50 / full_risk` 暴露与 `cap80/90` 约束，继续只补跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座的四窗口微批量。
+
+### 本轮快筛记录（2026-05-02）
+
+- 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `172`，五个 family 规模为 `87 / 27 / 16 / 12 / 12`，旧 winners 与 robust candidate 均保持不变。
+- 新增 4 个中周期风险暴露原型：`aggr_02_98_prom2_core_6_1_cash_off_and_risk50_cap90`、`aggr_02_98_prom2_core_6_1_full_risk_cap90`、`aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap90`、`aggr_04_96_prom2_core_6_1_cash_off_and_risk50_cap80`；只补跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座的四窗口微批量。
+- 微批量后用缓存 summary 重建 comparison CSV 到 `2203` 行 / `567` 个 base strategies，再运行 `.venv/bin/python scripts/path2_candidate_pass.py`；候选宇宙升至 `180`，五个 family 规模为 `95 / 27 / 16 / 12 / 12`。
+- `since_2017_01` Path 2 tracked winner 改写为 `core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_cash_off_and_risk50_cap90`：`28.93% CAGR / -47.20% MaxDD / 1.0173 Sharpe / 3.89 Turnover`，相对旧 `1/99 risk50 cap95` 小幅抬升 CAGR 与 Sharpe，并略微改善回撤。
+- 新原型未改写 `since_2020_01`、`since_2023_01`、`since_2025_01` 或四窗口 robust candidate；新增 2017 winner 的 `since_2020_01` 只有 `26.04% CAGR / -54.33% MaxDD / 0.8418 Sharpe`，因此下一轮不应把 `risk50 cap90` 作为 2020 主攻线。
+
 ## 本轮执行计划（2026-05-01）
 
 - 本轮继续独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，不要求先打赢 Path 1 才记录结果。

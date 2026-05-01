@@ -722,6 +722,7 @@ def _augment_with_synthetic_windows(latest: pd.DataFrame) -> pd.DataFrame:
         .max()
         .to_dict()
     )
+    fallback_sample_end = existing["sample_end"].max()
     sample_labels = {
         "since_2017_01": ("2017-01 起", "2017-01"),
         "since_2020_01": ("2020-01 起", "2020-01"),
@@ -748,7 +749,7 @@ def _augment_with_synthetic_windows(latest: pd.DataFrame) -> pd.DataFrame:
                     "sample_label": sample_label,
                     "sample_short_label": sample_short_label,
                     "sample_start": sample_start,
-                    "sample_end": sample_end_map.get(base_id, pd.Timestamp.today().normalize()),
+                    "sample_end": sample_end_map.get(base_id, fallback_sample_end),
                     "cagr": metrics["cagr"],
                     "sharpe_ratio": metrics["sharpe_ratio"],
                     "max_drawdown": metrics["max_drawdown"],
