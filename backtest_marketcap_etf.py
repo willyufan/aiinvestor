@@ -1058,6 +1058,66 @@ WINNER_CORE_VARIANTS = [
         "rebalance_frequency": "weekly",
     },
     {
+        "variant_id": "aggr_01_99_prom2_core_6_1_cash_off_and_cap90_biweekly",
+        "variant_name": "进攻1/99 晋升2只(核心6-1动量, 熊市空仓 and, 单票90%, 双周)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 0.90,
+        "rebalance_frequency": "biweekly",
+    },
+    {
+        "variant_id": "aggr_01_99_prom2_core_6_1_cash_off_and_cap90_weekly",
+        "variant_name": "进攻1/99 晋升2只(核心6-1动量, 熊市空仓 and, 单票90%, 单周)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 0.90,
+        "rebalance_frequency": "weekly",
+    },
+    {
+        "variant_id": "aggr_01_99_prom2_core_6_1_cash_off_and_cap95_biweekly",
+        "variant_name": "进攻1/99 晋升2只(核心6-1动量, 熊市空仓 and, 单票95%, 双周)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 0.95,
+        "rebalance_frequency": "biweekly",
+    },
+    {
+        "variant_id": "aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly",
+        "variant_name": "进攻1/99 晋升2只(核心6-1动量, 熊市空仓 and, 单票95%, 单周)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 0.95,
+        "rebalance_frequency": "weekly",
+    },
+    {
         "variant_id": "aggr_05_95_prom3_core_6_1_full_risk_cap80_biweekly",
         "variant_name": "进攻5/95 晋升3只(核心6-1动量, 满风险, 单票80%, 双周)",
         "winner_core_stable_share": 0.05,
@@ -1445,6 +1505,8 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_03_97_prom2_core_6_1_full_risk_cap80_biweekly",
             "aggr_03_97_prom2_core_6_1_cash_off_and_cap80_biweekly",
             "aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80_biweekly",
+            "aggr_01_99_prom2_core_6_1_cash_off_and_cap90_biweekly",
+            "aggr_01_99_prom2_core_6_1_cash_off_and_cap95_biweekly",
             "aggr_05_95_prom3_core_6_1_full_risk_cap80_biweekly",
             "aggr_05_95_prom3_core_6_1_cash_off_and_cap60_biweekly",
             "aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_biweekly",
@@ -1467,6 +1529,8 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_03_97_prom2_core_6_1_full_risk_cap80_weekly",
             "aggr_03_97_prom2_core_6_1_cash_off_and_cap80_weekly",
             "aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80_weekly",
+            "aggr_01_99_prom2_core_6_1_cash_off_and_cap90_weekly",
+            "aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly",
             "aggr_05_95_prom3_core_6_1_full_risk_cap80_weekly",
             "aggr_05_95_prom3_core_6_1_cash_off_and_cap60_weekly",
             "aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_weekly",
@@ -1520,6 +1584,10 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_03_97_prom2_core_6_1_cash_off_and_cap80_weekly",
     "aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80_biweekly",
     "aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80_weekly",
+    "aggr_01_99_prom2_core_6_1_cash_off_and_cap90_biweekly",
+    "aggr_01_99_prom2_core_6_1_cash_off_and_cap90_weekly",
+    "aggr_01_99_prom2_core_6_1_cash_off_and_cap95_biweekly",
+    "aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly",
     "aggr_05_95_prom3_core_6_1_full_risk",
     "aggr_05_95_prom3_core_6_1_full_risk_cap60",
     "aggr_05_95_prom3_core_6_1_full_risk_cap80",
@@ -3906,6 +3974,7 @@ def apply_weekly_satellite_risk_overlay(
             "weekly_overlay_avg_one_way_turnover": 0.0,
         }, overlay_state
 
+    trading_dates = prepared.price_ffill.index
     overlay_dates = [date for date in prepared.week_end_dates if rebalance_date < date < holding_month_end]
     if not overlay_dates:
         return positions, cash_value, gross_positions, gross_cash_value, [], {
@@ -3939,13 +4008,17 @@ def apply_weekly_satellite_risk_overlay(
     prev_date = rebalance_date
 
     for overlay_date in overlay_dates:
+        overlay_trade_date = get_next_trading_day(trading_dates, overlay_date)
+        if overlay_trade_date is None or overlay_trade_date > holding_month_end or overlay_trade_date <= prev_date:
+            continue
+
         if not positions.empty:
             prices_prev = prepared.price_ffill.loc[prev_date, positions.index]
-            prices_now = prepared.price_ffill.loc[overlay_date, positions.index]
+            prices_now = prepared.price_ffill.loc[overlay_trade_date, positions.index]
             positions = positions * (prices_now / prices_prev)
         if not gross_positions.empty:
             gross_prices_prev = prepared.price_ffill.loc[prev_date, gross_positions.index]
-            gross_prices_now = prepared.price_ffill.loc[overlay_date, gross_positions.index]
+            gross_prices_now = prepared.price_ffill.loc[overlay_trade_date, gross_positions.index]
             gross_positions = gross_positions * (gross_prices_now / gross_prices_prev)
 
         regime = compute_market_exposure(
@@ -4003,22 +4076,22 @@ def apply_weekly_satellite_risk_overlay(
                 portfolio_total_weight=target_total_exposure,
             )
         tradable_codes = []
-        if overlay_date in prepared.price_exact.index:
-            exact_prices = prepared.price_exact.loc[overlay_date]
+        if overlay_trade_date in prepared.price_exact.index:
+            exact_prices = prepared.price_exact.loc[overlay_trade_date]
             tradable_codes = exact_prices[exact_prices.notna()].index.tolist()
 
         positions, cash_value, _, _, trade_stats = compute_rebalance_trades(
             current_values=positions,
             current_cash=cash_value,
             target_weights=target_weights,
-            rebalance_date=overlay_date,
+            rebalance_date=overlay_trade_date,
             tradable_codes=tradable_codes,
         )
         gross_positions, gross_cash_value, _, _, _ = compute_rebalance_trades(
             current_values=gross_positions,
             current_cash=gross_cash_value,
             target_weights=target_weights,
-            rebalance_date=overlay_date,
+            rebalance_date=overlay_trade_date,
             tradable_codes=tradable_codes,
             buy_commission=0.0,
             sell_commission_rate=0.0,
@@ -4036,7 +4109,10 @@ def apply_weekly_satellite_risk_overlay(
             trade_details.append(detail_row)
         overlay_turnover_rows.append(
             {
-                "date": overlay_date,
+                "date": overlay_trade_date,
+                "signal_date": overlay_date,
+                "evaluation_date": overlay_date,
+                "trade_date": overlay_trade_date,
                 "one_way_turnover": trade_stats["one_way_turnover"],
                 "two_way_turnover": trade_stats["two_way_turnover"],
                 "buy_amount": trade_stats["buy_amount"],
@@ -4055,7 +4131,7 @@ def apply_weekly_satellite_risk_overlay(
                 "trade_details_json": json.dumps(trade_details, ensure_ascii=False) if trade_details else "",
             }
         )
-        prev_date = overlay_date
+        prev_date = overlay_trade_date
 
     if not positions.empty:
         final_prev = prepared.price_ffill.loc[prev_date, positions.index]
@@ -4912,6 +4988,7 @@ def run_backtest(
             if rebalance_frequency == "monthly"
             else "在信号日后的下一个交易日扣除交易费用并切换到目标权重"
         ),
+        "weekly_overlay_execution_rule": "周度 overlay 使用周度收盘状态生成信号，并在信号日后的下一个交易日扣除交易费用并切换到目标仓位",
         "selection_overlay": selection_overlay,
         "price_rule": "前复权收盘价 = close * adj_factor / latest_adj_factor",
         "listing_filter": listing_filter,

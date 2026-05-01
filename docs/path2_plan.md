@@ -44,6 +44,14 @@
 - 新 `core_3_1` 原型没有改写任何 tracked winner 或 robust candidate。`since_2020_01` 最好的是 `core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_3_1_cash_off_and_cap90` / `cap95`，仅 `17.82% CAGR / -22.47% MaxDD / 0.7887 Sharpe / 2.76 Turnover`，明显低于当前 `32.25%` winner。
 - `since_2025_01` 新原型最好的是 `core_explore_80_20_total_mv_winner_core__aggr_02_98_prom2_core_3_1_cash_off_and_cap90` / `cap95`（`94.82% CAGR / -12.85% MaxDD / 1.6521 Sharpe`），同样低于当前短窗 winner 的 `145.68% CAGR`。下一轮不应继续沿 `3_1 + cash_off_and` 高集中线加码。
 
+### 本轮补充（2026-05-01 18:14 CST）
+
+- 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选宇宙为 `164`，五个 family 规模为 `87 / 27 / 16 / 10 / 10`，旧 winners 与 robust candidate 均保持不变。
+- 避开前几轮失效的 `prom3` 与 `core_3_1 + cash_off_and` 高集中线，本轮新增 4 个当前 `since_2020_01` 月频强点的高频执行原型：`aggr_01_99_prom2_core_6_1_cash_off_and_cap90_biweekly`、`aggr_01_99_prom2_core_6_1_cash_off_and_cap90_weekly`、`aggr_01_99_prom2_core_6_1_cash_off_and_cap95_biweekly`、`aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly`；只补跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座的四窗口微批量。
+- 微批量后用缓存 summary 重建 comparison CSV 到 `2171` 行 / `559` 个 base strategies，再运行 `.venv/bin/python scripts/path2_candidate_pass.py`；候选宇宙升至 `172`，五个 family 规模为 `87 / 27 / 16 / 12 / 12`。
+- 新高频原型没有改写任何 tracked winner 或 robust candidate。`since_2020_01` 最好的是等权单周版本（`16.09% CAGR / -35.74% MaxDD / 0.5795 Sharpe / 8.16 Turnover`），双周版本只有约 `9.12% CAGR` 且回撤超过 `-60%`，明显低于当前月频 winner 的 `32.25% CAGR / -22.51% MaxDD / 1.1511 Sharpe`。
+- `since_2023_01` 新原型只有双周版本保留正收益（总市值底座约 `26.68% CAGR / -31.43% MaxDD / 1.0267 Sharpe`），单周版本转负；`since_2025_01` 最好也仅约 `60.73% CAGR`，远低于当前短窗 winner 的 `145.68% CAGR`。下一轮不应继续把当前 `1/99 prom2` 月频强点简单改成周频/双周频。
+
 ## 本轮执行计划（2026-04-30）
 
 - 本轮继续独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，不要求先打赢 Path 1 才记录结果。

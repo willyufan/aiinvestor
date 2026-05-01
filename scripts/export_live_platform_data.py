@@ -297,9 +297,10 @@ def _build_weight_history_windows(
     for event in weekly_overlay_history or []:
         if not event.get("is_trade"):
             continue
+        event_date = str(event.get("trade_date") or event.get("date") or "")
         history_items.append(
             {
-                "date": str(event.get("date") or ""),
+                "date": event_date,
                 "event_type": "weekly_satellite_overlay",
                 "event_label": "周度卫星仓实际调仓",
                 "holdings": [],
@@ -371,9 +372,19 @@ def _load_weekly_overlay_history(path: Path, limit: int = 24) -> list[dict[str, 
         return []
     frame["date"] = pd.to_datetime(frame["date"], errors="coerce")
     frame = frame.dropna(subset=["date"]).sort_values("date", ascending=False)
+    if "signal_date" in frame.columns:
+        frame["signal_date"] = pd.to_datetime(frame["signal_date"], errors="coerce").fillna(frame["date"])
+    else:
+        frame["signal_date"] = frame["date"]
+    if "trade_date" in frame.columns:
+        frame["trade_date"] = pd.to_datetime(frame["trade_date"], errors="coerce").fillna(frame["date"])
+    else:
+        frame["trade_date"] = frame["date"]
     rows: list[dict[str, Any]] = []
     for row in frame.head(limit).to_dict("records"):
         two_way_turnover = float(row.get("two_way_turnover", 0.0) or 0.0)
+        trade_date = pd.Timestamp(row.get("trade_date") or row["date"]).strftime("%Y-%m-%d")
+        signal_date = pd.Timestamp(row.get("signal_date") or row["date"]).strftime("%Y-%m-%d")
         trade_details: list[dict[str, Any]] = []
         trade_details_raw = row.get("trade_details_json")
         if pd.notna(trade_details_raw) and str(trade_details_raw).strip():
@@ -402,7 +413,9 @@ def _load_weekly_overlay_history(path: Path, limit: int = 24) -> list[dict[str, 
                     )
         rows.append(
             {
-                "date": pd.Timestamp(row["date"]).strftime("%Y-%m-%d"),
+                "date": trade_date,
+                "signal_date": signal_date,
+                "trade_date": trade_date,
                 "risk_stage": str(row.get("risk_stage") or ""),
                 "raw_risk_stage": str(row.get("raw_risk_stage") or ""),
                 "one_way_turnover": float(row.get("one_way_turnover", 0.0) or 0.0),
@@ -540,9 +553,12 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
             "market_risk_off": bool(last["market_risk_off"]) if monthly_path.exists() and not monthly.empty and "market_risk_off" in monthly.columns else None,
             "market_12_1_momentum": float(last["market_12_1_momentum"]) if monthly_path.exists() and not monthly.empty and "market_12_1_momentum" in monthly.columns else None,
             "weekly_overlay_trade_count": int(last["weekly_overlay_trade_count"]) if monthly_path.exists() and not monthly.empty and "weekly_overlay_trade_count" in monthly.columns and pd.notna(last["weekly_overlay_trade_count"]) else 0,
-            "latest_overlay_date": weekly_overlay_history[0]["date"] if weekly_overlay_history else None,
-            "latest_overlay_trade_date": latest_overlay_trade["date"] if latest_overlay_trade else None,
+            "latest_overlay_date": weekly_overlay_history[0]["signal_date"] if weekly_overlay_history else None,
+            "latest_overlay_trade_date": latest_overlay_trade["trade_date"] if latest_overlay_trade else None,
         }
+        if overlay_summary["latest_overlay_date"]:
+            formal_schedule["suggestion_effective_date"] = overlay_summary["latest_overlay_date"]
+            formal_schedule["exposure_effective_date"] = overlay_summary["latest_overlay_date"]
         split_view = {
             "mode": "satellite_weekly_overlay",
             "basket_weights": basket_weights,

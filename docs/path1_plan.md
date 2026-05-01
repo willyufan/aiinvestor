@@ -29,6 +29,13 @@
 - 在 A 股 Path 2 新增 `core_3_1` 高集中原型并重建 comparison CSV 到 `2139` 行 / `551` 个 base strategies 后复跑快筛，四个 Path 1 tracked winners 仍未改写。
 - 最近似候选仍未过阈值：`since_2020_01` 的 `aggr_05_95_prom7__sat_three_stage_buffered` 为 `27.83% CAGR / -25.00% MaxDD / 1.0264 Sharpe`，回撤恶化仍超过替换条件；本轮不补跑 Path 1 确认回测。
 
+### 本轮补充（2026-05-01 18:14 CST）
+
+- 先发现共享 `results/strategy_comparison_base_method.csv` 只剩 `17` 行，按本地 `summary.json` 缓存重建到 `2139` 行 / `551` 个 base strategies 后运行 `.venv/bin/python scripts/winner_only_pass.py`：`as_of=2026-05-01 / base_candidates=24 / total_candidates=168 / evaluated=168`。
+- 初筛一度把 `since_2020_01` 的 `aggr_08_92_prom6__sat_three_stage_buffered` 标为可疑改善；随后补跑当前 tracked winner 与该候选的 `since_2020_01` 确认回测，并再次重建 comparison CSV。
+- 同口径复筛后四个 Path 1 tracked winners 未改写：当前 `since_2020_01` winner 同步为 `aggr_10_90_prom6__sat_three_stage_buffered`（`25.99% CAGR / -21.53% MaxDD / 0.9185 Sharpe / 0.66 Turnover`）；`aggr_08_92_prom6__sat_three_stage_buffered` 仅 `26.17% CAGR / -21.78% MaxDD / 0.9205 Sharpe`，Sharpe 改善不足；`aggr_05_95_prom7__sat_three_stage_buffered` 仍受 `-25.00% MaxDD` 阻挡。
+- 本轮 Path 1 不新增候选族，也不把 A 股 Path 2 高频原型并入 fast pass。
+
 ## 本轮执行计划（2026-04-30）
 
 - 本轮继续限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不新增 Path 1 候选族。

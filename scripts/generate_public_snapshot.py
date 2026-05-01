@@ -225,6 +225,8 @@ def flatten_snapshots(history_windows: list[dict]) -> list[dict]:
             if snap.get("overlay_event"):
                 event = snap["overlay_event"]
                 out["overlay_event"] = {
+                    "signal_date": str(event.get("signal_date") or event.get("date") or ""),
+                    "trade_date": str(event.get("trade_date") or event.get("date") or ""),
                     "risk_stage": str(event.get("risk_stage") or ""),
                     "raw_risk_stage": str(event.get("raw_risk_stage") or ""),
                     "one_way_turnover": round(float(event.get("one_way_turnover") or 0.0), 6),
@@ -298,6 +300,8 @@ def export_strategy_detail(
                 "overlay_history": [
                     {
                         "date":                  str(row.get("date") or ""),
+                        "signal_date":           str(row.get("signal_date") or row.get("date") or ""),
+                        "trade_date":            str(row.get("trade_date") or row.get("date") or ""),
                         "risk_stage":            str(row.get("risk_stage") or ""),
                         "is_trade":              bool(row.get("is_trade")),
                         "one_way_turnover":      round(float(row.get("one_way_turnover") or 0.0), 6),

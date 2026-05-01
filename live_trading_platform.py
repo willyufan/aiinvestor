@@ -2473,8 +2473,11 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             is_trade = bool(row.get("is_trade"))
             trade_label = "实际调仓" if is_trade else "仅评估"
             trade_style = " style='color:#166534;font-weight:700'" if is_trade else " class='muted'"
+            signal_date = str(row.get("signal_date") or row.get("date") or "")
+            trade_date = str(row.get("trade_date") or row.get("date") or "")
             overlay_history_rows.append(
-                f"<tr><td>{html.escape(str(row.get('date') or ''))}</td>"
+                f"<tr><td>{html.escape(signal_date)}</td>"
+                f"<td>{html.escape(trade_date)}</td>"
                 f"<td>{html.escape(str(row.get('risk_stage') or 'n/a'))}</td>"
                 f"<td>{html.escape(str(row.get('raw_risk_stage') or 'n/a'))}</td>"
                 f"<td{trade_style}>{trade_label}</td>"
@@ -2488,8 +2491,8 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         if overlay_history_rows:
             overlay_history_html = (
                 "<div class='card' style='margin-top:16px'><h2>周度卫星仓位调仓/评估历史</h2>"
-                "<p class='muted'>这里来自回测 turnover 的 weekly_satellite_overlay 事件；“仅评估”表示周度状态更新但没有产生实际买卖。</p>"
-                "<table><thead><tr><th>日期</th><th>确认状态</th><th>原始状态</th><th>动作</th><th>单边换手</th><th>双边换手</th><th>买入/NAV</th><th>卖出/NAV</th><th>费用/NAV</th></tr></thead><tbody>"
+                "<p class='muted'>这里来自回测 turnover 的 weekly_satellite_overlay 事件；评估日为收盘后信号日，实际交易日为下一可交易日。</p>"
+                "<table><thead><tr><th>评估日</th><th>实际交易日</th><th>确认状态</th><th>原始状态</th><th>动作</th><th>单边换手</th><th>双边换手</th><th>买入/NAV</th><th>卖出/NAV</th><th>费用/NAV</th></tr></thead><tbody>"
                 + "".join(overlay_history_rows)
                 + "</tbody></table></div>"
             )
@@ -2549,9 +2552,12 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         for snapshot in selected_history["snapshots"]:
             if str(snapshot.get("event_type") or "") == "weekly_satellite_overlay":
                 event = snapshot.get("overlay_event") or {}
+                signal_date = str(event.get("signal_date") or snapshot["date"])
+                trade_date = str(event.get("trade_date") or snapshot["date"])
                 snapshot_blocks.append(
                     "<div class='card' style='margin-top:12px'>"
-                    f"<h3>调仓日：{html.escape(snapshot['date'])}（周度卫星仓实际调仓）</h3>"
+                    f"<h3>实际调仓日：{html.escape(trade_date)}（周度卫星仓实际调仓）</h3>"
+                    f"<p class='muted'>状态评估日：{html.escape(signal_date)}</p>"
                     "<table><thead><tr><th>确认状态</th><th>原始状态</th><th>单边换手</th><th>双边换手</th><th>买入/NAV</th><th>卖出/NAV</th><th>费用/NAV</th></tr></thead><tbody>"
                     f"<tr><td>{html.escape(str(event.get('risk_stage') or 'n/a'))}</td>"
                     f"<td>{html.escape(str(event.get('raw_risk_stage') or 'n/a'))}</td>"
