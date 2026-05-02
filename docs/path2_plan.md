@@ -42,6 +42,14 @@
 - 新默认动量原型没有改写任何 tracked winner 或 robust candidate。`since_2020_01` 最好的是 `core_explore_80_20_total_mv_winner_core__aggr_02_98_prom2_full_risk_cap90`，仅 `14.31% CAGR / -56.03% MaxDD / 0.5113 Sharpe / 4.31 Turnover`，明显弱于当前 `32.25%` winner；`cash_off_and` 版本只有约 `10.75% CAGR`。
 - 新原型在 `since_2025_01` 可做出 `110.29% CAGR`（`aggr_02_98_prom2_cash_off_and_cap90`），但仍低于当前短窗 winner 的 `147.54% CAGR`。下一轮不要继续把默认长周期动量作为 2020 主攻方向，应转向更独立的信号或底座组合。
 
+### 本轮补充（2026-05-02 18:08 CST）
+
+- 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选宇宙为 `188`，五个 family 规模为 `103 / 27 / 16 / 12 / 12`。
+- 新增 4 个 `core_3_1` 中周期高集中原型：`aggr_01_99_prom2_core_3_1_cash_off_and_risk50_cap95`、`aggr_01_99_prom2_core_3_1_full_risk_cap95`、`aggr_02_98_prom2_core_3_1_cash_off_and_risk50_cap95`、`aggr_02_98_prom2_core_3_1_full_risk_cap95`；只补跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座的四窗口微批量。
+- 微批量后用缓存 summary 重建 comparison CSV 到 `1717` 行 / `580` 个 base strategies，再运行 `.venv/bin/python scripts/path2_candidate_pass.py`；候选宇宙升至 `195`，五个 family 规模为 `111 / 27 / 16 / 12 / 12`。
+- 新原型改写 `since_2017_01` Path 2 tracked winner 为 `core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom2_core_3_1_full_risk_cap95`：`33.40% CAGR / -47.23% MaxDD / 0.8712 Sharpe / 5.79 Turnover`，属于收益上限提升但 Sharpe 与换手明显承压的高风险长窗 winner。
+- `since_2020_01`、`since_2023_01`、`since_2025_01` 与四窗口 robust candidate 均未改写；新增候选在 `since_2020_01` 最好仅 `24.37% CAGR`（总市值底座 `1/99 risk50 cap95`），明显弱于当前 `32.25%` winner。下一轮不应把 `core_3_1 full_risk` 作为 2020 主攻线，应继续寻找更独立的 2020 信号或底座组合。
+
 ## 本轮执行计划（2026-05-01）
 
 - 本轮继续独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，不要求先打赢 Path 1 才记录结果。
