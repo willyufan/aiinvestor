@@ -27,6 +27,14 @@
 - `since_2020_01` Path 2 tracked winner 改写为 `core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100`：`34.12% CAGR / -22.77% MaxDD / 1.0402 Sharpe / 3.43 Turnover`，相对旧 `prom2 cash_off_and cap90` 的 `32.25% CAGR` 明确抬升收益上限，但 Sharpe 降低且换手增加。
 - 新单票原型未改写 `since_2017_01`、`since_2023_01`、`since_2025_01` 或四窗口 robust candidate；`since_2023_01` 最好仅约 `7.98% CAGR`，说明它是明确的 2020 中周期收益原型，不适合作为 2023 主攻线。
 
+### 本轮补充（2026-05-03 12:05 CST）
+
+- 基线复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙保持 `204`，五个 family 规模为 `119 / 27 / 16 / 12 / 12`；旧 winners 与 robust candidate 均保持不变。
+- 沿刚改写 `since_2020_01` 的 `prom1 cap100` 强点补 4 个风险暴露对照：`aggr_01_99_prom1_core_6_1_cash_off_and_risk50_cap100`、`aggr_02_98_prom1_core_6_1_cash_off_and_risk50_cap100`、`aggr_01_99_prom1_core_6_1_full_risk_cap100`、`aggr_02_98_prom1_core_6_1_full_risk_cap100`；仍只补跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座的四窗口微批量。
+- 微批量后用缓存 summary 重建 comparison CSV 到 `2331` 行 / `599` 个 base strategies，再运行 `.venv/bin/python scripts/path2_candidate_pass.py`；候选宇宙升至 `212`，五个 family 规模为 `127 / 27 / 16 / 12 / 12`。
+- 新风险暴露原型未改写任何 tracked winner 或 robust candidate。`since_2020_01` 最好的是 `core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_risk50_cap100`，仅 `31.43% CAGR / -44.54% MaxDD / 0.8470 Sharpe / 5.57 Turnover`，低于当前 `34.12%` winner 且回撤明显恶化。
+- `full_risk cap100` 在 `since_2023_01` 可做到约 `43.33% CAGR`，但仍低于当前 `58.20%` winner，且 `MaxDD` 接近 `-45%`；下一轮不应继续单纯放松 `prom1 cap100` 风险暴露，应转向更独立的 2020 信号或底座结构。
+
 ## 本轮执行计划（2026-05-02）
 
 - 本轮继续独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，不要求先打赢 Path 1 才记录结果。

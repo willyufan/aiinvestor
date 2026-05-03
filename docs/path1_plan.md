@@ -16,6 +16,12 @@
 - 四个 Path 1 tracked winners 继续未改写；本轮不补跑确认回测。
 - 最近似候选仍被同一组阈值挡住：`since_2020_01` 的 `aggr_05_95_prom7__sat_three_stage_buffered` 为 `27.83% CAGR / -25.00% MaxDD / 1.0264 Sharpe / 0.67 Turnover`，回撤恶化仍超阈值；`since_2025_01` 的 `aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered` 为 `104.59% CAGR / -11.26% MaxDD / 2.2339 Sharpe`，但 Sharpe 仍低于当前 winner。
 
+### 本轮补充（2026-05-03 12:05 CST）
+
+- 在 A 股 Path 2 新增 `prom1 cap100 risk50/full_risk` 微批量并重建 comparison CSV 到 `2331` 行 / `599` 个 base strategies 后，重新运行 `.venv/bin/python scripts/winner_only_pass.py`：`as_of=2026-04-30 / base_candidates=24 / total_candidates=168 / evaluated=168`。
+- 四个 Path 1 tracked winners 继续未改写；本轮仍不触发确认回测。
+- 最近似候选排序不变：`since_2020_01` 仍是 `aggr_05_95_prom7__sat_three_stage_buffered`，但 `MaxDD -25.00%` 继续超过替换阈值；`since_2025_01` 仍是 `aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered`，但 Sharpe 低于当前 winner。
+
 ## 本轮执行计划（2026-05-02）
 
 - 本轮继续限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不新增 Path 1 候选族。
