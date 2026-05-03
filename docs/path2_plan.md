@@ -35,6 +35,15 @@
 - 新风险暴露原型未改写任何 tracked winner 或 robust candidate。`since_2020_01` 最好的是 `core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_risk50_cap100`，仅 `31.43% CAGR / -44.54% MaxDD / 0.8470 Sharpe / 5.57 Turnover`，低于当前 `34.12%` winner 且回撤明显恶化。
 - `full_risk cap100` 在 `since_2023_01` 可做到约 `43.33% CAGR`，但仍低于当前 `58.20%` winner，且 `MaxDD` 接近 `-45%`；下一轮不应继续单纯放松 `prom1 cap100` 风险暴露，应转向更独立的 2020 信号或底座结构。
 
+### 本轮补充（2026-05-03 18:07 CST）
+
+- 基线复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙仍为 `212`，五个 family 规模为 `127 / 27 / 16 / 12 / 12`；旧 winners 与 robust candidate 均保持不变。
+- 本轮不继续沿 `prom1 cap100` 单纯放松风险暴露，改为验证更独立的底座结构：把当前 `80/20 equal_weight` 上最强的 `prom1 cap100` 原型迁移到 `70/30 equal_weight` 与 `60/40 equal_weight` 两个底座。
+- 计划只补跑 8 个四窗口 base candidates：`core_explore_70_30_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100`、`core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100`、`core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom1_core_6_1_cash_off_and_cap100`、`core_explore_70_30_equal_weight_winner_core__aggr_04_96_prom1_core_6_1_cash_off_and_cap100`，以及对应的 `60/40 equal_weight` 四个同名变体；这些候选仍归入现有 `high_concentration_breakout` family，不新增 family 规则。
+- 微批量后用缓存 summary 重建 comparison CSV 到 `2363` 行 / `607` 个 base strategies，再运行 `.venv/bin/python scripts/path2_candidate_pass.py`；候选宇宙升至 `220`，五个 family 规模为 `135 / 27 / 16 / 12 / 12`。
+- 新底座结构没有改写任何 tracked winner 或 robust candidate。`70/30 equal_weight` 最好的是 `core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100`，`since_2020_01` 为 `31.58% CAGR / -23.68% MaxDD / 1.0231 Sharpe / 3.46 Turnover`；`60/40 equal_weight` 最好约 `27.89% CAGR / -21.61% MaxDD / 0.9952 Sharpe`，都低于当前 `80/20 equal_weight` 的 `34.12%` winner。
+- 这次结果说明 `prom1 cap100` 强点对 `80/20 equal_weight` 底座较敏感，单纯降低核心占比会同步压低 `since_2020_01` 收益；下一轮应继续找更独立的 2020 信号或排序口径，而不是继续横向迁移同一底座结构。
+
 ## 本轮执行计划（2026-05-02）
 
 - 本轮继续独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，不要求先打赢 Path 1 才记录结果。
