@@ -13,6 +13,16 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮补充计划与记录（2026-05-05 00:03 CST）
+
+- 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `252`，五个 family 规模为 `143 / 43 / 16 / 16 / 16`；旧 tracked winners 与 robust candidate 均未漂移。
+- 本轮不再继续扩 `core_theme / industry_trend / core_3_1 / 高频 cadence` 的简单邻域，改测 `prom1 core_6_1 cap100` 的晋升首月 ramp，验证是否能减少 2020 中周期错误重仓和换手伤害。
+- 新增 4 个显式原型：`aggr_01_99_prom1_core_6_1_cash_off_and_cap100_ramp70`、`aggr_02_98_prom1_core_6_1_cash_off_and_cap100_ramp70`、`aggr_01_99_prom1_core_6_1_cash_off_and_cap100_ramp85`、`aggr_02_98_prom1_core_6_1_cash_off_and_cap100_ramp85`。
+- 只跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座的四窗口微批量；新候选仍归入 `high_concentration_breakout`，不并入 `high_growth_theme` 或高频 family。
+- 微批量后用缓存 summary 重建 comparison CSV 到 `2523` 行 / `647` 个 base strategies，再运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选宇宙升至 `260`，五个 family 规模为 `151 / 43 / 16 / 16 / 16`。
+- 新 ramp 原型没有改写任何 Path 2 tracked winner 或 robust candidate。`since_2020_01` 最好的是 `core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_ramp70/ramp85`，为 `34.12% CAGR / -22.77% MaxDD / 1.0402 Sharpe / 3.43 Turnover`，与当前 winner 基本等价而非突破。
+- `since_2025_01` 新原型最好的是总市值底座 `aggr_02_98_prom1_core_6_1_cash_off_and_cap100_ramp70/ramp85`，仅 `112.20% CAGR / -22.88% MaxDD / 1.4665 Sharpe / 5.47 Turnover`，低于当前 weekly 短窗 winner 的 `156.73% CAGR`。下一轮不应继续只改首月 ramp，应改成真实的 2020 过滤/确认逻辑或寻找独立信号。
+
 ## 本轮补充计划与记录（2026-05-04 18:07 CST）
 
 - 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `244`，五个 family 规模为 `143 / 43 / 16 / 12 / 12`，旧 tracked winners 与 robust candidate 均未漂移。
