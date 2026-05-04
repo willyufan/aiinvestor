@@ -13,6 +13,20 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮补充计划（2026-05-04 06:45 CST）
+
+- 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，当前候选宇宙仍为 `228`，五个 family 规模为 `143 / 27 / 16 / 12 / 12`；旧 winners 与 robust candidate 均未漂移。
+- 本轮不继续沿上一轮偏弱的 `prom1 core_3_1` 加码，改测一个更独立的 2020 中周期排序口径：新增 `core_theme` promoted-core 信号，把增长加速、行业强度、行业龙头与 `6-1 / 3-1` 动量合成为核心排序。
+- 显式原型只补 4 个：`aggr_01_99_prom1_core_theme_cash_off_and_cap100`、`aggr_02_98_prom1_core_theme_cash_off_and_cap100`、`aggr_01_99_prom2_core_theme_cash_off_and_cap95`、`aggr_02_98_prom2_core_theme_cash_off_and_cap95`；只跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座的四窗口微批量。
+- 新候选归入 `high_growth_theme` family，不并入 `high_concentration_breakout`，用来压紧 family membership 口径并避免高集中候选继续挤压其他 family。
+
+### 本轮补充记录（2026-05-04 09:40 CST）
+
+- 完成 8 个 `core_theme` base candidates 的四窗口微批量后，用缓存 summary 重建 comparison CSV 到 `2427` 行 / `623` 个 base strategies。
+- 重新运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选宇宙升至 `236`，五个 family 规模为 `143 / 35 / 16 / 12 / 12`，新增候选只扩充 `high_growth_theme`。
+- `core_theme` 没有改写任何 Path 2 tracked winner 或 robust candidate。`since_2020_01` 最好的是 `core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_theme_cash_off_and_cap95`，为 `22.98% CAGR / -22.33% MaxDD / 0.9094 Sharpe / 2.58 Turnover`，明显低于当前 `34.12%` winner。
+- 新候选的主要 side observation 是 `since_2025_01` 的 `core_explore_80_20_total_mv_winner_core__aggr_02_98_prom1_core_theme_cash_off_and_cap100` 达到 `101.89% CAGR`，但仍低于当前短窗 winner 的 `147.54% CAGR`；下一轮不应继续单纯加码 `core_theme`，除非引入更强的 2020 专属过滤或风险节奏。
+
 ## 本轮执行计划（2026-05-04）
 
 - 本轮继续独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，不要求先打赢 Path 1 才记录结果。

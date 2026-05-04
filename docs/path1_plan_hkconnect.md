@@ -1,5 +1,17 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮补充计划（2026-05-04 06:45 CST）
+
+- 本轮继续单独运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，以本地缓存完成五窗口评估。
+- Path 1 仍只评估当前月频、双周、单周与低波对照候选，不新增候选族；港股结论不并入 A 股 winner。
+- 跑完后用 `results_hkconnect/strategy_comparison_hkconnect.csv` 与 tracked payload 判断是否只是同步重跑，或出现窗口赢家/robust candidate 切换。
+
+### 本轮补充记录（2026-05-04 09:40 CST）
+
+- 运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，`trade_calendar` 更新失败时继续回退本地缓存；随后运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`。
+- 港股 Path 1 tracked payload 仍为 `as_of=2026-04-30`；四窗口 winner 与 robust candidate 继续全部是 `hkconnect_path1_weekly_equal_buffered`。
+- 关键指标保持不变：`since_2017_01 / since_2020_01` 为 `23.00% CAGR / -13.41% MaxDD / 1.2361 Sharpe / 9.72 Turnover`，`since_2023_01` 为 `34.80% CAGR / 1.5484 Sharpe`，`since_2025_01` 为 `48.95% CAGR / 1.7009 Sharpe`；月频、双周、低波候选继续保留为对照。
+
 ## 本轮执行计划（2026-05-04）
 
 - 本轮继续单独运行 `./.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，港股 Path 1 结论不并入 A 股 winner。
