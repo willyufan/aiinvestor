@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮补充计划与记录（2026-05-04 15:25 CST）
+
+- 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `236`，五个 family 规模为 `143 / 35 / 16 / 12 / 12`；旧 tracked winners 与 robust candidate 均未漂移。
+- 本轮不继续加码上一轮偏弱的 `core_theme` 财务主题口径，改测更偏 2020 中周期趋势的 `industry_trend` 核心信号：行业强度、行业内领涨、`6-1 / 3-1` 动量和突破宽度组合，不再把财务增长作为主权重。
+- 新增 4 个显式原型：`aggr_01_99_prom1_industry_trend_cash_off_and_cap100`、`aggr_02_98_prom1_industry_trend_cash_off_and_cap100`、`aggr_01_99_prom2_industry_trend_cash_off_and_cap95`、`aggr_02_98_prom2_industry_trend_cash_off_and_cap95`；只跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座的四窗口微批量。
+- 微批量后用缓存 summary 重建 comparison CSV 到 `2459` 行 / `631` 个 base strategies，再运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选宇宙升至 `244`，五个 family 规模为 `143 / 43 / 16 / 12 / 12`，新增候选只扩充 `high_growth_theme`。
+- `industry_trend` 没有改写任何 Path 2 tracked winner 或 robust candidate。`since_2020_01` 最好的是 `core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom1_industry_trend_cash_off_and_cap100`，仅 `14.60% CAGR / -25.49% MaxDD / 0.6491 Sharpe / 3.45 Turnover`，明显低于当前 `34.12%` winner。
+- 主要 side observation 是 `since_2025_01` 的 `core_explore_80_20_total_mv_winner_core__aggr_02_98_prom1_industry_trend_cash_off_and_cap100` 达到 `116.82% CAGR`，但仍低于当前短窗 winner 的 `147.54% CAGR`。下一轮不应继续单独加码行业趋势/主题排序，应回到当前 `core_6_1 prom1 cap100` 强点附近寻找更有针对性的 2020 过滤或节奏控制。
+
 ## 本轮补充计划（2026-05-04 06:45 CST）
 
 - 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，当前候选宇宙仍为 `228`，五个 family 规模为 `143 / 27 / 16 / 12 / 12`；旧 winners 与 robust candidate 均未漂移。
