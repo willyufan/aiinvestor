@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮补充计划与记录（2026-05-04 18:07 CST）
+
+- 本轮继续与港股 Path 1 同批跑五窗口离线回测，再运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py` 同步 tracked payload 与图表。
+- Path 2 继续单独评估 `theme_monthly / theme_fast_weekly / breakout_concentrated_monthly` 锚点，不复用 A 股 Path 2 的高频单票结论。
+- 重点核对 `hkconnect_path2_theme_fast_weekly` 是否继续占据 robust candidate，以及周频、双周、月频候选是否全部保留在候选集。
+- tracked payload 仍为 `as_of=2026-04-30`；Path 2 tracked winners 继续维持：`since_2017_01 / since_2020_01` 为 `hkconnect_path2_theme_monthly`（`22.32% CAGR / -18.86% MaxDD / 1.1522 Sharpe / 6.62 Turnover`），`since_2023_01` 为 `hkconnect_path2_theme_fast_weekly`（`41.78% CAGR / -19.56% MaxDD / 1.3529 Sharpe / 29.55 Turnover`），`since_2025_01` 为 `hkconnect_path2_breakout_concentrated_monthly`（`97.56% CAGR / -7.23% MaxDD / 2.3471 Sharpe / 9.05 Turnover`）。
+- 四窗口 robust candidate 仍是 `hkconnect_path2_theme_fast_weekly`（meanCAGR `41.33% / minCAGR 20.89% / worstMaxDD -33.61% / meanTurn 31.53`）；周频、双周、月频候选继续全部保留。
+
 ## 本轮补充计划与记录（2026-05-04 15:25 CST）
 
 - 继续与港股 Path 1 同批运行五窗口离线回测，并执行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py` 同步 tracked payload 与图表；港股 Path 2 继续独立于 A 股 Path 2。

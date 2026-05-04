@@ -13,6 +13,17 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮补充计划与记录（2026-05-04 18:07 CST）
+
+- 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `244`，五个 family 规模为 `143 / 43 / 16 / 12 / 12`，旧 tracked winners 与 robust candidate 均未漂移。
+- 本轮停止继续扩 `core_theme / industry_trend` 排序口径，回到当前 `since_2020_01` 强点 `prom1 core_6_1 cap100`，只验证 cadence 是否能改善中周期收益或风险。
+- 新增 4 个显式原型：`aggr_01_99_prom1_core_6_1_cash_off_and_cap100_biweekly`、`aggr_02_98_prom1_core_6_1_cash_off_and_cap100_biweekly`、`aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly`、`aggr_02_98_prom1_core_6_1_cash_off_and_cap100_weekly`。
+- 只跑 `80/20 equal_weight` 与 `70/30 equal_weight` 两个底座的四窗口微批量；新增候选归入 `biweekly_rebalance_aggressive / weekly_rebalance_aggressive`，不并入 `high_growth_theme`。
+- 微批量后用缓存 summary 重建 comparison CSV 到 `2491` 行 / `639` 个 base strategies，再运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选宇宙升至 `252`，五个 family 规模为 `143 / 43 / 16 / 16 / 16`。
+- 新高频 cadence 没有改善 `since_2020_01`：新增候选最好的是 `core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_weekly`，仅 `16.88% CAGR / -48.98% MaxDD / 0.5343 Sharpe / 8.77 Turnover`，明显低于当前 `34.12%` winner。
+- `since_2025_01` Path 2 tracked winner 改写为 `core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly`：`156.73% CAGR / -40.77% MaxDD / 1.5775 Sharpe / 16.06 Turnover`，收益上限高于旧 `147.54%` winner，但回撤和换手显著恶化，只作为短窗高风险窗口赢家记录。
+- 四窗口 robust candidate 仍是 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`；下一轮不应继续简单提高 `prom1 cap100` cadence，应转向 2020 专属过滤或降低错误换手的确认逻辑。
+
 ## 本轮补充计划与记录（2026-05-04 15:25 CST）
 
 - 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `236`，五个 family 规模为 `143 / 35 / 16 / 12 / 12`；旧 tracked winners 与 robust candidate 均未漂移。
