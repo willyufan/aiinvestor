@@ -4,6 +4,13 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮补充计划与记录（2026-05-05 06:14 CST）
+
+- 本轮 Path 1 继续限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不吸收 A 股 Path 2 新增的高集中确认过滤微批量。
+- 先运行 `.venv/bin/python scripts/winner_only_pass.py`，并在 Path 2 微批量、comparison CSV 重建后复跑；两次输出均为 `as_of=2026-04-30 / base_candidates=24 / total_candidates=168 / evaluated=168`。
+- `weekly_exposure_path` 继续按固定顺序比较 `__port_weekly_exposure_buffered` 与 `__port_weekly_exposure_asym`；本轮没有 Path 1 四窗口 tracked winner 改写，因此不补确认回测。
+- 最近似候选仍是 `since_2020_01` 的 `aggr_05_95_prom7__sat_three_stage_buffered`（`27.83% CAGR / -25.00% MaxDD / 1.0264 Sharpe`）与 `since_2025_01` 的 `aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered`（`104.59% CAGR / -11.26% MaxDD / 2.2339 Sharpe`），继续分别受回撤或 Sharpe 条件阻挡。
+
 ## 本轮补充计划与记录（2026-05-05 00:03 CST）
 
 - 本轮 Path 1 继续限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不吸收 A 股 Path 2 的高集中 ramp 微批量。

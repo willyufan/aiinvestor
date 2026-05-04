@@ -13,6 +13,17 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮补充计划与记录（2026-05-05 06:14 CST）
+
+- 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `260`，五个 family 规模为 `151 / 43 / 16 / 16 / 16`；旧 tracked winners 与 robust candidate 均未漂移。
+- 本轮不继续首月 ramp、简单 cadence、`core_theme / industry_trend` 或 `core_3_1` 邻域，新增一个真实的 2020 promotion 确认过滤 hook：在晋升候选中可配置 `6-1` 动量分位、`3-1` 动量分位与量能放大阈值，默认值保持旧行为不变。
+- 新增 4 个显式原型：`aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm80`、`aggr_02_98_prom1_core_6_1_cash_off_and_cap100_confirm80`、`aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm85_amt130`、`aggr_02_98_prom1_core_6_1_cash_off_and_cap100_confirm85_amt130`。
+- 只跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座的四窗口微批量；新候选仍归入 `high_concentration_breakout`，不并入主题或高频 family。
+- 微批量后用缓存 summary 重建 comparison CSV 到 `2555` 行 / `655` 个 base strategies，再运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选宇宙升至 `268`，五个 family 规模为 `159 / 43 / 16 / 16 / 16`。
+- 新确认过滤没有改善 `since_2020_01`：新增等权候选最好的是 `core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_confirm80`，为 `31.36% CAGR / -26.21% MaxDD / 0.9493 Sharpe / 3.43 Turnover`，低于当前 `34.12%` winner。
+- 新确认过滤改写了 `since_2025_01` Path 2 tracked winner：`core_explore_80_20_total_mv_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_confirm80` 达到 `157.73% CAGR / -26.81% MaxDD / 1.7514 Sharpe / 6.63 Turnover`，相对旧 weekly winner 的 `156.73% CAGR / -40.77% MaxDD / 1.5775 Sharpe / 16.06 Turnover` 同时改善收益、回撤、Sharpe 与换手。
+- 四窗口 robust candidate 仍是 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`。下一轮不要继续把确认过滤当作 2020 主攻线，应另找独立的中周期信号；`confirm80` 可作为 2025 风险效率 sidecar 保留。
+
 ## 本轮补充计划与记录（2026-05-05 00:03 CST）
 
 - 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `252`，五个 family 规模为 `143 / 43 / 16 / 16 / 16`；旧 tracked winners 与 robust candidate 均未漂移。

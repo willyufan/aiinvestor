@@ -843,6 +843,76 @@ WINNER_CORE_VARIANTS = [
         "weight_cap": 1.00,
     },
     {
+        "variant_id": "aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm80",
+        "variant_name": "进攻1/99 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 6-1确认80)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 1,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 1.00,
+        "standard_promotion_min_momentum_6_1_rank": 0.70,
+        "fast_promotion_min_momentum_6_1_rank": 0.80,
+        "fast_promotion_min_amount_surge_ratio": 1.15,
+    },
+    {
+        "variant_id": "aggr_02_98_prom1_core_6_1_cash_off_and_cap100_confirm80",
+        "variant_name": "进攻2/98 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 6-1确认80)",
+        "winner_core_stable_share": 0.02,
+        "winner_core_promoted_share": 0.98,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 1,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 1.00,
+        "standard_promotion_min_momentum_6_1_rank": 0.70,
+        "fast_promotion_min_momentum_6_1_rank": 0.80,
+        "fast_promotion_min_amount_surge_ratio": 1.15,
+    },
+    {
+        "variant_id": "aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm85_amt130",
+        "variant_name": "进攻1/99 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 6-1确认85+量能130)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 1,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 1.00,
+        "standard_promotion_min_momentum_6_1_rank": 0.75,
+        "fast_promotion_min_momentum_6_1_rank": 0.85,
+        "fast_promotion_min_momentum_3_1_rank": 0.60,
+        "fast_promotion_min_amount_surge_ratio": 1.30,
+    },
+    {
+        "variant_id": "aggr_02_98_prom1_core_6_1_cash_off_and_cap100_confirm85_amt130",
+        "variant_name": "进攻2/98 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 6-1确认85+量能130)",
+        "winner_core_stable_share": 0.02,
+        "winner_core_promoted_share": 0.98,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 1,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 1.00,
+        "standard_promotion_min_momentum_6_1_rank": 0.75,
+        "fast_promotion_min_momentum_6_1_rank": 0.85,
+        "fast_promotion_min_momentum_3_1_rank": 0.60,
+        "fast_promotion_min_amount_surge_ratio": 1.30,
+    },
+    {
         "variant_id": "aggr_01_99_prom1_core_6_1_cash_off_and_cap100_ramp70",
         "variant_name": "进攻1/99 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 首月70%)",
         "winner_core_stable_share": 0.01,
@@ -1964,6 +2034,10 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_01_99_prom2_core_6_1_cash_off_and_cap90",
             "aggr_01_99_prom1_core_6_1_cash_off_and_cap100",
             "aggr_02_98_prom1_core_6_1_cash_off_and_cap100",
+            "aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm80",
+            "aggr_02_98_prom1_core_6_1_cash_off_and_cap100_confirm80",
+            "aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm85_amt130",
+            "aggr_02_98_prom1_core_6_1_cash_off_and_cap100_confirm85_amt130",
             "aggr_01_99_prom1_core_6_1_cash_off_and_cap100_ramp70",
             "aggr_02_98_prom1_core_6_1_cash_off_and_cap100_ramp70",
             "aggr_01_99_prom1_core_6_1_cash_off_and_cap100_ramp85",
@@ -2160,6 +2234,10 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_01_99_prom2_core_6_1_cash_off_and_cap90",
     "aggr_01_99_prom1_core_6_1_cash_off_and_cap100",
     "aggr_02_98_prom1_core_6_1_cash_off_and_cap100",
+    "aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm80",
+    "aggr_02_98_prom1_core_6_1_cash_off_and_cap100_confirm80",
+    "aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm85_amt130",
+    "aggr_02_98_prom1_core_6_1_cash_off_and_cap100_confirm85_amt130",
     "aggr_01_99_prom1_core_6_1_cash_off_and_cap100_ramp70",
     "aggr_02_98_prom1_core_6_1_cash_off_and_cap100_ramp70",
     "aggr_01_99_prom1_core_6_1_cash_off_and_cap100_ramp85",
@@ -5364,20 +5442,40 @@ def run_backtest(
                 (safe_percentile_rank(seed_signal_scores, ascending=True), 0.40),
             ]
         )
+        promotion_momentum_6_1_rank = safe_percentile_rank(momentum_6_1, ascending=True).reindex(satellite_signal_ranks.index).fillna(0.0)
+        promotion_momentum_3_1_rank = safe_percentile_rank(momentum_3_1, ascending=True).reindex(satellite_signal_ranks.index).fillna(0.0)
+        standard_promotion_min_industry_strength = float(strategy_config.get("standard_promotion_min_industry_strength", 0.60))
+        standard_promotion_min_industry_leader = float(strategy_config.get("standard_promotion_min_industry_leader", 0.60))
+        standard_promotion_min_momentum_6_1_rank = float(strategy_config.get("standard_promotion_min_momentum_6_1_rank", 0.0))
+        standard_promotion_min_momentum_3_1_rank = float(strategy_config.get("standard_promotion_min_momentum_3_1_rank", 0.0))
+        fast_promotion_percentile = float(strategy_config.get("fast_promotion_percentile", FAST_PROMOTION_PERCENTILE))
+        fast_promotion_percentile = min(1.0, max(0.0001, fast_promotion_percentile))
+        fast_promotion_min_industry_strength = float(strategy_config.get("fast_promotion_min_industry_strength", 0.75))
+        fast_promotion_min_industry_leader = float(strategy_config.get("fast_promotion_min_industry_leader", 0.75))
+        fast_promotion_min_momentum_6_1_rank = float(strategy_config.get("fast_promotion_min_momentum_6_1_rank", 0.0))
+        fast_promotion_min_momentum_3_1_rank = float(strategy_config.get("fast_promotion_min_momentum_3_1_rank", 0.0))
+        fast_promotion_min_recent_1m_return = float(strategy_config.get("fast_promotion_min_recent_1m_return", 0.0))
+        fast_promotion_min_amount_surge_ratio = float(
+            strategy_config.get("fast_promotion_min_amount_surge_ratio", FAST_PROMOTION_AMOUNT_SURGE_RATIO)
+        )
         standard_promotion_candidates = set(
             satellite_signal_ranks[
-                (industry_strength_scores.reindex(satellite_signal_ranks.index).fillna(0.0) >= 0.60)
-                & (industry_leader_scores.reindex(satellite_signal_ranks.index).fillna(0.0) >= 0.60)
+                (industry_strength_scores.reindex(satellite_signal_ranks.index).fillna(0.0) >= standard_promotion_min_industry_strength)
+                & (industry_leader_scores.reindex(satellite_signal_ranks.index).fillna(0.0) >= standard_promotion_min_industry_leader)
+                & (promotion_momentum_6_1_rank >= standard_promotion_min_momentum_6_1_rank)
+                & (promotion_momentum_3_1_rank >= standard_promotion_min_momentum_3_1_rank)
             ].index
         )
         fast_promotion_candidates = set(
             satellite_signal_ranks[
-                (satellite_signal_ranks >= satellite_signal_ranks.quantile(1.0 - FAST_PROMOTION_PERCENTILE))
-                & (industry_strength_scores.reindex(satellite_signal_ranks.index).fillna(0.0) >= 0.75)
-                & (industry_leader_scores.reindex(satellite_signal_ranks.index).fillna(0.0) >= 0.75)
+                (satellite_signal_ranks >= satellite_signal_ranks.quantile(1.0 - fast_promotion_percentile))
+                & (industry_strength_scores.reindex(satellite_signal_ranks.index).fillna(0.0) >= fast_promotion_min_industry_strength)
+                & (industry_leader_scores.reindex(satellite_signal_ranks.index).fillna(0.0) >= fast_promotion_min_industry_leader)
+                & (promotion_momentum_6_1_rank >= fast_promotion_min_momentum_6_1_rank)
+                & (promotion_momentum_3_1_rank >= fast_promotion_min_momentum_3_1_rank)
                 & breakout_signal.reindex(satellite_signal_ranks.index).fillna(False)
-                & (recent_1m_returns.reindex(satellite_signal_ranks.index).fillna(-1.0) > 0)
-                & (amount_surge_ratio.reindex(satellite_signal_ranks.index).fillna(0.0) >= FAST_PROMOTION_AMOUNT_SURGE_RATIO)
+                & (recent_1m_returns.reindex(satellite_signal_ranks.index).fillna(-1.0) > fast_promotion_min_recent_1m_return)
+                & (amount_surge_ratio.reindex(satellite_signal_ranks.index).fillna(0.0) >= fast_promotion_min_amount_surge_ratio)
             ].index
         )
 
