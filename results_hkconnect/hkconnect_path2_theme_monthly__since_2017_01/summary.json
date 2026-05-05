@@ -1,7 +1,7 @@
 {
   "pool_id": "hkconnect_static_latest",
   "pool_name": "沪港通静态标的池（最新可得名单）",
-  "sample_start": "2020-12-01",
+  "sample_start": "2021-01-04",
   "sample_end": "2026-04-30",
   "sample_tag": "since_2017_01",
   "sample_label": "2017-01 起",
@@ -18,17 +18,17 @@
   "universe_note": "受 Tushare stock_hsgt 历史覆盖限制，当前使用最新可得沪港通名单作为静态回测池。",
   "transaction_cost_note": "当前港股交易成本采用近似双边佣金模型（无印花税建模），仅用于研究比较。",
   "metrics": {
-    "total_return": 1.978421543910998,
-    "cagr": 0.22322159074478742,
-    "max_drawdown": -0.1886224481583394,
-    "monthly_win_rate": 0.6461538461538462,
-    "annual_volatility": 0.19167955524836006,
-    "sharpe_ratio": 1.1521701114230236,
-    "average_annual_turnover": 6.616424970542777,
-    "cumulative_trading_cost": 0.0302840185076679
+    "total_return": 1.8607102635889015,
+    "cagr": 0.21783612190379587,
+    "max_drawdown": -0.18983858723657687,
+    "monthly_win_rate": 0.640625,
+    "annual_volatility": 0.19132772507293158,
+    "sharpe_ratio": 1.1304205410850987,
+    "average_annual_turnover": 6.61305796529286,
+    "cumulative_trading_cost": 0.028996049813548898
   },
   "warnings": [
     "沪港通历史标的列表受 Tushare stock_hsgt 接口限制（仅 2025-08-12 起可取），当前研究使用最新可得沪港通名单作为静态回测池。",
-    "回测起点被后移：requested=2017-01-01 effective=2020-12-01 (受可用调仓点/数据覆盖影响)"
+    "回测起点被后移：requested=2017-01-01 effective=2021-01-04 (受可用调仓点/数据覆盖影响)"
   ]
 }
