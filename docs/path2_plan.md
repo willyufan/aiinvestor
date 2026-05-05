@@ -13,6 +13,17 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮补充计划与记录（2026-05-05 12:14 CST）
+
+- 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙仍为 `268`，五个 family 规模为 `159 / 43 / 16 / 16 / 16`；旧 tracked winners 与 robust candidate 均未漂移。
+- 本轮不继续 `confirm / ramp / cadence / core_theme / industry_trend / core_3_1` 的简单邻域，新增一个独立中周期量价排序口径 `midcycle_momentum`：以 `6-1` 动量为主，叠加量能放大、近月收益、行业领涨和突破。
+- 新增 4 个显式原型：`aggr_01_99_prom1_midcycle_momentum_cash_off_and_cap100`、`aggr_02_98_prom1_midcycle_momentum_cash_off_and_cap100`、`aggr_01_99_prom2_midcycle_momentum_cash_off_and_cap95`、`aggr_02_98_prom2_midcycle_momentum_cash_off_and_cap95`。
+- 只跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座的四窗口微批量；新候选归入 `high_growth_theme` family，避免继续把高集中 family 口径压扁。
+- 微批量后用缓存 summary 重建 comparison CSV 到 `2587` 行 / `663` 个 base strategies，再运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选宇宙升至 `276`，五个 family 规模为 `159 / 51 / 16 / 16 / 16`。
+- 新 `midcycle_momentum` 没有改写任何 Path 2 tracked winner 或 robust candidate。新增候选里 `since_2020_01` 最好的是 `core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom2_midcycle_momentum_cash_off_and_cap95`，仅 `11.77% CAGR / -22.15% MaxDD / 0.5693 Sharpe / 3.53 Turnover`，明显低于当前 `34.12%` winner。
+- 新候选的 `since_2023_01` 最好为等权 `2/98 prom1` 的 `27.92% CAGR`，`since_2025_01` 最好为等权 `2/98 prom2` 的 `78.20% CAGR`，均低于当前对应窗口 winners；下一轮不要继续沿 `midcycle_momentum` 加码。
+- 四窗口 robust candidate 仍是 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`。
+
 ## 本轮补充计划与记录（2026-05-05 06:14 CST）
 
 - 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `260`，五个 family 规模为 `151 / 43 / 16 / 16 / 16`；旧 tracked winners 与 robust candidate 均未漂移。
