@@ -1341,6 +1341,76 @@ WINNER_CORE_VARIANTS = [
         "fast_promotion_min_amount_surge_ratio": 1.10,
     },
     {
+        "variant_id": "aggr_01_99_prom1_core_6_1_promo_6_1_top15_cash_off_and_cap100",
+        "variant_name": "进攻1/99 晋升1只(核心6-1动量, 6-1晋升前15%, 熊市空仓 and, 单票100%)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 1,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "momentum_6_1",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 1.00,
+    },
+    {
+        "variant_id": "aggr_02_98_prom1_core_6_1_promo_6_1_top15_cash_off_and_cap100",
+        "variant_name": "进攻2/98 晋升1只(核心6-1动量, 6-1晋升前15%, 熊市空仓 and, 单票100%)",
+        "winner_core_stable_share": 0.02,
+        "winner_core_promoted_share": 0.98,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 1,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "momentum_6_1",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 1.00,
+    },
+    {
+        "variant_id": "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_cap95",
+        "variant_name": "进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 熊市空仓 and, 单票95%)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_amount_surge_ratio": 1.05,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 0.95,
+    },
+    {
+        "variant_id": "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_cash_off_and_cap95",
+        "variant_name": "进攻2/98 晋升2只(核心6-1动量, 量价晋升前15%, 熊市空仓 and, 单票95%)",
+        "winner_core_stable_share": 0.02,
+        "winner_core_promoted_share": 0.98,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_amount_surge_ratio": 1.05,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 0.95,
+    },
+    {
         "variant_id": "aggr_01_99_prom2_cash_off_and_cap90",
         "variant_name": "进攻1/99 晋升2只(默认动量, 熊市空仓 and, 单票90%)",
         "winner_core_stable_share": 0.01,
@@ -2197,6 +2267,10 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_02_98_prom1_midcycle_momentum_cash_off_and_cap100",
             "aggr_01_99_prom2_midcycle_momentum_cash_off_and_cap95",
             "aggr_02_98_prom2_midcycle_momentum_cash_off_and_cap95",
+            "aggr_01_99_prom1_core_6_1_promo_6_1_top15_cash_off_and_cap100",
+            "aggr_02_98_prom1_core_6_1_promo_6_1_top15_cash_off_and_cap100",
+            "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_cap95",
+            "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_cash_off_and_cap95",
             "aggr_06_94_prom4_core_6_1_full_risk_cap70",
             "aggr_06_94_prom4_core_6_1_cash_off_and_cap70",
         ],
@@ -2332,6 +2406,10 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_02_98_prom1_midcycle_momentum_cash_off_and_cap100",
     "aggr_01_99_prom2_midcycle_momentum_cash_off_and_cap95",
     "aggr_02_98_prom2_midcycle_momentum_cash_off_and_cap95",
+    "aggr_01_99_prom1_core_6_1_promo_6_1_top15_cash_off_and_cap100",
+    "aggr_02_98_prom1_core_6_1_promo_6_1_top15_cash_off_and_cap100",
+    "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_cap95",
+    "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_cash_off_and_cap95",
     "aggr_01_99_prom2_cash_off_and_cap90",
     "aggr_01_99_prom2_full_risk_cap90",
     "aggr_02_98_prom2_cash_off_and_cap90",
@@ -5384,6 +5462,21 @@ def run_backtest(
                     (breakout_signal.astype(float), 0.10),
                 ]
             )
+        promotion_signal_mode = str(strategy_config.get("promotion_signal_mode", "") or "").strip()
+        if promotion_signal_mode == "momentum_6_1":
+            promotion_signal_scores = safe_percentile_rank(momentum_6_1, ascending=True)
+        elif promotion_signal_mode == "liquidity_momentum":
+            promotion_signal_scores = blend_ranked_components(
+                [
+                    (safe_percentile_rank(momentum_6_1, ascending=True), 0.50),
+                    (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.20),
+                    (safe_percentile_rank(recent_1m_returns, ascending=True), 0.15),
+                    (industry_leader_scores, 0.10),
+                    (breakout_signal.astype(float), 0.05),
+                ]
+            )
+        else:
+            promotion_signal_scores = pd.Series(dtype=float)
         explore_signal_scores = blend_ranked_components(
             [
                 (industry_strength_scores, 0.40),
@@ -5524,12 +5617,17 @@ def run_backtest(
                 (safe_percentile_rank(seed_signal_scores, ascending=True), 0.40),
             ]
         )
+        if not promotion_signal_scores.empty:
+            satellite_signal_ranks = promotion_signal_scores
         promotion_momentum_6_1_rank = safe_percentile_rank(momentum_6_1, ascending=True).reindex(satellite_signal_ranks.index).fillna(0.0)
         promotion_momentum_3_1_rank = safe_percentile_rank(momentum_3_1, ascending=True).reindex(satellite_signal_ranks.index).fillna(0.0)
         standard_promotion_min_industry_strength = float(strategy_config.get("standard_promotion_min_industry_strength", 0.60))
         standard_promotion_min_industry_leader = float(strategy_config.get("standard_promotion_min_industry_leader", 0.60))
         standard_promotion_min_momentum_6_1_rank = float(strategy_config.get("standard_promotion_min_momentum_6_1_rank", 0.0))
         standard_promotion_min_momentum_3_1_rank = float(strategy_config.get("standard_promotion_min_momentum_3_1_rank", 0.0))
+        standard_promotion_percentile = float(strategy_config.get("standard_promotion_percentile", 1.0))
+        standard_promotion_percentile = min(1.0, max(0.0001, standard_promotion_percentile))
+        standard_promotion_rank_threshold = satellite_signal_ranks.quantile(1.0 - standard_promotion_percentile)
         fast_promotion_percentile = float(strategy_config.get("fast_promotion_percentile", FAST_PROMOTION_PERCENTILE))
         fast_promotion_percentile = min(1.0, max(0.0001, fast_promotion_percentile))
         fast_promotion_min_industry_strength = float(strategy_config.get("fast_promotion_min_industry_strength", 0.75))
@@ -5542,6 +5640,8 @@ def run_backtest(
         )
         standard_promotion_candidates = set(
             satellite_signal_ranks[
+                (satellite_signal_ranks >= standard_promotion_rank_threshold)
+                &
                 (industry_strength_scores.reindex(satellite_signal_ranks.index).fillna(0.0) >= standard_promotion_min_industry_strength)
                 & (industry_leader_scores.reindex(satellite_signal_ranks.index).fillna(0.0) >= standard_promotion_min_industry_leader)
                 & (promotion_momentum_6_1_rank >= standard_promotion_min_momentum_6_1_rank)
@@ -5856,6 +5956,8 @@ def run_backtest(
         "stable_core_max_holdings": int(strategy_config.get("stable_core_max_holdings", STABLE_CORE_MAX_HOLDINGS)),
         "promoted_core_max_holdings": int(strategy_config.get("promoted_core_max_holdings", PROMOTED_CORE_MAX_HOLDINGS)),
         "promoted_core_stage_ramp": strategy_config.get("promoted_core_stage_ramp", PROMOTED_CORE_STAGE_RAMP),
+        "promotion_signal_mode": str(strategy_config.get("promotion_signal_mode", "") or ""),
+        "standard_promotion_percentile": float(strategy_config.get("standard_promotion_percentile", 1.0)),
         "total_portfolio_max_holdings": TOTAL_PORTFOLIO_MAX_HOLDINGS,
         "total_portfolio_min_weight": TOTAL_PORTFOLIO_MIN_WEIGHT,
         "force_exit_weight_threshold": FORCE_EXIT_WEIGHT_THRESHOLD,
