@@ -32,6 +32,7 @@ SAMPLE_LABELS = {
 }
 HISTORY_WINDOW_SNAPSHOTS = 12
 SAMPLE_TAGS = ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"]
+HK_TRACKED_WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
 SAMPLE_TAG_LABELS = {
     "since_2017_01": "2017窗口",
     "since_2020_01": "2020窗口",
@@ -75,6 +76,10 @@ def infer_schedule_kind(strategy_id: str, rebalance_frequency: str) -> str:
     if rebalance_frequency == "weekly":
         return "weekly"
     return "monthly"
+
+
+def is_path3_weekly_strategy(strategy_id: str) -> bool:
+    return str(strategy_id or "").endswith("_weekly")
 
 
 @functools.lru_cache(maxsize=4)
@@ -638,11 +643,13 @@ def load_strategy_snapshot(base_id: str, sample_tag: str, *, market_scope: str =
 
 
 def _pick_hk_robust_candidate(df: pd.DataFrame, path_name: str) -> str | None:
-    subset = df[df["path"] == path_name].copy()
+    subset = df[(df["path"] == path_name) & (df["sample_tag"].isin(HK_TRACKED_WINDOW_TAGS))].copy()
     if subset.empty:
         return None
     metrics_rows: list[dict[str, Any]] = []
     for strategy_id, sub in subset.groupby("strategy_id"):
+        if not set(HK_TRACKED_WINDOW_TAGS).issubset(set(sub["sample_tag"].astype(str))):
+            continue
         metrics_rows.append(
             {
                 "strategy_id": strategy_id,
@@ -821,6 +828,25 @@ def export_live_data() -> dict[str, Any]:
             sample_tag="since_2020_01",
         )
 
+    path3_payload = payload.get("path3") or {}
+    for track_key, track_meta in (path3_payload.get("tracks") or {}).items():
+        strategy_id = str(track_meta["winner"])
+        add_entry(
+            path_name="path3",
+            winner_type=SAMPLE_LABELS.get(track_key, track_key),
+            strategy_id=strategy_id,
+            sample_tag=guess_sample_tag(track_key),
+        )
+
+    path3_robust = path3_payload.get("strategy_base_id")
+    if path3_robust:
+        add_entry(
+            path_name="path3",
+            winner_type="robust candidate",
+            strategy_id=str(path3_robust),
+            sample_tag="since_2020_01",
+        )
+
     registry = list(dedup.values())
     registry.extend(load_hkconnect_registry())
     registry = sorted(
@@ -838,6 +864,11 @@ def export_live_data() -> dict[str, Any]:
     }
     if payload["path2"].get("strategy_base_id"):
         path2_known_ids.add(str(payload["path2"]["strategy_base_id"]))
+    path3_known_ids = {
+        str(meta["winner"]) for meta in (payload.get("path3") or {}).get("tracks", {}).values()
+    }
+    if (payload.get("path3") or {}).get("strategy_base_id"):
+        path3_known_ids.add(str((payload.get("path3") or {})["strategy_base_id"]))
 
     core_active_registry: list[dict[str, Any]] = []
     for strategy_id in CORE_ACTIVE_FAMILY_BASE_IDS:
@@ -848,7 +879,12 @@ def export_live_data() -> dict[str, Any]:
             snapshot = load_strategy_snapshot(strategy_id, sample_tag, market_scope="a_share")
         except Exception:
             continue
-        snapshot["path"] = "path2" if strategy_id in path2_known_ids or "equal_weight_winner_core" in strategy_id else "path1"
+        if strategy_id in path3_known_ids or is_path3_weekly_strategy(strategy_id):
+            snapshot["path"] = "path3"
+        elif strategy_id in path2_known_ids or "equal_weight_winner_core" in strategy_id:
+            snapshot["path"] = "path2"
+        else:
+            snapshot["path"] = "path1"
         snapshot["winner_type"] = "core active"
         snapshot["winner_tags"] = []
         snapshot["market_scope"] = "a_share"

@@ -384,6 +384,16 @@ def main() -> None:
         entry = build_strategy_entry(track["winner"], track_key, "path2", strategies_map)
         path2_entries.append(entry)
 
+    # ── A股 Path 3 ──
+    path3_entries: list[dict] = []
+    path3_payload = payload.get("path3") or {}
+    for track_key in WINDOW_TRACK_KEYS:
+        track = (path3_payload.get("tracks") or {}).get(track_key)
+        if not track:
+            continue
+        entry = build_strategy_entry(track["winner"], track_key, "path3", strategies_map)
+        path3_entries.append(entry)
+
     # ── 沪港通 ──
     hk_entries: list[dict] = []
     if HK_TRACKED_WINNERS_JSON.exists():
@@ -394,15 +404,16 @@ def main() -> None:
         "as_of":   as_of,
         "path1":   path1_entries,
         "path2":   path2_entries,
+        "path3":   path3_entries,
         "hkconnect": hk_entries,
     }
 
     OUTPUT_PATH.write_text(json.dumps(snapshot, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    total = len(path1_entries) + len(path2_entries) + len(hk_entries)
-    print(f"✓ Exported {len(path1_entries)} path1 + {len(path2_entries)} path2 + {len(hk_entries)} hkconnect entries → {OUTPUT_PATH}")
+    total = len(path1_entries) + len(path2_entries) + len(path3_entries) + len(hk_entries)
+    print(f"✓ Exported {len(path1_entries)} path1 + {len(path2_entries)} path2 + {len(path3_entries)} path3 + {len(hk_entries)} hkconnect entries → {OUTPUT_PATH}")
 
     # ── Per-strategy detail files ──
-    all_entries = path1_entries + path2_entries + hk_entries
+    all_entries = path1_entries + path2_entries + path3_entries + hk_entries
     seen_ids: set[str] = set()
     detail_count = 0
     for entry in all_entries:

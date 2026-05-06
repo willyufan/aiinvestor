@@ -51,20 +51,20 @@
       },
       "winner": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_core_6_1__port_weekly_exposure_asym",
       "metrics": {
-        "weighted_cagr": 1.0061020651347317,
-        "weighted_sharpe": 2.242526516587277,
-        "weighted_max_drawdown": -0.0942612479037048,
-        "weighted_turnover": 1.3736073641094684
+        "weighted_cagr": 1.0061020675474919,
+        "weighted_sharpe": 2.2425265418702005,
+        "weighted_max_drawdown": -0.09426124809895409,
+        "weighted_turnover": 1.3736073566666667
       }
     },
     "robust_candidate": {
       "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_ramp90__port_weekly_exposure_buffered",
       "robust_metrics": {
-        "cagr_mean": 0.44956187023895283,
+        "cagr_mean": 0.4495618705446957,
         "cagr_min": 0.2604963391303592,
-        "sharpe_mean": 1.1517121044641878,
+        "sharpe_mean": 1.1517121145770348,
         "max_drawdown_worst": -0.3158849663931161,
-        "turnover_mean": 0.9598972362790028
+        "turnover_mean": 0.9598972367710574
       }
     }
   },
@@ -98,12 +98,12 @@
         "weights": {
           "since_2020_01": 1.0
         },
-        "winner": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_cap95",
+        "winner": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95",
         "metrics": {
-          "weighted_cagr": 0.3737956616138234,
-          "weighted_sharpe": 1.2283449439109304,
-          "weighted_max_drawdown": -0.2250609444836524,
-          "weighted_turnover": 3.2239189520866276
+          "weighted_cagr": 0.46776827355743,
+          "weighted_sharpe": 1.2197997249948085,
+          "weighted_max_drawdown": -0.363624474107081,
+          "weighted_turnover": 4.267117664707124
         }
       },
       "since_2025_only": {
@@ -112,60 +112,200 @@
         },
         "winner": "core_explore_80_20_total_mv_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_confirm80",
         "metrics": {
-          "weighted_cagr": 1.577305919233197,
-          "weighted_sharpe": 1.7514116445562191,
-          "weighted_max_drawdown": -0.2681137386842575,
-          "weighted_turnover": 6.632915609988193
+          "weighted_cagr": 1.5773059177592041,
+          "weighted_sharpe": 1.751411635549245,
+          "weighted_max_drawdown": -0.26811373946631545,
+          "weighted_turnover": 6.6329156099999995
         }
       }
     },
     "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80",
     "robust_metrics": {
-      "cagr_mean": 0.5993088403186206,
+      "cagr_mean": 0.599308839985415,
       "cagr_min": 0.1816123052463369,
-      "sharpe_mean": 1.122856330620531,
+      "sharpe_mean": 1.1228563298067273,
       "max_drawdown_worst": -0.6749907425994652,
-      "turnover_mean": 5.5262216986025585
+      "turnover_mean": 5.526221702709697
+    }
+  },
+  "path3": {
+    "tracks": {
+      "since_2017_only": {
+        "weights": {
+          "since_2017_01": 1.0
+        },
+        "winner": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly",
+        "metrics": {
+          "weighted_cagr": 0.2157094873569265,
+          "weighted_sharpe": 0.7574205218717687,
+          "weighted_max_drawdown": -0.400410392638774,
+          "weighted_turnover": 7.663016090396991
+        }
+      },
+      "since_2023_only": {
+        "weights": {
+          "since_2023_01": 1.0
+        },
+        "winner": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly",
+        "metrics": {
+          "weighted_cagr": 0.329689906067393,
+          "weighted_sharpe": 0.9099607650206312,
+          "weighted_max_drawdown": -0.3713912218485902,
+          "weighted_turnover": 13.474076474176536
+        }
+      },
+      "since_2020_only": {
+        "weights": {
+          "since_2020_01": 1.0
+        },
+        "winner": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly",
+        "metrics": {
+          "weighted_cagr": 0.1715426603204766,
+          "weighted_sharpe": 0.7369098689002689,
+          "weighted_max_drawdown": -0.2861341476270479,
+          "weighted_turnover": 7.1819196338914875
+        }
+      },
+      "since_2025_only": {
+        "weights": {
+          "since_2025_01": 1.0
+        },
+        "winner": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+        "metrics": {
+          "weighted_cagr": 0.243071364935185,
+          "weighted_sharpe": 0.7578040378164161,
+          "weighted_max_drawdown": -0.4077338862814166,
+          "weighted_turnover": 3.6801062876470594
+        }
+      }
+    },
+    "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly",
+    "robust_metrics": {
+      "cagr_mean": 0.17182556575141625,
+      "cagr_min": 0.08245877531709467,
+      "sharpe_mean": 0.638692011540628,
+      "max_drawdown_worst": -0.5170599783680433,
+      "turnover_mean": 10.3660833627431
     }
   },
   "strategies": {
-    "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_cap95": {
-      "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 熊市空仓 and, 单票95%)",
+    "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly": {
+      "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 单周)",
       "windows": {
         "since_2017_01": {
-          "cagr": 0.2248684341413322,
-          "sharpe": 0.9634766239826186,
-          "max_drawdown": -0.1827591160147926,
-          "turnover": 2.620402055690553,
-          "total_return": 5.64000079749791
+          "cagr": 0.0448779922672155,
+          "sharpe": 0.2984473422644775,
+          "max_drawdown": -0.7457012406049889,
+          "turnover": 9.118816937788887,
+          "total_return": 0.4958569025841635
         },
         "since_2020_01": {
-          "cagr": 0.3737956616138234,
-          "sharpe": 1.2283449439109304,
-          "max_drawdown": -0.2250609444836524,
-          "turnover": 3.2239189520866276,
-          "total_return": 6.473204905600386
+          "cagr": 0.1676928055885749,
+          "sharpe": 0.5316346547260741,
+          "max_drawdown": -0.4993475650662231,
+          "turnover": 8.65906093326494,
+          "total_return": 1.627295953007463
         },
         "since_2023_01": {
-          "cagr": 0.2608388960673762,
-          "sharpe": 1.0882998988437076,
-          "max_drawdown": -0.1819039152012871,
-          "turnover": 3.17122507437246,
-          "total_return": 1.1653693914533991
+          "cagr": -0.0631924404814874,
+          "sharpe": 0.1009211908120202,
+          "max_drawdown": -0.5414063306525162,
+          "turnover": 10.206569260019306,
+          "total_return": -0.1921726148513391
         },
         "since_2025_01": {
-          "cagr": 0.7172730502253724,
-          "sharpe": 1.9207335400634251,
-          "max_drawdown": -0.1259276403915714,
-          "turnover": 6.8961620689892165,
-          "total_return": 1.0564546622430546
+          "cagr": 0.243071364935185,
+          "sharpe": 0.7578040378164161,
+          "max_drawdown": -0.4077338862814166,
+          "turnover": 3.6801062876470594,
+          "total_return": 2.494237
         },
         "since_2026_01": {
-          "cagr": 0.2930118862369453,
-          "sharpe": 2.762045312276038,
+          "cagr": -0.06779651092787653,
+          "sharpe": 0.2315533446536563,
+          "max_drawdown": -0.22343801853822642,
+          "turnover": 4.084621800000001,
+          "total_return": -0.08935809340947398
+        }
+      }
+    },
+    "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly": {
+      "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 熊市空仓 and, 单票95%, 单周)",
+      "windows": {
+        "since_2017_01": {
+          "cagr": 0.2157094873569265,
+          "sharpe": 0.7574205218717687,
+          "max_drawdown": -0.400410392638774,
+          "turnover": 7.663016090396991,
+          "total_return": 4.999987355876467
+        },
+        "since_2020_01": {
+          "cagr": 0.1608976733002698,
+          "sharpe": 0.5794699112345555,
+          "max_drawdown": -0.3574052281788665,
+          "turnover": 8.157683659253676,
+          "total_return": 1.5334719048367045
+        },
+        "since_2023_01": {
+          "cagr": -0.036689895017486,
+          "sharpe": 0.0734556018711242,
+          "max_drawdown": -0.3893676380605061,
+          "turnover": 7.8143143372249,
+          "total_return": -0.1150317558841512
+        },
+        "since_2025_01": {
+          "cagr": 0.05452861212220217,
+          "sharpe": 0.3345223213267844,
+          "max_drawdown": -0.33315474123913247,
+          "turnover": 3.7690892858823526,
+          "total_return": 0.35701801999999994
+        },
+        "since_2026_01": {
+          "cagr": 0.06537268092498194,
+          "sharpe": 0.6799597430302298,
+          "max_drawdown": -0.2034062877607522,
+          "turnover": 4.059551084999999,
+          "total_return": 0.08809982751160605
+        }
+      }
+    },
+    "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95": {
+      "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 熊市保留50%, 单票95%)",
+      "windows": {
+        "since_2017_01": {
+          "cagr": 0.3085829038444205,
+          "sharpe": 1.0114241455367838,
+          "max_drawdown": -0.3858857372442826,
+          "turnover": 3.466107054631264,
+          "total_return": 11.306793862712803
+        },
+        "since_2020_01": {
+          "cagr": 0.46776827355743,
+          "sharpe": 1.2197997249948085,
+          "max_drawdown": -0.363624474107081,
+          "turnover": 4.267117664707124,
+          "total_return": 10.363116902789718
+        },
+        "since_2023_01": {
+          "cagr": 0.5498149236685865,
+          "sharpe": 1.3582289767038098,
+          "max_drawdown": -0.3181831500149995,
+          "turnover": 4.093597661668431,
+          "total_return": 3.307905109144004
+        },
+        "since_2025_01": {
+          "cagr": 0.8352756137623829,
+          "sharpe": 1.9261122457684967,
+          "max_drawdown": -0.1259581313054402,
+          "turnover": 6.888990142500001,
+          "total_return": 1.24699303
+        },
+        "since_2026_01": {
+          "cagr": 1.0373981065197917,
+          "sharpe": 3.6544378706161162,
           "max_drawdown": 0.0,
-          "turnover": 7.2248511,
-          "total_return": 0.08943378448965023
+          "turnover": 7.1680819499999995,
+          "total_return": 0.26772571383320365
         }
       }
     },
@@ -194,11 +334,11 @@
           "total_return": 0.639107449549176
         },
         "since_2025_01": {
-          "cagr": 1.3068408695886309,
-          "sharpe": 1.859830801767515,
-          "max_drawdown": -0.1306642189346769,
-          "turnover": 6.380293310415524,
-          "total_return": 2.0480600309085824
+          "cagr": 1.306840869072904,
+          "sharpe": 1.8598307607232831,
+          "max_drawdown": -0.1306642181978387,
+          "turnover": 6.380293305,
+          "total_return": 2.04806003
         },
         "since_2026_01": {
           "cagr": 1.441882859790737,
@@ -234,11 +374,11 @@
           "total_return": 3.613494223774306
         },
         "since_2025_01": {
-          "cagr": 1.2091577298319818,
-          "sharpe": 1.96987693072947,
-          "max_drawdown": -0.147884291765731,
-          "turnover": 6.292567366866323,
-          "total_return": 1.8771928104787357
+          "cagr": 1.2091577295562956,
+          "sharpe": 1.9698769172177046,
+          "max_drawdown": -0.147884289926683,
+          "turnover": 6.292567365,
+          "total_return": 1.87719281
         },
         "since_2026_01": {
           "cagr": 2.0750636391882717,
@@ -274,11 +414,11 @@
           "total_return": 1.0757476587128716
         },
         "since_2025_01": {
-          "cagr": 1.577305919233197,
-          "sharpe": 1.7514116445562191,
-          "max_drawdown": -0.2681137386842575,
-          "turnover": 6.632915609988193,
-          "total_return": 2.5336318026945706
+          "cagr": 1.5773059177592041,
+          "sharpe": 1.751411635549245,
+          "max_drawdown": -0.26811373946631545,
+          "turnover": 6.6329156099999995,
+          "total_return": 2.5336318
         },
         "since_2026_01": {
           "cagr": -0.5755156906557006,
@@ -314,11 +454,11 @@
           "total_return": 3.061384693338466
         },
         "since_2025_01": {
-          "cagr": 1.4753656548561094,
-          "sharpe": 2.0420294435948434,
-          "max_drawdown": -0.1777518281272988,
-          "turnover": 5.887098478571445,
-          "total_return": 2.348516792403944
+          "cagr": 1.4753656535232866,
+          "sharpe": 2.042029440339628,
+          "max_drawdown": -0.17775182939252565,
+          "turnover": 5.887098494999999,
+          "total_return": 2.34851679
         },
         "since_2026_01": {
           "cagr": 2.457578554771764,
@@ -354,11 +494,11 @@
           "total_return": 1.2190820118187775
         },
         "since_2025_01": {
-          "cagr": 0.9782357328669238,
-          "sharpe": 2.0693833961781163,
-          "max_drawdown": -0.0949695341893168,
-          "turnover": 1.1762396279497085,
-          "total_return": 1.4833468946604411
+          "cagr": 0.9782357300825408,
+          "sharpe": 2.0693834233390915,
+          "max_drawdown": -0.09496953416934528,
+          "turnover": 1.17623962,
+          "total_return": 1.48334689
         },
         "since_2026_01": {
           "cagr": -0.013131920536587738,
@@ -366,6 +506,86 @@
           "max_drawdown": -0.0856901954395407,
           "turnover": 1.05839448,
           "total_return": -0.004396608684391512
+        }
+      }
+    },
+    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly": {
+      "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓, and 规则, 单周)",
+      "windows": {
+        "since_2017_01": {
+          "cagr": 0.1096138226289018,
+          "sharpe": 0.5864044221065657,
+          "max_drawdown": -0.2702461390109911,
+          "turnover": 6.415724316110788,
+          "total_return": 1.5911719887287998
+        },
+        "since_2020_01": {
+          "cagr": 0.1715426603204766,
+          "sharpe": 0.7369098689002689,
+          "max_drawdown": -0.2861341476270479,
+          "turnover": 7.1819196338914875,
+          "total_return": 1.673582743865092
+        },
+        "since_2023_01": {
+          "cagr": 0.1368377770635769,
+          "sharpe": 0.5977143077387951,
+          "max_drawdown": -0.2531198853924938,
+          "turnover": 7.023823928408076,
+          "total_return": 0.5171206315102126
+        },
+        "since_2025_01": {
+          "cagr": 0.12397577139501181,
+          "sharpe": 0.7293950926668571,
+          "max_drawdown": -0.22089814510585948,
+          "turnover": 3.3635070680597012,
+          "total_return": 0.9392005000000001
+        },
+        "since_2026_01": {
+          "cagr": 0.3439542845988055,
+          "sharpe": 2.3609573261857535,
+          "max_drawdown": -0.07481945240140131,
+          "turnover": 3.0399225360000006,
+          "total_return": 0.44704027955569337
+        }
+      }
+    },
+    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly": {
+      "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(核心6-1动量, 满风险, 单票60%, 单周)",
+      "windows": {
+        "since_2017_01": {
+          "cagr": 0.1415938790752495,
+          "sharpe": 0.5923594325737863,
+          "max_drawdown": -0.5027775123692513,
+          "turnover": 11.995009387272573,
+          "total_return": 2.360877066168471
+        },
+        "since_2020_01": {
+          "cagr": 0.1335597025459278,
+          "sharpe": 0.5296953474229363,
+          "max_drawdown": -0.5170599783680433,
+          "turnover": 12.939536878478512,
+          "total_return": 1.1786299805448084
+        },
+        "since_2023_01": {
+          "cagr": 0.329689906067393,
+          "sharpe": 0.9099607650206312,
+          "max_drawdown": -0.3713912218485902,
+          "turnover": 13.474076474176536,
+          "total_return": 1.5245775090490117
+        },
+        "since_2025_01": {
+          "cagr": 0.08245877531709467,
+          "sharpe": 0.5227525011451581,
+          "max_drawdown": -0.27376919100129193,
+          "turnover": 3.0557107110447754,
+          "total_return": 0.5667429100000001
+        },
+        "since_2026_01": {
+          "cagr": 0.3278569996736833,
+          "sharpe": 2.2978053471960296,
+          "max_drawdown": -0.058434732546106316,
+          "turnover": 2.822612392000001,
+          "total_return": 0.42540781017839957
         }
       }
     },
@@ -394,11 +614,11 @@
           "total_return": 1.2235197946022351
         },
         "since_2025_01": {
-          "cagr": 1.005207864132724,
-          "sharpe": 1.8766361920444696,
-          "max_drawdown": -0.1087205054296824,
-          "turnover": 1.150798819698448,
-          "total_return": 1.5285945579437552
+          "cagr": 1.0052078653556955,
+          "sharpe": 1.876636232495857,
+          "max_drawdown": -0.10872050759611007,
+          "turnover": 1.150798821666667,
+          "total_return": 1.5285945600000002
         },
         "since_2026_01": {
           "cagr": 1.737499626875736,
@@ -434,11 +654,11 @@
           "total_return": 1.1371798964048332
         },
         "since_2025_01": {
-          "cagr": 0.9138169318862172,
-          "sharpe": 1.938674561402351,
-          "max_drawdown": -0.1010424363415464,
-          "turnover": 1.038623910205399,
-          "total_return": 1.3761135452858495
+          "cagr": 0.9138169347339413,
+          "sharpe": 1.9386745741855131,
+          "max_drawdown": -0.10104243655989598,
+          "turnover": 1.03862391,
+          "total_return": 1.37611355
         },
         "since_2026_01": {
           "cagr": 1.1111421548480531,
@@ -474,11 +694,11 @@
           "total_return": 1.3553025341929017
         },
         "since_2025_01": {
-          "cagr": 1.0061020651347317,
-          "sharpe": 2.242526516587277,
-          "max_drawdown": -0.0942612479037048,
-          "turnover": 1.3736073641094684,
-          "total_return": 1.5300981359426995
+          "cagr": 1.0061020675474919,
+          "sharpe": 2.2425265418702005,
+          "max_drawdown": -0.09426124809895409,
+          "turnover": 1.3736073566666667,
+          "total_return": 1.5300981400000002
         },
         "since_2026_01": {
           "cagr": 1.021801957084747,

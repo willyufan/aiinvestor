@@ -529,72 +529,117 @@
       ]
     },
     {
-      "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_cap95",
-      "display_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 熊市空仓 and, 单票95%)",
+      "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95",
+      "display_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 熊市保留50%, 单票95%)",
       "path": "path2",
       "market_scope": "a_share",
       "winner_type": "2020-window winner",
       "window_label": "2020 窗口",
       "sample_tag": "since_2020_01",
-      "risk_state": "risk_off",
-      "target_exposure": 0.0,
+      "risk_state": "caution",
+      "target_exposure": 0.5516,
       "updated_at": "2026-04-30",
       "data_as_of": "2026-04-30",
       "signal_effective_date": "2026-04-30",
       "metrics": {
-        "cagr": 0.3738,
-        "sharpe": 1.2283,
-        "max_drawdown": -0.2251,
-        "total_return": 6.4732,
-        "turnover": 3.2239
+        "cagr": 0.4678,
+        "sharpe": 1.2198,
+        "max_drawdown": -0.3636,
+        "total_return": 10.3631,
+        "turnover": 4.2671
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.2249,
-          "sharpe": 0.9635,
-          "max_drawdown": -0.1828,
-          "total_return": 5.64
+          "cagr": 0.3086,
+          "sharpe": 1.0114,
+          "max_drawdown": -0.3859,
+          "total_return": 11.3068
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.3738,
-          "sharpe": 1.2283,
-          "max_drawdown": -0.2251,
-          "total_return": 6.4732
+          "cagr": 0.4678,
+          "sharpe": 1.2198,
+          "max_drawdown": -0.3636,
+          "total_return": 10.3631
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.2608,
-          "sharpe": 1.0883,
-          "max_drawdown": -0.1819,
-          "total_return": 1.1654
+          "cagr": 0.5498,
+          "sharpe": 1.3582,
+          "max_drawdown": -0.3182,
+          "total_return": 3.3079
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.7173,
-          "sharpe": 1.9207,
-          "max_drawdown": -0.1259,
-          "total_return": 1.0565
+          "cagr": 0.8353,
+          "sharpe": 1.9261,
+          "max_drawdown": -0.126,
+          "total_return": 1.247
         },
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 0.293,
-          "sharpe": 2.762,
+          "cagr": 1.0374,
+          "sharpe": 3.6544,
           "max_drawdown": 0.0,
-          "total_return": 0.0894
+          "total_return": 0.2677
         }
       ],
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 1.0
+          "weight": 0.448411
+        },
+        {
+          "ts_code": "688028.SH",
+          "name": "沃尔德",
+          "weight": 0.242356
+        },
+        {
+          "ts_code": "688498.SH",
+          "name": "源杰科技",
+          "weight": 0.239366
+        },
+        {
+          "ts_code": "003035.SZ",
+          "name": "南网能源",
+          "weight": 0.012772
+        },
+        {
+          "ts_code": "600295.SH",
+          "name": "鄂尔多斯",
+          "weight": 0.012697
+        },
+        {
+          "ts_code": "000426.SZ",
+          "name": "兴业银锡",
+          "weight": 0.011535
+        },
+        {
+          "ts_code": "601000.SH",
+          "name": "唐山港",
+          "weight": 0.010394
+        },
+        {
+          "ts_code": "688127.SH",
+          "name": "蓝特光学",
+          "weight": 0.008884
+        },
+        {
+          "ts_code": "600988.SH",
+          "name": "赤峰黄金",
+          "weight": 0.007579
+        },
+        {
+          "ts_code": "001389.SZ",
+          "name": "广合科技",
+          "weight": 0.006007
         }
       ]
     },
@@ -815,6 +860,538 @@
           "ts_code": "CASH",
           "name": "现金",
           "weight": 1.0
+        }
+      ]
+    }
+  ],
+  "path3": [
+    {
+      "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly",
+      "display_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 熊市空仓 and, 单票95%, 单周)",
+      "path": "path3",
+      "market_scope": "a_share",
+      "winner_type": "2017-window winner",
+      "window_label": "2017 窗口",
+      "sample_tag": "since_2017_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-04-30",
+      "data_as_of": "2026-04-30",
+      "signal_effective_date": "2026-04-30",
+      "metrics": {
+        "cagr": 0.2157,
+        "sharpe": 0.7574,
+        "max_drawdown": -0.4004,
+        "total_return": 5.0,
+        "turnover": 7.663
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.2157,
+          "sharpe": 0.7574,
+          "max_drawdown": -0.4004,
+          "total_return": 5.0
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.1609,
+          "sharpe": 0.5795,
+          "max_drawdown": -0.3574,
+          "total_return": 1.5335
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": -0.0367,
+          "sharpe": 0.0735,
+          "max_drawdown": -0.3894,
+          "total_return": -0.115
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.0545,
+          "sharpe": 0.3345,
+          "max_drawdown": -0.3332,
+          "total_return": 0.357
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.0654,
+          "sharpe": 0.68,
+          "max_drawdown": -0.2034,
+          "total_return": 0.0881
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "603256.SH",
+          "name": "宏和科技",
+          "weight": 0.472238
+        },
+        {
+          "ts_code": "688268.SH",
+          "name": "华特气体",
+          "weight": 0.344017
+        },
+        {
+          "ts_code": "688536.SH",
+          "name": "思瑞浦",
+          "weight": 0.020756
+        },
+        {
+          "ts_code": "300054.SZ",
+          "name": "鼎龙股份",
+          "weight": 0.019293
+        },
+        {
+          "ts_code": "688200.SH",
+          "name": "华峰测控",
+          "weight": 0.019053
+        },
+        {
+          "ts_code": "603659.SH",
+          "name": "璞泰来",
+          "weight": 0.016873
+        },
+        {
+          "ts_code": "601918.SH",
+          "name": "新集能源",
+          "weight": 0.016473
+        },
+        {
+          "ts_code": "601001.SH",
+          "name": "晋控煤业",
+          "weight": 0.015971
+        },
+        {
+          "ts_code": "600499.SH",
+          "name": "科达制造",
+          "weight": 0.014192
+        },
+        {
+          "ts_code": "688106.SH",
+          "name": "金宏气体",
+          "weight": 0.014154
+        },
+        {
+          "ts_code": "003031.SZ",
+          "name": "中瓷电子",
+          "weight": 0.00785
+        }
+      ]
+    },
+    {
+      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly",
+      "display_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓, and 规则, 单周)",
+      "path": "path3",
+      "market_scope": "a_share",
+      "winner_type": "2020-window winner",
+      "window_label": "2020 窗口",
+      "sample_tag": "since_2020_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-04-22",
+      "data_as_of": "2026-04-30",
+      "signal_effective_date": "2026-04-17",
+      "metrics": {
+        "cagr": 0.1715,
+        "sharpe": 0.7369,
+        "max_drawdown": -0.2861,
+        "total_return": 1.6736,
+        "turnover": 7.1819
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.1096,
+          "sharpe": 0.5864,
+          "max_drawdown": -0.2702,
+          "total_return": 1.5912
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.1715,
+          "sharpe": 0.7369,
+          "max_drawdown": -0.2861,
+          "total_return": 1.6736
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.1368,
+          "sharpe": 0.5977,
+          "max_drawdown": -0.2531,
+          "total_return": 0.5171
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.124,
+          "sharpe": 0.7294,
+          "max_drawdown": -0.2209,
+          "total_return": 0.9392
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.344,
+          "sharpe": 2.361,
+          "max_drawdown": -0.0748,
+          "total_return": 0.447
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "688195.SH",
+          "name": "腾景科技",
+          "weight": 0.255628
+        },
+        {
+          "ts_code": "688025.SH",
+          "name": "杰普特",
+          "weight": 0.247786
+        },
+        {
+          "ts_code": "688059.SH",
+          "name": "华锐精密",
+          "weight": 0.14209
+        },
+        {
+          "ts_code": "000893.SZ",
+          "name": "亚钾国际",
+          "weight": 0.127761
+        },
+        {
+          "ts_code": "300308.SZ",
+          "name": "中际旭创",
+          "weight": 0.040986
+        },
+        {
+          "ts_code": "300502.SZ",
+          "name": "新易盛",
+          "weight": 0.033026
+        },
+        {
+          "ts_code": "688146.SH",
+          "name": "中船特气",
+          "weight": 0.019208
+        },
+        {
+          "ts_code": "688337.SH",
+          "name": "普源精电",
+          "weight": 0.017268
+        },
+        {
+          "ts_code": "688112.SH",
+          "name": "鼎阳科技",
+          "weight": 0.017013
+        },
+        {
+          "ts_code": "300054.SZ",
+          "name": "鼎龙股份",
+          "weight": 0.016917
+        },
+        {
+          "ts_code": "688001.SH",
+          "name": "华兴源创",
+          "weight": 0.016735
+        },
+        {
+          "ts_code": "688200.SH",
+          "name": "华峰测控",
+          "weight": 0.016158
+        },
+        {
+          "ts_code": "002353.SZ",
+          "name": "杰瑞股份",
+          "weight": 0.012265
+        },
+        {
+          "ts_code": "688498.SH",
+          "name": "源杰科技",
+          "weight": 0.012211
+        },
+        {
+          "ts_code": "002532.SZ",
+          "name": "天山铝业",
+          "weight": 0.009026
+        }
+      ]
+    },
+    {
+      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly",
+      "display_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(核心6-1动量, 满风险, 单票60%, 单周)",
+      "path": "path3",
+      "market_scope": "a_share",
+      "winner_type": "2023-window winner",
+      "window_label": "2023 窗口",
+      "sample_tag": "since_2023_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-04-22",
+      "data_as_of": "2026-04-30",
+      "signal_effective_date": "2026-04-17",
+      "metrics": {
+        "cagr": 0.3297,
+        "sharpe": 0.91,
+        "max_drawdown": -0.3714,
+        "total_return": 1.5246,
+        "turnover": 13.4741
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.1416,
+          "sharpe": 0.5924,
+          "max_drawdown": -0.5028,
+          "total_return": 2.3609
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.1336,
+          "sharpe": 0.5297,
+          "max_drawdown": -0.5171,
+          "total_return": 1.1786
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.3297,
+          "sharpe": 0.91,
+          "max_drawdown": -0.3714,
+          "total_return": 1.5246
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.0825,
+          "sharpe": 0.5228,
+          "max_drawdown": -0.2738,
+          "total_return": 0.5667
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.3279,
+          "sharpe": 2.2978,
+          "max_drawdown": -0.0584,
+          "total_return": 0.4254
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "688195.SH",
+          "name": "腾景科技",
+          "weight": 0.176633
+        },
+        {
+          "ts_code": "688028.SH",
+          "name": "沃尔德",
+          "weight": 0.15249
+        },
+        {
+          "ts_code": "603256.SH",
+          "name": "宏和科技",
+          "weight": 0.141886
+        },
+        {
+          "ts_code": "688548.SH",
+          "name": "广钢气体",
+          "weight": 0.107375
+        },
+        {
+          "ts_code": "688233.SH",
+          "name": "神工股份",
+          "weight": 0.106716
+        },
+        {
+          "ts_code": "688059.SH",
+          "name": "华锐精密",
+          "weight": 0.106633
+        },
+        {
+          "ts_code": "600938.SH",
+          "name": "中国海油",
+          "weight": 0.034616
+        },
+        {
+          "ts_code": "300308.SZ",
+          "name": "中际旭创",
+          "weight": 0.032947
+        },
+        {
+          "ts_code": "688127.SH",
+          "name": "蓝特光学",
+          "weight": 0.018857
+        },
+        {
+          "ts_code": "688146.SH",
+          "name": "中船特气",
+          "weight": 0.018237
+        },
+        {
+          "ts_code": "688112.SH",
+          "name": "鼎阳科技",
+          "weight": 0.017202
+        },
+        {
+          "ts_code": "688337.SH",
+          "name": "普源精电",
+          "weight": 0.017198
+        },
+        {
+          "ts_code": "300054.SZ",
+          "name": "鼎龙股份",
+          "weight": 0.016986
+        },
+        {
+          "ts_code": "688200.SH",
+          "name": "华峰测控",
+          "weight": 0.016243
+        },
+        {
+          "ts_code": "002353.SZ",
+          "name": "杰瑞股份",
+          "weight": 0.01445
+        },
+        {
+          "ts_code": "688498.SH",
+          "name": "源杰科技",
+          "weight": 0.011899
+        },
+        {
+          "ts_code": "002532.SZ",
+          "name": "天山铝业",
+          "weight": 0.009315
+        }
+      ]
+    },
+    {
+      "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+      "display_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 单周)",
+      "path": "path3",
+      "market_scope": "a_share",
+      "winner_type": "2025-window winner",
+      "window_label": "2025 窗口",
+      "sample_tag": "since_2025_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-04-30",
+      "data_as_of": "2026-04-30",
+      "signal_effective_date": "2026-04-30",
+      "metrics": {
+        "cagr": 1.5673,
+        "sharpe": 1.5775,
+        "max_drawdown": -0.4077,
+        "total_return": 2.4942,
+        "turnover": 16.0616
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.0449,
+          "sharpe": 0.2984,
+          "max_drawdown": -0.7457,
+          "total_return": 0.4959
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.1677,
+          "sharpe": 0.5316,
+          "max_drawdown": -0.4993,
+          "total_return": 1.6273
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": -0.0632,
+          "sharpe": 0.1009,
+          "max_drawdown": -0.5414,
+          "total_return": -0.1922
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.2431,
+          "sharpe": 0.7578,
+          "max_drawdown": -0.4077,
+          "total_return": 2.4942
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": -0.0678,
+          "sharpe": 0.2316,
+          "max_drawdown": -0.2234,
+          "total_return": -0.0894
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "603256.SH",
+          "name": "宏和科技",
+          "weight": 0.815462
+        },
+        {
+          "ts_code": "688536.SH",
+          "name": "思瑞浦",
+          "weight": 0.020045
+        },
+        {
+          "ts_code": "300054.SZ",
+          "name": "鼎龙股份",
+          "weight": 0.019111
+        },
+        {
+          "ts_code": "603659.SH",
+          "name": "璞泰来",
+          "weight": 0.016295
+        },
+        {
+          "ts_code": "601918.SH",
+          "name": "新集能源",
+          "weight": 0.015909
+        },
+        {
+          "ts_code": "601001.SH",
+          "name": "晋控煤业",
+          "weight": 0.015424
+        },
+        {
+          "ts_code": "600499.SH",
+          "name": "科达制造",
+          "weight": 0.013706
+        },
+        {
+          "ts_code": "688106.SH",
+          "name": "金宏气体",
+          "weight": 0.013669
+        },
+        {
+          "ts_code": "688146.SH",
+          "name": "中船特气",
+          "weight": 0.008994
+        },
+        {
+          "ts_code": "688200.SH",
+          "name": "华峰测控",
+          "weight": 0.008875
+        },
+        {
+          "ts_code": "003031.SZ",
+          "name": "中瓷电子",
+          "weight": 0.007596
         }
       ]
     }

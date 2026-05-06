@@ -161,6 +161,8 @@ def strategy_detail_explanation_html(item: dict, active_view: dict, schedule_kin
         selection_lines.append("Path 1 是主攻稳健线：优先在回撤、换手、Sharpe 和实盘可执行性之间做平衡。")
     elif path_name == "path2":
         selection_lines.append("Path 2 是高收益探索线：更重视 CAGR 上限突破，同时继续监控回撤和换手。")
+    elif path_name == "path3":
+        selection_lines.append("Path 3 是周度高频线：专门跟踪纯周度换股候选，和月度选股叠加周度仓位风控分开评估。")
     if "aggr_10_90" in strategy_id:
         selection_lines.append("进攻仓位配置约为 10/90，探索侧更积极。")
     elif "aggr_08_92" in strategy_id:
@@ -2300,11 +2302,16 @@ def strategies_html() -> str:
             for item in items:
                 path_groups.setdefault(item["path"], []).append(item)
             path_html = ""
-            for path_key in ("path1", "path2"):
+            path_labels = {
+                "path1": "Path 1 · 稳健路线",
+                "path2": "Path 2 · 高收益探索",
+                "path3": "Path 3 · 周度高频",
+            }
+            for path_key in ("path1", "path2", "path3"):
                 path_items = path_groups.get(path_key, [])
                 if not path_items:
                     continue
-                path_label = "Path 1 · 稳健路线" if path_key == "path1" else "Path 2 · 高收益探索"
+                path_label = path_labels[path_key]
                 path_html += (
                     f"<div style='font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px'>{html.escape(path_label)}</div>"
                     f"<div class='grid grid-2'>{''.join(strategy_card(it) for it in path_items)}</div>"
@@ -2556,8 +2563,8 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
                 trade_date = str(event.get("trade_date") or snapshot["date"])
                 snapshot_blocks.append(
                     "<div class='card' style='margin-top:12px'>"
-                    f"<h3>实际调仓日：{html.escape(trade_date)}（周度卫星仓实际调仓）</h3>"
-                    f"<p class='muted'>状态评估日：{html.escape(signal_date)}</p>"
+                    f"<h3>信号日：{html.escape(signal_date)}（周度卫星仓实际调仓）</h3>"
+                    f"<p class='muted'>实际交易日：{html.escape(trade_date)}</p>"
                     "<table><thead><tr><th>确认状态</th><th>原始状态</th><th>单边换手</th><th>双边换手</th><th>买入/NAV</th><th>卖出/NAV</th><th>费用/NAV</th></tr></thead><tbody>"
                     f"<tr><td>{html.escape(str(event.get('risk_stage') or 'n/a'))}</td>"
                     f"<td>{html.escape(str(event.get('raw_risk_stage') or 'n/a'))}</td>"
