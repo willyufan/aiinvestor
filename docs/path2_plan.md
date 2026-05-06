@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-07 05:06 CST）
+
+- 基线复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `316`；本轮新增 4 个 `risk30_exit60` 恢复/再晋升确认原型，跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座四窗口，并固定 `--end-date 2026-04-30`。
+- 重建 comparison 后为 `2779` 行 / `711` 个 base strategies；复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后候选宇宙升至 `324`，五个 family 规模为 `159 / 99 / 16 / 16 / 16`，新增候选全部归入 `high_growth_theme`，family membership 未压扁。
+- 新恢复确认原型没有改写 Path 2 tracked winner 或 robust candidate。`since_2020_01` winner 仍是等权 `risk50_or 1/99`，`46.78% CAGR / -36.36% MaxDD / 1.2198 Sharpe / 4.27 Turnover`。
+- 最好的新 `reconfirm75` 等权候选在 `since_2020_01` 只有 `36.79% CAGR / -31.51% MaxDD / 1.0632 Sharpe / 3.66 Turnover`，明显低于旧 `risk30_exit60` 的 `44.30% CAGR`。
+- 更严格的 `reconfirm80_amt110` 能把等权 `since_2023_01` 回撤压到约 `-21.22%~-21.37%`，但 `since_2020_01` 只剩约 `29.82%~29.85% CAGR`，不适合作为 2020 主攻线；下一轮不要继续加严同类再晋升确认。
+
 ## 本轮执行计划（2026-05-06 23:15 CST）
 
 - 基线复跑前先用缓存 summary 重建 comparison，避免压缩 CSV 导致 Path 2 只识别少量候选；重建后基线为 `308` candidates，五个 family 规模为 `159 / 83 / 16 / 16 / 16`。
