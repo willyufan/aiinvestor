@@ -6049,6 +6049,12 @@ def run_backtest(
                 "weekly_overlay_avg_one_way_turnover": weekly_overlay_stats["weekly_overlay_avg_one_way_turnover"],
             }
         )
+        trade_details = []
+        for detail in trade_stats.get("trade_details", []):
+            detail_row = dict(detail)
+            ts_code = str(detail_row.get("ts_code") or "")
+            detail_row["name"] = prepared.code_to_name.get(ts_code, "")
+            trade_details.append(detail_row)
         turnover_rows.append(
             {
                 "date": rebalance_date,
@@ -6061,6 +6067,7 @@ def run_backtest(
                 "sell_commission": trade_stats["sell_commission"],
                 "sell_stamp_duty": trade_stats["sell_stamp_duty"],
                 "event_type": "monthly_rebalance",
+                "trade_details_json": json.dumps(trade_details, ensure_ascii=False) if trade_details else "",
             }
         )
         turnover_rows.extend(weekly_overlay_turnover_rows)

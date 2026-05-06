@@ -1429,6 +1429,12 @@ def run_hk_backtest(
                 "keep_candidate_count": selection_stats["keep_candidate_count"],
             }
         )
+        trade_details = []
+        for detail in trade_stats.get("trade_details", []):
+            detail_row = dict(detail)
+            ts_code = str(detail_row.get("ts_code") or "")
+            detail_row["name"] = prepared.code_to_name.get(ts_code, "")
+            trade_details.append(detail_row)
         turnover_rows.append(
             {
                 "date": rebalance_date,
@@ -1441,6 +1447,7 @@ def run_hk_backtest(
                 "sell_commission": trade_stats["sell_commission"],
                 "sell_stamp_duty": trade_stats["sell_stamp_duty"],
                 "event_type": "rebalance",
+                "trade_details_json": json.dumps(trade_details, ensure_ascii=False) if trade_details else "",
             }
         )
         equity_rows.append({"date": period_end, "portfolio_return": net_return, "nav": nav_end, "drawdown": 0.0, "trading_cost": trade_stats["trading_cost"]})

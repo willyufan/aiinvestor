@@ -16,6 +16,7 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent
 RESULTS_DIR = ROOT / "results"
+HK_RESULTS_DIR = ROOT / "results_hkconnect"
 LIVE_DIR = RESULTS_DIR / "live"
 DB_PATH = ROOT / "data" / "live_platform.db"
 STOCK_BASIC_PATH = ROOT / "data_cache" / "stock_basic.csv"
@@ -1796,8 +1797,30 @@ def render_page(title: str, body: str) -> str:
     .grid {{ display: grid; gap: 16px; }}
     .grid-4 {{ grid-template-columns: repeat(4, minmax(0, 1fr)); }}
     .grid-2 {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
+    .strategy-grid {{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0;
+      border-top: 1.5px solid var(--ink);
+      border-left: 1.5px solid var(--ink);
+      margin-bottom: 8px;
+    }}
     /* ── Card ── */
     .card {{ background: var(--card-bg); padding: 20px; border-top: 2px solid var(--ink); margin-bottom: 16px; }}
+    a.strategy-card {{
+      display: block;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      text-decoration: none;
+      padding: 18px;
+      border-right: 1.5px solid var(--ink);
+      border-bottom: 1.5px solid var(--ink);
+      transition: background .15s, transform .15s;
+    }}
+    a.strategy-card:hover {{ background: var(--card-bg); transform: translateY(-1px); }}
+    a.strategy-card h3 {{ color: var(--ink); margin-bottom: 8px; }}
+    a.strategy-card .muted {{ color: var(--muted); }}
     /* ── Tables ── */
     table {{ width: 100%; border-collapse: collapse; }}
     th {{ font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 8px 12px; text-align: left; border-bottom: 1.5px solid var(--rule); background: transparent; }}
@@ -1857,6 +1880,7 @@ def render_page(title: str, body: str) -> str:
     /* ── Page section ── */
     .page-section {{ margin-bottom: 36px; }}
     .section-heading {{ font-family: var(--serif); font-size: clamp(18px,2.5vw,26px); letter-spacing: -.01em; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1.5px solid var(--rule); }}
+    @media (max-width: 720px) {{ .strategy-grid {{ grid-template-columns: 1fr; }} }}
     /* ── Misc ── */
     hr {{ border: none; border-top: 1px solid #e0d8cc; margin: 20px 0; }}
     ul, ol {{ padding-left: 20px; }}
@@ -1928,6 +1952,107 @@ def signed_pct_html(value: float) -> str:
     return f"<span class='{cls}'>{sign}{fmt_pct(value)}</span>" if cls else fmt_pct(value)
 
 
+def safe_float(value: object, default: float = 0.0) -> float:
+    try:
+        return float(value or default)
+    except Exception:
+        return default
+
+
+def short_date(value: object) -> str:
+    text = str(value or "").strip()
+    return text[:10] if len(text) >= 10 else ""
+
+
+def result_path_for(strategy_id: str, sample_tag: str, market_scope: str, filename: str) -> Path:
+    base_dir = HK_RESULTS_DIR if market_scope == "hkconnect" else RESULTS_DIR
+    return base_dir / f"{strategy_id}__{sample_tag}" / filename
+
+
+@lru_cache(maxsize=256)
+def load_strategy_trade_events(strategy_id: str, sample_tag: str, market_scope: str) -> tuple[dict, ...]:
+    path = result_path_for(strategy_id, sample_tag, market_scope, "turnover.csv")
+    if not path.exists():
+        return tuple()
+    events: list[dict] = []
+    try:
+        with path.open("r", encoding="utf-8", newline="") as fh:
+            reader = csv.DictReader(fh)
+            for row in reader:
+                details: list[dict] = []
+                raw_details = str(row.get("trade_details_json") or "").strip()
+                if raw_details:
+                    try:
+                        parsed = json.loads(raw_details)
+                    except Exception:
+                        parsed = []
+                    if isinstance(parsed, list):
+                        details = [item for item in parsed if isinstance(item, dict)]
+                buy_amount = safe_float(row.get("buy_amount"))
+                sell_amount = safe_float(row.get("sell_amount"))
+                has_trade = bool(details) or buy_amount > 1e-12 or sell_amount > 1e-12
+                if not has_trade:
+                    continue
+                events.append(
+                    {
+                        "date": short_date(row.get("date")),
+                        "signal_date": short_date(row.get("signal_date")),
+                        "trade_date": short_date(row.get("trade_date")),
+                        "event_type": str(row.get("event_type") or ""),
+                        "buy_amount": buy_amount,
+                        "sell_amount": sell_amount,
+                        "has_trade_details": bool(details),
+                        "trade_details": details,
+                    }
+                )
+    except Exception:
+        return tuple()
+    return tuple(events)
+
+
+def trade_event_in_range(event: dict, previous_date: str, current_date: str) -> bool:
+    dates = [short_date(event.get(key)) for key in ("trade_date", "date", "signal_date")]
+    return any(previous_date < date <= current_date for date in dates if date)
+
+
+def collect_trade_attribution(trade_events: list[dict], previous_date: str, current_date: str) -> tuple[dict[str, dict], bool]:
+    trade_map: dict[str, dict] = {}
+    missing_trade_details = False
+    for event in trade_events:
+        if not trade_event_in_range(event, previous_date, current_date):
+            continue
+        details = event.get("trade_details") or []
+        has_aggregate_trade = safe_float(event.get("buy_amount")) > 1e-12 or safe_float(event.get("sell_amount")) > 1e-12
+        if has_aggregate_trade and not details:
+            missing_trade_details = True
+            continue
+        for detail in details:
+            code = str(detail.get("ts_code") or "")
+            if not code:
+                continue
+            side = str(detail.get("side") or "")
+            delta = safe_float(detail.get("diff_weight"))
+            if abs(delta) <= 1e-12:
+                gross_weight = safe_float(detail.get("gross_amount_pct_nav"))
+                delta = gross_weight if side == "buy" else (-gross_weight if side == "sell" else 0.0)
+            entry = trade_map.setdefault(
+                code,
+                {
+                    "trade_weight": 0.0,
+                    "trade_abs_weight": 0.0,
+                    "buy_weight": 0.0,
+                    "sell_weight": 0.0,
+                    "event_count": 0,
+                },
+            )
+            entry["trade_weight"] += delta
+            entry["trade_abs_weight"] += abs(delta)
+            entry["buy_weight"] += max(0.0, delta)
+            entry["sell_weight"] += max(0.0, -delta)
+            entry["event_count"] += 1
+    return trade_map, missing_trade_details
+
+
 def flatten_history_snapshots(history_windows: list[dict]) -> list[dict]:
     snapshots: list[dict] = []
     seen_dates: set[str] = set()
@@ -1965,12 +2090,15 @@ def build_history_selection(history_windows: list[dict], history_window_key: str
     return str(history_window_index), history_windows[history_window_index]
 
 
-def build_rebalance_change_rows(latest_weights: list[dict], history_windows: list[dict]) -> dict | None:
+def build_rebalance_change_rows(latest_weights: list[dict], history_windows: list[dict], trade_events: list[dict] | None = None) -> dict | None:
     snapshots = [snapshot for snapshot in flatten_history_snapshots(history_windows) if snapshot.get("holdings")]
     if len(snapshots) < 2:
         return None
     current_snapshot = snapshots[0]
     previous_snapshot = snapshots[1]
+    current_date = str(current_snapshot.get("date", ""))
+    previous_date = str(previous_snapshot.get("date", ""))
+    trade_map, missing_trade_details = collect_trade_attribution(trade_events or [], previous_date, current_date)
     latest_price_map = {
         str(row.get("ts_code")): row.get("latest_price")
         for row in latest_weights or []
@@ -1998,6 +2126,7 @@ def build_rebalance_change_rows(latest_weights: list[dict], history_windows: lis
     all_codes = sorted(set(current_map.keys()) | set(previous_map.keys()))
     rows: list[dict] = []
     summary = {"新增": 0, "加仓": 0, "减仓": 0, "清仓": 0}
+    source_summary = {"真实交易": 0, "交易+漂移": 0, "市值漂移": 0, "明细不全": 0}
     for code in all_codes:
         current = current_map.get(code, {"ts_code": code, "name": "", "weight": 0.0, "latest_price": None})
         previous = previous_map.get(code, {"ts_code": code, "name": "", "weight": 0.0})
@@ -2015,6 +2144,37 @@ def build_rebalance_change_rows(latest_weights: list[dict], history_windows: lis
         else:
             action = "减仓"
         summary[action] += 1
+        trade_info = trade_map.get(code, {})
+        trade_abs_weight = float(trade_info.get("trade_abs_weight", 0.0))
+        has_trade_detail = trade_abs_weight > 5e-4
+        trade_weight = float(trade_info.get("trade_weight", 0.0)) if has_trade_detail else (None if missing_trade_details else 0.0)
+        if missing_trade_details:
+            drift_weight = None
+        elif trade_weight is not None:
+            drift_weight = diff - trade_weight
+        else:
+            drift_weight = diff
+        if missing_trade_details and action not in {"新增", "清仓"}:
+            source_type = "missing"
+            source_label = "明细不全"
+            source_summary["明细不全"] += 1
+        elif missing_trade_details:
+            source_type = "trade"
+            source_label = "真实交易"
+            source_summary["真实交易"] += 1
+        elif has_trade_detail:
+            if drift_weight is not None and abs(drift_weight) > max(0.002, trade_abs_weight * 0.25):
+                source_type = "mixed"
+                source_label = "交易+漂移"
+                source_summary["交易+漂移"] += 1
+            else:
+                source_type = "trade"
+                source_label = "真实交易"
+                source_summary["真实交易"] += 1
+        else:
+            source_type = "drift"
+            source_label = "市值漂移"
+            source_summary["市值漂移"] += 1
         rows.append(
             {
                 "ts_code": code,
@@ -2022,6 +2182,10 @@ def build_rebalance_change_rows(latest_weights: list[dict], history_windows: lis
                 "current_weight": current_weight,
                 "previous_weight": previous_weight,
                 "diff_weight": diff,
+                "trade_weight": trade_weight,
+                "drift_weight": drift_weight,
+                "source_type": source_type,
+                "source_label": source_label,
                 "action": action,
                 "latest_price": current.get("latest_price"),
             }
@@ -2029,10 +2193,12 @@ def build_rebalance_change_rows(latest_weights: list[dict], history_windows: lis
     action_order = {"新增": 0, "加仓": 1, "减仓": 2, "清仓": 3}
     rows.sort(key=lambda item: (action_order.get(str(item["action"]), 9), -abs(float(item["diff_weight"])), str(item["ts_code"])))
     return {
-        "current_date": str(current_snapshot.get("date", "")),
-        "previous_date": str(previous_snapshot.get("date", "")),
+        "current_date": current_date,
+        "previous_date": previous_date,
         "rows": rows,
         "summary": summary,
+        "source_summary": source_summary,
+        "trade_detail_complete": not missing_trade_details,
     }
 
 
@@ -2267,6 +2433,7 @@ def strategies_html() -> str:
         windows_text = winner_windows_label(winner_tags)
         data_as_of = str(item.get("data_as_of") or item.get("updated_at") or "")
         signal_effective_date = str(item.get("signal_effective_date") or item.get("updated_at") or "")
+        href = f"/strategies/{quote(str(item['strategy_id']))}"
         tags_html = ""
         if windows_text:
             robust_suffix = " / 鲁棒" if is_robust else ""
@@ -2275,9 +2442,9 @@ def strategies_html() -> str:
             tags_html += "<span class='badge badge-blue' style='margin-right:4px'>鲁棒</span>"
         tags_html += risk_badge(item["risk_state"])
         return (
-            "<div class='card'>"
+            f"<a class='strategy-card' href='{html.escape(href)}' aria-label='查看策略 {html.escape(item['display_name'])}'>"
             f"<div style='margin-bottom:8px'>{tags_html}</div>"
-            f"<h3><a href='/strategies/{item['strategy_id']}'>{html.escape(item['display_name'])}</a></h3>"
+            f"<h3>{html.escape(item['display_name'])}</h3>"
             + (f"<p class='muted' style='font-size:12px;margin:4px 0 0'>{html.escape(extra_note)}</p>" if extra_note else "")
             + f"<div class='metrics-row'>"
             f"<div><div class='m-label'>CAGR</div><div class='m-val pos'>{fmt_pct(float(metrics.get('cagr',0)))}</div></div>"
@@ -2288,7 +2455,7 @@ def strategies_html() -> str:
             f"<div><div class='m-label'>仓位</div><div class='m-val'>{fmt_pct(float(item['target_total_exposure']))}</div></div>"
             f"</div>"
             f"<div class='muted' style='font-size:11px'>{html.escape(adjustment_style_label(item))} · 数据截止 {html.escape(data_as_of)} · 换股/信号 {html.escape(signal_effective_date)}</div>"
-            "</div>"
+            "</a>"
         )
 
     sections = []
@@ -2314,7 +2481,7 @@ def strategies_html() -> str:
                 path_label = path_labels[path_key]
                 path_html += (
                     f"<div style='font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px'>{html.escape(path_label)}</div>"
-                    f"<div class='grid grid-2'>{''.join(strategy_card(it) for it in path_items)}</div>"
+                    f"<div class='strategy-grid'>{''.join(strategy_card(it) for it in path_items)}</div>"
                 )
             section_html = (
                 "<div class='page-section'>"
@@ -2325,7 +2492,7 @@ def strategies_html() -> str:
             section_html = (
                 "<div class='page-section'>"
                 "<div class='section-heading'>沪港通策略</div>"
-                f"<div class='grid grid-2'>{''.join(strategy_card(it) for it in items)}</div>"
+                f"<div class='strategy-grid'>{''.join(strategy_card(it) for it in items)}</div>"
                 "</div>"
             )
         sections.append(section_html)
@@ -2336,7 +2503,7 @@ def strategies_html() -> str:
             "<div class='page-section'>"
             "<div class='section-heading'>A股 Core Active 观察区</div>"
             "<p class='muted' style='margin-bottom:16px;font-size:13px'>winner 之外最值得持续观察的核心活跃候选，仅供比较查看，不进入账户绑定白名单。</p>"
-            f"<div class='grid grid-2'>{core_html}</div></div>"
+            f"<div class='strategy-grid'>{core_html}</div></div>"
         )
 
     chart_specs = [
@@ -2374,6 +2541,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         "risk_state": item.get("risk_state"),
         "latest_weights": item.get("latest_weights"),
         "history_windows": item.get("history_windows"),
+        "trade_events": item.get("trade_events"),
         "equity_curve_points": item.get("equity_curve_points"),
         "summary_meta": item.get("summary_meta"),
         "sample_tag": selected_sample_tag,
@@ -2423,21 +2591,37 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             f"<tr{row_style}><td>{html.escape(key)}</td><td>{fmt_pct(float(w['total_return']))}</td><td>{fmt_pct(float(w['cagr']))}</td><td>{fmt_pct(float(w['max_drawdown']))}</td><td>{float(w['sharpe']):.4f}</td><td>{float(w['turnover']):.2f}</td></tr>"
         )
     history_windows = active_view.get("history_windows") or []
-    rebalance_change = build_rebalance_change_rows(active_view.get("latest_weights") or [], history_windows)
+    trade_events = active_view.get("trade_events") or list(
+        load_strategy_trade_events(strategy_id, selected_sample_tag, str(item.get("market_scope") or "a_share"))
+    )
+    rebalance_change = build_rebalance_change_rows(active_view.get("latest_weights") or [], history_windows, trade_events)
     change_summary_html = ""
     change_rows_html = ""
     if rebalance_change:
         summary = rebalance_change["summary"]
+        source_summary = rebalance_change.get("source_summary") or {}
         summary_parts = []
         for key in ("新增", "加仓", "减仓", "清仓"):
             count = int(summary.get(key, 0))
             if count:
                 summary_parts.append(f"{key} {count} 只")
         summary_text = " | ".join(summary_parts) if summary_parts else "本次相对上次调仓没有权重变化。"
+        source_parts = []
+        for key in ("真实交易", "交易+漂移", "市值漂移", "明细不全"):
+            count = int(source_summary.get(key, 0))
+            if count:
+                source_parts.append(f"{key} {count} 只")
+        source_text = " | ".join(source_parts)
+        detail_note = (
+            "逐票交易明细完整，已拆分真实交易与市值漂移。"
+            if rebalance_change.get("trade_detail_complete")
+            else "这段历史存在缺少逐票交易明细的调仓记录；新增/清仓可确认是真实换入/换出，其余加减仓暂不能拆分。"
+        )
         change_summary_html = (
             "<div class='card' style='margin-top:16px'><h2>相对上次调仓的变化</h2>"
             f"<p class='muted'>当前调仓日：{html.escape(rebalance_change['current_date'])} | 上次调仓日：{html.escape(rebalance_change['previous_date'])}</p>"
             f"<p>{summary_text}</p>"
+            f"<p class='muted'>{html.escape(source_text + '。' if source_text else '')}{html.escape(detail_note)}</p>"
             "</div>"
         )
         change_rows = []
@@ -2456,13 +2640,24 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
                 action_style = " style='color:#166534;font-weight:700'"
             elif row["action"] in {"减仓", "清仓"}:
                 action_style = " style='color:#b45309;font-weight:700'"
+            source_cls = {
+                "trade": "badge-green",
+                "mixed": "badge-blue",
+                "drift": "badge-muted",
+                "missing": "badge-amber",
+            }.get(str(row.get("source_type") or ""), "badge-muted")
+            source_html = f"<span class='badge {source_cls}'>{html.escape(str(row.get('source_label') or 'n/a'))}</span>"
+            trade_weight = row.get("trade_weight")
+            drift_weight = row.get("drift_weight")
+            trade_text = signed_pct_html(float(trade_weight)) if trade_weight is not None else "<span class='muted'>n/a</span>"
+            drift_text = signed_pct_html(float(drift_weight)) if drift_weight is not None else "<span class='muted'>n/a</span>"
             change_rows.append(
-                f"<tr{row_style}><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td{action_style}>{html.escape(row['action'])}</td><td>{fmt_pct(float(row['previous_weight']))}</td><td>{fmt_pct(float(row['current_weight']))}</td><td>{fmt_pct(diff_weight)}</td><td>{fmt_amt(float(row['latest_price'] or 0.0)) if row['latest_price'] is not None else 'n/a'}</td></tr>"
+                f"<tr{row_style}><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td{action_style}>{html.escape(row['action'])}</td><td>{source_html}</td><td>{fmt_pct(float(row['previous_weight']))}</td><td>{fmt_pct(float(row['current_weight']))}</td><td>{signed_pct_html(diff_weight)}</td><td>{trade_text}</td><td>{drift_text}</td><td>{fmt_amt(float(row['latest_price'] or 0.0)) if row['latest_price'] is not None else 'n/a'}</td></tr>"
             )
         change_rows_html = (
             "<div class='card' style='margin-top:16px'><h2>最新调仓建议变化明细</h2>"
-            "<p class='muted'>变化≥10% 的行会重点高亮，变化≥5% 的行会浅色高亮；新增/清仓也会单独标识。</p>"
-            "<table><thead><tr><th>代码</th><th>名称</th><th>动作</th><th>上次权重</th><th>当前权重</th><th>变化</th><th>最新价格</th></tr></thead><tbody>"
+            "<p class='muted'>总变化来自最近两次权重快照；真实交易来自逐票交易明细；市值漂移=总变化-真实交易。变化≥10% 的行会重点高亮，变化≥5% 的行会浅色高亮。</p>"
+            "<table><thead><tr><th>代码</th><th>名称</th><th>动作</th><th>归因</th><th>上次权重</th><th>当前权重</th><th>总变化</th><th>真实交易</th><th>市值漂移</th><th>最新价格</th></tr></thead><tbody>"
             + "".join(change_rows)
             + "</tbody></table></div>"
         )

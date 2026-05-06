@@ -440,6 +440,68 @@ def _load_weekly_overlay_history(path: Path, limit: int = 24) -> list[dict[str, 
     return rows
 
 
+def _load_trade_events(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    try:
+        frame = pd.read_csv(path)
+    except Exception:
+        return []
+    required = {"date", "event_type", "buy_amount", "sell_amount"}
+    if frame.empty or not required.issubset(frame.columns):
+        return []
+    frame = frame.copy()
+    frame["date"] = pd.to_datetime(frame["date"], errors="coerce")
+    frame = frame.dropna(subset=["date"]).sort_values("date", ascending=False)
+    events: list[dict[str, Any]] = []
+    for row in frame.to_dict("records"):
+        details: list[dict[str, Any]] = []
+        raw_details = row.get("trade_details_json")
+        if pd.notna(raw_details) and str(raw_details).strip():
+            try:
+                parsed = json.loads(str(raw_details))
+            except Exception:
+                parsed = []
+            if isinstance(parsed, list):
+                for item in parsed:
+                    if not isinstance(item, dict):
+                        continue
+                    details.append(
+                        {
+                            "ts_code": str(item.get("ts_code") or ""),
+                            "name": str(item.get("name") or ""),
+                            "side": str(item.get("side") or ""),
+                            "current_weight": float(item.get("current_weight") or 0.0),
+                            "target_weight": float(item.get("target_weight") or 0.0),
+                            "post_trade_weight": float(item.get("post_trade_weight") or 0.0),
+                            "diff_weight": float(item.get("diff_weight") or 0.0),
+                            "gross_amount_pct_nav": float(item.get("gross_amount_pct_nav") or 0.0),
+                            "fee_pct_nav": float(item.get("fee_pct_nav") or 0.0),
+                        }
+                    )
+        buy_amount = float(row.get("buy_amount") or 0.0)
+        sell_amount = float(row.get("sell_amount") or 0.0)
+        has_trade = bool(details) or buy_amount > 1e-12 or sell_amount > 1e-12
+        if not has_trade:
+            continue
+        event_date = pd.Timestamp(row["date"]).strftime("%Y-%m-%d")
+        signal_date = row.get("signal_date")
+        trade_date = row.get("trade_date")
+        events.append(
+            {
+                "date": event_date,
+                "signal_date": pd.Timestamp(signal_date).strftime("%Y-%m-%d") if pd.notna(signal_date) else event_date,
+                "trade_date": pd.Timestamp(trade_date).strftime("%Y-%m-%d") if pd.notna(trade_date) else event_date,
+                "event_type": str(row.get("event_type") or ""),
+                "buy_amount": buy_amount,
+                "sell_amount": sell_amount,
+                "has_trade_details": bool(details),
+                "trade_details": details,
+            }
+        )
+    return events
+
+
 def guess_sample_tag(track_key: str) -> str:
     if track_key == "since_2017_only":
         return "since_2017_01"
@@ -582,6 +644,7 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
         "risk_state": risk_state,
         "latest_weights": latest_weights,
         "history_windows": _build_weight_history_windows(history_snapshot_map, weekly_overlay_history),
+        "trade_events": _load_trade_events(turnover_path),
         "equity_curve_points": _load_equity_curve_points(equity_curve_path),
         "formal_schedule": formal_schedule,
         "split_view": split_view,
