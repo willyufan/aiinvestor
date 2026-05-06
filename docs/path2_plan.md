@@ -13,6 +13,30 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-06 06:14 CST）
+
+- 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，旧口径为 `292` candidates，五个 family 规模为 `159 / 67 / 16 / 16 / 16`，旧 tracked winners 与 robust candidate 未漂移。
+- 本轮不继续 `top10/top20` 阈值宽窄邻域，改为围绕当前 `since_2020_01` winner 的 `promo_liqmom_top15` 做风险节奏微批量：新增 `risk30` 与 `risk50` 两档熊市保留仓位，覆盖 `1/99` 与 `2/98` 两个进攻配比。
+- 新增 4 个显式原型：`aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk30_cap95`、`aggr_02_98_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk30_cap95`、`aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95`、`aggr_02_98_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95`。
+- 只跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座的四窗口微批量，并固定 `--end-date 2026-04-30`；随后用缓存 summary 重建 comparison 到 `2029` 行 / `684` 个 base strategies。
+- 重建后运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选宇宙升至 `299`，五个 family 规模为 `159 / 75 / 16 / 16 / 16`，新增候选仍归入 `high_growth_theme`。
+- 新 `risk50` 等权 `1/99` 改写 `since_2020_01` Path 2 winner：`core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95` 达到 `46.78% CAGR / -36.36% MaxDD / 1.2198 Sharpe / 4.27 Turnover`，相对旧 top15 winner 的 `37.38% / -22.51% / 1.2283 / 3.22` 明显提高收益但显著放大回撤与换手。
+- `risk30` 等权 `1/99` 作为更保守 side observation：`44.82% CAGR / -26.53% MaxDD / 1.2612 Sharpe / 3.78 Turnover`，收益低于 `risk50` winner，但回撤和 Sharpe 更平衡，值得下一轮围绕退出/降仓节奏继续比较。
+- `since_2017_01`、`since_2023_01`、`since_2025_01` 与四窗口 robust candidate 未改写；robust candidate 仍是 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`。
+
+## 本轮执行计划（2026-05-06 00:04 CST）
+
+- 基线先独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，确认五个 family 的 membership 与旧 tracked winners 是否漂移。
+- 本轮优先围绕上轮新改写 `since_2020_01` winner 的 `promo_liqmom_top15` 做窄阈值邻域，不回到 `midcycle_momentum / industry_trend / core_theme` 等已验证偏弱路线。
+- 候选继续归入 `high_growth_theme` family，用来测试晋升来源阈值是否能进一步改善 2020，同时避免高集中 family 被同一批候选压扁。
+- 若新增候选未明确改写 Path 2 四窗口 winner 或四窗口 robust candidate，只记录扫描结果，不强行同步为 winner。
+- 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `284`，五个 family 规模为 `159 / 59 / 16 / 16 / 16`；旧 tracked winners 与 robust candidate 未漂移。
+- 新增 4 个显式原型：`aggr_01_99_prom2_core_6_1_promo_liqmom_top10_cash_off_and_cap95`、`aggr_02_98_prom2_core_6_1_promo_liqmom_top10_cash_off_and_cap95`、`aggr_01_99_prom2_core_6_1_promo_liqmom_top20_cash_off_and_cap95`、`aggr_02_98_prom2_core_6_1_promo_liqmom_top20_cash_off_and_cap95`。
+- 只跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座的四窗口微批量；首次默认跑到本地当前日后，立即用 `--end-date 2026-04-30` 覆盖同一批结果，保持与现有 comparison 口径一致。
+- 微批量后用缓存 summary 重建 comparison CSV 到 `2651` 行 / `679` 个 base strategies，再运行 `.venv/bin/python scripts/path2_candidate_pass.py`：候选宇宙升至 `292`，五个 family 规模为 `159 / 67 / 16 / 16 / 16`。
+- 新 top10/top20 邻域没有改写 Path 2 tracked winner 或 robust candidate；`since_2020_01` winner 仍是 `core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_cap95`（`37.38% CAGR / -22.51% MaxDD / 1.2283 Sharpe / 3.22 Turnover`）。
+- 新邻域中 `top20` 在 `since_2025_01` 有较强 side observation（总市值 `2/98` 为 `149.97% CAGR / -12.37% MaxDD / 2.2204 Sharpe`），但仍低于当前 `confirm80` 短窗 winner；下一轮不要继续只做 topN 宽窄阈值，应转向组合持有/退出或风险节奏。
+
 ## 本轮补充计划与记录（2026-05-05 18:16 CST）
 
 - 基线运行 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `276`，五个 family 规模为 `159 / 51 / 16 / 16 / 16`；旧 tracked winners 与 robust candidate 均未漂移。

@@ -4,6 +4,23 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-06 06:14 CST）
+
+- 本轮 Path 1 仍严格限制在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向，不吸收 Path 2 的 `promo_liqmom_top15 risk30/risk50` 风险节奏微批量。
+- 先后运行 `.venv/bin/python scripts/winner_only_pass.py`；重建 comparison 后口径仍为 `as_of=2026-04-30 / base_candidates=24 / total_candidates=168 / evaluated=168`。
+- 四个 Path 1 tracked winners 未改写；`since_2020_01` 最近似候选仍是 `aggr_05_95_prom7__sat_three_stage_buffered`（`27.83% CAGR / -25.00% MaxDD / 1.0264 Sharpe / 0.67 Turnover`），但不满足回撤约束。
+- `since_2025_01` 最近似候选仍是 `aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered`（`104.59% CAGR / -11.26% MaxDD / 2.2339 Sharpe / 1.40 Turnover`），Sharpe 仍略低于当前 winner。
+- 本轮不触发 Path 1 确认回测；下一轮继续优先比较 `__port_weekly_exposure_buffered` 与 `__port_weekly_exposure_asym` 的稳定性。
+
+## 本轮执行计划（2026-05-06 00:04 CST）
+
+- 本轮 Path 1 继续限制在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不吸收 A 股 Path 2 的 `promo_liqmom_top15` 阈值邻域。
+- 先运行 `.venv/bin/python scripts/winner_only_pass.py` 作为固定快筛，保持约 `24-28` 个 base candidates 与完整展开候选预算。
+- `weekly_exposure_path` 继续优先比较 `__port_weekly_exposure_buffered` 与 `__port_weekly_exposure_asym`；只有候选明确改写 Path 1 四窗口 winner 才补确认回测。
+- 本轮先后在 Path 2 微批量前后运行 `.venv/bin/python scripts/winner_only_pass.py`；重建 comparison CSV 后复跑输出仍为 `as_of=2026-04-30 / base_candidates=24 / total_candidates=168 / evaluated=168`。
+- 四个 Path 1 tracked winners 未改写；最近似候选仍是 `since_2020_01` 的 `aggr_05_95_prom7__sat_three_stage_buffered`（`27.83% CAGR / -25.00% MaxDD / 1.0264 Sharpe`）与 `since_2025_01` 的 `aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered`（`104.59% CAGR / -11.26% MaxDD / 2.2339 Sharpe`）。
+- 本轮不触发 Path 1 确认回测；`weekly_exposure_path` 的 buffered/asym 对照顺序保持不变。
+
 ## 本轮补充计划与记录（2026-05-05 18:16 CST）
 
 - 本轮 Path 1 继续限定在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不吸收 A 股 Path 2 新增的 `promotion_signal_mode` 微批量。
