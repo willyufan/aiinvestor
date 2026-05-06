@@ -2126,7 +2126,7 @@ def build_rebalance_change_rows(latest_weights: list[dict], history_windows: lis
     all_codes = sorted(set(current_map.keys()) | set(previous_map.keys()))
     rows: list[dict] = []
     summary = {"新增": 0, "加仓": 0, "减仓": 0, "清仓": 0}
-    source_summary = {"真实交易": 0, "交易+漂移": 0, "市值漂移": 0, "明细不全": 0}
+    source_summary = {"真实交易": 0, "交易+漂移": 0, "市值漂移": 0, "明细不全": 0, "现金余额": 0}
     for code in all_codes:
         current = current_map.get(code, {"ts_code": code, "name": "", "weight": 0.0, "latest_price": None})
         previous = previous_map.get(code, {"ts_code": code, "name": "", "weight": 0.0})
@@ -2144,37 +2144,46 @@ def build_rebalance_change_rows(latest_weights: list[dict], history_windows: lis
         else:
             action = "减仓"
         summary[action] += 1
-        trade_info = trade_map.get(code, {})
-        trade_abs_weight = float(trade_info.get("trade_abs_weight", 0.0))
-        has_trade_detail = trade_abs_weight > 5e-4
-        trade_weight = float(trade_info.get("trade_weight", 0.0)) if has_trade_detail else (None if missing_trade_details else 0.0)
-        if missing_trade_details:
+        if code == "CASH":
+            trade_weight = None
             drift_weight = None
-        elif trade_weight is not None:
-            drift_weight = diff - trade_weight
+            source_type = "cash"
+            source_label = "现金余额"
+            source_summary["现金余额"] += 1
         else:
-            drift_weight = diff
-        if missing_trade_details and action not in {"新增", "清仓"}:
-            source_type = "missing"
-            source_label = "明细不全"
-            source_summary["明细不全"] += 1
-        elif missing_trade_details:
-            source_type = "trade"
-            source_label = "真实交易"
-            source_summary["真实交易"] += 1
-        elif has_trade_detail:
-            if drift_weight is not None and abs(drift_weight) > max(0.002, trade_abs_weight * 0.25):
-                source_type = "mixed"
-                source_label = "交易+漂移"
-                source_summary["交易+漂移"] += 1
+            trade_info = trade_map.get(code, {})
+            trade_abs_weight = float(trade_info.get("trade_abs_weight", 0.0))
+            has_trade_detail = trade_abs_weight > 5e-4
+            if has_trade_detail:
+                trade_weight = float(trade_info.get("trade_weight", 0.0))
+                drift_weight = diff - trade_weight
+            elif missing_trade_details:
+                trade_weight = None
+                drift_weight = None
             else:
+                trade_weight = 0.0
+                drift_weight = diff
+            if has_trade_detail:
+                if drift_weight is not None and abs(drift_weight) > max(0.002, trade_abs_weight * 0.25):
+                    source_type = "mixed"
+                    source_label = "交易+漂移"
+                    source_summary["交易+漂移"] += 1
+                else:
+                    source_type = "trade"
+                    source_label = "真实交易"
+                    source_summary["真实交易"] += 1
+            elif missing_trade_details and action not in {"新增", "清仓"}:
+                source_type = "missing"
+                source_label = "明细不全"
+                source_summary["明细不全"] += 1
+            elif missing_trade_details:
                 source_type = "trade"
                 source_label = "真实交易"
                 source_summary["真实交易"] += 1
-        else:
-            source_type = "drift"
-            source_label = "市值漂移"
-            source_summary["市值漂移"] += 1
+            else:
+                source_type = "drift"
+                source_label = "市值漂移"
+                source_summary["市值漂移"] += 1
         rows.append(
             {
                 "ts_code": code,
@@ -2607,7 +2616,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
                 summary_parts.append(f"{key} {count} 只")
         summary_text = " | ".join(summary_parts) if summary_parts else "本次相对上次调仓没有权重变化。"
         source_parts = []
-        for key in ("真实交易", "交易+漂移", "市值漂移", "明细不全"):
+        for key in ("真实交易", "交易+漂移", "市值漂移", "现金余额", "明细不全"):
             count = int(source_summary.get(key, 0))
             if count:
                 source_parts.append(f"{key} {count} 只")
@@ -2645,6 +2654,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
                 "mixed": "badge-blue",
                 "drift": "badge-muted",
                 "missing": "badge-amber",
+                "cash": "badge-muted",
             }.get(str(row.get("source_type") or ""), "badge-muted")
             source_html = f"<span class='badge {source_cls}'>{html.escape(str(row.get('source_label') or 'n/a'))}</span>"
             trade_weight = row.get("trade_weight")
