@@ -4,6 +4,15 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-06 23:15 CST）
+
+- 本轮先发现 comparison CSV 当前只保留少量候选，已用本地 `summary.json` 缓存重建完整 comparison 到 `2747` 行 / `703` 个 base strategies，再运行 `.venv/bin/python scripts/winner_only_pass.py`。
+- Path 1 快筛口径恢复为 `base_candidates=24 / total_candidates=168 / evaluated=168`；方向仍限于 `promotion_ramp / satellite_defense / signal_variants / holding_shape / supporting_variants`，不吸收 Path 2 的 `promo_liqmom_top15 risk30_exit*` 候选。
+- `since_2023_01` 出现清晰同步改写：winner 从 `aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered` 切到 `aggr_08_92_prom6_cash_off_and__port_weekly_exposure_buffered`，指标为 `26.91% CAGR / -12.55% MaxDD / 1.1251 Sharpe / 0.57 Turnover`。
+- `since_2017_01 / since_2020_01 / since_2025_01` winners 未改写；`since_2020_01` 最近似候选仍是 `aggr_05_95_prom7__sat_three_stage_buffered`，但 `MaxDD -25.00%` 继续阻挡替换。
+- 四窗口鲁棒候选同步为 `aggr_10_90_prom6__port_weekly_exposure_buffered`，`meanCAGR=44.22% / minCAGR=26.01% / worstMaxDD=-31.55% / meanTurn=0.95`。
+- 已运行 `scripts/update_weighted_winners.py`、图表、live export 与 public snapshot；公开快照中 A 股数据截止日为 `2026-05-06`，信号/换股生效日继续来自真实月末、周末或双周评估点。
+
 ## 本轮执行计划（2026-05-06 11:35 CST）
 
 - 本轮 Path 1 继续严格限制在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个固定方向内，不吸收 Path 2 新增的 `promo_liqmom_top15 risk*_or` 风险触发候选。

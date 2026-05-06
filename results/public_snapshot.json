@@ -216,68 +216,74 @@
       ]
     },
     {
-      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered",
-      "display_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓)__月度选股_周度仓位调整(双周确认)",
+      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and__port_weekly_exposure_buffered",
+      "display_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓, and 规则)__月度选股_周度仓位调整(双周确认)",
       "path": "path1",
       "market_scope": "a_share",
       "winner_type": "2023-window winner",
       "window_label": "2023 窗口",
       "sample_tag": "since_2023_01",
-      "risk_state": "risk_on",
-      "target_exposure": 1.0,
-      "updated_at": "2026-05-06",
+      "risk_state": "risk_off",
+      "target_exposure": 0.0,
+      "updated_at": "2026-04-22",
       "data_as_of": "2026-05-06",
-      "signal_effective_date": "2026-04-30",
+      "signal_effective_date": "2026-04-17",
       "metrics": {
-        "cagr": 0.2626,
-        "sharpe": 1.1103,
-        "max_drawdown": -0.1247,
-        "total_return": 1.2184,
-        "turnover": 0.5995
+        "cagr": 0.2691,
+        "sharpe": 1.1251,
+        "max_drawdown": -0.1255,
+        "total_return": 1.2132,
+        "turnover": 0.57
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.2415,
-          "sharpe": 1.1599,
-          "max_drawdown": -0.1054,
-          "total_return": 6.6686
+          "cagr": 0.245,
+          "sharpe": 1.1638,
+          "max_drawdown": -0.1065,
+          "total_return": 6.7321
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.2192,
-          "sharpe": 0.9542,
-          "max_drawdown": -0.1581,
-          "total_return": 2.5662
+          "cagr": 0.2231,
+          "sharpe": 0.9622,
+          "max_drawdown": -0.1506,
+          "total_return": 2.5812
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.2626,
-          "sharpe": 1.1103,
-          "max_drawdown": -0.1247,
-          "total_return": 1.2184
+          "cagr": 0.2691,
+          "sharpe": 1.1251,
+          "max_drawdown": -0.1255,
+          "total_return": 1.2132
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.9,
-          "sharpe": 1.9886,
-          "max_drawdown": -0.095,
-          "total_return": 1.4826
+          "cagr": 1.0184,
+          "sharpe": 2.1047,
+          "max_drawdown": -0.0979,
+          "total_return": 1.5508
         },
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": -0.0112,
-          "sharpe": 1.2714,
-          "max_drawdown": -0.0857,
-          "total_return": -0.0047
+          "cagr": -0.013,
+          "sharpe": 1.409,
+          "max_drawdown": -0.0835,
+          "total_return": -0.0043
         }
       ],
-      "latest_weights": []
+      "latest_weights": [
+        {
+          "ts_code": "CASH",
+          "name": "现金",
+          "weight": 1.0
+        }
+      ]
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_core_6_1__port_weekly_exposure_asym",
@@ -552,8 +558,8 @@
       ]
     },
     {
-      "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95",
-      "display_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 熊市保留50%, 单票95%)",
+      "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap95",
+      "display_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 熊市保留50%, or, 单票95%)",
       "path": "path2",
       "market_scope": "a_share",
       "winner_type": "2020-window winner",
@@ -561,56 +567,56 @@
       "sample_tag": "since_2020_01",
       "risk_state": "caution",
       "target_exposure": 0.5516,
-      "updated_at": "2026-05-06",
+      "updated_at": "2026-04-30",
       "data_as_of": "2026-05-06",
       "signal_effective_date": "2026-04-30",
       "metrics": {
-        "cagr": 0.4621,
-        "sharpe": 1.2143,
+        "cagr": 0.4678,
+        "sharpe": 1.2198,
         "max_drawdown": -0.3636,
-        "total_return": 10.443,
-        "turnover": 4.2893
+        "total_return": 10.3631,
+        "turnover": 4.2671
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.3063,
-          "sharpe": 1.0087,
+          "cagr": 0.3086,
+          "sharpe": 1.0114,
           "max_drawdown": -0.3859,
-          "total_return": 11.3775
+          "total_return": 11.3068
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.4621,
-          "sharpe": 1.2143,
+          "cagr": 0.4678,
+          "sharpe": 1.2198,
           "max_drawdown": -0.3636,
-          "total_return": 10.443
+          "total_return": 10.3631
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.5362,
-          "sharpe": 1.3453,
+          "cagr": 0.5498,
+          "sharpe": 1.3582,
           "max_drawdown": -0.3182,
-          "total_return": 3.3358
+          "total_return": 3.3079
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.7784,
-          "sharpe": 1.8704,
+          "cagr": 0.8353,
+          "sharpe": 1.9261,
           "max_drawdown": -0.126,
-          "total_return": 1.2606
+          "total_return": 1.247
         },
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 0.7928,
-          "sharpe": 3.037,
+          "cagr": 1.0374,
+          "sharpe": 3.6544,
           "max_drawdown": 0.0,
-          "total_return": 0.2754
+          "total_return": 0.2677
         }
       ],
       "latest_weights": [

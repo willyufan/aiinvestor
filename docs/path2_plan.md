@@ -13,6 +13,16 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-06 23:15 CST）
+
+- 基线复跑前先用缓存 summary 重建 comparison，避免压缩 CSV 导致 Path 2 只识别少量候选；重建后基线为 `308` candidates，五个 family 规模为 `159 / 83 / 16 / 16 / 16`。
+- 本轮围绕上轮的 `risk30` 更均衡 side observation 增加晋升核心退出阈值 hook：`promoted_core_sell_exit_percentile`，默认值仍为 `1.0`，旧策略行为不变。
+- 新增 4 个显式原型：`aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk30_exit80_cap95`、`aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk30_exit80_cap95`、`aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk30_exit60_cap95`、`aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk30_exit60_cap95`。
+- 只跑 `80/20 equal_weight` 与 `80/20 total_mv` 两个底座四窗口，并固定 `--end-date 2026-04-30`；随后重建 comparison 到 `2747` 行 / `703` 个 base strategies。
+- 复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后候选宇宙升至 `316`，五个 family 规模为 `159 / 91 / 16 / 16 / 16`；新增候选全部归入 `high_growth_theme`，family membership 未压扁。
+- 新退出阈值没有改写 Path 2 tracked winner 或 robust candidate。最佳新候选为等权 `1/99 risk30_exit60`：`since_2020_01` 为 `44.30% CAGR / -26.37% MaxDD / 1.2498 Sharpe / 3.85 Turnover`，收益低于现有 `risk50_or` winner 的 `46.78%`，但回撤和 Sharpe 更均衡。
+- `since_2023_01` 上新候选最高约 `45.81% CAGR / -24.59% MaxDD / 1.3075 Sharpe`，仍低于当前 2023 winner 的 `57.19% CAGR`；下一轮优先比较 `risk30_exit60` 的恢复确认/再晋升条件，而不是继续收紧同一个退出阈值。
+
 ## 本轮执行计划（2026-05-06 11:35 CST）
 
 - 基线复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后，旧口径为 `299` candidates，五个 family 规模为 `159 / 75 / 16 / 16 / 16`，四窗口 tracked winners 与 robust candidate 未漂移。
