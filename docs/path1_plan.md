@@ -4,6 +4,14 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-07 11:10 CST）
+
+- 本轮先运行 `.venv/bin/python scripts/winner_only_pass.py` 做固定快筛，口径仍为 `as_of=2026-05-06 / base_candidates=24 / total_candidates=168 / evaluated=168`。
+- Path 1 继续限制在 `promotion_ramp / satellite_defense / signal_variants / holding_shape / supporting_variants` 五个固定方向内；本轮 A 股 Path 2 新增的 `risk50_or_exit80/exit60` 微批量不并入 Path 1。
+- 快筛结果没有清晰窗口 winner 改写：`since_2020_01` 最近似候选仍是 `aggr_05_95_prom7__sat_three_stage_buffered`，但 `MaxDD=-25.00%` 继续阻挡替换；`since_2025_01` 最近似候选仍是高 CAGR 但 Sharpe 不足。
+- 复跑 `scripts/update_weighted_winners.py` 后，四窗口 tracked winners 未漂移；四窗口鲁棒候选仍为 `aggr_10_90_prom6__port_weekly_exposure_buffered`，`meanCAGR=44.22% / minCAGR=26.01%`。
+- 本轮不触发 Path 1 确认回测；继续保持 `__port_weekly_exposure_buffered` 与 `__port_weekly_exposure_asym` 的固定比较顺序。
+
 ## 本轮执行计划（2026-05-07 05:06 CST）
 
 - 本轮已先运行 `.venv/bin/python scripts/winner_only_pass.py` 做固定快筛，口径仍为 `as_of=2026-05-06 / base_candidates=24 / total_candidates=168 / evaluated=168`。
