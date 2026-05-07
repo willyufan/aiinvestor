@@ -2667,6 +2667,10 @@ PATH1_FAST_PASS_VARIANT_IDS = [
 ]
 
 PATH2_SCAN_BASE_PREFIXES = [
+    "core_explore_95_05_equal_weight_winner_core",
+    "core_explore_95_05_total_mv_winner_core",
+    "core_explore_90_10_equal_weight_winner_core",
+    "core_explore_90_10_total_mv_winner_core",
     "core_explore_80_20_equal_weight_winner_core",
     "core_explore_70_30_equal_weight_winner_core",
     "core_explore_60_40_equal_weight_winner_core",
@@ -2766,6 +2770,10 @@ PATH2_SCAN_FAMILY_RULES = {
     },
     "high_growth_theme": {
         "prefixes": [
+            "core_explore_95_05_equal_weight_winner_core",
+            "core_explore_95_05_total_mv_winner_core",
+            "core_explore_90_10_equal_weight_winner_core",
+            "core_explore_90_10_total_mv_winner_core",
             "core_explore_80_20_equal_weight_winner_core",
             "core_explore_20_80_equal_weight_winner_core",
             "core_explore_40_60_equal_weight_winner_core",
@@ -3110,6 +3118,8 @@ ARCHIVE_FAMILY_BASE_PREFIXES = [
 ]
 
 CORE_EXPLORE_RATIO_CONFIGS = [
+    {"strategy_id": "core_explore_95_05", "strategy_name": "核心95_探索05", "core_ratio": 0.95, "explore_ratio": 0.05},
+    {"strategy_id": "core_explore_90_10", "strategy_name": "核心90_探索10", "core_ratio": 0.90, "explore_ratio": 0.10},
     {"strategy_id": "core_explore_80_20", "strategy_name": "核心80_探索20", "core_ratio": 0.80, "explore_ratio": 0.20},
     {"strategy_id": "core_explore_70_30", "strategy_name": "核心70_探索30", "core_ratio": 0.70, "explore_ratio": 0.30},
     {"strategy_id": "core_explore_60_40", "strategy_name": "核心60_探索40", "core_ratio": 0.60, "explore_ratio": 0.40},

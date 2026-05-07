@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-08 07:28 CST）
+
+- 基线复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `340`；本轮不继续拆 `risk30/risk50` 触发器，新增 `core_explore_90_10` 与 `core_explore_95_05` 两个核心/探索组合底座，围绕当前强点 `promo_liqmom_top15` 跑 `risk50_or` 与 `risk30_or` 的等权/总市值对照。
+- 微批量覆盖 8 个 base candidates、四个跟踪窗口，并固定 `--end-date 2026-04-30`；随后用本地 summary 缓存按四窗口重建 comparison 到 `2875` 行 / `735` 个 base strategies。
+- 重建后复跑 `.venv/bin/python scripts/path2_candidate_pass.py`：候选宇宙升至 `348`，五个 family 规模为 `159 / 123 / 16 / 16 / 16`，新增候选全部归入 `high_growth_theme`，family membership 未被高集中候选压扁。
+- 新 `90/10` 等权 `risk50_or` 改写 Path 2 `since_2020_01` winner：`core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap95` 达到 `48.41% CAGR / -37.10% MaxDD / 1.1875 Sharpe / 4.38 Turnover`，高于旧 `80/20` 等权 `risk50_or` 的 `47.48% CAGR`，但回撤与换手仍偏高。
+- 结构对照里最均衡的新候选是 `90/10` 等权 `risk30_or`：`46.11% CAGR / -26.63% MaxDD / 1.2174 Sharpe / 3.86 Turnover`，未改写 winner 但继续证明降仓 30% 分支更稳。
+- `since_2017_01 / since_2023_01 / since_2025_01` winners 与四窗口 robust candidate 未改写；下一轮不要继续单纯提高核心占比，可考虑在 `90/10 risk50_or` 上找降低回撤的独立约束。
+
 ## 本轮执行计划（2026-05-07 23:12 CST）
 
 - 基线复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `332`；本轮不继续 `risk50_or` 退出阈值微调，新增 4 个 `promo_liqmom_top15 risk30` 风控触发拆分原型：`risk30_mom` 与 `risk30_ma`，覆盖 `1/99` 与 `2/98`。
