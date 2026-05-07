@@ -817,6 +817,89 @@ def get_hk_daily_cache_status(
     return pd.Timestamp(latest_cached) >= cache_target_date, pd.Timestamp(latest_cached)
 
 
+def append_batched_hk_daily_adj_rows(
+    *,
+    fetched: pd.DataFrame,
+    pending_codes: set[str],
+) -> int:
+    if fetched.empty or "ts_code" not in fetched.columns or "trade_date" not in fetched.columns:
+        return 0
+    rows = fetched.copy()
+    rows["ts_code"] = rows["ts_code"].astype(str)
+    rows = rows[rows["ts_code"].isin(pending_codes)].copy()
+    if rows.empty:
+        return 0
+    rows["trade_date"] = pd.to_datetime(rows["trade_date"].astype(str), format="%Y%m%d", errors="coerce")
+    rows = rows.dropna(subset=["trade_date"])
+    if rows.empty:
+        return 0
+
+    updated_rows = 0
+    for ts_code, group in rows.groupby("ts_code", sort=False):
+        cache_path = HK_PRICE_DIR / f"{ts_code}.csv"
+        cached = read_cached_csv(cache_path, date_columns=["trade_date"])
+        daily = pd.concat([cached, group], ignore_index=True, sort=False)
+        daily["trade_date"] = pd.to_datetime(daily["trade_date"], errors="coerce")
+        for column in ["close", "adj_factor", "amount", "total_mv", "vol"]:
+            if column in daily.columns:
+                daily[column] = pd.to_numeric(daily[column], errors="coerce")
+        if "close" in daily.columns and "adj_factor" in daily.columns:
+            daily["forward_adj_close"] = daily["close"] * daily["adj_factor"]
+        elif "close" in daily.columns:
+            daily["forward_adj_close"] = pd.to_numeric(daily["close"], errors="coerce")
+        if "amount" not in daily.columns and {"vol", "close"}.issubset(set(daily.columns)):
+            daily["amount"] = pd.to_numeric(daily["vol"], errors="coerce") * pd.to_numeric(daily["close"], errors="coerce")
+        daily = (
+            daily.dropna(subset=["trade_date"])
+            .sort_values("trade_date")
+            .drop_duplicates(subset=["trade_date"], keep="last")
+            .reset_index(drop=True)
+        )
+        save_csv(daily, cache_path)
+        updated_rows += len(group)
+    return updated_rows
+
+
+def batch_prefetch_hk_daily_adj_caches(
+    pro,
+    connect_codes: Iterable[str],
+    trade_dates: Iterable[pd.Timestamp],
+    data_start_date: pd.Timestamp,
+    cache_target_date: pd.Timestamp,
+) -> None:
+    pending_codes: set[str] = set()
+    pending_fetch_starts: list[pd.Timestamp] = []
+    for ts_code in sorted(set(map(str, connect_codes))):
+        is_fresh, latest_cached = get_hk_daily_cache_status(ts_code, cache_target_date)
+        if is_fresh:
+            continue
+        pending_codes.add(ts_code)
+        pending_fetch_starts.append((latest_cached + pd.Timedelta(days=1)) if latest_cached is not None else data_start_date)
+
+    if not pending_codes or not pending_fetch_starts:
+        return
+
+    start = min(pending_fetch_starts).normalize()
+    end = cache_target_date.normalize()
+    fetch_dates = sorted({pd.Timestamp(date).normalize() for date in trade_dates if start <= pd.Timestamp(date).normalize() <= end})
+    if not fetch_dates:
+        return
+
+    print(f"[HK Batch] hk_daily_adj: 按交易日批量预取 {len(fetch_dates)} 天，待补标的 {len(pending_codes)} 只。")
+    updated_rows = 0
+    for trade_date in fetch_dates:
+        try:
+            fetched = call_tushare_with_retry(
+                pro.hk_daily_adj,
+                trade_date=trade_date.strftime("%Y%m%d"),
+            )
+        except RuntimeError as exc:
+            print(f"[Warn] hk_daily_adj 批量预取失败，回退逐票增量更新：{exc}")
+            return
+        updated_rows += append_batched_hk_daily_adj_rows(fetched=fetched, pending_codes=pending_codes)
+    print(f"[HK Batch] hk_daily_adj: 已拆写 {updated_rows} 行到逐票缓存。")
+
+
 def save_hk_prepare_progress(
     *,
     total_codes: int,
@@ -1053,6 +1136,15 @@ def prepare_hkconnect_data(
     new_fetch_count = 0
     stopped_early = False
     last_attempted: str | None = None
+
+    if max_new_codes is None and sleep_between_codes <= 0 and max_runtime_minutes is None:
+        batch_prefetch_hk_daily_adj_caches(
+            pro_daily,
+            connect_codes,
+            full_calendar_index,
+            data_start_date,
+            cache_target_date,
+        )
 
     for idx, ts_code in enumerate(connect_codes, start=1):
         is_fresh, _latest_cached = get_hk_daily_cache_status(ts_code, cache_target_date)
