@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import hashlib
 import json
 import math
 import os
+import threading
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -153,8 +155,10 @@ RETRY_BASE_DELAY = 1.5
 DNS_RETRY_ATTEMPTS = 10
 DNS_RETRY_BASE_DELAY = 30.0
 DNS_RETRY_MAX_DELAY = 300.0
+CACHE_REFRESH_MAX_WORKERS = 5
 FLOAT_FORMAT = "%.8f"
 TUSHARE_OFFLINE_MODE = os.getenv("AIINVESTOR_FORCE_OFFLINE", "").strip().lower() in {"1", "true", "yes", "y"}
+_CACHE_WORKER_STATE = threading.local()
 
 WINNER_CORE_VARIANTS = [
     {
@@ -3690,6 +3694,40 @@ def load_or_fetch_daily_basic(pro, ts_code: str, start_date: pd.Timestamp, end_d
     return daily_basic
 
 
+def get_cache_worker_tushare_client(default_pro):
+    if TUSHARE_OFFLINE_MODE or not TOKEN:
+        return default_pro
+    client = getattr(_CACHE_WORKER_STATE, "pro", None)
+    if client is None:
+        client = ts.pro_api(TOKEN)
+        _CACHE_WORKER_STATE.pro = client
+    return client
+
+
+def prepare_single_stock_cache_data(
+    default_pro,
+    ts_code: str,
+    data_start_date: pd.Timestamp,
+    end_date: pd.Timestamp,
+) -> Tuple[str, Dict[str, pd.DataFrame], pd.DataFrame]:
+    worker_pro = get_cache_worker_tushare_client(default_pro)
+    daily = load_or_fetch_daily(worker_pro, ts_code, data_start_date, end_date)
+    adj_factor = load_or_fetch_adj_factor(worker_pro, ts_code, data_start_date, end_date)
+    daily_basic = load_or_fetch_daily_basic(worker_pro, ts_code, data_start_date, end_date)
+    fina_indicator = load_or_fetch_fina_indicator(worker_pro, ts_code, data_start_date - pd.DateOffset(years=2), end_date)
+    price = build_forward_adjusted_prices(daily, adj_factor)
+    return (
+        ts_code,
+        {
+            "daily": daily,
+            "adj_factor": adj_factor,
+            "daily_basic": daily_basic,
+            "price": price,
+        },
+        fina_indicator,
+    )
+
+
 def load_or_fetch_fina_indicator(pro, ts_code: str, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
     cache_path = FINA_DIR / f"{ts_code}.csv"
     cached = read_cached_csv(cache_path, date_columns=["ann_date", "end_date"])
@@ -5946,20 +5984,19 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
 
     per_stock_frames: Dict[str, Dict[str, pd.DataFrame]] = {}
     financials_by_code: Dict[str, pd.DataFrame] = {}
-    for idx, ts_code in enumerate(normalized_codes, start=1):
-        print(f"[Data] ({idx}/{len(normalized_codes)}) 正在准备 {ts_code}")
-        daily = load_or_fetch_daily(pro, ts_code, data_start_date, end_date)
-        adj_factor = load_or_fetch_adj_factor(pro, ts_code, data_start_date, end_date)
-        daily_basic = load_or_fetch_daily_basic(pro, ts_code, data_start_date, end_date)
-        fina_indicator = load_or_fetch_fina_indicator(pro, ts_code, data_start_date - pd.DateOffset(years=2), end_date)
-        price = build_forward_adjusted_prices(daily, adj_factor)
-        per_stock_frames[ts_code] = {
-            "daily": daily,
-            "adj_factor": adj_factor,
-            "daily_basic": daily_basic,
-            "price": price,
+    worker_count = min(CACHE_REFRESH_MAX_WORKERS, len(normalized_codes))
+    print(f"[Data] 使用 {worker_count} 个 worker 并行准备 {len(normalized_codes)} 只股票缓存。")
+    with ThreadPoolExecutor(max_workers=worker_count) as executor:
+        futures = {
+            executor.submit(prepare_single_stock_cache_data, pro, ts_code, data_start_date, end_date): ts_code
+            for ts_code in normalized_codes
         }
-        financials_by_code[ts_code] = fina_indicator
+        for completed, future in enumerate(as_completed(futures), start=1):
+            ts_code = futures[future]
+            code, stock_frames, fina_indicator = future.result()
+            per_stock_frames[code] = stock_frames
+            financials_by_code[code] = fina_indicator
+            print(f"[Data] ({completed}/{len(normalized_codes)}) 已完成 {ts_code}")
 
     prepared = build_monthly_panel(
         normalized_codes,

@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 import os
+import threading
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -31,6 +33,7 @@ from backtest_marketcap_etf import (
     WEEKLY_MOMENTUM_LOOKBACK,
     WEEKLY_MOMENTUM_SKIP,
     WEEKLY_MA_LOOKBACK,
+    CACHE_REFRESH_MAX_WORKERS,
     call_tushare_with_retry,
     read_cached_csv,
     save_csv,
@@ -63,6 +66,7 @@ def _load_tokens() -> Tuple[str, str]:
 
 
 TUSHARE_DAILY_TOKEN, TUSHARE_MINUTE_TOKEN = _load_tokens()
+_HK_CACHE_WORKER_STATE = threading.local()
 
 HK_RESULTS_DIR = Path("results_hkconnect")
 HK_CACHE_DIR = Path("data_cache") / "hkconnect"
@@ -817,6 +821,46 @@ def get_hk_daily_cache_status(
     return pd.Timestamp(latest_cached) >= cache_target_date, pd.Timestamp(latest_cached)
 
 
+def get_hk_cache_worker_daily_client(default_pro):
+    if not TUSHARE_DAILY_TOKEN:
+        return default_pro
+    client = getattr(_HK_CACHE_WORKER_STATE, "pro_daily", None)
+    if client is None:
+        client = ts.pro_api(TUSHARE_DAILY_TOKEN)
+        _HK_CACHE_WORKER_STATE.pro_daily = client
+    return client
+
+
+def prepare_single_hk_daily_cache(
+    default_pro,
+    ts_code: str,
+    data_start_date: pd.Timestamp,
+    end_date: pd.Timestamp,
+) -> Tuple[str, pd.DataFrame]:
+    worker_pro = get_hk_cache_worker_daily_client(default_pro)
+    daily = load_or_fetch_hk_daily_adj(worker_pro, ts_code, data_start_date, end_date)
+    return ts_code, daily
+
+
+def append_hk_daily_frames(
+    *,
+    ts_code: str,
+    daily: pd.DataFrame,
+    price_frames: List[pd.DataFrame],
+    mv_frames: List[pd.DataFrame],
+    amount_frames: List[pd.DataFrame],
+) -> None:
+    price_frames.append(
+        daily[["trade_date", "forward_adj_close"]]
+        .rename(columns={"forward_adj_close": ts_code})
+        .set_index("trade_date")
+    )
+    if "total_mv" in daily.columns:
+        mv_frames.append(daily[["trade_date", "total_mv"]].rename(columns={"total_mv": ts_code}).set_index("trade_date"))
+    if "amount" in daily.columns:
+        amount_frames.append(daily[["trade_date", "amount"]].rename(columns={"amount": ts_code}).set_index("trade_date"))
+
+
 def save_hk_prepare_progress(
     *,
     total_codes: int,
@@ -1053,66 +1097,125 @@ def prepare_hkconnect_data(
     new_fetch_count = 0
     stopped_early = False
     last_attempted: str | None = None
+    can_parallel_refresh = (
+        max_new_codes is None
+        and sleep_between_codes <= 0
+        and max_runtime_minutes is None
+    )
 
-    for idx, ts_code in enumerate(connect_codes, start=1):
-        is_fresh, _latest_cached = get_hk_daily_cache_status(ts_code, cache_target_date)
-        if is_fresh:
-            fresh_codes.append(ts_code)
-            if not warm_cache_only:
-                daily = read_cached_csv(HK_PRICE_DIR / f"{ts_code}.csv", date_columns=["trade_date"])
-                if not daily.empty and "forward_adj_close" in daily.columns:
-                    price_frames.append(
-                        daily[["trade_date", "forward_adj_close"]]
-                        .rename(columns={"forward_adj_close": ts_code})
-                        .set_index("trade_date")
-                    )
-                    if "total_mv" in daily.columns:
-                        mv_frames.append(daily[["trade_date", "total_mv"]].rename(columns={"total_mv": ts_code}).set_index("trade_date"))
-                    if "amount" in daily.columns:
-                        amount_frames.append(daily[["trade_date", "amount"]].rename(columns={"amount": ts_code}).set_index("trade_date"))
-            continue
-        if max_new_codes is not None and new_fetch_count >= max_new_codes:
-            pending_codes.append(ts_code)
-            stopped_early = True
-            continue
-        if max_runtime_minutes is not None and (time.monotonic() - started_at) >= max_runtime_minutes * 60.0:
-            pending_codes.append(ts_code)
-            stopped_early = True
-            warnings.append(
-                f"达到本轮最长运行时间 {max_runtime_minutes:.1f} 分钟，已停止并保留进度。"
-            )
-            break
-        print(f"[HK Data] ({idx}/{len(connect_codes)}) 正在准备 {ts_code}")
-        last_attempted = ts_code
-        try:
-            daily = load_or_fetch_hk_daily_adj(pro_daily, ts_code, data_start_date, end_date)
-            new_fetch_count += 1
-        except RuntimeError as exc:
-            pending_codes.append(ts_code)
-            stopped_early = True
-            if any(keyword in str(exc) for keyword in ["频率限制", "频率超限", "每分钟最多访问", "每小时最多访问"]):
-                warnings.append(f"{ts_code} 触发 hk_daily_adj 频率限制，本轮先停止，后续可继续断点续跑。")
+    if can_parallel_refresh:
+        stale_codes: List[Tuple[int, str]] = []
+        for idx, ts_code in enumerate(connect_codes, start=1):
+            is_fresh, _latest_cached = get_hk_daily_cache_status(ts_code, cache_target_date)
+            if is_fresh:
+                fresh_codes.append(ts_code)
+                if not warm_cache_only:
+                    daily = read_cached_csv(HK_PRICE_DIR / f"{ts_code}.csv", date_columns=["trade_date"])
+                    if not daily.empty and "forward_adj_close" in daily.columns:
+                        append_hk_daily_frames(
+                            ts_code=ts_code,
+                            daily=daily,
+                            price_frames=price_frames,
+                            mv_frames=mv_frames,
+                            amount_frames=amount_frames,
+                        )
+                continue
+            stale_codes.append((idx, ts_code))
+
+        if stale_codes:
+            worker_count = min(CACHE_REFRESH_MAX_WORKERS, len(stale_codes))
+            print(f"[HK Data] 使用 {worker_count} 个 worker 并行准备 {len(stale_codes)} 只待更新股票缓存。")
+            with ThreadPoolExecutor(max_workers=worker_count) as executor:
+                futures = {
+                    executor.submit(prepare_single_hk_daily_cache, pro_daily, ts_code, data_start_date, end_date): (idx, ts_code)
+                    for idx, ts_code in stale_codes
+                }
+                for completed, future in enumerate(as_completed(futures), start=1):
+                    _idx, ts_code = futures[future]
+                    last_attempted = ts_code
+                    try:
+                        code, daily = future.result()
+                        new_fetch_count += 1
+                    except RuntimeError as exc:
+                        pending_codes.append(ts_code)
+                        stopped_early = True
+                        if any(keyword in str(exc) for keyword in ["频率限制", "频率超限", "每分钟最多访问", "每小时最多访问"]):
+                            warnings.append(f"{ts_code} 触发 hk_daily_adj 频率限制，本轮先停止，后续可继续断点续跑。")
+                            continue
+                        raise
+                    if daily.empty:
+                        warnings.append(f"{code} 缺少 hk_daily_adj 数据，已跳过。")
+                        continue
+                    if "forward_adj_close" not in daily.columns:
+                        warnings.append(f"{code} 无法构造前复权价格，已跳过。")
+                        continue
+                    fresh_codes.append(code)
+                    if not warm_cache_only:
+                        append_hk_daily_frames(
+                            ts_code=code,
+                            daily=daily,
+                            price_frames=price_frames,
+                            mv_frames=mv_frames,
+                            amount_frames=amount_frames,
+                        )
+                    print(f"[HK Data] ({completed}/{len(stale_codes)}) 已完成 {code}")
+
+    else:
+        for idx, ts_code in enumerate(connect_codes, start=1):
+            is_fresh, _latest_cached = get_hk_daily_cache_status(ts_code, cache_target_date)
+            if is_fresh:
+                fresh_codes.append(ts_code)
+                if not warm_cache_only:
+                    daily = read_cached_csv(HK_PRICE_DIR / f"{ts_code}.csv", date_columns=["trade_date"])
+                    if not daily.empty and "forward_adj_close" in daily.columns:
+                        append_hk_daily_frames(
+                            ts_code=ts_code,
+                            daily=daily,
+                            price_frames=price_frames,
+                            mv_frames=mv_frames,
+                            amount_frames=amount_frames,
+                        )
+                continue
+            if max_new_codes is not None and new_fetch_count >= max_new_codes:
+                pending_codes.append(ts_code)
+                stopped_early = True
+                continue
+            if max_runtime_minutes is not None and (time.monotonic() - started_at) >= max_runtime_minutes * 60.0:
+                pending_codes.append(ts_code)
+                stopped_early = True
+                warnings.append(
+                    f"达到本轮最长运行时间 {max_runtime_minutes:.1f} 分钟，已停止并保留进度。"
+                )
                 break
-            raise
-        if daily.empty:
-            warnings.append(f"{ts_code} 缺少 hk_daily_adj 数据，已跳过。")
-            continue
-        if "forward_adj_close" not in daily.columns:
-            warnings.append(f"{ts_code} 无法构造前复权价格，已跳过。")
-            continue
-        fresh_codes.append(ts_code)
-        price_frames.append(
-            daily[["trade_date", "forward_adj_close"]]
-            .rename(columns={"forward_adj_close": ts_code})
-            .set_index("trade_date")
-        )
-        if "total_mv" in daily.columns:
-            mv_frames.append(daily[["trade_date", "total_mv"]].rename(columns={"total_mv": ts_code}).set_index("trade_date"))
-        if "amount" in daily.columns:
-            amount_frames.append(daily[["trade_date", "amount"]].rename(columns={"amount": ts_code}).set_index("trade_date"))
-        if sleep_between_codes > 0 and new_fetch_count < len(connect_codes):
-            print(f"[HK Warmup] {ts_code} 完成，等待 {sleep_between_codes:.0f} 秒后继续下一只。")
-            time.sleep(sleep_between_codes)
+            print(f"[HK Data] ({idx}/{len(connect_codes)}) 正在准备 {ts_code}")
+            last_attempted = ts_code
+            try:
+                daily = load_or_fetch_hk_daily_adj(pro_daily, ts_code, data_start_date, end_date)
+                new_fetch_count += 1
+            except RuntimeError as exc:
+                pending_codes.append(ts_code)
+                stopped_early = True
+                if any(keyword in str(exc) for keyword in ["频率限制", "频率超限", "每分钟最多访问", "每小时最多访问"]):
+                    warnings.append(f"{ts_code} 触发 hk_daily_adj 频率限制，本轮先停止，后续可继续断点续跑。")
+                    break
+                raise
+            if daily.empty:
+                warnings.append(f"{ts_code} 缺少 hk_daily_adj 数据，已跳过。")
+                continue
+            if "forward_adj_close" not in daily.columns:
+                warnings.append(f"{ts_code} 无法构造前复权价格，已跳过。")
+                continue
+            fresh_codes.append(ts_code)
+            append_hk_daily_frames(
+                ts_code=ts_code,
+                daily=daily,
+                price_frames=price_frames,
+                mv_frames=mv_frames,
+                amount_frames=amount_frames,
+            )
+            if sleep_between_codes > 0 and new_fetch_count < len(connect_codes):
+                print(f"[HK Warmup] {ts_code} 完成，等待 {sleep_between_codes:.0f} 秒后继续下一只。")
+                time.sleep(sleep_between_codes)
 
     for ts_code in connect_codes:
         if ts_code not in fresh_codes and ts_code not in pending_codes:
