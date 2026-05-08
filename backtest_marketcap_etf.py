@@ -150,6 +150,9 @@ TOTAL_PORTFOLIO_MIN_WEIGHT = 0.005
 FORCE_EXIT_WEIGHT_THRESHOLD = 0.0005
 MAX_RETRIES = 5
 RETRY_BASE_DELAY = 1.5
+DNS_RETRY_ATTEMPTS = 10
+DNS_RETRY_BASE_DELAY = 30.0
+DNS_RETRY_MAX_DELAY = 300.0
 FLOAT_FORMAT = "%.8f"
 TUSHARE_OFFLINE_MODE = os.getenv("AIINVESTOR_FORCE_OFFLINE", "").strip().lower() in {"1", "true", "yes", "y"}
 
@@ -3420,12 +3423,27 @@ def ensure_directories() -> None:
         path.mkdir(parents=True, exist_ok=True)
 
 
+def _is_dns_resolution_error(exc: Exception) -> bool:
+    error_text = str(exc).lower()
+    dns_markers = (
+        "failed to resolve",
+        "nameresolutionerror",
+        "temporary failure in name resolution",
+        "nodename nor servname provided",
+        "name or service not known",
+        "getaddrinfo failed",
+        "eai_again",
+    )
+    return any(marker in error_text for marker in dns_markers)
+
+
 def call_tushare_with_retry(api_callable, **kwargs) -> pd.DataFrame:
-    global TUSHARE_OFFLINE_MODE
     if TUSHARE_OFFLINE_MODE:
         raise RuntimeError(f"Tushare 离线模式已启用，跳过在线请求: {kwargs}")
     last_error: Exception | None = None
-    for attempt in range(1, MAX_RETRIES + 1):
+    attempt = 1
+    dns_attempt = 0
+    while attempt <= MAX_RETRIES:
         try:
             df = api_callable(**kwargs)
             if df is None:
@@ -3434,14 +3452,17 @@ def call_tushare_with_retry(api_callable, **kwargs) -> pd.DataFrame:
             return df
         except Exception as exc:  # noqa: BLE001
             last_error = exc
-            error_text = str(exc)
-            if (
-                "Failed to resolve" in error_text
-                or "nodename nor servname provided" in error_text
-                or "NameResolutionError" in error_text
-            ):
-                TUSHARE_OFFLINE_MODE = True
-                break
+            if _is_dns_resolution_error(exc):
+                dns_attempt += 1
+                if dns_attempt >= DNS_RETRY_ATTEMPTS:
+                    break
+                sleep_seconds = min(DNS_RETRY_MAX_DELAY, DNS_RETRY_BASE_DELAY * (2 ** (dns_attempt - 1)))
+                print(
+                    f"[Retry] Tushare DNS 解析失败，第 {dns_attempt}/{DNS_RETRY_ATTEMPTS} 次，"
+                    f"{sleep_seconds:.1f} 秒后重试。参数: {kwargs}，错误: {exc}"
+                )
+                time.sleep(sleep_seconds)
+                continue
             if attempt == MAX_RETRIES:
                 break
             sleep_seconds = RETRY_BASE_DELAY * (2 ** (attempt - 1))
@@ -3450,7 +3471,10 @@ def call_tushare_with_retry(api_callable, **kwargs) -> pd.DataFrame:
                 f"{sleep_seconds:.1f} 秒后重试。参数: {kwargs}，错误: {exc}"
             )
             time.sleep(sleep_seconds)
+            attempt += 1
 
+    if last_error and _is_dns_resolution_error(last_error):
+        raise RuntimeError(f"Tushare DNS 解析失败，已重试 {dns_attempt}/{DNS_RETRY_ATTEMPTS} 次: {kwargs}") from last_error
     raise RuntimeError(f"Tushare 请求失败，已重试 {MAX_RETRIES} 次: {kwargs}") from last_error
 
 
