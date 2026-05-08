@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-08 13:15 CST）
+
+- 基线复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `348`；本轮不继续提高核心占比，也不继续拆 `risk30/risk50` 触发器，而是在当前 `90/10` 等权 `risk50_or` 2020 winner 上测试独立 drawdown-control 分支。
+- 新增 4 个显式原型：`risk50_or_cap80`、`risk50_or_cap70`、`risk50_or_ramp85_cap95`、`risk50_or_ramp70_cap95`；只跑 `core_explore_90_10_equal_weight_winner_core` 与 `core_explore_90_10_total_mv_winner_core` 两个底座四窗口，并固定 `--end-date 2026-04-30`。
+- 微批量后用本地 summary 缓存重建 comparison 到 `2907` 行 / `743` 个 base strategies；复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后候选宇宙升至 `356`，五个 family 规模为 `159 / 131 / 16 / 16 / 16`，新增候选全部归入 `high_growth_theme`。
+- 新候选没有改写 Path 2 tracked winners 或四窗口 robust candidate。当前 `since_2020_01` winner 仍是 `core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap95`，`48.41% CAGR / -37.10% MaxDD / 1.1875 Sharpe / 4.38 Turnover`。
+- 最好的新 2020 候选是等权 `risk50_or_cap80`：`48.12% CAGR / -37.10% MaxDD / 1.1917 Sharpe / 4.37 Turnover`；等权 `cap70` 为 `47.78% CAGR / -37.10% MaxDD / 1.1955 Sharpe / 4.35 Turnover`，Sharpe 略好但没有降低回撤且收益低于 winner。
+- 首月 ramp 控制在当前缓存下与原 `cap95` 结果基本重合，未提供独立降回撤效果；下一轮不要继续在 `risk50_or` 上做简单 cap/ramp 微调，应转向真正不同的风险时点或候选来源过滤。
+
 ## 本轮执行计划（2026-05-08 07:28 CST）
 
 - 基线复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `340`；本轮不继续拆 `risk30/risk50` 触发器，新增 `core_explore_90_10` 与 `core_explore_95_05` 两个核心/探索组合底座，围绕当前强点 `promo_liqmom_top15` 跑 `risk50_or` 与 `risk30_or` 的等权/总市值对照。
