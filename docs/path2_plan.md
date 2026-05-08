@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-08 17:24 CST）
+
+- 基线复跑后发现 `negative_mom / below_ma` 风控别名与月频 `risk_staging_mode` 未真正进入 `compute_market_exposure()`；本轮修正别名映射，并把月频回测接入三档风险暴露参数，避免 `risk50_mom / risk50_ma` 与旧两档口径混同。
+- 本轮先跑 24-base timing batch，再在修正后公平复跑 12-base `risk50_or / risk50_mom / risk50_ma` 对照，覆盖 `90/10 equal_weight` 与 `90/10 total_mv` 两个底座、四个跟踪窗口，并固定 `--end-date 2026-05-07`。
+- 重建 comparison 后为 `2979` 行 / `761` 个 base strategies；复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后候选宇宙升至 `374`，五个 family 规模为 `159 / 149 / 16 / 16 / 16`，新增三档择时候选归入 `high_growth_theme`。
+- 新三档动量候选改写 `since_2017_01` 与 `since_2020_01` winner：`90/10` 等权 `2/98 risk50_mom` 长窗达到 `35.95% CAGR / -39.17% MaxDD / 0.9471 Sharpe / 3.87 Turnover`；`1/99 risk50_mom` 在 2020 窗口达到 `55.72% CAGR / -36.55% MaxDD / 1.2068 Sharpe / 4.65 Turnover`。
+- `since_2023_01` 改写为 `90/10` 等权 `1/99 risk50_ma`，`67.32% CAGR / -36.51% MaxDD / 1.3533 Sharpe / 4.79 Turnover`；`since_2025_01` 仍由纯周度短窗候选 `aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly` 胜出，`172.51% CAGR / -40.77% MaxDD / 1.6610 Sharpe / 16.50 Turnover`。
+- 四窗口 robust candidate 切到 `90/10` 等权 `1/99 risk50_mom`，`meanCAGR=63.95% / minCAGR=35.90% / worstMaxDD=-39.14% / meanTurn=5.08`；下一轮优先研究这条三档动量线的回撤压缩，而不是继续简单提高风险保留仓位。
+
 ## 本轮执行计划（2026-05-08 13:15 CST）
 
 - 基线复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `348`；本轮不继续提高核心占比，也不继续拆 `risk30/risk50` 触发器，而是在当前 `90/10` 等权 `risk50_or` 2020 winner 上测试独立 drawdown-control 分支。

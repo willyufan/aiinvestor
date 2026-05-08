@@ -1867,6 +1867,82 @@ WINNER_CORE_VARIANTS = [
         "weight_cap": 0.95,
     },
     {
+        "variant_id": "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_cap95",
+        "variant_name": "进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 动量三档保留50%, 单票95%)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_amount_surge_ratio": 1.05,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "weight_cap": 0.95,
+    },
+    {
+        "variant_id": "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_cap95",
+        "variant_name": "进攻2/98 晋升2只(核心6-1动量, 量价晋升前15%, 动量三档保留50%, 单票95%)",
+        "winner_core_stable_share": 0.02,
+        "winner_core_promoted_share": 0.98,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_amount_surge_ratio": 1.05,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "weight_cap": 0.95,
+    },
+    {
+        "variant_id": "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_ma_cap95",
+        "variant_name": "进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 均线三档保留50%, 单票95%)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_amount_surge_ratio": 1.05,
+        "market_risk_off_rule": "below_ma",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "weight_cap": 0.95,
+    },
+    {
+        "variant_id": "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_ma_cap95",
+        "variant_name": "进攻2/98 晋升2只(核心6-1动量, 量价晋升前15%, 均线三档保留50%, 单票95%)",
+        "winner_core_stable_share": 0.02,
+        "winner_core_promoted_share": 0.98,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_amount_surge_ratio": 1.05,
+        "market_risk_off_rule": "below_ma",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "weight_cap": 0.95,
+    },
+    {
         "variant_id": "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap80",
         "variant_name": "进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 熊市保留50%, or, 单票80%)",
         "winner_core_stable_share": 0.01,
@@ -2907,6 +2983,10 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk30_ma_cap95",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap95",
             "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap95",
+            "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_cap95",
+            "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_cap95",
+            "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_ma_cap95",
+            "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_ma_cap95",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap80",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap70",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_ramp85_cap95",
@@ -3078,6 +3158,10 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk30_ma_cap95",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap95",
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap95",
+    "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_cap95",
+    "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_cap95",
+    "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_ma_cap95",
+    "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_ma_cap95",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap80",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap70",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_ramp85_cap95",
@@ -4354,10 +4438,10 @@ def compute_market_exposure(
     if rule == "and":
         risk_off = negative_mom and below_ma
         caution = negative_mom ^ below_ma
-    elif rule == "mom":
+    elif rule in {"mom", "negative_mom"}:
         risk_off = negative_mom
         caution = below_ma and not negative_mom
-    elif rule == "ma":
+    elif rule in {"ma", "below_ma"}:
         risk_off = below_ma
         caution = negative_mom and not below_ma
     else:
@@ -6209,6 +6293,7 @@ def run_backtest(
     demotion_streaks: Dict[str, int] = {}
     pure_core_watch_streaks: Dict[str, int] = {}
     risk_evaluation_frequency = str(strategy_config.get("risk_evaluation_frequency", RISK_EVAL_FREQUENCY_MONTHLY) or RISK_EVAL_FREQUENCY_MONTHLY)
+    risk_staging_mode = str(strategy_config.get("risk_staging_mode", "two_stage") or "two_stage").strip().lower()
     overlay_state: Dict[str, object] = {"confirmed_stage": "risk_on", "pending_stage": None, "pending_count": 0}
 
     monthly_rows: List[Dict[str, object]] = []
@@ -6325,17 +6410,22 @@ def run_backtest(
         market_risk_off_rule = str(strategy_config.get("market_risk_off_rule", "or") or "or").strip().lower()
         core_risk_off_exposure = float(strategy_config.get("core_risk_off_exposure", CORE_RISK_OFF_EXPOSURE))
         core_risk_on_exposure = float(strategy_config.get("core_risk_on_exposure", CORE_RISK_ON_EXPOSURE))
+        core_caution_exposure = float(strategy_config.get("core_caution_exposure", CORE_CAUTION_EXPOSURE))
         satellite_risk_off_exposure = float(strategy_config.get("satellite_risk_off_exposure", SATELLITE_RISK_OFF_EXPOSURE))
         satellite_risk_on_exposure = float(strategy_config.get("satellite_risk_on_exposure", SATELLITE_RISK_ON_EXPOSURE))
+        satellite_caution_exposure = float(strategy_config.get("satellite_caution_exposure", SATELLITE_CAUTION_EXPOSURE))
         market_close_series = prepared.market_monthly_close if rebalance_frequency == "monthly" else prepared.market_weekly_close
         market_regime = compute_market_exposure(
             market_close_series,
             signal_date,
             risk_off_rule=market_risk_off_rule,
+            risk_staging_mode=risk_staging_mode,
             core_risk_off_exposure=core_risk_off_exposure,
             core_risk_on_exposure=core_risk_on_exposure,
+            core_caution_exposure=core_caution_exposure,
             satellite_risk_off_exposure=satellite_risk_off_exposure,
             satellite_risk_on_exposure=satellite_risk_on_exposure,
+            satellite_caution_exposure=satellite_caution_exposure,
             momentum_lookback=MONTHLY_MOMENTUM_LOOKBACK if rebalance_frequency == "monthly" else WEEKLY_MOMENTUM_LOOKBACK,
             momentum_skip=MONTHLY_MOMENTUM_SKIP if rebalance_frequency == "monthly" else WEEKLY_MOMENTUM_SKIP,
             ma_lookback=MONTHLY_MA_LOOKBACK if rebalance_frequency == "monthly" else WEEKLY_MA_LOOKBACK,
