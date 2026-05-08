@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-08 23:12 CST）
+
+- 本轮独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`；候选宇宙保持 `374`，五个 family 规模为 `159 / 149 / 16 / 16 / 16`，family membership 未被高集中候选压扁。
+- 本轮不继续简单抬高三档风险保留仓位，也不新增 `risk50_or` 的 cap/ramp 邻域；先把 17:24 已修正的 `risk50_mom / risk50_ma` 三档择时口径作为当前基线复核。
+- Path 2 四窗口 winner 身份未漂移：`since_2017_01` 仍为 `90/10` 等权 `2/98 risk50_mom`（`35.88% CAGR / -39.17% MaxDD / 0.9458 Sharpe / 3.87 Turnover`）。
+- `since_2020_01` 仍为 `90/10` 等权 `1/99 risk50_mom`（`55.60% / -36.55% / 1.2050 / 4.65`），`since_2023_01` 仍为 `90/10` 等权 `1/99 risk50_ma`（`67.06% / -36.51% / 1.3498 / 4.79`）。
+- `since_2025_01` 继续由纯周度短窗候选 `aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly` 胜出（`181.26% / -40.77% / 1.6970 / 16.50`）；四窗口 robust candidate 仍是 `90/10` 等权 `1/99 risk50_mom`，`meanCAGR=63.68% / minCAGR=35.83% / worstMaxDD=-39.14% / meanTurn=5.08`。
+
 ## 本轮执行计划（2026-05-08 17:24 CST）
 
 - 基线复跑后发现 `negative_mom / below_ma` 风控别名与月频 `risk_staging_mode` 未真正进入 `compute_market_exposure()`；本轮修正别名映射，并把月频回测接入三档风险暴露参数，避免 `risk50_mom / risk50_ma` 与旧两档口径混同。
