@@ -85,6 +85,9 @@ HK_WEIGHT_CAP = 0.30
 HK_MIN_WEIGHT_TRADE_THRESHOLD = 0.005
 HK_BUY_COMMISSION = BUY_COMMISSION
 HK_SELL_COMMISSION = SELL_COMMISSION
+HK_RISK_EVAL_FREQUENCY_MONTHLY = "monthly"
+HK_RISK_EVAL_FREQUENCY_WEEKLY = "weekly"
+HK_RISK_OVERLAY_SCOPE_PORTFOLIO = "portfolio_only"
 
 HK_SAMPLE_WINDOWS = [
     {
@@ -242,6 +245,38 @@ HK_PATH1_VARIANTS: List[Dict[str, object]] = [
 _HK_PATH1_TEMPLATE_BY_ID = {str(variant["strategy_id"]): variant for variant in HK_PATH1_VARIANTS}
 HK_PATH1_VARIANTS.extend(
     [
+        {
+            **_HK_PATH1_TEMPLATE_BY_ID["hkconnect_path1_monthly_hybrid"],
+            "strategy_id": "hkconnect_path1_monthly_hybrid_weekly_overlay",
+            "strategy_name": "沪港通Path1 月度稳健(混合权重+周度风控)",
+            "candidate_family": "monthly_hybrid_weekly_overlay",
+            "risk_evaluation_frequency": HK_RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": HK_RISK_OVERLAY_SCOPE_PORTFOLIO,
+        },
+        {
+            **_HK_PATH1_TEMPLATE_BY_ID["hkconnect_path1_monthly_cashoff"],
+            "strategy_id": "hkconnect_path1_monthly_cashoff_weekly_overlay",
+            "strategy_name": "沪港通Path1 月度稳健(熊市空仓+周度风控)",
+            "candidate_family": "monthly_cashoff_weekly_overlay",
+            "risk_evaluation_frequency": HK_RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": HK_RISK_OVERLAY_SCOPE_PORTFOLIO,
+        },
+        {
+            **_HK_PATH1_TEMPLATE_BY_ID["hkconnect_path1_monthly_equal_buffered"],
+            "strategy_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay",
+            "strategy_name": "沪港通Path1 月度等权缓冲(周度风控)",
+            "candidate_family": "monthly_equal_buffered_weekly_overlay",
+            "risk_evaluation_frequency": HK_RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": HK_RISK_OVERLAY_SCOPE_PORTFOLIO,
+        },
+        {
+            **_HK_PATH1_TEMPLATE_BY_ID["hkconnect_path1_monthly_lowvol"],
+            "strategy_id": "hkconnect_path1_monthly_lowvol_weekly_overlay",
+            "strategy_name": "沪港通Path1 月度低波偏稳(周度风控)",
+            "candidate_family": "monthly_lowvol_weekly_overlay",
+            "risk_evaluation_frequency": HK_RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": HK_RISK_OVERLAY_SCOPE_PORTFOLIO,
+        },
         {
             **_HK_PATH1_TEMPLATE_BY_ID["hkconnect_path1_monthly_hybrid"],
             "strategy_id": "hkconnect_path1_biweekly_hybrid",
@@ -751,6 +786,41 @@ def load_or_fetch_hk_trade_calendar(pro, start_date: pd.Timestamp, end_date: pd.
     calendar = fetched.sort_values("cal_date").drop_duplicates(subset=["cal_date"]).reset_index(drop=True)
     save_csv(calendar, cache_path)
     return calendar[(calendar["cal_date"] >= start_date) & (calendar["cal_date"] <= required_end_date)].reset_index(drop=True)
+
+
+def extend_hk_calendar_with_cached_price_dates(
+    calendar: pd.DataFrame,
+    price_frames: List[pd.DataFrame],
+    start_date: pd.Timestamp,
+    end_date: pd.Timestamp,
+) -> pd.DataFrame:
+    if not price_frames:
+        return calendar
+    price_dates: Set[pd.Timestamp] = set()
+    start_date = start_date.normalize()
+    end_date = end_date.normalize()
+    for frame in price_frames:
+        for raw_date in frame.index:
+            trade_date = pd.Timestamp(raw_date).normalize()
+            if start_date <= trade_date <= end_date:
+                price_dates.add(trade_date)
+    if not price_dates:
+        return calendar
+
+    typed = calendar.copy()
+    typed["cal_date"] = pd.to_datetime(typed["cal_date"], errors="coerce")
+    typed["is_open"] = pd.to_numeric(typed.get("is_open", 0), errors="coerce").fillna(0).astype(int)
+    typed = typed.dropna(subset=["cal_date"])
+    open_dates = set(typed.loc[typed["is_open"] == 1, "cal_date"].dt.normalize())
+    combined_open_dates = sorted(open_dates | price_dates)
+    if not combined_open_dates:
+        return calendar
+
+    extended = pd.DataFrame({"cal_date": combined_open_dates, "is_open": 1})
+    extended["pretrade_date"] = extended["cal_date"].shift(1).dt.strftime("%Y%m%d")
+    extended["pretrade_date"] = extended["pretrade_date"].fillna("")
+    extended["exchange"] = "XHKG"
+    return extended
 
 
 def load_or_fetch_hk_basic(pro) -> pd.DataFrame:
@@ -1323,6 +1393,15 @@ def prepare_hkconnect_data(
     if not price_frames:
         raise RuntimeError("沪港通静态池没有可用价格数据，无法回测。")
 
+    calendar = extend_hk_calendar_with_cached_price_dates(calendar, price_frames, data_start_date, cache_target_date)
+    month_end_dates, month_start_dates, week_end_dates, full_calendar_index = build_month_boundaries(calendar)
+    full_calendar_index = [date for date in full_calendar_index if date <= cache_target_date]
+    month_end_dates = [date for date in month_end_dates if date <= cache_target_date]
+    month_start_dates = [date for date in month_start_dates if date <= cache_target_date]
+    week_end_dates = [date for date in week_end_dates if date <= cache_target_date]
+    if len(full_calendar_index) == 0:
+        raise RuntimeError("港股缓存价格日期无法构造交易日历，无法准备缓存。")
+
     price_exact = pd.concat(price_frames, axis=1).sort_index()
     price_exact = price_exact.reindex(full_calendar_index)
     price_ffill = price_exact.ffill()
@@ -1437,6 +1516,171 @@ def build_hk_base_weights(
     return signal_mvs
 
 
+def build_hk_portfolio_overlay_target_weights(base_weights: pd.Series, target_exposure: float, weight_cap: float) -> pd.Series:
+    weights = base_weights.astype(float).replace([np.inf, -np.inf], np.nan).dropna()
+    weights = weights[weights > 0]
+    if weights.empty:
+        return pd.Series(dtype=float)
+    target_exposure = min(1.0, max(0.0, float(target_exposure)))
+    if target_exposure <= 0:
+        return pd.Series(dtype=float)
+    normalized = weights / float(weights.sum())
+    capped, _cash = apply_weight_cap_with_redistribution(normalized * target_exposure, cap=float(weight_cap))
+    return capped
+
+
+def apply_hk_weekly_portfolio_overlay(
+    *,
+    prepared: HKPreparedData,
+    positions: pd.Series,
+    cash_value: float,
+    gross_positions: pd.Series,
+    gross_cash_value: float,
+    rebalance_date: pd.Timestamp,
+    period_end: pd.Timestamp,
+    base_target_weights: pd.Series,
+    strategy_config: Dict[str, object],
+) -> Tuple[pd.Series, float, pd.Series, float, List[Dict[str, object]], Dict[str, float]]:
+    risk_frequency = str(strategy_config.get("risk_evaluation_frequency", HK_RISK_EVAL_FREQUENCY_MONTHLY) or HK_RISK_EVAL_FREQUENCY_MONTHLY)
+    overlay_scope = str(strategy_config.get("risk_overlay_scope", "") or "")
+    if risk_frequency != HK_RISK_EVAL_FREQUENCY_WEEKLY or overlay_scope != HK_RISK_OVERLAY_SCOPE_PORTFOLIO:
+        return positions, cash_value, gross_positions, gross_cash_value, [], {
+            "weekly_overlay_trade_count": 0,
+            "weekly_overlay_trading_cost": 0.0,
+            "weekly_overlay_avg_one_way_turnover": 0.0,
+        }
+
+    overlay_dates = [date for date in prepared.week_end_dates if rebalance_date < date < period_end]
+    if not overlay_dates or base_target_weights.empty:
+        if not positions.empty:
+            rebalance_prices = prepared.price_ffill.loc[rebalance_date, positions.index]
+            period_end_prices = prepared.price_ffill.loc[period_end, positions.index]
+            positions = positions * (period_end_prices / rebalance_prices)
+        if not gross_positions.empty:
+            gross_rebalance_prices = prepared.price_ffill.loc[rebalance_date, gross_positions.index]
+            gross_period_end_prices = prepared.price_ffill.loc[period_end, gross_positions.index]
+            gross_positions = gross_positions * (gross_period_end_prices / gross_rebalance_prices)
+        return positions, cash_value, gross_positions, gross_cash_value, [], {
+            "weekly_overlay_trade_count": 0,
+            "weekly_overlay_trading_cost": 0.0,
+            "weekly_overlay_avg_one_way_turnover": 0.0,
+        }
+
+    trading_dates = prepared.price_ffill.index
+    overlay_rows: List[Dict[str, object]] = []
+    overlay_turnovers: List[float] = []
+    overlay_count = 0
+    cumulative_cost = 0.0
+    prev_date = rebalance_date
+
+    for overlay_date in overlay_dates:
+        overlay_trade_date = get_next_trading_day(trading_dates, overlay_date)
+        if overlay_trade_date is None or overlay_trade_date > period_end or overlay_trade_date <= prev_date:
+            continue
+
+        if not positions.empty:
+            prices_prev = prepared.price_ffill.loc[prev_date, positions.index]
+            prices_now = prepared.price_ffill.loc[overlay_trade_date, positions.index]
+            positions = positions * (prices_now / prices_prev)
+        if not gross_positions.empty:
+            gross_prices_prev = prepared.price_ffill.loc[prev_date, gross_positions.index]
+            gross_prices_now = prepared.price_ffill.loc[overlay_trade_date, gross_positions.index]
+            gross_positions = gross_positions * (gross_prices_now / gross_prices_prev)
+
+        regime = compute_market_exposure(
+            prepared.market_weekly_close,
+            overlay_date,
+            risk_off_rule=str(strategy_config.get("risk_off_rule", "or")),
+            risk_staging_mode=str(strategy_config.get("risk_staging_mode", "three_stage")),
+            core_risk_off_exposure=float(strategy_config.get("risk_off_exposure", 0.6)),
+            core_risk_on_exposure=float(strategy_config.get("risk_on_exposure", 1.0)),
+            core_caution_exposure=float(strategy_config.get("risk_caution_exposure", 0.85)),
+            satellite_risk_off_exposure=float(strategy_config.get("risk_off_exposure", 0.6)),
+            satellite_risk_on_exposure=float(strategy_config.get("risk_on_exposure", 1.0)),
+            satellite_caution_exposure=float(strategy_config.get("risk_caution_exposure", 0.85)),
+            momentum_lookback=WEEKLY_MOMENTUM_LOOKBACK,
+            momentum_skip=WEEKLY_MOMENTUM_SKIP,
+            ma_lookback=WEEKLY_MA_LOOKBACK,
+        )
+        target_weights = build_hk_portfolio_overlay_target_weights(
+            base_target_weights,
+            target_exposure=float(regime["portfolio_target_exposure"]),
+            weight_cap=float(strategy_config.get("weight_cap", HK_WEIGHT_CAP)),
+        )
+
+        tradable_codes: Iterable[str] = []
+        if overlay_trade_date in prepared.price_exact.index:
+            exact_prices = prepared.price_exact.loc[overlay_trade_date]
+            tradable_codes = exact_prices[exact_prices.notna()].index.tolist()
+
+        positions, cash_value, _, _, trade_stats = compute_rebalance_trades(
+            current_values=positions,
+            current_cash=cash_value,
+            target_weights=target_weights,
+            rebalance_date=overlay_trade_date,
+            tradable_codes=tradable_codes,
+            buy_commission=HK_BUY_COMMISSION,
+            sell_commission_rate=HK_SELL_COMMISSION,
+            stamp_rate_override=0.0,
+        )
+        gross_positions, gross_cash_value, _, _, _ = compute_rebalance_trades(
+            current_values=gross_positions,
+            current_cash=gross_cash_value,
+            target_weights=target_weights,
+            rebalance_date=overlay_trade_date,
+            tradable_codes=tradable_codes,
+            buy_commission=0.0,
+            sell_commission_rate=0.0,
+            stamp_rate_override=0.0,
+        )
+        if trade_stats["two_way_turnover"] > 1e-12:
+            overlay_count += 1
+            cumulative_cost += float(trade_stats["trading_cost"])
+            overlay_turnovers.append(float(trade_stats["one_way_turnover"]))
+
+        trade_details = []
+        for detail in trade_stats.get("trade_details", []):
+            detail_row = dict(detail)
+            ts_code = str(detail_row.get("ts_code") or "")
+            detail_row["name"] = prepared.code_to_name.get(ts_code, "")
+            trade_details.append(detail_row)
+        overlay_rows.append(
+            {
+                "date": overlay_date,
+                "signal_date": overlay_date,
+                "evaluation_date": overlay_date,
+                "trade_date": overlay_trade_date,
+                "one_way_turnover": trade_stats["one_way_turnover"],
+                "two_way_turnover": trade_stats["two_way_turnover"],
+                "buy_amount": trade_stats["buy_amount"],
+                "sell_amount": trade_stats["sell_amount"],
+                "trading_cost": trade_stats["trading_cost"],
+                "buy_cost": trade_stats["buy_cost"],
+                "sell_commission": trade_stats["sell_commission"],
+                "sell_stamp_duty": trade_stats["sell_stamp_duty"],
+                "event_type": "weekly_portfolio_overlay",
+                "risk_stage": str(regime["risk_stage"]),
+                "trade_details_json": json.dumps(trade_details, ensure_ascii=False) if trade_details else "",
+            }
+        )
+        prev_date = overlay_trade_date
+
+    if not positions.empty:
+        final_prev = prepared.price_ffill.loc[prev_date, positions.index]
+        final_now = prepared.price_ffill.loc[period_end, positions.index]
+        positions = positions * (final_now / final_prev)
+    if not gross_positions.empty:
+        gross_final_prev = prepared.price_ffill.loc[prev_date, gross_positions.index]
+        gross_final_now = prepared.price_ffill.loc[period_end, gross_positions.index]
+        gross_positions = gross_positions * (gross_final_now / gross_final_prev)
+
+    return positions, cash_value, gross_positions, gross_cash_value, overlay_rows, {
+        "weekly_overlay_trade_count": overlay_count,
+        "weekly_overlay_trading_cost": cumulative_cost,
+        "weekly_overlay_avg_one_way_turnover": float(np.mean(overlay_turnovers)) if overlay_turnovers else 0.0,
+    }
+
+
 def run_hk_backtest(
     prepared: HKPreparedData,
     strategy_config: Dict[str, object],
@@ -1447,6 +1691,14 @@ def run_hk_backtest(
     sample_label = str(strategy_config["sample_label"])
     sample_short_label = str(strategy_config["sample_short_label"])
     rebalance_frequency = str(strategy_config.get("rebalance_frequency", "monthly") or "monthly").strip().lower()
+    risk_evaluation_frequency = str(
+        strategy_config.get("risk_evaluation_frequency", rebalance_frequency) or rebalance_frequency
+    ).strip().lower()
+    risk_overlay_scope = str(strategy_config.get("risk_overlay_scope", "") or "")
+    weekly_portfolio_overlay_enabled = (
+        risk_evaluation_frequency == HK_RISK_EVAL_FREQUENCY_WEEKLY
+        and risk_overlay_scope == HK_RISK_OVERLAY_SCOPE_PORTFOLIO
+    )
     signal_schedule = get_rebalance_signal_dates(prepared, rebalance_frequency)
     trading_dates = prepared.price_ffill.index
 
@@ -1543,6 +1795,27 @@ def run_hk_backtest(
         target_weights, target_cash_weight = apply_weight_cap_with_redistribution(
             raw_target_weights, cap=float(strategy_config.get("weight_cap", HK_WEIGHT_CAP))
         )
+        base_overlay_target_weights = target_weights
+        if weekly_portfolio_overlay_enabled:
+            full_raw_target_weights, _full_selection_stats = build_single_sleeve_weights(
+                base_weights=base_weights,
+                signal_scores=signal_scores,
+                recent_1m_returns=recent_1m_returns,
+                quality_scores=quality_scores,
+                currently_held_codes=currently_held_codes,
+                target_exposure=1.0,
+                buy_entry_percentile=float(strategy_config["buy_entry_percentile"]),
+                sell_exit_percentile=float(strategy_config["sell_exit_percentile"]),
+                quality_quantile=0.50,
+                max_holdings=int(strategy_config["max_holdings"]),
+                require_breakout_for_buy=str(strategy_config["signal_family"]).startswith("path2_breakout"),
+                breakout_signal=breakout_signal,
+                base_weight_mode=str(strategy_config.get("base_weight_mode", "base")),
+            )
+            base_overlay_target_weights, _overlay_cash = apply_weight_cap_with_redistribution(
+                full_raw_target_weights,
+                cap=float(strategy_config.get("weight_cap", HK_WEIGHT_CAP)),
+            )
 
         nav_at_signal_date = float(positions.sum() + cash_value)
         if not positions.empty:
@@ -1566,11 +1839,23 @@ def run_hk_backtest(
             stamp_rate_override=0.0,
         )
 
-        if not positions.empty:
+        positions, cash_value, gross_positions, gross_cash_value, weekly_overlay_turnover_rows, weekly_overlay_stats = apply_hk_weekly_portfolio_overlay(
+            prepared=prepared,
+            positions=positions,
+            cash_value=cash_value,
+            gross_positions=gross_positions,
+            gross_cash_value=gross_cash_value,
+            rebalance_date=rebalance_date,
+            period_end=period_end,
+            base_target_weights=base_overlay_target_weights,
+            strategy_config=strategy_config,
+        )
+
+        if not weekly_portfolio_overlay_enabled and not positions.empty:
             rebalance_prices = prepared.price_ffill.loc[rebalance_date, positions.index]
             period_end_prices = prepared.price_ffill.loc[period_end, positions.index]
             positions = positions * (period_end_prices / rebalance_prices)
-        if not gross_positions.empty:
+        if not weekly_portfolio_overlay_enabled and not gross_positions.empty:
             gross_rebalance_prices = prepared.price_ffill.loc[rebalance_date, gross_positions.index]
             gross_period_end_prices = prepared.price_ffill.loc[period_end, gross_positions.index]
             gross_positions = gross_positions * (gross_period_end_prices / gross_rebalance_prices)
@@ -1608,6 +1893,9 @@ def run_hk_backtest(
                 "selected_count": selection_stats["selected_count"],
                 "buy_candidate_count": selection_stats["buy_candidate_count"],
                 "keep_candidate_count": selection_stats["keep_candidate_count"],
+                "weekly_overlay_trade_count": weekly_overlay_stats["weekly_overlay_trade_count"],
+                "weekly_overlay_trading_cost": weekly_overlay_stats["weekly_overlay_trading_cost"],
+                "weekly_overlay_avg_one_way_turnover": weekly_overlay_stats["weekly_overlay_avg_one_way_turnover"],
             }
         )
         trade_details = []
@@ -1631,6 +1919,7 @@ def run_hk_backtest(
                 "trade_details_json": json.dumps(trade_details, ensure_ascii=False) if trade_details else "",
             }
         )
+        turnover_rows.extend(weekly_overlay_turnover_rows)
         equity_rows.append({"date": period_end, "portfolio_return": net_return, "nav": nav_end, "drawdown": 0.0, "trading_cost": trade_stats["trading_cost"]})
 
     if effective_sample_start is None or len(equity_rows) < 2:
@@ -1688,6 +1977,8 @@ def run_hk_backtest(
         "path": str(strategy_config["path"]),
         "candidate_family": str(strategy_config["candidate_family"]),
         "rebalance_frequency": rebalance_frequency,
+        "risk_evaluation_frequency": risk_evaluation_frequency,
+        "risk_overlay_scope": risk_overlay_scope,
         "signal_family": str(strategy_config["signal_family"]),
         "base_weight_method": str(strategy_config["base_weight_method"]),
         "selection_overlay": "独立沪港通策略线：仅限最新可得沪港通（SH_HK/SZ_HK）名单内的港股，基于动量、突破、流动性与仓位风控做优胜劣汰。",
@@ -1800,6 +2091,8 @@ def main() -> None:
                     "path": summary["path"],
                     "candidate_family": summary["candidate_family"],
                     "rebalance_frequency": summary["rebalance_frequency"],
+                    "risk_evaluation_frequency": summary["risk_evaluation_frequency"],
+                    "risk_overlay_scope": summary["risk_overlay_scope"],
                     "sample_tag": summary["sample_tag"],
                     "sample_label": summary["sample_label"],
                     "sample_start": summary["sample_start"],

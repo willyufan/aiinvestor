@@ -1,7 +1,7 @@
 {
   "pool_id": "hkconnect_static_latest",
   "pool_name": "沪港通静态标的池（最新可得名单）",
-  "sample_start": "2020-12-14",
+  "sample_start": "2020-01-06",
   "sample_end": "2026-05-08",
   "sample_tag": "since_2020_01",
   "sample_label": "2020-01 起",
@@ -12,23 +12,25 @@
   "path": "path3",
   "candidate_family": "weekly_high_growth_theme",
   "rebalance_frequency": "weekly",
+  "risk_evaluation_frequency": "weekly",
+  "risk_overlay_scope": "",
   "signal_family": "path2_theme",
   "base_weight_method": "equal_weight",
   "selection_overlay": "独立沪港通策略线：仅限最新可得沪港通（SH_HK/SZ_HK）名单内的港股，基于动量、突破、流动性与仓位风控做优胜劣汰。",
   "universe_note": "受 Tushare stock_hsgt 历史覆盖限制，当前使用最新可得沪港通名单作为静态回测池。",
   "transaction_cost_note": "当前港股交易成本采用近似双边佣金模型（无印花税建模），仅用于研究比较。",
   "metrics": {
-    "total_return": 1.6986313705671354,
-    "cagr": 0.20245690096144697,
-    "max_drawdown": -0.2980508050232492,
-    "monthly_win_rate": 0.5464285714285714,
-    "annual_volatility": 0.25302961657913253,
-    "sharpe_ratio": 0.8567054338997212,
-    "average_annual_turnover": 29.335840788286003,
-    "cumulative_trading_cost": 0.13473914973101642
+    "total_return": 3.600119676423602,
+    "cagr": 0.27278129296576803,
+    "max_drawdown": -0.37669478411177637,
+    "monthly_win_rate": 0.5683890577507599,
+    "annual_volatility": 0.3135805849093339,
+    "sharpe_ratio": 0.9286813647336628,
+    "average_annual_turnover": 29.956697312375205,
+    "cumulative_trading_cost": 0.2466813170271803
   },
   "warnings": [
     "沪港通历史标的列表受 Tushare stock_hsgt 接口限制（仅 2025-08-12 起可取），当前研究使用最新可得沪港通名单作为静态回测池。",
-    "回测起点被后移：requested=2020-01-01 effective=2020-12-14 (受可用调仓点/数据覆盖影响)"
+    "回测起点被后移：requested=2020-01-01 effective=2020-01-06 (受可用调仓点/数据覆盖影响)"
   ]
 }

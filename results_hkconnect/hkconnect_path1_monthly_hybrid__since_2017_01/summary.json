@@ -1,7 +1,7 @@
 {
   "pool_id": "hkconnect_static_latest",
   "pool_name": "沪港通静态标的池（最新可得名单）",
-  "sample_start": "2021-01-04",
+  "sample_start": "2017-02-01",
   "sample_end": "2026-04-30",
   "sample_tag": "since_2017_01",
   "sample_label": "2017-01 起",
@@ -12,23 +12,25 @@
   "path": "path1",
   "candidate_family": "monthly_moderate",
   "rebalance_frequency": "monthly",
+  "risk_evaluation_frequency": "monthly",
+  "risk_overlay_scope": "",
   "signal_family": "path1_moderate",
   "base_weight_method": "total_mv",
   "selection_overlay": "独立沪港通策略线：仅限最新可得沪港通（SH_HK/SZ_HK）名单内的港股，基于动量、突破、流动性与仓位风控做优胜劣汰。",
   "universe_note": "受 Tushare stock_hsgt 历史覆盖限制，当前使用最新可得沪港通名单作为静态回测池。",
   "transaction_cost_note": "当前港股交易成本采用近似双边佣金模型（无印花税建模），仅用于研究比较。",
   "metrics": {
-    "total_return": 1.399772341690035,
-    "cagr": 0.17837055856051331,
-    "max_drawdown": -0.12605009953657842,
-    "monthly_win_rate": 0.625,
-    "annual_volatility": 0.13316241091548106,
-    "sharpe_ratio": 1.3056067877248618,
-    "average_annual_turnover": 1.5912326182172762,
-    "cumulative_trading_cost": 0.007301201545334439
+    "total_return": 3.6347407203946016,
+    "cagr": 0.1803281113815105,
+    "max_drawdown": -0.1971387878704084,
+    "monthly_win_rate": 0.6396396396396397,
+    "annual_volatility": 0.15684872960368962,
+    "sharpe_ratio": 1.1408063371677766,
+    "average_annual_turnover": 1.790906924489972,
+    "cumulative_trading_cost": 0.020984691715497692
   },
   "warnings": [
     "沪港通历史标的列表受 Tushare stock_hsgt 接口限制（仅 2025-08-12 起可取），当前研究使用最新可得沪港通名单作为静态回测池。",
-    "回测起点被后移：requested=2017-01-01 effective=2021-01-04 (受可用调仓点/数据覆盖影响)"
+    "回测起点被后移：requested=2017-01-01 effective=2017-02-01 (受可用调仓点/数据覆盖影响)"
   ]
 }

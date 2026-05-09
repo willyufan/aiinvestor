@@ -304,6 +304,17 @@ def _latest_per_strategy_window(frame: pd.DataFrame) -> pd.DataFrame:
     return typed.groupby(["strategy_base_id", "sample_tag"], as_index=False).tail(1)
 
 
+def _filter_to_current_as_of(latest: pd.DataFrame) -> pd.DataFrame:
+    typed = latest.copy()
+    typed["sample_end"] = pd.to_datetime(typed["sample_end"], errors="coerce")
+    typed = typed.dropna(subset=["sample_end"])
+    if typed.empty:
+        return latest
+    current_as_of = typed["sample_end"].max()
+    fresh = typed[typed["sample_end"] == current_as_of].copy()
+    return fresh if not fresh.empty else typed
+
+
 def _weighted_metric(group: pd.DataFrame, weights: dict[str, float], column: str) -> float:
     total = 0.0
     for sample_tag, weight in weights.items():
@@ -981,21 +992,36 @@ def update_core_active_registry(
     return registry_payload
 
 
-def _compute_window_metrics(equity: pd.DataFrame, monthly_returns: pd.DataFrame, turnover: pd.DataFrame) -> dict[str, float]:
+def _compute_window_metrics(
+    equity: pd.DataFrame,
+    monthly_returns: pd.DataFrame,
+    turnover: pd.DataFrame,
+    *,
+    rebalance_frequency: str = "monthly",
+) -> dict[str, float]:
     nav = equity["nav"].astype(float)
     monthly_net = monthly_returns["net_return"].astype(float)
+    periods_per_year = 12.0
+    if str(rebalance_frequency).strip().lower() == "weekly":
+        periods_per_year = 52.0
+    elif str(rebalance_frequency).strip().lower() == "biweekly":
+        periods_per_year = 26.0
     total_return = float(nav.iloc[-1] - 1.0)
     periods = len(monthly_net)
-    years = periods / 12.0 if periods > 0 else np.nan
+    years = periods / periods_per_year if periods > 0 else np.nan
     cagr = float(nav.iloc[-1] ** (1 / years) - 1) if periods > 0 and nav.iloc[-1] > 0 else np.nan
     max_drawdown = float(equity["drawdown"].min())
-    annual_volatility = float(monthly_net.std(ddof=1) * np.sqrt(12)) if periods > 1 else np.nan
+    annual_volatility = float(monthly_net.std(ddof=1) * np.sqrt(periods_per_year)) if periods > 1 else np.nan
     sharpe_ratio = (
-        float((monthly_net.mean() / monthly_net.std(ddof=1)) * np.sqrt(12))
+        float((monthly_net.mean() / monthly_net.std(ddof=1)) * np.sqrt(periods_per_year))
         if periods > 1 and monthly_net.std(ddof=1) > 0
         else np.nan
     )
-    average_annual_turnover = float(turnover["one_way_turnover"].mean() * 12) if not turnover.empty else np.nan
+    average_annual_turnover = (
+        float(turnover["one_way_turnover"].astype(float).sum() / years)
+        if not turnover.empty and periods > 0 and years > 0
+        else np.nan
+    )
     return {
         "total_return": total_return,
         "cagr": cagr,
@@ -1040,8 +1066,16 @@ def _slice_window_from_existing_results(base_id: str, sample_tag: str) -> dict[s
         equity_path = result_dir / "equity_curve.csv"
         monthly_path = result_dir / "monthly_returns.csv"
         turnover_path = result_dir / "turnover.csv"
+        summary_path = result_dir / "summary.json"
         if not (equity_path.exists() and monthly_path.exists() and turnover_path.exists()):
             continue
+        rebalance_frequency = "monthly"
+        if summary_path.exists():
+            try:
+                summary_payload = json.loads(summary_path.read_text(encoding="utf-8"))
+                rebalance_frequency = str(summary_payload.get("rebalance_frequency") or "monthly")
+            except Exception:
+                rebalance_frequency = "monthly"
         equity = pd.read_csv(equity_path, parse_dates=["date"])
         if equity.empty or "date" not in equity.columns:
             continue
@@ -1061,7 +1095,12 @@ def _slice_window_from_existing_results(base_id: str, sample_tag: str) -> dict[s
         equity_window["drawdown"] = equity_window["nav"] / equity_window["nav"].cummax() - 1.0
         monthly_window = monthly_returns[monthly_returns["date"] >= sample_start].copy()
         turnover_window = turnover[turnover["date"] >= sample_start].copy()
-        return _compute_window_metrics(equity_window, monthly_window, turnover_window)
+        return _compute_window_metrics(
+            equity_window,
+            monthly_window,
+            turnover_window,
+            rebalance_frequency=rebalance_frequency,
+        )
     return None
 
 
@@ -1150,17 +1189,18 @@ def _pick_path2_candidate(latest: pd.DataFrame) -> tuple[str, dict[str, float]]:
     if not candidates:
         raise RuntimeError("No strategies have all four windows to compute Path 2 candidate.")
 
-    candidates.sort(
-        key=lambda item: (
-            item[1]["cagr_mean"],
-            item[1]["cagr_min"],
-            item[1]["sharpe_mean"],
-            item[1]["max_drawdown_worst"],
-            -item[1]["turnover_mean"],
-        ),
-        reverse=True,
-    )
+    candidates.sort(key=lambda item: _robust_sort_key(item[1]), reverse=True)
     return candidates[0]
+
+
+def _robust_sort_key(summary: dict[str, float]) -> tuple[float, float, float, float, float]:
+    return (
+        float(summary["cagr_min"]),
+        float(summary["max_drawdown_worst"]),
+        float(summary["sharpe_mean"]),
+        float(summary["cagr_mean"]),
+        -float(summary["turnover_mean"]),
+    )
 
 
 def _pick_robust_candidate(latest: pd.DataFrame, *, allowed_base_ids: set[str] | None = None) -> tuple[str, dict[str, float]]:
@@ -1190,16 +1230,7 @@ def _pick_robust_candidate(latest: pd.DataFrame, *, allowed_base_ids: set[str] |
         candidates.append((base_id_str, summary))
     if not candidates:
         raise RuntimeError("No strategies have all four windows to compute robust candidate.")
-    candidates.sort(
-        key=lambda item: (
-            item[1]["cagr_mean"],
-            item[1]["cagr_min"],
-            item[1]["sharpe_mean"],
-            item[1]["max_drawdown_worst"],
-            -item[1]["turnover_mean"],
-        ),
-        reverse=True,
-    )
+    candidates.sort(key=lambda item: _robust_sort_key(item[1]), reverse=True)
     return candidates[0]
 
 
@@ -1376,7 +1407,7 @@ def main() -> None:
     args = parser.parse_args()
 
     frame = pd.read_csv(args.comparison_csv)
-    latest = _augment_with_synthetic_windows(_latest_per_strategy_window(frame))
+    latest = _filter_to_current_as_of(_augment_with_synthetic_windows(_latest_per_strategy_window(frame)))
     strategies = _build_strategy_map(latest)
     if not strategies:
         raise RuntimeError("No strategies with complete 2017/2020/2023 windows found in comparison CSV.")

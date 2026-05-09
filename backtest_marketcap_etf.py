@@ -5851,7 +5851,11 @@ def compute_metrics(
     win_rate = float((period_net > 0).mean()) if periods > 0 else np.nan
     annual_volatility = float(period_net.std(ddof=1) * math.sqrt(periods_per_year)) if periods > 1 else np.nan
     sharpe_ratio = float((period_net.mean() / period_net.std(ddof=1)) * math.sqrt(periods_per_year)) if periods > 1 and period_net.std(ddof=1) > 0 else np.nan
-    average_annual_turnover = float(turnover["one_way_turnover"].mean() * periods_per_year) if not turnover.empty else np.nan
+    average_annual_turnover = (
+        float(turnover["one_way_turnover"].astype(float).sum() / years)
+        if not turnover.empty and periods > 0 and years > 0
+        else np.nan
+    )
     cumulative_trading_cost = float(turnover["trading_cost"].sum()) if not turnover.empty else 0.0
 
     return {

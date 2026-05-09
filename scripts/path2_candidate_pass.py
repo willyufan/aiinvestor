@@ -74,6 +74,27 @@ def _latest_per_strategy_window(frame: pd.DataFrame) -> pd.DataFrame:
     return typed.groupby(["strategy_base_id", "sample_tag"], as_index=False).tail(1)
 
 
+def _filter_to_current_as_of(latest: pd.DataFrame) -> pd.DataFrame:
+    typed = latest.copy()
+    typed["sample_end"] = pd.to_datetime(typed["sample_end"], errors="coerce")
+    typed = typed.dropna(subset=["sample_end"])
+    if typed.empty:
+        return latest
+    current_as_of = typed["sample_end"].max()
+    fresh = typed[typed["sample_end"] == current_as_of].copy()
+    return fresh if not fresh.empty else typed
+
+
+def _robust_sort_key(metrics: dict[str, float]) -> tuple[float, float, float, float, float]:
+    return (
+        float(metrics["cagr_min"]),
+        float(metrics["max_drawdown_worst"]),
+        float(metrics["sharpe_mean"]),
+        float(metrics["cagr_mean"]),
+        -float(metrics["turnover_mean"]),
+    )
+
+
 def _matches_path2(base_id: str, prefixes: list[str], variant_ids: list[str]) -> bool:
     if any(base_id.startswith(prefix) for prefix in prefixes):
         return True
@@ -123,7 +144,7 @@ def main() -> None:
 
     prefixes, variant_ids, family_rules = load_path2_scan_rules(args.backtest_script)
     frame = pd.read_csv(args.comparison_csv)
-    latest = _augment_with_synthetic_windows(_latest_per_strategy_window(frame))
+    latest = _filter_to_current_as_of(_augment_with_synthetic_windows(_latest_per_strategy_window(frame)))
     latest["strategy_base_id"] = latest["strategy_base_id"].astype(str)
     latest["sample_tag"] = latest["sample_tag"].astype(str)
 
@@ -204,16 +225,7 @@ def main() -> None:
                 },
             )
         )
-    robust_candidates.sort(
-        key=lambda item: (
-            item[1]["cagr_mean"],
-            item[1]["cagr_min"],
-            item[1]["sharpe_mean"],
-            item[1]["max_drawdown_worst"],
-            -item[1]["turnover_mean"],
-        ),
-        reverse=True,
-    )
+    robust_candidates.sort(key=lambda item: _robust_sort_key(item[1]), reverse=True)
 
     family_ranked_candidates: dict[str, list[dict[str, Any]]] = {}
     for family_name, family_ids in family_candidates.items():

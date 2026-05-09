@@ -107,6 +107,16 @@ def _pick_winner(subset: pd.DataFrame) -> pd.Series:
     return ranked.iloc[0]
 
 
+def _robust_sort_key(metrics: dict[str, float]) -> tuple[float, float, float, float, float]:
+    return (
+        float(metrics["cagr_min"]),
+        float(metrics["max_drawdown_worst"]),
+        float(metrics["sharpe_mean"]),
+        float(metrics["cagr_mean"]),
+        -float(metrics["turnover_mean"]),
+    )
+
+
 def _pick_robust(subset: pd.DataFrame) -> tuple[str, dict[str, float]]:
     rows: list[tuple[str, dict[str, float]]] = []
     for strategy_id, group in subset.groupby("strategy_id"):
@@ -128,16 +138,7 @@ def _pick_robust(subset: pd.DataFrame) -> tuple[str, dict[str, float]]:
         )
     if not rows:
         raise RuntimeError("No HK Connect strategy has all tracked windows.")
-    rows.sort(
-        key=lambda item: (
-            item[1]["cagr_mean"],
-            item[1]["cagr_min"],
-            item[1]["sharpe_mean"],
-            item[1]["max_drawdown_worst"],
-            -item[1]["turnover_mean"],
-        ),
-        reverse=True,
-    )
+    rows.sort(key=lambda item: _robust_sort_key(item[1]), reverse=True)
     return rows[0]
 
 

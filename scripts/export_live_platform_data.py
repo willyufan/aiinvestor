@@ -46,6 +46,8 @@ SAMPLE_TAG_LABELS = {
 def infer_adjustment_style(strategy_id: str, rebalance_frequency: str) -> str:
     strategy_id = str(strategy_id or "")
     rebalance_frequency = str(rebalance_frequency or "monthly")
+    if "weekly_overlay" in strategy_id:
+        return "月度换股 + 周度总仓位"
     if "__port_weekly_exposure_buffered" in strategy_id:
         return "月度换股 + 周度总仓位（双周确认）"
     if "__port_weekly_exposure_asym" in strategy_id:
@@ -742,7 +744,7 @@ def _pick_hk_robust_candidate(df: pd.DataFrame, path_name: str) -> str | None:
             }
         )
     ranked = pd.DataFrame(metrics_rows).sort_values(
-        ["avg_cagr", "min_cagr", "avg_sharpe", "worst_dd", "avg_turn"],
+        ["min_cagr", "worst_dd", "avg_sharpe", "avg_cagr", "avg_turn"],
         ascending=[False, False, False, False, True],
     )
     return str(ranked.iloc[0]["strategy_id"]) if not ranked.empty else None

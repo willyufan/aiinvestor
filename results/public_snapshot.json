@@ -934,8 +934,8 @@
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 0.034,
-          "sharpe": 0.531,
+          "cagr": 0.1559,
+          "sharpe": 1.1054,
           "max_drawdown": -0.2234,
           "total_return": 0.0485
         }
@@ -1046,8 +1046,8 @@
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 0.1166,
-          "sharpe": 0.8745,
+          "cagr": 0.6128,
+          "sharpe": 1.8204,
           "max_drawdown": -0.2034,
           "total_return": 0.1691
         }
@@ -1161,8 +1161,8 @@
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 0.034,
-          "sharpe": 0.531,
+          "cagr": 0.1559,
+          "sharpe": 1.1054,
           "max_drawdown": -0.2234,
           "total_return": 0.0485
         }
@@ -1271,8 +1271,8 @@
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 0.3488,
-          "sharpe": 2.4329,
+          "cagr": 2.6563,
+          "sharpe": 5.0644,
           "max_drawdown": -0.0584,
           "total_return": 0.5278
         }
@@ -1421,8 +1421,8 @@
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 0.034,
-          "sharpe": 0.531,
+          "cagr": 0.1559,
+          "sharpe": 1.1054,
           "max_drawdown": -0.2234,
           "total_return": 0.0485
         }
@@ -1491,28 +1491,28 @@
       "data_as_of": "2026-05-08",
       "signal_effective_date": "2026-04-30",
       "metrics": {
-        "cagr": 0.2484,
-        "sharpe": 1.4406,
-        "max_drawdown": -0.1479,
-        "total_return": 2.2651,
-        "turnover": 2.786
+        "cagr": 0.2403,
+        "sharpe": 1.2852,
+        "max_drawdown": -0.2359,
+        "total_return": 6.3329,
+        "turnover": 3.0865
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.2484,
+          "cagr": 0.2403,
           "sharpe": 0.0,
-          "max_drawdown": -0.1479,
-          "total_return": 2.2651
+          "max_drawdown": -0.2359,
+          "total_return": 6.3329
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.2484,
+          "cagr": 0.2997,
           "sharpe": 0.0,
           "max_drawdown": -0.1479,
-          "total_return": 2.2651
+          "total_return": 4.1467
         },
         {
           "tag": "since_2023_01",
@@ -1608,41 +1608,401 @@
       ]
     },
     {
-      "strategy_id": "hkconnect_path2_theme_monthly",
-      "display_name": "hkconnect_path2_theme_monthly",
+      "strategy_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay",
+      "display_name": "hkconnect_path1_monthly_equal_buffered_weekly_overlay",
+      "path": "path1",
+      "market_scope": "hkconnect",
+      "winner_type": "2020-window winner",
+      "window_label": "2020 窗口",
+      "sample_tag": "since_2020_01",
+      "risk_state": "caution",
+      "target_exposure": 0.9939,
+      "updated_at": "2026-04-30",
+      "data_as_of": "2026-05-08",
+      "signal_effective_date": "2026-04-30",
+      "metrics": {
+        "cagr": 0.3121,
+        "sharpe": 1.521,
+        "max_drawdown": -0.1483,
+        "total_return": 4.4626,
+        "turnover": 3.5241
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.2401,
+          "sharpe": 0.0,
+          "max_drawdown": -0.26,
+          "total_return": 6.3209
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.3121,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1483,
+          "total_return": 4.4626
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.332,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1483,
+          "total_return": 1.5391
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.3992,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1483,
+          "total_return": 0.5218
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": -0.1345,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1183,
+          "total_return": -0.0355
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.109183
+        },
+        {
+          "ts_code": "00005.HK",
+          "name": "汇丰控股",
+          "weight": 0.098921
+        },
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.095423
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.088091
+        },
+        {
+          "ts_code": "02628.HK",
+          "name": "中国人寿",
+          "weight": 0.086574
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.078831
+        },
+        {
+          "ts_code": "02318.HK",
+          "name": "中国平安",
+          "weight": 0.077524
+        },
+        {
+          "ts_code": "03993.HK",
+          "name": "洛阳钼业",
+          "weight": 0.077146
+        },
+        {
+          "ts_code": "02899.HK",
+          "name": "紫金矿业",
+          "weight": 0.076808
+        },
+        {
+          "ts_code": "02600.HK",
+          "name": "中国铝业",
+          "weight": 0.072939
+        },
+        {
+          "ts_code": "01378.HK",
+          "name": "中国宏桥",
+          "weight": 0.068699
+        },
+        {
+          "ts_code": "06869.HK",
+          "name": "长飞光纤光缆",
+          "weight": 0.063733
+        },
+        {
+          "ts_code": "CASH",
+          "name": "现金",
+          "weight": 0.006129
+        }
+      ]
+    },
+    {
+      "strategy_id": "hkconnect_path2_equal_elastic_monthly",
+      "display_name": "hkconnect_path2_equal_elastic_monthly",
       "path": "path2",
       "market_scope": "hkconnect",
       "winner_type": "2017-window winner",
       "window_label": "2017 窗口",
       "sample_tag": "since_2017_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-04-30",
+      "data_as_of": "2026-05-08",
+      "signal_effective_date": "2026-04-30",
+      "metrics": {
+        "cagr": 0.2184,
+        "sharpe": 0.9475,
+        "max_drawdown": -0.3676,
+        "total_return": 5.2144,
+        "turnover": 6.7987
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.2184,
+          "sharpe": 0.0,
+          "max_drawdown": -0.3676,
+          "total_return": 5.2144
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.2579,
+          "sharpe": 0.0,
+          "max_drawdown": -0.3676,
+          "total_return": 3.1955
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.1831,
+          "sharpe": 0.0,
+          "max_drawdown": -0.386,
+          "total_return": 0.7271
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.8797,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0847,
+          "total_return": 1.201
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.696,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0559,
+          "total_return": 0.1412
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "03698.HK",
+          "name": "徽商银行",
+          "weight": 0.137425
+        },
+        {
+          "ts_code": "06869.HK",
+          "name": "长飞光纤光缆",
+          "weight": 0.130164
+        },
+        {
+          "ts_code": "01171.HK",
+          "name": "兖矿能源",
+          "weight": 0.12421
+        },
+        {
+          "ts_code": "00288.HK",
+          "name": "万洲国际",
+          "weight": 0.093137
+        },
+        {
+          "ts_code": "00019.HK",
+          "name": "太古股份公司A",
+          "weight": 0.089367
+        },
+        {
+          "ts_code": "00270.HK",
+          "name": "粤海投资",
+          "weight": 0.088632
+        },
+        {
+          "ts_code": "00631.HK",
+          "name": "三一国际",
+          "weight": 0.087045
+        },
+        {
+          "ts_code": "01898.HK",
+          "name": "中煤能源",
+          "weight": 0.08626
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.082839
+        },
+        {
+          "ts_code": "06693.HK",
+          "name": "赤峰黄金",
+          "weight": 0.080921
+        }
+      ]
+    },
+    {
+      "strategy_id": "hkconnect_path2_inverse_elastic_monthly",
+      "display_name": "hkconnect_path2_inverse_elastic_monthly",
+      "path": "path2",
+      "market_scope": "hkconnect",
+      "winner_type": "2020-window winner",
+      "window_label": "2020 窗口",
+      "sample_tag": "since_2020_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-04-30",
+      "data_as_of": "2026-05-08",
+      "signal_effective_date": "2026-04-30",
+      "metrics": {
+        "cagr": 0.2582,
+        "sharpe": 1.0054,
+        "max_drawdown": -0.3676,
+        "total_return": 3.201,
+        "turnover": 6.6446
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.2173,
+          "sharpe": 0.0,
+          "max_drawdown": -0.3676,
+          "total_return": 5.1654
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.2582,
+          "sharpe": 0.0,
+          "max_drawdown": -0.3676,
+          "total_return": 3.201
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.1831,
+          "sharpe": 0.0,
+          "max_drawdown": -0.386,
+          "total_return": 0.7271
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.8797,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0847,
+          "total_return": 1.201
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.696,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0559,
+          "total_return": 0.1412
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "03698.HK",
+          "name": "徽商银行",
+          "weight": 0.137425
+        },
+        {
+          "ts_code": "06869.HK",
+          "name": "长飞光纤光缆",
+          "weight": 0.130164
+        },
+        {
+          "ts_code": "01171.HK",
+          "name": "兖矿能源",
+          "weight": 0.12421
+        },
+        {
+          "ts_code": "00288.HK",
+          "name": "万洲国际",
+          "weight": 0.093137
+        },
+        {
+          "ts_code": "00019.HK",
+          "name": "太古股份公司A",
+          "weight": 0.089367
+        },
+        {
+          "ts_code": "00270.HK",
+          "name": "粤海投资",
+          "weight": 0.088632
+        },
+        {
+          "ts_code": "00631.HK",
+          "name": "三一国际",
+          "weight": 0.087045
+        },
+        {
+          "ts_code": "01898.HK",
+          "name": "中煤能源",
+          "weight": 0.08626
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.082839
+        },
+        {
+          "ts_code": "06693.HK",
+          "name": "赤峰黄金",
+          "weight": 0.080921
+        }
+      ]
+    },
+    {
+      "strategy_id": "hkconnect_path2_theme_monthly",
+      "display_name": "hkconnect_path2_theme_monthly",
+      "path": "path2",
+      "market_scope": "hkconnect",
+      "winner_type": "2023-window winner",
+      "window_label": "2023 窗口",
+      "sample_tag": "since_2023_01",
       "risk_state": "caution",
       "target_exposure": 0.9977,
       "updated_at": "2026-04-30",
       "data_as_of": "2026-05-08",
       "signal_effective_date": "2026-04-30",
       "metrics": {
-        "cagr": 0.2157,
-        "sharpe": 1.1176,
-        "max_drawdown": -0.1898,
-        "total_return": 1.8342,
-        "turnover": 6.6156
+        "cagr": 0.3122,
+        "sharpe": 1.4133,
+        "max_drawdown": -0.1607,
+        "total_return": 1.4184,
+        "turnover": 6.0187
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.2157,
+          "cagr": 0.1864,
           "sharpe": 0.0,
-          "max_drawdown": -0.1898,
-          "total_return": 1.8342
+          "max_drawdown": -0.3099,
+          "total_return": 3.8595
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.2157,
+          "cagr": 0.2529,
           "sharpe": 0.0,
-          "max_drawdown": -0.1898,
-          "total_return": 1.8342
+          "max_drawdown": -0.18,
+          "total_return": 3.0931
         },
         {
           "tag": "since_2023_01",
@@ -1741,18 +2101,18 @@
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.0704,
+          "cagr": 0.0975,
           "sharpe": 0.0,
-          "max_drawdown": -0.5875,
-          "total_return": 0.4376
+          "max_drawdown": -0.5876,
+          "total_return": 1.3638
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.0704,
+          "cagr": 0.1322,
           "sharpe": 0.0,
-          "max_drawdown": -0.5875,
-          "total_return": 0.4376
+          "max_drawdown": -0.5876,
+          "total_return": 1.1729
         },
         {
           "tag": "since_2023_01",
@@ -1803,8 +2163,8 @@
       ]
     },
     {
-      "strategy_id": "hkconnect_path3_theme_fast_weekly_defensive",
-      "display_name": "hkconnect_path3_theme_fast_weekly_defensive",
+      "strategy_id": "hkconnect_path3_stable_weekly_equal_buffered",
+      "display_name": "hkconnect_path3_stable_weekly_equal_buffered",
       "path": "path3",
       "market_scope": "hkconnect",
       "winner_type": "2017-window winner",
@@ -1816,44 +2176,159 @@
       "data_as_of": "2026-05-08",
       "signal_effective_date": "2026-05-08",
       "metrics": {
-        "cagr": 0.2386,
-        "sharpe": 0.9638,
-        "max_drawdown": -0.2845,
-        "total_return": 2.1652,
-        "turnover": 29.2269
+        "cagr": 0.2178,
+        "sharpe": 0.98,
+        "max_drawdown": -0.3366,
+        "total_return": 5.2847,
+        "turnover": 10.8313
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.2386,
+          "cagr": 0.2178,
           "sharpe": 0.0,
-          "max_drawdown": -0.2845,
-          "total_return": 2.1652
+          "max_drawdown": -0.3366,
+          "total_return": 5.2847
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.2386,
+          "cagr": 0.2505,
           "sharpe": 0.0,
-          "max_drawdown": -0.2845,
-          "total_return": 2.1652
+          "max_drawdown": -0.3366,
+          "total_return": 3.1132
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.3974,
+          "cagr": 0.3328,
           "sharpe": 0.0,
-          "max_drawdown": -0.1916,
-          "total_return": 2.0246
+          "max_drawdown": -0.1339,
+          "total_return": 1.5864
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.7807,
+          "cagr": 0.445,
           "sharpe": 0.0,
-          "max_drawdown": -0.1782,
-          "total_return": 1.1744
+          "max_drawdown": -0.1339,
+          "total_return": 0.6414
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": -0.0878,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1024,
+          "total_return": -0.0313
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.115564
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.110318
+        },
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.104273
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.103732
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.102126
+        },
+        {
+          "ts_code": "02601.HK",
+          "name": "中国太保",
+          "weight": 0.098104
+        },
+        {
+          "ts_code": "01113.HK",
+          "name": "长实集团",
+          "weight": 0.097643
+        },
+        {
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.096356
+        },
+        {
+          "ts_code": "01171.HK",
+          "name": "兖矿能源",
+          "weight": 0.091688
+        },
+        {
+          "ts_code": "01898.HK",
+          "name": "中煤能源",
+          "weight": 0.084374
+        }
+      ]
+    },
+    {
+      "strategy_id": "hkconnect_path3_theme_fast_weekly_buffered",
+      "display_name": "hkconnect_path3_theme_fast_weekly_buffered",
+      "path": "path3",
+      "market_scope": "hkconnect",
+      "winner_type": "2020-window winner",
+      "window_label": "2020 窗口",
+      "sample_tag": "since_2020_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-08",
+      "data_as_of": "2026-05-08",
+      "signal_effective_date": "2026-05-08",
+      "metrics": {
+        "cagr": 0.2762,
+        "sharpe": 0.9164,
+        "max_drawdown": -0.3443,
+        "total_return": 3.6779,
+        "turnover": 30.9272
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.2035,
+          "sharpe": 0.0,
+          "max_drawdown": -0.4687,
+          "total_return": 4.6287
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.2762,
+          "sharpe": 0.0,
+          "max_drawdown": -0.3443,
+          "total_return": 3.6779
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.4082,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1956,
+          "total_return": 2.1025
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.7806,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1781,
+          "total_return": 1.1742
         },
         {
           "tag": "since_2026_01",
@@ -1893,57 +2368,57 @@
       ]
     },
     {
-      "strategy_id": "hkconnect_path3_theme_fast_weekly_buffered",
-      "display_name": "hkconnect_path3_theme_fast_weekly_buffered",
+      "strategy_id": "hkconnect_path3_theme_fast_weekly_defensive",
+      "display_name": "hkconnect_path3_theme_fast_weekly_defensive",
       "path": "path3",
       "market_scope": "hkconnect",
-      "winner_type": "2023-window winner",
-      "window_label": "2023 窗口",
-      "sample_tag": "since_2023_01",
+      "winner_type": "2025-window winner",
+      "window_label": "2025 窗口",
+      "sample_tag": "since_2025_01",
       "risk_state": "risk_on",
       "target_exposure": 1.0,
       "updated_at": "2026-05-08",
       "data_as_of": "2026-05-08",
       "signal_effective_date": "2026-05-08",
       "metrics": {
-        "cagr": 0.4082,
-        "sharpe": 1.3156,
-        "max_drawdown": -0.1956,
-        "total_return": 2.1025,
-        "turnover": 29.6171
+        "cagr": 0.7807,
+        "sharpe": 1.7678,
+        "max_drawdown": -0.1782,
+        "total_return": 1.1744,
+        "turnover": 34.7153
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.2298,
+          "cagr": 0.1996,
           "sharpe": 0.0,
-          "max_drawdown": -0.339,
-          "total_return": 2.0466
+          "max_drawdown": -0.4669,
+          "total_return": 4.4598
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.2298,
+          "cagr": 0.2701,
           "sharpe": 0.0,
-          "max_drawdown": -0.339,
-          "total_return": 2.0466
+          "max_drawdown": -0.3411,
+          "total_return": 3.5399
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.4082,
+          "cagr": 0.3974,
           "sharpe": 0.0,
-          "max_drawdown": -0.1956,
-          "total_return": 2.1025
+          "max_drawdown": -0.1916,
+          "total_return": 2.0246
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.7806,
+          "cagr": 0.7807,
           "sharpe": 0.0,
-          "max_drawdown": -0.1781,
-          "total_return": 1.1742
+          "max_drawdown": -0.1782,
+          "total_return": 1.1744
         },
         {
           "tag": "since_2026_01",
