@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-05-09 13:04 CST）
+
+- 本轮与港股 Path 1 同批运行五窗口离线回测，再运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py` 同步 tracked payload 与图表。
+- Path 2 tracked winners 身份未漂移：`since_2017_01 / since_2020_01 / since_2023_01` 仍是 `hkconnect_path2_theme_fast_weekly`。
+- `hkconnect_path2_theme_fast_weekly` 长窗为 `23.47% CAGR / -33.61% MaxDD / 0.9339 Sharpe / 30.48 Turnover`，`since_2023_01` 为 `40.80% CAGR / -19.56% MaxDD / 1.3152 Sharpe / 29.62 Turnover`。
+- `since_2025_01` 继续是 `hkconnect_path2_breakout_concentrated_monthly`，`97.73% CAGR / -7.23% MaxDD / 2.3476 Sharpe / 9.05 Turnover`；四窗口 robust candidate 仍是 `hkconnect_path2_theme_fast_weekly`，`meanCAGR=41.45% / minCAGR=23.47% / worstMaxDD=-33.61% / meanTurn=31.32`。
+- 周频、双周、月频候选继续全部保留，不因月频短窗胜出而停止高频路线探索。
+
 ## 本轮执行计划（2026-05-09 05:08 CST）
 
 - 本轮与港股 Path 1 同批运行五窗口离线回测，再运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py` 同步 tracked payload 与图表。
