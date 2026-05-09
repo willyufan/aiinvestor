@@ -1,5 +1,13 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-05-09 21:14 CST）
+
+- 本轮继续以港股三路径拆分口径运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，随后运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`。
+- Path 1 继续只保留实盘稳健线的月度/双周候选；纯周度候选保持迁移到独立 Path 3。
+- tracked payload 仍为 `as_of=2026-05-08`；Path 1 `since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01` 与四窗口 robust candidate 全部统一到 `hkconnect_path1_monthly_equal_buffered`。
+- 关键指标：`since_2020_01` 为 `24.84% CAGR / -14.79% MaxDD / 1.4406 Sharpe / 2.79 Turnover`，`since_2023_01` 为 `33.85% / -14.79% / 1.6907 / 2.87`，`since_2025_01` 为 `40.41% / -14.79% / 1.5271 / 3.46`。
+- `since_2026_01` 只观察，当前 Path 1 raw leader 仍是 `hkconnect_path1_biweekly_lowvol`；本轮 HK Path 3 有新周频 winner，但不并回 Path 1。
+
 ## 本轮执行计划（2026-05-09 18:09 CST）
 
 - 本轮继续以港股三路径拆分口径运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，随后运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`。

@@ -129,51 +129,51 @@
     },
     "path3": {
       "since_2017_01": {
-        "winner": "hkconnect_path3_theme_fast_weekly",
+        "winner": "hkconnect_path3_theme_fast_weekly_defensive",
         "metrics": {
           "sample_start": "2020-12-14",
           "sample_end": "2026-05-08",
-          "total_return": 2.11232461,
-          "cagr": 0.23473258,
-          "max_drawdown": -0.33606135,
-          "sharpe_ratio": 0.93387318,
-          "average_annual_turnover": 30.48342163
+          "total_return": 2.16523786,
+          "cagr": 0.23860437,
+          "max_drawdown": -0.28453542,
+          "sharpe_ratio": 0.96379807,
+          "average_annual_turnover": 29.22686726
         }
       },
       "since_2020_01": {
-        "winner": "hkconnect_path3_theme_fast_weekly",
+        "winner": "hkconnect_path3_theme_fast_weekly_defensive",
         "metrics": {
           "sample_start": "2020-12-14",
           "sample_end": "2026-05-08",
-          "total_return": 2.11232461,
-          "cagr": 0.23473258,
-          "max_drawdown": -0.33606135,
-          "sharpe_ratio": 0.93387318,
-          "average_annual_turnover": 30.48342163
+          "total_return": 2.16523786,
+          "cagr": 0.23860437,
+          "max_drawdown": -0.28453542,
+          "sharpe_ratio": 0.96379807,
+          "average_annual_turnover": 29.22686726
         }
       },
       "since_2023_01": {
-        "winner": "hkconnect_path3_theme_fast_weekly",
+        "winner": "hkconnect_path3_theme_fast_weekly_buffered",
         "metrics": {
           "sample_start": "2023-01-09",
           "sample_end": "2026-05-08",
-          "total_return": 2.10157422,
-          "cagr": 0.40804932,
+          "total_return": 2.10249591,
+          "cagr": 0.40817581,
           "max_drawdown": -0.19556854,
-          "sharpe_ratio": 1.31517828,
-          "average_annual_turnover": 29.61563008
+          "sharpe_ratio": 1.31556063,
+          "average_annual_turnover": 29.61712409
         }
       },
       "since_2025_01": {
-        "winner": "hkconnect_path3_theme_fast_weekly",
+        "winner": "hkconnect_path3_theme_fast_weekly_defensive",
         "metrics": {
           "sample_start": "2025-01-06",
           "sample_end": "2026-05-08",
-          "total_return": 1.1743458,
-          "cagr": 0.78068447,
-          "max_drawdown": -0.1780945,
-          "sharpe_ratio": 1.76772951,
-          "average_annual_turnover": 34.71420836
+          "total_return": 1.17444618,
+          "cagr": 0.78074553,
+          "max_drawdown": -0.17817505,
+          "sharpe_ratio": 1.76782699,
+          "average_annual_turnover": 34.71534404
         }
       },
       "robust_candidate": {
@@ -2121,6 +2121,168 @@
           "max_drawdown": -0.1780945,
           "sharpe_ratio": 1.76772951,
           "average_annual_turnover": 34.71420836
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-05",
+          "sample_end": "2026-05-08",
+          "total_return": 0.06321142,
+          "cagr": 0.19371639,
+          "max_drawdown": -0.07903069,
+          "sharpe_ratio": 0.74971431,
+          "average_annual_turnover": 32.78529793
+        }
+      }
+    },
+    "hkconnect_path3_theme_fast_weekly_balanced6": {
+      "strategy_name": "沪港通Path3 单周快速主线(六持仓)",
+      "path": "path3",
+      "candidate_family": "weekly_high_growth_theme_balanced",
+      "rebalance_frequency": "weekly",
+      "short_label": "theme\nfast\nweekly\nbalanced6",
+      "windows": {
+        "since_2017_01": {
+          "sample_start": "2020-12-14",
+          "sample_end": "2026-05-08",
+          "total_return": 1.63217416,
+          "cagr": 0.19690155,
+          "max_drawdown": -0.30012787,
+          "sharpe_ratio": 0.84216816,
+          "average_annual_turnover": 28.92466812
+        },
+        "since_2020_01": {
+          "sample_start": "2020-12-14",
+          "sample_end": "2026-05-08",
+          "total_return": 1.63217416,
+          "cagr": 0.19690155,
+          "max_drawdown": -0.30012787,
+          "sharpe_ratio": 0.84216816,
+          "average_annual_turnover": 28.92466812
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-09",
+          "sample_end": "2026-05-08",
+          "total_return": 1.60097152,
+          "cagr": 0.33507637,
+          "max_drawdown": -0.22235286,
+          "sharpe_ratio": 1.17131297,
+          "average_annual_turnover": 28.67810155
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-06",
+          "sample_end": "2026-05-08",
+          "total_return": 0.97872083,
+          "cagr": 0.66024187,
+          "max_drawdown": -0.15235742,
+          "sharpe_ratio": 1.69587475,
+          "average_annual_turnover": 33.33361415
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-05",
+          "sample_end": "2026-05-08",
+          "total_return": 0.07319716,
+          "cagr": 0.22639314,
+          "max_drawdown": -0.08597259,
+          "sharpe_ratio": 0.87697609,
+          "average_annual_turnover": 31.59287583
+        }
+      }
+    },
+    "hkconnect_path3_theme_fast_weekly_buffered": {
+      "strategy_name": "沪港通Path3 单周快速主线(宽出场)",
+      "path": "path3",
+      "candidate_family": "weekly_high_growth_theme_buffered",
+      "rebalance_frequency": "weekly",
+      "short_label": "theme\nfast\nweekly\nbuffered",
+      "windows": {
+        "since_2017_01": {
+          "sample_start": "2020-12-14",
+          "sample_end": "2026-05-08",
+          "total_return": 2.04659874,
+          "cagr": 0.2298479,
+          "max_drawdown": -0.33896679,
+          "sharpe_ratio": 0.91719354,
+          "average_annual_turnover": 30.4973223
+        },
+        "since_2020_01": {
+          "sample_start": "2020-12-14",
+          "sample_end": "2026-05-08",
+          "total_return": 2.04659874,
+          "cagr": 0.2298479,
+          "max_drawdown": -0.33896679,
+          "sharpe_ratio": 0.91719354,
+          "average_annual_turnover": 30.4973223
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-09",
+          "sample_end": "2026-05-08",
+          "total_return": 2.10249591,
+          "cagr": 0.40817581,
+          "max_drawdown": -0.19556854,
+          "sharpe_ratio": 1.31556063,
+          "average_annual_turnover": 29.61712409
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-06",
+          "sample_end": "2026-05-08",
+          "total_return": 1.17421208,
+          "cagr": 0.78060312,
+          "max_drawdown": -0.17811176,
+          "sharpe_ratio": 1.76774792,
+          "average_annual_turnover": 34.71710207
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-05",
+          "sample_end": "2026-05-08",
+          "total_return": 0.06321142,
+          "cagr": 0.19371639,
+          "max_drawdown": -0.07903069,
+          "sharpe_ratio": 0.74971431,
+          "average_annual_turnover": 32.78529793
+        }
+      }
+    },
+    "hkconnect_path3_theme_fast_weekly_defensive": {
+      "strategy_name": "沪港通Path3 单周快速主线(降仓)",
+      "path": "path3",
+      "candidate_family": "weekly_high_growth_theme_defensive",
+      "rebalance_frequency": "weekly",
+      "short_label": "theme\nfast\nweekly\ndefensive",
+      "windows": {
+        "since_2017_01": {
+          "sample_start": "2020-12-14",
+          "sample_end": "2026-05-08",
+          "total_return": 2.16523786,
+          "cagr": 0.23860437,
+          "max_drawdown": -0.28453542,
+          "sharpe_ratio": 0.96379807,
+          "average_annual_turnover": 29.22686726
+        },
+        "since_2020_01": {
+          "sample_start": "2020-12-14",
+          "sample_end": "2026-05-08",
+          "total_return": 2.16523786,
+          "cagr": 0.23860437,
+          "max_drawdown": -0.28453542,
+          "sharpe_ratio": 0.96379807,
+          "average_annual_turnover": 29.22686726
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-09",
+          "sample_end": "2026-05-08",
+          "total_return": 2.02456869,
+          "cagr": 0.39738751,
+          "max_drawdown": -0.19161435,
+          "sharpe_ratio": 1.29919169,
+          "average_annual_turnover": 28.92235005
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-06",
+          "sample_end": "2026-05-08",
+          "total_return": 1.17444618,
+          "cagr": 0.78074553,
+          "max_drawdown": -0.17817505,
+          "sharpe_ratio": 1.76782699,
+          "average_annual_turnover": 34.71534404
         },
         "since_2026_01": {
           "sample_start": "2026-01-05",

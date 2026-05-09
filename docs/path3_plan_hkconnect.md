@@ -1,5 +1,13 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-05-09 21:14 CST 复核
+
+- 本轮在 `hkconnect_path3_theme_fast_weekly` 基础上新增 3 个纯周度降换手/降回撤变体：`_buffered`（宽出场）、`_defensive`（风险降仓）、`_balanced6`（六持仓/降集中），Path 3 候选数从 `13` 扩到 `16`，全部仍为 `weekly`。
+- 新 `hkconnect_path3_theme_fast_weekly_defensive` 改写 `since_2017_01 / since_2020_01 / since_2025_01` 窗口 winner：长窗为 `23.86% CAGR / -28.45% MaxDD / 0.9638 Sharpe / 29.23 Turnover`，相对旧 `theme_fast_weekly` 同时改善 CAGR、回撤、Sharpe 与换手。
+- `since_2023_01` 窗口小幅切到 `hkconnect_path3_theme_fast_weekly_buffered`，`40.82% CAGR / -19.56% MaxDD / 1.3156 Sharpe / 29.62 Turnover`；改善幅度很小，主要记录为宽出场对照。
+- 四窗口 robust candidate 仍是旧 `hkconnect_path3_theme_fast_weekly`，`meanCAGR=41.45% / minCAGR=23.47% / worstMaxDD=-33.61% / meanTurn=31.32`，说明降仓变体改善窗口 winner 但尚未改写四窗口均值排序。
+- `since_2026_01` 只观察，当前 raw leader 仍是 `hkconnect_path3_equal_elastic_weekly`；下一轮优先围绕 `defensive` 继续做风险降仓与交易成本敏感性，而不是扩大周频进攻强度。
+
 ## 2026-05-09 18:09 CST 复核
 
 - 本轮继续运行五窗口离线回测，Path 3 候选数保持 `13`，全部为 `weekly`；结果单独写入 `results_hkconnect/tracked_winners_hkconnect.json` 与 `docs/strategy_comparison_hkconnect_path3.png`。

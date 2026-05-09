@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-05-09 21:14 CST）
+
+- 本轮继续以港股三路径拆分口径运行五窗口离线回测，并用 `scripts/update_hkconnect_artifacts.py` 同步 tracked payload 与三张图表。
+- Path 2 继续只保留收益上限探索线的月度/双周主题、突破、高集中、高弹性候选；纯周度主题强度交给 Path 3 独立跟踪。
+- 当前 Path 2 tracked winners：`since_2017_01 / since_2020_01 / since_2023_01` 为 `hkconnect_path2_theme_monthly`，`since_2025_01` 为 `hkconnect_path2_breakout_concentrated_monthly`，四窗口 robust candidate 为 `hkconnect_path2_theme_monthly`。
+- 关键指标：`theme_monthly` 长窗为 `21.57% CAGR / -18.98% MaxDD / 1.1176 Sharpe / 6.62 Turnover`，`since_2023_01` 为 `31.22% / -16.07% / 1.4133 / 6.02`；短窗 `breakout_concentrated_monthly` 为 `97.73% / -7.23% / 2.3476 / 9.05`。
+- `since_2026_01` 只观察，当前 Path 2 raw leader 仍是 `hkconnect_path2_breakout_concentrated_monthly`；本轮新增 weekly 降仓/宽出场变体只归入 Path 3。
+
 ## 本轮执行计划（2026-05-09 18:09 CST）
 
 - 本轮继续以港股三路径拆分口径运行五窗口离线回测，并用 `scripts/update_hkconnect_artifacts.py` 同步 tracked payload 与三张图表。

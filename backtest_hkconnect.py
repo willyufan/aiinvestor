@@ -674,6 +674,39 @@ HK_PATH3_VARIANTS: List[Dict[str, object]] = [
     for variant in [*HK_PATH1_VARIANTS, *HK_PATH2_VARIANTS]
     if str(variant.get("rebalance_frequency", "")).lower() == "weekly"
 ]
+_HK_PATH3_TEMPLATE_BY_ID = {str(variant["strategy_id"]): variant for variant in HK_PATH3_VARIANTS}
+HK_PATH3_VARIANTS.extend(
+    [
+        {
+            **_HK_PATH3_TEMPLATE_BY_ID["hkconnect_path3_theme_fast_weekly"],
+            "strategy_id": "hkconnect_path3_theme_fast_weekly_buffered",
+            "strategy_name": "沪港通Path3 单周快速主线(宽出场)",
+            "candidate_family": "weekly_high_growth_theme_buffered",
+            "sell_exit_percentile": 0.22,
+        },
+        {
+            **_HK_PATH3_TEMPLATE_BY_ID["hkconnect_path3_theme_fast_weekly"],
+            "strategy_id": "hkconnect_path3_theme_fast_weekly_defensive",
+            "strategy_name": "沪港通Path3 单周快速主线(降仓)",
+            "candidate_family": "weekly_high_growth_theme_defensive",
+            "risk_off_exposure": 0.50,
+            "risk_caution_exposure": 0.80,
+            "sell_exit_percentile": 0.18,
+        },
+        {
+            **_HK_PATH3_TEMPLATE_BY_ID["hkconnect_path3_theme_fast_weekly"],
+            "strategy_id": "hkconnect_path3_theme_fast_weekly_balanced6",
+            "strategy_name": "沪港通Path3 单周快速主线(六持仓)",
+            "candidate_family": "weekly_high_growth_theme_balanced",
+            "risk_off_exposure": 0.60,
+            "risk_caution_exposure": 0.85,
+            "buy_entry_percentile": 0.08,
+            "sell_exit_percentile": 0.22,
+            "max_holdings": 6,
+            "weight_cap": 0.28,
+        },
+    ]
+)
 HK_PATH1_VARIANTS = [
     variant
     for variant in HK_PATH1_VARIANTS

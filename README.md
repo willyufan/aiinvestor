@@ -286,9 +286,9 @@ A 股各路径在四个窗口下的赢家变化历史，持续记录在：
   - `since_2025_01`：`hkconnect_path2_breakout_concentrated_monthly`
   - robust candidate：`hkconnect_path2_theme_monthly`
 - Path 3：
-  - `since_2017_01 / since_2020_01`：`hkconnect_path3_theme_fast_weekly`
-  - `since_2023_01`：`hkconnect_path3_theme_fast_weekly`
-  - `since_2025_01`：`hkconnect_path3_theme_fast_weekly`
+  - `since_2017_01 / since_2020_01`：`hkconnect_path3_theme_fast_weekly_defensive`
+  - `since_2023_01`：`hkconnect_path3_theme_fast_weekly_buffered`
+  - `since_2025_01`：`hkconnect_path3_theme_fast_weekly_defensive`
   - robust candidate：`hkconnect_path3_theme_fast_weekly`
 - `since_2026_01`：只做观察，不进入 tracked winners；当前 raw leader 分别是 `hkconnect_path1_biweekly_lowvol`（Path 1）、`hkconnect_path2_breakout_concentrated_monthly`（Path 2）与 `hkconnect_path3_equal_elastic_weekly`（Path 3）
 
@@ -300,9 +300,9 @@ A 股各路径在四个窗口下的赢家变化历史，持续记录在：
 - Path 2 `since_2020_01`：`21.57% CAGR / -18.98% MaxDD / 1.1176 Sharpe / 6.62 Turnover`（`hkconnect_path2_theme_monthly`）
 - Path 2 `since_2023_01`：`31.22% CAGR / -16.07% MaxDD / 1.4133 Sharpe / 6.02 Turnover`（`hkconnect_path2_theme_monthly`）
 - Path 2 `since_2025_01`：`97.73% CAGR / -7.23% MaxDD / 2.3476 Sharpe / 9.05 Turnover`（`hkconnect_path2_breakout_concentrated_monthly`）
-- Path 3 `since_2020_01`：`23.47% CAGR / -33.61% MaxDD / 0.9339 Sharpe / 30.48 Turnover`（`hkconnect_path3_theme_fast_weekly`）
-- Path 3 `since_2023_01`：`40.80% CAGR / -19.56% MaxDD / 1.3152 Sharpe / 29.62 Turnover`（`hkconnect_path3_theme_fast_weekly`）
-- Path 3 `since_2025_01`：`78.07% CAGR / -17.81% MaxDD / 1.7677 Sharpe / 34.71 Turnover`（`hkconnect_path3_theme_fast_weekly`）
+- Path 3 `since_2020_01`：`23.86% CAGR / -28.45% MaxDD / 0.9638 Sharpe / 29.23 Turnover`（`hkconnect_path3_theme_fast_weekly_defensive`）
+- Path 3 `since_2023_01`：`40.82% CAGR / -19.56% MaxDD / 1.3156 Sharpe / 29.62 Turnover`（`hkconnect_path3_theme_fast_weekly_buffered`）
+- Path 3 `since_2025_01`：`78.07% CAGR / -17.82% MaxDD / 1.7678 Sharpe / 34.72 Turnover`（`hkconnect_path3_theme_fast_weekly_defensive`）
 
 相关产物：
 

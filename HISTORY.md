@@ -3,6 +3,15 @@
 这个文档记录三条研究路径在四个窗口下的赢家变化历史。
 仅当赢家策略或关键指标发生变化时，才会追加新记录。
 
+## 沪港通 Path 3：周度高频路径
+
+### 2026-05-09 21:14 CST
+
+- 新增 `hkconnect_path3_theme_fast_weekly_buffered / defensive / balanced6` 三个纯周度变体，全部保持在沪港通 Path 3，不并入 Path 1/2。
+- `hkconnect_path3_theme_fast_weekly_defensive` 改写 `since_2017_01 / since_2020_01 / since_2025_01` winner：长窗为 `23.86% CAGR / -28.45% MaxDD / 0.9638 Sharpe / 29.23 Turnover`，相对旧 `theme_fast_weekly` 的 `23.47% / -33.61% / 0.9339 / 30.48` 同时改善收益、回撤、Sharpe 与换手。
+- `hkconnect_path3_theme_fast_weekly_buffered` 小幅改写 `since_2023_01` winner：`40.82% CAGR / -19.56% MaxDD / 1.3156 Sharpe / 29.62 Turnover`。
+- 四窗口 robust candidate 仍是 `hkconnect_path3_theme_fast_weekly`，说明本轮改进主要是窗口 winner 层面的风险效率改善，尚未改写四窗口均值排序。
+
 ## Path 1：渐进优化路径
 
 ### 2017 窗口
