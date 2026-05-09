@@ -265,40 +265,57 @@ A 股各路径在四个窗口下的赢家变化历史，持续记录在：
 
 沪港通结果独立维护，不并入 A 股 `winner_only` 结论。`2026-04-22` 起，港股窗口的 `sample_start` 统一对齐到**首个可执行调仓点**，因此本节数值应以这次重算后的基线为准。
 
-当前 tracked winners（tracked payload `as_of=2026-05-08`；月频样本多截止 `2026-04-30`，周频样本可到 `2026-05-08`，信号生效日仍按各策略真实评估点生成）：
+当前 tracked winners（tracked payload `as_of=2026-05-08`；月频/双周样本多截止 `2026-04-30`，周频样本可到 `2026-05-08`，信号生效日仍按各策略真实评估点生成）：
 
-当前港股 `since_2017_01 / since_2020_01` 两个窗口都从首个可执行调仓点起算，因此这两个窗口的港股指标当前相同；月频 Path 1 起点为 `2021-01-04`，周频 Path 2 起点为 `2020-12-14`。
+当前港股 `since_2017_01 / since_2020_01` 两个窗口都从首个可执行调仓点起算，因此这两个窗口的港股指标当前相同；月频 Path 1/2 起点为 `2021-01-04`，周频 Path 3 起点为 `2020-12-14`。
+
+三条研究路径按如下口径维护：
+
+- **Path 1：实盘稳健线**，保留月度/双周稳健候选，后续主攻“月度调仓 + 周度风控/卫星”。
+- **Path 2：收益上限探索线**，保留月度/双周高收益候选，继续探索主题、突破、高集中与高弹性结构。
+- **Path 3：纯周度调仓线**，只纳入周度信号、周度换股候选，单独评估高频交易价值。
 
 - Path 1：
   - `since_2017_01 / since_2020_01`：`hkconnect_path1_monthly_equal_buffered`
   - `since_2023_01`：`hkconnect_path1_monthly_equal_buffered`
-  - `since_2025_01`：`hkconnect_path1_weekly_equal_buffered`
-  - robust candidate：`hkconnect_path1_weekly_equal_buffered`
+  - `since_2025_01`：`hkconnect_path1_monthly_equal_buffered`
+  - robust candidate：`hkconnect_path1_monthly_equal_buffered`
 - Path 2：
-  - `since_2017_01 / since_2020_01`：`hkconnect_path2_theme_fast_weekly`
-  - `since_2023_01`：`hkconnect_path2_theme_fast_weekly`
+  - `since_2017_01 / since_2020_01`：`hkconnect_path2_theme_monthly`
+  - `since_2023_01`：`hkconnect_path2_theme_monthly`
   - `since_2025_01`：`hkconnect_path2_breakout_concentrated_monthly`
-  - robust candidate：`hkconnect_path2_theme_fast_weekly`
-- `since_2026_01`：只做观察，不进入 tracked winners；当前 raw leader 分别是 `hkconnect_path1_biweekly_lowvol`（Path 1）与 `hkconnect_path2_breakout_concentrated_monthly`（Path 2）
+  - robust candidate：`hkconnect_path2_theme_monthly`
+- Path 3：
+  - `since_2017_01 / since_2020_01`：`hkconnect_path3_theme_fast_weekly`
+  - `since_2023_01`：`hkconnect_path3_theme_fast_weekly`
+  - `since_2025_01`：`hkconnect_path3_theme_fast_weekly`
+  - robust candidate：`hkconnect_path3_theme_fast_weekly`
+- `since_2026_01`：只做观察，不进入 tracked winners；当前 raw leader 分别是 `hkconnect_path1_biweekly_lowvol`（Path 1）、`hkconnect_path2_breakout_concentrated_monthly`（Path 2）与 `hkconnect_path3_equal_elastic_weekly`（Path 3）
 
 关键窗口指标：
 
 - Path 1 `since_2020_01`：`24.84% CAGR / -14.79% MaxDD / 1.4406 Sharpe / 2.79 Turnover`（`hkconnect_path1_monthly_equal_buffered`）
 - Path 1 `since_2023_01`：`33.85% CAGR / -14.79% MaxDD / 1.6907 Sharpe / 2.87 Turnover`（`hkconnect_path1_monthly_equal_buffered`）
-- Path 1 `since_2025_01`：`44.50% CAGR / -13.39% MaxDD / 1.5761 Sharpe / 13.14 Turnover`（`hkconnect_path1_weekly_equal_buffered`）
-- Path 2 `since_2020_01`：`23.47% CAGR / -33.61% MaxDD / 0.9339 Sharpe / 30.48 Turnover`（`hkconnect_path2_theme_fast_weekly`）
-- Path 2 `since_2023_01`：`40.80% CAGR / -19.56% MaxDD / 1.3152 Sharpe / 29.62 Turnover`（`hkconnect_path2_theme_fast_weekly`）
+- Path 1 `since_2025_01`：`40.41% CAGR / -14.79% MaxDD / 1.5271 Sharpe / 3.46 Turnover`（`hkconnect_path1_monthly_equal_buffered`）
+- Path 2 `since_2020_01`：`21.57% CAGR / -18.98% MaxDD / 1.1176 Sharpe / 6.62 Turnover`（`hkconnect_path2_theme_monthly`）
+- Path 2 `since_2023_01`：`31.22% CAGR / -16.07% MaxDD / 1.4133 Sharpe / 6.02 Turnover`（`hkconnect_path2_theme_monthly`）
 - Path 2 `since_2025_01`：`97.73% CAGR / -7.23% MaxDD / 2.3476 Sharpe / 9.05 Turnover`（`hkconnect_path2_breakout_concentrated_monthly`）
+- Path 3 `since_2020_01`：`23.47% CAGR / -33.61% MaxDD / 0.9339 Sharpe / 30.48 Turnover`（`hkconnect_path3_theme_fast_weekly`）
+- Path 3 `since_2023_01`：`40.80% CAGR / -19.56% MaxDD / 1.3152 Sharpe / 29.62 Turnover`（`hkconnect_path3_theme_fast_weekly`）
+- Path 3 `since_2025_01`：`78.07% CAGR / -17.81% MaxDD / 1.7677 Sharpe / 34.71 Turnover`（`hkconnect_path3_theme_fast_weekly`）
 
 相关产物：
 
 - [docs/path1_plan_hkconnect.md](docs/path1_plan_hkconnect.md)
 - [docs/path2_plan_hkconnect.md](docs/path2_plan_hkconnect.md)
+- [docs/path3_plan_hkconnect.md](docs/path3_plan_hkconnect.md)
 - [results_hkconnect/tracked_winners_hkconnect.json](results_hkconnect/tracked_winners_hkconnect.json)
 
 ![HK Connect Path1 Comparison](docs/strategy_comparison_hkconnect_path1.png)
 
 ![HK Connect Path2 Comparison](docs/strategy_comparison_hkconnect_path2.png)
+
+![HK Connect Path3 Comparison](docs/strategy_comparison_hkconnect_path3.png)
 
 当前主策略框架使用：
 

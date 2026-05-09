@@ -780,7 +780,7 @@ def load_hkconnect_registry() -> list[dict[str, Any]]:
         ("since_2025_01", "2025-window winner"),
     ]:
         sample_df = df[df["sample_tag"] == sample_tag]
-        for path_name in ("path1", "path2"):
+        for path_name in ("path1", "path2", "path3"):
             sub = sample_df[sample_df["path"] == path_name].sort_values(["cagr", "sharpe_ratio"], ascending=[False, False])
             if sub.empty:
                 continue
@@ -791,7 +791,7 @@ def load_hkconnect_registry() -> list[dict[str, Any]]:
                 sample_tag=sample_tag,
             )
 
-    for path_name in ("path1", "path2"):
+    for path_name in ("path1", "path2", "path3"):
         robust_id = _pick_hk_robust_candidate(df, path_name)
         if robust_id:
             add_entry(

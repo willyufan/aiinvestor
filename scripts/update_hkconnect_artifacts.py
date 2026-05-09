@@ -26,7 +26,9 @@ TRACKED_JSON = RESULTS_DIR / "tracked_winners_hkconnect.json"
 OUTPUT_PATHS = {
     "path1": DOCS_DIR / "strategy_comparison_hkconnect_path1.png",
     "path2": DOCS_DIR / "strategy_comparison_hkconnect_path2.png",
+    "path3": DOCS_DIR / "strategy_comparison_hkconnect_path3.png",
 }
+PATH_NAMES = ("path1", "path2", "path3")
 
 WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
 WINDOW_LABELS = {
@@ -38,6 +40,7 @@ WINDOW_LABELS = {
 PATH_TITLES = {
     "path1": "HK Connect Path 1 Comparison",
     "path2": "HK Connect Path 2 Comparison",
+    "path3": "HK Connect Path 3 Comparison",
 }
 
 
@@ -90,7 +93,7 @@ def _metric_row(row: pd.Series) -> dict[str, Any]:
 
 def _short_label(strategy_id: str) -> str:
     label = strategy_id
-    for prefix in ("hkconnect_path1_", "hkconnect_path2_"):
+    for prefix in ("hkconnect_path1_", "hkconnect_path2_", "hkconnect_path3_"):
         if label.startswith(prefix):
             label = label[len(prefix) :]
     return label.replace("_", "\n")
@@ -142,7 +145,7 @@ def _build_payload(latest: pd.DataFrame) -> dict[str, Any]:
     payload: dict[str, Any] = {
         "as_of": _date_text(latest["sample_end"].max()),
         "window_tags": list(WINDOW_TAGS),
-        "tracks": {"path1": {}, "path2": {}},
+        "tracks": {path_name: {} for path_name in PATH_NAMES},
         "strategies": {},
     }
 
@@ -160,8 +163,10 @@ def _build_payload(latest: pd.DataFrame) -> dict[str, Any]:
             },
         }
 
-    for path_name in ("path1", "path2"):
+    for path_name in PATH_NAMES:
         subset = latest[latest["path"] == path_name].copy()
+        if subset.empty:
+            continue
         for sample_tag in WINDOW_TAGS:
             sample_df = subset[subset["sample_tag"] == sample_tag]
             if sample_df.empty:
@@ -288,7 +293,7 @@ def main() -> None:
 
     payload = _build_payload(latest)
     TRACKED_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    for path_name in ("path1", "path2"):
+    for path_name in PATH_NAMES:
         _render_chart(latest, payload, path_name)
 
     print(f"[OK] wrote {TRACKED_JSON}")

@@ -134,12 +134,12 @@ def build_strategy_entry(
 
 def build_hk_entries(hk_payload: dict[str, Any]) -> list[dict]:
     """Build HK Connect strategy entries.
-    HK JSON structure: tracks.path1.since_2017_01.winner / tracks.path2.since_2017_01.winner
+    HK JSON structure: tracks.path1.since_2017_01.winner / tracks.path2.since_2017_01.winner / tracks.path3...
     """
     entries = []
     strategies_map = hk_payload.get("strategies", {})
     seen: set[str] = set()
-    for path_name in ["path1", "path2"]:
+    for path_name in ["path1", "path2", "path3"]:
         path_tracks = hk_payload.get("tracks", {}).get(path_name, {})
         for sample_tag, track_data in path_tracks.items():
             if not isinstance(track_data, dict):

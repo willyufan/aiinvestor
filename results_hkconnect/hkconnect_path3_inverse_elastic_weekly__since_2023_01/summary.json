@@ -1,0 +1,34 @@
+{
+  "pool_id": "hkconnect_static_latest",
+  "pool_name": "沪港通静态标的池（最新可得名单）",
+  "sample_start": "2023-01-09",
+  "sample_end": "2026-05-08",
+  "sample_tag": "since_2023_01",
+  "sample_label": "2023-01 起",
+  "sample_short_label": "2023-01",
+  "stock_count": 598,
+  "strategy_name": "沪港通Path3 单周逆市值高弹性",
+  "strategy_id": "hkconnect_path3_inverse_elastic_weekly",
+  "path": "path3",
+  "candidate_family": "weekly_momentum_equal_weight_elastic",
+  "rebalance_frequency": "weekly",
+  "signal_family": "path2_elastic",
+  "base_weight_method": "inverse_mv",
+  "selection_overlay": "独立沪港通策略线：仅限最新可得沪港通（SH_HK/SZ_HK）名单内的港股，基于动量、突破、流动性与仓位风控做优胜劣汰。",
+  "universe_note": "受 Tushare stock_hsgt 历史覆盖限制，当前使用最新可得沪港通名单作为静态回测池。",
+  "transaction_cost_note": "当前港股交易成本采用近似双边佣金模型（无印花税建模），仅用于研究比较。",
+  "metrics": {
+    "total_return": 0.30580486469074164,
+    "cagr": 0.08400920239250897,
+    "max_drawdown": -0.35289754360279124,
+    "monthly_win_rate": 0.4883720930232558,
+    "annual_volatility": 0.3712022237751086,
+    "sharpe_ratio": 0.41095979375889213,
+    "average_annual_turnover": 29.5038923493021,
+    "cumulative_trading_cost": 0.05448465667344202
+  },
+  "warnings": [
+    "沪港通历史标的列表受 Tushare stock_hsgt 接口限制（仅 2025-08-12 起可取），当前研究使用最新可得沪港通名单作为静态回测池。",
+    "回测起点被后移：requested=2023-01-01 effective=2023-01-09 (受可用调仓点/数据覆盖影响)"
+  ]
+}

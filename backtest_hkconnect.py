@@ -641,6 +641,51 @@ HK_PATH2_VARIANTS.extend(
 )
 
 
+def clone_hk_weekly_variant_for_path3(variant: Dict[str, object]) -> Dict[str, object]:
+    strategy_id = str(variant["strategy_id"])
+    if strategy_id.startswith("hkconnect_path1_weekly_"):
+        path3_id = strategy_id.replace("hkconnect_path1_weekly_", "hkconnect_path3_stable_weekly_", 1)
+    elif strategy_id.startswith("hkconnect_path2_"):
+        path3_id = strategy_id.replace("hkconnect_path2_", "hkconnect_path3_", 1)
+    else:
+        path3_id = strategy_id.replace("hkconnect_", "hkconnect_path3_", 1)
+
+    strategy_name = str(variant["strategy_name"])
+    strategy_name = strategy_name.replace("沪港通Path1 单周", "沪港通Path3 单周稳健")
+    strategy_name = strategy_name.replace("沪港通Path2 单周", "沪港通Path3 单周")
+    strategy_name = strategy_name.replace("单周稳健稳健", "单周稳健")
+
+    candidate_family = str(variant.get("candidate_family", "weekly"))
+    if not candidate_family.startswith("weekly_"):
+        candidate_family = f"weekly_{candidate_family}"
+
+    return {
+        **variant,
+        "strategy_id": path3_id,
+        "strategy_name": strategy_name,
+        "path": "path3",
+        "candidate_family": candidate_family,
+        "rebalance_frequency": "weekly",
+    }
+
+
+HK_PATH3_VARIANTS: List[Dict[str, object]] = [
+    clone_hk_weekly_variant_for_path3(variant)
+    for variant in [*HK_PATH1_VARIANTS, *HK_PATH2_VARIANTS]
+    if str(variant.get("rebalance_frequency", "")).lower() == "weekly"
+]
+HK_PATH1_VARIANTS = [
+    variant
+    for variant in HK_PATH1_VARIANTS
+    if str(variant.get("rebalance_frequency", "")).lower() != "weekly"
+]
+HK_PATH2_VARIANTS = [
+    variant
+    for variant in HK_PATH2_VARIANTS
+    if str(variant.get("rebalance_frequency", "")).lower() != "weekly"
+]
+
+
 def ensure_hk_directories() -> None:
     for path in [HK_RESULTS_DIR, HK_CACHE_DIR, HK_BASIC_DIR, HK_PRICE_DIR, HK_FACTOR_DIR]:
         path.mkdir(parents=True, exist_ok=True)
@@ -1647,7 +1692,7 @@ def build_output_dir(strategy_id: str, sample_tag: str) -> Path:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="回测独立沪港通策略线（Path 1 / Path 2）")
+    parser = argparse.ArgumentParser(description="回测独立沪港通策略线（Path 1 / Path 2 / Path 3）")
     parser.add_argument("--start-date", default="2017-01-01")
     parser.add_argument("--end-date", default=pd.Timestamp.today().strftime("%Y-%m-%d"))
     parser.add_argument("--sample-tags", type=str, default="")
@@ -1689,7 +1734,7 @@ def main() -> None:
         if selected_sample_tags
         else list(HK_SAMPLE_WINDOWS)
     )
-    strategy_variants = HK_PATH1_VARIANTS + HK_PATH2_VARIANTS
+    strategy_variants = HK_PATH1_VARIANTS + HK_PATH2_VARIANTS + HK_PATH3_VARIANTS
     if selected_strategy_ids:
         strategy_variants = [variant for variant in strategy_variants if variant["strategy_id"] in selected_strategy_ids]
 

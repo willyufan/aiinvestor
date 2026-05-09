@@ -1,5 +1,21 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-05-09 18:09 CST）
+
+- 本轮继续以港股三路径拆分口径运行五窗口离线回测，并用 `scripts/update_hkconnect_artifacts.py` 同步 tracked payload 与三张图表。
+- Path 2 继续只保留收益上限探索线的月度/双周主题、突破、高集中、高弹性候选；纯周度主题强度交给 Path 3 独立跟踪。
+- 当前 Path 2 tracked winners：`since_2017_01 / since_2020_01 / since_2023_01` 为 `hkconnect_path2_theme_monthly`，`since_2025_01` 为 `hkconnect_path2_breakout_concentrated_monthly`，四窗口 robust candidate 为 `hkconnect_path2_theme_monthly`。
+- 关键指标：`theme_monthly` 长窗为 `21.57% CAGR / -18.98% MaxDD / 1.1176 Sharpe / 6.62 Turnover`，`since_2023_01` 为 `31.22% / -16.07% / 1.4133 / 6.02`；短窗 `breakout_concentrated_monthly` 为 `97.73% / -7.23% / 2.3476 / 9.05`。
+- `since_2026_01` 只观察，当前 Path 2 raw leader 是 `hkconnect_path2_breakout_concentrated_monthly`；下一轮继续扩月度/双周高收益结构，而不是回并 weekly 候选。
+
+## 本轮执行计划（2026-05-09 三路径拆分）
+
+- 本轮将港股 Path 2 收窄为收益上限探索线：保留月度/双周主题、突破、高集中、高弹性候选；单周换股候选已迁移到独立 Path 3。
+- 重新运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，随后运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py`。
+- 当前 Path 2 tracked winners：`since_2017_01 / since_2020_01 / since_2023_01` 为 `hkconnect_path2_theme_monthly`，`since_2025_01` 为 `hkconnect_path2_breakout_concentrated_monthly`，四窗口 robust candidate 为 `hkconnect_path2_theme_monthly`。
+- 关键指标：`theme_monthly` 长窗为 `21.57% CAGR / -18.98% MaxDD / 1.1176 Sharpe / 6.62 Turnover`，`since_2023_01` 为 `31.22% / -16.07% / 1.4133 / 6.02`；短窗 `breakout_concentrated_monthly` 为 `97.73% / -7.23% / 2.3476 / 9.05`。
+- 下一轮 Path 2 继续围绕月度/双周高收益结构扩原型；纯周度主题强度交给 Path 3 独立跟踪。
+
 ## 本轮执行计划（2026-05-09 13:04 CST）
 
 - 本轮与港股 Path 1 同批运行五窗口离线回测，再运行 `./.venv/bin/python scripts/update_hkconnect_artifacts.py` 同步 tracked payload 与图表。
