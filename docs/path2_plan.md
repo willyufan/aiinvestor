@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-10 03:16 CST）
+
+- 本轮先独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，发现全局 `sample_end=2026-05-08` 过滤会把真实双周信号点仍在 `2026-04-30` 的候选误删；已修正 `scripts/path2_candidate_pass.py`，改为保留每个策略/窗口自身最新记录，避免混淆数据截止日与调仓/信号生效日。
+- 针对高频 family 额外补跑 6 个双周与 4 个周频代表候选，并用 `.venv/bin/python scripts/rebuild_strategy_comparison_csv.py --windows since_2017_01 since_2020_01 since_2023_01 since_2025_01` 重建 comparison；复跑 Path 2 后候选宇宙恢复为 `398`。
+- 五个 family 规模恢复为 `159 / 157 / 16 / 16 / 16`，`biweekly_rebalance_aggressive` 与 `weekly_rebalance_aggressive` 不再被当前最新周频 `sample_end` 压扁。
+- Path 2 四窗口 winner 身份未漂移：`since_2017_01` 仍为 `90/10` 等权 `2/98 risk50_mom`，`35.88% CAGR / -39.17% MaxDD / 0.9458 Sharpe / 3.87 Turnover`。
+- `since_2020_01` 仍为 `90/10` 等权 `1/99 risk50_mom`，`55.60% CAGR / -36.55% MaxDD / 1.2050 Sharpe / 4.65 Turnover`；`since_2023_01` 仍为 `90/10` 等权 `1/99 risk50_ma`，`67.06% / -36.51% / 1.3498 / 4.79`。
+- `since_2025_01` 继续由纯周度短窗候选 `aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly` 胜出，`181.26% CAGR / -40.77% MaxDD / 1.6970 Sharpe / 16.50 Turnover`；四窗口 robust candidate 仍为 `90/10` 等权 `2/98 risk50_mom`，`meanCAGR=63.47% / minCAGR=35.88% / worstMaxDD=-39.17% / meanTurn=5.09`。
+
 ## 本轮执行计划（2026-05-09 21:14 CST）
 
 - 本轮独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`；候选宇宙保持 `398`，五个 family 规模继续为 `159 / 157 / 16 / 16 / 16`，family membership 未被高集中候选压扁。

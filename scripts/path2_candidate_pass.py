@@ -75,14 +75,11 @@ def _latest_per_strategy_window(frame: pd.DataFrame) -> pd.DataFrame:
 
 
 def _filter_to_current_as_of(latest: pd.DataFrame) -> pd.DataFrame:
-    typed = latest.copy()
-    typed["sample_end"] = pd.to_datetime(typed["sample_end"], errors="coerce")
-    typed = typed.dropna(subset=["sample_end"])
-    if typed.empty:
-        return latest
-    current_as_of = typed["sample_end"].max()
-    fresh = typed[typed["sample_end"] == current_as_of].copy()
-    return fresh if not fresh.empty else typed
+    # sample_end is the strategy's actual signal/rebalance point. Monthly,
+    # biweekly, and weekly candidates can legitimately have different latest
+    # signal dates under the same market cache, so keep each strategy/window's
+    # own latest row instead of applying a global max-date filter.
+    return latest.copy()
 
 
 def _robust_sort_key(metrics: dict[str, float]) -> tuple[float, float, float, float, float]:
