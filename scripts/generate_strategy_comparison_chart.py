@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import ast
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -58,6 +57,7 @@ FAMILY_OUTPUT_PATHS = {
 }
 COMPARISON_CSV = RESULTS_DIR / "strategy_comparison_base_method.csv"
 WEIGHTED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
+CORE_ACTIVE_REGISTRY_JSON = RESULTS_DIR / "core_active_registry.json"
 BACKTEST_SCRIPT_PATH = ROOT / "backtest_marketcap_etf.py"
 
 SAMPLE_WINDOWS = [
@@ -120,68 +120,51 @@ COMPACT_STRATEGIES = [
 STRATEGY_LABEL_BY_ID = {item["base_id"]: item["label"] for item in STATIC_STRATEGIES + COMPACT_STRATEGIES}
 
 
-def _parse_python_constants(path: Path, names: set[str]) -> dict[str, object]:
-    node = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
-    found: dict[str, object] = {}
-    for stmt in node.body:
-        if not isinstance(stmt, ast.Assign) or len(stmt.targets) != 1 or not isinstance(stmt.targets[0], ast.Name):
-            continue
-        target = stmt.targets[0].id
-        if target not in names:
-            continue
-        found[target] = ast.literal_eval(stmt.value)
-    return found
+def _collect_winner_ids_from_payload(payload: dict) -> set[str]:
+    winner_ids: set[str] = set()
+
+    def add_tracks(section: object) -> None:
+        if not isinstance(section, dict):
+            return
+        tracks = section.get("tracks")
+        if not isinstance(tracks, dict):
+            return
+        for meta in tracks.values():
+            if not isinstance(meta, dict):
+                continue
+            strategy_id = meta.get("winner") or meta.get("strategy_base_id")
+            if strategy_id:
+                winner_ids.add(str(strategy_id))
+
+    add_tracks(payload)
+    for path_key in ("path2", "path3"):
+        path_payload = payload.get(path_key)
+        add_tracks(path_payload)
+        if isinstance(path_payload, dict) and path_payload.get("strategy_base_id"):
+            winner_ids.add(str(path_payload["strategy_base_id"]))
+    return winner_ids
 
 
 def load_core_active_dynamic_family_ids() -> set[str]:
-    try:
-        consts = _parse_python_constants(
-            BACKTEST_SCRIPT_PATH,
-            {
-                "ACTIVE_FAMILY_BASE_PREFIXES",
-                "CORE_ACTIVE_FAMILY_BASE_IDS",
-                "WINNER_ONLY_STRATEGY_ID",
-                "WINNER_CORE_VARIANTS",
-                "INDEX_CORE_BASE_ID",
-                "SAT_WEEKLY_RISK_SUFFIX",
-                "SAT_THREE_STAGE_SUFFIX",
-                "SAT_THREE_STAGE_BUFFERED_SUFFIX",
-            },
-        )
-        active_prefixes = list(consts.get("ACTIVE_FAMILY_BASE_PREFIXES") or [])
-        core_active_ids = {str(item) for item in consts.get("CORE_ACTIVE_FAMILY_BASE_IDS") or []}
-        winner_only_id = str(consts.get("WINNER_ONLY_STRATEGY_ID") or "core_explore_80_20_total_mv_winner_core")
-        index_core_id = str(consts.get("INDEX_CORE_BASE_ID") or "core_explore_80_20_total_mv_index_core")
-        variants = consts.get("WINNER_CORE_VARIANTS", [])
-        overlay_suffixes = [
-            str(consts.get("SAT_WEEKLY_RISK_SUFFIX") or "__sat_weekly_risk"),
-            str(consts.get("SAT_THREE_STAGE_SUFFIX") or "__sat_three_stage_risk"),
-            str(consts.get("SAT_THREE_STAGE_BUFFERED_SUFFIX") or "__sat_three_stage_buffered"),
-        ]
-    except Exception:
-        active_prefixes = ["core_explore_80_20_total_mv_index_core", "core_explore_80_20_total_mv_winner_core"]
-        core_active_ids = {
-            "core_explore_80_20_total_mv_index_core",
-            "core_explore_80_20_total_mv_winner_core",
-        }
-        winner_only_id = "core_explore_80_20_total_mv_winner_core"
-        index_core_id = "core_explore_80_20_total_mv_index_core"
-        variants = []
-        overlay_suffixes = ["__sat_weekly_risk", "__sat_three_stage_risk", "__sat_three_stage_buffered"]
-    active_ids = {winner_only_id, index_core_id}
-    if isinstance(variants, list):
-        for variant in variants:
-            if isinstance(variant, dict) and variant.get("variant_id"):
-                variant_base_id = f"{winner_only_id}__{variant['variant_id']}"
-                active_ids.add(variant_base_id)
-                for suffix in overlay_suffixes:
-                    active_ids.add(f"{variant_base_id}{suffix}")
-    active_ids = {
-        base_id
-        for base_id in active_ids
-        if any(base_id == prefix or base_id.startswith(f"{prefix}__") for prefix in active_prefixes)
-    }
-    return {base_id for base_id in active_ids if base_id in core_active_ids}
+    if CORE_ACTIVE_REGISTRY_JSON.exists():
+        try:
+            payload = json.loads(CORE_ACTIVE_REGISTRY_JSON.read_text(encoding="utf-8"))
+            strategies = payload.get("strategies") if isinstance(payload, dict) else []
+            if isinstance(strategies, list):
+                return {
+                    str(item["strategy_id"])
+                    for item in strategies
+                    if isinstance(item, dict) and item.get("strategy_id") and item.get("active", True)
+                }
+        except Exception:
+            pass
+    if WEIGHTED_WINNERS_JSON.exists():
+        try:
+            payload = json.loads(WEIGHTED_WINNERS_JSON.read_text(encoding="utf-8"))
+            return _collect_winner_ids_from_payload(payload if isinstance(payload, dict) else {})
+        except Exception:
+            pass
+    return set()
 
 
 CORE_ACTIVE_DYNAMIC_FAMILY_IDS = load_core_active_dynamic_family_ids()

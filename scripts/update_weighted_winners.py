@@ -18,6 +18,10 @@ README_PATH = ROOT / "README.md"
 BACKTEST_SCRIPT_PATH = ROOT / "backtest_marketcap_etf.py"
 TRACKED_HISTORY_JSON_PATH = RESULTS_DIR / "tracked_winner_history.json"
 TRACKED_HISTORY_MD_PATH = ROOT / "HISTORY.md"
+CORE_ACTIVE_REGISTRY_JSON_PATH = RESULTS_DIR / "core_active_registry.json"
+TRADE_CALENDAR_PATH = ROOT / "data_cache" / "trade_calendar.csv"
+CORE_ACTIVE_MAX_SIZE = 128
+CORE_ACTIVE_STALE_TRADING_DAYS = 30
 
 AUTO_START = "<!-- AUTO:WEIGHTED-WINNERS:START -->"
 AUTO_END = "<!-- AUTO:WEIGHTED-WINNERS:END -->"
@@ -631,6 +635,352 @@ def update_history(
     return history
 
 
+def _parse_date(value: object) -> pd.Timestamp | None:
+    parsed = pd.to_datetime(value, errors="coerce")
+    if pd.isna(parsed):
+        return None
+    return pd.Timestamp(parsed).normalize()
+
+
+def _load_open_trade_dates(calendar_path: Path, as_of: str) -> list[pd.Timestamp]:
+    as_of_ts = _parse_date(as_of)
+    if as_of_ts is None or not calendar_path.exists():
+        return []
+    try:
+        frame = pd.read_csv(calendar_path)
+    except Exception:
+        return []
+    if "cal_date" not in frame.columns or "is_open" not in frame.columns:
+        return []
+    opened = frame[frame["is_open"].astype(str).isin({"1", "1.0", "true", "True"})].copy()
+    dates = pd.to_datetime(opened["cal_date"], errors="coerce")
+    dates = dates.dropna().map(lambda value: pd.Timestamp(value).normalize())
+    return sorted({date for date in dates if date <= as_of_ts})
+
+
+def _trading_days_since(last_win_date: object, as_of: str, open_trade_dates: list[pd.Timestamp]) -> int:
+    last_win_ts = _parse_date(last_win_date)
+    as_of_ts = _parse_date(as_of)
+    if last_win_ts is None or as_of_ts is None or last_win_ts >= as_of_ts:
+        return 0
+    if open_trade_dates:
+        return sum(1 for date in open_trade_dates if last_win_ts < date <= as_of_ts)
+    return len(pd.bdate_range(last_win_ts + pd.offsets.BDay(1), as_of_ts))
+
+
+def _metric_value(metrics: dict[str, Any], *keys: str, default: float = 0.0) -> float:
+    for key in keys:
+        if key in metrics and metrics[key] is not None:
+            try:
+                return float(metrics[key])
+            except (TypeError, ValueError):
+                continue
+    return default
+
+
+def _core_active_sort_key(item: dict[str, Any], current_winner_ids: set[str]) -> tuple[object, ...]:
+    metrics = item.get("last_metrics") if isinstance(item.get("last_metrics"), dict) else {}
+    last_win_ts = _parse_date(item.get("last_win_date")) or pd.Timestamp("1900-01-01")
+    return (
+        str(item.get("strategy_id", "")) in current_winner_ids,
+        last_win_ts,
+        int(item.get("win_count") or 0),
+        _metric_value(metrics, "cagr_mean", "weighted_cagr", "cagr"),
+        _metric_value(metrics, "sharpe_mean", "weighted_sharpe", "sharpe"),
+        _metric_value(metrics, "max_drawdown_worst", "weighted_max_drawdown", "max_drawdown", default=-1.0),
+        -_metric_value(metrics, "turnover_mean", "weighted_turnover", "turnover", default=999.0),
+        str(item.get("strategy_id", "")),
+    )
+
+
+def _build_core_active_winner_entries(payload: dict[str, Any], strategies: dict[str, dict]) -> list[dict[str, Any]]:
+    entries: list[dict[str, Any]] = []
+    sample_tag_by_track = {track_key: sample_tag for track_key, sample_tag, _ in TRACK_SEQUENCE}
+
+    def add_entry(*, path_key: str, track_key: str, strategy_id: object, metrics: object, sample_tag: str) -> None:
+        if not strategy_id:
+            return
+        sid = str(strategy_id)
+        strategy_info = strategies.get(sid, {})
+        entries.append(
+            {
+                "strategy_id": sid,
+                "strategy_name": str(strategy_info.get("strategy_base_name") or sid),
+                "path": path_key,
+                "track": track_key,
+                "sample_tag": sample_tag,
+                "metrics": metrics if isinstance(metrics, dict) else {},
+            }
+        )
+
+    for track_key, track_meta in (payload.get("tracks") or {}).items():
+        if not isinstance(track_meta, dict):
+            continue
+        if track_key == ROBUST_TRACK_KEY:
+            add_entry(
+                path_key="path1",
+                track_key=ROBUST_TRACK_KEY,
+                strategy_id=track_meta.get("strategy_base_id"),
+                metrics=track_meta.get("robust_metrics"),
+                sample_tag="since_2020_01",
+            )
+        else:
+            add_entry(
+                path_key="path1",
+                track_key=str(track_key),
+                strategy_id=track_meta.get("winner"),
+                metrics=track_meta.get("metrics"),
+                sample_tag=sample_tag_by_track.get(str(track_key), ""),
+            )
+
+    for path_key in ("path2", "path3"):
+        path_payload = payload.get(path_key) or {}
+        if not isinstance(path_payload, dict):
+            continue
+        for track_key, track_meta in (path_payload.get("tracks") or {}).items():
+            if not isinstance(track_meta, dict):
+                continue
+            add_entry(
+                path_key=path_key,
+                track_key=str(track_key),
+                strategy_id=track_meta.get("winner"),
+                metrics=track_meta.get("metrics"),
+                sample_tag=sample_tag_by_track.get(str(track_key), ""),
+            )
+        add_entry(
+            path_key=path_key,
+            track_key=ROBUST_TRACK_KEY,
+            strategy_id=path_payload.get("strategy_base_id"),
+            metrics=path_payload.get("robust_metrics"),
+            sample_tag="since_2020_01",
+        )
+    return entries
+
+
+def _core_active_metrics_from_history(entry: dict[str, Any]) -> dict[str, float]:
+    metrics: dict[str, float] = {}
+    for key in ("total_return", "cagr", "max_drawdown", "sharpe", "turnover"):
+        if key not in entry:
+            continue
+        try:
+            metrics[key] = float(entry[key])
+        except (TypeError, ValueError):
+            continue
+    return metrics
+
+
+def _build_core_active_history_entry_groups(
+    *,
+    history_path: Path,
+    as_of: str,
+    stale_trading_days: int,
+    calendar_path: Path = TRADE_CALENDAR_PATH,
+) -> list[tuple[str, list[dict[str, Any]]]]:
+    history = _load_history(history_path)
+    open_trade_dates = _load_open_trade_dates(calendar_path, as_of)
+    track_sample_tags = {track_key: sample_tag for track_key, sample_tag, _ in TRACK_SEQUENCE}
+    track_sample_tags[ROBUST_TRACK_KEY] = "since_2020_01"
+    grouped: dict[str, list[dict[str, Any]]] = {}
+
+    for path_key in ("path1", "path2", "path3"):
+        path_bucket = history.get(path_key, {})
+        if not isinstance(path_bucket, dict):
+            continue
+        for track_key, default_sample_tag in track_sample_tags.items():
+            entries = path_bucket.get(track_key, [])
+            if not isinstance(entries, list):
+                continue
+            for entry in entries:
+                if not isinstance(entry, dict):
+                    continue
+                entry_as_of = str(entry.get("as_of") or "")
+                strategy_id = str(entry.get("winner") or "").strip()
+                if not entry_as_of or not strategy_id:
+                    continue
+                if _trading_days_since(entry_as_of, as_of, open_trade_dates) >= stale_trading_days:
+                    continue
+                grouped.setdefault(entry_as_of, []).append(
+                    {
+                        "strategy_id": strategy_id,
+                        "strategy_name": str(entry.get("strategy_base_name") or strategy_id),
+                        "path": path_key,
+                        "track": track_key,
+                        "sample_tag": str(entry.get("sample_tag") or default_sample_tag),
+                        "metrics": _core_active_metrics_from_history(entry),
+                    }
+                )
+    return [(entry_as_of, grouped[entry_as_of]) for entry_as_of in sorted(grouped)]
+
+
+def backfill_core_active_registry_from_history(
+    *,
+    path: Path,
+    history_path: Path,
+    as_of: str,
+    max_size: int,
+    stale_trading_days: int,
+    calendar_path: Path = TRADE_CALENDAR_PATH,
+) -> dict[str, int]:
+    as_of_ts = _parse_date(as_of)
+    groups = _build_core_active_history_entry_groups(
+        history_path=history_path,
+        as_of=as_of,
+        stale_trading_days=stale_trading_days,
+        calendar_path=calendar_path,
+    )
+    if groups:
+        try:
+            path.unlink()
+        except FileNotFoundError:
+            pass
+    backfilled_dates = 0
+    backfilled_entries = 0
+    backfilled_strategy_ids: set[str] = set()
+    for entry_as_of, entries in groups:
+        entry_ts = _parse_date(entry_as_of)
+        if as_of_ts is not None and entry_ts is not None and entry_ts >= as_of_ts:
+            continue
+        update_core_active_registry(
+            path=path,
+            as_of=entry_as_of,
+            winner_entries=entries,
+            max_size=max_size,
+            stale_trading_days=stale_trading_days,
+            calendar_path=calendar_path,
+        )
+        backfilled_dates += 1
+        backfilled_entries += len(entries)
+        backfilled_strategy_ids.update(str(entry.get("strategy_id") or "") for entry in entries)
+    return {
+        "dates": backfilled_dates,
+        "entries": backfilled_entries,
+        "strategies": len({strategy_id for strategy_id in backfilled_strategy_ids if strategy_id}),
+    }
+
+
+def _load_core_active_registry(path: Path) -> dict[str, dict[str, Any]]:
+    if not path.exists():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    strategies = payload.get("strategies") if isinstance(payload, dict) else []
+    if not isinstance(strategies, list):
+        return {}
+    registry: dict[str, dict[str, Any]] = {}
+    for item in strategies:
+        if not isinstance(item, dict) or not item.get("strategy_id"):
+            continue
+        registry[str(item["strategy_id"])] = dict(item)
+    return registry
+
+
+def update_core_active_registry(
+    *,
+    path: Path,
+    as_of: str,
+    winner_entries: list[dict[str, Any]],
+    max_size: int,
+    stale_trading_days: int,
+    calendar_path: Path = TRADE_CALENDAR_PATH,
+) -> dict[str, Any]:
+    as_of_str = str(pd.Timestamp(as_of).date())
+    max_size = max(1, int(max_size))
+    stale_trading_days = max(1, int(stale_trading_days))
+    registry = _load_core_active_registry(path)
+    current_by_id: dict[str, list[dict[str, Any]]] = {}
+    for entry in winner_entries:
+        strategy_id = str(entry.get("strategy_id") or "").strip()
+        if not strategy_id:
+            continue
+        current_by_id.setdefault(strategy_id, []).append(entry)
+
+    for strategy_id, roles in current_by_id.items():
+        primary = roles[0]
+        item = registry.get(strategy_id, {"strategy_id": strategy_id})
+        win_dates = [str(value) for value in item.get("win_dates", []) if str(value)]
+        if as_of_str not in win_dates:
+            win_dates.append(as_of_str)
+        win_dates = sorted(set(win_dates))
+        first_win_date = min(win_dates)
+        last_win_date = max(win_dates)
+        is_latest_win = as_of_str == last_win_date
+        if is_latest_win:
+            strategy_name = primary.get("strategy_name") or item.get("strategy_name") or strategy_id
+            last_path = primary.get("path", "")
+            last_track = primary.get("track", "")
+            last_sample_tag = primary.get("sample_tag", "")
+            last_metrics = primary.get("metrics", {})
+        else:
+            strategy_name = item.get("strategy_name") or primary.get("strategy_name") or strategy_id
+            last_path = item.get("last_path", "")
+            last_track = item.get("last_track", "")
+            last_sample_tag = item.get("last_sample_tag", "")
+            last_metrics = item.get("last_metrics", {})
+        item.update(
+            {
+                "strategy_id": strategy_id,
+                "strategy_name": strategy_name,
+                "first_win_date": first_win_date,
+                "last_win_date": last_win_date,
+                "win_dates": win_dates,
+                "win_count": len(win_dates),
+                "last_path": last_path,
+                "last_track": last_track,
+                "last_sample_tag": last_sample_tag,
+                "last_metrics": last_metrics,
+                "current_winner_roles": [
+                    {
+                        "path": role.get("path", ""),
+                        "track": role.get("track", ""),
+                        "sample_tag": role.get("sample_tag", ""),
+                    }
+                    for role in roles
+                ],
+                "active": True,
+                "days_since_last_win": 0,
+            }
+        )
+        registry[strategy_id] = item
+
+    current_winner_ids = set(current_by_id)
+    open_trade_dates = _load_open_trade_dates(calendar_path, as_of_str)
+    active_items: list[dict[str, Any]] = []
+    expired_strategy_ids: list[str] = []
+    for strategy_id, item in registry.items():
+        if strategy_id not in current_winner_ids:
+            days_since = _trading_days_since(item.get("last_win_date"), as_of_str, open_trade_dates)
+            item["current_winner_roles"] = []
+            item["days_since_last_win"] = days_since
+            if days_since >= stale_trading_days:
+                expired_strategy_ids.append(strategy_id)
+                continue
+        item["active"] = True
+        active_items.append(item)
+
+    active_items.sort(key=lambda item: _core_active_sort_key(item, current_winner_ids), reverse=True)
+    kept_items = active_items[:max_size]
+    trimmed_strategy_ids = [
+        str(item.get("strategy_id", ""))
+        for item in active_items[max_size:]
+        if str(item.get("strategy_id", "")) not in current_winner_ids
+    ]
+
+    registry_payload = {
+        "as_of": as_of_str,
+        "max_size": max_size,
+        "stale_trading_days": stale_trading_days,
+        "current_winner_ids": sorted(current_winner_ids),
+        "expired_strategy_ids": sorted(expired_strategy_ids),
+        "trimmed_strategy_ids": sorted(set(trimmed_strategy_ids)),
+        "strategies": kept_items,
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(registry_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return registry_payload
+
+
 def _compute_window_metrics(equity: pd.DataFrame, monthly_returns: pd.DataFrame, turnover: pd.DataFrame) -> dict[str, float]:
     nav = equity["nav"].astype(float)
     monthly_net = monthly_returns["net_return"].astype(float)
@@ -1020,6 +1370,9 @@ def main() -> None:
     parser.add_argument("--write-json", type=Path, default=RESULTS_DIR / "weighted_track_winners.json")
     parser.add_argument("--history-json", type=Path, default=TRACKED_HISTORY_JSON_PATH)
     parser.add_argument("--history-md", type=Path, default=TRACKED_HISTORY_MD_PATH)
+    parser.add_argument("--core-active-json", type=Path, default=CORE_ACTIVE_REGISTRY_JSON_PATH)
+    parser.add_argument("--core-active-max-size", type=int, default=CORE_ACTIVE_MAX_SIZE)
+    parser.add_argument("--core-active-stale-trading-days", type=int, default=CORE_ACTIVE_STALE_TRADING_DAYS)
     args = parser.parse_args()
 
     frame = pd.read_csv(args.comparison_csv)
@@ -1380,11 +1733,35 @@ def main() -> None:
         path2_robust_id=path2_id,
         path3_robust_id=path3_id,
     )
+    core_active_backfill = backfill_core_active_registry_from_history(
+        path=args.core_active_json,
+        history_path=args.history_json,
+        as_of=sample_end,
+        max_size=args.core_active_max_size,
+        stale_trading_days=args.core_active_stale_trading_days,
+    )
+    core_active_payload = update_core_active_registry(
+        path=args.core_active_json,
+        as_of=sample_end,
+        winner_entries=_build_core_active_winner_entries(payload, strategies),
+        max_size=args.core_active_max_size,
+        stale_trading_days=args.core_active_stale_trading_days,
+    )
 
     print(f"[OK] Updated {args.readme}")
     print(f"[OK] Wrote {args.write_json}")
     print(f"[OK] Wrote {args.history_json}")
     print(f"[OK] Wrote {args.history_md}")
+    print(
+        f"[OK] Backfilled core_active from winner history "
+        f"({core_active_backfill['dates']} dates, "
+        f"{core_active_backfill['strategies']} strategies, "
+        f"{core_active_backfill['entries']} entries)"
+    )
+    print(
+        f"[OK] Wrote {args.core_active_json} "
+        f"({len(core_active_payload['strategies'])}/{core_active_payload['max_size']} active)"
+    )
     print(f"[OK] 2017-window winner: {window_2017_id} (CAGR={_fmt_pct(window_2017_metrics.cagr)}, Sharpe={window_2017_metrics.sharpe:.4f})")
     print(f"[OK] 2023-window winner: {window_2023_id} (CAGR={_fmt_pct(window_2023_metrics.cagr)}, Sharpe={window_2023_metrics.sharpe:.4f})")
     print(f"[OK] 2020-window winner: {window_2020_id} (CAGR={_fmt_pct(window_2020_metrics.cagr)}, Sharpe={window_2020_metrics.sharpe:.4f})")

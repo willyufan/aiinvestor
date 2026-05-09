@@ -12,12 +12,13 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from backtest_marketcap_etf import CORE_ACTIVE_FAMILY_BASE_IDS
+from backtest_marketcap_etf import CORE_ACTIVE_REGISTRY_PATH
 
 RESULTS_DIR = ROOT / "results"
 HK_RESULTS_DIR = ROOT / "results_hkconnect"
 LIVE_DIR = RESULTS_DIR / "live"
 TRACKED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
+CORE_ACTIVE_REGISTRY_JSON = ROOT / CORE_ACTIVE_REGISTRY_PATH
 DAILY_CACHE_DIR = ROOT / "data_cache" / "daily"
 HK_DAILY_CACHE_DIR = ROOT / "data_cache" / "hkconnect" / "daily_adj"
 A_SHARE_TRADE_CALENDAR_PATH = ROOT / "data_cache" / "trade_calendar.csv"
@@ -260,6 +261,23 @@ def build_hk_result_path(base_id: str, sample_tag: str, filename: str) -> Path:
 
 def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def load_core_active_registry_entries() -> list[dict[str, Any]]:
+    if not CORE_ACTIVE_REGISTRY_JSON.exists():
+        return []
+    try:
+        payload = load_json(CORE_ACTIVE_REGISTRY_JSON)
+    except Exception:
+        return []
+    strategies = payload.get("strategies") if isinstance(payload, dict) else []
+    if not isinstance(strategies, list):
+        return []
+    return [
+        item
+        for item in strategies
+        if isinstance(item, dict) and item.get("strategy_id") and item.get("active", True)
+    ]
 
 
 def _collect_windows(base_id: str, *, market_scope: str = "a_share") -> dict[str, Any]:
@@ -934,7 +952,9 @@ def export_live_data() -> dict[str, Any]:
         path3_known_ids.add(str((payload.get("path3") or {})["strategy_base_id"]))
 
     core_active_registry: list[dict[str, Any]] = []
-    for strategy_id in CORE_ACTIVE_FAMILY_BASE_IDS:
+    core_active_entries = load_core_active_registry_entries()
+    for registry_entry in core_active_entries:
+        strategy_id = str(registry_entry["strategy_id"])
         if strategy_id in dedup:
             continue
         try:
@@ -942,15 +962,28 @@ def export_live_data() -> dict[str, Any]:
             snapshot = load_strategy_snapshot(strategy_id, sample_tag, market_scope="a_share")
         except Exception:
             continue
-        if strategy_id in path3_known_ids or is_path3_weekly_strategy(strategy_id):
+        registry_path = str(registry_entry.get("last_path") or "")
+        if registry_path:
+            snapshot["path"] = registry_path
+        elif strategy_id in path3_known_ids or is_path3_weekly_strategy(strategy_id):
             snapshot["path"] = "path3"
         elif strategy_id in path2_known_ids or "equal_weight_winner_core" in strategy_id:
             snapshot["path"] = "path2"
         else:
             snapshot["path"] = "path1"
         snapshot["winner_type"] = "core active"
-        snapshot["winner_tags"] = []
+        snapshot["winner_tags"] = [
+            f"{role.get('path', '')}:{role.get('track', '')}".strip(":")
+            for role in registry_entry.get("current_winner_roles", [])
+            if isinstance(role, dict)
+        ]
         snapshot["market_scope"] = "a_share"
+        snapshot["core_active"] = {
+            "first_win_date": registry_entry.get("first_win_date"),
+            "last_win_date": registry_entry.get("last_win_date"),
+            "win_count": registry_entry.get("win_count"),
+            "days_since_last_win": registry_entry.get("days_since_last_win"),
+        }
         core_active_registry.append(snapshot)
 
     core_active_registry = sorted(

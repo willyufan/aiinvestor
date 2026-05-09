@@ -3269,17 +3269,11 @@ ACTIVE_FAMILY_BASE_PREFIXES = [
     "core_explore_80_20_total_mv_index_core",
     "core_explore_80_20_total_mv_winner_core",
 ]
-CORE_ACTIVE_FAMILY_BASE_IDS = [
-    "core_explore_80_20_total_mv_index_core",
-    "core_explore_80_20_total_mv_winner_core",
-    "core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp",
-    "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6",
-    "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__sat_three_stage_buffered",
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off",
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__sat_three_stage_risk",
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and",
-    "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60",
-]
+CORE_ACTIVE_REGISTRY_PATH = Path("results") / "core_active_registry.json"
+CORE_ACTIVE_MAX_SIZE = 128
+CORE_ACTIVE_STALE_TRADING_DAYS = 30
+# Legacy import alias; core_active is now loaded from CORE_ACTIVE_REGISTRY_PATH.
+CORE_ACTIVE_FAMILY_BASE_IDS = []
 ARCHIVE_FAMILY_BASE_PREFIXES = [
     "core_explore_70_30_",
     "core_explore_60_40_",
@@ -6907,8 +6901,63 @@ def get_active_strategy_base_ids() -> Set[str]:
     return active_ids
 
 
+def _collect_tracked_winner_ids(payload: Dict[str, object]) -> Set[str]:
+    winner_ids: Set[str] = set()
+
+    def add_tracks(section: object) -> None:
+        if not isinstance(section, dict):
+            return
+        tracks = section.get("tracks")
+        if not isinstance(tracks, dict):
+            return
+        for meta in tracks.values():
+            if not isinstance(meta, dict):
+                continue
+            strategy_id = meta.get("winner") or meta.get("strategy_base_id")
+            if strategy_id:
+                winner_ids.add(str(strategy_id))
+
+    add_tracks(payload)
+    for path_key in ("path2", "path3"):
+        path_payload = payload.get(path_key)
+        add_tracks(path_payload)
+        if isinstance(path_payload, dict) and path_payload.get("strategy_base_id"):
+            winner_ids.add(str(path_payload["strategy_base_id"]))
+    return winner_ids
+
+
+def _load_core_active_registry_ids(path: Path = CORE_ACTIVE_REGISTRY_PATH) -> Set[str]:
+    if not path.exists():
+        return set()
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return set()
+    strategies = payload.get("strategies") if isinstance(payload, dict) else []
+    if not isinstance(strategies, list):
+        return set()
+    return {
+        str(item["strategy_id"])
+        for item in strategies
+        if isinstance(item, dict) and item.get("strategy_id") and item.get("active", True)
+    }
+
+
+def _load_weighted_tracked_winner_ids(path: Path = RESULTS_DIR / "weighted_track_winners.json") -> Set[str]:
+    if not path.exists():
+        return set()
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return set()
+    return _collect_tracked_winner_ids(payload if isinstance(payload, dict) else {})
+
+
 def get_core_active_strategy_base_ids() -> Set[str]:
-    return {base_id for base_id in get_active_strategy_base_ids() if base_id in CORE_ACTIVE_FAMILY_BASE_IDS}
+    registry_ids = _load_core_active_registry_ids()
+    if registry_ids:
+        return registry_ids
+    return _load_weighted_tracked_winner_ids()
 
 
 def get_research_active_strategy_base_ids() -> Set[str]:
@@ -7037,7 +7086,7 @@ def main(argv: list[str] | None = None) -> None:
         default="research_active",
         help=(
             "策略家族范围：research_active 跑更宽的研究活跃家族，"
-            "core_active 只跑展示层的精简核心家族，"
+            "core_active 只跑动态 winner 观察池，"
             "active 作为 research_active 的兼容别名，"
             "archive 只跑归档家族，all 跑全部历史家族。"
         ),

@@ -4,11 +4,12 @@ __pycache__/
 *.pyc
 
 data_cache/
-results/
+results/*
 data/live_platform.db
 
 # local token config (use config.example.py as template)
 config.py
+!results/core_active_registry.json
 !results/public_snapshot.json
 !results/strategies/
 !results/strategies/*.json
