@@ -13,6 +13,16 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-10 15:04 CST）
+
+- 本轮先复跑 `.venv/bin/python scripts/path2_candidate_pass.py`，基线仍由 `risk50_mom_exit60 / risk50_mom / risk50_ma` 占据；随后新增 4 个独立过滤原型，而不是继续单纯收紧晋升保留 exit 阈值。
+- 新增原型为 `risk50_mom_confirm75` 与 `risk50_mom_confirm80_amt110`，覆盖 `1/99`、`2/98`，只跑 `90/10 equal_weight` 与 `90/10 total_mv` 两个底座四窗口，并固定 `--end-date 2026-05-08`。
+- 微批量后用本地 summary 缓存重建 comparison 到 `3139` 行 / `801` 个 base strategies；复跑 Path 2 后候选宇宙增至 `414`，五个 family 规模为 `159 / 173 / 16 / 16 / 16`，新增候选只扩充 `high_growth_theme`。
+- 新过滤没有改写 Path 2 winner：`confirm75` 最好的 2020 候选为 `90/10` 等权 `1/99`，`52.16% CAGR / -37.21% MaxDD / 1.2070 Sharpe / 4.52 Turnover`，收益低于现 `risk50_mom` 且回撤略差。
+- `confirm80_amt110` 能把长窗回撤压到约 `-35.60%`，最好的长窗候选为 `90/10` 等权 `2/98`，`33.73% CAGR / -35.60% MaxDD / 1.0221 Sharpe / 3.76 Turnover`，但 2020 窗口降到约 `39.18% CAGR`，不足以替换。
+- Path 2 tracked winners 仍为：`since_2017_01` 的 `90/10` 等权 `2/98 risk50_mom_exit60`、`since_2020_01` 的 `90/10` 等权 `1/99 risk50_mom`、`since_2023_01` 的 `90/10` 等权 `1/99 risk50_ma`；四窗口 robust candidate 仍为 `2/98 risk50_mom_exit60`，`meanCAGR=63.07% / minCAGR=37.18% / worstMaxDD=-40.14% / meanTurn=5.17`。
+- `update_weighted_winners.py` 的验证口径同步修正 Path 2 `since_2025_01` tracked winner 为 `aggr_05_95_prom3_core_6_1_full_risk_cap60`，`147.28% CAGR / -17.33% MaxDD / 2.1530 Sharpe / 5.94 Turnover`；短窗纯周度爆发候选仍保留在候选宇宙，但不再作为验证后的 Path 2 窗口 winner。
+
 ## 本轮执行计划（2026-05-10 09:17 CST）
 
 - 本轮先复跑 `.venv/bin/python scripts/path2_candidate_pass.py`，基线仍为 `398` candidates，五个 family 规模为 `159 / 157 / 16 / 16 / 16`；随后围绕当前强点 `90/10 risk50_mom` 增加 `exit80 / exit60` 晋升保留阈值微批量。
