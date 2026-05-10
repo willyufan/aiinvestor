@@ -110,12 +110,12 @@
         "weights": {
           "since_2025_01": 1.0
         },
-        "winner": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+        "winner": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60",
         "metrics": {
-          "weighted_cagr": 1.812613654839459,
-          "weighted_sharpe": 1.697027816537814,
-          "weighted_max_drawdown": -0.4077338864049069,
-          "weighted_turnover": 16.502743430954652
+          "weighted_cagr": 1.4727930800379423,
+          "weighted_sharpe": 2.1530072377897347,
+          "weighted_max_drawdown": -0.1732987302546408,
+          "weighted_turnover": 5.943987509976687
         }
       }
     },
@@ -158,24 +158,24 @@
         "weights": {
           "since_2020_01": 1.0
         },
-        "winner": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+        "winner": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly",
         "metrics": {
-          "weighted_cagr": 0.1937990577419928,
-          "weighted_sharpe": 0.5755332483609379,
-          "weighted_max_drawdown": -0.4993475650662231,
-          "weighted_turnover": 8.776346785382701
+          "weighted_cagr": 0.1467489536931479,
+          "weighted_sharpe": 0.5628380578875203,
+          "weighted_max_drawdown": -0.5170599783680433,
+          "weighted_turnover": 12.980659131690732
         }
       },
       "since_2025_only": {
         "weights": {
           "since_2025_01": 1.0
         },
-        "winner": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+        "winner": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly",
         "metrics": {
-          "weighted_cagr": 1.812613654839459,
-          "weighted_sharpe": 1.697027816537814,
-          "weighted_max_drawdown": -0.4077338864049069,
-          "weighted_turnover": 16.502743430954652
+          "weighted_cagr": 0.4764932545954468,
+          "weighted_sharpe": 1.2150407968012669,
+          "weighted_max_drawdown": -0.2737690496229947,
+          "weighted_turnover": 13.638652890079689
         }
       }
     },
@@ -189,46 +189,6 @@
     }
   },
   "strategies": {
-    "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly": {
-      "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 单周)",
-      "windows": {
-        "since_2017_01": {
-          "cagr": 0.060974963568414,
-          "sharpe": 0.3333791374002994,
-          "max_drawdown": -0.7457012406049885,
-          "turnover": 9.197538694535172,
-          "total_return": 0.7230168194112772
-        },
-        "since_2020_01": {
-          "cagr": 0.1937990577419928,
-          "sharpe": 0.5755332483609379,
-          "max_drawdown": -0.4993475650662231,
-          "turnover": 8.776346785382701,
-          "total_return": 2.0256605207659377
-        },
-        "since_2023_01": {
-          "cagr": -0.0218925816430218,
-          "sharpe": 0.1871871060802286,
-          "max_drawdown": -0.5414063306525165,
-          "turnover": 10.421294082526572,
-          "total_return": -0.07020640841633
-        },
-        "since_2025_01": {
-          "cagr": 1.812613654839459,
-          "sharpe": 1.697027816537814,
-          "max_drawdown": -0.4077338864049069,
-          "turnover": 16.502743430954652,
-          "total_return": 3.0231966659385963
-        },
-        "since_2026_01": {
-          "cagr": 0.15587110673913585,
-          "sharpe": 1.1054160468095398,
-          "max_drawdown": -0.22343801853822642,
-          "turnover": 19.420044004705883,
-          "total_return": 0.04849541864431495
-        }
-      }
-    },
     "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly": {
       "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 熊市空仓 and, 单票95%, 单周)",
       "windows": {
@@ -306,6 +266,46 @@
           "max_drawdown": -0.11976041772827128,
           "turnover": 13.951986451764705,
           "total_return": 0.26740218403372995
+        }
+      }
+    },
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60": {
+      "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%)",
+      "windows": {
+        "since_2017_01": {
+          "cagr": 0.1781676316151181,
+          "sharpe": 0.6438229506067623,
+          "max_drawdown": -0.6523501133145195,
+          "turnover": 5.177600928651221,
+          "total_return": 3.683099685343996
+        },
+        "since_2020_01": {
+          "cagr": 0.2163279389764087,
+          "sharpe": 0.6285954551977282,
+          "max_drawdown": -0.6607278054742557,
+          "turnover": 5.653955657592986,
+          "total_return": 2.513515549067429
+        },
+        "since_2023_01": {
+          "cagr": 0.5435693529717824,
+          "sharpe": 1.2192636364883536,
+          "max_drawdown": -0.4934627472930705,
+          "turnover": 5.420962094417328,
+          "total_return": 3.4068777497068865
+        },
+        "since_2025_01": {
+          "cagr": 1.4727930800379423,
+          "sharpe": 2.1530072377897347,
+          "max_drawdown": -0.1732987302546408,
+          "turnover": 5.943987509976687,
+          "total_return": 2.6059194159440664
+        },
+        "since_2026_01": {
+          "cagr": 2.1406579118751834,
+          "sharpe": 3.525850119540021,
+          "max_drawdown": 0.0,
+          "turnover": 4.7838415439999995,
+          "total_return": 0.6109866112896634
         }
       }
     },
@@ -506,6 +506,46 @@
           "max_drawdown": -0.05843472335353561,
           "turnover": 13.470240190588235,
           "total_return": 0.5278109923169731
+        }
+      }
+    },
+    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly": {
+      "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(核心6-1动量, 满风险, 单票60%, 单周)",
+      "windows": {
+        "since_2017_01": {
+          "cagr": 0.1465592044848214,
+          "sharpe": 0.6078425817824774,
+          "max_drawdown": -0.5027775123692513,
+          "turnover": 12.030363358557848,
+          "total_return": 2.5155296686673108
+        },
+        "since_2020_01": {
+          "cagr": 0.1467489536931479,
+          "sharpe": 0.5628380578875203,
+          "max_drawdown": -0.5170599783680433,
+          "turnover": 12.980659131690732,
+          "total_return": 1.3532995048540628
+        },
+        "since_2023_01": {
+          "cagr": 0.3456003166913839,
+          "sharpe": 0.9433519946348392,
+          "max_drawdown": -0.3713912218485902,
+          "turnover": 13.59078030234133,
+          "total_return": 1.6542117837944086
+        },
+        "since_2025_01": {
+          "cagr": 0.4697318868442512,
+          "sharpe": 1.202607833876442,
+          "max_drawdown": -0.2737691976587202,
+          "turnover": 13.67242530477017,
+          "total_return": 0.6792997907973752
+        },
+        "since_2026_01": {
+          "cagr": 2.6562553116953103,
+          "sharpe": 5.064442166738642,
+          "max_drawdown": -0.058434732546106316,
+          "turnover": 13.470240190588235,
+          "total_return": 0.5278109899325769
         }
       }
     },
