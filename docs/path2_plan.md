@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-10 21:14 CST）
+
+- 本轮先复跑 `.venv/bin/python scripts/path2_candidate_pass.py`，基线仍为 `414` candidates，五个 family 规模为 `159 / 173 / 16 / 16 / 16`，窗口 winner 继续由 `risk50_mom_exit60 / risk50_mom / risk50_ma` 占据。
+- 新增 4 个独立风险节奏原型：`risk50_mom_caution70` 与 `risk50_mom_caution60`，覆盖 `1/99`、`2/98`；只跑 `90/10 equal_weight` 与 `90/10 total_mv` 两个底座四窗口，并固定 `--end-date 2026-05-08`。
+- 微批量后用本地 summary 缓存重建 comparison 到 `3171` 行 / `809` 个 base strategies；复跑 Path 2 后候选宇宙增至 `422`，五个 family 规模为 `159 / 181 / 16 / 16 / 16`，新增候选只扩充 `high_growth_theme`。
+- 新谨慎仓没有改写 Path 2 winner：最好 2020 候选为 `90/10` 等权 `1/99 risk50_mom_caution70`，`52.79% CAGR / -36.76% MaxDD / 1.2114 Sharpe / 4.53 Turnover`，Sharpe 略好但收益低于当前 `risk50_mom` 且回撤略差。
+- 主要 side observation 是 2023 窗口：`90/10` 等权 `1/99 risk50_mom_caution70` 为 `61.64% CAGR / -33.36% MaxDD / 1.3678 Sharpe / 4.36 Turnover`，比当前 `risk50_ma` 更稳但收益不足以替换；`caution60` 进一步降收益，只改善局部 Sharpe。
+- Path 2 tracked winners 仍为：`since_2017_01` 的 `90/10` 等权 `2/98 risk50_mom_exit60`、`since_2020_01` 的 `90/10` 等权 `1/99 risk50_mom`、`since_2023_01` 的 `90/10` 等权 `1/99 risk50_ma`、验证后的 `since_2025_01` `aggr_05_95_prom3_core_6_1_full_risk_cap60`；四窗口 robust candidate 仍为 `2/98 risk50_mom_exit60`，`meanCAGR=63.07% / minCAGR=37.18% / worstMaxDD=-40.14% / meanTurn=5.17`。
+
 ## 本轮执行计划（2026-05-10 15:04 CST）
 
 - 本轮先复跑 `.venv/bin/python scripts/path2_candidate_pass.py`，基线仍由 `risk50_mom_exit60 / risk50_mom / risk50_ma` 占据；随后新增 4 个独立过滤原型，而不是继续单纯收紧晋升保留 exit 阈值。
