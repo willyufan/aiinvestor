@@ -48,6 +48,68 @@ TRACK_SEQUENCE = [
 ]
 ROBUST_TRACK_KEY = "robust_candidate"
 
+# Phase 1: Adjacent-window validation
+#
+# When picking a window winner, validate the candidate's CAGR in an "adjacent" window
+# against the incumbent winner of that adjacent window. This filters out candidates
+# that look great in the target window but collapse in the validation window
+# (typical sign of overfitting to a specific regime).
+#
+# The validation_window for each target_window is chosen to be the "next more recent"
+# window, except for since_2025_01 which goes back to since_2023_01 (since 2026 is
+# observation-only and not used for validation).
+ADJACENT_VALIDATION_WINDOW = {
+    "since_2017_01": "since_2020_01",
+    "since_2020_01": "since_2023_01",
+    "since_2023_01": "since_2025_01",
+    "since_2025_01": "since_2023_01",
+}
+
+# Threshold is keyed by the VALIDATION window (i.e., the window we check against).
+# Shorter validation windows have higher CAGR variance, so we use looser thresholds
+# to avoid rejecting healthy candidates that simply did not bet on the same theme as
+# a short-window outlier.
+ADJACENT_VALIDATION_THRESHOLDS = {
+    "since_2017_01": 0.75,
+    "since_2020_01": 0.75,
+    "since_2023_01": 0.70,
+    "since_2025_01": 0.60,
+}
+
+# Absolute floor: required CAGR = max(threshold * effective_incumbent_cagr, ABSOLUTE_FLOOR).
+# Keeps the rule sensible when incumbent CAGR is near zero or negative — a candidate
+# must at least break even in the validation window, regardless of how the percentage
+# threshold scales.
+ADJACENT_VALIDATION_ABSOLUTE_FLOOR = 0.0
+
+# Cap on the incumbent CAGR used for the threshold computation, keyed by validation
+# window. Without this cap, an outlier incumbent (e.g., a 2025 winner with 181% CAGR)
+# would inflate the required CAGR to an unrealistic level (60% × 181% = 108%), creating
+# a bistable system: the only candidate that meets the bar is the same overfit
+# strategy, which produces a self-perpetuating state. Capping the effective incumbent
+# CAGR at a reasonable level for the window's typical universe disarms outliers and
+# allows the validation to converge on healthy candidates.
+#
+# Caps reflect "what counts as a healthy upper-end CAGR" for that window:
+#   2017 (long, 9 years): 30% — sustained 30%+ over 9 years is exceptional
+#   2020 (medium, 6 years): 35%
+#   2023 (medium-short, 3 years): 50%
+#   2025 (short, 1.4 years): 70% — short windows can legitimately show high CAGR,
+#       but >70% is typically outlier territory
+ADJACENT_VALIDATION_INCUMBENT_CAP = {
+    "since_2017_01": 0.30,
+    "since_2020_01": 0.35,
+    "since_2023_01": 0.50,
+    "since_2025_01": 0.70,
+}
+
+WINDOW_TAG_TO_TRACK_KEY = {
+    "since_2017_01": "since_2017_only",
+    "since_2020_01": "since_2020_only",
+    "since_2023_01": "since_2023_only",
+    "since_2025_01": "since_2025_only",
+}
+
 
 @dataclass(frozen=True)
 class TrackMetrics:
@@ -291,6 +353,42 @@ def _load_existing_path1_winners(path: Path) -> dict[str, str]:
     return winners
 
 
+def _load_existing_winners_all_paths(path: Path) -> dict[str, dict[str, str]]:
+    """Load existing path1/path2/path3 winners as anchors for adjacent-window validation.
+
+    Returns a dict keyed by path name ("path1"/"path2"/"path3"), each mapping
+    track_key -> winner_base_id. Empty mappings are returned when the file
+    does not exist or cannot be parsed.
+    """
+    result: dict[str, dict[str, str]] = {"path1": {}, "path2": {}, "path3": {}}
+    if not path.exists():
+        return result
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return result
+    if not isinstance(payload, dict):
+        return result
+
+    tracks = payload.get("tracks")
+    if isinstance(tracks, dict):
+        for track_key, meta in tracks.items():
+            if isinstance(meta, dict) and meta.get("winner"):
+                result["path1"][str(track_key)] = str(meta["winner"])
+
+    for path_key in ("path2", "path3"):
+        sub = payload.get(path_key)
+        if not isinstance(sub, dict):
+            continue
+        sub_tracks = sub.get("tracks")
+        if not isinstance(sub_tracks, dict):
+            continue
+        for track_key, meta in sub_tracks.items():
+            if isinstance(meta, dict) and meta.get("winner"):
+                result[path_key][str(track_key)] = str(meta["winner"])
+    return result
+
+
 def _latest_per_strategy_window(frame: pd.DataFrame) -> pd.DataFrame:
     required_cols = {"strategy_base_id", "strategy_base_name", "sample_tag", "sample_end"}
     missing = required_cols - set(frame.columns)
@@ -423,6 +521,224 @@ def _pick_single_window_winner(
 
     candidates.sort(key=lambda item: (item[1].cagr, item[1].sharpe, item[1].max_drawdown, -item[1].turnover), reverse=True)
     return candidates[0]
+
+
+def _passes_adjacent_window_check(
+    *,
+    candidate_id: str,
+    target_window: str,
+    by_id: dict[str, pd.DataFrame],
+    incumbent_winners: dict[str, str],
+) -> tuple[bool, dict[str, Any]]:
+    """Validate a candidate's performance in its adjacent window.
+
+    For the candidate competing for the ``target_window`` slot, find the
+    designated validation window, look up the incumbent winner of that
+    validation window, and require:
+
+        candidate_cagr >= max(threshold * incumbent_cagr, ABSOLUTE_FLOOR)
+
+    Returns a ``(passes, detail)`` tuple where ``detail`` carries diagnostic
+    fields used for logging.
+
+    Degrades gracefully (returns ``passes=True``) when:
+        - target_window has no adjacent validation mapping
+        - no incumbent winner is recorded for the validation window
+        - incumbent metrics are missing in the validation window
+    Fails closed (returns ``passes=False``) when the candidate itself has
+    no metrics in the validation window — that is suspicious enough that
+    we'd rather skip the candidate.
+    """
+    detail: dict[str, Any] = {
+        "candidate_id": candidate_id,
+        "target_window": target_window,
+    }
+    validation_window = ADJACENT_VALIDATION_WINDOW.get(target_window)
+    detail["validation_window"] = validation_window
+    if not validation_window:
+        detail["reason"] = "no_adjacent_window"
+        return True, detail
+
+    threshold = ADJACENT_VALIDATION_THRESHOLDS.get(validation_window, 0.70)
+    detail["threshold"] = threshold
+    detail["absolute_floor"] = ADJACENT_VALIDATION_ABSOLUTE_FLOOR
+
+    incumbent_track_key = WINDOW_TAG_TO_TRACK_KEY.get(validation_window)
+    incumbent_id = incumbent_winners.get(incumbent_track_key) if incumbent_track_key else None
+    detail["incumbent_id"] = incumbent_id
+
+    if not incumbent_id:
+        detail["reason"] = "no_incumbent"
+        return True, detail
+
+    candidate_group = by_id.get(candidate_id)
+    if candidate_group is None or candidate_group.empty:
+        detail["reason"] = "candidate_missing_data"
+        return False, detail
+    candidate_metrics = _compute_single_window_metrics(candidate_group, validation_window)
+    detail["candidate_cagr"] = candidate_metrics.cagr
+    if _is_nan_metrics(candidate_metrics) or pd.isna(candidate_metrics.cagr):
+        detail["reason"] = "candidate_missing_validation_metrics"
+        return False, detail
+
+    incumbent_group = by_id.get(incumbent_id)
+    if incumbent_group is None or incumbent_group.empty:
+        detail["reason"] = "incumbent_missing_data"
+        return True, detail
+    incumbent_metrics = _compute_single_window_metrics(incumbent_group, validation_window)
+    detail["incumbent_cagr"] = incumbent_metrics.cagr
+    if pd.isna(incumbent_metrics.cagr):
+        detail["reason"] = "incumbent_missing_validation_metrics"
+        return True, detail
+
+    incumbent_cagr = float(incumbent_metrics.cagr)
+    cap = ADJACENT_VALIDATION_INCUMBENT_CAP.get(validation_window)
+    if cap is not None and incumbent_cagr > cap:
+        effective_incumbent_cagr = cap
+        detail["effective_incumbent_cagr"] = effective_incumbent_cagr
+    else:
+        effective_incumbent_cagr = incumbent_cagr
+
+    required_cagr = max(threshold * effective_incumbent_cagr, ADJACENT_VALIDATION_ABSOLUTE_FLOOR)
+    detail["required_cagr"] = required_cagr
+    detail["reason"] = "threshold_check"
+    return float(candidate_metrics.cagr) >= required_cagr, detail
+
+
+def _fmt_validation_detail(detail: dict[str, Any]) -> str:
+    parts: list[str] = []
+    for key in ("validation_window", "threshold", "incumbent_id", "incumbent_cagr", "required_cagr", "candidate_cagr", "reason"):
+        if key not in detail:
+            continue
+        value = detail[key]
+        if isinstance(value, float):
+            parts.append(f"{key}={value:.4f}")
+        else:
+            parts.append(f"{key}={value}")
+    return ", ".join(parts)
+
+
+def _pick_single_window_winner_with_validation(
+    latest: pd.DataFrame,
+    sample_tag: str,
+    *,
+    allowed_base_ids: set[str] | None,
+    by_id: dict[str, pd.DataFrame],
+    incumbent_winners: dict[str, str],
+    enable_validation: bool,
+    log_prefix: str = "",
+) -> tuple[str, TrackMetrics]:
+    """Pick the best-ranked candidate for ``sample_tag`` that also passes the
+    adjacent-window check against ``incumbent_winners``.
+
+    When validation is enabled and at least one candidate passes, return the
+    top-ranked passing candidate. When all candidates fail validation, fall
+    back to the existing incumbent (if any) to preserve stability — this is
+    the safe choice during transient overfit incumbent situations.
+    Otherwise fall back to the absolute top-ranked candidate.
+    """
+    candidates: list[tuple[str, TrackMetrics]] = []
+    for base_id, group in latest.groupby("strategy_base_id"):
+        base_id_str = str(base_id)
+        if allowed_base_ids is not None and base_id_str not in allowed_base_ids:
+            continue
+        tags = set(group["sample_tag"].astype(str))
+        if sample_tag != "since_2025_01" and not set(WEIGHTED_WINDOW_TAGS).issubset(tags):
+            continue
+        if sample_tag not in tags:
+            continue
+        metrics = _compute_single_window_metrics(group, sample_tag)
+        if _is_nan_metrics(metrics):
+            continue
+        candidates.append((base_id_str, metrics))
+
+    if not candidates:
+        raise RuntimeError(f"No strategies have {sample_tag} window to compute the single-window winner.")
+
+    candidates.sort(
+        key=lambda item: (item[1].cagr, item[1].sharpe, item[1].max_drawdown, -item[1].turnover),
+        reverse=True,
+    )
+
+    if not enable_validation:
+        return candidates[0]
+
+    rejected_count = 0
+    for candidate_id, candidate_metrics in candidates:
+        passes, detail = _passes_adjacent_window_check(
+            candidate_id=candidate_id,
+            target_window=sample_tag,
+            by_id=by_id,
+            incumbent_winners=incumbent_winners,
+        )
+        if passes:
+            return candidate_id, candidate_metrics
+        rejected_count += 1
+        if rejected_count <= 3:
+            print(f"[validation]{log_prefix} rejected {candidate_id} for {sample_tag}: {_fmt_validation_detail(detail)}")
+
+    # All candidates rejected — fall back to incumbent if available, else top-ranked.
+    incumbent_track_key = WINDOW_TAG_TO_TRACK_KEY.get(sample_tag)
+    incumbent_id = incumbent_winners.get(incumbent_track_key) if incumbent_track_key else None
+    if incumbent_id and incumbent_id in by_id:
+        incumbent_metrics = _compute_single_window_metrics(by_id[incumbent_id], sample_tag)
+        if not _is_nan_metrics(incumbent_metrics):
+            print(
+                f"[validation]{log_prefix} no candidate passed for {sample_tag}; "
+                f"keeping incumbent {incumbent_id}"
+            )
+            return incumbent_id, incumbent_metrics
+
+    print(
+        f"[validation]{log_prefix} no candidate passed for {sample_tag} and no incumbent fallback; "
+        f"using top-ranked {candidates[0][0]}"
+    )
+    return candidates[0]
+
+
+def _resolve_path_window_winners_with_convergence(
+    *,
+    latest: pd.DataFrame,
+    allowed_base_ids: set[str],
+    by_id: dict[str, pd.DataFrame],
+    initial_incumbents: dict[str, str],
+    enable_validation: bool,
+    log_prefix: str,
+    max_iterations: int = 3,
+) -> dict[str, tuple[str, TrackMetrics]]:
+    """Pick the four window winners for a single path with iterative convergence.
+
+    Each iteration uses the previous iteration's winners as incumbents for
+    adjacent-window validation. This breaks the circular dependency that arises
+    when a JSON-loaded incumbent is itself an overfit outlier (e.g., an old
+    2025 winner with extreme CAGR forces an unrealistically high validation bar
+    that only the same overfit strategy can clear). Within 2-3 iterations the
+    assignments stabilize on a self-consistent set.
+    """
+    target_windows = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
+    incumbents = dict(initial_incumbents)
+    last_winners: dict[str, tuple[str, TrackMetrics]] = {}
+    for iteration in range(max_iterations):
+        iter_log_prefix = f"{log_prefix}[iter{iteration + 1}]" if enable_validation else log_prefix
+        winners: dict[str, tuple[str, TrackMetrics]] = {}
+        for tag in target_windows:
+            winners[tag] = _pick_single_window_winner_with_validation(
+                latest,
+                tag,
+                allowed_base_ids=allowed_base_ids,
+                by_id=by_id,
+                incumbent_winners=incumbents,
+                enable_validation=enable_validation,
+                log_prefix=iter_log_prefix,
+            )
+        if not enable_validation:
+            return winners
+        new_id_map = {tag: winner[0] for tag, winner in winners.items()}
+        if last_winners and {tag: w[0] for tag, w in last_winners.items()} == new_id_map:
+            return last_winners
+        incumbents = {WINDOW_TAG_TO_TRACK_KEY[tag]: winner[0] for tag, winner in winners.items()}
+        last_winners = winners
+    return last_winners
 
 
 def _fmt_pct(value: float, digits: int = 2) -> str:
@@ -1404,7 +1720,15 @@ def main() -> None:
     parser.add_argument("--core-active-json", type=Path, default=CORE_ACTIVE_REGISTRY_JSON_PATH)
     parser.add_argument("--core-active-max-size", type=int, default=CORE_ACTIVE_MAX_SIZE)
     parser.add_argument("--core-active-stale-trading-days", type=int, default=CORE_ACTIVE_STALE_TRADING_DAYS)
+    parser.add_argument(
+        "--disable-adjacent-validation",
+        action="store_true",
+        help="Disable the adjacent-window validation guard (Phase 1). Use for debugging or "
+        "rollback. By default, candidates must pass the asymmetric multi-window threshold "
+        "check before being accepted as a window winner.",
+    )
     args = parser.parse_args()
+    enable_adjacent_validation = not args.disable_adjacent_validation
 
     frame = pd.read_csv(args.comparison_csv)
     latest = _filter_to_current_as_of(_augment_with_synthetic_windows(_latest_per_strategy_window(frame)))
@@ -1419,6 +1743,7 @@ def main() -> None:
         raise RuntimeError(f"No winner-core strategies found with prefix={prefix!r}")
 
     existing_path1_winners = _load_existing_path1_winners(args.write_json)
+    existing_winners_all_paths = _load_existing_winners_all_paths(args.write_json)
     by_id: dict[str, pd.DataFrame] = {str(base_id): group for base_id, group in latest.groupby("strategy_base_id")}
 
     def metrics_for(base_id: str, sample_tag: str) -> TrackMetrics:
@@ -1427,7 +1752,12 @@ def main() -> None:
             return TrackMetrics(cagr=float("nan"), sharpe=float("nan"), max_drawdown=float("nan"), turnover=float("nan"))
         return _compute_single_window_metrics(group, sample_tag)
 
-    def resolve_path1_winner(track_key: str, sample_tag: str) -> tuple[str, TrackMetrics]:
+    def resolve_path1_winner(
+        track_key: str,
+        sample_tag: str,
+        path1_incumbents: dict[str, str],
+        log_prefix: str = "[path1]",
+    ) -> tuple[str, TrackMetrics]:
         current_id = existing_path1_winners.get(track_key)
         current_id_str = str(current_id) if current_id else ""
 
@@ -1456,27 +1786,92 @@ def main() -> None:
         if not ranked:
             raise RuntimeError(f"No winner-core strategies found for sample_tag={sample_tag!r}")
 
+        def candidate_passes_validation(candidate_id: str) -> bool:
+            if not enable_adjacent_validation:
+                return True
+            passes, detail = _passes_adjacent_window_check(
+                candidate_id=candidate_id,
+                target_window=sample_tag,
+                by_id=by_id,
+                incumbent_winners=path1_incumbents,
+            )
+            if not passes:
+                print(f"[validation]{log_prefix} rejected {candidate_id} for {sample_tag}: {_fmt_validation_detail(detail)}")
+            return passes
+
         if not current_id_str or current_id_str not in path1_family_ids or current_id_str not in active_family_ids:
+            for candidate_id, candidate_metrics in ranked:
+                if candidate_passes_validation(candidate_id):
+                    return candidate_id, candidate_metrics
+            print(
+                f"[validation]{log_prefix} no candidate passed for {sample_tag} and no incumbent fallback; "
+                f"using top-ranked {ranked[0][0]}"
+            )
             return ranked[0]
 
         current_metrics = metrics_for(current_id_str, sample_tag)
         if _is_nan_metrics(current_metrics):
+            for candidate_id, candidate_metrics in ranked:
+                if candidate_passes_validation(candidate_id):
+                    return candidate_id, candidate_metrics
+            print(
+                f"[validation]{log_prefix} no candidate passed for {sample_tag} and incumbent has no metrics; "
+                f"using top-ranked {ranked[0][0]}"
+            )
             return ranked[0]
 
         for candidate_id, candidate_metrics in ranked:
-            if _is_clear_improvement(
+            if not _is_clear_improvement(
                 candidate=candidate_metrics,
                 current=current_metrics,
                 thresholds=PATH1_IMPROVEMENT_THRESHOLDS,
             ):
-                return candidate_id, candidate_metrics
+                continue
+            if not candidate_passes_validation(candidate_id):
+                continue
+            return candidate_id, candidate_metrics
 
         return current_id_str, current_metrics
 
-    window_2017_id, window_2017_metrics = resolve_path1_winner("since_2017_only", "since_2017_01")
-    window_2023_id, window_2023_metrics = resolve_path1_winner("since_2023_only", "since_2023_01")
-    window_2020_id, window_2020_metrics = resolve_path1_winner("since_2020_only", "since_2020_01")
-    window_2025_id, window_2025_metrics = resolve_path1_winner("since_2025_only", "since_2025_01")
+    def resolve_path1_winners_with_convergence(max_iterations: int = 3) -> dict[str, tuple[str, TrackMetrics]]:
+        """Iterate Path 1 picking until winner assignments stabilize.
+
+        Mirrors the convergence loop used for Path 2/3 so adjacent-window
+        validation anchors are the freshly-resolved winners, not stale JSON
+        values. Path 1 also has the improvement-stickiness check, so in
+        practice convergence usually happens in one round; the loop is
+        defense-in-depth against transient mismatch when a Path 1 winner
+        does change.
+        """
+        track_specs = [
+            ("since_2017_only", "since_2017_01"),
+            ("since_2020_only", "since_2020_01"),
+            ("since_2023_only", "since_2023_01"),
+            ("since_2025_only", "since_2025_01"),
+        ]
+        incumbents = dict(existing_winners_all_paths.get("path1", {}))
+        last_winners: dict[str, tuple[str, TrackMetrics]] = {}
+        for iteration in range(max_iterations):
+            iter_log_prefix = f"[path1][iter{iteration + 1}]" if enable_adjacent_validation else "[path1]"
+            winners: dict[str, tuple[str, TrackMetrics]] = {}
+            for track_key, sample_tag in track_specs:
+                winners[sample_tag] = resolve_path1_winner(
+                    track_key, sample_tag, incumbents, log_prefix=iter_log_prefix
+                )
+            if not enable_adjacent_validation:
+                return winners
+            new_id_map = {tag: winner[0] for tag, winner in winners.items()}
+            if last_winners and {tag: w[0] for tag, w in last_winners.items()} == new_id_map:
+                return last_winners
+            incumbents = {WINDOW_TAG_TO_TRACK_KEY[tag]: winner[0] for tag, winner in winners.items()}
+            last_winners = winners
+        return last_winners
+
+    path1_winners = resolve_path1_winners_with_convergence()
+    window_2017_id, window_2017_metrics = path1_winners["since_2017_01"]
+    window_2020_id, window_2020_metrics = path1_winners["since_2020_01"]
+    window_2023_id, window_2023_metrics = path1_winners["since_2023_01"]
+    window_2025_id, window_2025_metrics = path1_winners["since_2025_01"]
     path1_robust_id, path1_summary = _pick_robust_candidate(
         latest[latest["strategy_base_id"].astype(str).isin(path1_family_ids & active_family_ids)]
     )
@@ -1491,18 +1886,18 @@ def main() -> None:
             "Path 2 candidate universe is empty. "
             "Check PATH2_SCAN_BASE_PREFIXES / PATH2_SCAN_VARIANT_IDS in backtest_marketcap_etf.py."
         )
-    path2_window_2017_id, path2_window_2017_metrics = _pick_single_window_winner(
-        latest, "since_2017_01", allowed_base_ids=path2_allowed_ids
+    path2_winners = _resolve_path_window_winners_with_convergence(
+        latest=latest,
+        allowed_base_ids=path2_allowed_ids,
+        by_id=by_id,
+        initial_incumbents=existing_winners_all_paths.get("path2", {}),
+        enable_validation=enable_adjacent_validation,
+        log_prefix="[path2]",
     )
-    path2_window_2023_id, path2_window_2023_metrics = _pick_single_window_winner(
-        latest, "since_2023_01", allowed_base_ids=path2_allowed_ids
-    )
-    path2_window_2020_id, path2_window_2020_metrics = _pick_single_window_winner(
-        latest, "since_2020_01", allowed_base_ids=path2_allowed_ids
-    )
-    path2_window_2025_id, path2_window_2025_metrics = _pick_single_window_winner(
-        latest, "since_2025_01", allowed_base_ids=path2_allowed_ids
-    )
+    path2_window_2017_id, path2_window_2017_metrics = path2_winners["since_2017_01"]
+    path2_window_2020_id, path2_window_2020_metrics = path2_winners["since_2020_01"]
+    path2_window_2023_id, path2_window_2023_metrics = path2_winners["since_2023_01"]
+    path2_window_2025_id, path2_window_2025_metrics = path2_winners["since_2025_01"]
     path2_id, path2_summary = _pick_path2_candidate(
         latest[latest["strategy_base_id"].astype(str).isin(path2_allowed_ids)]
     )
@@ -1513,18 +1908,18 @@ def main() -> None:
     } - STATIC_BASE_IDS
     if not path3_allowed_ids:
         raise RuntimeError("Path 3 candidate universe is empty. Expected pure weekly strategy ids ending with '_weekly'.")
-    path3_window_2017_id, path3_window_2017_metrics = _pick_single_window_winner(
-        latest, "since_2017_01", allowed_base_ids=path3_allowed_ids
+    path3_winners = _resolve_path_window_winners_with_convergence(
+        latest=latest,
+        allowed_base_ids=path3_allowed_ids,
+        by_id=by_id,
+        initial_incumbents=existing_winners_all_paths.get("path3", {}),
+        enable_validation=enable_adjacent_validation,
+        log_prefix="[path3]",
     )
-    path3_window_2023_id, path3_window_2023_metrics = _pick_single_window_winner(
-        latest, "since_2023_01", allowed_base_ids=path3_allowed_ids
-    )
-    path3_window_2020_id, path3_window_2020_metrics = _pick_single_window_winner(
-        latest, "since_2020_01", allowed_base_ids=path3_allowed_ids
-    )
-    path3_window_2025_id, path3_window_2025_metrics = _pick_single_window_winner(
-        latest, "since_2025_01", allowed_base_ids=path3_allowed_ids
-    )
+    path3_window_2017_id, path3_window_2017_metrics = path3_winners["since_2017_01"]
+    path3_window_2020_id, path3_window_2020_metrics = path3_winners["since_2020_01"]
+    path3_window_2023_id, path3_window_2023_metrics = path3_winners["since_2023_01"]
+    path3_window_2025_id, path3_window_2025_metrics = path3_winners["since_2025_01"]
     path3_id, path3_summary = _pick_robust_candidate(latest, allowed_base_ids=path3_allowed_ids)
     sample_end = max(info["sample_end"] for info in strategies.values())
 
