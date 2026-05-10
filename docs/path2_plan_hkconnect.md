@@ -1,5 +1,14 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-05-10 09:17 CST）
+
+- 本轮与港股 Path 1 同批运行五窗口回测，并用 `scripts/update_hkconnect_artifacts.py` 同步 tracked payload 与三张图表；港股线继续不并入 A 股 winner 结论。
+- Path 2 继续只保留收益上限探索线的月度/双周主题、突破、高集中、高弹性候选；纯周度主题强度继续交给 Path 3 独立跟踪。
+- 当前 Path 2 tracked winners 未漂移：`since_2017_01` 为 `hkconnect_path2_equal_elastic_monthly`，`21.84% CAGR / -36.76% MaxDD / 0.9475 Sharpe / 6.80 Turnover`；`since_2020_01` 为 `hkconnect_path2_inverse_elastic_monthly`，`25.82% / -36.76% / 1.0054 / 6.64`。
+- `since_2023_01` 仍为 `hkconnect_path2_theme_monthly`，`31.22% CAGR / -16.07% MaxDD / 1.4133 Sharpe / 6.02 Turnover`；`since_2025_01` 仍为 `hkconnect_path2_breakout_concentrated_monthly`，`97.73% / -7.23% / 2.3476 / 9.05`。
+- 四窗口 robust candidate 仍是 `hkconnect_path2_theme_monthly`，`meanCAGR=36.97% / minCAGR=18.64% / worstMaxDD=-30.99% / meanTurn=6.22`；`since_2026_01` 只观察，当前 raw leader 仍是 `hkconnect_path2_breakout_concentrated_monthly`。
+- 港股 Path 3 同步观察未漂移：`since_2017_01` winner 为 `hkconnect_path3_stable_weekly_equal_buffered`，`since_2020_01 / since_2023_01` 为 `hkconnect_path3_theme_fast_weekly_buffered`，`since_2025_01` 为 `hkconnect_path3_theme_fast_weekly_defensive`；周频路线继续单独保留，不回并 Path 2。
+
 ## 本轮执行计划（2026-05-10 03:16 CST）
 
 - 本轮继续以港股三路径拆分口径运行五窗口离线回测，并用 `scripts/update_hkconnect_artifacts.py` 同步 tracked payload 与三张图表；港股线不并入 A 股 winner 结论。

@@ -13,6 +13,16 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-10 09:17 CST）
+
+- 本轮先复跑 `.venv/bin/python scripts/path2_candidate_pass.py`，基线仍为 `398` candidates，五个 family 规模为 `159 / 157 / 16 / 16 / 16`；随后围绕当前强点 `90/10 risk50_mom` 增加 `exit80 / exit60` 晋升保留阈值微批量。
+- 新增 4 个显式原型：`aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit80_cap95`、`aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit80_cap95`、`aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_cap95`、`aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_cap95`；只跑 `90/10 equal_weight` 与 `90/10 total_mv` 两个底座四窗口，并固定 `--end-date 2026-05-08`。
+- 微批量后用本地 summary 缓存重建 comparison 到 `3107` 行 / `793` 个 base strategies；复跑 Path 2 后候选宇宙扩为 `406`，五个 family 规模为 `159 / 165 / 16 / 16 / 16`，新增候选只扩充 `high_growth_theme`。
+- 新 `exit60` 改写 Path 2 `since_2017_01` winner：`core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_cap95` 达到 `37.18% CAGR / -40.14% MaxDD / 0.9855 Sharpe / 4.06 Turnover`；相对旧 `risk50_mom` 长窗提高收益与 Sharpe，但回撤和换手略变差。
+- `since_2020_01` winner 仍为 `90/10` 等权 `1/99 risk50_mom`，`55.60% CAGR / -36.55% MaxDD / 1.2050 Sharpe / 4.65 Turnover`；新增 `exit60` 在 2020 窗口约 `54.99% CAGR / -36.33% MaxDD / 1.1953 Sharpe / 4.74 Turnover`，回撤小幅改善但收益和 Sharpe 不足以替换。
+- `since_2023_01` 仍为 `90/10` 等权 `1/99 risk50_ma`，`67.06% / -36.51% / 1.3498 / 4.79`；`since_2025_01` 仍为纯周度短窗候选 `aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly`。
+- 四窗口 robust candidate 切到 `90/10` 等权 `2/98 risk50_mom_exit60`，`meanCAGR=63.07% / minCAGR=37.18% / worstMaxDD=-40.14% / meanTurn=5.17`；下一轮不要只继续收紧晋升保留阈值，应优先寻找能保住 2020 收益同时降低长窗回撤的独立过滤或风险时点。
+
 ## 本轮执行计划（2026-05-10 03:16 CST）
 
 - 本轮先独立运行 `.venv/bin/python scripts/path2_candidate_pass.py`，发现全局 `sample_end=2026-05-08` 过滤会把真实双周信号点仍在 `2026-04-30` 的候选误删；已修正 `scripts/path2_candidate_pass.py`，改为保留每个策略/窗口自身最新记录，避免混淆数据截止日与调仓/信号生效日。
