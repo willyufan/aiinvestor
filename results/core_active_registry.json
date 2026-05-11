@@ -1,88 +1,46 @@
 {
-  "as_of": "2026-05-08",
+  "as_of": "2026-05-11",
   "max_size": 128,
   "stale_trading_days": 30,
   "current_winner_ids": [
     "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly",
+    "core_explore_80_20_total_mv_winner_core",
     "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_weekly",
     "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60",
-    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered",
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered",
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered",
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__sat_weekly_risk",
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly",
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly",
-    "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_core_6_1__port_weekly_exposure_buffered",
     "core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_ma_cap95",
     "core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_cap95",
     "core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm75_cap95"
   ],
   "current_refresh_only_ids": [
-    "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off",
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered"
+    "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly"
   ],
   "expired_strategy_ids": [],
   "trimmed_strategy_ids": [],
   "trimmed_refresh_only_strategy_ids": [],
   "strategies": [
     {
-      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered",
-      "strategy_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓)__月度选股_周度仓位调整(双周确认)",
-      "first_win_date": "2026-04-22",
-      "last_win_date": "2026-05-08",
-      "win_dates": [
-        "2026-04-22",
-        "2026-04-27",
-        "2026-04-28",
-        "2026-04-29",
-        "2026-04-30",
-        "2026-05-06",
-        "2026-05-08"
-      ],
-      "win_count": 7,
-      "last_path": "path1",
-      "last_track": "since_2017_only",
-      "last_sample_tag": "since_2017_01",
-      "last_metrics": {
-        "weighted_cagr": 0.2724684473842611,
-        "weighted_sharpe": 1.1182876043278565,
-        "weighted_max_drawdown": -0.2816099688716466,
-        "weighted_turnover": 0.8011917854308965
-      },
-      "current_winner_roles": [
-        {
-          "path": "path1",
-          "track": "since_2017_only",
-          "sample_tag": "since_2017_01",
-          "kind": "validated",
-          "refresh_only": false
-        }
-      ],
-      "refresh_only": false,
-      "active": true,
-      "days_since_last_win": 0
-    },
-    {
       "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly",
       "strategy_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 熊市空仓 and, 单票95%, 单周)",
       "first_win_date": "2026-04-30",
-      "last_win_date": "2026-05-08",
+      "last_win_date": "2026-05-11",
       "win_dates": [
         "2026-04-30",
         "2026-05-06",
         "2026-05-07",
-        "2026-05-08"
+        "2026-05-08",
+        "2026-05-11"
       ],
-      "win_count": 4,
+      "win_count": 5,
       "last_path": "path3",
       "last_track": "since_2017_only",
       "last_sample_tag": "since_2017_01",
       "last_metrics": {
-        "weighted_cagr": 0.2335645879030328,
-        "weighted_sharpe": 0.797711377634375,
+        "weighted_cagr": 0.233024132016874,
+        "weighted_sharpe": 0.7968698019275714,
         "weighted_max_drawdown": -0.400410392638774,
-        "weighted_turnover": 7.703749385831443
+        "weighted_turnover": 7.687666401727411
       },
       "current_winner_roles": [
         {
@@ -101,22 +59,23 @@
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly",
       "strategy_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(核心6-1动量, 满风险, 单票60%, 单周)",
       "first_win_date": "2026-04-30",
-      "last_win_date": "2026-05-08",
+      "last_win_date": "2026-05-11",
       "win_dates": [
         "2026-04-30",
         "2026-05-06",
         "2026-05-07",
-        "2026-05-08"
+        "2026-05-08",
+        "2026-05-11"
       ],
-      "win_count": 4,
+      "win_count": 5,
       "last_path": "path3",
       "last_track": "since_2020_only",
       "last_sample_tag": "since_2020_01",
       "last_metrics": {
-        "weighted_cagr": 0.1467489536931479,
-        "weighted_sharpe": 0.5628380578875203,
+        "weighted_cagr": 0.1462673817876028,
+        "weighted_sharpe": 0.5619715395263833,
         "weighted_max_drawdown": -0.5170599783680433,
-        "weighted_turnover": 12.980659131690732
+        "weighted_turnover": 12.940841158894134
       },
       "current_winner_roles": [
         {
@@ -135,13 +94,14 @@
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60",
       "strategy_name": "核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%)",
       "first_win_date": "2026-04-22",
-      "last_win_date": "2026-05-08",
+      "last_win_date": "2026-05-11",
       "win_dates": [
         "2026-04-22",
         "2026-04-24",
-        "2026-05-08"
+        "2026-05-08",
+        "2026-05-11"
       ],
-      "win_count": 3,
+      "win_count": 4,
       "last_path": "path2",
       "last_track": "since_2025_only",
       "last_sample_tag": "since_2025_01",
@@ -165,49 +125,16 @@
       "days_since_last_win": 0
     },
     {
-      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered",
-      "strategy_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只__月度选股_周度仓位调整(双周确认)",
-      "first_win_date": "2026-04-22",
-      "last_win_date": "2026-05-08",
-      "win_dates": [
-        "2026-04-22",
-        "2026-04-24",
-        "2026-05-08"
-      ],
-      "win_count": 3,
-      "last_path": "path1",
-      "last_track": "robust_candidate",
-      "last_sample_tag": "since_2020_01",
-      "last_metrics": {
-        "cagr_mean": 0.43262833427847336,
-        "cagr_min": 0.2525585599192039,
-        "sharpe_mean": 1.155143185204257,
-        "max_drawdown_worst": -0.2923237499509709,
-        "turnover_mean": 0.9193748435949998
-      },
-      "current_winner_roles": [
-        {
-          "path": "path1",
-          "track": "robust_candidate",
-          "sample_tag": "since_2020_01",
-          "kind": "robust",
-          "refresh_only": false
-        }
-      ],
-      "refresh_only": false,
-      "active": true,
-      "days_since_last_win": 0
-    },
-    {
       "strategy_id": "core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_ma_cap95",
       "strategy_name": "核心90_探索10_等权底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 均线三档保留50%, 单票95%)",
       "first_win_date": "2026-05-07",
-      "last_win_date": "2026-05-08",
+      "last_win_date": "2026-05-11",
       "win_dates": [
         "2026-05-07",
-        "2026-05-08"
+        "2026-05-08",
+        "2026-05-11"
       ],
-      "win_count": 2,
+      "win_count": 3,
       "last_path": "path2",
       "last_track": "since_2023_only",
       "last_sample_tag": "since_2023_01",
@@ -234,12 +161,13 @@
       "strategy_id": "core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_cap95",
       "strategy_name": "核心90_探索10_等权底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 动量三档保留50%, 单票95%)",
       "first_win_date": "2026-05-07",
-      "last_win_date": "2026-05-08",
+      "last_win_date": "2026-05-11",
       "win_dates": [
         "2026-05-07",
-        "2026-05-08"
+        "2026-05-08",
+        "2026-05-11"
       ],
-      "win_count": 2,
+      "win_count": 3,
       "last_path": "path2",
       "last_track": "since_2020_only",
       "last_sample_tag": "since_2020_01",
@@ -263,45 +191,15 @@
       "days_since_last_win": 0
     },
     {
-      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_core_6_1__port_weekly_exposure_buffered",
-      "strategy_name": "核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只(核心6-1动量)__月度选股_周度仓位调整(双周确认)",
-      "first_win_date": "2026-05-08",
-      "last_win_date": "2026-05-08",
-      "win_dates": [
-        "2026-05-08"
-      ],
-      "win_count": 1,
-      "last_path": "path1",
-      "last_track": "since_2025_only",
-      "last_sample_tag": "since_2025_01",
-      "last_metrics": {
-        "weighted_cagr": 0.9790601508516654,
-        "weighted_sharpe": 2.14716193993579,
-        "weighted_max_drawdown": -0.1164022332824697,
-        "weighted_turnover": 1.3681570144116593
-      },
-      "current_winner_roles": [
-        {
-          "path": "path1",
-          "track": "since_2025_only",
-          "sample_tag": "since_2025_01",
-          "kind": "validated",
-          "refresh_only": false
-        }
-      ],
-      "refresh_only": false,
-      "active": true,
-      "days_since_last_win": 0
-    },
-    {
       "strategy_id": "core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm75_cap95",
       "strategy_name": "核心90_探索10_等权底座_胜出者核心__进攻2/98 晋升2只(量价晋升前15%, 动量三档保留50%, 晋升保留前60%, 恢复确认75, 单票95%)",
       "first_win_date": "2026-05-08",
-      "last_win_date": "2026-05-08",
+      "last_win_date": "2026-05-11",
       "win_dates": [
-        "2026-05-08"
+        "2026-05-08",
+        "2026-05-11"
       ],
-      "win_count": 1,
+      "win_count": 2,
       "last_path": "path2",
       "last_track": "since_2017_only",
       "last_sample_tag": "since_2017_01",
@@ -335,19 +233,20 @@
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly",
       "strategy_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(核心6-1动量, 满风险, 单票40%, 单周)",
       "first_win_date": "2026-05-08",
-      "last_win_date": "2026-05-08",
+      "last_win_date": "2026-05-11",
       "win_dates": [
-        "2026-05-08"
+        "2026-05-08",
+        "2026-05-11"
       ],
-      "win_count": 1,
+      "win_count": 2,
       "last_path": "path3",
       "last_track": "since_2023_only",
       "last_sample_tag": "since_2023_01",
       "last_metrics": {
-        "weighted_cagr": 0.3508695051636277,
-        "weighted_sharpe": 0.956829108077502,
+        "weighted_cagr": 0.3485095229340678,
+        "weighted_sharpe": 0.9540107743660048,
         "weighted_max_drawdown": -0.3713912218485895,
-        "weighted_turnover": 13.647304771075362
+        "weighted_turnover": 13.567959975894691
       },
       "current_winner_roles": [
         {
@@ -370,6 +269,178 @@
       "days_since_last_win": 0
     },
     {
+      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_weekly",
+      "strategy_name": "核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 熊市降到50% and, 单票80%, 单周)",
+      "first_win_date": "2026-05-08",
+      "last_win_date": "2026-05-11",
+      "win_dates": [
+        "2026-05-08",
+        "2026-05-11"
+      ],
+      "win_count": 2,
+      "last_path": "path3",
+      "last_track": "robust_candidate",
+      "last_sample_tag": "since_2020_01",
+      "last_metrics": {
+        "cagr_mean": 0.22089846410153613,
+        "cagr_min": 0.1554271465675605,
+        "sharpe_mean": 0.7111351895033803,
+        "max_drawdown_worst": -0.4664313775166547,
+        "turnover_mean": 10.954538021938033
+      },
+      "current_winner_roles": [
+        {
+          "path": "path3",
+          "track": "robust_candidate",
+          "sample_tag": "since_2020_01",
+          "kind": "robust",
+          "refresh_only": false
+        }
+      ],
+      "refresh_only": false,
+      "active": true,
+      "days_since_last_win": 0
+    },
+    {
+      "strategy_id": "core_explore_80_20_total_mv_winner_core",
+      "strategy_name": "核心80_探索20_总市值底座_胜出者核心",
+      "first_win_date": "2026-05-11",
+      "last_win_date": "2026-05-11",
+      "win_dates": [
+        "2026-05-11"
+      ],
+      "win_count": 1,
+      "last_path": "path1",
+      "last_track": "since_2017_only",
+      "last_sample_tag": "since_2017_01",
+      "last_metrics": {
+        "weighted_cagr": 0.2033621499563156,
+        "weighted_sharpe": 0.8937115393344186,
+        "weighted_max_drawdown": -0.2576847654447343,
+        "weighted_turnover": 2.649894389866177
+      },
+      "current_winner_roles": [
+        {
+          "path": "path1",
+          "track": "since_2017_only",
+          "sample_tag": "since_2017_01",
+          "kind": "validated",
+          "refresh_only": false
+        },
+        {
+          "path": "path1",
+          "track": "since_2023_only",
+          "sample_tag": "since_2023_01",
+          "kind": "validated",
+          "refresh_only": false
+        },
+        {
+          "path": "path1",
+          "track": "since_2020_only",
+          "sample_tag": "since_2020_01",
+          "kind": "validated",
+          "refresh_only": false
+        },
+        {
+          "path": "path1",
+          "track": "since_2025_only",
+          "sample_tag": "since_2025_01",
+          "kind": "validated",
+          "refresh_only": false
+        },
+        {
+          "path": "path1",
+          "track": "robust_candidate",
+          "sample_tag": "since_2020_01",
+          "kind": "robust",
+          "refresh_only": false
+        }
+      ],
+      "refresh_only": false,
+      "active": true,
+      "days_since_last_win": 0
+    },
+    {
+      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered",
+      "strategy_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓)__月度选股_周度仓位调整(双周确认)",
+      "first_win_date": "2026-04-22",
+      "last_win_date": "2026-05-08",
+      "win_dates": [
+        "2026-04-22",
+        "2026-04-27",
+        "2026-04-28",
+        "2026-04-29",
+        "2026-04-30",
+        "2026-05-06",
+        "2026-05-08"
+      ],
+      "win_count": 7,
+      "last_path": "path1",
+      "last_track": "since_2017_only",
+      "last_sample_tag": "since_2017_01",
+      "last_metrics": {
+        "total_return": 8.669992245321502,
+        "cagr": 0.2724684473842611,
+        "max_drawdown": -0.2816099688716466,
+        "sharpe": 1.1182876043278565,
+        "turnover": 0.8011917854308965
+      },
+      "current_winner_roles": [],
+      "refresh_only": false,
+      "active": true,
+      "days_since_last_win": 1
+    },
+    {
+      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered",
+      "strategy_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只__月度选股_周度仓位调整(双周确认)",
+      "first_win_date": "2026-04-22",
+      "last_win_date": "2026-05-08",
+      "win_dates": [
+        "2026-04-22",
+        "2026-04-24",
+        "2026-05-08"
+      ],
+      "win_count": 3,
+      "last_path": "path1",
+      "last_track": "robust_candidate",
+      "last_sample_tag": "since_2020_01",
+      "last_metrics": {
+        "total_return": 3.241675283508874,
+        "cagr": 0.2525585599192039,
+        "max_drawdown": -0.2746467196893641,
+        "sharpe": 0.8743419565981334,
+        "turnover": 0.8218184163461122
+      },
+      "current_winner_roles": [],
+      "refresh_only": false,
+      "active": true,
+      "days_since_last_win": 1
+    },
+    {
+      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_core_6_1__port_weekly_exposure_buffered",
+      "strategy_name": "核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只(核心6-1动量)__月度选股_周度仓位调整(双周确认)",
+      "first_win_date": "2026-05-08",
+      "last_win_date": "2026-05-08",
+      "win_dates": [
+        "2026-05-08"
+      ],
+      "win_count": 1,
+      "last_path": "path1",
+      "last_track": "since_2025_only",
+      "last_sample_tag": "since_2025_01",
+      "last_metrics": {
+        "total_return": 1.6301685178464096,
+        "cagr": 0.9790601508516654,
+        "max_drawdown": -0.1164022332824697,
+        "sharpe": 2.14716193993579,
+        "turnover": 1.3681570144116593
+      },
+      "current_winner_roles": [],
+      "refresh_only": false,
+      "active": true,
+      "days_since_last_win": 1
+    },
+    {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered",
       "strategy_name": "核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只__卫星周频三档风控(双周确认)",
       "first_win_date": "2026-05-08",
@@ -382,23 +453,16 @@
       "last_track": "since_2020_only",
       "last_sample_tag": "since_2020_01",
       "last_metrics": {
-        "weighted_cagr": 0.2779748043207308,
-        "weighted_sharpe": 0.977567340197911,
-        "weighted_max_drawdown": -0.3100409479674748,
-        "weighted_turnover": 0.7641849175058766
+        "total_return": 3.825230208884255,
+        "cagr": 0.2779748043207308,
+        "max_drawdown": -0.3100409479674748,
+        "sharpe": 0.977567340197911,
+        "turnover": 0.7641849175058766
       },
-      "current_winner_roles": [
-        {
-          "path": "path1",
-          "track": "since_2020_only",
-          "sample_tag": "since_2020_01",
-          "kind": "validated",
-          "refresh_only": false
-        }
-      ],
+      "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 0
+      "days_since_last_win": 1
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__sat_weekly_risk",
@@ -413,55 +477,16 @@
       "last_track": "since_2023_only",
       "last_sample_tag": "since_2023_01",
       "last_metrics": {
-        "weighted_cagr": 0.2537139079022605,
-        "weighted_sharpe": 1.0721545489746724,
-        "weighted_max_drawdown": -0.1233576617353341,
-        "weighted_turnover": 1.0150454384008922
+        "total_return": 1.1652664625217204,
+        "cagr": 0.2537139079022605,
+        "max_drawdown": -0.1233576617353341,
+        "sharpe": 1.0721545489746724,
+        "turnover": 1.0150454384008922
       },
-      "current_winner_roles": [
-        {
-          "path": "path1",
-          "track": "since_2023_only",
-          "sample_tag": "since_2023_01",
-          "kind": "validated",
-          "refresh_only": false
-        }
-      ],
+      "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 0
-    },
-    {
-      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_weekly",
-      "strategy_name": "核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 熊市降到50% and, 单票80%, 单周)",
-      "first_win_date": "2026-05-08",
-      "last_win_date": "2026-05-08",
-      "win_dates": [
-        "2026-05-08"
-      ],
-      "win_count": 1,
-      "last_path": "path3",
-      "last_track": "robust_candidate",
-      "last_sample_tag": "since_2020_01",
-      "last_metrics": {
-        "cagr_mean": 0.22294852847386745,
-        "cagr_min": 0.1559408751252771,
-        "sharpe_mean": 0.7136796264214023,
-        "max_drawdown_worst": -0.4664313775166547,
-        "turnover_mean": 11.032656949512258
-      },
-      "current_winner_roles": [
-        {
-          "path": "path3",
-          "track": "robust_candidate",
-          "sample_tag": "since_2020_01",
-          "kind": "robust",
-          "refresh_only": false
-        }
-      ],
-      "refresh_only": false,
-      "active": true,
-      "days_since_last_win": 0
+      "days_since_last_win": 1
     },
     {
       "strategy_id": "core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_cap95",
@@ -485,7 +510,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 1
+      "days_since_last_win": 2
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__port_weekly_exposure",
@@ -509,7 +534,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 1
+      "days_since_last_win": 2
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__port_weekly_exposure",
@@ -533,7 +558,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 1
+      "days_since_last_win": 2
     },
     {
       "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80",
@@ -564,7 +589,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 2
+      "days_since_last_win": 3
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__sat_three_stage_buffered",
@@ -595,7 +620,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 2
+      "days_since_last_win": 3
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_core_6_1__port_weekly_exposure_asym",
@@ -624,7 +649,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 2
+      "days_since_last_win": 3
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80",
@@ -653,7 +678,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 2
+      "days_since_last_win": 3
     },
     {
       "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom2_core_3_1_full_risk_cap95",
@@ -678,7 +703,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 2
+      "days_since_last_win": 3
     },
     {
       "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap95",
@@ -702,7 +727,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 2
+      "days_since_last_win": 3
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and__port_weekly_exposure_buffered",
@@ -726,7 +751,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 2
+      "days_since_last_win": 3
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__port_weekly_exposure_buffered",
@@ -750,7 +775,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 2
+      "days_since_last_win": 3
     },
     {
       "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_cash_off_and_risk50_cap90",
@@ -774,7 +799,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 3
+      "days_since_last_win": 4
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_ramp90__port_weekly_exposure_buffered",
@@ -802,7 +827,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 3
+      "days_since_last_win": 4
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_confirm80",
@@ -826,7 +851,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 3
+      "days_since_last_win": 4
     },
     {
       "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95",
@@ -850,7 +875,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 3
+      "days_since_last_win": 4
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly",
@@ -874,7 +899,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 3
+      "days_since_last_win": 4
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80",
@@ -902,7 +927,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 4
+      "days_since_last_win": 5
     },
     {
       "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80",
@@ -930,7 +955,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 4
+      "days_since_last_win": 5
     },
     {
       "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80",
@@ -957,7 +982,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 4
+      "days_since_last_win": 5
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1__port_weekly_exposure_asym",
@@ -981,7 +1006,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 9
+      "days_since_last_win": 10
     },
     {
       "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60",
@@ -1007,7 +1032,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 10
+      "days_since_last_win": 11
     },
     {
       "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80",
@@ -1031,7 +1056,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 11
+      "days_since_last_win": 12
     },
     {
       "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60",
@@ -1055,7 +1080,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 12
+      "days_since_last_win": 13
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__sat_three_stage_risk",
@@ -1079,7 +1104,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 12
+      "days_since_last_win": 13
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and",
@@ -1103,7 +1128,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 12
+      "days_since_last_win": 13
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__sat_three_stage_buffered",
@@ -1127,7 +1152,7 @@
       "current_winner_roles": [],
       "refresh_only": false,
       "active": true,
-      "days_since_last_win": 12
+      "days_since_last_win": 13
     }
   ],
   "refresh_only_strategies": [
@@ -1135,22 +1160,23 @@
       "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
       "strategy_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 单周)",
       "first_win_date": "2026-04-30",
-      "last_win_date": "2026-05-08",
+      "last_win_date": "2026-05-11",
       "win_dates": [
         "2026-04-30",
         "2026-05-06",
         "2026-05-07",
-        "2026-05-08"
+        "2026-05-08",
+        "2026-05-11"
       ],
-      "win_count": 4,
+      "win_count": 5,
       "last_path": "path2",
       "last_track": "since_2025_only",
       "last_sample_tag": "since_2025_01",
       "last_metrics": {
-        "weighted_cagr": 1.812613654839459,
-        "weighted_sharpe": 1.697027816537814,
+        "weighted_cagr": 1.7719448587684452,
+        "weighted_sharpe": 1.6845401120940875,
         "weighted_max_drawdown": -0.4077338864049069,
-        "weighted_turnover": 16.502743430954652
+        "weighted_turnover": 16.27031042488487
       },
       "current_winner_roles": [
         {
@@ -1195,23 +1221,16 @@
       "last_track": "since_2025_only",
       "last_sample_tag": "since_2025_01",
       "last_metrics": {
-        "weighted_cagr": 1.0088771574805526,
-        "weighted_sharpe": 2.1215939644986643,
-        "weighted_max_drawdown": -0.0959785714085467,
-        "weighted_turnover": 5.035333388445418
+        "total_return": 1.686482127983138,
+        "cagr": 1.0088771574805526,
+        "max_drawdown": -0.0959785714085467,
+        "sharpe": 2.1215939644986643,
+        "turnover": 5.035333388445418
       },
-      "current_winner_roles": [
-        {
-          "path": "path1",
-          "track": "since_2025_only",
-          "sample_tag": "since_2025_01",
-          "kind": "raw",
-          "refresh_only": true
-        }
-      ],
+      "current_winner_roles": [],
       "refresh_only": true,
       "active": false,
-      "days_since_last_win": 0
+      "days_since_last_win": 1
     },
     {
       "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered",
@@ -1226,23 +1245,16 @@
       "last_track": "since_2023_only",
       "last_sample_tag": "since_2023_01",
       "last_metrics": {
-        "weighted_cagr": 0.3143884048673242,
-        "weighted_sharpe": 1.015455026265714,
-        "weighted_max_drawdown": -0.3310634105756038,
-        "weighted_turnover": 1.0836117176599895
+        "total_return": 1.5447163139471982,
+        "cagr": 0.3143884048673242,
+        "max_drawdown": -0.3310634105756038,
+        "sharpe": 1.015455026265714,
+        "turnover": 1.0836117176599895
       },
-      "current_winner_roles": [
-        {
-          "path": "path1",
-          "track": "since_2023_only",
-          "sample_tag": "since_2023_01",
-          "kind": "raw",
-          "refresh_only": true
-        }
-      ],
+      "current_winner_roles": [],
       "refresh_only": true,
       "active": false,
-      "days_since_last_win": 0
+      "days_since_last_win": 1
     }
   ]
 }

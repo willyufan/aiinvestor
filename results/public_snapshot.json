@@ -1,593 +1,483 @@
 {
-  "as_of": "2026-05-08",
+  "as_of": "2026-05-11",
   "path1": [
     {
-      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered",
-      "display_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓)__月度选股_周度仓位调整(双周确认)",
+      "strategy_id": "core_explore_80_20_total_mv_winner_core",
+      "display_name": "核心80_探索20_总市值底座_胜出者核心",
       "path": "path1",
       "market_scope": "a_share",
       "winner_type": "2017-window winner",
       "window_label": "2017 窗口",
       "sample_tag": "since_2017_01",
-      "risk_state": "risk_on",
-      "target_exposure": 1.0,
-      "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
-      "signal_effective_date": "2026-05-08",
+      "risk_state": "caution",
+      "target_exposure": 0.5676,
+      "updated_at": "2026-05-11",
+      "data_as_of": "2026-05-11",
+      "signal_effective_date": "2026-04-30",
       "metrics": {
-        "cagr": 0.2725,
-        "sharpe": 1.1183,
-        "max_drawdown": -0.2816,
-        "total_return": 8.67,
-        "turnover": 0.8012
+        "cagr": 0.2034,
+        "sharpe": 0.8937,
+        "max_drawdown": -0.2577,
+        "total_return": 4.7156,
+        "turnover": 2.6499
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.2725,
-          "sharpe": 1.1183,
-          "max_drawdown": -0.2816,
-          "total_return": 8.67
+          "cagr": 0.2034,
+          "sharpe": 0.8937,
+          "max_drawdown": -0.2577,
+          "total_return": 4.7156
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.2398,
-          "sharpe": 0.9022,
-          "max_drawdown": -0.2335,
-          "total_return": 2.9711
+          "cagr": 0.2443,
+          "sharpe": 0.9228,
+          "max_drawdown": -0.2097,
+          "total_return": 3.0654
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.2396,
-          "sharpe": 0.822,
-          "max_drawdown": -0.1757,
-          "total_return": 1.0832
+          "cagr": 0.2824,
+          "sharpe": 0.9385,
+          "max_drawdown": -0.2724,
+          "total_return": 1.3395
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.9359,
-          "sharpe": 1.8619,
-          "max_drawdown": -0.1072,
-          "total_return": 1.5493
+          "cagr": 0.8027,
+          "sharpe": 1.8839,
+          "max_drawdown": -0.0938,
+          "total_return": 1.3044
         },
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 1.2763,
-          "sharpe": 2.6601,
-          "max_drawdown": -0.0306,
-          "total_return": 0.4088
+          "cagr": 1.1101,
+          "sharpe": 3.7575,
+          "max_drawdown": -0.0255,
+          "total_return": 0.365
         }
       ],
       "latest_weights": [
         {
-          "ts_code": "688498.SH",
-          "name": "源杰科技",
-          "weight": 0.185614
+          "ts_code": "CASH",
+          "name": "现金",
+          "weight": 0.432372
         },
         {
-          "ts_code": "603256.SH",
-          "name": "宏和科技",
-          "weight": 0.170391
+          "ts_code": "688498.SH",
+          "name": "源杰科技",
+          "weight": 0.128743
         },
         {
           "ts_code": "688028.SH",
           "name": "沃尔德",
-          "weight": 0.14073
+          "weight": 0.080388
         },
         {
           "ts_code": "688195.SH",
           "name": "腾景科技",
-          "weight": 0.129308
+          "weight": 0.074459
         },
         {
-          "ts_code": "300476.SZ",
-          "name": "胜宏科技",
-          "weight": 0.123578
+          "ts_code": "000408.SZ",
+          "name": "藏格矿业",
+          "weight": 0.071217
         },
         {
-          "ts_code": "600938.SH",
-          "name": "中国海油",
-          "weight": 0.115473
+          "ts_code": "002602.SZ",
+          "name": "世纪华通",
+          "weight": 0.05528
+        },
+        {
+          "ts_code": "002001.SZ",
+          "name": "新和成",
+          "weight": 0.048791
         },
         {
           "ts_code": "300308.SZ",
           "name": "中际旭创",
-          "weight": 0.039538
+          "weight": 0.039986
         },
         {
           "ts_code": "300502.SZ",
           "name": "新易盛",
-          "weight": 0.024891
+          "weight": 0.026607
         },
         {
-          "ts_code": "002353.SZ",
-          "name": "杰瑞股份",
-          "weight": 0.01308
+          "ts_code": "300394.SZ",
+          "name": "天孚通信",
+          "weight": 0.022852
         },
         {
-          "ts_code": "600295.SH",
-          "name": "鄂尔多斯",
-          "weight": 0.013012
-        },
-        {
-          "ts_code": "601000.SH",
-          "name": "唐山港",
-          "weight": 0.012975
-        },
-        {
-          "ts_code": "600398.SH",
-          "name": "海澜之家",
-          "weight": 0.008663
-        },
-        {
-          "ts_code": "002508.SZ",
-          "name": "老板电器",
-          "weight": 0.007929
-        },
-        {
-          "ts_code": "600988.SH",
-          "name": "赤峰黄金",
-          "weight": 0.007899
-        },
-        {
-          "ts_code": "000426.SZ",
-          "name": "兴业银锡",
-          "weight": 0.006918
+          "ts_code": "601899.SH",
+          "name": "紫金矿业",
+          "weight": 0.019305
         }
       ]
     },
     {
-      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered",
-      "display_name": "核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只__卫星周频三档风控(双周确认)",
+      "strategy_id": "core_explore_80_20_total_mv_winner_core",
+      "display_name": "核心80_探索20_总市值底座_胜出者核心",
       "path": "path1",
       "market_scope": "a_share",
       "winner_type": "2020-window winner",
       "window_label": "2020 窗口",
       "sample_tag": "since_2020_01",
-      "risk_state": "risk_on",
-      "target_exposure": 1.0,
-      "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
-      "signal_effective_date": "2026-04-24",
+      "risk_state": "caution",
+      "target_exposure": 0.5917,
+      "updated_at": "2026-05-11",
+      "data_as_of": "2026-05-11",
+      "signal_effective_date": "2026-04-30",
       "metrics": {
-        "cagr": 0.278,
-        "sharpe": 0.9776,
-        "max_drawdown": -0.31,
-        "total_return": 3.8252,
-        "turnover": 0.7642
+        "cagr": 0.2443,
+        "sharpe": 0.9228,
+        "max_drawdown": -0.2097,
+        "total_return": 3.0654,
+        "turnover": 2.907
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.2116,
-          "sharpe": 0.8839,
-          "max_drawdown": -0.2568,
-          "total_return": 5.0951
+          "cagr": 0.2034,
+          "sharpe": 0.8937,
+          "max_drawdown": -0.2577,
+          "total_return": 4.7156
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.278,
-          "sharpe": 0.9776,
-          "max_drawdown": -0.31,
-          "total_return": 3.8252
+          "cagr": 0.2443,
+          "sharpe": 0.9228,
+          "max_drawdown": -0.2097,
+          "total_return": 3.0654
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.2398,
-          "sharpe": 0.8077,
-          "max_drawdown": -0.2928,
-          "total_return": 1.0845
+          "cagr": 0.2824,
+          "sharpe": 0.9385,
+          "max_drawdown": -0.2724,
+          "total_return": 1.3395
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.8136,
-          "sharpe": 1.7351,
-          "max_drawdown": -0.1178,
-          "total_return": 1.3242
+          "cagr": 0.8027,
+          "sharpe": 1.8839,
+          "max_drawdown": -0.0938,
+          "total_return": 1.3044
         },
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 1.0169,
-          "sharpe": 2.5143,
-          "max_drawdown": -0.0616,
-          "total_return": 0.3395
+          "cagr": 1.1101,
+          "sharpe": 3.7575,
+          "max_drawdown": -0.0255,
+          "total_return": 0.365
         }
       ],
       "latest_weights": [
         {
-          "ts_code": "688498.SH",
-          "name": "源杰科技",
-          "weight": 0.144652
-        },
-        {
-          "ts_code": "300394.SZ",
-          "name": "天孚通信",
-          "weight": 0.123131
-        },
-        {
-          "ts_code": "688025.SH",
-          "name": "杰普特",
-          "weight": 0.121901
-        },
-        {
-          "ts_code": "688195.SH",
-          "name": "腾景科技",
-          "weight": 0.108989
+          "ts_code": "CASH",
+          "name": "现金",
+          "weight": 0.408334
         },
         {
           "ts_code": "603256.SH",
           "name": "宏和科技",
-          "weight": 0.107759
+          "weight": 0.111104
+        },
+        {
+          "ts_code": "688498.SH",
+          "name": "源杰科技",
+          "weight": 0.106798
         },
         {
           "ts_code": "688028.SH",
           "name": "沃尔德",
-          "weight": 0.097936
+          "weight": 0.077723
+        },
+        {
+          "ts_code": "688195.SH",
+          "name": "腾景科技",
+          "weight": 0.068368
+        },
+        {
+          "ts_code": "300476.SZ",
+          "name": "胜宏科技",
+          "weight": 0.064694
         },
         {
           "ts_code": "000408.SZ",
           "name": "藏格矿业",
-          "weight": 0.096691
+          "weight": 0.060053
         },
         {
           "ts_code": "300308.SZ",
           "name": "中际旭创",
-          "weight": 0.041974
+          "weight": 0.038182
         },
         {
-          "ts_code": "688112.SH",
-          "name": "鼎阳科技",
-          "weight": 0.018931
+          "ts_code": "300502.SZ",
+          "name": "新易盛",
+          "weight": 0.025618
         },
         {
-          "ts_code": "688200.SH",
-          "name": "华峰测控",
-          "weight": 0.017939
+          "ts_code": "300394.SZ",
+          "name": "天孚通信",
+          "weight": 0.02128
         },
         {
-          "ts_code": "603345.SH",
-          "name": "安井食品",
-          "weight": 0.017681
-        },
-        {
-          "ts_code": "603156.SH",
-          "name": "养元饮品",
-          "weight": 0.017465
-        },
-        {
-          "ts_code": "600566.SH",
-          "name": "济川药业",
-          "weight": 0.017078
-        },
-        {
-          "ts_code": "688378.SH",
-          "name": "奥来德",
-          "weight": 0.017034
-        },
-        {
-          "ts_code": "002353.SZ",
-          "name": "杰瑞股份",
-          "weight": 0.014062
-        },
-        {
-          "ts_code": "002281.SZ",
-          "name": "光迅科技",
-          "weight": 0.011821
-        },
-        {
-          "ts_code": "300054.SZ",
-          "name": "鼎龙股份",
-          "weight": 0.010247
+          "ts_code": "601899.SH",
+          "name": "紫金矿业",
+          "weight": 0.017845
         }
       ]
     },
     {
-      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__sat_weekly_risk",
-      "display_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓)__卫星周频两档风控",
+      "strategy_id": "core_explore_80_20_total_mv_winner_core",
+      "display_name": "核心80_探索20_总市值底座_胜出者核心",
       "path": "path1",
       "market_scope": "a_share",
       "winner_type": "2023-window winner",
       "window_label": "2023 窗口",
       "sample_tag": "since_2023_01",
-      "risk_state": "risk_on",
-      "target_exposure": 1.0,
-      "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
-      "signal_effective_date": "2026-03-27",
+      "risk_state": "caution",
+      "target_exposure": 0.5969,
+      "updated_at": "2026-05-11",
+      "data_as_of": "2026-05-11",
+      "signal_effective_date": "2026-04-30",
       "metrics": {
-        "cagr": 0.2537,
-        "sharpe": 1.0722,
-        "max_drawdown": -0.1234,
-        "total_return": 1.1653,
-        "turnover": 1.015
+        "cagr": 0.2824,
+        "sharpe": 0.9385,
+        "max_drawdown": -0.2724,
+        "total_return": 1.3395,
+        "turnover": 2.9122
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.1676,
-          "sharpe": 0.9077,
-          "max_drawdown": -0.1257,
-          "total_return": 3.3007
+          "cagr": 0.2034,
+          "sharpe": 0.8937,
+          "max_drawdown": -0.2577,
+          "total_return": 4.7156
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.2179,
-          "sharpe": 0.936,
-          "max_drawdown": -0.139,
-          "total_return": 2.5434
+          "cagr": 0.2443,
+          "sharpe": 0.9228,
+          "max_drawdown": -0.2097,
+          "total_return": 3.0654
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.2537,
-          "sharpe": 1.0722,
-          "max_drawdown": -0.1234,
-          "total_return": 1.1653
+          "cagr": 0.2824,
+          "sharpe": 0.9385,
+          "max_drawdown": -0.2724,
+          "total_return": 1.3395
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.8452,
-          "sharpe": 1.8478,
-          "max_drawdown": -0.096,
-          "total_return": 1.3817
+          "cagr": 0.8027,
+          "sharpe": 1.8839,
+          "max_drawdown": -0.0938,
+          "total_return": 1.3044
         },
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": -0.0193,
-          "sharpe": 1.2337,
-          "max_drawdown": -0.0898,
-          "total_return": -0.0081
+          "cagr": 1.1101,
+          "sharpe": 3.7575,
+          "max_drawdown": -0.0255,
+          "total_return": 0.365
         }
       ],
       "latest_weights": [
         {
-          "ts_code": "688498.SH",
-          "name": "源杰科技",
-          "weight": 0.16615
-        },
-        {
-          "ts_code": "688025.SH",
-          "name": "杰普特",
-          "weight": 0.142128
-        },
-        {
-          "ts_code": "688195.SH",
-          "name": "腾景科技",
-          "weight": 0.124512
-        },
-        {
-          "ts_code": "603256.SH",
-          "name": "宏和科技",
-          "weight": 0.122911
-        },
-        {
-          "ts_code": "688028.SH",
-          "name": "沃尔德",
-          "weight": 0.120508
-        },
-        {
-          "ts_code": "002463.SZ",
-          "name": "沪电股份",
-          "weight": 0.104494
+          "ts_code": "CASH",
+          "name": "现金",
+          "weight": 0.403081
         },
         {
           "ts_code": "300308.SZ",
           "name": "中际旭创",
-          "weight": 0.038403
+          "weight": 0.127416
+        },
+        {
+          "ts_code": "688498.SH",
+          "name": "源杰科技",
+          "weight": 0.106519
+        },
+        {
+          "ts_code": "603256.SH",
+          "name": "宏和科技",
+          "weight": 0.100021
         },
         {
           "ts_code": "300502.SZ",
           "name": "新易盛",
-          "weight": 0.029484
+          "weight": 0.094314
         },
         {
-          "ts_code": "688112.SH",
-          "name": "鼎阳科技",
-          "weight": 0.019011
-        },
-        {
-          "ts_code": "688200.SH",
-          "name": "华峰测控",
-          "weight": 0.018082
-        },
-        {
-          "ts_code": "603156.SH",
-          "name": "养元饮品",
-          "weight": 0.017571
-        },
-        {
-          "ts_code": "688625.SH",
-          "name": "呈和科技",
-          "weight": 0.017153
-        },
-        {
-          "ts_code": "600566.SH",
-          "name": "济川药业",
-          "weight": 0.017153
-        },
-        {
-          "ts_code": "688378.SH",
-          "name": "奥来德",
-          "weight": 0.017106
+          "ts_code": "688028.SH",
+          "name": "沃尔德",
+          "weight": 0.06574
         },
         {
           "ts_code": "002353.SZ",
           "name": "杰瑞股份",
-          "weight": 0.014249
+          "weight": 0.056279
         },
         {
-          "ts_code": "002281.SZ",
-          "name": "光迅科技",
-          "weight": 0.011885
+          "ts_code": "300394.SZ",
+          "name": "天孚通信",
+          "weight": 0.020831
         },
         {
-          "ts_code": "300054.SZ",
-          "name": "鼎龙股份",
-          "weight": 0.01038
+          "ts_code": "601899.SH",
+          "name": "紫金矿业",
+          "weight": 0.01721
+        },
+        {
+          "ts_code": "000426.SZ",
+          "name": "兴业银锡",
+          "weight": 0.008587
         }
       ]
     },
     {
-      "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_core_6_1__port_weekly_exposure_buffered",
-      "display_name": "核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只(核心6-1动量)__月度选股_周度仓位调整(双周确认)",
+      "strategy_id": "core_explore_80_20_total_mv_winner_core",
+      "display_name": "核心80_探索20_总市值底座_胜出者核心",
       "path": "path1",
       "market_scope": "a_share",
       "winner_type": "2025-window winner",
       "window_label": "2025 窗口",
       "sample_tag": "since_2025_01",
-      "risk_state": "risk_on",
-      "target_exposure": 1.0,
-      "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
-      "signal_effective_date": "2026-05-08",
+      "risk_state": "caution",
+      "target_exposure": 0.592,
+      "updated_at": "2026-05-11",
+      "data_as_of": "2026-05-11",
+      "signal_effective_date": "2026-04-30",
       "metrics": {
-        "cagr": 0.9791,
-        "sharpe": 2.1472,
-        "max_drawdown": -0.1164,
-        "total_return": 1.6302,
-        "turnover": 1.3682
+        "cagr": 0.8027,
+        "sharpe": 1.8839,
+        "max_drawdown": -0.0938,
+        "total_return": 1.3044,
+        "turnover": 4.3503
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.1938,
-          "sharpe": 0.8146,
-          "max_drawdown": -0.4201,
-          "total_return": 4.3022
+          "cagr": 0.2034,
+          "sharpe": 0.8937,
+          "max_drawdown": -0.2577,
+          "total_return": 4.7156
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.1748,
-          "sharpe": 0.6853,
-          "max_drawdown": -0.4254,
-          "total_return": 1.8112
+          "cagr": 0.2443,
+          "sharpe": 0.9228,
+          "max_drawdown": -0.2097,
+          "total_return": 3.0654
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.3068,
-          "sharpe": 0.9985,
-          "max_drawdown": -0.3374,
-          "total_return": 1.4948
+          "cagr": 0.2824,
+          "sharpe": 0.9385,
+          "max_drawdown": -0.2724,
+          "total_return": 1.3395
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.9791,
-          "sharpe": 2.1472,
-          "max_drawdown": -0.1164,
-          "total_return": 1.6302
+          "cagr": 0.8027,
+          "sharpe": 1.8839,
+          "max_drawdown": -0.0938,
+          "total_return": 1.3044
         },
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 1.016,
-          "sharpe": 3.0805,
-          "max_drawdown": 0.0,
-          "total_return": 0.3393
+          "cagr": 1.1101,
+          "sharpe": 3.7575,
+          "max_drawdown": -0.0255,
+          "total_return": 0.365
         }
       ],
       "latest_weights": [
         {
+          "ts_code": "CASH",
+          "name": "现金",
+          "weight": 0.407953
+        },
+        {
           "ts_code": "688498.SH",
           "name": "源杰科技",
-          "weight": 0.178049
+          "weight": 0.112932
+        },
+        {
+          "ts_code": "603256.SH",
+          "name": "宏和科技",
+          "weight": 0.105604
         },
         {
           "ts_code": "688028.SH",
           "name": "沃尔德",
-          "weight": 0.174587
-        },
-        {
-          "ts_code": "002353.SZ",
-          "name": "杰瑞股份",
-          "weight": 0.149218
-        },
-        {
-          "ts_code": "000426.SZ",
-          "name": "兴业银锡",
-          "weight": 0.119876
-        },
-        {
-          "ts_code": "002192.SZ",
-          "name": "融捷股份",
-          "weight": 0.111081
+          "weight": 0.079522
         },
         {
           "ts_code": "688195.SH",
           "name": "腾景科技",
-          "weight": 0.0983
+          "weight": 0.06995
+        },
+        {
+          "ts_code": "300476.SZ",
+          "name": "胜宏科技",
+          "weight": 0.066192
+        },
+        {
+          "ts_code": "002558.SZ",
+          "name": "巨人网络",
+          "weight": 0.041696
+        },
+        {
+          "ts_code": "300308.SZ",
+          "name": "中际旭创",
+          "weight": 0.037328
+        },
+        {
+          "ts_code": "300394.SZ",
+          "name": "天孚通信",
+          "weight": 0.02918
+        },
+        {
+          "ts_code": "300502.SZ",
+          "name": "新易盛",
+          "weight": 0.025059
         },
         {
           "ts_code": "601899.SH",
           "name": "紫金矿业",
-          "weight": 0.045538
+          "weight": 0.017195
         },
         {
-          "ts_code": "601872.SH",
-          "name": "招商轮船",
-          "weight": 0.035081
-        },
-        {
-          "ts_code": "688677.SH",
-          "name": "海泰新光",
-          "weight": 0.013823
-        },
-        {
-          "ts_code": "600295.SH",
-          "name": "鄂尔多斯",
-          "weight": 0.01283
-        },
-        {
-          "ts_code": "601000.SH",
-          "name": "唐山港",
-          "weight": 0.012032
-        },
-        {
-          "ts_code": "600988.SH",
-          "name": "赤峰黄金",
-          "weight": 0.010026
-        },
-        {
-          "ts_code": "000429.SZ",
-          "name": "粤高速Ａ",
-          "weight": 0.009186
-        },
-        {
-          "ts_code": "600398.SH",
-          "name": "海澜之家",
-          "weight": 0.008525
-        },
-        {
-          "ts_code": "002508.SZ",
-          "name": "老板电器",
-          "weight": 0.007707
-        },
-        {
-          "ts_code": "688127.SH",
-          "name": "蓝特光学",
-          "weight": 0.007391
-        },
-        {
-          "ts_code": "601958.SH",
-          "name": "金钼股份",
-          "weight": 0.006751
+          "ts_code": "000426.SZ",
+          "name": "兴业银锡",
+          "weight": 0.007387
         }
       ]
     }
@@ -603,8 +493,8 @@
       "sample_tag": "since_2017_01",
       "risk_state": "caution",
       "target_exposure": 0.85,
-      "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
+      "updated_at": "2026-05-11",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-04-30",
       "metrics": {
         "cagr": 0.3867,
@@ -703,8 +593,8 @@
       "sample_tag": "since_2020_01",
       "risk_state": "caution",
       "target_exposure": 0.8446,
-      "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
+      "updated_at": "2026-05-11",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-04-30",
       "metrics": {
         "cagr": 0.556,
@@ -798,8 +688,8 @@
       "sample_tag": "since_2023_01",
       "risk_state": "caution",
       "target_exposure": 0.5533,
-      "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
+      "updated_at": "2026-05-11",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-04-30",
       "metrics": {
         "cagr": 0.6706,
@@ -888,8 +778,8 @@
       "sample_tag": "since_2025_01",
       "risk_state": "risk_on",
       "target_exposure": 1.0,
-      "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
+      "updated_at": "2026-05-11",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-04-30",
       "metrics": {
         "cagr": 1.4728,
@@ -1045,30 +935,30 @@
       "sample_tag": "since_2017_01",
       "risk_state": "risk_on",
       "target_exposure": 1.0,
-      "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
+      "updated_at": "2026-05-11",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-05-08",
       "metrics": {
-        "cagr": 0.2336,
-        "sharpe": 0.7977,
+        "cagr": 0.233,
+        "sharpe": 0.7969,
         "max_drawdown": -0.4004,
         "total_return": 5.8863,
-        "turnover": 7.7037
+        "turnover": 7.6877
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.2336,
-          "sharpe": 0.7977,
+          "cagr": 0.233,
+          "sharpe": 0.7969,
           "max_drawdown": -0.4004,
           "total_return": 5.8863
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.1862,
-          "sharpe": 0.6352,
+          "cagr": 0.1856,
+          "sharpe": 0.6343,
           "max_drawdown": -0.3574,
           "total_return": 1.9077
         },
@@ -1076,23 +966,23 @@
           "tag": "since_2023_01",
           "label": "2023",
           "cagr": 0.003,
-          "sharpe": 0.1865,
+          "sharpe": 0.1859,
           "max_drawdown": -0.3894,
           "total_return": 0.0098
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.3233,
-          "sharpe": 0.7976,
+          "cagr": 0.3181,
+          "sharpe": 0.7919,
           "max_drawdown": -0.3332,
           "total_return": 0.4581
         },
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 0.6128,
-          "sharpe": 1.8204,
+          "cagr": 0.5705,
+          "sharpe": 1.7689,
           "max_drawdown": -0.2034,
           "total_return": 0.1691
         }
@@ -1160,54 +1050,54 @@
       "sample_tag": "since_2020_01",
       "risk_state": "risk_on",
       "target_exposure": 1.0,
-      "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
+      "updated_at": "2026-05-11",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-05-08",
       "metrics": {
-        "cagr": 0.1467,
-        "sharpe": 0.5628,
+        "cagr": 0.1463,
+        "sharpe": 0.562,
         "max_drawdown": -0.5171,
         "total_return": 1.3533,
-        "turnover": 12.9807
+        "turnover": 12.9408
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.1466,
-          "sharpe": 0.6078,
+          "cagr": 0.1462,
+          "sharpe": 0.6072,
           "max_drawdown": -0.5028,
           "total_return": 2.5155
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.1467,
-          "sharpe": 0.5628,
+          "cagr": 0.1463,
+          "sharpe": 0.562,
           "max_drawdown": -0.5171,
           "total_return": 1.3533
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.3456,
-          "sharpe": 0.9434,
+          "cagr": 0.3433,
+          "sharpe": 0.9406,
           "max_drawdown": -0.3714,
           "total_return": 1.6542
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.4697,
-          "sharpe": 1.2026,
+          "cagr": 0.4618,
+          "sharpe": 1.194,
           "max_drawdown": -0.2738,
           "total_return": 0.6793
         },
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 2.6563,
-          "sharpe": 5.0644,
+          "cagr": 2.4022,
+          "sharpe": 4.86,
           "max_drawdown": -0.0584,
           "total_return": 0.5278
         }
@@ -1310,54 +1200,54 @@
       "sample_tag": "since_2023_01",
       "risk_state": "risk_on",
       "target_exposure": 1.0,
-      "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
+      "updated_at": "2026-05-11",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-05-08",
       "metrics": {
-        "cagr": 0.3509,
-        "sharpe": 0.9568,
+        "cagr": 0.3485,
+        "sharpe": 0.954,
         "max_drawdown": -0.3714,
         "total_return": 1.6885,
-        "turnover": 13.6473
+        "turnover": 13.568
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.126,
-          "sharpe": 0.55,
+          "cagr": 0.1257,
+          "sharpe": 0.5494,
           "max_drawdown": -0.5028,
           "total_return": 1.9768
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.1466,
-          "sharpe": 0.5625,
+          "cagr": 0.1461,
+          "sharpe": 0.5616,
           "max_drawdown": -0.5171,
           "total_return": 1.3514
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.3509,
-          "sharpe": 0.9568,
+          "cagr": 0.3485,
+          "sharpe": 0.954,
           "max_drawdown": -0.3714,
           "total_return": 1.6885
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.4765,
-          "sharpe": 1.215,
+          "cagr": 0.4684,
+          "sharpe": 1.2063,
           "max_drawdown": -0.2738,
           "total_return": 0.6897
         },
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 2.6563,
-          "sharpe": 5.0644,
+          "cagr": 2.4022,
+          "sharpe": 4.86,
           "max_drawdown": -0.0584,
           "total_return": 0.5278
         }
@@ -1460,54 +1350,54 @@
       "sample_tag": "since_2025_01",
       "risk_state": "risk_on",
       "target_exposure": 1.0,
-      "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
+      "updated_at": "2026-05-11",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-05-08",
       "metrics": {
-        "cagr": 0.4765,
-        "sharpe": 1.215,
+        "cagr": 0.4684,
+        "sharpe": 1.2063,
         "max_drawdown": -0.2738,
         "total_return": 0.6897,
-        "turnover": 13.6387
+        "turnover": 13.4466
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.126,
-          "sharpe": 0.55,
+          "cagr": 0.1257,
+          "sharpe": 0.5494,
           "max_drawdown": -0.5028,
           "total_return": 1.9768
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.1466,
-          "sharpe": 0.5625,
+          "cagr": 0.1461,
+          "sharpe": 0.5616,
           "max_drawdown": -0.5171,
           "total_return": 1.3514
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.3509,
-          "sharpe": 0.9568,
+          "cagr": 0.3485,
+          "sharpe": 0.954,
           "max_drawdown": -0.3714,
           "total_return": 1.6885
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.4765,
-          "sharpe": 1.215,
+          "cagr": 0.4684,
+          "sharpe": 1.2063,
           "max_drawdown": -0.2738,
           "total_return": 0.6897
         },
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 2.6563,
-          "sharpe": 5.0644,
+          "cagr": 2.4022,
+          "sharpe": 4.86,
           "max_drawdown": -0.0584,
           "total_return": 0.5278
         }
@@ -1608,7 +1498,7 @@
       "risk_state": "caution",
       "target_exposure": 0.9872,
       "updated_at": "2026-04-30",
-      "data_as_of": "2026-05-08",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-04-30",
       "metrics": {
         "cagr": 0.2403,
@@ -1738,7 +1628,7 @@
       "risk_state": "caution",
       "target_exposure": 0.9939,
       "updated_at": "2026-04-30",
-      "data_as_of": "2026-05-08",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-04-30",
       "metrics": {
         "cagr": 0.3121,
@@ -1868,7 +1758,7 @@
       "risk_state": "risk_on",
       "target_exposure": 1.0,
       "updated_at": "2026-04-30",
-      "data_as_of": "2026-05-08",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-04-30",
       "metrics": {
         "cagr": 0.2184,
@@ -1983,7 +1873,7 @@
       "risk_state": "risk_on",
       "target_exposure": 1.0,
       "updated_at": "2026-04-30",
-      "data_as_of": "2026-05-08",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-04-30",
       "metrics": {
         "cagr": 0.2582,
@@ -2098,7 +1988,7 @@
       "risk_state": "caution",
       "target_exposure": 0.9977,
       "updated_at": "2026-04-30",
-      "data_as_of": "2026-05-08",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-04-30",
       "metrics": {
         "cagr": 0.3122,
@@ -2208,7 +2098,7 @@
       "risk_state": "risk_on",
       "target_exposure": 1.0,
       "updated_at": "2026-04-30",
-      "data_as_of": "2026-05-08",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-04-30",
       "metrics": {
         "cagr": 0.9773,
@@ -2293,7 +2183,7 @@
       "risk_state": "risk_on",
       "target_exposure": 1.0,
       "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-05-08",
       "metrics": {
         "cagr": 0.2178,
@@ -2408,7 +2298,7 @@
       "risk_state": "risk_on",
       "target_exposure": 1.0,
       "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-05-08",
       "metrics": {
         "cagr": 0.2762,
@@ -2498,7 +2388,7 @@
       "risk_state": "risk_on",
       "target_exposure": 1.0,
       "updated_at": "2026-05-08",
-      "data_as_of": "2026-05-08",
+      "data_as_of": "2026-05-11",
       "signal_effective_date": "2026-05-08",
       "metrics": {
         "cagr": 0.7807,
