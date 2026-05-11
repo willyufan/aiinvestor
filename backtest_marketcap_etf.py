@@ -2068,6 +2068,102 @@ WINNER_CORE_VARIANTS = [
         "weight_cap": 0.95,
     },
     {
+        "variant_id": "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm75_cap95",
+        "variant_name": "进攻1/99 晋升2只(量价晋升前15%, 动量三档保留50%, 晋升保留前60%, 恢复确认75, 单票95%)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "standard_promotion_min_momentum_6_1_rank": 0.75,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_momentum_6_1_rank": 0.85,
+        "fast_promotion_min_recent_1m_return": 0.01,
+        "fast_promotion_min_amount_surge_ratio": 1.10,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.95,
+    },
+    {
+        "variant_id": "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm75_cap95",
+        "variant_name": "进攻2/98 晋升2只(量价晋升前15%, 动量三档保留50%, 晋升保留前60%, 恢复确认75, 单票95%)",
+        "winner_core_stable_share": 0.02,
+        "winner_core_promoted_share": 0.98,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "standard_promotion_min_momentum_6_1_rank": 0.75,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_momentum_6_1_rank": 0.85,
+        "fast_promotion_min_recent_1m_return": 0.01,
+        "fast_promotion_min_amount_surge_ratio": 1.10,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.95,
+    },
+    {
+        "variant_id": "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm80_amt110_cap95",
+        "variant_name": "进攻1/99 晋升2只(量价晋升前15%, 动量三档保留50%, 晋升保留前60%, 恢复确认80+量能110, 单票95%)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "standard_promotion_min_momentum_6_1_rank": 0.80,
+        "standard_promotion_min_momentum_3_1_rank": 0.55,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_momentum_6_1_rank": 0.88,
+        "fast_promotion_min_momentum_3_1_rank": 0.60,
+        "fast_promotion_min_recent_1m_return": 0.02,
+        "fast_promotion_min_amount_surge_ratio": 1.10,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.95,
+    },
+    {
+        "variant_id": "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm80_amt110_cap95",
+        "variant_name": "进攻2/98 晋升2只(量价晋升前15%, 动量三档保留50%, 晋升保留前60%, 恢复确认80+量能110, 单票95%)",
+        "winner_core_stable_share": 0.02,
+        "winner_core_promoted_share": 0.98,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "standard_promotion_min_momentum_6_1_rank": 0.80,
+        "standard_promotion_min_momentum_3_1_rank": 0.55,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_momentum_6_1_rank": 0.88,
+        "fast_promotion_min_momentum_3_1_rank": 0.60,
+        "fast_promotion_min_recent_1m_return": 0.02,
+        "fast_promotion_min_amount_surge_ratio": 1.10,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.95,
+    },
+    {
         "variant_id": "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_caution70_cap95",
         "variant_name": "进攻1/99 晋升2只(量价晋升前15%, 动量三档保留50%, 谨慎仓70/50, 单票95%)",
         "winner_core_stable_share": 0.01,
@@ -3332,6 +3428,10 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit80_cap95",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_cap95",
             "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_cap95",
+            "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm75_cap95",
+            "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm75_cap95",
+            "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm80_amt110_cap95",
+            "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm80_amt110_cap95",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_caution70_cap95",
             "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_caution70_cap95",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_caution60_cap95",
@@ -3523,6 +3623,10 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit80_cap95",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_cap95",
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_cap95",
+    "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm75_cap95",
+    "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm75_cap95",
+    "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm80_amt110_cap95",
+    "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm80_amt110_cap95",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_caution70_cap95",
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_caution70_cap95",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_caution60_cap95",
@@ -7301,14 +7405,21 @@ def _load_core_active_registry_ids(path: Path = CORE_ACTIVE_REGISTRY_PATH) -> Se
         payload = json.loads(path.read_text(encoding="utf-8"))
     except Exception:
         return set()
-    strategies = payload.get("strategies") if isinstance(payload, dict) else []
-    if not isinstance(strategies, list):
+    if not isinstance(payload, dict):
         return set()
-    return {
-        str(item["strategy_id"])
-        for item in strategies
-        if isinstance(item, dict) and item.get("strategy_id") and item.get("active", True)
-    }
+    strategy_ids: Set[str] = set()
+    for bucket_key in ("strategies", "refresh_only_strategies"):
+        strategies = payload.get(bucket_key, [])
+        if not isinstance(strategies, list):
+            continue
+        strategy_ids.update(
+            str(item["strategy_id"])
+            for item in strategies
+            if isinstance(item, dict)
+            and item.get("strategy_id")
+            and (item.get("active", True) or item.get("refresh_only"))
+        )
+    return strategy_ids
 
 
 def _load_weighted_tracked_winner_ids(path: Path = RESULTS_DIR / "weighted_track_winners.json") -> Set[str]:

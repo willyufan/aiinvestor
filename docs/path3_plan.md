@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-11 09:19 CST）
+
+- 本轮运行 `.venv/bin/python scripts/update_weighted_winners.py`，继续只使用 `_matches_path3()` 的纯 `_weekly` 口径；A 股 Path 2 新增的 `risk50_mom_exit60_reconfirm*` 月频候选没有混入 Path 3。
+- Path 3 `since_2017_01` winner 仍为 `aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly`，`23.36% CAGR / -40.04% MaxDD / 0.7977 Sharpe / 7.70 Turnover`。
+- `since_2020_01` winner 仍为 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`，`14.67% CAGR / -51.71% MaxDD / 0.5628 Sharpe / 12.98 Turnover`；raw 单窗口最高的 `aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly` 仍因深回撤与短窗化不替换验证 winner。
+- `since_2023_01` 与 `since_2025_01` 仍为 `aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly`，分别为 `35.09% / -37.14% / 0.9568 / 13.65` 与 `47.65% / -27.38% / 1.2150 / 13.64`。
+- 四窗口鲁棒候选仍为 `aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_weekly`，`meanCAGR=22.29% / minCAGR=15.59% / worstMaxDD=-46.64% / meanTurn=11.03`；高换手和高回撤代价继续单独记录。
+
 ## 本轮执行计划（2026-05-11 03:13 CST）
 
 - 本轮运行 `.venv/bin/python scripts/update_weighted_winners.py`，继续只使用 `_matches_path3()` 的纯 `_weekly` 口径；A 股 Path 2 新增的 `risk50_mom_top12/top18` 月频候选没有混入 Path 3。

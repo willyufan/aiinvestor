@@ -135,6 +135,45 @@ PATH1_IMPROVEMENT_THRESHOLDS = ImprovementThresholds(
 )
 
 
+def _metrics_to_dict(metrics: TrackMetrics) -> dict[str, float]:
+    """Render a TrackMetrics tuple as the standard payload dict."""
+    return {
+        "weighted_cagr": metrics.cagr,
+        "weighted_sharpe": metrics.sharpe,
+        "weighted_max_drawdown": metrics.max_drawdown,
+        "weighted_turnover": metrics.turnover,
+    }
+
+
+def _build_track_section(
+    *,
+    weights: dict[str, float],
+    validated_winner_id: str,
+    validated_metrics: TrackMetrics,
+    raw_winner_id: str | None = None,
+    raw_metrics: TrackMetrics | None = None,
+) -> dict[str, object]:
+    """Build a single track entry for the payload.
+
+    The validated winner is the post-validation pick that is the official
+    output for active family / live trading. The raw winner is the
+    unvalidated top-rank pick kept for diagnostics: when validation displaces
+    a candidate (typically because it is overfit to the target window),
+    raw_winner records what would have been chosen without the guard.
+    """
+    section: dict[str, object] = {
+        "weights": weights,
+        "winner": validated_winner_id,
+        "metrics": _metrics_to_dict(validated_metrics),
+    }
+    if raw_winner_id is None or raw_metrics is None:
+        return section
+    section["raw_winner"] = raw_winner_id
+    section["raw_metrics"] = _metrics_to_dict(raw_metrics)
+    section["raw_displaced"] = raw_winner_id != validated_winner_id
+    return section
+
+
 def _is_nan_metrics(metrics: TrackMetrics) -> bool:
     return any(np.isnan(v) for v in (metrics.cagr, metrics.sharpe, metrics.max_drawdown, metrics.turnover))
 
@@ -780,8 +819,18 @@ def _window_metrics_for_strategy(strategies: dict[str, dict], winner_id: str, sa
     }
 
 
-def _build_history_entry(*, as_of: str, winner_id: str, strategy_name: str, sample_tag: str, metrics: dict[str, float]) -> dict[str, Any]:
-    return {
+def _build_history_entry(
+    *,
+    as_of: str,
+    winner_id: str,
+    strategy_name: str,
+    sample_tag: str,
+    metrics: dict[str, float],
+    raw_winner_id: str | None = None,
+    raw_strategy_name: str | None = None,
+    raw_metrics: dict[str, float] | None = None,
+) -> dict[str, Any]:
+    entry: dict[str, Any] = {
         "as_of": as_of,
         "sample_tag": sample_tag,
         "winner": winner_id,
@@ -792,6 +841,19 @@ def _build_history_entry(*, as_of: str, winner_id: str, strategy_name: str, samp
         "sharpe": metrics["sharpe"],
         "turnover": metrics["turnover"],
     }
+    if raw_winner_id and raw_metrics:
+        entry.update(
+            {
+                "raw_winner": raw_winner_id,
+                "raw_strategy_base_name": raw_strategy_name or raw_winner_id,
+                "raw_total_return": raw_metrics["total_return"],
+                "raw_cagr": raw_metrics["cagr"],
+                "raw_max_drawdown": raw_metrics["max_drawdown"],
+                "raw_sharpe": raw_metrics["sharpe"],
+                "raw_turnover": raw_metrics["turnover"],
+            }
+        )
+    return entry
 
 
 def _history_entry_changed(old_entry: dict[str, Any], new_entry: dict[str, Any]) -> bool:
@@ -801,7 +863,22 @@ def _history_entry_changed(old_entry: dict[str, Any], new_entry: dict[str, Any])
         return True
     if str(old_entry.get("strategy_base_name", "")) != str(new_entry.get("strategy_base_name", "")):
         return True
-    for key in ("total_return", "cagr", "max_drawdown", "sharpe", "turnover"):
+    if str(old_entry.get("raw_winner", "")) != str(new_entry.get("raw_winner", "")):
+        return True
+    if str(old_entry.get("raw_strategy_base_name", "")) != str(new_entry.get("raw_strategy_base_name", "")):
+        return True
+    for key in (
+        "total_return",
+        "cagr",
+        "max_drawdown",
+        "sharpe",
+        "turnover",
+        "raw_total_return",
+        "raw_cagr",
+        "raw_max_drawdown",
+        "raw_sharpe",
+        "raw_turnover",
+    ):
         if not _metrics_close(old_entry.get(key, float("nan")), new_entry.get(key, float("nan"))):
             return True
     return False
@@ -843,9 +920,11 @@ def render_history_markdown(history: dict[str, Any]) -> str:
             if not entries:
                 lines.extend(["暂无记录。", ""])
                 continue
-            lines.append("| 日期 | 策略ID | 策略名称 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |")
-            lines.append("| --- | --- | --- | --- | --- | --- | --- | --- |")
+            lines.append("| 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |")
+            lines.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- |")
             for entry in reversed(entries):
+                raw_winner = str(entry.get("raw_winner") or "")
+                raw_cell = f"`{raw_winner}`" if raw_winner else ""
                 lines.append(
                     "| "
                     + " | ".join(
@@ -853,6 +932,7 @@ def render_history_markdown(history: dict[str, Any]) -> str:
                             str(entry.get("as_of", "")),
                             f"`{entry.get('winner', '')}`",
                             str(entry.get("strategy_base_name", "")),
+                            raw_cell,
                             _fmt_pct(float(entry.get("total_return", float("nan")))),
                             _fmt_pct(float(entry.get("cagr", float("nan")))),
                             _fmt_pct(float(entry.get("max_drawdown", float("nan")))),
@@ -903,8 +983,10 @@ def update_history(
     path1_robust_id: str | None = None,
     path2_robust_id: str | None = None,
     path3_robust_id: str | None = None,
+    raw_winners_by_path: dict[str, dict[str, tuple[str, TrackMetrics]]] | None = None,
 ) -> dict[str, Any]:
     history = _load_history(history_path)
+    raw_winners_by_path = raw_winners_by_path or {}
     for path_key, winners in (("path1", path1_winners), ("path2", path2_winners), ("path3", path3_winners or {})):
         path_bucket = history.setdefault(path_key, {})
         for track_key, sample_tag, _ in TRACK_SEQUENCE:
@@ -913,12 +995,25 @@ def update_history(
                 continue
             strategy_name = str(strategies[winner_id]["strategy_base_name"])
             metrics = _window_metrics_for_strategy(strategies, winner_id, sample_tag)
+            raw_winner_id = None
+            raw_strategy_name = None
+            raw_metrics = None
+            raw_entry = raw_winners_by_path.get(path_key, {}).get(sample_tag)
+            if raw_entry:
+                raw_candidate_id = raw_entry[0]
+                if raw_candidate_id and raw_candidate_id != winner_id and raw_candidate_id in strategies:
+                    raw_winner_id = raw_candidate_id
+                    raw_strategy_name = str(strategies[raw_candidate_id]["strategy_base_name"])
+                    raw_metrics = _window_metrics_for_strategy(strategies, raw_candidate_id, sample_tag)
             new_entry = _build_history_entry(
                 as_of=as_of,
                 winner_id=winner_id,
                 strategy_name=strategy_name,
                 sample_tag=sample_tag,
                 metrics=metrics,
+                raw_winner_id=raw_winner_id,
+                raw_strategy_name=raw_strategy_name,
+                raw_metrics=raw_metrics,
             )
             entries = _dedupe_entries_by_as_of(list(path_bucket.get(track_key, [])))
             last_entry = entries[-1] if entries else {}
@@ -1024,7 +1119,16 @@ def _build_core_active_winner_entries(payload: dict[str, Any], strategies: dict[
     entries: list[dict[str, Any]] = []
     sample_tag_by_track = {track_key: sample_tag for track_key, sample_tag, _ in TRACK_SEQUENCE}
 
-    def add_entry(*, path_key: str, track_key: str, strategy_id: object, metrics: object, sample_tag: str) -> None:
+    def add_entry(
+        *,
+        path_key: str,
+        track_key: str,
+        strategy_id: object,
+        metrics: object,
+        sample_tag: str,
+        kind: str = "validated",
+        refresh_only: bool = False,
+    ) -> None:
         if not strategy_id:
             return
         sid = str(strategy_id)
@@ -1037,8 +1141,36 @@ def _build_core_active_winner_entries(payload: dict[str, Any], strategies: dict[
                 "track": track_key,
                 "sample_tag": sample_tag,
                 "metrics": metrics if isinstance(metrics, dict) else {},
+                "kind": kind,
+                "refresh_only": bool(refresh_only),
             }
         )
+
+    def add_track_pair(*, path_key: str, track_key: str, track_meta: dict[str, Any]) -> None:
+        sample_tag = sample_tag_by_track.get(str(track_key), "")
+        validated_id = track_meta.get("winner")
+        add_entry(
+            path_key=path_key,
+            track_key=str(track_key),
+            strategy_id=validated_id,
+            metrics=track_meta.get("metrics"),
+            sample_tag=sample_tag,
+            kind="validated",
+        )
+        # Raw winner is observation-only: keep it in the registry so its
+        # forward-looking performance keeps being tracked even when
+        # adjacent-window validation displaces it from the official slot.
+        raw_id = track_meta.get("raw_winner")
+        if raw_id and raw_id != validated_id:
+            add_entry(
+                path_key=path_key,
+                track_key=str(track_key),
+                strategy_id=raw_id,
+                metrics=track_meta.get("raw_metrics"),
+                sample_tag=sample_tag,
+                kind="raw",
+                refresh_only=True,
+            )
 
     for track_key, track_meta in (payload.get("tracks") or {}).items():
         if not isinstance(track_meta, dict):
@@ -1050,15 +1182,10 @@ def _build_core_active_winner_entries(payload: dict[str, Any], strategies: dict[
                 strategy_id=track_meta.get("strategy_base_id"),
                 metrics=track_meta.get("robust_metrics"),
                 sample_tag="since_2020_01",
+                kind="robust",
             )
         else:
-            add_entry(
-                path_key="path1",
-                track_key=str(track_key),
-                strategy_id=track_meta.get("winner"),
-                metrics=track_meta.get("metrics"),
-                sample_tag=sample_tag_by_track.get(str(track_key), ""),
-            )
+            add_track_pair(path_key="path1", track_key=str(track_key), track_meta=track_meta)
 
     for path_key in ("path2", "path3"):
         path_payload = payload.get(path_key) or {}
@@ -1067,30 +1194,26 @@ def _build_core_active_winner_entries(payload: dict[str, Any], strategies: dict[
         for track_key, track_meta in (path_payload.get("tracks") or {}).items():
             if not isinstance(track_meta, dict):
                 continue
-            add_entry(
-                path_key=path_key,
-                track_key=str(track_key),
-                strategy_id=track_meta.get("winner"),
-                metrics=track_meta.get("metrics"),
-                sample_tag=sample_tag_by_track.get(str(track_key), ""),
-            )
+            add_track_pair(path_key=path_key, track_key=str(track_key), track_meta=track_meta)
         add_entry(
             path_key=path_key,
             track_key=ROBUST_TRACK_KEY,
             strategy_id=path_payload.get("strategy_base_id"),
             metrics=path_payload.get("robust_metrics"),
             sample_tag="since_2020_01",
+            kind="robust",
         )
     return entries
 
 
-def _core_active_metrics_from_history(entry: dict[str, Any]) -> dict[str, float]:
+def _core_active_metrics_from_history(entry: dict[str, Any], *, prefix: str = "") -> dict[str, float]:
     metrics: dict[str, float] = {}
     for key in ("total_return", "cagr", "max_drawdown", "sharpe", "turnover"):
-        if key not in entry:
+        source_key = f"{prefix}{key}" if prefix else key
+        if source_key not in entry:
             continue
         try:
-            metrics[key] = float(entry[key])
+            metrics[key] = float(entry[source_key])
         except (TypeError, ValueError):
             continue
     return metrics
@@ -1126,6 +1249,7 @@ def _build_core_active_history_entry_groups(
                     continue
                 if _trading_days_since(entry_as_of, as_of, open_trade_dates) >= stale_trading_days:
                     continue
+                kind = "robust" if track_key == ROBUST_TRACK_KEY else "validated"
                 grouped.setdefault(entry_as_of, []).append(
                     {
                         "strategy_id": strategy_id,
@@ -1134,8 +1258,24 @@ def _build_core_active_history_entry_groups(
                         "track": track_key,
                         "sample_tag": str(entry.get("sample_tag") or default_sample_tag),
                         "metrics": _core_active_metrics_from_history(entry),
+                        "kind": kind,
+                        "refresh_only": False,
                     }
                 )
+                raw_strategy_id = str(entry.get("raw_winner") or "").strip()
+                if raw_strategy_id:
+                    grouped.setdefault(entry_as_of, []).append(
+                        {
+                            "strategy_id": raw_strategy_id,
+                            "strategy_name": str(entry.get("raw_strategy_base_name") or raw_strategy_id),
+                            "path": path_key,
+                            "track": track_key,
+                            "sample_tag": str(entry.get("sample_tag") or default_sample_tag),
+                            "metrics": _core_active_metrics_from_history(entry, prefix="raw_"),
+                            "kind": "raw",
+                            "refresh_only": True,
+                        }
+                    )
     return [(entry_as_of, grouped[entry_as_of]) for entry_as_of in sorted(grouped)]
 
 
@@ -1192,14 +1332,17 @@ def _load_core_active_registry(path: Path) -> dict[str, dict[str, Any]]:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except Exception:
         return {}
-    strategies = payload.get("strategies") if isinstance(payload, dict) else []
-    if not isinstance(strategies, list):
-        return {}
     registry: dict[str, dict[str, Any]] = {}
-    for item in strategies:
-        if not isinstance(item, dict) or not item.get("strategy_id"):
+    if not isinstance(payload, dict):
+        return registry
+    for bucket_key in ("refresh_only_strategies", "strategies"):
+        strategies = payload.get(bucket_key, [])
+        if not isinstance(strategies, list):
             continue
-        registry[str(item["strategy_id"])] = dict(item)
+        for item in strategies:
+            if not isinstance(item, dict) or not item.get("strategy_id"):
+                continue
+            registry[str(item["strategy_id"])] = dict(item)
     return registry
 
 
@@ -1223,8 +1366,19 @@ def update_core_active_registry(
             continue
         current_by_id.setdefault(strategy_id, []).append(entry)
 
+    def is_refresh_only_role(role: dict[str, Any]) -> bool:
+        return bool(role.get("refresh_only")) or str(role.get("kind", "")).strip().lower() == "raw"
+
     for strategy_id, roles in current_by_id.items():
-        primary = roles[0]
+        roles_sorted = sorted(
+            roles,
+            key=lambda r: (
+                is_refresh_only_role(r),
+                0 if str(r.get("kind", "validated")) in {"validated", "robust"} else 1,
+            ),
+        )
+        primary = roles_sorted[0]
+        refresh_only = all(is_refresh_only_role(role) for role in roles_sorted)
         item = registry.get(strategy_id, {"strategy_id": strategy_id})
         win_dates = [str(value) for value in item.get("win_dates", []) if str(value)]
         if as_of_str not in win_dates:
@@ -1262,36 +1416,57 @@ def update_core_active_registry(
                         "path": role.get("path", ""),
                         "track": role.get("track", ""),
                         "sample_tag": role.get("sample_tag", ""),
+                        "kind": role.get("kind", "validated"),
+                        "refresh_only": is_refresh_only_role(role),
                     }
-                    for role in roles
+                    for role in roles_sorted
                 ],
-                "active": True,
+                "refresh_only": refresh_only,
+                "active": not refresh_only,
                 "days_since_last_win": 0,
             }
         )
         registry[strategy_id] = item
 
-    current_winner_ids = set(current_by_id)
+    current_ids = set(current_by_id)
+    current_winner_ids = {
+        strategy_id
+        for strategy_id, roles in current_by_id.items()
+        if any(not is_refresh_only_role(role) for role in roles)
+    }
+    current_refresh_only_ids = current_ids - current_winner_ids
     open_trade_dates = _load_open_trade_dates(calendar_path, as_of_str)
     active_items: list[dict[str, Any]] = []
+    refresh_only_items: list[dict[str, Any]] = []
     expired_strategy_ids: list[str] = []
     for strategy_id, item in registry.items():
-        if strategy_id not in current_winner_ids:
+        if strategy_id not in current_ids:
             days_since = _trading_days_since(item.get("last_win_date"), as_of_str, open_trade_dates)
             item["current_winner_roles"] = []
             item["days_since_last_win"] = days_since
             if days_since >= stale_trading_days:
                 expired_strategy_ids.append(strategy_id)
                 continue
-        item["active"] = True
-        active_items.append(item)
+        refresh_only = bool(item.get("refresh_only"))
+        item["active"] = not refresh_only
+        if refresh_only:
+            refresh_only_items.append(item)
+        else:
+            active_items.append(item)
 
     active_items.sort(key=lambda item: _core_active_sort_key(item, current_winner_ids), reverse=True)
+    refresh_only_items.sort(key=lambda item: _core_active_sort_key(item, current_refresh_only_ids), reverse=True)
     kept_items = active_items[:max_size]
+    kept_refresh_only_items = refresh_only_items[:max_size]
     trimmed_strategy_ids = [
         str(item.get("strategy_id", ""))
         for item in active_items[max_size:]
         if str(item.get("strategy_id", "")) not in current_winner_ids
+    ]
+    trimmed_refresh_only_strategy_ids = [
+        str(item.get("strategy_id", ""))
+        for item in refresh_only_items[max_size:]
+        if str(item.get("strategy_id", "")) not in current_refresh_only_ids
     ]
 
     registry_payload = {
@@ -1299,9 +1474,12 @@ def update_core_active_registry(
         "max_size": max_size,
         "stale_trading_days": stale_trading_days,
         "current_winner_ids": sorted(current_winner_ids),
+        "current_refresh_only_ids": sorted(current_refresh_only_ids),
         "expired_strategy_ids": sorted(expired_strategy_ids),
         "trimmed_strategy_ids": sorted(set(trimmed_strategy_ids)),
+        "trimmed_refresh_only_strategy_ids": sorted(set(trimmed_refresh_only_strategy_ids)),
         "strategies": kept_items,
+        "refresh_only_strategies": kept_refresh_only_items,
     }
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(registry_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -1583,8 +1761,19 @@ def _render_block(
     path3_id: str,
     path3_summary: dict[str, float],
     sample_end: str,
+    raw_winners_lookup: dict[tuple[str, str], tuple[str, TrackMetrics]] | None = None,
 ) -> str:
-    def render_track(title: str, weights: dict[str, float], winner_id: str, metrics: TrackMetrics) -> str:
+    raw_winners_lookup = raw_winners_lookup or {}
+
+    def render_track(
+        title: str,
+        weights: dict[str, float],
+        winner_id: str,
+        metrics: TrackMetrics,
+        *,
+        path_key: str | None = None,
+        sample_tag: str | None = None,
+    ) -> str:
         info = strategies[winner_id]
         windows = info["windows"]
         weight_str = ", ".join(f"{k.replace('since_', '').replace('_', '-')}={int(v*100)}%" for k, v in weights.items())
@@ -1599,24 +1788,39 @@ def _render_block(
                 f"Sharpe `{windows[tag]['sharpe']:.4f}`, "
                 f"Turnover `{windows[tag]['turnover']:.2f}`"
             )
-        return "\n".join(
-            [
-                f"### {title}",
-                "",
-                f"- 策略：`{winner_id}`（{info['strategy_base_name']}）",
-                f"- 加权指标（CAGR / Sharpe / Max DD / Turnover）："
-                f"`{_fmt_pct(metrics.cagr)}` / `{metrics.sharpe:.4f}` / `{_fmt_pct(metrics.max_drawdown)}` / `{metrics.turnover:.2f}`",
-                "",
-                f"窗口指标（截至 `{sample_end}`，权重：{weight_str}）：",
-                "",
-                render_window("since_2017_01"),
-                render_window("since_2020_01"),
-                render_window("since_2023_01"),
-                render_window("since_2025_01"),
-                render_window("since_2026_01"),
-                "",
-            ]
-        )
+
+        lines = [
+            f"### {title}",
+            "",
+            f"- 鲁棒赢家：`{winner_id}`（{info['strategy_base_name']}）",
+            f"- 加权指标（CAGR / Sharpe / Max DD / Turnover）："
+            f"`{_fmt_pct(metrics.cagr)}` / `{metrics.sharpe:.4f}` / `{_fmt_pct(metrics.max_drawdown)}` / `{metrics.turnover:.2f}`",
+        ]
+
+        raw_entry = raw_winners_lookup.get((path_key or "", sample_tag or ""))
+        if raw_entry and raw_entry[0] and raw_entry[0] != winner_id:
+            raw_id, raw_metrics_obj = raw_entry
+            raw_info = strategies.get(raw_id)
+            raw_name = raw_info["strategy_base_name"] if raw_info else raw_id
+            lines.extend([
+                f"- 单窗口最高收益（被鲁棒检验过滤）：`{raw_id}`（{raw_name}）",
+                f"  - 该窗口指标（CAGR / Sharpe / Max DD / Turnover）："
+                f"`{_fmt_pct(raw_metrics_obj.cagr)}` / `{raw_metrics_obj.sharpe:.4f}` / "
+                f"`{_fmt_pct(raw_metrics_obj.max_drawdown)}` / `{raw_metrics_obj.turnover:.2f}`",
+            ])
+
+        lines.extend([
+            "",
+            f"窗口指标（截至 `{sample_end}`，权重：{weight_str}）：",
+            "",
+            render_window("since_2017_01"),
+            render_window("since_2020_01"),
+            render_window("since_2023_01"),
+            render_window("since_2025_01"),
+            render_window("since_2026_01"),
+            "",
+        ])
+        return "\n".join(lines)
 
     def render_path2(title: str, base_id: str, summary: dict[str, float]) -> str:
         info = strategies[base_id]
@@ -1669,28 +1873,28 @@ def _render_block(
         "",
         "## Path 1：窗口跟踪赢家",
         "",
-        render_track("2017 窗口赢家", WEIGHTS_2017_ONLY, window_2017_winner_id, window_2017_metrics),
-        render_track("2023 窗口赢家", WEIGHTS_2023_ONLY, window_2023_winner_id, window_2023_metrics),
-        render_track("2020 窗口赢家", WEIGHTS_2020_ONLY, window_2020_winner_id, window_2020_metrics),
-        render_track("2025 窗口赢家", WEIGHTS_2025_ONLY, window_2025_winner_id, window_2025_metrics),
+        render_track("2017 窗口赢家", WEIGHTS_2017_ONLY, window_2017_winner_id, window_2017_metrics, path_key="path1", sample_tag="since_2017_01"),
+        render_track("2023 窗口赢家", WEIGHTS_2023_ONLY, window_2023_winner_id, window_2023_metrics, path_key="path1", sample_tag="since_2023_01"),
+        render_track("2020 窗口赢家", WEIGHTS_2020_ONLY, window_2020_winner_id, window_2020_metrics, path_key="path1", sample_tag="since_2020_01"),
+        render_track("2025 窗口赢家", WEIGHTS_2025_ONLY, window_2025_winner_id, window_2025_metrics, path_key="path1", sample_tag="since_2025_01"),
         "## Path 1：鲁棒候选",
         "",
         render_path2("四窗口鲁棒候选", path1_robust_id, path1_summary),
         "## Path 2：窗口跟踪赢家",
         "",
-        render_track("2017 窗口赢家（Path 2）", WEIGHTS_2017_ONLY, path2_window_2017_id, path2_window_2017_metrics),
-        render_track("2023 窗口赢家（Path 2）", WEIGHTS_2023_ONLY, path2_window_2023_id, path2_window_2023_metrics),
-        render_track("2020 窗口赢家（Path 2）", WEIGHTS_2020_ONLY, path2_window_2020_id, path2_window_2020_metrics),
-        render_track("2025 窗口赢家（Path 2）", WEIGHTS_2025_ONLY, path2_window_2025_id, path2_window_2025_metrics),
+        render_track("2017 窗口赢家（Path 2）", WEIGHTS_2017_ONLY, path2_window_2017_id, path2_window_2017_metrics, path_key="path2", sample_tag="since_2017_01"),
+        render_track("2023 窗口赢家（Path 2）", WEIGHTS_2023_ONLY, path2_window_2023_id, path2_window_2023_metrics, path_key="path2", sample_tag="since_2023_01"),
+        render_track("2020 窗口赢家（Path 2）", WEIGHTS_2020_ONLY, path2_window_2020_id, path2_window_2020_metrics, path_key="path2", sample_tag="since_2020_01"),
+        render_track("2025 窗口赢家（Path 2）", WEIGHTS_2025_ONLY, path2_window_2025_id, path2_window_2025_metrics, path_key="path2", sample_tag="since_2025_01"),
         "## Path 2：鲁棒候选",
         "",
         render_path2("四窗口鲁棒候选", path2_id, path2_summary),
         "## Path 3：窗口跟踪赢家",
         "",
-        render_track("2017 窗口赢家（Path 3）", WEIGHTS_2017_ONLY, path3_window_2017_id, path3_window_2017_metrics),
-        render_track("2023 窗口赢家（Path 3）", WEIGHTS_2023_ONLY, path3_window_2023_id, path3_window_2023_metrics),
-        render_track("2020 窗口赢家（Path 3）", WEIGHTS_2020_ONLY, path3_window_2020_id, path3_window_2020_metrics),
-        render_track("2025 窗口赢家（Path 3）", WEIGHTS_2025_ONLY, path3_window_2025_id, path3_window_2025_metrics),
+        render_track("2017 窗口赢家（Path 3）", WEIGHTS_2017_ONLY, path3_window_2017_id, path3_window_2017_metrics, path_key="path3", sample_tag="since_2017_01"),
+        render_track("2023 窗口赢家（Path 3）", WEIGHTS_2023_ONLY, path3_window_2023_id, path3_window_2023_metrics, path_key="path3", sample_tag="since_2023_01"),
+        render_track("2020 窗口赢家（Path 3）", WEIGHTS_2020_ONLY, path3_window_2020_id, path3_window_2020_metrics, path_key="path3", sample_tag="since_2020_01"),
+        render_track("2025 窗口赢家（Path 3）", WEIGHTS_2025_ONLY, path3_window_2025_id, path3_window_2025_metrics, path_key="path3", sample_tag="since_2025_01"),
         "## Path 3：鲁棒候选",
         "",
         render_path2("四窗口鲁棒候选", path3_id, path3_summary),
@@ -1872,8 +2076,13 @@ def main() -> None:
     window_2020_id, window_2020_metrics = path1_winners["since_2020_01"]
     window_2023_id, window_2023_metrics = path1_winners["since_2023_01"]
     window_2025_id, window_2025_metrics = path1_winners["since_2025_01"]
+    path1_allowed_ids = path1_family_ids & active_family_ids
+    path1_raw_winners = {
+        tag: _pick_single_window_winner(latest, tag, allowed_base_ids=path1_allowed_ids)
+        for tag in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
+    }
     path1_robust_id, path1_summary = _pick_robust_candidate(
-        latest[latest["strategy_base_id"].astype(str).isin(path1_family_ids & active_family_ids)]
+        latest[latest["strategy_base_id"].astype(str).isin(path1_allowed_ids)]
     )
     path2_prefixes, path2_variant_ids = load_path2_scan_rules()
     path2_allowed_ids = {
@@ -1898,6 +2107,10 @@ def main() -> None:
     path2_window_2020_id, path2_window_2020_metrics = path2_winners["since_2020_01"]
     path2_window_2023_id, path2_window_2023_metrics = path2_winners["since_2023_01"]
     path2_window_2025_id, path2_window_2025_metrics = path2_winners["since_2025_01"]
+    path2_raw_winners = {
+        tag: _pick_single_window_winner(latest, tag, allowed_base_ids=path2_allowed_ids)
+        for tag in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
+    }
     path2_id, path2_summary = _pick_path2_candidate(
         latest[latest["strategy_base_id"].astype(str).isin(path2_allowed_ids)]
     )
@@ -1920,54 +2133,43 @@ def main() -> None:
     path3_window_2020_id, path3_window_2020_metrics = path3_winners["since_2020_01"]
     path3_window_2023_id, path3_window_2023_metrics = path3_winners["since_2023_01"]
     path3_window_2025_id, path3_window_2025_metrics = path3_winners["since_2025_01"]
+    path3_raw_winners = {
+        tag: _pick_single_window_winner(latest, tag, allowed_base_ids=path3_allowed_ids)
+        for tag in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
+    }
     path3_id, path3_summary = _pick_robust_candidate(latest, allowed_base_ids=path3_allowed_ids)
+    raw_winners_by_path = {
+        "path1": path1_raw_winners,
+        "path2": path2_raw_winners,
+        "path3": path3_raw_winners,
+    }
     sample_end = max(info["sample_end"] for info in strategies.values())
+
+    def _track_for(
+        path_winners_map: dict[str, tuple[str, TrackMetrics]],
+        raw_map: dict[str, tuple[str, TrackMetrics]],
+        sample_tag: str,
+        weights: dict[str, float],
+    ) -> dict[str, object]:
+        validated_id, validated_metrics = path_winners_map[sample_tag]
+        raw_id, raw_metrics = raw_map[sample_tag]
+        return _build_track_section(
+            weights=weights,
+            validated_winner_id=validated_id,
+            validated_metrics=validated_metrics,
+            raw_winner_id=raw_id,
+            raw_metrics=raw_metrics,
+        )
 
     payload = {
         "as_of": sample_end,
         "window_tags": list(SAMPLE_TAG_STARTS),
         "winner_core_prefix": prefix,
         "tracks": {
-            "since_2017_only": {
-                "weights": WEIGHTS_2017_ONLY,
-                "winner": window_2017_id,
-                "metrics": {
-                    "weighted_cagr": window_2017_metrics.cagr,
-                    "weighted_sharpe": window_2017_metrics.sharpe,
-                    "weighted_max_drawdown": window_2017_metrics.max_drawdown,
-                    "weighted_turnover": window_2017_metrics.turnover,
-                },
-            },
-            "since_2023_only": {
-                "weights": WEIGHTS_2023_ONLY,
-                "winner": window_2023_id,
-                "metrics": {
-                    "weighted_cagr": window_2023_metrics.cagr,
-                    "weighted_sharpe": window_2023_metrics.sharpe,
-                    "weighted_max_drawdown": window_2023_metrics.max_drawdown,
-                    "weighted_turnover": window_2023_metrics.turnover,
-                },
-            },
-            "since_2020_only": {
-                "weights": WEIGHTS_2020_ONLY,
-                "winner": window_2020_id,
-                "metrics": {
-                    "weighted_cagr": window_2020_metrics.cagr,
-                    "weighted_sharpe": window_2020_metrics.sharpe,
-                    "weighted_max_drawdown": window_2020_metrics.max_drawdown,
-                    "weighted_turnover": window_2020_metrics.turnover,
-                },
-            },
-            "since_2025_only": {
-                "weights": WEIGHTS_2025_ONLY,
-                "winner": window_2025_id,
-                "metrics": {
-                    "weighted_cagr": window_2025_metrics.cagr,
-                    "weighted_sharpe": window_2025_metrics.sharpe,
-                    "weighted_max_drawdown": window_2025_metrics.max_drawdown,
-                    "weighted_turnover": window_2025_metrics.turnover,
-                },
-            },
+            "since_2017_only": _track_for(path1_winners, path1_raw_winners, "since_2017_01", WEIGHTS_2017_ONLY),
+            "since_2023_only": _track_for(path1_winners, path1_raw_winners, "since_2023_01", WEIGHTS_2023_ONLY),
+            "since_2020_only": _track_for(path1_winners, path1_raw_winners, "since_2020_01", WEIGHTS_2020_ONLY),
+            "since_2025_only": _track_for(path1_winners, path1_raw_winners, "since_2025_01", WEIGHTS_2025_ONLY),
             "robust_candidate": {
                 "strategy_base_id": path1_robust_id,
                 "robust_metrics": path1_summary,
@@ -1975,92 +2177,20 @@ def main() -> None:
         },
         "path2": {
             "tracks": {
-                "since_2017_only": {
-                    "weights": WEIGHTS_2017_ONLY,
-                    "winner": path2_window_2017_id,
-                    "metrics": {
-                        "weighted_cagr": path2_window_2017_metrics.cagr,
-                        "weighted_sharpe": path2_window_2017_metrics.sharpe,
-                        "weighted_max_drawdown": path2_window_2017_metrics.max_drawdown,
-                        "weighted_turnover": path2_window_2017_metrics.turnover,
-                    },
-                },
-                "since_2023_only": {
-                    "weights": WEIGHTS_2023_ONLY,
-                    "winner": path2_window_2023_id,
-                    "metrics": {
-                        "weighted_cagr": path2_window_2023_metrics.cagr,
-                        "weighted_sharpe": path2_window_2023_metrics.sharpe,
-                        "weighted_max_drawdown": path2_window_2023_metrics.max_drawdown,
-                        "weighted_turnover": path2_window_2023_metrics.turnover,
-                    },
-                },
-                "since_2020_only": {
-                    "weights": WEIGHTS_2020_ONLY,
-                    "winner": path2_window_2020_id,
-                    "metrics": {
-                        "weighted_cagr": path2_window_2020_metrics.cagr,
-                        "weighted_sharpe": path2_window_2020_metrics.sharpe,
-                        "weighted_max_drawdown": path2_window_2020_metrics.max_drawdown,
-                        "weighted_turnover": path2_window_2020_metrics.turnover,
-                    },
-                },
-                "since_2025_only": {
-                    "weights": WEIGHTS_2025_ONLY,
-                    "winner": path2_window_2025_id,
-                    "metrics": {
-                        "weighted_cagr": path2_window_2025_metrics.cagr,
-                        "weighted_sharpe": path2_window_2025_metrics.sharpe,
-                        "weighted_max_drawdown": path2_window_2025_metrics.max_drawdown,
-                        "weighted_turnover": path2_window_2025_metrics.turnover,
-                    },
-                },
+                "since_2017_only": _track_for(path2_winners, path2_raw_winners, "since_2017_01", WEIGHTS_2017_ONLY),
+                "since_2023_only": _track_for(path2_winners, path2_raw_winners, "since_2023_01", WEIGHTS_2023_ONLY),
+                "since_2020_only": _track_for(path2_winners, path2_raw_winners, "since_2020_01", WEIGHTS_2020_ONLY),
+                "since_2025_only": _track_for(path2_winners, path2_raw_winners, "since_2025_01", WEIGHTS_2025_ONLY),
             },
             "strategy_base_id": path2_id,
             "robust_metrics": path2_summary,
         },
         "path3": {
             "tracks": {
-                "since_2017_only": {
-                    "weights": WEIGHTS_2017_ONLY,
-                    "winner": path3_window_2017_id,
-                    "metrics": {
-                        "weighted_cagr": path3_window_2017_metrics.cagr,
-                        "weighted_sharpe": path3_window_2017_metrics.sharpe,
-                        "weighted_max_drawdown": path3_window_2017_metrics.max_drawdown,
-                        "weighted_turnover": path3_window_2017_metrics.turnover,
-                    },
-                },
-                "since_2023_only": {
-                    "weights": WEIGHTS_2023_ONLY,
-                    "winner": path3_window_2023_id,
-                    "metrics": {
-                        "weighted_cagr": path3_window_2023_metrics.cagr,
-                        "weighted_sharpe": path3_window_2023_metrics.sharpe,
-                        "weighted_max_drawdown": path3_window_2023_metrics.max_drawdown,
-                        "weighted_turnover": path3_window_2023_metrics.turnover,
-                    },
-                },
-                "since_2020_only": {
-                    "weights": WEIGHTS_2020_ONLY,
-                    "winner": path3_window_2020_id,
-                    "metrics": {
-                        "weighted_cagr": path3_window_2020_metrics.cagr,
-                        "weighted_sharpe": path3_window_2020_metrics.sharpe,
-                        "weighted_max_drawdown": path3_window_2020_metrics.max_drawdown,
-                        "weighted_turnover": path3_window_2020_metrics.turnover,
-                    },
-                },
-                "since_2025_only": {
-                    "weights": WEIGHTS_2025_ONLY,
-                    "winner": path3_window_2025_id,
-                    "metrics": {
-                        "weighted_cagr": path3_window_2025_metrics.cagr,
-                        "weighted_sharpe": path3_window_2025_metrics.sharpe,
-                        "weighted_max_drawdown": path3_window_2025_metrics.max_drawdown,
-                        "weighted_turnover": path3_window_2025_metrics.turnover,
-                    },
-                },
+                "since_2017_only": _track_for(path3_winners, path3_raw_winners, "since_2017_01", WEIGHTS_2017_ONLY),
+                "since_2023_only": _track_for(path3_winners, path3_raw_winners, "since_2023_01", WEIGHTS_2023_ONLY),
+                "since_2020_only": _track_for(path3_winners, path3_raw_winners, "since_2020_01", WEIGHTS_2020_ONLY),
+                "since_2025_only": _track_for(path3_winners, path3_raw_winners, "since_2025_01", WEIGHTS_2025_ONLY),
             },
             "strategy_base_id": path3_id,
             "robust_metrics": path3_summary,
@@ -2072,28 +2202,36 @@ def main() -> None:
             }
             for sid, info in strategies.items()
             if sid
-            in {
-                window_2017_id,
-                window_2023_id,
-                window_2020_id,
-                window_2025_id,
-                path1_robust_id,
-                path2_window_2017_id,
-                path2_window_2023_id,
-                path2_window_2020_id,
-                path2_window_2025_id,
-                path2_id,
-                path3_window_2017_id,
-                path3_window_2023_id,
-                path3_window_2020_id,
-                path3_window_2025_id,
-                path3_id,
-            }
+            in (
+                {
+                    window_2017_id,
+                    window_2023_id,
+                    window_2020_id,
+                    window_2025_id,
+                    path1_robust_id,
+                    path2_window_2017_id,
+                    path2_window_2023_id,
+                    path2_window_2020_id,
+                    path2_window_2025_id,
+                    path2_id,
+                    path3_window_2017_id,
+                    path3_window_2023_id,
+                    path3_window_2020_id,
+                    path3_window_2025_id,
+                    path3_id,
+                }
+                | {raw_id for raw_map in raw_winners_by_path.values() for raw_id, _ in raw_map.values()}
+            )
         },
     }
     args.write_json.parent.mkdir(parents=True, exist_ok=True)
     args.write_json.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
+    raw_winners_lookup = {
+        (path_key, sample_tag): raw_entry
+        for path_key, raw_map in raw_winners_by_path.items()
+        for sample_tag, raw_entry in raw_map.items()
+    }
     block = _render_block(
         strategies,
         window_2017_id,
@@ -2127,6 +2265,7 @@ def main() -> None:
         path3_id,
         path3_summary,
         sample_end,
+        raw_winners_lookup=raw_winners_lookup,
     )
     update_readme(args.readme, block)
     path1_winners = {
@@ -2158,6 +2297,7 @@ def main() -> None:
         path1_robust_id=path1_robust_id,
         path2_robust_id=path2_id,
         path3_robust_id=path3_id,
+        raw_winners_by_path=raw_winners_by_path,
     )
     core_active_backfill = backfill_core_active_registry_from_history(
         path=args.core_active_json,
@@ -2186,7 +2326,8 @@ def main() -> None:
     )
     print(
         f"[OK] Wrote {args.core_active_json} "
-        f"({len(core_active_payload['strategies'])}/{core_active_payload['max_size']} active)"
+        f"({len(core_active_payload['strategies'])}/{core_active_payload['max_size']} active, "
+        f"{len(core_active_payload.get('refresh_only_strategies', []))} refresh-only)"
     )
     print(f"[OK] 2017-window winner: {window_2017_id} (CAGR={_fmt_pct(window_2017_metrics.cagr)}, Sharpe={window_2017_metrics.sharpe:.4f})")
     print(f"[OK] 2023-window winner: {window_2023_id} (CAGR={_fmt_pct(window_2023_metrics.cagr)}, Sharpe={window_2023_metrics.sharpe:.4f})")
