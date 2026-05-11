@@ -124,6 +124,51 @@ WEEKLY_MOMENTUM_SKIP = 4
 WEEKLY_MA_LOOKBACK = 40
 WEEKLY_STAGE_CONFIRM_WEEKS = 2
 WEEKLY_PORTFOLIO_RAMP_UP = 0.15
+
+# Phase 3: Path 4-lite multi-factor presets (A 股 only)
+#
+# `multi_factor` core_signal_mode reuses already-computed factor caches and
+# combines them via configurable weights. Compared with the existing `theme`
+# mode, the main new ingredient is `quality_scores` — until now quality has
+# only acted as a screening floor (`core_quality_quantile`), not as part of
+# the scoring blend. Adding it lets us test whether quality contributes
+# orthogonal information on top of the existing momentum/industry/growth
+# signals.
+DEFAULT_MULTI_FACTOR_WEIGHTS = {
+    "momentum_6_1": 0.30,
+    "momentum_3_1": 0.10,
+    "quality": 0.15,
+    "growth_acceleration": 0.20,
+    "industry_strength": 0.10,
+    "industry_leader": 0.10,
+    "liquidity_surge": 0.05,
+}
+
+MULTI_FACTOR_PRESETS = {
+    "balanced": DEFAULT_MULTI_FACTOR_WEIGHTS,
+    # quality_tilt: emphasise the unused dimension; reduce price-momentum weight.
+    "quality_tilt": {
+        "momentum_6_1": 0.20,
+        "momentum_3_1": 0.10,
+        "quality": 0.30,
+        "growth_acceleration": 0.15,
+        "industry_strength": 0.10,
+        "industry_leader": 0.10,
+        "liquidity_surge": 0.05,
+    },
+    # momentum_quality: keep momentum dominant but add quality as orthogonal filter.
+    "momentum_quality": {
+        "momentum_6_1": 0.40,
+        "momentum_3_1": 0.10,
+        "quality": 0.20,
+        "growth_acceleration": 0.10,
+        "industry_strength": 0.10,
+        "industry_leader": 0.10,
+        "liquidity_surge": 0.00,
+    },
+}
+
+VALID_MULTI_FACTOR_KEYS = frozenset(DEFAULT_MULTI_FACTOR_WEIGHTS.keys())
 MARKET_INDEX_CODE = "000300.SH"
 BENCHMARK_INDEX_CODE = "000001.SH"
 CORE_INDEX_CODES = ["000300.SH", "000688.SH"]
@@ -326,6 +371,112 @@ WINNER_CORE_VARIANTS = [
         "promoted_core_max_holdings": 6,
         "promoted_core_stage_ramp": {1: 1.00},
         "core_signal_mode": "6_1",
+    },
+    # Phase 3 (Path 4-lite): multi_factor core signal variants.
+    # Three base shapes (08_92_prom6 / 10_90_prom6 / 05_95_prom7) × three
+    # presets (balanced / quality_tilt / momentum_quality). Each variant
+    # only swaps the core signal scoring; satellite/promotion/winner-core
+    # ratios match the corresponding non-multifactor sibling so the
+    # comparison isolates the value of adding `quality_scores` and
+    # configurable factor weights to the core blend.
+    {
+        "variant_id": "aggr_08_92_prom6_core_multifactor_balanced",
+        "variant_name": "进攻8/92 晋升6只(多因子均衡)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "multi_factor",
+        "factor_weights": MULTI_FACTOR_PRESETS["balanced"],
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_core_multifactor_quality_tilt",
+        "variant_name": "进攻8/92 晋升6只(多因子偏质量)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "multi_factor",
+        "factor_weights": MULTI_FACTOR_PRESETS["quality_tilt"],
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_core_multifactor_momentum_quality",
+        "variant_name": "进攻8/92 晋升6只(多因子动量+质量)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "multi_factor",
+        "factor_weights": MULTI_FACTOR_PRESETS["momentum_quality"],
+    },
+    {
+        "variant_id": "aggr_10_90_prom6_core_multifactor_balanced",
+        "variant_name": "进攻10/90 晋升6只(多因子均衡)",
+        "winner_core_stable_share": 0.10,
+        "winner_core_promoted_share": 0.90,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "multi_factor",
+        "factor_weights": MULTI_FACTOR_PRESETS["balanced"],
+    },
+    {
+        "variant_id": "aggr_10_90_prom6_core_multifactor_quality_tilt",
+        "variant_name": "进攻10/90 晋升6只(多因子偏质量)",
+        "winner_core_stable_share": 0.10,
+        "winner_core_promoted_share": 0.90,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "multi_factor",
+        "factor_weights": MULTI_FACTOR_PRESETS["quality_tilt"],
+    },
+    {
+        "variant_id": "aggr_10_90_prom6_core_multifactor_momentum_quality",
+        "variant_name": "进攻10/90 晋升6只(多因子动量+质量)",
+        "winner_core_stable_share": 0.10,
+        "winner_core_promoted_share": 0.90,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "multi_factor",
+        "factor_weights": MULTI_FACTOR_PRESETS["momentum_quality"],
+    },
+    {
+        "variant_id": "aggr_05_95_prom7_core_multifactor_balanced",
+        "variant_name": "进攻5/95 晋升7只(多因子均衡)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 7,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "multi_factor",
+        "factor_weights": MULTI_FACTOR_PRESETS["balanced"],
+    },
+    {
+        "variant_id": "aggr_05_95_prom7_core_multifactor_quality_tilt",
+        "variant_name": "进攻5/95 晋升7只(多因子偏质量)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 7,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "multi_factor",
+        "factor_weights": MULTI_FACTOR_PRESETS["quality_tilt"],
+    },
+    {
+        "variant_id": "aggr_05_95_prom7_core_multifactor_momentum_quality",
+        "variant_name": "进攻5/95 晋升7只(多因子动量+质量)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 7,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "multi_factor",
+        "factor_weights": MULTI_FACTOR_PRESETS["momentum_quality"],
     },
     {
         "variant_id": "aggr_10_90_prom6_core_6_1",
@@ -3306,6 +3457,17 @@ PATH1_FAST_PASS_DIRECTION_GROUPS = {
         "aggr_08_92_prom6_core_6_1",
         "aggr_10_90_prom6_core_6_1",
     ],
+    "core_multifactor": [
+        "aggr_08_92_prom6_core_multifactor_balanced",
+        "aggr_08_92_prom6_core_multifactor_quality_tilt",
+        "aggr_08_92_prom6_core_multifactor_momentum_quality",
+        "aggr_10_90_prom6_core_multifactor_balanced",
+        "aggr_10_90_prom6_core_multifactor_quality_tilt",
+        "aggr_10_90_prom6_core_multifactor_momentum_quality",
+        "aggr_05_95_prom7_core_multifactor_balanced",
+        "aggr_05_95_prom7_core_multifactor_quality_tilt",
+        "aggr_05_95_prom7_core_multifactor_momentum_quality",
+    ],
     "holding_shape": [
         "share_15_85_hold_4_6",
         "aggr_10_90_hold_4_6",
@@ -3342,6 +3504,15 @@ PATH1_FAST_PASS_VARIANT_IDS = [
     "aggr_10_90_fast_ramp_cash_off_and",
     "aggr_08_92_prom6_core_6_1",
     "aggr_10_90_prom6_core_6_1",
+    "aggr_08_92_prom6_core_multifactor_balanced",
+    "aggr_08_92_prom6_core_multifactor_quality_tilt",
+    "aggr_08_92_prom6_core_multifactor_momentum_quality",
+    "aggr_10_90_prom6_core_multifactor_balanced",
+    "aggr_10_90_prom6_core_multifactor_quality_tilt",
+    "aggr_10_90_prom6_core_multifactor_momentum_quality",
+    "aggr_05_95_prom7_core_multifactor_balanced",
+    "aggr_05_95_prom7_core_multifactor_quality_tilt",
+    "aggr_05_95_prom7_core_multifactor_momentum_quality",
     "aggr_09_91_prom7",
     "share_12_88_hold_4_6",
     "aggr_08_92_hold_3_6",
@@ -4740,6 +4911,37 @@ def blend_ranked_components(components: List[Tuple[pd.Series, float]]) -> pd.Ser
 
     blended = weighted_sum / available_weight.replace(0.0, np.nan)
     return blended.dropna().sort_values(ascending=False)
+
+
+def _validated_multi_factor_weights(weights: object) -> Dict[str, float]:
+    """Sanitise ``factor_weights`` for the ``multi_factor`` core-signal mode.
+
+    Filters to known keys, drops non-finite or negative entries, and falls
+    back to ``DEFAULT_MULTI_FACTOR_WEIGHTS`` when the input is missing,
+    malformed, or sums to zero. Without this guard a misconfigured automation
+    preset could silently produce an all-zero/all-NaN core score, which
+    ``blend_ranked_components`` would happily return as an empty series and
+    push every candidate into the same untied bucket.
+    """
+    if not isinstance(weights, dict):
+        return dict(DEFAULT_MULTI_FACTOR_WEIGHTS)
+    cleaned: Dict[str, float] = {}
+    total = 0.0
+    for key, value in weights.items():
+        key_str = str(key)
+        if key_str not in VALID_MULTI_FACTOR_KEYS:
+            continue
+        try:
+            weight = float(value)
+        except (TypeError, ValueError):
+            continue
+        if not np.isfinite(weight) or weight < 0.0:
+            continue
+        cleaned[key_str] = weight
+        total += weight
+    if total <= 0.0:
+        return dict(DEFAULT_MULTI_FACTOR_WEIGHTS)
+    return cleaned
 
 
 def get_latest_financial_snapshot(financials_df: pd.DataFrame, signal_date: pd.Timestamp) -> pd.Series:
@@ -6893,6 +7095,19 @@ def run_backtest(
                     (safe_percentile_rank(recent_1m_returns, ascending=True), 0.15),
                     (industry_leader_scores, 0.15),
                     (breakout_signal.astype(float), 0.10),
+                ]
+            )
+        elif core_signal_mode == "multi_factor":
+            factor_weights = _validated_multi_factor_weights(strategy_config.get("factor_weights"))
+            core_signal_scores = blend_ranked_components(
+                [
+                    (safe_percentile_rank(momentum_6_1, ascending=True),     factor_weights.get("momentum_6_1", 0.0)),
+                    (safe_percentile_rank(momentum_3_1, ascending=True),     factor_weights.get("momentum_3_1", 0.0)),
+                    (quality_scores,                                          factor_weights.get("quality", 0.0)),
+                    (growth_acceleration_scores,                              factor_weights.get("growth_acceleration", 0.0)),
+                    (industry_strength_scores,                                factor_weights.get("industry_strength", 0.0)),
+                    (industry_leader_scores,                                  factor_weights.get("industry_leader", 0.0)),
+                    (safe_percentile_rank(amount_surge_ratio, ascending=True), factor_weights.get("liquidity_surge", 0.0)),
                 ]
             )
         promotion_signal_mode = str(strategy_config.get("promotion_signal_mode", "") or "").strip()
