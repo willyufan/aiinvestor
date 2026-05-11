@@ -87,17 +87,29 @@ RISK_EVAL_FREQUENCY_WEEKLY = "weekly"
 SAT_WEEKLY_RISK_SUFFIX = "__sat_weekly_risk"
 SAT_THREE_STAGE_SUFFIX = "__sat_three_stage_risk"
 SAT_THREE_STAGE_BUFFERED_SUFFIX = "__sat_three_stage_buffered"
+# Asymmetric stage-transition confirmation (Phase 2):
+#   risk_off_confirm_weeks = 1 (降仓快: confirm in 1 week)
+#   risk_on_confirm_weeks  = 3 (加仓慢: require 3 weeks of confirmation)
+# Distinct from `__port_weekly_exposure_asym` which controls portfolio-level
+# ramp-up speed; this suffix controls the buffer's directional confirmation.
+SAT_THREE_STAGE_BUFFERED_ASYM13_SUFFIX = "__sat_three_stage_buffered_asym13"
 PORT_WEEKLY_EXPOSURE_SUFFIX = "__port_weekly_exposure"
 PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX = "__port_weekly_exposure_buffered"
+PORT_WEEKLY_EXPOSURE_BUFFERED_ASYM13_SUFFIX = "__port_weekly_exposure_buffered_asym13"
 PORT_WEEKLY_EXPOSURE_ASYM_SUFFIX = "__port_weekly_exposure_asym"
 WEEKLY_OVERLAY_SUFFIXES = (
     SAT_WEEKLY_RISK_SUFFIX,
     SAT_THREE_STAGE_SUFFIX,
     SAT_THREE_STAGE_BUFFERED_SUFFIX,
+    SAT_THREE_STAGE_BUFFERED_ASYM13_SUFFIX,
     PORT_WEEKLY_EXPOSURE_SUFFIX,
     PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX,
+    PORT_WEEKLY_EXPOSURE_BUFFERED_ASYM13_SUFFIX,
     PORT_WEEKLY_EXPOSURE_ASYM_SUFFIX,
 )
+# Default asymmetric confirmation periods (Phase 2 _asym13 line):
+RISK_OFF_CONFIRM_WEEKS_ASYM13 = 1
+RISK_ON_CONFIRM_WEEKS_ASYM13 = 3
 CORE_RISK_OFF_EXPOSURE = 0.60
 CORE_RISK_ON_EXPOSURE = 1.00
 CORE_CAUTION_EXPOSURE = 0.85
@@ -6165,8 +6177,26 @@ def apply_buffered_stage_transition(
     raw_stage: str,
     state: Dict[str, object],
     confirm_weeks: int,
+    risk_off_confirm_weeks: int | None = None,
+    risk_on_confirm_weeks: int | None = None,
     stepwise: bool = True,
 ) -> Tuple[str, Dict[str, object]]:
+    """Confirm a stage transition only after the raw signal persists for N weeks.
+
+    When ``risk_off_confirm_weeks`` and/or ``risk_on_confirm_weeks`` are
+    provided, the effective confirmation period is chosen by direction:
+
+    - Transitioning toward a MORE defensive stage (higher risk-stage rank,
+      e.g. ``risk_on -> caution`` or ``caution -> risk_off``) uses
+      ``risk_off_confirm_weeks`` — set this lower than ``confirm_weeks`` to
+      react faster to deteriorating markets (降仓快).
+    - Transitioning toward a MORE aggressive stage (lower rank) uses
+      ``risk_on_confirm_weeks`` — set this higher than ``confirm_weeks`` to
+      avoid prematurely re-engaging during a dead-cat bounce (加仓慢).
+
+    When neither directional override is supplied, the behaviour is
+    unchanged from the symmetric baseline.
+    """
     confirmed_stage = str(state.get("confirmed_stage", "risk_on"))
     pending_stage = state.get("pending_stage")
     pending_count = int(state.get("pending_count", 0))
@@ -6180,9 +6210,18 @@ def apply_buffered_stage_transition(
         pending_stage = raw_stage
         pending_count = 1
 
-    if pending_count >= confirm_weeks:
-        target_rank = _risk_stage_rank(raw_stage)
-        current_rank = _risk_stage_rank(confirmed_stage)
+    raw_rank = _risk_stage_rank(raw_stage)
+    current_rank = _risk_stage_rank(confirmed_stage)
+    if raw_rank > current_rank and risk_off_confirm_weeks is not None:
+        effective_confirm_weeks = int(risk_off_confirm_weeks)
+    elif raw_rank < current_rank and risk_on_confirm_weeks is not None:
+        effective_confirm_weeks = int(risk_on_confirm_weeks)
+    else:
+        effective_confirm_weeks = int(confirm_weeks)
+    effective_confirm_weeks = max(1, effective_confirm_weeks)
+
+    if pending_count >= effective_confirm_weeks:
+        target_rank = raw_rank
         if stepwise and abs(target_rank - current_rank) > 1:
             next_rank = current_rank + 1 if target_rank > current_rank else current_rank - 1
             confirmed_stage = _risk_stage_from_rank(next_rank)
@@ -6238,6 +6277,10 @@ def apply_weekly_satellite_risk_overlay(
     risk_staging_mode = str(strategy_config.get("risk_staging_mode", "two_stage") or "two_stage").strip().lower()
     use_buffered_stage = bool(strategy_config.get("risk_stage_buffered", False))
     confirm_weeks = int(strategy_config.get("risk_stage_confirm_weeks", WEEKLY_STAGE_CONFIRM_WEEKS))
+    risk_off_confirm_weeks_cfg = strategy_config.get("risk_off_confirm_weeks")
+    risk_on_confirm_weeks_cfg = strategy_config.get("risk_on_confirm_weeks")
+    risk_off_confirm_weeks = int(risk_off_confirm_weeks_cfg) if risk_off_confirm_weeks_cfg is not None else None
+    risk_on_confirm_weeks = int(risk_on_confirm_weeks_cfg) if risk_on_confirm_weeks_cfg is not None else None
     satellite_risk_off_exposure = float(strategy_config.get("satellite_risk_off_exposure", SATELLITE_RISK_OFF_EXPOSURE))
     satellite_risk_on_exposure = float(strategy_config.get("satellite_risk_on_exposure", SATELLITE_RISK_ON_EXPOSURE))
     satellite_caution_exposure = float(strategy_config.get("satellite_caution_exposure", SATELLITE_CAUTION_EXPOSURE))
@@ -6285,6 +6328,8 @@ def apply_weekly_satellite_risk_overlay(
                 raw_stage=str(regime["risk_stage"]),
                 state=overlay_state,
                 confirm_weeks=confirm_weeks,
+                risk_off_confirm_weeks=risk_off_confirm_weeks,
+                risk_on_confirm_weeks=risk_on_confirm_weeks,
                 stepwise=True,
             )
         else:
@@ -7595,6 +7640,19 @@ def build_satellite_overlay_variants(base_id: str, base_name: str, base_config: 
         },
         {
             **base_config,
+            "strategy_base_id": f"{base_id}{SAT_THREE_STAGE_BUFFERED_ASYM13_SUFFIX}",
+            "strategy_base_name": f"{base_name}__卫星周频三档风控(快减1慢加3)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_staging_mode": "three_stage",
+            "risk_overlay_scope": "satellite_only",
+            "risk_stage_buffered": True,
+            "risk_stage_confirm_weeks": WEEKLY_STAGE_CONFIRM_WEEKS,
+            "risk_off_confirm_weeks": RISK_OFF_CONFIRM_WEEKS_ASYM13,
+            "risk_on_confirm_weeks": RISK_ON_CONFIRM_WEEKS_ASYM13,
+            "satellite_caution_exposure": SATELLITE_CAUTION_EXPOSURE,
+        },
+        {
+            **base_config,
             "strategy_base_id": f"{base_id}{PORT_WEEKLY_EXPOSURE_SUFFIX}",
             "strategy_base_name": f"{base_name}__月度选股_周度仓位调整",
             "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
@@ -7611,6 +7669,19 @@ def build_satellite_overlay_variants(base_id: str, base_name: str, base_config: 
             "risk_overlay_scope": "portfolio_only",
             "risk_stage_buffered": True,
             "risk_stage_confirm_weeks": WEEKLY_STAGE_CONFIRM_WEEKS,
+            "satellite_caution_exposure": SATELLITE_CAUTION_EXPOSURE,
+        },
+        {
+            **base_config,
+            "strategy_base_id": f"{base_id}{PORT_WEEKLY_EXPOSURE_BUFFERED_ASYM13_SUFFIX}",
+            "strategy_base_name": f"{base_name}__月度选股_周度仓位调整(快减1慢加3)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_staging_mode": "three_stage",
+            "risk_overlay_scope": "portfolio_only",
+            "risk_stage_buffered": True,
+            "risk_stage_confirm_weeks": WEEKLY_STAGE_CONFIRM_WEEKS,
+            "risk_off_confirm_weeks": RISK_OFF_CONFIRM_WEEKS_ASYM13,
+            "risk_on_confirm_weeks": RISK_ON_CONFIRM_WEEKS_ASYM13,
             "satellite_caution_exposure": SATELLITE_CAUTION_EXPOSURE,
         },
         {
@@ -7713,8 +7784,10 @@ def main(argv: list[str] | None = None) -> None:
                         f"{strategy_base_id}{SAT_WEEKLY_RISK_SUFFIX}",
                         f"{strategy_base_id}{SAT_THREE_STAGE_SUFFIX}",
                         f"{strategy_base_id}{SAT_THREE_STAGE_BUFFERED_SUFFIX}",
+                        f"{strategy_base_id}{SAT_THREE_STAGE_BUFFERED_ASYM13_SUFFIX}",
                         f"{strategy_base_id}{PORT_WEEKLY_EXPOSURE_SUFFIX}",
                         f"{strategy_base_id}{PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX}",
+                        f"{strategy_base_id}{PORT_WEEKLY_EXPOSURE_BUFFERED_ASYM13_SUFFIX}",
                         f"{strategy_base_id}{PORT_WEEKLY_EXPOSURE_ASYM_SUFFIX}",
                     }
                     for suffix in WEEKLY_OVERLAY_SUFFIXES:

@@ -48,12 +48,19 @@ def infer_adjustment_style(strategy_id: str, rebalance_frequency: str) -> str:
     rebalance_frequency = str(rebalance_frequency or "monthly")
     if "weekly_overlay" in strategy_id:
         return "月度换股 + 周度总仓位"
+    # asym13 must be checked BEFORE the plain _buffered suffix, since it is
+    # `__port_weekly_exposure_buffered_asym13` (a longer match that contains
+    # the buffered prefix as a substring).
+    if "__port_weekly_exposure_buffered_asym13" in strategy_id:
+        return "月度换股 + 周度总仓位（快减1慢加3）"
     if "__port_weekly_exposure_buffered" in strategy_id:
         return "月度换股 + 周度总仓位（双周确认）"
     if "__port_weekly_exposure_asym" in strategy_id:
         return "月度换股 + 周度总仓位（快减慢加）"
     if "__port_weekly_exposure" in strategy_id:
         return "月度换股 + 周度总仓位"
+    if "__sat_three_stage_buffered_asym13" in strategy_id:
+        return "月度换股 + 周度卫星仓位（快减1慢加3）"
     if "__sat_three_stage_buffered" in strategy_id:
         return "月度换股 + 周度卫星仓位（双周确认）"
     if "__sat_three_stage_risk" in strategy_id:
