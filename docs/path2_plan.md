@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-11 21:22 CST）
+
+- 本轮复跑 `.venv/bin/python scripts/path2_candidate_pass.py`，并新增 4 个独立高成长主线原型：`risk50_mom_exit60_reconfirm75_caution80` 与 `risk50_mom_exit60_reconfirm75_caution75`，覆盖 `1/99`、`2/98`，继续只扩充 `high_growth_theme` family。
+- 微批量只跑 `90/10 equal_weight` 与 `90/10 total_mv` 两个底座四窗口，并固定 `--end-date 2026-05-11`；随后重建 comparison 到 `3311` 行 / `847` 个 base strategies。
+- 复跑 Path 2 后候选宇宙增至 `454`，五个 family 规模为 `159 / 213 / 16 / 16 / 16`；family membership 未被新高集中候选压扁。
+- 新 `reconfirm75_caution` 组合没有改写 Path 2 winner：最好 2020 候选为 `90/10` 等权 `1/99 caution80`，`51.03% CAGR / -36.89% MaxDD / 1.1948 Sharpe / 4.55 Turnover`，低于当前 `risk50_mom` 的 `55.60% / -36.55% / 1.2050 / 4.65`。
+- 长窗最好为 `90/10` 等权 `2/98 caution80`，`38.11% CAGR / -38.88% MaxDD / 1.1194 Sharpe / 3.91 Turnover`，接近但仍低于当前 `reconfirm75` 长窗 winner 的 `38.67% / -38.80% / 1.1164 / 3.96`。
+- 短窗 side observation：总市值 `2/98 caution80` 在 `since_2025_01` 达到约 `124.95% / -16.13% / 2.0428 / 6.73`，但低于验证后的 `aggr_05_95_prom3_core_6_1_full_risk_cap60`；四窗口 robust candidate 仍为 `2/98 risk50_mom_exit60_reconfirm75`，`meanCAGR=63.93% / minCAGR=38.67% / worstMaxDD=-38.80% / meanTurn=5.13`。
+
 ## 本轮执行计划（2026-05-11 15:15 CST）
 
 - 本轮先复跑 `.venv/bin/python scripts/path2_candidate_pass.py`，基线为 `438` candidates，随后新增 4 个独立风险时点原型：`risk50_mom_exit60_caution80` 与 `risk50_mom_exit60_caution75`，覆盖 `1/99`、`2/98`。

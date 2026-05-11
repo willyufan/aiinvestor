@@ -194,9 +194,36 @@ def _is_clear_improvement(*, candidate: TrackMetrics, current: TrackMetrics, thr
     return True
 
 
+def _eval_python_constant(node: ast.AST, env: dict[str, Any]) -> Any:
+    if isinstance(node, ast.Constant):
+        return node.value
+    if isinstance(node, ast.List):
+        return [_eval_python_constant(item, env) for item in node.elts]
+    if isinstance(node, ast.Tuple):
+        return tuple(_eval_python_constant(item, env) for item in node.elts)
+    if isinstance(node, ast.Set):
+        return {_eval_python_constant(item, env) for item in node.elts}
+    if isinstance(node, ast.Dict):
+        return {
+            _eval_python_constant(key, env): _eval_python_constant(value, env)
+            for key, value in zip(node.keys, node.values)
+        }
+    if isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.UAdd, ast.USub)):
+        value = _eval_python_constant(node.operand, env)
+        return value if isinstance(node.op, ast.UAdd) else -value
+    if isinstance(node, ast.Name):
+        return env[node.id]
+    if isinstance(node, ast.Subscript):
+        value = _eval_python_constant(node.value, env)
+        key = _eval_python_constant(node.slice, env)
+        return value[key]
+    raise ValueError(f"Unsupported constant expression: {ast.dump(node)}")
+
+
 def _parse_python_constants(path: Path, names: Iterable[str]) -> dict[str, Any]:
     wanted = set(names)
     result: dict[str, Any] = {}
+    env: dict[str, Any] = {}
     node = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
     for stmt in node.body:
         if not isinstance(stmt, ast.Assign):
@@ -204,9 +231,14 @@ def _parse_python_constants(path: Path, names: Iterable[str]) -> dict[str, Any]:
         if len(stmt.targets) != 1 or not isinstance(stmt.targets[0], ast.Name):
             continue
         target = stmt.targets[0].id
+        try:
+            value = _eval_python_constant(stmt.value, env)
+        except Exception:
+            continue
+        env[target] = value
         if target not in wanted:
             continue
-        result[target] = ast.literal_eval(stmt.value)
+        result[target] = value
         if len(result) == len(wanted):
             break
     missing = wanted - set(result)
