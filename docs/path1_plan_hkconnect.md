@@ -1,5 +1,13 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-05-12 03:16 CST）
+
+- 本轮运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，`trade_calendar` 在线更新失败后回退本地缓存；随后运行 `scripts/update_hkconnect_artifacts.py`。
+- 港股 tracked payload 仍为 `as_of=2026-05-08`；Path 1 身份未漂移，港股结论继续不并入 A 股 winner。
+- `since_2017_01 / since_2023_01 / since_2025_01` winner 仍为 `hkconnect_path1_monthly_equal_buffered`，关键指标分别为 `24.03% / -23.59% / 1.2852 / 3.09`、`33.85% / -14.79% / 1.6907 / 2.87`、`40.41% / -14.79% / 1.5271 / 3.46`。
+- `since_2020_01` 仍为 `hkconnect_path1_monthly_equal_buffered_weekly_overlay`，`31.21% CAGR / -14.83% MaxDD / 1.5210 Sharpe / 3.52 Turnover`；四窗口 robust candidate 仍为 `hkconnect_path1_monthly_equal_buffered`，`meanCAGR=32.07% / minCAGR=24.03% / worstMaxDD=-23.59% / meanTurn=3.11`。
+- 月度数据截止日仍为 `2026-04-30`，周频观察线数据截止日为 `2026-05-08`；月度、双周与周度观察候选继续保留。
+
 ## 本轮执行计划（2026-05-11 21:22 CST）
 
 - 本轮运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，`trade_calendar` 在线更新失败后回退本地缓存；随后运行 `scripts/update_hkconnect_artifacts.py`。

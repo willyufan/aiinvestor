@@ -4,6 +4,14 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-12 03:16 CST）
+
+- 本轮先运行 `.venv/bin/python scripts/winner_only_pass.py`，快筛口径为 `as_of=2026-05-11 / base_candidates=33 / total_candidates=297 / evaluated=170`；`core_multifactor` 仍使 base 数高于原 `24-28` 目标，但继续只作为 Path 1 固定方向内的候选扩展。
+- raw 快筛仍在 `since_2017_01 / since_2020_01 / since_2025_01` 找到 clear candidates，其中 2020 最近似为 `share_15_85_hold_4_6`，`25.16% CAGR / -21.37% MaxDD / 0.9362 Sharpe / 2.93 Turnover`。
+- 复跑 `.venv/bin/python scripts/update_weighted_winners.py` 后，验证口径未改写 Path 1 四窗口 winner：四个窗口继续为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6`（2017）与 `core_explore_80_20_total_mv_winner_core`（2020/2023/2025）。
+- 四窗口鲁棒候选仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`，`meanCAGR=46.47% / minCAGR=26.40% / worstMaxDD=-29.23% / meanTurn=4.07`。
+- 本轮 A 股 Path 2 新增的 `risk50_mom_exit60_reconfirm70/reconfirm65` 高成长主线候选不并入 Path 1；纯 `_weekly` 候选继续只交给 Path 3。
+
 ## 本轮执行计划（2026-05-11 21:22 CST）
 
 - 本轮先修复 `scripts/winner_only_pass.py`、`scripts/update_weighted_winners.py` 与 `scripts/path2_candidate_pass.py` 的 Python 常量解析器，使其能解析 `MULTI_FACTOR_PRESETS[...]` 这类引用式常量；这是为了让已有 `core_multifactor` 方向进入快筛，不改变策略打分规则。
