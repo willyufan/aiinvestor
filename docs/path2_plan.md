@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-12 09:12 CST）
+
+- 本轮先复跑 `.venv/bin/python scripts/path2_candidate_pass.py`，基线为 `462` candidates；随后新增 4 个介于旧 `risk30` 与强势 `risk50` 之间的高成长主线原型：`risk40_mom_exit60_reconfirm75` 与 `risk40_mom_exit60_reconfirm70`，覆盖 `1/99`、`2/98`，继续只扩充 `high_growth_theme` family。
+- 微批量只跑 `90/10 equal_weight` 与 `90/10 total_mv` 两个底座四窗口，并固定 `--end-date 2026-05-11`；随后重建 comparison 到 `3375` 行 / `863` 个 base strategies。
+- 复跑 Path 2 后候选宇宙增至 `470`，五个 family 规模为 `159 / 229 / 16 / 16 / 16`；新增候选没有压扁高集中、等权动量、双周或周频 family membership。
+- 新 `risk40_mom_exit60_reconfirm70` 改写 Path 2 `since_2020_01` winner：`core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95` 达到 `59.29% CAGR / -28.34% MaxDD / 1.2534 Sharpe / 4.49 Turnover`，相对旧 `risk50 reconfirm70` 同时改善收益、回撤、Sharpe 与换手。
+- 新 `risk40_mom_exit60_reconfirm75` 改写 Path 2 `since_2017_01` winner 与四窗口 robust candidate：`2/98` 等权版本为 `38.93% CAGR / -32.76% MaxDD / 1.1402 Sharpe / 3.79 Turnover`；robust 为 `meanCAGR=63.44% / minCAGR=38.93% / worstMaxDD=-32.76% / meanTurn=4.98`。
+- `since_2023_01 / since_2025_01` 验证后 winner 不变：2023 仍为 `risk50_ma`，2025 仍为验证后的 `aggr_05_95_prom3_core_6_1_full_risk_cap60`；下一轮优先围绕 `risk40` 的退出阈值或谨慎仓，而不是继续单纯放宽恢复确认。
+
 ## 本轮执行计划（2026-05-12 03:16 CST）
 
 - 本轮先复跑 `.venv/bin/python scripts/path2_candidate_pass.py`，基线为 `454` candidates，随后新增 4 个更适配 `since_2020_01` 的恢复确认放松原型：`risk50_mom_exit60_reconfirm70` 与 `risk50_mom_exit60_reconfirm65`，覆盖 `1/99`、`2/98`，继续只扩充 `high_growth_theme` family。
