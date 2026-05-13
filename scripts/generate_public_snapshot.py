@@ -258,6 +258,24 @@ def flatten_snapshots(history_windows: list[dict]) -> list[dict]:
     return all_snaps
 
 
+def _export_preview(preview: dict) -> dict:
+    """Slim down month_end_preview for public JSON."""
+    if not preview or not preview.get("holdings"):
+        return {}
+    return {
+        "preview_as_of":        str(preview.get("preview_as_of") or ""),
+        "formal_signal_date":   str(preview.get("formal_signal_date") or ""),
+        "risk_state":           str(preview.get("risk_state") or ""),
+        "target_total_exposure": round(float(preview.get("target_total_exposure") or 0.0), 4),
+        "market_momentum":      round(float(preview.get("market_momentum")), 4) if preview.get("market_momentum") is not None else None,
+        "holdings": [
+            {"ts_code": str(r["ts_code"]), "name": str(r["name"]), "weight": round(float(r["weight"]), 6)}
+            for r in (preview.get("holdings") or [])
+            if r.get("ts_code") and str(r["ts_code"]) != "CASH"
+        ],
+    }
+
+
 def export_strategy_detail(
     strategy_id: str,
     display_name: str,
@@ -343,6 +361,7 @@ def export_strategy_detail(
             ],
             "snapshots": flatten_snapshots(view.get("history_windows") or []),
             "split_view": split_view_out,
+            "month_end_preview": _export_preview(view.get("month_end_preview") or {}),
         }
 
     if not sample_views_out:
