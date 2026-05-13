@@ -42,7 +42,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-05-13 | `core_explore_80_20_total_mv_winner_core` | 核心80_探索20_总市值底座_胜出者核心 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered` | 156.27% | 31.71% | -27.24% | 1.0047 | 2.91 |
+| 2026-05-13 | `core_explore_80_20_total_mv_winner_core` | 核心80_探索20_总市值底座_胜出者核心 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced` | 156.27% | 31.71% | -27.24% | 1.0047 | 2.91 |
 | 2026-05-12 | `core_explore_80_20_total_mv_winner_core` | 核心80_探索20_总市值底座_胜出者核心 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered` | 147.72% | 30.41% | -27.24% | 0.9831 | 2.91 |
 | 2026-05-11 | `core_explore_80_20_total_mv_winner_core` | 核心80_探索20_总市值底座_胜出者核心 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered` | 133.95% | 28.24% | -27.24% | 0.9385 | 2.91 |
 | 2026-05-08 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__sat_weekly_risk` | 核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓)__卫星周频两档风控 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered` | 116.53% | 25.37% | -12.34% | 1.0722 | 1.02 |

@@ -4,6 +4,14 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-13 21:21 CST）
+
+- 本轮先按 `research_iteration_guard.py` 补齐 Path 4-lite/core_multifactor 五窗口覆盖，随后将 comparison CSV 从本地 `summary.json` 重建到 `3500` 行 / `877` 个 base strategies；最终 coverage gate 为 `pass`，blocking/warning 均为 `0`。
+- Path 1 fast-pass 口径为 `as_of=2026-05-13 / base_candidates=33 / total_candidates=297 / evaluated=179`；`core_multifactor` 9 个 base candidate 已在五窗口覆盖，但仍只作为 Path 1 固定方向内的观察项。
+- raw clear 仍出现在 `since_2017_01` 与 `since_2025_01`：2017 raw best 是 `aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered`，2025 raw best 是 `aggr_08_92_prom6__port_weekly_exposure_buffered`；验证后均未改写 tracked winner。
+- Path 1 tracked winners 仍为：2017 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6`，2020/2023/2025 `core_explore_80_20_total_mv_winner_core`；对应指标为 `23.30% / 25.67% / 31.71% / 87.17% CAGR`。
+- 四窗口鲁棒候选仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`，`meanCAGR=49.23% / minCAGR=27.41% / worstMaxDD=-29.23% / meanTurn=4.07`；rotation 已提示下一轮 Path 1 应转向 `satellite_risk_cost`，避免继续在同一失败邻域微调。
+
 ## 本轮执行计划（2026-05-13 09:13 CST）
 
 - 本轮在既有 dirty 工作树上复跑 `.venv/bin/python scripts/winner_only_pass.py`，快筛口径仍为 `as_of=2026-05-12 / base_candidates=33 / total_candidates=297 / evaluated=170`；方向继续限定在 `promotion_ramp / satellite_defense / signal_variants / core_multifactor / holding_shape / supporting_variants`。

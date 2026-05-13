@@ -65,8 +65,8 @@
 
 - 鲁棒赢家：`core_explore_80_20_total_mv_winner_core`（核心80_探索20_总市值底座_胜出者核心）
 - 加权指标（CAGR / Sharpe / Max DD / Turnover）：`31.71%` / `1.0047` / `-27.24%` / `2.91`
-- 单窗口最高收益（被鲁棒检验过滤）：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered`（核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(核心6-1动量)__月度选股_周度仓位调整(双周确认)）
-  - 该窗口指标（CAGR / Sharpe / Max DD / Turnover）：`33.23%` / `1.0575` / `-33.11%` / `4.81`
+- 单窗口最高收益（被鲁棒检验过滤）：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced`（核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(多因子均衡)）
+  - 该窗口指标（CAGR / Sharpe / Max DD / Turnover）：`34.35%` / `1.0850` / `-30.00%` / `3.59`
 
 窗口指标（截至 `2026-05-13`，权重：2023-01=100%）：
 

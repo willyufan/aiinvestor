@@ -177,13 +177,32 @@ def main() -> None:
     latest["strategy_base_id"] = latest["strategy_base_id"].astype(str)
     latest["sample_tag"] = latest["sample_tag"].astype(str)
 
-    candidate_ids = sorted(
+    raw_candidate_ids = sorted(
         {
             base_id
             for base_id in latest["strategy_base_id"].unique()
             if _matches_path2(str(base_id), prefixes, variant_ids)
         }
     )
+    by_id = {str(base_id): group for base_id, group in latest.groupby("strategy_base_id")}
+
+    candidate_ids: list[str] = []
+    incomplete_candidates: list[dict[str, Any]] = []
+    for base_id in raw_candidate_ids:
+        group = by_id.get(base_id, pd.DataFrame())
+        tags = set(group["sample_tag"].astype(str)) if not group.empty else set()
+        missing_tags = [tag for tag in WINDOW_TAGS if tag not in tags]
+        if missing_tags:
+            incomplete_candidates.append(
+                {
+                    "strategy_base_id": base_id,
+                    "available_windows": sorted(tags),
+                    "missing_windows": missing_tags,
+                }
+            )
+            continue
+        candidate_ids.append(base_id)
+
     family_candidates: dict[str, list[str]] = {family_name: [] for family_name in family_rules}
     candidate_family_membership: dict[str, list[str]] = {}
     for base_id in candidate_ids:
@@ -192,7 +211,6 @@ def main() -> None:
         for family_name in matched_families:
             family_candidates.setdefault(family_name, []).append(base_id)
 
-    by_id = {str(base_id): group for base_id, group in latest.groupby("strategy_base_id")}
     window_winners: dict[str, dict[str, Any]] = {}
     ranked_candidates: dict[str, list[dict[str, Any]]] = {}
 
@@ -302,7 +320,10 @@ def main() -> None:
         "candidate_variant_ids": variant_ids,
         "candidate_families": family_rules,
         "promotion_score_policy": PATH2_PROMOTION_SCORE_POLICY,
+        "raw_candidate_count": len(raw_candidate_ids),
         "candidate_count": len(candidate_ids),
+        "incomplete_candidate_count": len(incomplete_candidates),
+        "incomplete_candidates": incomplete_candidates,
         "family_candidate_counts": {family_name: len(sorted(set(ids))) for family_name, ids in family_candidates.items()},
         "candidate_family_membership": candidate_family_membership,
         "window_winners": window_winners,
