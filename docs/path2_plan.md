@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-14 03:17 CST）
+
+- 本轮 guard 覆盖率为 `pass`，Path 2 active universe 继续为 `455` 个四窗口完整候选，另有 `23` 个不完整历史候选仅保留追溯；收盘 guard 将 Path 2 rotation 推进到 `stagnation_runs=9 / recommended_focus=capacity_and_cost_stress`。
+- 复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后，五个 family 规模为 `154 / 229 / 9 / 16 / 16`，分别对应高集中突破、高成长主线、动量/等权高弹性、双周调仓高收益、单周调仓高收益；本轮不继续扩 `high_growth_theme` 邻域。
+- raw `since_2025_01` leader 仍是纯周度 `core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly`，`195.54% CAGR / -40.77% MaxDD / 1.7685 Sharpe / 16.36 Turnover`；验证口径继续因 2023 窗口失效拒绝。
+- 验证后 Path 2 tracked winners 未换身份：2017 `2/98 risk40_mom_exit60_reconfirm75`，2020 `1/99 risk40_mom_exit60_reconfirm70`，2023 `1/99 risk50_ma`，2025 `aggr_05_95_prom3_core_6_1_full_risk_cap60`。
+- 最新指标分别为 `39.66% / 60.45% / 69.21% / 154.34% CAGR`；四窗口 robust candidate 仍为 `2/98 risk40_mom_exit60_reconfirm75`，`meanCAGR=66.44% / minCAGR=39.66% / worstMaxDD=-32.76% / meanTurn=4.98`。
+- 下一轮新增候选按 report quota 每族 `2` 个优先补 `momentum_equal_weight_elastic / biweekly_rebalance_aggressive / weekly_rebalance_aggressive`，并在 `capacity_and_cost_stress` 下约束容量、回撤与换手，避免让高成长主线继续压扁 family membership。
+
 ## 本轮执行计划（2026-05-13 21:21 CST）
 
 - 本轮先按 guard 补跑 Path 2 blocking rerun commands；其中 23 个历史候选已不再由当前回测生成器实际产出，因此同步修正 `scripts/path2_candidate_pass.py`：active universe 只纳入四窗口完整候选，并把不完整历史候选写入 `incomplete_candidates` 供追溯。

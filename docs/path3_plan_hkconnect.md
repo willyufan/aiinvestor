@@ -1,5 +1,13 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-05-14 03:17 CST）
+
+- 本轮 HK 五窗口回测继续覆盖纯周频 Path 3 候选，Path 1/2 月频与双周结论不并入本路径。
+- Path 3 tracked winners 未换身份：2017 `hkconnect_path3_stable_weekly_equal_buffered`，2020/2023 `hkconnect_path3_theme_fast_weekly_buffered`，2025 `hkconnect_path3_theme_fast_weekly_defensive`。
+- 最新指标为：2017 `21.78% CAGR / -33.66% MaxDD / 0.9800 Sharpe / 10.83 Turnover`；2020 `27.62% / -34.43% / 0.9164 / 30.93`；2023 `40.82% / -19.56% / 1.3156 / 29.62`；2025 `78.07% / -17.82% / 1.7678 / 34.72`。
+- 四窗口 robust candidate 仍为 `hkconnect_path3_stable_weekly_equal_buffered`，`meanCAGR=31.15% / minCAGR=21.78% / worstMaxDD=-33.66% / meanTurn=11.31`。
+- 收盘 guard 将 HK Path 3 rotation 推进到 `stagnation_runs=9 / recommended_focus=weekly_turnover_reduction`；下一步重点是周频候选在交易成本和换手压力下是否仍可交易，而不是继续提高进攻强度。
+
 ## 本轮执行计划（2026-05-13 21:21 CST）
 
 - 本轮 HK 五窗口回测继续覆盖纯周频 Path 3 候选，Path 1/2 月频与双周结论不并入本路径。
