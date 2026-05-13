@@ -3,6 +3,30 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-13 09:13 CST）
+
+- 本轮复跑 `.venv/bin/python scripts/update_weighted_winners.py`，继续只使用 `_matches_path3()` 的纯 `_weekly` 口径；A 股 Path 1 的周度仓位 overlay 与 Path 2 的月频高收益候选均未混入 Path 3。
+- Path 3 `since_2017_01` winner 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly`，`23.69% CAGR / -40.04% MaxDD / 0.8063 Sharpe / 7.70 Turnover`。
+- `since_2020_01` winner 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`，`15.11% CAGR / -51.71% MaxDD / 0.5739 Sharpe / 12.99 Turnover`；raw 更高的 `aggr_01_99_prom1...cap100_weekly` 继续因 2023 验证窗口失效被拒绝。
+- `since_2023_01` 与 `since_2025_01` 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly`，分别为 `36.20% / -37.14% / 0.9791 / 13.65` 与 `51.67% / -27.38% / 1.2897 / 13.73`。
+- 四窗口鲁棒候选仍为 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_weekly`，`meanCAGR=23.57% / minCAGR=15.89%`；高换手和深回撤仍是本路径的核心代价，继续独立记录。
+
+## 本轮执行计划（2026-05-13 03:32 CST）
+
+- 本轮复跑 `.venv/bin/python scripts/update_weighted_winners.py`，继续只使用 `_matches_path3()` 的纯 `_weekly` 口径；月度选股加周度仓位 overlay 未混入 Path 3。
+- Path 3 `since_2017_01` winner 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly`，`23.69% CAGR / -40.04% MaxDD / 0.8063 Sharpe / 7.70 Turnover`。
+- `since_2020_01` winner 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`，`15.11% CAGR / -51.71% MaxDD / 0.5739 Sharpe / 12.99 Turnover`；纯周度路线的 2020 窗口仍是主要短板。
+- `since_2023_01` 与 `since_2025_01` 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly`，分别为 `36.20% / -37.14% / 0.9791 / 13.65` 与 `51.67% / -27.38% / 1.2897 / 13.73`。
+- 四窗口鲁棒候选仍为 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_weekly`，`meanCAGR=23.57% / minCAGR=15.89%`；短窗爆发候选继续被验证窗口拒绝，高换手与深回撤代价保留记录。
+
+## 本轮执行计划（2026-05-12 21:20 CST）
+
+- 本轮运行 `.venv/bin/python scripts/update_weighted_winners.py`，继续只使用 `_matches_path3()` 的纯 `_weekly` 口径；A 股 Path 2 的 `risk40...caution80` 月频候选没有混入 Path 3。
+- Path 3 `since_2017_01` winner 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly`，`23.69% CAGR / -40.04% MaxDD / 0.8063 Sharpe / 7.70 Turnover`。
+- `since_2020_01` winner 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`，`15.11% CAGR / -51.71% MaxDD / 0.5739 Sharpe / 12.99 Turnover`；纯周度路线继续没有形成 2020 可持续优势。
+- `since_2023_01` 与 `since_2025_01` 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly`，分别为 `36.20% / -37.14% / 0.9791 / 13.65` 与 `51.67% / -27.38% / 1.2897 / 13.73`。
+- 四窗口鲁棒候选仍为 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_weekly`，`meanCAGR=23.57% / minCAGR=15.89%`；短窗爆发候选仍被验证窗口拒绝，高换手和深回撤代价继续单独记录。
+
 ## 本轮执行计划（2026-05-12 09:12 CST）
 
 - 本轮运行 `.venv/bin/python scripts/update_weighted_winners.py`，继续只使用 `_matches_path3()` 的纯 `_weekly` 口径；A 股 Path 2 新增的 `risk40_mom_exit60_reconfirm70/reconfirm75` 月频候选没有混入 Path 3。

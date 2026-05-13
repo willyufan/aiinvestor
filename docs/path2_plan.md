@@ -13,6 +13,30 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-13 09:13 CST）
+
+- 本轮复跑 `.venv/bin/python scripts/path2_candidate_pass.py`，候选宇宙继续维持 `478`，五个 family 规模仍为 `159 / 237 / 16 / 16 / 16`；`risk40_mom_exit60_reconfirm*_caution80` 仍只扩充 `high_growth_theme`，没有压扁其他 family。
+- raw 扫描的 `since_2025_01` 单窗口 leader 仍是纯周度 `aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly`，`188.62% CAGR / -40.77% MaxDD / 1.7388 Sharpe / 16.36 Turnover`，但验证口径继续因 2023 窗口失效拒绝进入 Path 2 winner。
+- 验证后 Path 2 winner 未变：2017 `2/98 risk40_mom_exit60_reconfirm75`，`39.51% CAGR / -32.76% MaxDD / 1.1512 Sharpe / 3.79 Turnover`；2020 `1/99 risk40_mom_exit60_reconfirm70`，`60.26% / -28.34% / 1.2665 / 4.49`。
+- 2023 仍为 `1/99 risk50_ma`，`69.00% CAGR / -36.51% MaxDD / 1.3748 Sharpe / 4.79 Turnover`；2025 验证 winner 仍为 `aggr_05_95_prom3_core_6_1_full_risk_cap60`，`151.34% / -17.33% / 2.1910 / 5.94`。
+- 四窗口 robust candidate 仍为 `2/98 risk40_mom_exit60_reconfirm75`，`meanCAGR=65.89% / minCAGR=39.51% / worstMaxDD=-32.76% / meanTurn=4.98`；下一轮仍优先寻找更适配 2020 的中周期高收益原型，而不是继续追逐短窗周频爆发。
+
+## 本轮执行计划（2026-05-13 03:32 CST）
+
+- 本轮复跑 `.venv/bin/python scripts/path2_candidate_pass.py`，候选宇宙维持 `478`，五个 family 规模仍为 `159 / 237 / 16 / 16 / 16`；`results/strategy_comparison_base_method.csv` 仍保持约 `3407` 条数据行，未再被压缩。
+- Path 2 raw 扫描的 `since_2025_01` 单窗口 leader 仍是纯周度 `aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly`，`188.62% CAGR / -40.77% MaxDD / 1.7388 Sharpe / 16.36 Turnover`，但验证口径继续拒绝它进入 Path 2 winner。
+- 验证后 Path 2 winner 未变：2017 `2/98 risk40_mom_exit60_reconfirm75`，`39.51% CAGR / -32.76% MaxDD / 1.1512 Sharpe / 3.79 Turnover`；2020 `1/99 risk40_mom_exit60_reconfirm70`，`60.26% / -28.34% / 1.2665 / 4.49`。
+- 2023 仍为 `1/99 risk50_ma`，`69.00% CAGR / -36.51% MaxDD / 1.3748 Sharpe / 4.79 Turnover`；2025 验证 winner 仍为 `aggr_05_95_prom3_core_6_1_full_risk_cap60`，`151.34% / -17.33% / 2.1910 / 5.94`。
+- 四窗口 robust candidate 仍为 `2/98 risk40_mom_exit60_reconfirm75`，`meanCAGR=65.89% / minCAGR=39.51% / worstMaxDD=-32.76% / meanTurn=4.98`；下一步仍应优先寻找更适配 2020 的中周期高收益原型，而非继续提高短窗爆发。
+
+## 本轮执行计划（2026-05-12 21:20 CST）
+
+- 本轮先发现当前 `results/strategy_comparison_base_method.csv` 被缩成 `256` 行，会把 Path 2 候选宇宙压到 `30` 个且双周 family 为 `0`；已用本地 `summary.json` 运行 `.venv/bin/python scripts/rebuild_strategy_comparison_csv.py --windows since_2017_01 since_2020_01 since_2023_01 since_2025_01`，恢复到 `3407` 行 / `871` 个 base strategies。
+- 复跑 `.venv/bin/python scripts/path2_candidate_pass.py` 后，候选宇宙为 `478`，五个 family 规模为 `159 / 237 / 16 / 16 / 16`；新增或同步的 `risk40_mom_exit60_reconfirm*_caution80` 只扩充 `high_growth_theme`，没有压扁高集中、等权动量、双周或周频 family membership。
+- `risk40_mom_exit60_reconfirm75_caution80` 与 `risk40_mom_exit60_reconfirm70_caution80` 没有改写 Path 2 winner：最好 2020 为 `90/10` 等权 `1/99 reconfirm70_caution80`，`58.79% CAGR / -28.34% MaxDD / 1.2651 Sharpe / 4.43 Turnover`，低于当前 `risk40 reconfirm70` 的 `60.26% CAGR`。
+- caution80 最好长窗为 `90/10` 等权 `2/98 reconfirm75_caution80`，`38.66% CAGR / -32.85% MaxDD / 1.1502 Sharpe / 3.74 Turnover`，低于当前 `2/98 risk40 reconfirm75` 的 `39.51% / -32.76% / 1.1512 / 3.79`。
+- Path 2 验证 winner 仍为：2017 `2/98 risk40_mom_exit60_reconfirm75`，2020 `1/99 risk40_mom_exit60_reconfirm70`，2023 `1/99 risk50_ma`，2025 验证后 `aggr_05_95_prom3_core_6_1_full_risk_cap60`；四窗口 robust candidate 仍为 `2/98 risk40_mom_exit60_reconfirm75`，`meanCAGR=65.89% / minCAGR=39.51%`。
+
 ## 本轮执行计划（2026-05-12 09:12 CST）
 
 - 本轮先复跑 `.venv/bin/python scripts/path2_candidate_pass.py`，基线为 `462` candidates；随后新增 4 个介于旧 `risk30` 与强势 `risk50` 之间的高成长主线原型：`risk40_mom_exit60_reconfirm75` 与 `risk40_mom_exit60_reconfirm70`，覆盖 `1/99`、`2/98`，继续只扩充 `high_growth_theme` family。

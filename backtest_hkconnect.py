@@ -153,6 +153,7 @@ class HKPreparedData:
     total_mv: pd.DataFrame
     daily_amount: pd.DataFrame
     month_end_dates: List[pd.Timestamp]
+    monthly_period_end_dates: List[pd.Timestamp]
     month_start_dates: List[pd.Timestamp]
     week_end_dates: List[pd.Timestamp]
     code_to_name: Dict[str, str]
@@ -1052,7 +1053,7 @@ def get_rebalance_signal_dates(prepared: HKPreparedData, rebalance_frequency: st
         return list(prepared.week_end_dates)
     if freq == "biweekly":
         return [date for idx, date in enumerate(prepared.week_end_dates) if idx % 2 == 1]
-    return list(prepared.month_end_dates)
+    return list(prepared.monthly_period_end_dates)
 
 
 def get_next_trading_day(trading_dates: pd.Index, signal_date: pd.Timestamp) -> pd.Timestamp | None:
@@ -1213,7 +1214,10 @@ def prepare_hkconnect_data(
     )
 
     calendar = load_or_fetch_hk_trade_calendar(pro_daily, data_start_date, end_date)
-    month_end_dates, month_start_dates, week_end_dates, full_calendar_index = build_month_boundaries(calendar)
+    month_end_dates, month_start_dates, week_end_dates, full_calendar_index, monthly_period_end_dates = build_month_boundaries(
+        calendar,
+        formal_calendar=calendar,
+    )
     now_local = pd.Timestamp.now(tz="Asia/Shanghai").tz_localize(None)
     today_local = now_local.normalize()
     if len(full_calendar_index) == 0:
@@ -1232,6 +1236,7 @@ def prepare_hkconnect_data(
         cache_target_date = eligible_cache_dates[-1] if eligible_cache_dates else full_calendar_index[-1]
     full_calendar_index = [date for date in full_calendar_index if date <= cache_target_date]
     month_end_dates = [date for date in month_end_dates if date <= cache_target_date]
+    monthly_period_end_dates = [date for date in monthly_period_end_dates if date <= cache_target_date]
     month_start_dates = [date for date in month_start_dates if date <= cache_target_date]
     week_end_dates = [date for date in week_end_dates if date <= cache_target_date]
     if len(full_calendar_index) == 0:
@@ -1394,9 +1399,13 @@ def prepare_hkconnect_data(
         raise RuntimeError("沪港通静态池没有可用价格数据，无法回测。")
 
     calendar = extend_hk_calendar_with_cached_price_dates(calendar, price_frames, data_start_date, cache_target_date)
-    month_end_dates, month_start_dates, week_end_dates, full_calendar_index = build_month_boundaries(calendar)
+    month_end_dates, month_start_dates, week_end_dates, full_calendar_index, monthly_period_end_dates = build_month_boundaries(
+        calendar,
+        formal_calendar=calendar,
+    )
     full_calendar_index = [date for date in full_calendar_index if date <= cache_target_date]
     month_end_dates = [date for date in month_end_dates if date <= cache_target_date]
+    monthly_period_end_dates = [date for date in monthly_period_end_dates if date <= cache_target_date]
     month_start_dates = [date for date in month_start_dates if date <= cache_target_date]
     week_end_dates = [date for date in week_end_dates if date <= cache_target_date]
     if len(full_calendar_index) == 0:
@@ -1424,6 +1433,7 @@ def prepare_hkconnect_data(
         total_mv=total_mv,
         daily_amount=daily_amount,
         month_end_dates=month_end_dates,
+        monthly_period_end_dates=monthly_period_end_dates,
         month_start_dates=month_start_dates,
         week_end_dates=week_end_dates,
         code_to_name=code_to_name,
@@ -1514,6 +1524,93 @@ def build_hk_base_weights(
         inv = inv.replace([np.inf, -np.inf], np.nan).dropna()
         return inv
     return signal_mvs
+
+
+def build_hk_month_end_preview_payload(
+    *,
+    prepared: HKPreparedData,
+    strategy_config: Dict[str, object],
+    signal_date: pd.Timestamp,
+    formal_signal_date: pd.Timestamp | None,
+    positions: pd.Series,
+) -> Dict[str, object] | None:
+    eligible_codes = prepared.factor_cache.eligible_codes_by_date.get(signal_date, [])
+    if not eligible_codes:
+        return None
+    signal_scores = build_hk_signal_scores(prepared, signal_date, str(strategy_config["signal_family"]))
+    base_weights = build_hk_base_weights(prepared, signal_date, eligible_codes, str(strategy_config["base_weight_method"]))
+    recent_1m_returns = prepared.factor_cache.recent_1m_returns_by_date.get(signal_date, pd.Series(dtype=float))
+    quality_scores = prepared.factor_cache.liquidity_quality_scores_by_date.get(signal_date, pd.Series(dtype=float))
+    breakout_signal = prepared.factor_cache.breakout_signal_by_date.get(signal_date, pd.Series(dtype=bool))
+    market_close = prepared.market_monthly_close.copy()
+    if signal_date not in market_close.index and signal_date in prepared.market_weekly_close.index:
+        market_close.loc[signal_date] = float(prepared.market_weekly_close.loc[signal_date])
+        market_close = market_close.sort_index()
+    regime = compute_market_exposure(
+        market_close,
+        signal_date,
+        risk_off_rule=str(strategy_config.get("risk_off_rule", "or")),
+        risk_staging_mode=str(strategy_config.get("risk_staging_mode", "three_stage")),
+        core_risk_off_exposure=float(strategy_config.get("risk_off_exposure", 0.6)),
+        core_risk_on_exposure=float(strategy_config.get("risk_on_exposure", 1.0)),
+        core_caution_exposure=float(strategy_config.get("risk_caution_exposure", 0.85)),
+        satellite_risk_off_exposure=float(strategy_config.get("risk_off_exposure", 0.6)),
+        satellite_risk_on_exposure=float(strategy_config.get("risk_on_exposure", 1.0)),
+        satellite_caution_exposure=float(strategy_config.get("risk_caution_exposure", 0.85)),
+        momentum_lookback=MONTHLY_MOMENTUM_LOOKBACK,
+        momentum_skip=MONTHLY_MOMENTUM_SKIP,
+        ma_lookback=MONTHLY_MA_LOOKBACK,
+    )
+    raw_target_weights, selection_stats = build_single_sleeve_weights(
+        base_weights=base_weights,
+        signal_scores=signal_scores,
+        recent_1m_returns=recent_1m_returns,
+        quality_scores=quality_scores,
+        currently_held_codes=set(positions.index),
+        target_exposure=float(regime["portfolio_target_exposure"]),
+        buy_entry_percentile=float(strategy_config["buy_entry_percentile"]),
+        sell_exit_percentile=float(strategy_config["sell_exit_percentile"]),
+        quality_quantile=0.50,
+        max_holdings=int(strategy_config["max_holdings"]),
+        require_breakout_for_buy=str(strategy_config["signal_family"]).startswith("path2_breakout"),
+        breakout_signal=breakout_signal,
+        base_weight_mode=strategy_config.get("base_weight_mode", "base"),
+    )
+    target_weights, target_cash_weight = apply_weight_cap_with_redistribution(
+        raw_target_weights,
+        cap=float(strategy_config.get("weight_cap", HK_WEIGHT_CAP)),
+    )
+    price_row = prepared.price_ffill.loc[signal_date] if signal_date in prepared.price_ffill.index else pd.Series(dtype=float)
+    holdings: List[Dict[str, object]] = []
+    for ts_code, weight in target_weights.sort_values(ascending=False).items():
+        latest_price = price_row.get(ts_code, np.nan)
+        holdings.append(
+            {
+                "ts_code": str(ts_code),
+                "name": str(prepared.code_to_name.get(str(ts_code), "")),
+                "weight": float(weight),
+                "latest_price": float(latest_price) if pd.notna(latest_price) else None,
+            }
+        )
+    if target_cash_weight > 1e-12:
+        holdings.append({"ts_code": "CASH", "name": "现金", "weight": float(target_cash_weight), "latest_price": None})
+    return {
+        "mode": "month_end_preview",
+        "status": "available",
+        "preview_as_of": signal_date.strftime("%Y-%m-%d"),
+        "formal_signal_date": formal_signal_date.strftime("%Y-%m-%d") if formal_signal_date is not None else None,
+        "note": "月中观察口径：使用当日收盘数据模拟“如果今天是月末”的沪港通候选组合，不进入正式回测收益或 winner 规则。",
+        "target_total_exposure": float(max(0.0, 1.0 - target_cash_weight)),
+        "risk_state": str(regime.get("risk_stage") or ("risk_off" if regime.get("risk_off") else "risk_on")),
+        "market_momentum": float(regime["market_12_1_momentum"]) if pd.notna(regime.get("market_12_1_momentum")) else None,
+        "selected_count": int(len(target_weights)),
+        "selection_counts": {
+            key: int(value)
+            for key, value in selection_stats.items()
+            if key.endswith("_count") and isinstance(value, (int, np.integer))
+        },
+        "holdings": holdings,
+    }
 
 
 def build_hk_portfolio_overlay_target_weights(base_weights: pd.Series, target_exposure: float, weight_cap: float) -> pd.Series:
@@ -1953,6 +2050,27 @@ def run_hk_backtest(
     )
 
     metrics = compute_metrics(equity_curve, monthly_returns, turnover, rebalance_frequency=rebalance_frequency)
+    latest_valuation_date = pd.Timestamp(equity_curve["date"].iloc[-1])
+    latest_formal_signal_date = None
+    if rebalance_frequency == "monthly":
+        formal_signal_dates = [date for date in prepared.month_end_dates if date <= latest_valuation_date]
+        latest_formal_signal_date = formal_signal_dates[-1] if formal_signal_dates else None
+    is_provisional_period_end = (
+        rebalance_frequency == "monthly"
+        and latest_formal_signal_date is not None
+        and latest_valuation_date > latest_formal_signal_date
+    )
+    month_end_preview = (
+        build_hk_month_end_preview_payload(
+            prepared=prepared,
+            strategy_config=strategy_config,
+            signal_date=latest_valuation_date,
+            formal_signal_date=latest_formal_signal_date,
+            positions=positions,
+        )
+        if is_provisional_period_end
+        else None
+    )
 
     latest_weights = pd.DataFrame(columns=["ts_code", "name", "weight"])
     latest_nav = float(positions.sum() + cash_value)
@@ -1968,6 +2086,10 @@ def run_hk_backtest(
         "pool_name": "沪港通静态标的池（最新可得名单）",
         "sample_start": equity_curve["date"].iloc[0].strftime("%Y-%m-%d"),
         "sample_end": equity_curve["date"].iloc[-1].strftime("%Y-%m-%d"),
+        "latest_valuation_date": latest_valuation_date.strftime("%Y-%m-%d"),
+        "latest_formal_signal_date": latest_formal_signal_date.strftime("%Y-%m-%d") if latest_formal_signal_date is not None else None,
+        "is_provisional_period_end": bool(is_provisional_period_end),
+        "month_end_preview": month_end_preview or {},
         "sample_tag": sample_tag,
         "sample_label": sample_label,
         "sample_short_label": sample_short_label,

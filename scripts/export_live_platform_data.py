@@ -234,6 +234,26 @@ def load_weight_history_snapshot_map(path: Path) -> dict[str, list[dict[str, Any
     return snapshot_map
 
 
+def filter_snapshot_map_on_or_before(
+    snapshot_map: dict[str, list[dict[str, Any]]],
+    cutoff_date: str | None,
+) -> dict[str, list[dict[str, Any]]]:
+    if not cutoff_date:
+        return dict(snapshot_map)
+    try:
+        cutoff = pd.Timestamp(cutoff_date)
+    except Exception:
+        return dict(snapshot_map)
+    filtered: dict[str, list[dict[str, Any]]] = {}
+    for snapshot_date, holdings in snapshot_map.items():
+        try:
+            if pd.Timestamp(snapshot_date) <= cutoff:
+                filtered[snapshot_date] = holdings
+        except Exception:
+            continue
+    return filtered
+
+
 def attach_latest_prices(rows: list[dict[str, Any]], latest_price_map: dict[str, float | None]) -> list[dict[str, Any]]:
     attached = []
     for row in rows:
@@ -611,6 +631,15 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
     )
     schedule_kind = str(formal_schedule.get("schedule_kind") or "")
     latest_price_map = {str(row["ts_code"]): row.get("latest_price") for row in latest_weights}
+    official_history_snapshot_map = history_snapshot_map
+    month_end_preview = summary.get("month_end_preview") if isinstance(summary.get("month_end_preview"), dict) else {}
+    if month_end_preview:
+        preview_rows = month_end_preview.get("holdings")
+        if isinstance(preview_rows, list):
+            month_end_preview = {
+                **month_end_preview,
+                "holdings": attach_latest_prices(preview_rows, latest_price_map),
+            }
     split_view: dict[str, Any] = {}
     weekly_overlay_history: list[dict[str, Any]] = []
 
@@ -626,6 +655,7 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
                 risk_state = "risk_off"
             else:
                 risk_state = "caution"
+        official_history_snapshot_map = filter_snapshot_map_on_or_before(history_snapshot_map, basket_date)
     elif schedule_kind == "portfolio_weekly_overlay":
         basket_date = str(formal_schedule.get("basket_effective_date") or "")
         if basket_date and basket_date in history_snapshot_map:
@@ -638,6 +668,7 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
         basket_weights: list[dict[str, Any]] = []
         if basket_date and basket_date in history_snapshot_map:
             basket_weights = attach_latest_prices(history_snapshot_map[basket_date], latest_price_map)
+        official_history_snapshot_map = filter_snapshot_map_on_or_before(history_snapshot_map, basket_date)
         weekly_overlay_history = _load_weekly_overlay_history(turnover_path)
         latest_overlay_trade = next((row for row in weekly_overlay_history if row.get("is_trade")), None)
         overlay_summary = {
@@ -670,14 +701,18 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
         "target_total_exposure": target_exposure,
         "risk_state": risk_state,
         "latest_weights": latest_weights,
-        "history_windows": _build_weight_history_windows(history_snapshot_map, weekly_overlay_history),
+        "history_windows": _build_weight_history_windows(official_history_snapshot_map, weekly_overlay_history),
         "trade_events": _load_trade_events(turnover_path),
         "equity_curve_points": _load_equity_curve_points(equity_curve_path),
         "formal_schedule": formal_schedule,
         "split_view": split_view,
+        "month_end_preview": month_end_preview,
         "summary_meta": {
             "sample_start": summary.get("sample_start"),
             "sample_end": summary.get("sample_end"),
+            "latest_valuation_date": summary.get("latest_valuation_date"),
+            "latest_formal_signal_date": summary.get("latest_formal_signal_date"),
+            "is_provisional_period_end": summary.get("is_provisional_period_end"),
             "sample_label": summary.get("sample_label"),
             "sample_short_label": summary.get("sample_short_label"),
             "strategy_name": summary.get("strategy_name"),
@@ -723,6 +758,7 @@ def build_strategy_detail_payload(base_id: str, sample_tag: str, *, market_scope
         "equity_curve_points": sample_view["equity_curve_points"],
         "formal_schedule": sample_view.get("formal_schedule", {}),
         "split_view": sample_view.get("split_view", {}),
+        "month_end_preview": sample_view.get("month_end_preview", {}),
         "summary_meta": sample_view["summary_meta"],
         "market_scope": market_scope,
     }
@@ -876,7 +912,7 @@ def export_live_data() -> dict[str, Any]:
         snapshot["path"] = path_name
         snapshot["winner_type"] = winner_type
         snapshot["winner_tags"] = [f"{path_name}:{winner_type}"]
-        snapshot["windows"] = tracked_info["windows"]
+        snapshot["windows"] = {**tracked_info.get("windows", {}), **snapshot.get("windows", {})}
         snapshot["market_scope"] = "a_share"
         dedup[strategy_id] = snapshot
 

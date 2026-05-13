@@ -1807,6 +1807,12 @@ def render_page(title: str, body: str) -> str:
     }}
     /* ── Card ── */
     .card {{ background: var(--card-bg); padding: 20px; border-top: 2px solid var(--ink); margin-bottom: 16px; }}
+    .tabs {{ display:flex; gap:8px; margin:16px 0; border-bottom:1.5px solid var(--ink); }}
+    .tab {{
+      display:inline-block; padding:9px 14px; text-decoration:none; font-size:12px; font-weight:700;
+      letter-spacing:.08em; border:1.5px solid var(--ink); border-bottom:0; background:transparent;
+    }}
+    .tab.active {{ background:var(--ink); color:var(--bg); }}
     a.strategy-card {{
       display: block;
       min-height: 100%;
@@ -2211,6 +2217,133 @@ def build_rebalance_change_rows(latest_weights: list[dict], history_windows: lis
     }
 
 
+def build_weight_diff_rows(previous_weights: list[dict], current_weights: list[dict]) -> list[dict]:
+    previous_map = {
+        str(row.get("ts_code")): {
+            "ts_code": str(row.get("ts_code")),
+            "name": str(row.get("name", "")),
+            "weight": float(row.get("weight", 0.0)),
+            "latest_price": row.get("latest_price"),
+        }
+        for row in previous_weights or []
+        if row.get("ts_code")
+    }
+    current_map = {
+        str(row.get("ts_code")): {
+            "ts_code": str(row.get("ts_code")),
+            "name": str(row.get("name", "")),
+            "weight": float(row.get("weight", 0.0)),
+            "latest_price": row.get("latest_price"),
+        }
+        for row in current_weights or []
+        if row.get("ts_code")
+    }
+    rows: list[dict] = []
+    for code in sorted(set(previous_map) | set(current_map)):
+        previous = previous_map.get(code, {"ts_code": code, "name": "", "weight": 0.0, "latest_price": None})
+        current = current_map.get(code, {"ts_code": code, "name": "", "weight": 0.0, "latest_price": None})
+        previous_weight = float(previous.get("weight", 0.0))
+        current_weight = float(current.get("weight", 0.0))
+        diff = current_weight - previous_weight
+        if abs(diff) < 1e-9:
+            continue
+        if previous_weight <= 1e-9 and current_weight > 1e-9:
+            action = "新增"
+        elif current_weight <= 1e-9 and previous_weight > 1e-9:
+            action = "清仓"
+        elif diff > 0:
+            action = "加仓"
+        else:
+            action = "减仓"
+        rows.append(
+            {
+                "ts_code": code,
+                "name": str(current.get("name") or previous.get("name") or ""),
+                "action": action,
+                "previous_weight": previous_weight,
+                "current_weight": current_weight,
+                "diff_weight": diff,
+                "latest_price": current.get("latest_price") or previous.get("latest_price"),
+            }
+        )
+    action_order = {"新增": 0, "加仓": 1, "减仓": 2, "清仓": 3}
+    rows.sort(key=lambda item: (action_order.get(str(item["action"]), 9), -abs(float(item["diff_weight"])), str(item["ts_code"])))
+    return rows
+
+
+def render_weight_diff_table(rows: list[dict], empty_text: str) -> str:
+    if not rows:
+        return f"<p class='muted'>{html.escape(empty_text)}</p>"
+    body = []
+    for row in rows:
+        diff_weight = float(row.get("diff_weight", 0.0))
+        action_style = ""
+        if row["action"] in {"新增", "加仓"}:
+            action_style = " style='color:#166534;font-weight:700'"
+        elif row["action"] in {"减仓", "清仓"}:
+            action_style = " style='color:#b45309;font-weight:700'"
+        row_style = " style='background:#eff6ff;font-weight:600'" if abs(diff_weight) >= 0.05 else ""
+        latest_price = row.get("latest_price")
+        body.append(
+            f"<tr{row_style}><td>{html.escape(str(row['ts_code']))}</td>"
+            f"<td>{html.escape(str(row['name']))}</td>"
+            f"<td{action_style}>{html.escape(str(row['action']))}</td>"
+            f"<td>{fmt_pct(float(row.get('previous_weight') or 0.0))}</td>"
+            f"<td>{fmt_pct(float(row.get('current_weight') or 0.0))}</td>"
+            f"<td>{signed_pct_html(diff_weight)}</td>"
+            f"<td>{fmt_amt(float(latest_price)) if latest_price is not None else 'n/a'}</td></tr>"
+        )
+    return (
+        "<table><thead><tr><th>代码</th><th>名称</th><th>动作</th><th>正式权重</th><th>Preview 权重</th><th>变化</th><th>最新价格</th></tr></thead><tbody>"
+        + "".join(body)
+        + "</tbody></table>"
+    )
+
+
+def render_preview_unavailable(reason: str) -> str:
+    return (
+        "<div class='card'><h2>Preview</h2>"
+        f"<p class='muted'>{html.escape(reason)}</p>"
+        "</div>"
+    )
+
+
+def render_month_end_preview(preview: dict, official_weights: list[dict]) -> str:
+    if not preview or not preview.get("holdings"):
+        return render_preview_unavailable(
+            "暂无 month-end preview 数据。下一次月度策略回测与 live 导出生成 preview 后，这里会展示“如果今天是月末”的候选组合。"
+        )
+    holdings = list(preview.get("holdings") or [])
+    diff_rows = build_weight_diff_rows(official_weights, holdings)
+    holding_rows = []
+    for row in holdings:
+        latest_price = row.get("latest_price")
+        holding_rows.append(
+            f"<tr><td>{html.escape(str(row.get('ts_code') or ''))}</td>"
+            f"<td>{html.escape(str(row.get('name') or ''))}</td>"
+            f"<td>{fmt_pct(float(row.get('weight') or 0.0))}</td>"
+            f"<td>{fmt_amt(float(latest_price)) if latest_price is not None else 'n/a'}</td></tr>"
+        )
+    market_momentum = preview.get("market_momentum")
+    return (
+        "<div class='card'><h2>Month-End Preview</h2>"
+        "<p class='muted'>Preview 是月中观察口径：使用最新收盘数据模拟“如果今天是月末”的候选组合，不进入正式回测收益、winner、robust candidate 或 core_active 淘汰逻辑。</p>"
+        f"<p>Preview 截止日：{html.escape(str(preview.get('preview_as_of') or 'n/a'))}</p>"
+        f"<p>当前正式月末信号日：{html.escape(str(preview.get('formal_signal_date') or 'n/a'))}</p>"
+        f"<p>Preview 目标仓位：{fmt_pct(float(preview.get('target_total_exposure') or 0.0))}</p>"
+        f"<p>Preview 风险状态：{html.escape(str(preview.get('risk_state') or 'n/a'))}</p>"
+        + (f"<p>Preview 市场动量：{fmt_pct(float(market_momentum))}</p>" if market_momentum is not None else "")
+        + "</div>"
+        + "<div class='card'><h2>Preview 相对正式组合变化</h2>"
+        + render_weight_diff_table(diff_rows, "Preview 与当前正式组合没有权重变化。")
+        + "</div>"
+        + "<div class='card'><h2>Preview 候选组合</h2>"
+        + "<table><thead><tr><th>代码</th><th>名称</th><th>Preview 权重</th><th>最新价格</th></tr></thead><tbody>"
+        + "".join(holding_rows)
+        + "</tbody></table></div>"
+    )
+
+
 def render_exposure_return_curve(snapshots: list[dict], equity_curve_points: list[dict], start_date: str = "", end_date: str = "") -> str:
     snapshots = [snapshot for snapshot in snapshots if snapshot.get("holdings")]
     if not snapshots:
@@ -2535,10 +2668,11 @@ def strategies_html() -> str:
     return render_page("策略中心", "<h1>策略中心</h1>" + "".join(sections))
 
 
-def strategy_detail_html(strategy_id: str, history_window_key: str = "all", sample_view_tag: str = "") -> str:
+def strategy_detail_html(strategy_id: str, history_window_key: str = "all", sample_view_tag: str = "", tab: str = "official") -> str:
     item = load_strategy_snapshot(strategy_id)
     windows = item["windows"]
     sample_views = item.get("sample_views") or {}
+    requested_tab = "preview" if str(tab or "").lower() == "preview" else "official"
     selected_sample_tag = sample_view_tag or str(item.get("sample_tag") or "since_2020_01")
     if selected_sample_tag not in sample_views and sample_views:
         selected_sample_tag = str(item.get("sample_tag") or next(iter(sample_views.keys())))
@@ -2552,6 +2686,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         "history_windows": item.get("history_windows"),
         "trade_events": item.get("trade_events"),
         "equity_curve_points": item.get("equity_curve_points"),
+        "month_end_preview": item.get("month_end_preview"),
         "summary_meta": item.get("summary_meta"),
         "sample_tag": selected_sample_tag,
         "sample_tag_label": selected_sample_tag,
@@ -2569,6 +2704,21 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
     exposure_effective_date = str(formal_schedule.get("exposure_effective_date") or "")
     schedule_kind = str(formal_schedule.get("schedule_kind") or "")
     split_view = active_view.get("split_view") or {}
+    preview_payload = active_view.get("month_end_preview") or item.get("month_end_preview") or {}
+    preview_frequency = str(active_view.get("rebalance_frequency", item.get("rebalance_frequency", "monthly")) or "").strip().lower()
+    active_tab = "preview" if requested_tab == "preview" else "official"
+    tab_base = f"/strategies/{quote(strategy_id)}?sample_view={quote(selected_sample_tag)}&history_window={quote(history_window_key or 'all')}"
+    tabs_html = (
+        "<div class='tabs'>"
+        f"<a class='tab{' active' if active_tab == 'official' else ''}' href='{html.escape(tab_base + '&tab=official')}'>正式建议</a>"
+        f"<a class='tab{' active' if active_tab == 'preview' else ''}' href='{html.escape(tab_base + '&tab=preview')}'>Preview</a>"
+        "</div>"
+    )
+    official_weights_for_preview = (
+        split_view.get("basket_weights")
+        if str(split_view.get("mode") or "") == "satellite_weekly_overlay" and split_view.get("basket_weights")
+        else active_view.get("latest_weights")
+    ) or []
 
     sample_options = []
     for key in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"):
@@ -2587,6 +2737,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             "<label>实际回测窗口</label>"
             f"<select name='sample_view' style='display:block;margin-top:8px;padding:8px 10px;min-width:320px'>{''.join(sample_options)}</select>"
             f"<input type='hidden' name='history_window' value='{html.escape(history_window_key or 'all')}' />"
+            f"<input type='hidden' name='tab' value='{html.escape(active_tab)}' />"
             "<div style='margin-top:10px'><button>切换窗口</button></div>"
             "</form>"
         )
@@ -2664,13 +2815,20 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             change_rows.append(
                 f"<tr{row_style}><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td{action_style}>{html.escape(row['action'])}</td><td>{source_html}</td><td>{fmt_pct(float(row['previous_weight']))}</td><td>{fmt_pct(float(row['current_weight']))}</td><td>{signed_pct_html(diff_weight)}</td><td>{trade_text}</td><td>{drift_text}</td><td>{fmt_amt(float(row['latest_price'] or 0.0)) if row['latest_price'] is not None else 'n/a'}</td></tr>"
             )
-        change_rows_html = (
-            "<div class='card' style='margin-top:16px'><h2>最新调仓建议变化明细</h2>"
-            "<p class='muted'>总变化来自最近两次权重快照；真实交易来自逐票交易明细；市值漂移=总变化-真实交易。变化≥10% 的行会重点高亮，变化≥5% 的行会浅色高亮。</p>"
-            "<table><thead><tr><th>代码</th><th>名称</th><th>动作</th><th>归因</th><th>上次权重</th><th>当前权重</th><th>总变化</th><th>真实交易</th><th>市值漂移</th><th>最新价格</th></tr></thead><tbody>"
-            + "".join(change_rows)
-            + "</tbody></table></div>"
-        )
+        if change_rows:
+            change_rows_html = (
+                "<div class='card' style='margin-top:16px'><h2>最新调仓建议变化明细</h2>"
+                "<p class='muted'>总变化来自最近两次权重快照；真实交易来自逐票交易明细；市值漂移=总变化-真实交易。变化≥10% 的行会重点高亮，变化≥5% 的行会浅色高亮。</p>"
+                "<table><thead><tr><th>代码</th><th>名称</th><th>动作</th><th>归因</th><th>上次权重</th><th>当前权重</th><th>总变化</th><th>真实交易</th><th>市值漂移</th><th>最新价格</th></tr></thead><tbody>"
+                + "".join(change_rows)
+                + "</tbody></table></div>"
+            )
+        else:
+            change_rows_html = (
+                "<div class='card' style='margin-top:16px'><h2>最新调仓建议变化明细</h2>"
+                "<p class='muted'>最近两次权重快照没有变化。</p>"
+                "</div>"
+            )
     split_latest_html = ""
     if str(split_view.get("mode") or "") == "satellite_weekly_overlay":
         basket_rows = []
@@ -2751,6 +2909,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             f"<label>历史调仓建议窗口（按实际调仓日展示，当前频率：{html.escape(rebalance_frequency)}；每组最近12次调仓）</label>"
             f"<select name='history_window' style='display:block;margin-top:8px;padding:8px 10px;min-width:320px'>{''.join(options)}</select>"
             f"<input type='hidden' name='sample_view' value='{html.escape(selected_sample_tag)}' />"
+            f"<input type='hidden' name='tab' value='{html.escape(active_tab)}' />"
             "<div style='margin-top:10px'><button>切换窗口</button></div>"
             "</form>"
         )
@@ -2798,12 +2957,30 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             f"<p class='muted'>当前展示窗口：{html.escape(selected_history['label'])}。持仓快照展示目标持仓；周度卫星仓实际调仓展示换手摘要。</p>"
             + "".join(snapshot_blocks)
         )
-    body = (
+    header_html = (
         f"<h1>{html.escape(item['display_name'])}</h1>"
         f"<p><code>{html.escape(strategy_id)}</code></p>"
         f"<p>市场: {html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} | 路径: {html.escape(item['path'])} | 类型: {html.escape(item['winner_type'])} | 调仓频率: {html.escape(rebalance_frequency)} | 实际调整频率类型: {html.escape(adjustment_style)} | 当前建议仓位: {fmt_pct(float(active_view['target_total_exposure']))} | 风险状态: {html.escape(active_view['risk_state'])}</p>"
         + sample_selector
+        + tabs_html
         + f"<div class='card'><h2>当前查看窗口</h2><p>{html.escape(active_sample_label)}：{html.escape(active_sample_start)} → {html.escape(active_sample_end)}</p></div>"
+    )
+    if active_tab == "preview":
+        if preview_frequency == "weekly":
+            preview_body = render_preview_unavailable(
+                "单周策略本身已经按周度收盘数据生成正式信号，不需要额外的 month-end preview；请以“正式建议”页为准。"
+            )
+        elif preview_frequency == "biweekly":
+            preview_body = render_preview_unavailable(
+                "双周策略按双周信号节奏更新，当前不生成 month-end preview；请以“正式建议”页为准。"
+            )
+        else:
+            preview_body = render_month_end_preview(preview_payload, official_weights_for_preview)
+        body = header_html + preview_body
+        return render_page("策略详情", body)
+
+    body = (
+        header_html
         + strategy_detail_explanation_html(item, active_view, schedule_kind, active_sample_label)
         + (
             "<div class='card' style='margin-top:16px'><h2>当前建议时点</h2>"
@@ -3312,7 +3489,8 @@ class Handler(BaseHTTPRequestHandler):
                 query = parse_qs(parsed.query)
                 history_window_key = (query.get("history_window") or ["all"])[0]
                 sample_view_tag = (query.get("sample_view") or [""])[0]
-                self._html(strategy_detail_html(strategy_id, history_window_key=history_window_key, sample_view_tag=sample_view_tag))
+                tab = (query.get("tab") or ["official"])[0]
+                self._html(strategy_detail_html(strategy_id, history_window_key=history_window_key, sample_view_tag=sample_view_tag, tab=tab))
                 return
             if path == "/accounts":
                 self._html(accounts_html())

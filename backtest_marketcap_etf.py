@@ -40,6 +40,7 @@ PRIMARY_SAMPLE_START = pd.Timestamp("2020-01-01")
 ROBUSTNESS_SAMPLE_START = pd.Timestamp("2017-01-01")
 SHORT_SAMPLE_START = pd.Timestamp("2023-01-01")
 VERY_SHORT_SAMPLE_START = pd.Timestamp("2025-01-01")
+YTD_SAMPLE_START = pd.Timestamp("2026-01-01")
 BACKTEST_SAMPLE_WINDOWS = [
     {
         "sample_tag": "since_2020_01",
@@ -67,6 +68,13 @@ BACKTEST_SAMPLE_WINDOWS = [
         "sample_label": "2025-01 起",
         "sample_short_label": "2025-01",
         "sample_start": VERY_SHORT_SAMPLE_START,
+        "is_primary_sample": False,
+    },
+    {
+        "sample_tag": "since_2026_01",
+        "sample_label": "2026-01 起",
+        "sample_short_label": "2026-01",
+        "sample_start": YTD_SAMPLE_START,
         "is_primary_sample": False,
     },
 ]
@@ -1943,6 +1951,106 @@ WINNER_CORE_VARIANTS = [
         "fast_promotion_min_amount_surge_ratio": 1.08,
         "market_risk_off_rule": "negative_mom",
         "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.40,
+        "satellite_risk_off_exposure": 0.40,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.95,
+    },
+    {
+        "variant_id": "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_caution80_cap95",
+        "variant_name": "进攻1/99 晋升2只(量价晋升前15%, 动量三档保留40%, 晋升保留前60%, 恢复确认75, 谨慎仓80/55, 单票95%)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "standard_promotion_min_momentum_6_1_rank": 0.75,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_momentum_6_1_rank": 0.85,
+        "fast_promotion_min_recent_1m_return": 0.01,
+        "fast_promotion_min_amount_surge_ratio": 1.10,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_caution_exposure": 0.80,
+        "satellite_caution_exposure": 0.55,
+        "core_risk_off_exposure": 0.40,
+        "satellite_risk_off_exposure": 0.40,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.95,
+    },
+    {
+        "variant_id": "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_caution80_cap95",
+        "variant_name": "进攻2/98 晋升2只(量价晋升前15%, 动量三档保留40%, 晋升保留前60%, 恢复确认75, 谨慎仓80/55, 单票95%)",
+        "winner_core_stable_share": 0.02,
+        "winner_core_promoted_share": 0.98,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "standard_promotion_min_momentum_6_1_rank": 0.75,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_momentum_6_1_rank": 0.85,
+        "fast_promotion_min_recent_1m_return": 0.01,
+        "fast_promotion_min_amount_surge_ratio": 1.10,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_caution_exposure": 0.80,
+        "satellite_caution_exposure": 0.55,
+        "core_risk_off_exposure": 0.40,
+        "satellite_risk_off_exposure": 0.40,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.95,
+    },
+    {
+        "variant_id": "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_caution80_cap95",
+        "variant_name": "进攻1/99 晋升2只(量价晋升前15%, 动量三档保留40%, 晋升保留前60%, 恢复确认70, 谨慎仓80/55, 单票95%)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "standard_promotion_min_momentum_6_1_rank": 0.70,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_momentum_6_1_rank": 0.82,
+        "fast_promotion_min_recent_1m_return": 0.005,
+        "fast_promotion_min_amount_surge_ratio": 1.08,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_caution_exposure": 0.80,
+        "satellite_caution_exposure": 0.55,
+        "core_risk_off_exposure": 0.40,
+        "satellite_risk_off_exposure": 0.40,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.95,
+    },
+    {
+        "variant_id": "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_caution80_cap95",
+        "variant_name": "进攻2/98 晋升2只(量价晋升前15%, 动量三档保留40%, 晋升保留前60%, 恢复确认70, 谨慎仓80/55, 单票95%)",
+        "winner_core_stable_share": 0.02,
+        "winner_core_promoted_share": 0.98,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "standard_promotion_min_momentum_6_1_rank": 0.70,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_momentum_6_1_rank": 0.82,
+        "fast_promotion_min_recent_1m_return": 0.005,
+        "fast_promotion_min_amount_surge_ratio": 1.08,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_caution_exposure": 0.80,
+        "satellite_caution_exposure": 0.55,
         "core_risk_off_exposure": 0.40,
         "satellite_risk_off_exposure": 0.40,
         "promoted_core_sell_exit_percentile": 0.60,
@@ -3965,6 +4073,10 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap95",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95",
             "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95",
+            "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_caution80_cap95",
+            "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_caution80_cap95",
+            "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_caution80_cap95",
+            "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_caution80_cap95",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95",
             "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk30_or_cap95",
@@ -4176,6 +4288,10 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap95",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95",
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95",
+    "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_caution80_cap95",
+    "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_caution80_cap95",
+    "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_caution80_cap95",
+    "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_caution80_cap95",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95",
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk30_or_cap95",
@@ -4400,7 +4516,7 @@ INDEX_DIR = CACHE_DIR / "index_daily"
 INDEX_WEIGHT_DIR = CACHE_DIR / "index_weight"
 FACTOR_PANEL_DIR = CACHE_DIR / "monthly_factor_cache"
 PREPARED_PANEL_DIR = CACHE_DIR / "prepared_panel_cache"
-PREPARED_CACHE_VERSION = "v1"
+PREPARED_CACHE_VERSION = "v2"
 
 
 @dataclass
@@ -4431,6 +4547,7 @@ class PreparedData:
     daily_amount: pd.DataFrame
     financials_by_code: Dict[str, pd.DataFrame]
     month_end_dates: List[pd.Timestamp]
+    monthly_period_end_dates: List[pd.Timestamp]
     month_start_dates: List[pd.Timestamp]
     week_end_dates: List[pd.Timestamp]
     code_to_name: Dict[str, str]
@@ -4929,16 +5046,37 @@ def load_or_fetch_index_weight(pro, index_code: str, start_date: pd.Timestamp, e
     return index_weight
 
 
-def build_month_boundaries(calendar: pd.DataFrame) -> Tuple[List[pd.Timestamp], List[pd.Timestamp], List[pd.Timestamp], pd.Index]:
+def build_month_boundaries(
+    calendar: pd.DataFrame,
+    formal_calendar: pd.DataFrame | None = None,
+) -> Tuple[List[pd.Timestamp], List[pd.Timestamp], List[pd.Timestamp], pd.Index, List[pd.Timestamp]]:
     open_calendar = calendar.loc[calendar["is_open"] == 1, ["cal_date"]].copy()
     open_calendar = open_calendar.sort_values("cal_date").reset_index(drop=True)
     open_calendar["month"] = open_calendar["cal_date"].dt.to_period("M")
     open_calendar["week"] = open_calendar["cal_date"].dt.to_period("W-FRI")
-    month_end_dates = open_calendar.groupby("month")["cal_date"].max().sort_values().tolist()
+    latest_usable_date = pd.Timestamp(open_calendar["cal_date"].max()) if not open_calendar.empty else None
+    if formal_calendar is not None and latest_usable_date is not None:
+        formal_open_calendar = formal_calendar.loc[formal_calendar["is_open"] == 1, ["cal_date"]].copy()
+        formal_open_calendar = formal_open_calendar.sort_values("cal_date").reset_index(drop=True)
+        formal_open_calendar["month"] = formal_open_calendar["cal_date"].dt.to_period("M")
+        formal_calendar_end = pd.Timestamp(formal_open_calendar["cal_date"].max()).normalize()
+        formal_month_end_table = formal_open_calendar.groupby("month")["cal_date"].max().sort_index()
+        month_end_dates = []
+        for month, date in formal_month_end_table.items():
+            calendar_month_end = pd.Period(month, freq="M").to_timestamp(how="end").normalize()
+            if calendar_month_end <= formal_calendar_end and pd.Timestamp(date) <= latest_usable_date:
+                month_end_dates.append(pd.Timestamp(date))
+    else:
+        month_end_dates = open_calendar.groupby("month")["cal_date"].max().sort_values().tolist()
+    monthly_period_end_dates = list(month_end_dates)
+    if latest_usable_date is not None and (
+        not monthly_period_end_dates or latest_usable_date > monthly_period_end_dates[-1]
+    ):
+        monthly_period_end_dates.append(latest_usable_date)
     month_start_dates = open_calendar.groupby("month")["cal_date"].min().sort_values().tolist()
     week_end_dates = open_calendar.groupby("week")["cal_date"].max().sort_values().tolist()
     full_calendar_index = pd.Index(open_calendar["cal_date"], name="trade_date")
-    return month_end_dates, month_start_dates, week_end_dates, full_calendar_index
+    return month_end_dates, month_start_dates, week_end_dates, full_calendar_index, monthly_period_end_dates
 
 
 def build_index_memberships_for_dates(index_weight_df: pd.DataFrame, signal_dates: List[pd.Timestamp]) -> Dict[pd.Timestamp, Set[str]]:
@@ -5063,6 +5201,7 @@ def build_monthly_panel(
     normalized_codes: List[str],
     stock_basic: pd.DataFrame,
     calendar: pd.DataFrame,
+    formal_calendar: pd.DataFrame | None,
     per_stock_frames: Dict[str, Dict[str, pd.DataFrame]],
     financials_by_code: Dict[str, pd.DataFrame],
     market_index_df: pd.DataFrame,
@@ -5072,7 +5211,13 @@ def build_monthly_panel(
     explore_index_weights_by_date: Dict[pd.Timestamp, pd.Series],
     data_warnings: List[str],
 ) -> PreparedData:
-    month_end_dates, month_start_dates, week_end_dates, full_calendar_index = build_month_boundaries(calendar)
+    (
+        month_end_dates,
+        month_start_dates,
+        week_end_dates,
+        full_calendar_index,
+        monthly_period_end_dates,
+    ) = build_month_boundaries(calendar, formal_calendar=formal_calendar)
 
     price_frames = []
     mv_frames = []
@@ -5159,6 +5304,7 @@ def build_monthly_panel(
         daily_amount=daily_amount,
         financials_by_code=financials_by_code,
         month_end_dates=month_end_dates,
+        monthly_period_end_dates=monthly_period_end_dates,
         month_start_dates=month_start_dates,
         week_end_dates=week_end_dates,
         code_to_name=code_to_name,
@@ -5477,11 +5623,15 @@ def compute_market_exposure(
 
 
 def build_factor_cache_path(prepared: PreparedData) -> Path:
+    latest_signal_date = max(
+        [pd.Timestamp(date) for date in list(prepared.month_end_dates) + list(prepared.week_end_dates)]
+    )
     cache_key = "_".join(
         [
             FACTOR_CACHE_VERSION,
             prepared.month_end_dates[0].strftime("%Y%m%d"),
             prepared.month_end_dates[-1].strftime("%Y%m%d"),
+            latest_signal_date.strftime("%Y%m%d"),
             str(len(prepared.code_to_name)),
         ]
     )
@@ -5498,7 +5648,7 @@ def get_rebalance_signal_dates(prepared: PreparedData, rebalance_frequency: str)
         return list(prepared.week_end_dates)
     if freq == "biweekly":
         return [date for idx, date in enumerate(prepared.week_end_dates) if idx % 2 == 1]
-    return list(prepared.month_end_dates)
+    return list(prepared.monthly_period_end_dates)
 
 
 def get_next_trading_day(trading_dates: pd.Index, signal_date: pd.Timestamp) -> pd.Timestamp | None:
@@ -5542,7 +5692,15 @@ def load_prepared_cache(path: Path) -> PreparedData | None:
     prepared = payload.get("prepared")
     if not isinstance(prepared, PreparedData):
         return None
-    required_attrs = ["week_end_dates", "market_weekly_close", "month_end_dates", "price_exact", "price_ffill", "total_mv"]
+    required_attrs = [
+        "week_end_dates",
+        "market_weekly_close",
+        "month_end_dates",
+        "monthly_period_end_dates",
+        "price_exact",
+        "price_ffill",
+        "total_mv",
+    ]
     if any(not hasattr(prepared, attr) for attr in required_attrs):
         return None
     prepared.monthly_factor_cache = None
@@ -5559,6 +5717,7 @@ def save_prepared_cache(prepared: PreparedData, path: Path) -> None:
         daily_amount=prepared.daily_amount,
         financials_by_code=prepared.financials_by_code,
         month_end_dates=prepared.month_end_dates,
+        monthly_period_end_dates=prepared.monthly_period_end_dates,
         month_start_dates=prepared.month_start_dates,
         week_end_dates=prepared.week_end_dates,
         code_to_name=prepared.code_to_name,
@@ -7033,7 +7192,10 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
     stock_basic = load_or_fetch_stock_basic(pro)
     calendar = load_or_fetch_trade_calendar(pro, data_start_date, end_date)
     usable_calendar = calendar.loc[pd.to_datetime(calendar["cal_date"]) <= end_date].copy()
-    month_end_dates, _, week_end_dates, _ = build_month_boundaries(usable_calendar)
+    month_end_dates, _, week_end_dates, _, monthly_period_end_dates = build_month_boundaries(
+        usable_calendar,
+        formal_calendar=calendar,
+    )
     signal_dates = sorted(
         {
             date
@@ -7084,6 +7246,7 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
         prepared_cached.core_index_weights_by_date = core_index_weights_by_date
         prepared_cached.explore_index_weights_by_date = explore_index_weights_by_date
         prepared_cached.month_end_dates = month_end_dates
+        prepared_cached.monthly_period_end_dates = monthly_period_end_dates
         prepared_cached.week_end_dates = week_end_dates
         factor_cache_path = build_factor_cache_path(prepared_cached)
         monthly_factor_cache = load_monthly_factor_cache(factor_cache_path)
@@ -7117,6 +7280,7 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
         normalized_codes,
         stock_basic,
         usable_calendar,
+        calendar,
         per_stock_frames,
         financials_by_code,
         market_index_df,
@@ -7285,6 +7449,275 @@ def update_promoted_core_state(
         "demoted_count": len(demoted_codes),
     }
     return next_promoted_core_codes, next_promoted_core_ages, promotion_streaks, demotion_streaks, status
+
+
+def _weights_to_preview_holdings(
+    weights: pd.Series,
+    cash_weight: float,
+    *,
+    price_ffill: pd.DataFrame,
+    signal_date: pd.Timestamp,
+    code_to_name: Dict[str, str],
+) -> List[Dict[str, object]]:
+    rows: List[Dict[str, object]] = []
+    price_row = price_ffill.loc[signal_date] if signal_date in price_ffill.index else pd.Series(dtype=float)
+    for ts_code, weight in weights.sort_values(ascending=False).items():
+        latest_price = price_row.get(ts_code, np.nan)
+        rows.append(
+            {
+                "ts_code": str(ts_code),
+                "name": str(code_to_name.get(str(ts_code), "")),
+                "weight": float(weight),
+                "latest_price": float(latest_price) if pd.notna(latest_price) else None,
+            }
+        )
+    if cash_weight > 1e-12:
+        rows.append({"ts_code": "CASH", "name": "现金", "weight": float(cash_weight), "latest_price": None})
+    return rows
+
+
+def build_month_end_preview_payload(
+    *,
+    prepared: PreparedData,
+    strategy_config: Dict[str, object],
+    signal_date: pd.Timestamp,
+    formal_signal_date: pd.Timestamp | None,
+    positions: pd.Series,
+    promoted_core_codes: Set[str],
+    promoted_core_ages: Dict[str, int],
+    pure_core_watch_streaks: Dict[str, int],
+) -> Dict[str, object] | None:
+    factor_cache = prepared.monthly_factor_cache
+    if factor_cache is None:
+        return None
+    standard_eligible_codes = factor_cache.standard_eligible_codes_by_date.get(signal_date, [])
+    seed_eligible_codes = factor_cache.seed_eligible_codes_by_date.get(signal_date, [])
+    if not standard_eligible_codes and not seed_eligible_codes:
+        return None
+
+    eligible_codes = seed_eligible_codes
+    raw_weights = factor_cache.signal_mvs_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+    avg_daily_amount = factor_cache.avg_daily_amount_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+    amount_surge_ratio = factor_cache.amount_surge_ratio_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+    actual_core_members = prepared.core_members_by_date.get(signal_date, set())
+    actual_explore_members = prepared.explore_members_by_date.get(signal_date, set())
+    core_universe_codes = set(actual_core_members) | set(promoted_core_codes)
+    explore_universe_codes = set(actual_explore_members) - set(promoted_core_codes)
+
+    core_signal_scores = factor_cache.core_signal_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+    momentum_6_1 = factor_cache.momentum_6_1_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+    momentum_3_1 = factor_cache.momentum_3_1_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+    recent_1m_returns = factor_cache.recent_1m_returns_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+    breakout_signal = factor_cache.breakout_signal_by_date.get(signal_date, pd.Series(dtype=bool)).copy()
+    quality_scores = factor_cache.quality_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+    growth_quality_scores = factor_cache.growth_quality_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+    growth_acceleration_scores = factor_cache.growth_acceleration_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+    industry_strength_scores = factor_cache.industry_strength_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+    industry_leader_scores = factor_cache.industry_leader_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+
+    core_signal_mode = str(strategy_config.get("core_signal_mode", "") or "").strip()
+    if core_signal_mode == "6_1":
+        core_signal_scores = momentum_6_1.copy()
+    elif core_signal_mode == "3_1":
+        core_signal_scores = momentum_3_1.copy()
+    elif core_signal_mode == "theme":
+        core_signal_scores = blend_ranked_components(
+            [
+                (growth_acceleration_scores, 0.30),
+                (industry_strength_scores, 0.25),
+                (industry_leader_scores, 0.20),
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.15),
+                (safe_percentile_rank(momentum_3_1, ascending=True), 0.10),
+            ]
+        )
+    elif core_signal_mode == "industry_trend":
+        core_signal_scores = blend_ranked_components(
+            [
+                (industry_strength_scores, 0.30),
+                (industry_leader_scores, 0.25),
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.25),
+                (safe_percentile_rank(momentum_3_1, ascending=True), 0.15),
+                (breakout_signal.astype(float), 0.05),
+            ]
+        )
+    elif core_signal_mode == "midcycle_momentum":
+        core_signal_scores = blend_ranked_components(
+            [
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.40),
+                (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.20),
+                (safe_percentile_rank(recent_1m_returns, ascending=True), 0.15),
+                (industry_leader_scores, 0.15),
+                (breakout_signal.astype(float), 0.10),
+            ]
+        )
+    elif core_signal_mode == "multi_factor":
+        factor_weights = _validated_multi_factor_weights(strategy_config.get("factor_weights"))
+        core_signal_scores = blend_ranked_components(
+            [
+                (safe_percentile_rank(momentum_6_1, ascending=True), factor_weights.get("momentum_6_1", 0.0)),
+                (safe_percentile_rank(momentum_3_1, ascending=True), factor_weights.get("momentum_3_1", 0.0)),
+                (quality_scores, factor_weights.get("quality", 0.0)),
+                (growth_acceleration_scores, factor_weights.get("growth_acceleration", 0.0)),
+                (industry_strength_scores, factor_weights.get("industry_strength", 0.0)),
+                (industry_leader_scores, factor_weights.get("industry_leader", 0.0)),
+                (safe_percentile_rank(amount_surge_ratio, ascending=True), factor_weights.get("liquidity_surge", 0.0)),
+            ]
+        )
+
+    explore_signal_scores = blend_ranked_components(
+        [
+            (industry_strength_scores, 0.40),
+            (industry_leader_scores, 0.25),
+            (safe_percentile_rank(momentum_6_1, ascending=True), 0.20),
+            (safe_percentile_rank(momentum_3_1, ascending=True), 0.10),
+            (breakout_signal.astype(float), 0.05),
+        ]
+    )
+    seed_signal_scores = blend_ranked_components(
+        [
+            (industry_strength_scores, 0.30),
+            (industry_leader_scores, 0.30),
+            (safe_percentile_rank(momentum_3_1, ascending=True), 0.15),
+            (safe_percentile_rank(recent_1m_returns, ascending=True), 0.10),
+            (breakout_signal.astype(float), 0.10),
+            (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.05),
+        ]
+    )
+
+    strategy_kind = str(strategy_config.get("strategy_kind", "core_explore"))
+    market_close_series = prepared.market_monthly_close.copy()
+    if signal_date not in market_close_series.index and signal_date in prepared.market_weekly_close.index:
+        market_close_series.loc[signal_date] = float(prepared.market_weekly_close.loc[signal_date])
+        market_close_series = market_close_series.sort_index()
+    market_regime = compute_market_exposure(
+        market_close_series,
+        signal_date,
+        risk_off_rule=strategy_config.get("market_risk_off_rule", "or"),
+        risk_staging_mode=strategy_config.get("risk_staging_mode", "two_stage"),
+        core_risk_off_exposure=float(strategy_config.get("core_risk_off_exposure", CORE_RISK_OFF_EXPOSURE)),
+        core_risk_on_exposure=float(strategy_config.get("core_risk_on_exposure", CORE_RISK_ON_EXPOSURE)),
+        core_caution_exposure=float(strategy_config.get("core_caution_exposure", CORE_CAUTION_EXPOSURE)),
+        satellite_risk_off_exposure=float(strategy_config.get("satellite_risk_off_exposure", SATELLITE_RISK_OFF_EXPOSURE)),
+        satellite_risk_on_exposure=float(strategy_config.get("satellite_risk_on_exposure", SATELLITE_RISK_ON_EXPOSURE)),
+        satellite_caution_exposure=float(strategy_config.get("satellite_caution_exposure", SATELLITE_CAUTION_EXPOSURE)),
+    )
+    if strategy_kind == "pure_core_growth":
+        market_regime = {
+            "risk_off": False,
+            "risk_stage": "risk_on",
+            "market_12_1_momentum": np.nan,
+            "market_below_10m_ma": False,
+            "core_target_exposure": 1.0,
+            "satellite_target_exposure": 0.0,
+            "portfolio_target_exposure": 1.0,
+        }
+
+    currently_held_codes = set(positions.index)
+    base_weight_method = str(strategy_config["base_weight_method"])
+    if base_weight_method == "index_weight":
+        base_weights = pd.concat(
+            [
+                prepared.core_index_weights_by_date.get(signal_date, pd.Series(dtype=float)),
+                prepared.explore_index_weights_by_date.get(signal_date, pd.Series(dtype=float)),
+            ]
+        ).groupby(level=0).sum()
+        base_weights = base_weights.reindex(eligible_codes).dropna()
+    elif base_weight_method == "equal_weight":
+        base_weights = pd.Series(1.0, index=pd.Index(eligible_codes, name="ts_code"), dtype=float)
+    else:
+        base_weights = raw_weights.copy()
+
+    if strategy_kind == "pure_core_growth":
+        pure_core_signal_scores = blend_ranked_components(
+            [
+                (growth_acceleration_scores, 0.30),
+                (industry_strength_scores, 0.20),
+                (industry_leader_scores, 0.20),
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.10),
+                (safe_percentile_rank(momentum_3_1, ascending=True), 0.10),
+                (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.05),
+                (breakout_signal.astype(float), 0.05),
+            ]
+        )
+        preview_watch_streaks = dict(pure_core_watch_streaks)
+        watch_pool = set(
+            pure_core_signal_scores.sort_values(ascending=False).head(
+                max(1, math.ceil(int(strategy_config["pure_core_max_holdings"]) * PURE_CORE_OBSERVATION_BUFFER_MULTIPLIER))
+            ).index
+        )
+        preview_watch_streaks = update_streak_map(
+            preview_watch_streaks,
+            positive_codes=watch_pool,
+            tracked_codes=set(preview_watch_streaks) | watch_pool | currently_held_codes,
+        )
+        raw_target_weights, selection_stats = build_pure_core_growth_weights(
+            base_weights=base_weights.reindex(seed_eligible_codes).dropna(),
+            avg_daily_amount=avg_daily_amount,
+            pure_core_signal_scores=pure_core_signal_scores,
+            growth_quality_scores=growth_quality_scores,
+            recent_1m_returns=recent_1m_returns,
+            breakout_signal=breakout_signal,
+            currently_held_codes=currently_held_codes,
+            core_watch_streaks=preview_watch_streaks,
+            max_holdings=int(strategy_config["pure_core_max_holdings"]),
+        )
+    else:
+        raw_target_weights, selection_stats = build_core_explore_target_weights(
+            base_weights=base_weights,
+            avg_daily_amount=avg_daily_amount,
+            core_signal_scores=core_signal_scores,
+            explore_signal_scores=explore_signal_scores,
+            seed_signal_scores=seed_signal_scores,
+            recent_1m_returns=recent_1m_returns,
+            quality_scores=quality_scores,
+            breakout_signal=breakout_signal,
+            currently_held_codes=currently_held_codes,
+            core_ratio=float(strategy_config["core_ratio"]),
+            explore_ratio=float(strategy_config["explore_ratio"]),
+            core_target_exposure=float(market_regime["core_target_exposure"]),
+            satellite_target_exposure=float(market_regime["satellite_target_exposure"]),
+            core_universe_codes=core_universe_codes,
+            actual_core_members=actual_core_members,
+            explore_universe_codes=explore_universe_codes,
+            promoted_core_codes=set(promoted_core_codes),
+            promoted_core_ages=dict(promoted_core_ages),
+            core_source_mode=str(strategy_config["core_source_mode"]),
+            standard_eligible_codes=set(standard_eligible_codes),
+            seed_eligible_codes=set(seed_eligible_codes),
+            winner_core_stable_share=float(strategy_config.get("winner_core_stable_share", WINNER_CORE_STABLE_SHARE)),
+            winner_core_promoted_share=float(strategy_config.get("winner_core_promoted_share", WINNER_CORE_PROMOTED_SHARE)),
+            stable_core_max_holdings=int(strategy_config.get("stable_core_max_holdings", STABLE_CORE_MAX_HOLDINGS)),
+            promoted_core_max_holdings=int(strategy_config.get("promoted_core_max_holdings", PROMOTED_CORE_MAX_HOLDINGS)),
+            promoted_core_stage_ramp=strategy_config.get("promoted_core_stage_ramp", None),
+            promoted_core_sell_exit_percentile=float(strategy_config.get("promoted_core_sell_exit_percentile", 1.0)),
+        )
+    weight_cap = float(strategy_config.get("weight_cap", WEIGHT_CAP))
+    if not np.isfinite(weight_cap) or weight_cap <= 0:
+        weight_cap = WEIGHT_CAP
+    target_weights, target_cash_weight = apply_weight_cap_with_redistribution(raw_target_weights, cap=min(1.0, weight_cap))
+    return {
+        "mode": "month_end_preview",
+        "status": "available",
+        "preview_as_of": signal_date.strftime("%Y-%m-%d"),
+        "formal_signal_date": formal_signal_date.strftime("%Y-%m-%d") if formal_signal_date is not None else None,
+        "note": "月中观察口径：使用当日收盘数据模拟“如果今天是月末”的候选组合，不进入正式回测收益、winner 或 core_active 规则。",
+        "target_total_exposure": float(max(0.0, 1.0 - target_cash_weight)),
+        "risk_state": str(market_regime.get("risk_stage") or ("risk_off" if market_regime.get("risk_off") else "risk_on")),
+        "market_momentum": float(market_regime["market_12_1_momentum"]) if pd.notna(market_regime.get("market_12_1_momentum")) else None,
+        "selected_count": int(len(target_weights)),
+        "selection_counts": {
+            key: int(value)
+            for key, value in selection_stats.items()
+            if key.endswith("_count") and isinstance(value, (int, np.integer))
+        },
+        "holdings": _weights_to_preview_holdings(
+            target_weights,
+            target_cash_weight,
+            price_ffill=prepared.price_ffill,
+            signal_date=signal_date,
+            code_to_name=prepared.code_to_name,
+        ),
+    }
 
 
 def run_backtest(
@@ -7826,6 +8259,29 @@ def run_backtest(
     )
 
     metrics = compute_metrics(equity_curve, monthly_returns, turnover, rebalance_frequency=rebalance_frequency)
+    latest_formal_signal_date = None
+    if rebalance_frequency == "monthly":
+        formal_signal_dates = [date for date in prepared.month_end_dates if date <= realized_schedule_end]
+        latest_formal_signal_date = formal_signal_dates[-1] if formal_signal_dates else None
+    is_provisional_period_end = (
+        rebalance_frequency == "monthly"
+        and latest_formal_signal_date is not None
+        and realized_schedule_end > latest_formal_signal_date
+    )
+    month_end_preview = (
+        build_month_end_preview_payload(
+            prepared=prepared,
+            strategy_config=strategy_config,
+            signal_date=realized_schedule_end,
+            formal_signal_date=latest_formal_signal_date,
+            positions=positions,
+            promoted_core_codes=promoted_core_codes,
+            promoted_core_ages=promoted_core_ages,
+            pure_core_watch_streaks=pure_core_watch_streaks,
+        )
+        if is_provisional_period_end
+        else None
+    )
 
     latest_weights = pd.DataFrame(columns=["ts_code", "name", "weight"])
     latest_nav = float(positions.sum() + cash_value)
@@ -7861,6 +8317,10 @@ def run_backtest(
     summary = {
         "sample_start": sample_start.strftime("%Y-%m-%d"),
         "sample_end": realized_schedule_end.strftime("%Y-%m-%d"),
+        "latest_valuation_date": realized_schedule_end.strftime("%Y-%m-%d"),
+        "latest_formal_signal_date": latest_formal_signal_date.strftime("%Y-%m-%d") if latest_formal_signal_date is not None else None,
+        "is_provisional_period_end": bool(is_provisional_period_end),
+        "month_end_preview": month_end_preview or {},
         "sample_tag": sample_tag,
         "sample_label": sample_label,
         "sample_short_label": sample_short_label,
@@ -7877,7 +8337,7 @@ def run_backtest(
         "core_source_name": str(strategy_config["core_source_name"]),
         "rebalance_frequency": rebalance_frequency,
         "signal_date_rule": (
-            "使用每个月最后一个交易日的 total_mv 与前复权价格"
+            "正式月度信号仅使用完整月份的最后一个交易日；若回测截止在月中，最新交易日只作为估值终点，不产生新的月度换股信号"
             if rebalance_frequency == "monthly"
             else ("使用每两周最后一个交易日的信号点与最新前复权价格" if rebalance_frequency == "biweekly" else "使用每周最后一个交易日的信号点与最新前复权价格")
         ),
