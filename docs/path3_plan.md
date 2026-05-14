@@ -3,6 +3,15 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-14 09:13 CST）
+
+- 本轮研究守卫收尾 coverage gate 为 `pass`，Path 3 pure weekly universe 继续为 `30` 个四窗口完整候选；收尾 rotation 为 `stagnation_runs=11 / recommended_focus=cost_stress`。
+- 复跑 `.venv/bin/python scripts/update_weighted_winners.py` 后，Path 3 继续只使用纯 `_weekly` 口径；Path 1 周度仓位 overlay 与 Path 2 月频候选没有混入本路径。
+- Path 3 tracked winners 未换身份：2017 `core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly`，2020 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`，2023/2025 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly`。
+- 最新指标分别为 `23.85% / 15.42% / 36.91% / 52.85% CAGR`；2020 窗口仍是主要短板，且 raw 2025 的 `aggr_01_99_prom1...cap100_weekly` 继续因 2023 验证窗口失效被拒绝。
+- 四窗口鲁棒候选仍为 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_weekly`，`meanCAGR=23.88% / minCAGR=16.12% / worstMaxDD=-46.64% / meanTurn=11.00`。
+- 下一轮只做交易成本压力与换手敏感性验证；短窗爆发型 `_weekly` 候选继续单独记录，不回并到 Path 2。
+
 ## 本轮执行计划（2026-05-14 03:17 CST）
 
 - 本轮 guard 覆盖率为 `pass`，Path 3 pure weekly universe 继续为 `30` 个四窗口完整候选；收盘 guard 将 Path 3 rotation 推进到 `stagnation_runs=9 / recommended_focus=cost_stress`。

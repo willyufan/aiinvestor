@@ -4,6 +4,16 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-14 09:13 CST）
+
+- 本轮起止两次运行 `.venv/bin/python scripts/research_iteration_guard.py`，收尾 coverage gate 为 `pass`，blocking/warning 均为 `0`；Path 4-lite/core_multifactor 9 个 base candidate 已完整覆盖 `since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01 / since_2026_01`。
+- 收尾 rotation 继续为 `stagnation_runs=11 / recommended_focus=holding_shape / rotation_status=rotate`，因此本轮不继续扩大旧 `weekly_exposure` 邻域，只记录持仓形态与多因子固定观察项的验证结果。
+- 复跑 `.venv/bin/python scripts/winner_only_pass.py` 后，快筛口径仍为 `as_of=2026-05-13 / base_candidates=33 / total_candidates=297 / evaluated=179`；方向数为 `promotion_ramp=5 / satellite_defense=5 / signal_variants=2 / core_multifactor=9 / holding_shape=7 / supporting_variants=4`。
+- raw clear 仍只出现在 `since_2017_01` 与 `since_2025_01`：2017 clear 为 `aggr_10_90_fast_ramp_cash_off__port_weekly_exposure`，`26.03% CAGR / -23.65% MaxDD / 1.0963 Sharpe / 0.79 Turnover`；2025 clear 为 `aggr_08_92_prom6_core_6_1__sat_three_stage_buffered`，`96.47% / -8.73% / 2.2272 / 1.29`。
+- 验证口径未改写 Path 1 四窗口 winner：2017 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6`，2020/2023/2025 仍为 `core_explore_80_20_total_mv_winner_core`，指标为 `23.30% / 25.67% / 31.71% / 87.17% CAGR`。
+- 四窗口鲁棒候选仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`，`meanCAGR=49.23% / minCAGR=27.41% / worstMaxDD=-29.23% / meanTurn=4.07`。
+- core_multifactor 继续只作为 Path 1 固定验证项：当前 raw best 为 `aggr_05_95_prom7_core_multifactor_balanced` 的 2023 窗口 `34.35% CAGR`，但回撤/换手与验证规则不足以改写 tracked winner；下一轮仍按 `holding_shape` 优先比较持仓形态和低成本周度防守。
+
 ## 本轮执行计划（2026-05-14 03:17 CST）
 
 - 本轮 guard 覆盖率为 `pass`，Path 4-lite/core_multifactor 9 个 base candidate 已完整覆盖 `since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01 / since_2026_01`；收盘 guard 将 Path 1 rotation 推进到 `stagnation_runs=9 / recommended_focus=holding_shape`。
