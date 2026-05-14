@@ -1970,6 +1970,118 @@ def short_date(value: object) -> str:
     return text[:10] if len(text) >= 10 else ""
 
 
+def metric_value(metrics: dict, *keys: str, default: float = 0.0) -> float:
+    for key in keys:
+        if key in metrics and metrics.get(key) is not None:
+            try:
+                return float(metrics[key])
+            except (TypeError, ValueError):
+                continue
+    return default
+
+
+def sample_view_for_card(item: dict, sample_tag: str = "") -> dict:
+    sample_views = item.get("sample_views") or {}
+    if sample_tag and isinstance(sample_views, dict):
+        view = sample_views.get(sample_tag)
+        if isinstance(view, dict):
+            return view
+    return item
+
+
+def strategy_card_html(
+    item: dict,
+    extra_note: str = "",
+    sample_tag: str = "",
+    leading_badges: str = "",
+    metrics_override: dict | None = None,
+    show_winner_tags: bool = True,
+) -> str:
+    view = sample_view_for_card(item, sample_tag)
+    metrics = dict(view.get("summary_metrics") or item.get("summary_metrics") or {})
+    if metrics_override:
+        metrics.update({key: value for key, value in metrics_override.items() if value is not None})
+    strategy_id = str(item.get("strategy_id") or "")
+    display_name = str(item.get("display_name") or strategy_id)
+    winner_tags = item.get("winner_tags") or []
+    is_robust = any(str(t).split(":")[-1] == "robust candidate" for t in winner_tags)
+    windows_text = winner_windows_label(winner_tags) if show_winner_tags else ""
+    data_as_of = str(item.get("data_as_of") or item.get("updated_at") or "")
+    signal_effective_date = str(item.get("signal_effective_date") or item.get("updated_at") or "")
+    formal_schedule = view.get("formal_schedule") or item.get("formal_schedule") or {}
+    if isinstance(formal_schedule, dict):
+        data_as_of = str(formal_schedule.get("data_as_of") or data_as_of)
+        signal_effective_date = str(formal_schedule.get("suggestion_effective_date") or signal_effective_date)
+    risk_state = str(view.get("risk_state") or item.get("risk_state") or "")
+    target_exposure = safe_float(view.get("target_total_exposure", item.get("target_total_exposure")), 0.0)
+    href = f"/strategies/{quote(strategy_id)}"
+    if sample_tag:
+        href += f"?sample_view={quote(sample_tag)}&history_window=all"
+    tags_html = leading_badges
+    if windows_text:
+        robust_suffix = " / 鲁棒" if is_robust else ""
+        tags_html += f"<span class='badge badge-blue' style='margin-right:4px'>窗口 {html.escape(windows_text)}{robust_suffix}</span>"
+    elif is_robust and show_winner_tags:
+        tags_html += "<span class='badge badge-blue' style='margin-right:4px'>鲁棒</span>"
+    tags_html += risk_badge(risk_state)
+    return (
+        f"<a class='strategy-card' href='{html.escape(href)}' aria-label='查看策略 {html.escape(display_name)}'>"
+        f"<div style='margin-bottom:8px'>{tags_html}</div>"
+        f"<h3>{html.escape(display_name)}</h3>"
+        + (f"<p class='muted' style='font-size:12px;margin:4px 0 0'>{html.escape(extra_note)}</p>" if extra_note else "")
+        + f"<div class='metrics-row'>"
+        f"<div><div class='m-label'>CAGR</div><div class='m-val pos'>{fmt_pct(metric_value(metrics, 'cagr'))}</div></div>"
+        f"<div><div class='m-label'>Sharpe</div><div class='m-val'>{metric_value(metrics, 'sharpe_ratio'):.2f}</div></div>"
+        f"<div><div class='m-label'>Max DD</div><div class='m-val neg'>{fmt_pct(metric_value(metrics, 'max_drawdown'))}</div></div>"
+        f"<div><div class='m-label'>总收益</div><div class='m-val'>{fmt_pct(metric_value(metrics, 'total_return'))}</div></div>"
+        f"<div><div class='m-label'>换手率</div><div class='m-val'>{metric_value(metrics, 'average_annual_turnover'):.2f}</div></div>"
+        f"<div><div class='m-label'>仓位</div><div class='m-val'>{fmt_pct(target_exposure)}</div></div>"
+        f"</div>"
+        f"<div class='muted' style='font-size:11px'>{html.escape(adjustment_style_label(item))} · 数据截止 {html.escape(data_as_of)} · 换股/信号 {html.escape(signal_effective_date)}</div>"
+        "</a>"
+    )
+
+
+def path_label(scope: str, path_key: str) -> str:
+    if scope == "hkconnect":
+        labels = {
+            "path1": "Path 1 · 月度+周度风控",
+            "path2": "Path 2 · 高收益探索",
+            "path3": "Path 3 · 周度高频",
+        }
+    else:
+        labels = {
+            "path1": "Path 1 · 稳健路线",
+            "path2": "Path 2 · 高收益探索",
+            "path3": "Path 3 · 周度高频",
+        }
+    return labels.get(path_key, path_key)
+
+
+def leaderboard_order_keys(path_payload: dict) -> list[str]:
+    order = ["since_2017_only", "since_2020_only", "since_2023_only", "since_2025_only"]
+    order += ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01"]
+    return [key for key in order if key in path_payload] + [key for key in path_payload if key not in set(order)]
+
+
+def leaderboard_status_badges(entry: dict) -> str:
+    badges = []
+    if entry.get("is_official_winner"):
+        badges.append("<span class='badge badge-green' style='margin-right:4px'>当前 winner</span>")
+    if entry.get("is_raw_winner") and not entry.get("is_official_winner"):
+        badges.append("<span class='badge badge-amber' style='margin-right:4px'>原始第1</span>")
+    validation = entry.get("validation") or {}
+    if validation:
+        badges.append(
+            "<span class='badge "
+            + ("badge-green" if validation.get("passed") else "badge-amber")
+            + "' style='margin-right:4px'>"
+            + ("验证通过" if validation.get("passed") else "验证未过")
+            + "</span>"
+        )
+    return "".join(badges)
+
+
 def result_path_for(strategy_id: str, sample_tag: str, market_scope: str, filename: str) -> Path:
     base_dir = HK_RESULTS_DIR if market_scope == "hkconnect" else RESULTS_DIR
     return base_dir / f"{strategy_id}__{sample_tag}" / filename
@@ -2564,40 +2676,27 @@ def strategies_html() -> str:
     payload = load_registry()
     registry = payload["strategies"]
     core_active_registry = payload.get("core_active_strategies", [])
+    winner_leaderboards = payload.get("winner_leaderboards") or {}
     groups = {"a_share": [], "hkconnect": []}
     for item in registry:
         groups.setdefault(str(item.get("market_scope", "a_share")), []).append(item)
 
     def strategy_card(item: dict, extra_note: str = "") -> str:
-        metrics = item["summary_metrics"]
-        winner_tags = item.get("winner_tags") or []
-        is_robust = any(str(t).split(":")[-1] == "robust candidate" for t in winner_tags)
-        windows_text = winner_windows_label(winner_tags)
-        data_as_of = str(item.get("data_as_of") or item.get("updated_at") or "")
-        signal_effective_date = str(item.get("signal_effective_date") or item.get("updated_at") or "")
-        href = f"/strategies/{quote(str(item['strategy_id']))}"
-        tags_html = ""
-        if windows_text:
-            robust_suffix = " / 鲁棒" if is_robust else ""
-            tags_html += f"<span class='badge badge-blue' style='margin-right:4px'>窗口 {html.escape(windows_text)}{robust_suffix}</span>"
-        elif is_robust:
-            tags_html += "<span class='badge badge-blue' style='margin-right:4px'>鲁棒</span>"
-        tags_html += risk_badge(item["risk_state"])
+        return strategy_card_html(item, extra_note=extra_note)
+
+    def top5_entry(scope: str, path_key: str) -> str:
+        path_payload = ((winner_leaderboards.get(scope) or {}).get(path_key) or {})
+        if not isinstance(path_payload, dict) or not path_payload:
+            return ""
+        total_entries = sum(len((payload or {}).get("entries") or []) for payload in path_payload.values() if isinstance(payload, dict))
+        if total_entries <= 0:
+            return ""
         return (
-            f"<a class='strategy-card' href='{html.escape(href)}' aria-label='查看策略 {html.escape(item['display_name'])}'>"
-            f"<div style='margin-bottom:8px'>{tags_html}</div>"
-            f"<h3>{html.escape(item['display_name'])}</h3>"
-            + (f"<p class='muted' style='font-size:12px;margin:4px 0 0'>{html.escape(extra_note)}</p>" if extra_note else "")
-            + f"<div class='metrics-row'>"
-            f"<div><div class='m-label'>CAGR</div><div class='m-val pos'>{fmt_pct(float(metrics.get('cagr',0)))}</div></div>"
-            f"<div><div class='m-label'>Sharpe</div><div class='m-val'>{float(metrics.get('sharpe_ratio',0)):.2f}</div></div>"
-            f"<div><div class='m-label'>Max DD</div><div class='m-val neg'>{fmt_pct(float(metrics.get('max_drawdown',0)))}</div></div>"
-            f"<div><div class='m-label'>总收益</div><div class='m-val'>{fmt_pct(float(metrics.get('total_return',0)))}</div></div>"
-            f"<div><div class='m-label'>换手率</div><div class='m-val'>{float(metrics.get('average_annual_turnover',0)):.2f}</div></div>"
-            f"<div><div class='m-label'>仓位</div><div class='m-val'>{fmt_pct(float(item['target_total_exposure']))}</div></div>"
-            f"</div>"
-            f"<div class='muted' style='font-size:11px'>{html.escape(adjustment_style_label(item))} · 数据截止 {html.escape(data_as_of)} · 换股/信号 {html.escape(signal_effective_date)}</div>"
-            "</a>"
+            "<div class='card' style='padding:14px 16px;margin:8px 0 14px'>"
+            "<div style='display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap'>"
+            "<div class='muted' style='font-size:12px'>各窗口候选按当前 winner 规则排序；进入后一次性展开全部 Top 5。</div>"
+            f"<a class='button' href='/strategies/top5?scope={quote(scope)}&path={quote(path_key)}'>查看 Top 5</a>"
+            "</div></div>"
         )
 
     sections = []
@@ -2611,19 +2710,15 @@ def strategies_html() -> str:
             for item in items:
                 path_groups.setdefault(item["path"], []).append(item)
             path_html = ""
-            path_labels = {
-                "path1": "Path 1 · 稳健路线",
-                "path2": "Path 2 · 高收益探索",
-                "path3": "Path 3 · 周度高频",
-            }
             for path_key in ("path1", "path2", "path3"):
                 path_items = path_groups.get(path_key, [])
                 if not path_items:
                     continue
-                path_label = path_labels[path_key]
+                path_title = path_label("a_share", path_key)
                 path_html += (
-                    f"<div style='font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px'>{html.escape(path_label)}</div>"
-                    f"<div class='strategy-grid'>{''.join(strategy_card(it) for it in path_items)}</div>"
+                    f"<div style='font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px'>{html.escape(path_title)}</div>"
+                    + top5_entry("a_share", path_key)
+                    + f"<div class='strategy-grid'>{''.join(strategy_card(it) for it in path_items)}</div>"
                 )
             section_html = (
                 "<div class='page-section'>"
@@ -2634,8 +2729,14 @@ def strategies_html() -> str:
             section_html = (
                 "<div class='page-section'>"
                 "<div class='section-heading'>沪港通策略</div>"
-                f"<div class='strategy-grid'>{''.join(strategy_card(it) for it in items)}</div>"
-                "</div>"
+                + "".join(
+                    f"<div style='font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px'>{html.escape(path_label('hkconnect', path_key))}</div>"
+                    + top5_entry("hkconnect", path_key)
+                    + f"<div class='strategy-grid'>{''.join(strategy_card(it) for it in items if it.get('path') == path_key)}</div>"
+                    for path_key in ("path1", "path2", "path3")
+                    if any(it.get("path") == path_key for it in items)
+                )
+                + "</div>"
             )
         sections.append(section_html)
 
@@ -2666,6 +2767,86 @@ def strategies_html() -> str:
     )
 
     return render_page("策略中心", "<h1>策略中心</h1>" + "".join(sections))
+
+
+def strategy_top5_html(scope: str = "a_share", path_key: str = "path1") -> str:
+    scope = scope if scope in {"a_share", "hkconnect"} else "a_share"
+    path_key = path_key if path_key in {"path1", "path2", "path3"} else "path1"
+    payload = load_registry()
+    path_payload = (((payload.get("winner_leaderboards") or {}).get(scope) or {}).get(path_key) or {})
+    title = f"{market_scope_label(scope)} {path_label(scope, path_key)} Top 5"
+    if not isinstance(path_payload, dict) or not path_payload:
+        body = (
+            f"<h1>{html.escape(title)}</h1>"
+            "<p class='muted'>暂无 Top 5 数据。</p>"
+            "<p><a class='button' href='/strategies'>返回策略中心</a></p>"
+        )
+        return render_page("策略 Top 5", body)
+
+    sections = []
+    for track_key in leaderboard_order_keys(path_payload):
+        leaderboard = path_payload.get(track_key) or {}
+        entries = leaderboard.get("entries") if isinstance(leaderboard, dict) else []
+        if not entries:
+            continue
+        sample_tag = str(leaderboard.get("sample_tag") or "")
+        window_label = str(leaderboard.get("label") or track_key)
+        cards = []
+        for entry in entries[:5]:
+            strategy_id = str(entry.get("strategy_base_id") or entry.get("strategy_id") or "")
+            if not strategy_id:
+                continue
+            try:
+                item = load_strategy_snapshot(strategy_id)
+            except Exception:
+                item = {
+                    "strategy_id": strategy_id,
+                    "display_name": str(entry.get("strategy_base_name") or strategy_id),
+                    "summary_metrics": {},
+                    "target_total_exposure": 0.0,
+                    "risk_state": "",
+                    "adjustment_style": "",
+                    "updated_at": payload.get("as_of", ""),
+                    "winner_tags": [],
+                }
+            metrics = entry.get("metrics") or {}
+            metrics_override = {
+                "cagr": metric_value(metrics, "weighted_cagr", "cagr", "cagr_mean", default=None),
+                "sharpe_ratio": metric_value(metrics, "weighted_sharpe", "sharpe_ratio", "sharpe", "sharpe_mean", default=None),
+                "max_drawdown": metric_value(metrics, "weighted_max_drawdown", "max_drawdown", "max_drawdown_worst", default=None),
+                "average_annual_turnover": metric_value(metrics, "weighted_turnover", "average_annual_turnover", "turnover", "turnover_mean", default=None),
+            }
+            if "total_return" in metrics:
+                metrics_override["total_return"] = metric_value(metrics, "total_return", default=None)
+            rank = int(entry.get("rank") or 0)
+            leading_badges = (
+                f"<span class='badge badge-blue' style='margin-right:4px'>Top {rank}</span>"
+                f"<span class='badge badge-muted' style='margin-right:4px'>{html.escape(window_label)}</span>"
+                + leaderboard_status_badges(entry)
+            )
+            cards.append(
+                strategy_card_html(
+                    item,
+                    sample_tag=sample_tag,
+                    leading_badges=leading_badges,
+                    metrics_override=metrics_override,
+                    show_winner_tags=False,
+                )
+            )
+        if cards:
+            sections.append(
+                "<div class='page-section'>"
+                f"<div class='section-heading'>{html.escape(window_label)} Top 5</div>"
+                f"<div class='strategy-grid'>{''.join(cards)}</div>"
+                "</div>"
+            )
+    body = (
+        f"<h1>{html.escape(title)}</h1>"
+        "<p class='muted'>每个窗口按当前 winner 规则排序；卡片口径与策略中心 winner 卡片保持一致，可点击进入对应回测窗口详情。</p>"
+        "<p><a class='button' href='/strategies'>返回策略中心</a></p>"
+        + ("".join(sections) if sections else "<p class='muted'>暂无 Top 5 数据。</p>")
+    )
+    return render_page("策略 Top 5", body)
 
 
 def strategy_detail_html(strategy_id: str, history_window_key: str = "all", sample_view_tag: str = "", tab: str = "official") -> str:
@@ -3483,6 +3664,12 @@ class Handler(BaseHTTPRequestHandler):
                 return
             if path == "/strategies":
                 self._html(strategies_html())
+                return
+            if path == "/strategies/top5":
+                query = parse_qs(parsed.query)
+                scope = (query.get("scope") or ["a_share"])[0]
+                path_key = (query.get("path") or ["path1"])[0]
+                self._html(strategy_top5_html(scope=scope, path_key=path_key))
                 return
             if path.startswith("/strategies/"):
                 strategy_id = path.split("/strategies/", 1)[1]

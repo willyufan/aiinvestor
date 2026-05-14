@@ -97,7 +97,7 @@ def main() -> None:
     parser.add_argument(
         "--windows",
         nargs="+",
-        default=["since_2017_01", "since_2020_01", "since_2023_01"],
+        default=["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"],
         help="Which sample_tag windows to include.",
     )
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT_PATH)
@@ -122,4 +122,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
