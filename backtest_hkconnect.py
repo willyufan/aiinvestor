@@ -83,6 +83,10 @@ HK_ROLLING_AMOUNT_WINDOW = 60
 HK_BREAKOUT_LOOKBACK_DAYS = 20
 HK_WEIGHT_CAP = 0.30
 HK_MIN_WEIGHT_TRADE_THRESHOLD = 0.005
+# HKEX closing auction random close ends by 16:10 local time. Keep the
+# upstream daily_adj availability guard separate from the market close.
+HK_MARKET_CLOSE_TIME = pd.Timedelta(hours=16, minutes=10)
+HKCONNECT_DAILY_ADJ_READY_BUFFER = pd.Timedelta(hours=1, minutes=50)
 HK_BUY_COMMISSION = BUY_COMMISSION
 HK_SELL_COMMISSION = SELL_COMMISSION
 HK_RISK_EVAL_FREQUENCY_MONTHLY = "monthly"
@@ -1226,9 +1230,10 @@ def prepare_hkconnect_data(
     if len(full_calendar_index) == 0:
         raise RuntimeError("港股交易日历为空，无法准备缓存。")
     if end_date.normalize() >= today_local:
-        # Nightly runs happen after the close; allow using today's HK close once the
-        # post-close data window has passed instead of always falling back to T-1.
-        hk_post_close_ready = now_local >= (today_local + pd.Timedelta(hours=18))
+        # Nightly runs happen after the HK close; use today's HK cache only after
+        # the configured upstream data availability buffer has elapsed.
+        hk_data_ready_at = today_local + HK_MARKET_CLOSE_TIME + HKCONNECT_DAILY_ADJ_READY_BUFFER
+        hk_post_close_ready = now_local >= hk_data_ready_at
         if hk_post_close_ready:
             eligible_cache_dates = [date for date in full_calendar_index if date <= today_local]
         else:
