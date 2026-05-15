@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-05-15 15:16 CST）
+
+- 本轮与 HK Path 1 同批完成五窗口离线回测，并继续单独评估月频、双周、突破、高集中与高弹性候选；港股 Path 2 继续不并入 A 股或 HK Path 1。
+- HK Path 2 tracked winners 未变：2017 `hkconnect_path2_equal_elastic_monthly`，2020 `hkconnect_path2_inverse_elastic_monthly`，2023 `hkconnect_path2_theme_monthly`，2025 `hkconnect_path2_breakout_concentrated_monthly`。
+- 四窗口 robust candidate 仍为 `hkconnect_path2_theme_monthly`，`meanCAGR=36.97% / minCAGR=18.64% / worstMaxDD=-30.99% / meanTurn=6.22`。
+- 本轮没有新的 HK Path 2 winner 或 robust candidate 漂移；`since_2026_01` 继续只作为观察窗，不进入四窗口 winner 结论。
+- 最终 rotation 为 `stagnation_runs=24 / recommended_focus=elasticity_cost_control / rotate`；下一轮优先压高弹性路线的回撤、换手和交易成本，而不是只追月频短窗收益。
+
 ## 本轮执行计划（2026-05-15 10:14 CST）
 
 - 本轮港股 Path 2 随五窗口回测完整巡检月频、双周、突破、高集中与高弹性候选；`update_hkconnect_artifacts.py` 已同步 tracked winners 与对比图，HK coverage 最终为 `pass`。

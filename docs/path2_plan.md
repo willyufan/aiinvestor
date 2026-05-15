@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-15 15:16 CST）
+
+- 本轮独立复跑 `scripts/path2_candidate_pass.py`，family-ranked universe 仍为 `raw=536 / complete=473 / incomplete=63`；五族规模保持 `154 / 229 / 9 / 16 / 25`，候选宇宙继续满足 `100+` 规模且未被单一 high_growth family 压扁。
+- `path2_candidate_pass.json` 同步修正了部分历史候选的可用窗口：若干 incomplete 候选已具备 `since_2025_01` 记录，当前主要缺口集中在 `since_2023_01`，不影响 active complete universe。
+- family-ranked robust 仍为 `core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap95`，`meanCAGR=65.09% / minCAGR=39.27% / worstMaxDD=-32.76% / meanTurn=4.98`。
+- `update_weighted_winners.py` 后 tracked Path 2 仍由 `weekly_alpha_pullback` 纯周频族占据；四窗口 robust 为 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly`，`meanCAGR=24.95% / minCAGR=19.02% / worstMaxDD=-37.64% / meanTurn=6.07`。
+- 最终 rotation 为 `stagnation_runs=3 / recommended_focus=risk_reconfirm_sensitivity / rotate`；下一轮应优先围绕 `risk40/risk50` 的再确认阈值与风险降仓敏感性做中周期验证，同时继续复核 Path 2 是否应允许纯周频族主导 tracked 口径。
+
 ## 本轮执行计划（2026-05-15 10:14 CST）
 
 - 本轮在修复 aggregate 覆盖后复跑 `scripts/path2_candidate_pass.py`，family-ranked universe 恢复为 `raw=536 / complete=473 / incomplete=63`；五族规模为 `154 / 229 / 9 / 16 / 25`，新增 `weekly_alpha_*` 只扩充单周调仓族，没有压扁高集中、高成长、动量或双周 family。

@@ -4,6 +4,14 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-15 15:16 CST）
+
+- 本轮起止两次运行 `.venv/bin/python scripts/research_iteration_guard.py`，coverage gate 保持 `pass / blocking=0 / warning=0`；Path 4-lite/core_multifactor 9 个 base candidate 已确认全部在 `PATH1_FAST_PASS_VARIANT_IDS` 中，并完整覆盖五个要求窗口。
+- 复跑 `scripts/winner_only_pass.py` 后，Path 1 快筛仍为 `base_candidates=33 / total_candidates=297 / evaluated=179`；六个方向规模为 `5 / 5 / 2 / 9 / 7 / 4`，本轮没有 clear improvement。
+- Path 1 四窗口 tracked winners 未变：2017 `aggr_10_90_fast_ramp_cash_off__port_weekly_exposure`，2020 `aggr_08_92_prom6_cash_off`，2023 `aggr_05_95_prom7_core_multifactor_balanced`，2025 `aggr_08_92_prom6_core_6_1`。
+- 四窗口 robust candidate 仍为 `aggr_08_92_prom6__port_weekly_exposure_buffered`，`meanCAGR=48.03% / minCAGR=27.14% / worstMaxDD=-29.23% / meanTurn=4.07`。
+- 最终 rotation 为 `stagnation_runs=7 / recommended_focus=satellite_risk_cost / rotate`；下一轮不要继续旧周度仓位邻域微调，优先比较卫星风险成本与信号质量约束。
+
 ## 本轮执行计划（2026-05-15 10:14 CST）
 
 - 本轮起始 guard 为 `pass`，收尾前曾因新增 `weekly_alpha_*` 纯周频族的 `total_mv` 覆盖缺口进入 block；已按 guard rerun commands 补齐后重建五窗口 `strategy_comparison.csv` 到 `6807` 行，最终 guard 为 `pass / blocking=0 / warning=0`。
