@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-16 06:56 CST）
+
+- 本轮继续只使用纯 `_weekly` 口径，Path 1 的周度仓位 overlay 与 Path 2 的月频高收益候选没有混入 Path 3；guard 对 Path 3 pure weekly universe 为 `48/48 complete / pass`。
+- `update_weighted_winners.py` 后 Path 3 tracked winners 为：2017 `aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly`，2020 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`，2023 `aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly`，2025 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`。
+- 四窗口 robust candidate 为 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly`，`meanCAGR=24.51% / minCAGR=18.80% / worstMaxDD=-37.64% / meanTurn=6.07`。
+- 2020 窗口仍是 Path 3 的核心短板，当前 winner 仅 `14.49% CAGR` 且 `MaxDD=-51.71% / Turn=12.99`；短窗 2025 弹性仍未抵消中长窗口的高换手与深回撤代价。
+- 收尾 rotation 为 `stagnation_runs=7 / recommended_focus=risk_downshift / rotate`；下一轮优先比较周频降仓、宽出场和换手上限，不继续单纯提高周频进攻强度。
+
 ## 本轮执行计划（2026-05-15 15:16 CST）
 
 - 本轮通过 `scripts/update_weighted_winners.py` 继续只使用纯 `_weekly` 口径；Path 1 的周度仓位 overlay 与 Path 2 的月频候选没有混入 Path 3。

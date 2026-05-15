@@ -4,6 +4,15 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-16 06:56 CST）
+
+- 本轮开局 guard 为 `block`，优先补齐 Path 4-lite/core_multifactor 与 Path 2 blocking coverage；补齐后 Path 4-lite/core_multifactor 9 个 base candidate 已完整覆盖五个要求窗口，收尾 guard 暂为 `warn / blocking=0 / warning=13`。
+- `ashare_path1_fast_family` 的 13 个 warning 缺口仍为非阻塞项，集中在尚未由当前回测生成器产出的旧 fast-family ID；本轮不把它们作为 Path 1 winner 判断前置条件。
+- 复跑 `scripts/winner_only_pass.py` 后，快筛口径为 `base_candidates=33 / total_candidates=297 / evaluated=157`；方向规模仍为 `promotion_ramp=5 / satellite_defense=5 / signal_variants=2 / core_multifactor=9 / holding_shape=7 / supporting_variants=4`，本轮没有 clear improvement。
+- Path 1 tracked winners 未变：2017 `aggr_10_90_fast_ramp_cash_off__port_weekly_exposure`，2020 `aggr_08_92_prom6_cash_off`，2023 `aggr_05_95_prom7_core_multifactor_balanced`，2025 `aggr_08_92_prom6_core_6_1`。
+- 四窗口 robust candidate 仍为 `aggr_08_92_prom6__port_weekly_exposure_buffered`，`meanCAGR=46.94% / minCAGR=26.85% / worstMaxDD=-29.23% / meanTurn=4.07`。
+- 收尾 rotation 为 `stagnation_runs=15 / recommended_focus=signal_quality / rotate`；下一轮先处理 fast-family 可生成性与信号质量口径，再比较 holding_shape 的低成本确认。
+
 ## 本轮执行计划（2026-05-15 15:16 CST）
 
 - 本轮起止两次运行 `.venv/bin/python scripts/research_iteration_guard.py`，coverage gate 保持 `pass / blocking=0 / warning=0`；Path 4-lite/core_multifactor 9 个 base candidate 已确认全部在 `PATH1_FAST_PASS_VARIANT_IDS` 中，并完整覆盖五个要求窗口。

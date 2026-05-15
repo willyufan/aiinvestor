@@ -14,7 +14,7 @@
     "note": "月中观察口径：使用当日收盘数据模拟“如果今天是月末”的沪港通候选组合，不进入正式回测收益或 winner 规则。",
     "target_total_exposure": 1.0,
     "risk_state": "risk_on",
-    "market_momentum": 1.2140091072000665,
+    "market_momentum": 1.2140091072000647,
     "selected_count": 16,
     "selection_counts": {
       "selected_count": 16,
@@ -138,14 +138,14 @@
   "universe_note": "受 Tushare stock_hsgt 历史覆盖限制，当前使用最新可得沪港通名单作为静态回测池。",
   "transaction_cost_note": "当前港股交易成本采用近似双边佣金模型（无印花税建模），仅用于研究比较。",
   "metrics": {
-    "total_return": 0.43780793560493114,
-    "cagr": 0.33709018547949565,
-    "max_drawdown": -0.05991936872824599,
+    "total_return": 0.43780793560493403,
+    "cagr": 0.3370901854794979,
+    "max_drawdown": -0.05991936872824488,
     "monthly_win_rate": 0.8,
-    "annual_volatility": 0.1636697569126521,
-    "sharpe_ratio": 1.8695982949076815,
-    "average_annual_turnover": 1.6632184102554466,
-    "cumulative_trading_cost": 0.001505338659557473
+    "annual_volatility": 0.1636697569126516,
+    "sharpe_ratio": 1.8695982949076977,
+    "average_annual_turnover": 1.6632184102554468,
+    "cumulative_trading_cost": 0.0015053386595574735
   },
   "warnings": [
     "沪港通历史标的列表受 Tushare stock_hsgt 接口限制（仅 2025-08-12 起可取），当前研究使用最新可得沪港通名单作为静态回测池。",

@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-16 06:56 CST）
+
+- 本轮 guard 开局显示 Path 2 blocking coverage 缺口为 `284` 个，按 rerun commands 离线补跑后降到 `3` 个；已在 `WINNER_CORE_VARIANTS` 中补齐 `aggr_07_93_prom8 / aggr_07_93_prom8_ramp85 / share_12_88_hold_3_7` 三个被候选池引用但不可生成的变体，并复跑确认到 `blocking=0`。
+- 重建后的 comparison universe 为 `8613` 行 / `2137` 个 base strategies；Path 2 active universe 为 `raw=513 / complete=513 / incomplete=0`，五族规模为 `154 / 269 / 9 / 16 / 25`，继续保持 `100+` 候选且未被单一 family 完全压扁。
+- `path2_candidate_pass.py` 的 family-ranked winners 为：2017 `2/98 risk40_mom_exit60_reconfirm75_caution80`，2020 `2/98 risk40_mom_exit60_reconfirm70`，2023 `2/98 risk50_ma`，2025 短窗 raw leader 仍为高换手纯周频 `aggr_01_99_prom1...cap100_weekly`。
+- family-ranked robust 为 `core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_caution80_cap95`，`meanCAGR=64.35% / minCAGR=38.70% / worstMaxDD=-32.85% / meanTurn=4.93`。
+- `update_weighted_winners.py` 验证后 Path 2 tracked winners 为：2017 `2/98 risk40_mom_exit60_reconfirm75`，2020 `1/99 risk40_mom_exit60_reconfirm70`，2023 `1/99 risk50_ma`，2025 `aggr_05_95_prom3_core_6_1_full_risk_cap60`；四窗口 robust 为 `2/98 risk40_mom_exit60_reconfirm75`，`meanCAGR=62.76% / minCAGR=38.66% / worstMaxDD=-32.76% / meanTurn=4.98`。
+- 收尾 rotation 为 `stagnation_runs=7 / recommended_focus=underrepresented_families / rotate`；下一轮按每族 `2` 个新增配额优先补 `momentum_equal_weight_elastic / biweekly_rebalance_aggressive / weekly_rebalance_aggressive`，不要继续只扩 high_growth_theme。
+
 ## 本轮执行计划（2026-05-15 15:16 CST）
 
 - 本轮独立复跑 `scripts/path2_candidate_pass.py`，family-ranked universe 仍为 `raw=536 / complete=473 / incomplete=63`；五族规模保持 `154 / 229 / 9 / 16 / 25`，候选宇宙继续满足 `100+` 规模且未被单一 high_growth family 压扁。
