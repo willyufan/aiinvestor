@@ -3,121 +3,121 @@
   "pool_name": "沪港通静态标的池（最新可得名单）",
   "sample_start": "2020-02-03",
   "sample_end": "2026-04-30",
-  "latest_valuation_date": "2026-05-14",
+  "latest_valuation_date": "2026-05-15",
   "latest_formal_signal_date": "2026-04-30",
   "is_provisional_period_end": true,
   "month_end_preview": {
     "mode": "month_end_preview",
     "status": "available",
-    "preview_as_of": "2026-05-14",
+    "preview_as_of": "2026-05-15",
     "formal_signal_date": "2026-04-30",
     "note": "月中观察口径：使用当日收盘数据模拟“如果今天是月末”的沪港通候选组合，不进入正式回测收益或 winner 规则。",
     "target_total_exposure": 1.0,
     "risk_state": "risk_on",
-    "market_momentum": 1.2140091072000647,
+    "market_momentum": 1.2140091072000665,
     "selected_count": 16,
     "selection_counts": {
       "selected_count": 16,
-      "buy_candidate_count": 70,
-      "keep_candidate_count": 121,
+      "buy_candidate_count": 66,
+      "keep_candidate_count": 118,
       "quality_pass_count": 260
     },
     "holdings": [
       {
         "ts_code": "01398.HK",
         "name": "工商银行",
-        "weight": 0.12188820268178799,
-        "latest_price": 7.04
+        "weight": 0.12120822462410706,
+        "latest_price": 6.89
       },
       {
         "ts_code": "00939.HK",
         "name": "建设银行",
-        "weight": 0.11697948741796317,
-        "latest_price": 8.87
+        "weight": 0.11677816446090801,
+        "latest_price": 8.78
       },
       {
         "ts_code": "01288.HK",
         "name": "农业银行",
-        "weight": 0.10017732607678172,
-        "latest_price": 6.09
+        "weight": 0.10160173659934013,
+        "latest_price": 6.1
       },
       {
         "ts_code": "00857.HK",
         "name": "中国石油股份",
-        "weight": 0.09801417396803781,
-        "latest_price": 10.92
+        "weight": 0.10047712623104778,
+        "latest_price": 10.89
       },
       {
         "ts_code": "03988.HK",
         "name": "中国银行",
-        "weight": 0.08758919172068175,
-        "latest_price": 5.29
+        "weight": 0.08208908294815627,
+        "latest_price": 5.22
       },
       {
         "ts_code": "00941.HK",
         "name": "中国移动",
-        "weight": 0.07955613809727212,
-        "latest_price": 86.7
+        "weight": 0.07564562462074645,
+        "latest_price": 86.2
       },
       {
         "ts_code": "00883.HK",
         "name": "中国海洋石油",
-        "weight": 0.06020356406949718,
-        "latest_price": 26.36
+        "weight": 0.0616757944659483,
+        "latest_price": 26.42
       },
       {
         "ts_code": "00005.HK",
         "name": "汇丰控股",
-        "weight": 0.05791556303366161,
-        "latest_price": 140.5
+        "weight": 0.05868537530167963,
+        "latest_price": 139.4
       },
       {
         "ts_code": "01088.HK",
         "name": "中国神华",
-        "weight": 0.0470866248316166,
-        "latest_price": 44.36
+        "weight": 0.04845333910821279,
+        "latest_price": 44.46
       },
       {
         "ts_code": "02318.HK",
         "name": "中国平安",
-        "weight": 0.041957089853770814,
-        "latest_price": 63.5
+        "weight": 0.04161503901199175,
+        "latest_price": 62.45
       },
       {
         "ts_code": "02628.HK",
         "name": "中国人寿",
-        "weight": 0.040165455166093586,
+        "weight": 0.04014095745281039,
         "latest_price": 29.88
       },
       {
         "ts_code": "01299.HK",
         "name": "友邦保险",
-        "weight": 0.03619212825291011,
-        "latest_price": 87.7
+        "weight": 0.03757131792215156,
+        "latest_price": 87.6
       },
       {
         "ts_code": "03968.HK",
         "name": "招商银行",
-        "weight": 0.033128836416950615,
-        "latest_price": 47.48
+        "weight": 0.033377144186236246,
+        "latest_price": 46.94
       },
       {
         "ts_code": "02899.HK",
         "name": "紫金矿业",
-        "weight": 0.03192873499193139,
-        "latest_price": 37.22
+        "weight": 0.028139478797746628,
+        "latest_price": 35.16
+      },
+      {
+        "ts_code": "00300.HK",
+        "name": "美的集团",
+        "weight": 0.026458441590163934,
+        "latest_price": 91.65
       },
       {
         "ts_code": "02388.HK",
         "name": "中银香港",
-        "weight": 0.025900303899055007,
-        "latest_price": 46.2
-      },
-      {
-        "ts_code": "00388.HK",
-        "name": "香港交易所",
-        "weight": 0.021317179521988562,
-        "latest_price": 423.6
+        "weight": 0.02608315267875306,
+        "latest_price": 46.14
       }
     ]
   },
@@ -138,14 +138,14 @@
   "universe_note": "受 Tushare stock_hsgt 历史覆盖限制，当前使用最新可得沪港通名单作为静态回测池。",
   "transaction_cost_note": "当前港股交易成本采用近似双边佣金模型（无印花税建模），仅用于研究比较。",
   "metrics": {
-    "total_return": 2.2370264081893563,
-    "cagr": 0.206766925685282,
-    "max_drawdown": -0.09278460940163802,
+    "total_return": 2.237026408189366,
+    "cagr": 0.20676692568528243,
+    "max_drawdown": -0.09278460940163735,
     "monthly_win_rate": 0.6533333333333333,
     "annual_volatility": 0.1413142989266674,
-    "sharpe_ratio": 1.4087531733962568,
+    "sharpe_ratio": 1.4087531733962608,
     "average_annual_turnover": 1.3205631586475408,
-    "cumulative_trading_cost": 0.007872257884131083
+    "cumulative_trading_cost": 0.007872257884131092
   },
   "warnings": [
     "沪港通历史标的列表受 Tushare stock_hsgt 接口限制（仅 2025-08-12 起可取），当前研究使用最新可得沪港通名单作为静态回测池。",

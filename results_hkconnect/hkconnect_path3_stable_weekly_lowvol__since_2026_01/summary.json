@@ -2,8 +2,8 @@
   "pool_id": "hkconnect_static_latest",
   "pool_name": "沪港通静态标的池（最新可得名单）",
   "sample_start": "2026-01-05",
-  "sample_end": "2026-05-08",
-  "latest_valuation_date": "2026-05-08",
+  "sample_end": "2026-05-15",
+  "latest_valuation_date": "2026-05-15",
   "latest_formal_signal_date": null,
   "is_provisional_period_end": false,
   "month_end_preview": {},
@@ -24,14 +24,14 @@
   "universe_note": "受 Tushare stock_hsgt 历史覆盖限制，当前使用最新可得沪港通名单作为静态回测池。",
   "transaction_cost_note": "当前港股交易成本采用近似双边佣金模型（无印花税建模），仅用于研究比较。",
   "metrics": {
-    "total_return": 0.05415119900753185,
-    "cagr": 0.16456559027957596,
+    "total_return": 0.055074923880180426,
+    "cagr": 0.15803775603856685,
     "max_drawdown": -0.04671337865734493,
-    "monthly_win_rate": 0.6111111111111112,
-    "annual_volatility": 0.15125565740218655,
-    "sharpe_ratio": 1.0800207672073043,
-    "average_annual_turnover": 5.147196490714277,
-    "cumulative_trading_cost": 0.0010960300833825853
+    "monthly_win_rate": 0.631578947368421,
+    "annual_volatility": 0.1470418389465472,
+    "sharpe_ratio": 1.0688088468923087,
+    "average_annual_turnover": 5.024501047362134,
+    "cumulative_trading_cost": 0.0011305213073233974
   },
   "warnings": [
     "沪港通历史标的列表受 Tushare stock_hsgt 接口限制（仅 2025-08-12 起可取），当前研究使用最新可得沪港通名单作为静态回测池。",

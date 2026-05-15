@@ -3,49 +3,49 @@
   "pool_name": "沪港通静态标的池（最新可得名单）",
   "sample_start": "2025-02-03",
   "sample_end": "2026-04-30",
-  "latest_valuation_date": "2026-05-14",
+  "latest_valuation_date": "2026-05-15",
   "latest_formal_signal_date": "2026-04-30",
   "is_provisional_period_end": true,
   "month_end_preview": {
     "mode": "month_end_preview",
     "status": "available",
-    "preview_as_of": "2026-05-14",
+    "preview_as_of": "2026-05-15",
     "formal_signal_date": "2026-04-30",
     "note": "月中观察口径：使用当日收盘数据模拟“如果今天是月末”的沪港通候选组合，不进入正式回测收益或 winner 规则。",
     "target_total_exposure": 1.0,
     "risk_state": "risk_on",
-    "market_momentum": 1.2140091072000647,
+    "market_momentum": 1.2140091072000665,
     "selected_count": 4,
     "selection_counts": {
       "selected_count": 4,
-      "buy_candidate_count": 14,
-      "keep_candidate_count": 49,
+      "buy_candidate_count": 10,
+      "keep_candidate_count": 45,
       "quality_pass_count": 260
     },
     "holdings": [
       {
         "ts_code": "00688.HK",
         "name": "中国海外发展",
-        "weight": 0.26571637426900585,
-        "latest_price": 16.43
+        "weight": 0.2669491525423729,
+        "latest_price": 16.51
       },
       {
         "ts_code": "00001.HK",
         "name": "长和",
-        "weight": 0.2642543859649123,
-        "latest_price": 73.25
+        "weight": 0.2594161958568738,
+        "latest_price": 73.05
       },
       {
-        "ts_code": "03988.HK",
-        "name": "中国银行",
-        "weight": 0.24232456140350878,
-        "latest_price": 5.29
+        "ts_code": "02388.HK",
+        "name": "中银香港",
+        "weight": 0.257532956685499,
+        "latest_price": 46.14
       },
       {
-        "ts_code": "01070.HK",
-        "name": "TCL电子",
-        "weight": 0.2277046783625731,
-        "latest_price": 15.94
+        "ts_code": "02319.HK",
+        "name": "蒙牛乳业",
+        "weight": 0.21610169491525424,
+        "latest_price": 17.72
       }
     ]
   },
@@ -70,8 +70,8 @@
     "cagr": 0.9772566523351958,
     "max_drawdown": -0.07231426652822615,
     "monthly_win_rate": 0.7333333333333333,
-    "annual_volatility": 0.31691784044486665,
-    "sharpe_ratio": 2.347609262248437,
+    "annual_volatility": 0.3169178404448665,
+    "sharpe_ratio": 2.3476092622484384,
     "average_annual_turnover": 9.049548260855376,
     "cumulative_trading_cost": 0.010602166019917548
   },

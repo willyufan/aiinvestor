@@ -3,73 +3,73 @@
   "pool_name": "沪港通静态标的池（最新可得名单）",
   "sample_start": "2023-02-01",
   "sample_end": "2026-04-30",
-  "latest_valuation_date": "2026-05-14",
+  "latest_valuation_date": "2026-05-15",
   "latest_formal_signal_date": "2026-04-30",
   "is_provisional_period_end": true,
   "month_end_preview": {
     "mode": "month_end_preview",
     "status": "available",
-    "preview_as_of": "2026-05-14",
+    "preview_as_of": "2026-05-15",
     "formal_signal_date": "2026-04-30",
     "note": "月中观察口径：使用当日收盘数据模拟“如果今天是月末”的沪港通候选组合，不进入正式回测收益或 winner 规则。",
     "target_total_exposure": 1.0,
     "risk_state": "risk_on",
-    "market_momentum": 1.2140091072000647,
+    "market_momentum": 1.2140091072000665,
     "selected_count": 8,
     "selection_counts": {
       "selected_count": 8,
-      "buy_candidate_count": 47,
-      "keep_candidate_count": 96,
+      "buy_candidate_count": 43,
+      "keep_candidate_count": 93,
       "quality_pass_count": 260
     },
     "holdings": [
       {
         "ts_code": "02388.HK",
         "name": "中银香港",
-        "weight": 0.14451556224899598,
-        "latest_price": 46.2
+        "weight": 0.14779391231499583,
+        "latest_price": 46.14
       },
       {
         "ts_code": "00001.HK",
         "name": "长和",
-        "weight": 0.1432605421686747,
-        "latest_price": 73.25
+        "weight": 0.14555989946942194,
+        "latest_price": 73.05
       },
       {
         "ts_code": "00857.HK",
         "name": "中国石油股份",
-        "weight": 0.12995732931726908,
-        "latest_price": 10.92
-      },
-      {
-        "ts_code": "03988.HK",
-        "name": "中国银行",
-        "weight": 0.12418423694779118,
-        "latest_price": 5.29
+        "weight": 0.13271432560737226,
+        "latest_price": 10.89
       },
       {
         "ts_code": "00016.HK",
         "name": "新鸿基地产",
-        "weight": 0.12192520080321287,
-        "latest_price": 143.3
+        "weight": 0.1237782742250768,
+        "latest_price": 142.6
       },
       {
         "ts_code": "06869.HK",
         "name": "长飞光纤光缆",
-        "weight": 0.1146460843373494,
-        "latest_price": 253.8
+        "weight": 0.11651773247696172,
+        "latest_price": 223.0
       },
       {
         "ts_code": "01113.HK",
         "name": "长实集团",
-        "weight": 0.1118850401606426,
-        "latest_price": 51.5
+        "weight": 0.11456297123708462,
+        "latest_price": 51.25
       },
       {
-        "ts_code": "00316.HK",
-        "name": "东方海外国际",
-        "weight": 0.10962600401606426,
-        "latest_price": 145.0
+        "ts_code": "02338.HK",
+        "name": "潍柴动力",
+        "weight": 0.10981569394024014,
+        "latest_price": 41.5
+      },
+      {
+        "ts_code": "00300.HK",
+        "name": "美的集团",
+        "weight": 0.10925719072884671,
+        "latest_price": 91.65
       }
     ]
   },
@@ -90,14 +90,14 @@
   "universe_note": "受 Tushare stock_hsgt 历史覆盖限制，当前使用最新可得沪港通名单作为静态回测池。",
   "transaction_cost_note": "当前港股交易成本采用近似双边佣金模型（无印花税建模），仅用于研究比较。",
   "metrics": {
-    "total_return": 1.4183850074820703,
-    "cagr": 0.3122235519168073,
-    "max_drawdown": -0.16067218817677853,
+    "total_return": 1.4183850074820752,
+    "cagr": 0.31222355191680795,
+    "max_drawdown": -0.16067218817677797,
     "monthly_win_rate": 0.717948717948718,
-    "annual_volatility": 0.2091364123715225,
-    "sharpe_ratio": 1.4132808330314248,
+    "annual_volatility": 0.2091364123715224,
+    "sharpe_ratio": 1.4132808330314286,
     "average_annual_turnover": 6.018724642022008,
-    "cumulative_trading_cost": 0.01582481475731089
+    "cumulative_trading_cost": 0.015824814757310908
   },
   "warnings": [
     "沪港通历史标的列表受 Tushare stock_hsgt 接口限制（仅 2025-08-12 起可取），当前研究使用最新可得沪港通名单作为静态回测池。",
