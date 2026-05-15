@@ -3,6 +3,26 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-15 10:14 CST）
+
+- 本轮补跑并完整覆盖 `weekly_alpha_balanced / breakout / pullback` 的等权与总市值底座缺口，五窗口 aggregate 重建后 `weekly_alpha` 行数为 `189`，最终 guard 对 Path 3 pure weekly universe 为 `pass`。
+- Path 3 tracked winners 已切到 `weekly_alpha_pullback` 族：2017/2020 为 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly`（`19.02% / 21.13% CAGR`），2023 为 `aggr_08_92_prom6_weekly_alpha_pullback_risk50_cap40_hold2_turn40_weekly`（`22.19% CAGR`），2025 为 `aggr_05_95_prom3_weekly_alpha_pullback_risk50_cap60_hold2_turn30_weekly`（`76.26% CAGR`）。
+- 四窗口 robust candidate 同步为 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly`，`meanCAGR=24.95% / minCAGR=19.02% / worstMaxDD=-37.64% / meanTurn=6.07`；总市值 `balanced` 的 2025 raw `91.87% CAGR` 因 2023 验证不足被拒绝。
+- 最终 rotation 为 `stagnation_runs=1 / turnover_reduction`；下一轮优先沿 `weekly_alpha_pullback` 做宽出场、换手上限与最短持有期敏感性，而不是继续提高单周进攻强度。
+
+## 本轮执行计划（2026-05-14 周频信号修正）
+
+- 新增 `weekly_alpha_balanced / weekly_alpha_breakout / weekly_alpha_pullback` 三类周频专用信号，使用 3-1/6-1 动量、近 1 月强弱、放量、20 日突破、行业强度/龙头度与质量分数，而不是只把月频 6-1 动量改成每周调仓。
+- 新增周频执行约束：`weekly_min_hold_periods` 控制最短持有周数，`weekly_turnover_cap` 控制单期目标换手；当目标仓位低于当前仓位时视为风险降仓，约束自动让路。
+- 新增 9 个 `_weekly` 变体，覆盖三类周频 alpha × 三种组合形态（8/92 prom6、5/95 prom3、3/97 prom2），继续由 Path 3 的纯 `_weekly` 口径独立跟踪。
+
+## 本轮执行计划（2026-05-14 22:55 CST）
+
+- 本轮 guard blocking coverage 已补齐，Path 3 pure weekly universe 收尾为 `pass`；`update_weighted_winners.py` 继续只使用纯 `_weekly` 口径，月度选股 + 周度仓位 overlay 没有混入本路径。
+- Path 3 tracked winners 当前为：2017 `aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly`（`23.87% CAGR / -40.04% MaxDD / 0.8106 Sharpe / 7.70 Turn`），2020 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`（`14.98% / -51.71% / 0.5707 / 12.99`），2023 `aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly`（`35.93% / -37.14% / 0.9743 / 13.65`），2025 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`（`52.69% / -28.73% / 1.2740 / 14.62`）。
+- 四窗口 robust candidate 为 `aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_weekly`，`meanCAGR=23.57% / minCAGR=16.05% / worstMaxDD=-46.64% / meanTurn=11.00`；raw 2025 高爆发单周候选继续因 2023 验证窗口失效被拒绝。
+- 最终 guard 为 `stagnation_runs=1 / recommended_focus=turnover_reduction`；下一轮优先评估新 `weekly_alpha_*` 变体的宽出场、最短持有和换手上限，而不是提高单周进攻强度。
+
 ## 本轮执行计划（2026-05-14 15:10 CST）
 
 - 本轮研究守卫收尾 coverage gate 为 `pass`，Path 3 pure weekly universe 继续为 `30` 个四窗口完整候选；收尾 rotation 为 `stagnation_runs=13 / recommended_focus=turnover_reduction`。

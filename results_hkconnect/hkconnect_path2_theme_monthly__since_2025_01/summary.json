@@ -3,10 +3,76 @@
   "pool_name": "沪港通静态标的池（最新可得名单）",
   "sample_start": "2025-02-03",
   "sample_end": "2026-04-30",
-  "latest_valuation_date": "2026-04-30",
+  "latest_valuation_date": "2026-05-14",
   "latest_formal_signal_date": "2026-04-30",
-  "is_provisional_period_end": false,
-  "month_end_preview": {},
+  "is_provisional_period_end": true,
+  "month_end_preview": {
+    "mode": "month_end_preview",
+    "status": "available",
+    "preview_as_of": "2026-05-14",
+    "formal_signal_date": "2026-04-30",
+    "note": "月中观察口径：使用当日收盘数据模拟“如果今天是月末”的沪港通候选组合，不进入正式回测收益或 winner 规则。",
+    "target_total_exposure": 1.0,
+    "risk_state": "risk_on",
+    "market_momentum": 1.2140091072000647,
+    "selected_count": 8,
+    "selection_counts": {
+      "selected_count": 8,
+      "buy_candidate_count": 47,
+      "keep_candidate_count": 96,
+      "quality_pass_count": 260
+    },
+    "holdings": [
+      {
+        "ts_code": "02388.HK",
+        "name": "中银香港",
+        "weight": 0.14451556224899598,
+        "latest_price": 46.2
+      },
+      {
+        "ts_code": "00001.HK",
+        "name": "长和",
+        "weight": 0.1432605421686747,
+        "latest_price": 73.25
+      },
+      {
+        "ts_code": "00857.HK",
+        "name": "中国石油股份",
+        "weight": 0.12995732931726908,
+        "latest_price": 10.92
+      },
+      {
+        "ts_code": "03988.HK",
+        "name": "中国银行",
+        "weight": 0.12418423694779118,
+        "latest_price": 5.29
+      },
+      {
+        "ts_code": "00016.HK",
+        "name": "新鸿基地产",
+        "weight": 0.12192520080321287,
+        "latest_price": 143.3
+      },
+      {
+        "ts_code": "06869.HK",
+        "name": "长飞光纤光缆",
+        "weight": 0.1146460843373494,
+        "latest_price": 253.8
+      },
+      {
+        "ts_code": "01113.HK",
+        "name": "长实集团",
+        "weight": 0.1118850401606426,
+        "latest_price": 51.5
+      },
+      {
+        "ts_code": "00316.HK",
+        "name": "东方海外国际",
+        "weight": 0.10962600401606426,
+        "latest_price": 145.0
+      }
+    ]
+  },
   "sample_tag": "since_2025_01",
   "sample_label": "2025-01 起",
   "sample_short_label": "2025-01",
@@ -28,8 +94,8 @@
     "cagr": 0.7274153013892537,
     "max_drawdown": -0.09721247688542967,
     "monthly_win_rate": 0.7333333333333333,
-    "annual_volatility": 0.2505419712568486,
-    "sharpe_ratio": 2.343884714487906,
+    "annual_volatility": 0.25054197125684863,
+    "sharpe_ratio": 2.3438847144879063,
     "average_annual_turnover": 6.409073668587082,
     "cumulative_trading_cost": 0.007144816395262203
   },

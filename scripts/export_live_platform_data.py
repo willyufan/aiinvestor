@@ -793,6 +793,75 @@ def _pick_hk_robust_candidate(df: pd.DataFrame, path_name: str) -> str | None:
     return str(ranked.iloc[0]["strategy_id"]) if not ranked.empty else None
 
 
+def _metrics_from_row(row: pd.Series) -> dict[str, float]:
+    return {
+        "cagr": float(row.get("cagr", 0.0)),
+        "sharpe_ratio": float(row.get("sharpe_ratio", 0.0)),
+        "max_drawdown": float(row.get("max_drawdown", 0.0)),
+        "average_annual_turnover": float(row.get("average_annual_turnover", 0.0)),
+        "total_return": float(row.get("total_return", 0.0)),
+    }
+
+
+def _build_ashare_leaderboards(payload: dict[str, Any]) -> dict[str, Any]:
+    out: dict[str, Any] = {"path1": {}, "path2": {}, "path3": {}}
+
+    def add_window(path_name: str, track_key: str, track_meta: dict[str, Any]) -> None:
+        entries = track_meta.get("leaderboard") if isinstance(track_meta, dict) else None
+        if not isinstance(entries, list) or not entries:
+            return
+        out.setdefault(path_name, {})[track_key] = {
+            "track_key": track_key,
+            "label": SAMPLE_LABELS.get(track_key, track_key),
+            "sample_tag": guess_sample_tag(track_key),
+            "entries": entries,
+        }
+
+    for track_key, track_meta in (payload.get("tracks") or {}).items():
+        if track_key == "robust_candidate":
+            continue
+        add_window("path1", track_key, track_meta)
+    for path_name in ("path2", "path3"):
+        path_payload = payload.get(path_name) or {}
+        for track_key, track_meta in (path_payload.get("tracks") or {}).items():
+            add_window(path_name, track_key, track_meta)
+    return {path: tracks for path, tracks in out.items() if tracks}
+
+
+def _build_hkconnect_leaderboards(df: pd.DataFrame) -> dict[str, Any]:
+    out: dict[str, Any] = {"path1": {}, "path2": {}, "path3": {}}
+    for path_name in ("path1", "path2", "path3"):
+        for sample_tag in HK_TRACKED_WINDOW_TAGS:
+            subset = df[(df["path"] == path_name) & (df["sample_tag"] == sample_tag)].copy()
+            if subset.empty:
+                continue
+            subset = subset.sort_values(
+                ["cagr", "sharpe_ratio", "max_drawdown", "average_annual_turnover"],
+                ascending=[False, False, False, True],
+            ).head(5)
+            entries = []
+            for rank, (_idx, row) in enumerate(subset.iterrows(), start=1):
+                strategy_id = str(row["strategy_id"])
+                entries.append(
+                    {
+                        "rank": rank,
+                        "strategy_base_id": strategy_id,
+                        "strategy_base_name": str(row.get("strategy_name") or row.get("strategy_id") or strategy_id),
+                        "metrics": _metrics_from_row(row),
+                        "is_official_winner": rank == 1,
+                        "is_raw_winner": rank == 1,
+                    }
+                )
+            track_key = sample_tag
+            out.setdefault(path_name, {})[track_key] = {
+                "track_key": track_key,
+                "label": SAMPLE_TAG_LABELS.get(sample_tag, sample_tag),
+                "sample_tag": sample_tag,
+                "entries": entries,
+            }
+    return {path: tracks for path, tracks in out.items() if tracks}
+
+
 def load_hkconnect_registry() -> list[dict[str, Any]]:
     comparison_path = HK_RESULTS_DIR / "strategy_comparison_hkconnect.csv"
     if not comparison_path.exists():
@@ -899,6 +968,15 @@ def _registry_item(item: dict[str, Any]) -> dict[str, Any]:
 def export_live_data() -> dict[str, Any]:
     payload = load_json(TRACKED_WINNERS_JSON)
     strategies_map: dict[str, Any] = payload["strategies"]
+    winner_leaderboards: dict[str, Any] = {"a_share": _build_ashare_leaderboards(payload)}
+    hk_comparison_path = HK_RESULTS_DIR / "strategy_comparison_hkconnect.csv"
+    if hk_comparison_path.exists():
+        try:
+            hk_df = pd.read_csv(hk_comparison_path)
+            if not hk_df.empty:
+                winner_leaderboards["hkconnect"] = _build_hkconnect_leaderboards(hk_df)
+        except Exception:
+            pass
 
     registry: list[dict[str, Any]] = []
     dedup: dict[str, dict[str, Any]] = {}
@@ -1045,6 +1123,28 @@ def export_live_data() -> dict[str, Any]:
     snapshot_items: dict[str, dict[str, Any]] = {item["strategy_id"]: item for item in registry}
     for item in core_active_registry:
         snapshot_items.setdefault(item["strategy_id"], item)
+    for market_scope, path_payload in winner_leaderboards.items():
+        if not isinstance(path_payload, dict):
+            continue
+        for path_name, tracks in path_payload.items():
+            if not isinstance(tracks, dict):
+                continue
+            for track_key, leaderboard in tracks.items():
+                entries = leaderboard.get("entries") if isinstance(leaderboard, dict) else []
+                sample_tag = str((leaderboard or {}).get("sample_tag") or guess_sample_tag(str(track_key)))
+                for entry in entries or []:
+                    strategy_id = str(entry.get("strategy_base_id") or entry.get("strategy_id") or "")
+                    if not strategy_id or strategy_id in snapshot_items:
+                        continue
+                    try:
+                        snapshot = load_strategy_snapshot(strategy_id, sample_tag, market_scope=str(market_scope))
+                    except Exception:
+                        continue
+                    snapshot["path"] = str(path_name)
+                    snapshot["winner_type"] = "leaderboard candidate"
+                    snapshot["winner_tags"] = [f"{market_scope}:{path_name}:{track_key}:top{entry.get('rank')}"]
+                    snapshot["market_scope"] = str(market_scope)
+                    snapshot_items[strategy_id] = snapshot
     for item in snapshot_items.values():
         strategy_path = LIVE_DIR / "strategies" / f"{item['strategy_id']}.json"
         strategy_path.write_text(json.dumps(item, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -1053,6 +1153,7 @@ def export_live_data() -> dict[str, Any]:
         "as_of": payload["as_of"],
         "strategies": [_registry_item(item) for item in registry],
         "core_active_strategies": [_registry_item(item) for item in core_active_registry],
+        "winner_leaderboards": winner_leaderboards,
     }
     (LIVE_DIR / "strategy_registry.json").write_text(
         json.dumps(registry_payload, ensure_ascii=False, indent=2) + "\n",

@@ -177,6 +177,11 @@ MULTI_FACTOR_PRESETS = {
 }
 
 VALID_MULTI_FACTOR_KEYS = frozenset(DEFAULT_MULTI_FACTOR_WEIGHTS.keys())
+WEEKLY_ALPHA_SIGNAL_MODES = {
+    "weekly_alpha_balanced",
+    "weekly_alpha_breakout",
+    "weekly_alpha_pullback",
+}
 MARKET_INDEX_CODE = "000300.SH"
 BENCHMARK_INDEX_CODE = "000001.SH"
 CORE_INDEX_CODES = ["000300.SH", "000688.SH"]
@@ -3826,6 +3831,195 @@ WINNER_CORE_VARIANTS = [
         "satellite_risk_off_exposure": 0.0,
         "rebalance_frequency": "weekly",
     },
+    {
+        "variant_id": "aggr_08_92_prom6_weekly_alpha_balanced_risk50_cap40_hold2_turn40_weekly",
+        "variant_name": "进攻8/92 晋升6只(周频Alpha均衡, 熊市50%, 单票40%, 持有2周, 换手40%, 单周)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_balanced",
+        "promotion_signal_mode": "weekly_alpha_balanced",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.40,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 2,
+        "weekly_turnover_cap": 0.40,
+    },
+    {
+        "variant_id": "aggr_05_95_prom3_weekly_alpha_balanced_risk50_cap60_hold2_turn30_weekly",
+        "variant_name": "进攻5/95 晋升3只(周频Alpha均衡, 熊市50%, 单票60%, 持有2周, 换手30%, 单周)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_balanced",
+        "promotion_signal_mode": "weekly_alpha_balanced",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.60,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 2,
+        "weekly_turnover_cap": 0.30,
+    },
+    {
+        "variant_id": "aggr_03_97_prom2_weekly_alpha_balanced_cashoff_cap80_hold3_turn25_weekly",
+        "variant_name": "进攻3/97 晋升2只(周频Alpha均衡, 熊市空仓, 单票80%, 持有3周, 换手25%, 单周)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_balanced",
+        "promotion_signal_mode": "weekly_alpha_balanced",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "promoted_core_sell_exit_percentile": 0.80,
+        "weight_cap": 0.80,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 3,
+        "weekly_turnover_cap": 0.25,
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_weekly_alpha_breakout_risk50_cap40_hold2_turn40_weekly",
+        "variant_name": "进攻8/92 晋升6只(周频Alpha突破, 熊市50%, 单票40%, 持有2周, 换手40%, 单周)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_breakout",
+        "promotion_signal_mode": "weekly_alpha_breakout",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.40,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 2,
+        "weekly_turnover_cap": 0.40,
+    },
+    {
+        "variant_id": "aggr_05_95_prom3_weekly_alpha_breakout_risk50_cap60_hold2_turn30_weekly",
+        "variant_name": "进攻5/95 晋升3只(周频Alpha突破, 熊市50%, 单票60%, 持有2周, 换手30%, 单周)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_breakout",
+        "promotion_signal_mode": "weekly_alpha_breakout",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.60,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 2,
+        "weekly_turnover_cap": 0.30,
+    },
+    {
+        "variant_id": "aggr_03_97_prom2_weekly_alpha_breakout_cashoff_cap80_hold3_turn25_weekly",
+        "variant_name": "进攻3/97 晋升2只(周频Alpha突破, 熊市空仓, 单票80%, 持有3周, 换手25%, 单周)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_breakout",
+        "promotion_signal_mode": "weekly_alpha_breakout",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "promoted_core_sell_exit_percentile": 0.80,
+        "weight_cap": 0.80,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 3,
+        "weekly_turnover_cap": 0.25,
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_weekly_alpha_pullback_risk50_cap40_hold2_turn40_weekly",
+        "variant_name": "进攻8/92 晋升6只(周频Alpha回踩, 熊市50%, 单票40%, 持有2周, 换手40%, 单周)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_pullback",
+        "promotion_signal_mode": "weekly_alpha_pullback",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.40,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 2,
+        "weekly_turnover_cap": 0.40,
+    },
+    {
+        "variant_id": "aggr_05_95_prom3_weekly_alpha_pullback_risk50_cap60_hold2_turn30_weekly",
+        "variant_name": "进攻5/95 晋升3只(周频Alpha回踩, 熊市50%, 单票60%, 持有2周, 换手30%, 单周)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_pullback",
+        "promotion_signal_mode": "weekly_alpha_pullback",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.60,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 2,
+        "weekly_turnover_cap": 0.30,
+    },
+    {
+        "variant_id": "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly",
+        "variant_name": "进攻3/97 晋升2只(周频Alpha回踩, 熊市空仓, 单票80%, 持有3周, 换手25%, 单周)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_pullback",
+        "promotion_signal_mode": "weekly_alpha_pullback",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "promoted_core_sell_exit_percentile": 0.80,
+        "weight_cap": 0.80,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 3,
+        "weekly_turnover_cap": 0.25,
+    },
 ]
 
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
@@ -4205,6 +4399,15 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly",
             "aggr_05_95_prom3_core_6_1_full_risk_cap60_weekly",
             "aggr_08_92_prom6_cash_off_and_weekly",
+            "aggr_08_92_prom6_weekly_alpha_balanced_risk50_cap40_hold2_turn40_weekly",
+            "aggr_05_95_prom3_weekly_alpha_balanced_risk50_cap60_hold2_turn30_weekly",
+            "aggr_03_97_prom2_weekly_alpha_balanced_cashoff_cap80_hold3_turn25_weekly",
+            "aggr_08_92_prom6_weekly_alpha_breakout_risk50_cap40_hold2_turn40_weekly",
+            "aggr_05_95_prom3_weekly_alpha_breakout_risk50_cap60_hold2_turn30_weekly",
+            "aggr_03_97_prom2_weekly_alpha_breakout_cashoff_cap80_hold3_turn25_weekly",
+            "aggr_08_92_prom6_weekly_alpha_pullback_risk50_cap40_hold2_turn40_weekly",
+            "aggr_05_95_prom3_weekly_alpha_pullback_risk50_cap60_hold2_turn30_weekly",
+            "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly",
         ],
         "target_candidates": 6,
     },
@@ -4429,6 +4632,15 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly",
     "aggr_05_95_prom3_core_6_1_full_risk_cap60_weekly",
     "aggr_08_92_prom6_cash_off_and_weekly",
+    "aggr_08_92_prom6_weekly_alpha_balanced_risk50_cap40_hold2_turn40_weekly",
+    "aggr_05_95_prom3_weekly_alpha_balanced_risk50_cap60_hold2_turn30_weekly",
+    "aggr_03_97_prom2_weekly_alpha_balanced_cashoff_cap80_hold3_turn25_weekly",
+    "aggr_08_92_prom6_weekly_alpha_breakout_risk50_cap40_hold2_turn40_weekly",
+    "aggr_05_95_prom3_weekly_alpha_breakout_risk50_cap60_hold2_turn30_weekly",
+    "aggr_03_97_prom2_weekly_alpha_breakout_cashoff_cap80_hold3_turn25_weekly",
+    "aggr_08_92_prom6_weekly_alpha_pullback_risk50_cap40_hold2_turn40_weekly",
+    "aggr_05_95_prom3_weekly_alpha_pullback_risk50_cap60_hold2_turn30_weekly",
+    "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly",
 ]
 
 FACTOR_CACHE_VERSION = "v2"
@@ -5394,6 +5606,56 @@ def _validated_multi_factor_weights(weights: object) -> Dict[str, float]:
     if total <= 0.0:
         return dict(DEFAULT_MULTI_FACTOR_WEIGHTS)
     return cleaned
+
+
+def build_weekly_alpha_scores(
+    signal_mode: str,
+    momentum_6_1: pd.Series,
+    momentum_3_1: pd.Series,
+    recent_1m_returns: pd.Series,
+    amount_surge_ratio: pd.Series,
+    breakout_signal: pd.Series,
+    quality_scores: pd.Series,
+    industry_strength_scores: pd.Series,
+    industry_leader_scores: pd.Series,
+) -> pd.Series:
+    mode = str(signal_mode or "").strip().lower()
+    if mode not in WEEKLY_ALPHA_SIGNAL_MODES:
+        return pd.Series(dtype=float)
+
+    if mode == "weekly_alpha_breakout":
+        return blend_ranked_components(
+            [
+                (safe_percentile_rank(momentum_3_1, ascending=True), 0.22),
+                (safe_percentile_rank(recent_1m_returns, ascending=True), 0.20),
+                (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.20),
+                (breakout_signal.astype(float), 0.18),
+                (industry_strength_scores, 0.12),
+                (industry_leader_scores, 0.08),
+            ]
+        )
+    if mode == "weekly_alpha_pullback":
+        return blend_ranked_components(
+            [
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.28),
+                (safe_percentile_rank(momentum_3_1, ascending=True), 0.18),
+                (industry_strength_scores, 0.18),
+                (industry_leader_scores, 0.12),
+                (quality_scores, 0.12),
+                (safe_percentile_rank(recent_1m_returns, ascending=False), 0.12),
+            ]
+        )
+    return blend_ranked_components(
+        [
+            (safe_percentile_rank(momentum_6_1, ascending=True), 0.20),
+            (safe_percentile_rank(momentum_3_1, ascending=True), 0.20),
+            (safe_percentile_rank(recent_1m_returns, ascending=True), 0.15),
+            (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.15),
+            (industry_strength_scores, 0.12),
+            (industry_leader_scores, 0.10),
+            (quality_scores, 0.08),
+        ]
+    )
 
 
 def get_latest_financial_snapshot(financials_df: pd.DataFrame, signal_date: pd.Timestamp) -> pd.Series:
@@ -6607,6 +6869,97 @@ def apply_weight_cap_with_redistribution(raw_weights: pd.Series, cap: float = WE
     return adjusted[adjusted > 1e-12].sort_values(ascending=False), cash_weight
 
 
+def apply_weekly_rebalance_constraints(
+    target_weights: pd.Series,
+    current_weights: pd.Series,
+    holding_ages: Dict[str, int],
+    strategy_config: Dict[str, object],
+) -> Tuple[pd.Series, float, Dict[str, object]]:
+    try:
+        min_hold_periods = int(max(0, float(strategy_config.get("weekly_min_hold_periods", 0) or 0)))
+    except (TypeError, ValueError):
+        min_hold_periods = 0
+    raw_turnover_cap = strategy_config.get("weekly_turnover_cap", None)
+    turnover_cap = np.nan
+    if raw_turnover_cap is not None:
+        try:
+            turnover_cap = float(raw_turnover_cap)
+        except (TypeError, ValueError):
+            turnover_cap = np.nan
+    if not np.isfinite(turnover_cap) or turnover_cap <= 0:
+        turnover_cap = np.nan
+
+    stats: Dict[str, object] = {
+        "weekly_min_hold_periods": min_hold_periods,
+        "weekly_min_hold_protected_count": 0,
+        "weekly_turnover_cap": turnover_cap,
+        "weekly_turnover_cap_applied": False,
+        "weekly_turnover_cap_scale": 1.0,
+        "weekly_target_one_way_turnover_before_cap": 0.0,
+        "weekly_constraint_deleveraging_bypass": False,
+    }
+    if min_hold_periods <= 0 and not np.isfinite(turnover_cap):
+        cash_weight = max(0.0, 1.0 - float(target_weights.sum()))
+        return target_weights, cash_weight, stats
+
+    constrained = target_weights.astype(float).replace([np.inf, -np.inf], np.nan).dropna().clip(lower=0.0)
+    current = current_weights.astype(float).replace([np.inf, -np.inf], np.nan).dropna().clip(lower=0.0)
+    current = current[current > 1e-12]
+    constrained = constrained[constrained > 1e-12]
+
+    current_total = float(current.sum())
+    target_total = float(constrained.sum())
+    deleveraging = target_total < current_total - 1e-8
+    if deleveraging:
+        stats["weekly_constraint_deleveraging_bypass"] = True
+        cash_weight = max(0.0, 1.0 - float(constrained.sum()))
+        return constrained.sort_values(ascending=False), cash_weight, stats
+
+    protected_codes: Set[str] = set()
+    if min_hold_periods > 0 and not current.empty:
+        for code, current_weight in current.items():
+            if holding_ages.get(str(code), min_hold_periods) >= min_hold_periods:
+                continue
+            target_weight = float(constrained.get(code, 0.0))
+            if float(current_weight) > target_weight + 1e-12:
+                constrained.loc[code] = float(current_weight)
+                protected_codes.add(str(code))
+        stats["weekly_min_hold_protected_count"] = len(protected_codes)
+
+    total_after_hold = float(constrained.sum())
+    if total_after_hold > 1.0 + 1e-12:
+        protected_mask = constrained.index.map(lambda code: str(code) in protected_codes)
+        protected_sum = float(constrained.loc[protected_mask].sum()) if protected_mask.any() else 0.0
+        if protected_sum >= 1.0:
+            constrained = constrained.loc[protected_mask] / protected_sum
+        else:
+            free = constrained.loc[~protected_mask]
+            free_sum = float(free.sum())
+            if free_sum > 0:
+                constrained.loc[~protected_mask] = free * max(0.0, 1.0 - protected_sum) / free_sum
+
+    if np.isfinite(turnover_cap) and not current.empty:
+        union_index = current.index.union(constrained.index)
+        current_aligned = current.reindex(union_index).fillna(0.0)
+        target_aligned = constrained.reindex(union_index).fillna(0.0)
+        delta = target_aligned - current_aligned
+        one_way_turnover = 0.5 * float(delta.abs().sum())
+        stats["weekly_target_one_way_turnover_before_cap"] = one_way_turnover
+        if one_way_turnover > turnover_cap + 1e-12:
+            scale = max(0.0, min(1.0, turnover_cap / one_way_turnover))
+            constrained = (current_aligned + delta * scale).clip(lower=0.0)
+            constrained = constrained[constrained > 1e-12]
+            stats["weekly_turnover_cap_applied"] = True
+            stats["weekly_turnover_cap_scale"] = scale
+
+    total = float(constrained.sum())
+    if total > 1.0 + 1e-12:
+        constrained = constrained / total
+        total = 1.0
+    cash_weight = max(0.0, 1.0 - total)
+    return constrained[constrained > 1e-12].sort_values(ascending=False), cash_weight, stats
+
+
 def enforce_total_portfolio_constraints(
     combined_weights: pd.Series,
     protected_codes: Set[str],
@@ -7563,6 +7916,18 @@ def build_month_end_preview_payload(
                 (safe_percentile_rank(amount_surge_ratio, ascending=True), factor_weights.get("liquidity_surge", 0.0)),
             ]
         )
+    elif core_signal_mode in WEEKLY_ALPHA_SIGNAL_MODES:
+        core_signal_scores = build_weekly_alpha_scores(
+            core_signal_mode,
+            momentum_6_1=momentum_6_1,
+            momentum_3_1=momentum_3_1,
+            recent_1m_returns=recent_1m_returns,
+            amount_surge_ratio=amount_surge_ratio,
+            breakout_signal=breakout_signal,
+            quality_scores=quality_scores,
+            industry_strength_scores=industry_strength_scores,
+            industry_leader_scores=industry_leader_scores,
+        )
 
     explore_signal_scores = blend_ranked_components(
         [
@@ -7756,6 +8121,7 @@ def run_backtest(
     promotion_streaks: Dict[str, int] = {}
     demotion_streaks: Dict[str, int] = {}
     pure_core_watch_streaks: Dict[str, int] = {}
+    holding_ages: Dict[str, int] = {}
     risk_evaluation_frequency = str(strategy_config.get("risk_evaluation_frequency", RISK_EVAL_FREQUENCY_MONTHLY) or RISK_EVAL_FREQUENCY_MONTHLY)
     risk_staging_mode = str(strategy_config.get("risk_staging_mode", "two_stage") or "two_stage").strip().lower()
     overlay_state: Dict[str, object] = {"confirmed_stage": "risk_on", "pending_stage": None, "pending_count": 0}
@@ -7849,6 +8215,18 @@ def run_backtest(
                     (safe_percentile_rank(amount_surge_ratio, ascending=True), factor_weights.get("liquidity_surge", 0.0)),
                 ]
             )
+        elif core_signal_mode in WEEKLY_ALPHA_SIGNAL_MODES:
+            core_signal_scores = build_weekly_alpha_scores(
+                core_signal_mode,
+                momentum_6_1=momentum_6_1,
+                momentum_3_1=momentum_3_1,
+                recent_1m_returns=recent_1m_returns,
+                amount_surge_ratio=amount_surge_ratio,
+                breakout_signal=breakout_signal,
+                quality_scores=quality_scores,
+                industry_strength_scores=industry_strength_scores,
+                industry_leader_scores=industry_leader_scores,
+            )
         promotion_signal_mode = str(strategy_config.get("promotion_signal_mode", "") or "").strip()
         if promotion_signal_mode == "momentum_6_1":
             promotion_signal_scores = safe_percentile_rank(momentum_6_1, ascending=True)
@@ -7861,6 +8239,18 @@ def run_backtest(
                     (industry_leader_scores, 0.10),
                     (breakout_signal.astype(float), 0.05),
                 ]
+            )
+        elif promotion_signal_mode in WEEKLY_ALPHA_SIGNAL_MODES:
+            promotion_signal_scores = build_weekly_alpha_scores(
+                promotion_signal_mode,
+                momentum_6_1=momentum_6_1,
+                momentum_3_1=momentum_3_1,
+                recent_1m_returns=recent_1m_returns,
+                amount_surge_ratio=amount_surge_ratio,
+                breakout_signal=breakout_signal,
+                quality_scores=quality_scores,
+                industry_strength_scores=industry_strength_scores,
+                industry_leader_scores=industry_leader_scores,
             )
         else:
             promotion_signal_scores = pd.Series(dtype=float)
@@ -8070,6 +8460,23 @@ def run_backtest(
             )
 
         nav_at_signal_date = float(positions.sum() + cash_value)
+        weekly_constraint_stats: Dict[str, object] = {
+            "weekly_min_hold_periods": 0,
+            "weekly_min_hold_protected_count": 0,
+            "weekly_turnover_cap": np.nan,
+            "weekly_turnover_cap_applied": False,
+            "weekly_turnover_cap_scale": 1.0,
+            "weekly_target_one_way_turnover_before_cap": 0.0,
+            "weekly_constraint_deleveraging_bypass": False,
+        }
+        if rebalance_frequency == "weekly":
+            current_weights_at_signal = positions / nav_at_signal_date if nav_at_signal_date > 0 and not positions.empty else pd.Series(dtype=float)
+            target_weights, target_cash_weight, weekly_constraint_stats = apply_weekly_rebalance_constraints(
+                target_weights=target_weights,
+                current_weights=current_weights_at_signal,
+                holding_ages=holding_ages,
+                strategy_config=strategy_config,
+            )
 
         if not positions.empty:
             current_price_rebalance = price_ffill.loc[rebalance_date, positions.index]
@@ -8118,6 +8525,7 @@ def run_backtest(
                 gross_positions = gross_positions * gross_holding_growth
 
         nav_end = float(positions.sum() + cash_value)
+        holding_ages = {str(code): holding_ages.get(str(code), 0) + 1 for code in positions.index}
         if nav_end > 0:
             if not positions.empty:
                 month_weights = (positions / nav_end).sort_values(ascending=False)
@@ -8196,6 +8604,13 @@ def run_backtest(
                 "market_risk_off": bool(market_regime["risk_off"]),
                 "market_12_1_momentum": market_regime["market_12_1_momentum"],
                 "cash_weight_target": target_cash_weight,
+                "weekly_min_hold_periods": weekly_constraint_stats["weekly_min_hold_periods"],
+                "weekly_min_hold_protected_count": weekly_constraint_stats["weekly_min_hold_protected_count"],
+                "weekly_turnover_cap": weekly_constraint_stats["weekly_turnover_cap"],
+                "weekly_turnover_cap_applied": weekly_constraint_stats["weekly_turnover_cap_applied"],
+                "weekly_turnover_cap_scale": weekly_constraint_stats["weekly_turnover_cap_scale"],
+                "weekly_target_one_way_turnover_before_cap": weekly_constraint_stats["weekly_target_one_way_turnover_before_cap"],
+                "weekly_constraint_deleveraging_bypass": weekly_constraint_stats["weekly_constraint_deleveraging_bypass"],
                 "cash_after_trade": trade_stats["cash_after_trade"],
                 "weekly_overlay_trade_count": weekly_overlay_stats["weekly_overlay_trade_count"],
                 "weekly_overlay_trading_cost": weekly_overlay_stats["weekly_overlay_trading_cost"],
@@ -8336,6 +8751,8 @@ def run_backtest(
         "core_source_mode": str(strategy_config["core_source_mode"]),
         "core_source_name": str(strategy_config["core_source_name"]),
         "rebalance_frequency": rebalance_frequency,
+        "weekly_min_hold_periods": int(strategy_config.get("weekly_min_hold_periods", 0) or 0),
+        "weekly_turnover_cap": float(strategy_config.get("weekly_turnover_cap", np.nan) or np.nan),
         "signal_date_rule": (
             "正式月度信号仅使用完整月份的最后一个交易日；若回测截止在月中，最新交易日只作为估值终点，不产生新的月度换股信号"
             if rebalance_frequency == "monthly"

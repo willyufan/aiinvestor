@@ -4,6 +4,20 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-15 10:14 CST）
+
+- 本轮起始 guard 为 `pass`，收尾前曾因新增 `weekly_alpha_*` 纯周频族的 `total_mv` 覆盖缺口进入 block；已按 guard rerun commands 补齐后重建五窗口 `strategy_comparison.csv` 到 `6807` 行，最终 guard 为 `pass / blocking=0 / warning=0`。
+- `winner_only_pass.py` 仍为 `base_candidates=33 / total_candidates=297 / evaluated=179`，Path 4-lite/core_multifactor 9 个 base candidate 继续完整覆盖五窗口；本轮没有新的 Path 1 clear improvement。
+- Path 1 四窗口 tracked winners 未变：2017 `aggr_10_90_fast_ramp_cash_off__port_weekly_exposure`，2020 `aggr_08_92_prom6_cash_off`，2023 `aggr_05_95_prom7_core_multifactor_balanced`，2025 `aggr_08_92_prom6_core_6_1`。
+- 四窗口 robust candidate 仍为 `aggr_08_92_prom6__port_weekly_exposure_buffered`，`meanCAGR=48.03% / minCAGR=27.14% / worstMaxDD=-29.23% / meanTurn=4.07`；最终 rotation 为 `stagnation_runs=5 / signal_quality`，下一轮不继续在旧周度 overlay 邻域微调。
+
+## 本轮执行计划（2026-05-14 22:55 CST）
+
+- 本轮开局 guard 因 aggregate CSV 未覆盖 `since_2025_01 / since_2026_01` 显示 block；已按 blocking rerun commands 补齐 Path 4-lite/core_multifactor 与 Path 2/3 缺口，并用显式五窗口重建 `strategy_comparison.csv`，收尾 guard 为 `pass / blocking=0 / warning=0`。
+- `winner_only_pass.py` 本轮仍为 `base_candidates=33 / total_candidates=297 / evaluated=179`，raw clear 出现在 2017 与 2025；已对 `aggr_10_90_fast_ramp_cash_off__port_weekly_exposure` 与 `aggr_08_92_prom6_core_6_1__sat_three_stage_buffered` 补跑五窗口确认。
+- `update_weighted_winners.py` 后 Path 1 tracked winners 已同步为：2017 `aggr_10_90_fast_ramp_cash_off__port_weekly_exposure`（`26.83% CAGR / -23.65% MaxDD / 1.1204 Sharpe / 3.57 Turn`），2020 `aggr_08_92_prom6_cash_off`（`23.37% / -15.47% / 0.9869 / 2.28`），2023 `aggr_05_95_prom7_core_multifactor_balanced`（`33.79% / -30.00% / 1.0731 / 3.59`），2025 `aggr_08_92_prom6_core_6_1`（`99.96% / -8.73% / 2.3793 / 5.39`）。
+- Path 1 四窗口候选仍以 `aggr_08_92_prom6__port_weekly_exposure_buffered` 为主；最终 guard 为 `stagnation_runs=1 / recommended_focus=core_multifactor_coverage`，下一轮优先看多因子覆盖、信号质量与低成本确认。
+
 ## 本轮执行计划（2026-05-14 15:10 CST）
 
 - 本轮起止两次运行 `.venv/bin/python scripts/research_iteration_guard.py`，收尾 coverage gate 为 `pass`，blocking/warning 均为 `0`；Path 4-lite/core_multifactor 9 个 base candidate 继续完整覆盖 `since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01 / since_2026_01`。

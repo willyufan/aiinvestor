@@ -13,6 +13,20 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-15 10:14 CST）
+
+- 本轮在修复 aggregate 覆盖后复跑 `scripts/path2_candidate_pass.py`，family-ranked universe 恢复为 `raw=536 / complete=473 / incomplete=63`；五族规模为 `154 / 229 / 9 / 16 / 25`，新增 `weekly_alpha_*` 只扩充单周调仓族，没有压扁高集中、高成长、动量或双周 family。
+- family-ranked Path 2 robust 仍为 `core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap95`，`meanCAGR=65.09% / minCAGR=39.27% / worstMaxDD=-32.76% / meanTurn=4.98`。
+- `update_weighted_winners.py` 的 tracked Path 2 本轮切到纯周频 `weekly_alpha_pullback` 族：2017/2020 robust leg 为 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly`，2023 为 `aggr_08_92_prom6_weekly_alpha_pullback_risk50_cap40_hold2_turn40_weekly`，2025 为 `aggr_05_95_prom3_weekly_alpha_pullback_risk50_cap60_hold2_turn30_weekly`。
+- weighted Path 2 robust 为 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly`，`meanCAGR=24.95% / minCAGR=19.02% / worstMaxDD=-37.64% / meanTurn=6.07`；最终 rotation 为 `stagnation_runs=1 / medium_cycle_growth`，下一轮应确认 Path 2 tracked 口径是否继续允许纯周频族主导。
+
+## 本轮执行计划（2026-05-14 22:55 CST）
+
+- 本轮优先修复 guard blocking coverage：Path 2 active universe 的 `since_2025_01` aggregate 缺口已通过阻塞 rerun 与五窗口 `strategy_comparison.csv` 重建补齐，收尾 guard 为 `pass`。
+- `path2_candidate_pass.py` 在当前脚本口径下只输出 `candidate_count=1` 的严格候选 shortlist，robust 为 `aggr_10_90_fast_ramp_cash_off`；但 `update_weighted_winners.py` 仍基于完整 comparison universe 更新 Path 2 tracked winners。
+- Path 2 tracked winners 已同步为：2017 `2/98 risk40_mom_exit60_reconfirm75`（`39.27% CAGR / -32.76% MaxDD / 1.1468 Sharpe / 3.79 Turn`），2020 `1/99 risk40_mom_exit60_reconfirm70`（`59.78% / -28.34% / 1.2602 / 4.49`），2023 `1/99 risk50_ma`（`67.87% / -36.51% / 1.3606 / 4.79`），2025 `aggr_05_95_prom3_core_6_1_full_risk_cap60`（`148.68% / -17.33% / 2.1665 / 5.94`）。
+- 四窗口 robust candidate 为 `2/98 risk40_mom_exit60_reconfirm75`，`meanCAGR=65.09% / minCAGR=39.27% / worstMaxDD=-32.76% / meanTurn=4.98`；最终 guard 为 `stagnation_runs=1 / recommended_focus=medium_cycle_growth`，下一轮优先处理 candidate-pass family shortlist 过窄的问题，再继续中周期扩展。
+
 ## 本轮执行计划（2026-05-14 15:10 CST）
 
 - 本轮起止两次运行研究守卫，收尾 coverage gate 为 `pass`，Path 2 active universe 继续为 `455` 个四窗口完整候选，另有不完整历史候选仅保留追溯；收尾 rotation 为 `stagnation_runs=13 / recommended_focus=medium_cycle_growth`。

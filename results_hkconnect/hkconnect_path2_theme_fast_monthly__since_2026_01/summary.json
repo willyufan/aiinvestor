@@ -3,10 +3,64 @@
   "pool_name": "沪港通静态标的池（最新可得名单）",
   "sample_start": "2026-02-02",
   "sample_end": "2026-04-30",
-  "latest_valuation_date": "2026-04-30",
+  "latest_valuation_date": "2026-05-14",
   "latest_formal_signal_date": "2026-04-30",
-  "is_provisional_period_end": false,
-  "month_end_preview": {},
+  "is_provisional_period_end": true,
+  "month_end_preview": {
+    "mode": "month_end_preview",
+    "status": "available",
+    "preview_as_of": "2026-05-14",
+    "formal_signal_date": "2026-04-30",
+    "note": "月中观察口径：使用当日收盘数据模拟“如果今天是月末”的沪港通候选组合，不进入正式回测收益或 winner 规则。",
+    "target_total_exposure": 1.0,
+    "risk_state": "risk_on",
+    "market_momentum": 1.2140091072000647,
+    "selected_count": 6,
+    "selection_counts": {
+      "selected_count": 6,
+      "buy_candidate_count": 34,
+      "keep_candidate_count": 79,
+      "quality_pass_count": 260
+    },
+    "holdings": [
+      {
+        "ts_code": "02388.HK",
+        "name": "中银香港",
+        "weight": 0.18871508379888272,
+        "latest_price": 46.2
+      },
+      {
+        "ts_code": "00001.HK",
+        "name": "长和",
+        "weight": 0.18782122905027937,
+        "latest_price": 73.25
+      },
+      {
+        "ts_code": "00857.HK",
+        "name": "中国石油股份",
+        "weight": 0.16860335195530732,
+        "latest_price": 10.92
+      },
+      {
+        "ts_code": "00016.HK",
+        "name": "新鸿基地产",
+        "weight": 0.15564245810055868,
+        "latest_price": 143.3
+      },
+      {
+        "ts_code": "03988.HK",
+        "name": "中国银行",
+        "weight": 0.15251396648044693,
+        "latest_price": 5.29
+      },
+      {
+        "ts_code": "06869.HK",
+        "name": "长飞光纤光缆",
+        "weight": 0.14670391061452515,
+        "latest_price": 253.8
+      }
+    ]
+  },
   "sample_tag": "since_2026_01",
   "sample_label": "2026-01 起（观察窗）",
   "sample_short_label": "2026-01",

@@ -1,5 +1,17 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-05-15 10:14 CST）
+
+- 本轮独立运行港股五窗口回测，`trade_calendar` 在线更新失败后回退本地缓存；随后运行 `scripts/update_hkconnect_artifacts.py`，HK coverage 最终仍为 `pass`，港股结论继续不并入 A 股。
+- HK Path 1 tracked winners 未变：2017/2023/2025 为 `hkconnect_path1_monthly_equal_buffered`，2020 为 `hkconnect_path1_monthly_equal_buffered_weekly_overlay`。
+- 四窗口 robust candidate 仍为 `hkconnect_path1_monthly_equal_buffered`，`meanCAGR=32.07% / minCAGR=24.03% / worstMaxDD=-23.59% / meanTurn=3.11`；最终 rotation 为 `stagnation_runs=22 / biweekly_buffer`。
+
+## 本轮执行计划（2026-05-14 22:55 CST）
+
+- 本轮已完整运行 `backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01` 并同步 `update_hkconnect_artifacts.py`，HK coverage 收尾仍为 `pass`，港股结论继续独立于 A 股。
+- HK Path 1 tracked winners 当前为：2017 `hkconnect_path1_monthly_equal_buffered`（`24.03% CAGR / -23.59% MaxDD / 1.2852 Sharpe / 3.09 Turn`），2020 `hkconnect_path1_monthly_equal_buffered_weekly_overlay`（`31.21% / -14.83% / 1.5210 / 3.52`），2023/2025 仍为 `monthly_equal_buffered`（`33.85% / 40.41% CAGR`）。
+- 四窗口 robust candidate 仍为 `hkconnect_path1_monthly_equal_buffered`，`meanCAGR=32.07% / minCAGR=24.03% / worstMaxDD=-23.59% / meanTurn=3.11`；最终 guard 为 `stagnation_runs=18 / monthly_weekly_overlay`，下一轮继续比较月频稳健线与周度 overlay 的交易成本。
+
 ## 本轮执行计划（2026-05-14 15:10 CST）
 
 - 本轮按独立港股线运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，`trade_calendar` 在线更新失败后回退本地缓存；随后同步 `scripts/update_hkconnect_artifacts.py`。

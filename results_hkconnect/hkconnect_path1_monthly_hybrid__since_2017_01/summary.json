@@ -3,10 +3,112 @@
   "pool_name": "沪港通静态标的池（最新可得名单）",
   "sample_start": "2017-02-01",
   "sample_end": "2026-04-30",
-  "latest_valuation_date": "2026-04-30",
+  "latest_valuation_date": "2026-05-14",
   "latest_formal_signal_date": "2026-04-30",
-  "is_provisional_period_end": false,
-  "month_end_preview": {},
+  "is_provisional_period_end": true,
+  "month_end_preview": {
+    "mode": "month_end_preview",
+    "status": "available",
+    "preview_as_of": "2026-05-14",
+    "formal_signal_date": "2026-04-30",
+    "note": "月中观察口径：使用当日收盘数据模拟“如果今天是月末”的沪港通候选组合，不进入正式回测收益或 winner 规则。",
+    "target_total_exposure": 0.9999999999999998,
+    "risk_state": "risk_on",
+    "market_momentum": 1.2140091072000647,
+    "selected_count": 14,
+    "selection_counts": {
+      "selected_count": 14,
+      "buy_candidate_count": 69,
+      "keep_candidate_count": 126,
+      "quality_pass_count": 260
+    },
+    "holdings": [
+      {
+        "ts_code": "01398.HK",
+        "name": "工商银行",
+        "weight": 0.10453558111892298,
+        "latest_price": 7.04
+      },
+      {
+        "ts_code": "00939.HK",
+        "name": "建设银行",
+        "weight": 0.10207638258931487,
+        "latest_price": 8.87
+      },
+      {
+        "ts_code": "00857.HK",
+        "name": "中国石油股份",
+        "weight": 0.09563345166748358,
+        "latest_price": 10.92
+      },
+      {
+        "ts_code": "01288.HK",
+        "name": "农业银行",
+        "weight": 0.08355775907760248,
+        "latest_price": 6.09
+      },
+      {
+        "ts_code": "03988.HK",
+        "name": "中国银行",
+        "weight": 0.07684605151632204,
+        "latest_price": 5.29
+      },
+      {
+        "ts_code": "00883.HK",
+        "name": "中国海洋石油",
+        "weight": 0.07444866488473965,
+        "latest_price": 26.36
+      },
+      {
+        "ts_code": "00005.HK",
+        "name": "汇丰控股",
+        "weight": 0.07264552554868009,
+        "latest_price": 140.5
+      },
+      {
+        "ts_code": "01088.HK",
+        "name": "中国神华",
+        "weight": 0.06485727303631722,
+        "latest_price": 44.36
+      },
+      {
+        "ts_code": "02628.HK",
+        "name": "中国人寿",
+        "weight": 0.061707692334165315,
+        "latest_price": 29.88
+      },
+      {
+        "ts_code": "02388.HK",
+        "name": "中银香港",
+        "weight": 0.055910183196379,
+        "latest_price": 46.2
+      },
+      {
+        "ts_code": "02899.HK",
+        "name": "紫金矿业",
+        "weight": 0.053322749509741585,
+        "latest_price": 37.22
+      },
+      {
+        "ts_code": "02318.HK",
+        "name": "中国平安",
+        "weight": 0.05189666688854659,
+        "latest_price": 63.5
+      },
+      {
+        "ts_code": "01299.HK",
+        "name": "友邦保险",
+        "weight": 0.051422309808820045,
+        "latest_price": 87.7
+      },
+      {
+        "ts_code": "00001.HK",
+        "name": "长和",
+        "weight": 0.051139708822964425,
+        "latest_price": 73.25
+      }
+    ]
+  },
   "sample_tag": "since_2017_01",
   "sample_label": "2017-01 起",
   "sample_short_label": "2017-01",
@@ -24,14 +126,14 @@
   "universe_note": "受 Tushare stock_hsgt 历史覆盖限制，当前使用最新可得沪港通名单作为静态回测池。",
   "transaction_cost_note": "当前港股交易成本采用近似双边佣金模型（无印花税建模），仅用于研究比较。",
   "metrics": {
-    "total_return": 3.634740720394605,
-    "cagr": 0.18032811138151073,
-    "max_drawdown": -0.1971387878704085,
+    "total_return": 3.6347407203946016,
+    "cagr": 0.1803281113815105,
+    "max_drawdown": -0.1971387878704084,
     "monthly_win_rate": 0.6396396396396397,
-    "annual_volatility": 0.15684872960368948,
-    "sharpe_ratio": 1.1408063371677777,
-    "average_annual_turnover": 1.7909069244899718,
-    "cumulative_trading_cost": 0.020984691715497703
+    "annual_volatility": 0.15684872960368962,
+    "sharpe_ratio": 1.1408063371677766,
+    "average_annual_turnover": 1.790906924489972,
+    "cumulative_trading_cost": 0.020984691715497692
   },
   "warnings": [
     "沪港通历史标的列表受 Tushare stock_hsgt 接口限制（仅 2025-08-12 起可取），当前研究使用最新可得沪港通名单作为静态回测池。",

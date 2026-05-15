@@ -3,10 +3,88 @@
   "pool_name": "沪港通静态标的池（最新可得名单）",
   "sample_start": "2025-02-03",
   "sample_end": "2026-04-30",
-  "latest_valuation_date": "2026-04-30",
+  "latest_valuation_date": "2026-05-14",
   "latest_formal_signal_date": "2026-04-30",
-  "is_provisional_period_end": false,
-  "month_end_preview": {},
+  "is_provisional_period_end": true,
+  "month_end_preview": {
+    "mode": "month_end_preview",
+    "status": "available",
+    "preview_as_of": "2026-05-14",
+    "formal_signal_date": "2026-04-30",
+    "note": "月中观察口径：使用当日收盘数据模拟“如果今天是月末”的沪港通候选组合，不进入正式回测收益或 winner 规则。",
+    "target_total_exposure": 0.9999999999999999,
+    "risk_state": "risk_on",
+    "market_momentum": 1.2140091072000647,
+    "selected_count": 10,
+    "selection_counts": {
+      "selected_count": 10,
+      "buy_candidate_count": 25,
+      "keep_candidate_count": 63,
+      "quality_pass_count": 260
+    },
+    "holdings": [
+      {
+        "ts_code": "00688.HK",
+        "name": "中国海外发展",
+        "weight": 0.1182737450343084,
+        "latest_price": 16.43
+      },
+      {
+        "ts_code": "02018.HK",
+        "name": "瑞声科技",
+        "weight": 0.10888407367280604,
+        "latest_price": 45.5
+      },
+      {
+        "ts_code": "01070.HK",
+        "name": "TCL电子",
+        "weight": 0.10599494402311302,
+        "latest_price": 15.94
+      },
+      {
+        "ts_code": "00001.HK",
+        "name": "长和",
+        "weight": 0.10527266161068977,
+        "latest_price": 73.25
+      },
+      {
+        "ts_code": "00148.HK",
+        "name": "建滔集团",
+        "weight": 0.09985554351751534,
+        "latest_price": 54.65
+      },
+      {
+        "ts_code": "02577.HK",
+        "name": "英诺赛科",
+        "weight": 0.09877211989888045,
+        "latest_price": 86.2
+      },
+      {
+        "ts_code": "06088.HK",
+        "name": "FIT HON TENG",
+        "weight": 0.09588299024918742,
+        "latest_price": 9.96
+      },
+      {
+        "ts_code": "00522.HK",
+        "name": "ASMPT",
+        "weight": 0.09407728421812928,
+        "latest_price": 172.3
+      },
+      {
+        "ts_code": "00290.HK",
+        "name": "国富量子",
+        "weight": 0.08649331888768508,
+        "latest_price": 9.09
+      },
+      {
+        "ts_code": "00257.HK",
+        "name": "光大环境",
+        "weight": 0.08649331888768506,
+        "latest_price": 5.85
+      }
+    ]
+  },
   "sample_tag": "since_2025_01",
   "sample_label": "2025-01 起",
   "sample_short_label": "2025-01",
@@ -24,14 +102,14 @@
   "universe_note": "受 Tushare stock_hsgt 历史覆盖限制，当前使用最新可得沪港通名单作为静态回测池。",
   "transaction_cost_note": "当前港股交易成本采用近似双边佣金模型（无印花税建模），仅用于研究比较。",
   "metrics": {
-    "total_return": 1.200989959607635,
-    "cagr": 0.8797255697212998,
-    "max_drawdown": -0.08472183773068787,
+    "total_return": 1.2009899596076332,
+    "cagr": 0.8797255697212987,
+    "max_drawdown": -0.08472183773068798,
     "monthly_win_rate": 0.7333333333333333,
-    "annual_volatility": 0.2648489732819138,
-    "sharpe_ratio": 2.5658815981471528,
+    "annual_volatility": 0.26484897328191365,
+    "sharpe_ratio": 2.5658815981471523,
     "average_annual_turnover": 6.639255513608627,
-    "cumulative_trading_cost": 0.007830646368889435
+    "cumulative_trading_cost": 0.00783064636888943
   },
   "warnings": [
     "沪港通历史标的列表受 Tushare stock_hsgt 接口限制（仅 2025-08-12 起可取），当前研究使用最新可得沪港通名单作为静态回测池。",

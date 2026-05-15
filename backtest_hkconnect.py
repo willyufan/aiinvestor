@@ -1044,7 +1044,10 @@ def build_hk_market_series(price_ffill: pd.DataFrame) -> pd.Series:
 
 
 def get_factor_signal_dates(prepared: HKPreparedData) -> List[pd.Timestamp]:
-    return sorted(set(prepared.month_end_dates) | set(prepared.week_end_dates))
+    signal_dates = set(prepared.month_end_dates) | set(prepared.week_end_dates)
+    if not prepared.price_ffill.empty:
+        signal_dates.add(pd.Timestamp(prepared.price_ffill.index.max()))
+    return sorted(signal_dates)
 
 
 def get_rebalance_signal_dates(prepared: HKPreparedData, rebalance_frequency: str) -> List[pd.Timestamp]:
@@ -1543,8 +1546,12 @@ def build_hk_month_end_preview_payload(
     quality_scores = prepared.factor_cache.liquidity_quality_scores_by_date.get(signal_date, pd.Series(dtype=float))
     breakout_signal = prepared.factor_cache.breakout_signal_by_date.get(signal_date, pd.Series(dtype=bool))
     market_close = prepared.market_monthly_close.copy()
-    if signal_date not in market_close.index and signal_date in prepared.market_weekly_close.index:
-        market_close.loc[signal_date] = float(prepared.market_weekly_close.loc[signal_date])
+    if signal_date not in market_close.index:
+        market_daily = build_hk_market_series(prepared.price_ffill)
+        if signal_date in market_daily.index:
+            market_close.loc[signal_date] = float(market_daily.loc[signal_date])
+        elif signal_date in prepared.market_weekly_close.index:
+            market_close.loc[signal_date] = float(prepared.market_weekly_close.loc[signal_date])
         market_close = market_close.sort_index()
     regime = compute_market_exposure(
         market_close,
@@ -2050,7 +2057,10 @@ def run_hk_backtest(
     )
 
     metrics = compute_metrics(equity_curve, monthly_returns, turnover, rebalance_frequency=rebalance_frequency)
-    latest_valuation_date = pd.Timestamp(equity_curve["date"].iloc[-1])
+    official_backtest_end = pd.Timestamp(equity_curve["date"].iloc[-1])
+    latest_valuation_date = official_backtest_end
+    if rebalance_frequency == "monthly" and not prepared.price_ffill.empty:
+        latest_valuation_date = max(official_backtest_end, pd.Timestamp(prepared.price_ffill.index.max()))
     latest_formal_signal_date = None
     if rebalance_frequency == "monthly":
         formal_signal_dates = [date for date in prepared.month_end_dates if date <= latest_valuation_date]
