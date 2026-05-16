@@ -1,5 +1,13 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-05-16 23:12 CST）
+
+- 本轮完整运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`；trade calendar 在线更新失败后回退本地缓存，HK coverage 收尾仍为 `44/44 complete / pass`。
+- `scripts/update_hkconnect_artifacts.py` 已同步 tracked payload 与三张 HK 对比图；港股线继续独立，不并入 A 股 winner。
+- HK Path 1 tracked winners 未变：2017/2023/2025 为 `hkconnect_path1_monthly_equal_buffered`，指标分别为 `24.03% / 33.85% / 40.41% CAGR`；2020 为 `hkconnect_path1_monthly_equal_buffered_weekly_overlay`（`31.21% CAGR / -14.83% MaxDD / 1.52 Sharpe / 3.52 Turn`）。
+- 四窗口 robust candidate 仍为 `hkconnect_path1_monthly_equal_buffered`，`meanCAGR=32.07% / minCAGR=24.03% / worstMaxDD=-23.59% / meanTurn=3.11`。
+- 收尾 rotation 为 `stagnation_runs=8 / recommended_focus=risk_overlay_cost / rotate`；下一轮继续比较月频稳健线上的周度风险 overlay 成本与信号生效日。
+
 ## 本轮执行计划（2026-05-16 17:14 CST）
 
 - 本轮完整运行 `.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，并用 `update_hkconnect_artifacts.py` 同步 tracked payload 与三张 HK 对比图。
