@@ -1,5 +1,13 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-05-16 17:14 CST）
+
+- 本轮完整运行 `.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，并用 `update_hkconnect_artifacts.py` 同步 tracked payload 与三张 HK 对比图。
+- HK Path 1 tracked winners 未变：2017 `hkconnect_path1_monthly_equal_buffered`（`24.03% CAGR / -23.59% MaxDD / 1.29 Sharpe / 3.09 Turn`），2020 `hkconnect_path1_monthly_equal_buffered_weekly_overlay`（`31.21% / -14.83% / 1.52 / 3.52`）。
+- 2023 与 2025 winner 仍为 `hkconnect_path1_monthly_equal_buffered`，分别为 `33.85% / -14.79% / 1.69 / 2.87` 与 `40.41% / -14.79% / 1.53 / 3.46`。
+- 四窗口 robust candidate 仍为 `hkconnect_path1_monthly_equal_buffered`，`meanCAGR=32.07% / minCAGR=24.03% / worstMaxDD=-23.59% / meanTurn=3.11`。
+- 收尾 rotation 为 `stagnation_runs=6 / recommended_focus=risk_overlay_cost / rotate`；下一轮继续比较风险 overlay 成本，但 monthly equal buffered 仍是当前稳健锚点。
+
 ## 本轮执行计划（2026-05-16 11:20 CST）
 
 - 本轮独立运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，trade calendar 在线更新失败后按计划回退本地缓存；随后运行 `scripts/update_hkconnect_artifacts.py`。

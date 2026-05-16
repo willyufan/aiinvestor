@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-16 17:14 CST）
+
+- 本轮先用本地 `summary.json` 重建 A 股 comparison 到 `8693` 行，解除 Path 2 coverage `block`；`scripts/path2_candidate_pass.py` 复跑后候选宇宙保持 `513` 个 base candidates。
+- 五个候选族继续独立保留：`high_concentration_breakout=154`、`high_growth_theme=269`、`momentum_equal_weight_elastic=9`、`biweekly_rebalance_aggressive=16`、`weekly_rebalance_aggressive=25`；family membership 没有被单一高集中族压扁。
+- Path 2 tracked winners 当前为：2017 `90/10 equal_weight risk40_mom_exit60_reconfirm75_cap95`（`38.66% CAGR / -32.76% MaxDD / 1.13 Sharpe / 3.79 Turn`），2020 `90/10 equal_weight risk40_mom_exit60_reconfirm70_cap95`（`58.72% / -28.34% / 1.25 / 4.49`）。
+- 2023 winner 为 `90/10 equal_weight risk50_ma_cap95`（`65.81% CAGR / -36.51% MaxDD / 1.33 Sharpe / 4.79 Turn`）；2025 raw weekly 高弹性候选因 2023 验证不足被拒，official winner 仍为 `80/20 total_mv aggr_05_95_prom3_core_6_1_full_risk_cap60`（`143.76% / -17.33% / 2.12 / 5.94`）。
+- 四窗口 robust candidate 仍为 `90/10 equal_weight risk40_mom_exit60_reconfirm75_cap95`，`meanCAGR=62.76% / minCAGR=38.66% / worstMaxDD=-32.76% / meanTurn=4.98`。
+- 收尾 rotation 为 `stagnation_runs=6 / recommended_focus=underrepresented_families / rotate`；下一轮优先补 `momentum_equal_weight_elastic / biweekly_rebalance_aggressive / weekly_rebalance_aggressive` 等低代表性族，而不是扩大短窗 weekly 爆发族。
+
 ## 本轮执行计划（2026-05-16 11:20 CST）
 
 - 本轮先通过缓存重建解除 Path 2 aggregate coverage 的假性 blocking 缺口；最终 guard 对 Path 2 candidate universe 为 `513/513 complete / pass`。

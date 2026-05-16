@@ -4,6 +4,15 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-16 17:14 CST）
+
+- 开局 guard 因新旧结果布局聚合只剩 `80` 条 A 股 comparison 行而显示 `block / blocking=502`；已先用本地 `summary.json` 缓存重建 `results/research/a_share/strategy_comparison*.csv` 到 `8693` 行 / `2137` 个 base strategies，随后 guard 降为 `warn / blocking=0 / warning=13`。
+- Path 4-lite/core_multifactor 固定项继续完整覆盖：`core_multifactor` 9 个 base candidate 全部在 `winner_only_pass.py` 的方向池中，且五窗口覆盖不再阻塞。
+- Path 1 快筛复跑为 `base_candidates=33 / total_candidates=297 / evaluated=157`；`promotion_ramp / satellite_defense / signal_variants / core_multifactor / holding_shape / supporting_variants` 均被巡检，本轮仍没有 clear improvement。
+- Path 1 tracked winners 未变：2017 `aggr_10_90_fast_ramp_cash_off__port_weekly_exposure`，2020 `aggr_08_92_prom6_cash_off`，2023 `aggr_05_95_prom7_core_multifactor_balanced`，2025 `aggr_08_92_prom6_core_6_1`。
+- 四窗口 robust candidate 仍为 `aggr_08_92_prom6__port_weekly_exposure_buffered`，`meanCAGR=46.94% / minCAGR=26.85% / worstMaxDD=-29.23% / meanTurn=4.07`。
+- 收尾 guard 为 `warn / blocking=0 / warning=13`，rotation 为 `stagnation_runs=6 / recommended_focus=satellite_risk_cost / rotate`；下一轮优先处理卫星风险成本与 13 个 fast-family warning 的可生成性，不继续旧周度 overlay 邻域微调。
+
 ## 本轮执行计划（2026-05-16 11:20 CST）
 
 - 开局 guard 因 comparison 迁移后的聚合缺口显示 `block / blocking=502`；已先用本地 `summary.json` 缓存重建 `results/research/a_share/strategy_comparison*.csv` 到 `8613` 行 / `2137` 个 base strategies，随后 guard 降为 `warn / blocking=0 / warning=13`。
