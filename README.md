@@ -321,7 +321,7 @@ A 股各路径在四个窗口下的赢家变化历史，持续记录在：
 - [docs/path1_plan_hkconnect.md](docs/path1_plan_hkconnect.md)
 - [docs/path2_plan_hkconnect.md](docs/path2_plan_hkconnect.md)
 - [docs/path3_plan_hkconnect.md](docs/path3_plan_hkconnect.md)
-- [results_hkconnect/tracked_winners_hkconnect.json](results_hkconnect/tracked_winners_hkconnect.json)
+- [results/research/hkconnect/tracked_winners_hkconnect.json](results/research/hkconnect/tracked_winners_hkconnect.json)
 
 ![HK Connect Path1 Comparison](docs/strategy_comparison_hkconnect_path1.png)
 
