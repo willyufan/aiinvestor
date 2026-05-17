@@ -125,6 +125,12 @@ def main() -> int:
         action="store_true",
         help="When the new research file already exists, remove the legacy source instead of leaving a duplicate.",
     )
+    parser.add_argument(
+        "--market-scope",
+        choices=["all", A_SHARE_SCOPE, HKCONNECT_SCOPE],
+        default="all",
+        help="Which market backtest directories to migrate. Research files are handled separately.",
+    )
     parser.add_argument("--skip-backtests", action="store_true", help="Only migrate research files.")
     args = parser.parse_args()
 
@@ -137,10 +143,12 @@ def main() -> int:
     )
     print(f"[{mode}] research: {research}")
     if not args.skip_backtests:
-        ashare = _migrate_backtests(apply=args.apply, replace=args.replace, market_scope=A_SHARE_SCOPE)
-        hkconnect = _migrate_backtests(apply=args.apply, replace=args.replace, market_scope=HKCONNECT_SCOPE)
-        print(f"[{mode}] backtests/a_share: {ashare}")
-        print(f"[{mode}] backtests/hkconnect: {hkconnect}")
+        if args.market_scope in ("all", A_SHARE_SCOPE):
+            ashare = _migrate_backtests(apply=args.apply, replace=args.replace, market_scope=A_SHARE_SCOPE)
+            print(f"[{mode}] backtests/a_share: {ashare}")
+        if args.market_scope in ("all", HKCONNECT_SCOPE):
+            hkconnect = _migrate_backtests(apply=args.apply, replace=args.replace, market_scope=HKCONNECT_SCOPE)
+            print(f"[{mode}] backtests/hkconnect: {hkconnect}")
     if not args.apply:
         print("[DRY-RUN] No files moved. Add --apply to apply.")
     return 0
