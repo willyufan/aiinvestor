@@ -4,6 +4,16 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-17 17:25 CST）
+
+- 开局 guard 为 `warn / blocking=0 / warning=13`，已按 `ashare_path1_fast_family` 增量 rerun command 用 `--only-base-ids` 补齐 13 个 fast-family 非阻塞缺口；收尾 guard 升为 `pass / blocking=0 / warning=0`。
+- 已再次复核 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 的 9 个 base candidate 全部在 `PATH1_FAST_PASS_VARIANT_IDS` 中，且五窗口覆盖完整；Path 4-lite/core_multifactor 本轮无缺口。
+- Path 1 fast-pass 复跑为 `base_candidates=33 / total_candidates=297 / evaluated=170`；方向规模为 `promotion_ramp=5 / satellite_defense=5 / signal_variants=2 / core_multifactor=9 / holding_shape=7 / supporting_variants=4`。
+- 本轮没有 clear improvement：2017 raw best `aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered` 收益更高但 `MaxDD=-28.16%` 劣于当前 winner；2020 raw best `aggr_05_95_prom7__sat_three_stage_buffered_asym13` 回撤加深到 `-30.57%`。
+- 2023 raw best 的 Sharpe 不足，2025 raw best 虽有 `101.52% CAGR` 但 Sharpe 与回撤均劣于现有口径；Path 1 tracked winners 与 robust candidate 未变。
+- 四窗口 robust candidate 仍为 `aggr_08_92_prom6__port_weekly_exposure_buffered`，`meanCAGR=46.94% / minCAGR=26.85% / worstMaxDD=-29.23% / meanTurn=4.07`。
+- 收尾 rotation 为 `stagnation_runs=15 / recommended_focus=signal_quality / rotate`；下一轮在 coverage 已清零后优先转向信号质量，不继续旧 weekly exposure 邻域微调。
+
 ## 本轮执行计划（2026-05-17 11:15 CST）
 
 - 开局与收尾均运行 `.venv/bin/python scripts/research_iteration_guard.py`；收尾 coverage gate 仍为 `warn / blocking=0 / warning=13`，Path 4-lite/core_multifactor 固定项继续 `9/9 complete`，13 个 warning 仍是旧 fast-family ID 的非阻塞缺口。
