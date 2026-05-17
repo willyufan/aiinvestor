@@ -29,6 +29,8 @@ from scripts.results_layout import (
     research_file,
     strategy_result_dir,
 )
+from scripts.active_strategy_scope import collect_ashare_refresh_active_ids
+from scripts.comparison_merge import merge_latest_rows
 
 
 def _load_token() -> str:
@@ -7691,17 +7693,43 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
     return prepared
 
 
-def save_pool_comparison(comparison_rows: List[Dict[str, object]], comparison_csv: Path | None = None) -> None:
+def save_pool_comparison(
+    comparison_rows: List[Dict[str, object]],
+    comparison_csv: Path | None = None,
+    *,
+    merge_existing: bool = False,
+) -> None:
     if not comparison_rows:
         return
 
     comparison_df = pd.DataFrame(comparison_rows)
     if comparison_csv is None:
-        save_csv(comparison_df, research_file("strategy_comparison.csv"))
-        save_csv(comparison_df, research_file("strategy_comparison_base_method.csv"))
+        output_paths = [research_file("strategy_comparison.csv"), research_file("strategy_comparison_base_method.csv")]
+        for output_path in output_paths:
+            output_df = (
+                merge_latest_rows(
+                    comparison_df,
+                    output_path,
+                    key_cols=["strategy_base_id", "sample_tag"],
+                    sort_cols=["sample_start", "strategy_kind", "pool_id", "cagr"],
+                )
+                if merge_existing
+                else comparison_df
+            )
+            save_csv(output_df, output_path)
         return
 
-    save_csv(comparison_df, comparison_csv)
+    output_df = (
+        merge_latest_rows(
+            comparison_df,
+            comparison_csv,
+            key_cols=["strategy_base_id", "sample_tag"],
+            sort_cols=["sample_start", "strategy_kind", "pool_id", "cagr"],
+        )
+        if merge_existing
+        else comparison_df
+    )
+    save_csv(output_df, comparison_csv)
 
 
 def append_comparison_row(comparison_rows: List[Dict[str, object]], summary: Dict[str, object]) -> None:
@@ -9011,6 +9039,13 @@ def get_core_active_strategy_base_ids() -> Set[str]:
     return _load_weighted_tracked_winner_ids()
 
 
+def get_refresh_active_strategy_base_ids() -> Set[str]:
+    refresh_ids = collect_ashare_refresh_active_ids()
+    if refresh_ids:
+        return refresh_ids
+    return get_core_active_strategy_base_ids() | _load_weighted_tracked_winner_ids()
+
+
 def get_research_active_strategy_base_ids() -> Set[str]:
     return get_active_strategy_base_ids()
 
@@ -9159,10 +9194,11 @@ def main(argv: list[str] | None = None) -> None:
     )
     parser.add_argument(
         "--family-scope",
-        choices=["core_active", "research_active", "active", "archive", "all"],
+        choices=["refresh_active", "core_active", "research_active", "active", "archive", "all"],
         default="research_active",
         help=(
-            "策略家族范围：research_active 跑更宽的研究活跃家族，"
+            "策略家族范围：refresh_active 跑 winners/top5/core_active/live 活跃刷新集合，"
+            "research_active 跑更宽的研究活跃家族，"
             "core_active 只跑动态 winner 观察池，"
             "active 作为 research_active 的兼容别名，"
             "archive 只跑归档家族，all 跑全部历史家族。"
@@ -9174,8 +9210,11 @@ def main(argv: list[str] | None = None) -> None:
     ensure_directories()
     selected_sample_tags = set(_parse_csv_list(args.sample_tags)) if args.sample_tags else set()
     selected_base_ids = set(_parse_csv_list(args.only_base_ids)) if args.only_base_ids else set()
+    explicit_selected_base_ids = bool(selected_base_ids)
     if args.winner_only and not selected_base_ids:
         selected_base_ids = get_winner_only_base_ids()
+    elif not selected_base_ids and args.family_scope == "refresh_active":
+        selected_base_ids = get_refresh_active_strategy_base_ids()
     elif not selected_base_ids and args.family_scope == "core_active":
         selected_base_ids = get_core_active_strategy_base_ids()
     elif not selected_base_ids and args.family_scope in {"research_active", "active"}:
@@ -9328,7 +9367,13 @@ def main(argv: list[str] | None = None) -> None:
                                 print_summary(summary, latest_weights)
                                 append_comparison_row(comparison_rows, summary)
 
-    save_pool_comparison(comparison_rows, comparison_csv=comparison_csv)
+    merge_existing = bool(
+        explicit_selected_base_ids
+        or selected_sample_tags
+        or args.winner_only
+        or args.family_scope in {"refresh_active", "core_active", "archive"}
+    )
+    save_pool_comparison(comparison_rows, comparison_csv=comparison_csv, merge_existing=merge_existing)
 
 
 if __name__ == "__main__":
