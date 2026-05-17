@@ -2,9 +2,12 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 os.environ.setdefault("MPLCONFIGDIR", str(ROOT / "data_cache" / "mplconfig"))
 
 import matplotlib
@@ -14,6 +17,8 @@ import numpy as np
 matplotlib.use("Agg")
 from matplotlib import font_manager
 from matplotlib import colors as mcolors
+
+from scripts.results_layout import existing_research_file, existing_strategy_result_dir, existing_strategy_result_file
 
 
 def _configure_matplotlib_fonts() -> None:
@@ -39,7 +44,6 @@ def _configure_matplotlib_fonts() -> None:
 import matplotlib.pyplot as plt
 
 
-RESULTS_DIR = ROOT / "results"
 DOCS_DIR = ROOT / "docs"
 OUTPUT_PATHS = {
     "since_2017_01": DOCS_DIR / "strategy_comparison_since_2017_01.png",
@@ -55,9 +59,9 @@ FAMILY_OUTPUT_PATHS = {
     "since_2023_01": DOCS_DIR / "strategy_family_since_2023_01.png",
     "since_2025_01": DOCS_DIR / "strategy_family_since_2025_01.png",
 }
-COMPARISON_CSV = RESULTS_DIR / "strategy_comparison_base_method.csv"
-WEIGHTED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
-CORE_ACTIVE_REGISTRY_JSON = RESULTS_DIR / "core_active_registry.json"
+COMPARISON_CSV = existing_research_file("strategy_comparison_base_method.csv")
+WEIGHTED_WINNERS_JSON = existing_research_file("weighted_track_winners.json")
+CORE_ACTIVE_REGISTRY_JSON = existing_research_file("core_active_registry.json")
 BACKTEST_SCRIPT_PATH = ROOT / "backtest_marketcap_etf.py"
 
 SAMPLE_WINDOWS = [
@@ -442,7 +446,7 @@ def load_summary(path: Path) -> dict:
 
 
 def build_result_path(base_id: str, sample_tag: str, filename: str) -> Path:
-    return RESULTS_DIR / f"{base_id}__{sample_tag}" / filename
+    return existing_strategy_result_file(base_id, sample_tag, filename, market_scope="a_share")
 
 
 def compute_window_metrics(equity: pd.DataFrame, monthly_returns: pd.DataFrame, turnover: pd.DataFrame) -> dict:
@@ -513,10 +517,11 @@ def load_benchmark_window(sample_tag: str) -> tuple[pd.DataFrame, dict]:
 
 
 def load_static_window(base_id: str, sample_tag: str) -> tuple[pd.DataFrame, dict]:
-    summary_path = RESULTS_DIR / base_id / "summary.json"
-    equity_path = RESULTS_DIR / base_id / "equity_curve.csv"
-    monthly_path = RESULTS_DIR / base_id / "monthly_returns.csv"
-    turnover_path = RESULTS_DIR / base_id / "turnover.csv"
+    result_dir = existing_strategy_result_dir(base_id, market_scope="a_share")
+    summary_path = result_dir / "summary.json"
+    equity_path = result_dir / "equity_curve.csv"
+    monthly_path = result_dir / "monthly_returns.csv"
+    turnover_path = result_dir / "turnover.csv"
 
     summary = load_summary(summary_path)
     equity = pd.read_csv(equity_path, parse_dates=["date"])

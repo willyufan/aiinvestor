@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import ast
 import json
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
@@ -10,15 +11,22 @@ from typing import Any, Iterable
 import numpy as np
 import pandas as pd
 
-
 ROOT = Path(__file__).resolve().parents[1]
-RESULTS_DIR = ROOT / "results"
-DEFAULT_COMPARISON_CSV = RESULTS_DIR / "strategy_comparison_base_method.csv"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.results_layout import (
+    candidate_strategy_result_dirs,
+    existing_research_file,
+    research_file,
+)
+
+DEFAULT_COMPARISON_CSV = existing_research_file("strategy_comparison_base_method.csv")
 README_PATH = ROOT / "README.md"
 BACKTEST_SCRIPT_PATH = ROOT / "backtest_marketcap_etf.py"
-TRACKED_HISTORY_JSON_PATH = RESULTS_DIR / "tracked_winner_history.json"
+TRACKED_HISTORY_JSON_PATH = research_file("tracked_winner_history.json")
 TRACKED_HISTORY_MD_PATH = ROOT / "HISTORY.md"
-CORE_ACTIVE_REGISTRY_JSON_PATH = RESULTS_DIR / "core_active_registry.json"
+CORE_ACTIVE_REGISTRY_JSON_PATH = research_file("core_active_registry.json")
 TRADE_CALENDAR_PATH = ROOT / "data_cache" / "trade_calendar.csv"
 CORE_ACTIVE_MAX_SIZE = 128
 CORE_ACTIVE_STALE_TRADING_DAYS = 30
@@ -1669,28 +1677,22 @@ def _slice_window_from_existing_results(base_id: str, sample_tag: str) -> dict[s
 
     candidate_dirs: list[Path] = []
     if base_id in STATIC_BASE_IDS:
-        candidate_dirs = [RESULTS_DIR / base_id]
+        candidate_dirs = candidate_strategy_result_dirs(base_id, market_scope="a_share")
     elif sample_tag == "since_2025_01":
         # since_2025 is a dedicated tracked window in this project: prefer its dedicated run.
-        candidate_dirs = [RESULTS_DIR / f"{base_id}__since_2025_01"]
+        candidate_dirs = candidate_strategy_result_dirs(base_id, "since_2025_01", market_scope="a_share")
     elif sample_tag == "since_2026_01":
         # since_2026 is a display-only YTD window: derive from the shortest available recent run first.
-        candidate_dirs = [
-            RESULTS_DIR / f"{base_id}__since_2025_01",
-            RESULTS_DIR / f"{base_id}__since_2023_01",
-            RESULTS_DIR / f"{base_id}__since_2020_01",
-            RESULTS_DIR / f"{base_id}__since_2017_01",
-        ]
+        candidate_dirs = []
+        for fallback_tag in ("since_2025_01", "since_2023_01", "since_2020_01", "since_2017_01"):
+            candidate_dirs.extend(candidate_strategy_result_dirs(base_id, fallback_tag, market_scope="a_share"))
     else:
         # Prefer a dedicated run for the requested window when available.
-        preferred = RESULTS_DIR / f"{base_id}__{sample_tag}"
-        fallbacks = [
-            RESULTS_DIR / f"{base_id}__since_2025_01",
-            RESULTS_DIR / f"{base_id}__since_2023_01",
-            RESULTS_DIR / f"{base_id}__since_2020_01",
-            RESULTS_DIR / f"{base_id}__since_2017_01",
-        ]
-        candidate_dirs = [preferred] + [path for path in fallbacks if path != preferred]
+        candidate_dirs = []
+        for fallback_tag in (sample_tag, "since_2025_01", "since_2023_01", "since_2020_01", "since_2017_01"):
+            for path in candidate_strategy_result_dirs(base_id, fallback_tag, market_scope="a_share"):
+                if path not in candidate_dirs:
+                    candidate_dirs.append(path)
 
     for result_dir in candidate_dirs:
         equity_path = result_dir / "equity_curve.csv"
@@ -2059,7 +2061,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Update README weighted winners block from latest backtest CSV.")
     parser.add_argument("--comparison-csv", type=Path, default=DEFAULT_COMPARISON_CSV)
     parser.add_argument("--readme", type=Path, default=README_PATH)
-    parser.add_argument("--write-json", type=Path, default=RESULTS_DIR / "weighted_track_winners.json")
+    parser.add_argument("--write-json", type=Path, default=research_file("weighted_track_winners.json"))
     parser.add_argument("--history-json", type=Path, default=TRACKED_HISTORY_JSON_PATH)
     parser.add_argument("--history-md", type=Path, default=TRACKED_HISTORY_MD_PATH)
     parser.add_argument("--core-active-json", type=Path, default=CORE_ACTIVE_REGISTRY_JSON_PATH)
@@ -2074,7 +2076,12 @@ def main() -> None:
     )
     args = parser.parse_args()
     enable_adjacent_validation = not args.disable_adjacent_validation
-    existing_payload = _load_tracked_payload(args.write_json)
+    existing_payload_path = args.write_json
+    if not existing_payload_path.exists():
+        fallback_payload_path = existing_research_file(existing_payload_path.name)
+        if fallback_payload_path.exists():
+            existing_payload_path = fallback_payload_path
+    existing_payload = _load_tracked_payload(existing_payload_path)
 
     frame = pd.read_csv(args.comparison_csv)
     latest_all = _augment_with_synthetic_windows(_latest_per_strategy_window(frame))
@@ -2130,8 +2137,8 @@ def main() -> None:
     if not strategies:
         raise RuntimeError("No strategies with complete 2017/2020/2023 windows found in comparison CSV.")
 
-    existing_path1_winners = _load_existing_path1_winners(args.write_json)
-    existing_winners_all_paths = _load_existing_winners_all_paths(args.write_json)
+    existing_path1_winners = _load_existing_path1_winners(existing_payload_path)
+    existing_winners_all_paths = _load_existing_winners_all_paths(existing_payload_path)
     path1_by_id: dict[str, pd.DataFrame] = {str(base_id): group for base_id, group in path1_latest.groupby("strategy_base_id")}
     path2_by_id: dict[str, pd.DataFrame] = {str(base_id): group for base_id, group in path2_latest.groupby("strategy_base_id")}
     path3_by_id: dict[str, pd.DataFrame] = {str(base_id): group for base_id, group in path3_latest.groupby("strategy_base_id")}

@@ -19,6 +19,8 @@ import tushare as ts
 
 matplotlib.use("Agg")
 
+from scripts.results_layout import ensure_results_layout, market_backtests_dir, research_file, strategy_result_dir
+
 from backtest_marketcap_etf import (
     BUY_COMMISSION,
     SELL_COMMISSION,
@@ -68,7 +70,7 @@ def _load_tokens() -> Tuple[str, str]:
 TUSHARE_DAILY_TOKEN, TUSHARE_MINUTE_TOKEN = _load_tokens()
 _HK_CACHE_WORKER_STATE = threading.local()
 
-HK_RESULTS_DIR = Path("results_hkconnect")
+HK_RESULTS_DIR = market_backtests_dir("hkconnect")
 HK_CACHE_DIR = Path("data_cache") / "hkconnect"
 HK_BASIC_DIR = HK_CACHE_DIR / "basic"
 HK_PRICE_DIR = HK_CACHE_DIR / "daily_adj"
@@ -762,6 +764,7 @@ HK_PATH2_VARIANTS = [
 def ensure_hk_directories() -> None:
     for path in [HK_RESULTS_DIR, HK_CACHE_DIR, HK_BASIC_DIR, HK_PRICE_DIR, HK_FACTOR_DIR]:
         path.mkdir(parents=True, exist_ok=True)
+    ensure_results_layout()
 
 
 def load_or_fetch_hk_trade_calendar(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
@@ -2149,7 +2152,7 @@ def save_outputs(
 
 
 def build_output_dir(strategy_id: str, sample_tag: str) -> Path:
-    return HK_RESULTS_DIR / f"{strategy_id}__{sample_tag}"
+    return strategy_result_dir(strategy_id, sample_tag, market_scope="hkconnect")
 
 
 def parse_args() -> argparse.Namespace:
@@ -2245,7 +2248,7 @@ def main() -> None:
             )
 
     comparison_df = pd.DataFrame(comparison_rows).sort_values(["sample_start", "path", "cagr"], ascending=[True, True, False])
-    save_csv(comparison_df, HK_RESULTS_DIR / "strategy_comparison_hkconnect.csv")
+    save_csv(comparison_df, research_file("strategy_comparison_hkconnect.csv", market_scope="hkconnect"))
     if skipped_runs:
         print(f"[HK] Skipped {len(skipped_runs)} runs due to insufficient observation-window rebalance points.")
     print("\n===== HK Connect Strategy Summary =====")

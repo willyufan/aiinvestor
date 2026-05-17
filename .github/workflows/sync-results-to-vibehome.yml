@@ -4,8 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'results/public_snapshot.json'
-      - 'results/strategies/**'
+      - 'results/research/a_share/public_snapshot.json'
+      - 'results/research/a_share/strategies/**'
   workflow_dispatch:
 
 jobs:
@@ -25,8 +25,8 @@ jobs:
       - name: Copy results
         run: |
           mkdir -p vibehome/results/strategies
-          cp results/public_snapshot.json vibehome/results/
-          cp results/strategies/*.json vibehome/results/strategies/
+          cp results/research/a_share/public_snapshot.json vibehome/results/
+          cp results/research/a_share/strategies/*.json vibehome/results/strategies/
 
       - name: Commit and push
         run: |

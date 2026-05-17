@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import ast
 import json
+import sys
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -13,10 +14,14 @@ from update_weighted_winners import _augment_with_synthetic_windows
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RESULTS_DIR = ROOT / "results"
-DEFAULT_COMPARISON_CSV = RESULTS_DIR / "strategy_comparison_base_method.csv"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.results_layout import existing_research_file, research_file
+
+DEFAULT_COMPARISON_CSV = existing_research_file("strategy_comparison_base_method.csv")
 BACKTEST_SCRIPT_PATH = ROOT / "backtest_marketcap_etf.py"
-DEFAULT_WRITE_JSON = RESULTS_DIR / "path2_candidate_pass.json"
+DEFAULT_WRITE_JSON = research_file("path2_candidate_pass.json")
 
 WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
 WEIGHTED_REQUIRED_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01")

@@ -2,15 +2,19 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
 import pandas as pd
 
-
 ROOT = Path(__file__).resolve().parents[1]
-RESULTS_DIR = ROOT / "results"
-DEFAULT_OUTPUT_PATH = RESULTS_DIR / "strategy_comparison_base_method.csv"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.results_layout import iter_summary_paths, research_file
+
+DEFAULT_OUTPUT_PATH = research_file("strategy_comparison_base_method.csv")
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -72,7 +76,7 @@ def _build_row(summary: dict[str, Any]) -> dict[str, Any] | None:
 
 def rebuild(*, windows: set[str]) -> pd.DataFrame:
     rows: list[dict[str, Any]] = []
-    for summary_path in RESULTS_DIR.rglob("summary.json"):
+    for summary_path in iter_summary_paths(market_scope="a_share", include_legacy=True):
         summary = _load_json(summary_path)
         sample_tag = str(summary.get("sample_tag") or "")
         if sample_tag not in windows:
@@ -101,7 +105,7 @@ def main() -> None:
         help="Which sample_tag windows to include.",
     )
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT_PATH)
-    parser.add_argument("--also-write", type=Path, nargs="*", default=[RESULTS_DIR / "strategy_comparison.csv"])
+    parser.add_argument("--also-write", type=Path, nargs="*", default=[research_file("strategy_comparison.csv")])
     args = parser.parse_args()
 
     frame = rebuild(windows=set(map(str, args.windows)))

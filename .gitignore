@@ -10,10 +10,21 @@ data/live_platform.db
 
 # local token config (use config.example.py as template)
 config.py
-!results/core_active_registry.json
-!results/public_snapshot.json
-!results/research_experiments.jsonl
-!results/research_iteration_report.json
-!results/research_iteration_state.json
-!results/strategies/
-!results/strategies/*.json
+
+# Three-layer results layout:
+# - results/backtests/: heavy strategy run artifacts, ignored by default
+# - results/research/: lightweight tracked research outputs
+# - results/live/: local live-platform exports, ignored except the directory marker
+!results/backtests/
+results/backtests/*
+!results/backtests/a_share/
+results/backtests/a_share/*
+!results/backtests/a_share/.gitkeep
+!results/backtests/hkconnect/
+results/backtests/hkconnect/*
+!results/backtests/hkconnect/.gitkeep
+!results/research/
+!results/research/**
+!results/live/
+results/live/*
+!results/live/.gitkeep

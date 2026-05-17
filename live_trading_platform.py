@@ -14,10 +14,10 @@ from pathlib import Path
 from urllib.parse import parse_qs, quote, urlparse
 from zoneinfo import ZoneInfo
 
+from scripts.results_layout import RESULTS_LIVE_DIR, existing_research_file, existing_strategy_result_file
+
 ROOT = Path(__file__).resolve().parent
-RESULTS_DIR = ROOT / "results"
-HK_RESULTS_DIR = ROOT / "results_hkconnect"
-LIVE_DIR = RESULTS_DIR / "live"
+LIVE_DIR = RESULTS_LIVE_DIR
 DB_PATH = ROOT / "data" / "live_platform.db"
 STOCK_BASIC_PATH = ROOT / "data_cache" / "stock_basic.csv"
 DAILY_CACHE_DIR = ROOT / "data_cache" / "daily"
@@ -329,7 +329,7 @@ def load_strategy_snapshot(strategy_id: str) -> dict:
 
 
 def load_default_strategy_id() -> str:
-    tracked = json.loads((RESULTS_DIR / "weighted_track_winners.json").read_text(encoding="utf-8"))
+    tracked = json.loads(existing_research_file("weighted_track_winners.json").read_text(encoding="utf-8"))
     return str(tracked["tracks"][DEFAULT_TRACKED_WINNER_KEY]["winner"])
 
 
@@ -2083,8 +2083,7 @@ def leaderboard_status_badges(entry: dict) -> str:
 
 
 def result_path_for(strategy_id: str, sample_tag: str, market_scope: str, filename: str) -> Path:
-    base_dir = HK_RESULTS_DIR if market_scope == "hkconnect" else RESULTS_DIR
-    return base_dir / f"{strategy_id}__{sample_tag}" / filename
+    return existing_strategy_result_file(strategy_id, sample_tag, filename, market_scope=market_scope)
 
 
 @lru_cache(maxsize=256)

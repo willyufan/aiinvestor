@@ -14,20 +14,23 @@ from path2_candidate_pass import _parse_python_constants
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RESULTS_DIR = ROOT / "results"
-HK_RESULTS_DIR = ROOT / "results_hkconnect"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.results_layout import existing_research_file, research_file
+
 BACKTEST_SCRIPT_PATH = ROOT / "backtest_marketcap_etf.py"
 
-DEFAULT_COMPARISON_CSV = RESULTS_DIR / "strategy_comparison.csv"
-DEFAULT_PATH2_PASS_JSON = RESULTS_DIR / "path2_candidate_pass.json"
-DEFAULT_WINNER_PASS_JSON = RESULTS_DIR / "winner_only_pass.json"
-DEFAULT_WEIGHTED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
-DEFAULT_HK_COMPARISON_CSV = HK_RESULTS_DIR / "strategy_comparison_hkconnect.csv"
-DEFAULT_HK_TRACKED_JSON = HK_RESULTS_DIR / "tracked_winners_hkconnect.json"
+DEFAULT_COMPARISON_CSV = existing_research_file("strategy_comparison.csv")
+DEFAULT_PATH2_PASS_JSON = existing_research_file("path2_candidate_pass.json")
+DEFAULT_WINNER_PASS_JSON = existing_research_file("winner_only_pass.json")
+DEFAULT_WEIGHTED_WINNERS_JSON = existing_research_file("weighted_track_winners.json")
+DEFAULT_HK_COMPARISON_CSV = existing_research_file("strategy_comparison_hkconnect.csv", market_scope="hkconnect")
+DEFAULT_HK_TRACKED_JSON = existing_research_file("tracked_winners_hkconnect.json", market_scope="hkconnect")
 
-DEFAULT_REPORT_JSON = RESULTS_DIR / "research_iteration_report.json"
-DEFAULT_STATE_JSON = RESULTS_DIR / "research_iteration_state.json"
-DEFAULT_EXPERIMENT_LOG = RESULTS_DIR / "research_experiments.jsonl"
+DEFAULT_REPORT_JSON = research_file("research_iteration_report.json")
+DEFAULT_STATE_JSON = research_file("research_iteration_state.json")
+DEFAULT_EXPERIMENT_LOG = research_file("research_experiments.jsonl")
 
 A_SHARE_REQUIRED_WINDOWS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
 A_SHARE_OBSERVATION_WINDOWS = (*A_SHARE_REQUIRED_WINDOWS, "since_2026_01")

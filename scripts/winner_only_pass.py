@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import ast
 import json
+import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Iterable
@@ -14,9 +15,13 @@ from update_weighted_winners import _augment_with_synthetic_windows
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RESULTS_DIR = ROOT / "results"
-DEFAULT_COMPARISON_CSV = RESULTS_DIR / "strategy_comparison_base_method.csv"
-DEFAULT_TRACKED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.results_layout import existing_research_file, research_file
+
+DEFAULT_COMPARISON_CSV = existing_research_file("strategy_comparison_base_method.csv")
+DEFAULT_TRACKED_WINNERS_JSON = existing_research_file("weighted_track_winners.json")
 
 WEIGHTED_WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01")
 
@@ -280,7 +285,7 @@ def main() -> None:
     parser.add_argument("--min-sharpe-improvement", type=float, default=0.0050, help="Sharpe ratio improvement threshold.")
     parser.add_argument("--max-dd-worsen", type=float, default=0.0050, help="Max drawdown can worsen by at most this absolute amount.")
     parser.add_argument("--max-turnover-increase", type=float, default=0.15, help="Turnover can increase by at most this amount.")
-    parser.add_argument("--write-json", type=Path, default=RESULTS_DIR / "winner_only_pass.json")
+    parser.add_argument("--write-json", type=Path, default=research_file("winner_only_pass.json"))
     args = parser.parse_args()
 
     thresholds = ImprovementThresholds(

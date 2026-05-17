@@ -22,6 +22,14 @@ import tushare as ts
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+from scripts.results_layout import (
+    RESULTS_DIR,
+    ensure_results_layout,
+    existing_research_file,
+    research_file,
+    strategy_result_dir,
+)
+
 
 def _load_token() -> str:
     t = os.environ.get("TUSHARE_TOKEN_DAILY", "")
@@ -4677,7 +4685,7 @@ ACTIVE_FAMILY_BASE_PREFIXES = [
     "core_explore_80_20_total_mv_index_core",
     "core_explore_80_20_total_mv_winner_core",
 ]
-CORE_ACTIVE_REGISTRY_PATH = Path("results") / "core_active_registry.json"
+CORE_ACTIVE_REGISTRY_PATH = research_file("core_active_registry.json")
 CORE_ACTIVE_MAX_SIZE = 128
 CORE_ACTIVE_STALE_TRADING_DAYS = 30
 # Legacy import alias; core_active is now loaded from CORE_ACTIVE_REGISTRY_PATH.
@@ -4746,7 +4754,6 @@ PURE_CORE_BASE_WEIGHT_SHARE = 0.15
 PURE_CORE_TOP3_MULTIPLIERS = [2.4, 1.8, 1.35]
 
 CACHE_DIR = Path("data_cache")
-RESULTS_DIR = Path("results")
 DAILY_DIR = CACHE_DIR / "daily"
 ADJ_DIR = CACHE_DIR / "adj_factor"
 DAILY_BASIC_DIR = CACHE_DIR / "daily_basic"
@@ -4828,6 +4835,7 @@ def normalize_codes(raw_codes: Iterable[str]) -> List[str]:
 def ensure_directories() -> None:
     for path in [CACHE_DIR, DAILY_DIR, ADJ_DIR, DAILY_BASIC_DIR, FINA_DIR, INDEX_DIR, INDEX_WEIGHT_DIR, FACTOR_PANEL_DIR, PREPARED_PANEL_DIR, RESULTS_DIR]:
         path.mkdir(parents=True, exist_ok=True)
+    ensure_results_layout()
 
 
 def _is_dns_resolution_error(exc: Exception) -> bool:
@@ -4959,9 +4967,7 @@ def load_or_fetch_trade_calendar(pro, start_date: pd.Timestamp, end_date: pd.Tim
 
 
 def build_pool_output_dir(pool_id: str, sample_tag: str | None = None) -> Path:
-    if sample_tag:
-        return RESULTS_DIR / f"{pool_id}__{sample_tag}"
-    return RESULTS_DIR / pool_id
+    return strategy_result_dir(pool_id, sample_tag, market_scope="a_share")
 
 
 def load_or_fetch_daily(pro, ts_code: str, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
@@ -7691,8 +7697,8 @@ def save_pool_comparison(comparison_rows: List[Dict[str, object]], comparison_cs
 
     comparison_df = pd.DataFrame(comparison_rows)
     if comparison_csv is None:
-        save_csv(comparison_df, RESULTS_DIR / "strategy_comparison.csv")
-        save_csv(comparison_df, RESULTS_DIR / "strategy_comparison_base_method.csv")
+        save_csv(comparison_df, research_file("strategy_comparison.csv"))
+        save_csv(comparison_df, research_file("strategy_comparison_base_method.csv"))
         return
 
     save_csv(comparison_df, comparison_csv)
@@ -8988,7 +8994,7 @@ def _load_core_active_registry_ids(path: Path = CORE_ACTIVE_REGISTRY_PATH) -> Se
     return strategy_ids
 
 
-def _load_weighted_tracked_winner_ids(path: Path = RESULTS_DIR / "weighted_track_winners.json") -> Set[str]:
+def _load_weighted_tracked_winner_ids(path: Path = existing_research_file("weighted_track_winners.json")) -> Set[str]:
     if not path.exists():
         return set()
     try:

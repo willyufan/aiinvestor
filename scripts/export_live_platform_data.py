@@ -12,13 +12,15 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from backtest_marketcap_etf import CORE_ACTIVE_REGISTRY_PATH
+from scripts.results_layout import (
+    RESULTS_LIVE_DIR,
+    existing_research_file,
+    existing_strategy_result_file,
+)
 
-RESULTS_DIR = ROOT / "results"
-HK_RESULTS_DIR = ROOT / "results_hkconnect"
-LIVE_DIR = RESULTS_DIR / "live"
-TRACKED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
-CORE_ACTIVE_REGISTRY_JSON = ROOT / CORE_ACTIVE_REGISTRY_PATH
+LIVE_DIR = RESULTS_LIVE_DIR
+TRACKED_WINNERS_JSON = existing_research_file("weighted_track_winners.json")
+CORE_ACTIVE_REGISTRY_JSON = existing_research_file("core_active_registry.json")
 DAILY_CACHE_DIR = ROOT / "data_cache" / "daily"
 HK_DAILY_CACHE_DIR = ROOT / "data_cache" / "hkconnect" / "daily_adj"
 A_SHARE_TRADE_CALENDAR_PATH = ROOT / "data_cache" / "trade_calendar.csv"
@@ -281,11 +283,11 @@ def pick_preferred_sample_tag(base_id: str, *, market_scope: str = "a_share") ->
 
 
 def build_result_path(base_id: str, sample_tag: str, filename: str) -> Path:
-    return RESULTS_DIR / f"{base_id}__{sample_tag}" / filename
+    return existing_strategy_result_file(base_id, sample_tag, filename, market_scope="a_share")
 
 
 def build_hk_result_path(base_id: str, sample_tag: str, filename: str) -> Path:
-    return HK_RESULTS_DIR / f"{base_id}__{sample_tag}" / filename
+    return existing_strategy_result_file(base_id, sample_tag, filename, market_scope="hkconnect")
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -863,7 +865,7 @@ def _build_hkconnect_leaderboards(df: pd.DataFrame) -> dict[str, Any]:
 
 
 def load_hkconnect_registry() -> list[dict[str, Any]]:
-    comparison_path = HK_RESULTS_DIR / "strategy_comparison_hkconnect.csv"
+    comparison_path = existing_research_file("strategy_comparison_hkconnect.csv", market_scope="hkconnect")
     if not comparison_path.exists():
         return []
     try:
@@ -969,7 +971,7 @@ def export_live_data() -> dict[str, Any]:
     payload = load_json(TRACKED_WINNERS_JSON)
     strategies_map: dict[str, Any] = payload["strategies"]
     winner_leaderboards: dict[str, Any] = {"a_share": _build_ashare_leaderboards(payload)}
-    hk_comparison_path = HK_RESULTS_DIR / "strategy_comparison_hkconnect.csv"
+    hk_comparison_path = existing_research_file("strategy_comparison_hkconnect.csv", market_scope="hkconnect")
     if hk_comparison_path.exists():
         try:
             hk_df = pd.read_csv(hk_comparison_path)

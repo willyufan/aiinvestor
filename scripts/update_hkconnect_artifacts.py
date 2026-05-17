@@ -2,10 +2,13 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 os.environ.setdefault("MPLCONFIGDIR", str(ROOT / "data_cache" / "mplconfig"))
 
 import matplotlib
@@ -18,11 +21,11 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 from matplotlib.patches import Rectangle
 
+from scripts.results_layout import existing_research_file, research_file
 
-RESULTS_DIR = ROOT / "results_hkconnect"
 DOCS_DIR = ROOT / "docs"
-COMPARISON_CSV = RESULTS_DIR / "strategy_comparison_hkconnect.csv"
-TRACKED_JSON = RESULTS_DIR / "tracked_winners_hkconnect.json"
+COMPARISON_CSV = existing_research_file("strategy_comparison_hkconnect.csv", market_scope="hkconnect")
+TRACKED_JSON = research_file("tracked_winners_hkconnect.json", market_scope="hkconnect")
 OUTPUT_PATHS = {
     "path1": DOCS_DIR / "strategy_comparison_hkconnect_path1.png",
     "path2": DOCS_DIR / "strategy_comparison_hkconnect_path2.png",

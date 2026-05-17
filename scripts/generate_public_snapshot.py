@@ -2,7 +2,7 @@
 generate_public_snapshot.py
 
 为 valselee.com/strategy.html 生成公开可读的策略快照。
-输出：results/public_snapshot.json
+输出：results/research/a_share/public_snapshot.json
 
 使用方法：
     python scripts/generate_public_snapshot.py
@@ -31,13 +31,12 @@ from scripts.export_live_platform_data import (
     load_json,
     pick_preferred_sample_tag,
 )
+from scripts.results_layout import existing_research_file, market_research_dir, research_file
 
-RESULTS_DIR = ROOT / "results"
-HK_RESULTS_DIR = ROOT / "results_hkconnect"
-TRACKED_WINNERS_JSON = RESULTS_DIR / "weighted_track_winners.json"
-HK_TRACKED_WINNERS_JSON = HK_RESULTS_DIR / "tracked_winners_hkconnect.json"
-OUTPUT_PATH = RESULTS_DIR / "public_snapshot.json"
-STRATEGIES_DIR = RESULTS_DIR / "strategies"
+TRACKED_WINNERS_JSON = existing_research_file("weighted_track_winners.json")
+HK_TRACKED_WINNERS_JSON = existing_research_file("tracked_winners_hkconnect.json", market_scope="hkconnect")
+OUTPUT_PATH = research_file("public_snapshot.json")
+STRATEGIES_DIR = market_research_dir("a_share") / "strategies"
 
 WINDOW_TRACK_KEYS = ["since_2017_only", "since_2020_only", "since_2023_only", "since_2025_only"]
 WINDOW_LABELS = {
