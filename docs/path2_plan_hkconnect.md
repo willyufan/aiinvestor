@@ -1,5 +1,14 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-05-19 05:29 CST）
+
+- 本轮按 `biweekly_breakout` 轮换方向新增并用 `--only-strategy-ids` 增量补跑 `hkconnect_path2_breakout_buffered_biweekly`、`hkconnect_path2_breakout_defensive_biweekly`、`hkconnect_path2_breakout_balanced_biweekly`，没有裸跑全量 HK。
+- 三个新双周突破候选在 2025 窗口仍有 `31.33%~35.76% CAGR`，但 2017/2020/2023 长窗收益很弱且回撤约 `-59%~-61%`，2026 短窗也为负，未达到替换月频锚点的质量。
+- 其中 `breakout_buffered_biweekly` 五窗口为：2017 `4.51% CAGR / -59.60% MaxDD / 0.31 Sharpe / 17.88 Turn`，2020 `0.21% / -59.60% / 0.19 / 17.84`，2023 `-1.68% / -42.27% / 0.16 / 18.42`，2025 `35.76% / -18.48% / 1.08 / 20.51`，2026 `-17.40%`。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 2 tracked winners 未变：2017 `hkconnect_path2_equal_elastic_monthly`，2020 `hkconnect_path2_inverse_elastic_monthly`，2023 `hkconnect_path2_theme_monthly`，2025 `hkconnect_path2_breakout_concentrated_monthly`。
+- 四窗口 robust candidate 仍为 `hkconnect_path2_theme_monthly`，`meanCAGR=36.97% / minCAGR=18.64% / worstMaxDD=-30.99% / meanTurn=6.22`。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，HK Path 2 rotation 仍为 `stagnation_runs=32 / recommended_focus=biweekly_breakout / rotate`；下一轮不要继续只扩突破强度，优先做回撤/换手约束或回到高收益月频压测。
+
 ## 本轮执行计划（2026-05-18 23:13 CST）
 
 - 本轮随 `tracked_active` 增量回测单独刷新月频、双周、高集中突破、高弹性与主题候选；Path 2 仍不并入 A 股或 HK Path 1。

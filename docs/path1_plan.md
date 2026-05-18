@@ -4,6 +4,16 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-19 05:29 CST）
+
+- 开局与收尾均运行 `.venv/bin/python scripts/research_iteration_guard.py`；收尾 guard 为 `pass / blocking=0 / warning=0`，并追加 `78` 条实验记录。
+- 已复核 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 的 9 个 base candidate 仍全部在 `PATH1_FAST_PASS_VARIANT_IDS` 中；Path 4-lite/core_multifactor 五窗口覆盖继续为 `9/9 complete`。
+- Path 1 fast-pass 复跑为 `base_candidates=40 / total_candidates=360 / evaluated=177`；raw clear improvement 出现在 `since_2023_only` 的 `aggr_05_95_prom7_core_multifactor_balanced__sat_weekly_risk`，但 weighted 同步后 official 2023 winner 仍保留原 `aggr_05_95_prom7_core_multifactor_balanced`。
+- 本轮用 `--only-base-ids` 增量确认多因子与新增候选；由于命令未锁 `--end-date`，数据准备触发到 `2026-05-19` 缓存并遇到 Tushare 限频，随后继续使用本地缓存完成，未运行 `research_active/all`。
+- `update_weighted_winners.py` 验证后，Path 1 tracked winners 同步为：2017/2023/2025 `aggr_05_95_prom7_core_multifactor_balanced`，2020 `aggr_08_92_prom6_core_multifactor_balanced`。
+- 四窗口 robust candidate 切换为 `aggr_10_90_prom6_core_multifactor_balanced`，`meanCAGR=35.95% / minCAGR=14.72% / worstMaxDD=-41.55% / meanTurn=4.03`。
+- 收尾 rotation 为 `stagnation_runs=0 / recommended_focus=core_multifactor_coverage / continue`；下一轮继续复核多因子胜出是否只是短期缓存日差异，并观察 `sat_weekly_risk` 的回撤改善能否通过 official 口径。
+
 ## 本轮执行计划（2026-05-18 23:13 CST）
 
 - 开局与收尾均运行 `.venv/bin/python scripts/research_iteration_guard.py`；收尾 guard 为 `pass / blocking=0 / warning=0`，并追加 `7` 条实验记录。

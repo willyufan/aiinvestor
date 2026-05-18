@@ -1,5 +1,14 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-05-19 05:29 CST）
+
+- 本轮按 `biweekly_buffer` 轮换方向新增并增量补跑 `hkconnect_path1_biweekly_equal_buffered_wide_exit` 与 `hkconnect_path1_biweekly_equal_buffered_defensive`，命令使用 `--only-strategy-ids`，没有裸跑全量 HK；trade calendar 在线更新失败后回退本地缓存。
+- 新 `wide_exit` 五窗口为：2017 `21.33% CAGR / -22.59% MaxDD / 1.03 Sharpe / 6.09 Turn`，2020 `24.54% / -21.18% / 1.08 / 5.91`，2023 `25.25% / -16.25% / 1.31 / 5.72`，2025 `25.74% / -16.25% / 1.15 / 7.64`，2026 `-15.06%`。
+- 新 `defensive` 与 `wide_exit` 接近但略低，2017/2020/2023 CAGR 分别为 `20.83% / 23.79% / 24.38%`；两者均未替换月频稳健锚点。
+- `scripts/update_hkconnect_artifacts.py` 已同步 tracked payload 与 HK 三张对比图；HK Path 1 tracked winners 未变：2017/2023/2025 `hkconnect_path1_monthly_equal_buffered`，2020 `hkconnect_path1_monthly_equal_buffered_weekly_overlay`。
+- 四窗口 robust candidate 仍为 `hkconnect_path1_monthly_equal_buffered`，`meanCAGR=32.07% / minCAGR=24.03% / worstMaxDD=-23.59% / meanTurn=3.11`。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，HK Path 1 rotation 仍为 `stagnation_runs=32 / recommended_focus=biweekly_buffer / rotate`；下一轮继续比较双周缓冲的成本与 2026 年短窗失效。
+
 ## 本轮执行计划（2026-05-18 23:13 CST）
 
 - 本轮按增量要求运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --family-scope tracked_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，没有裸跑全量 HK；trade calendar 在线更新失败后回退本地缓存。

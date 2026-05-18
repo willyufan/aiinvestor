@@ -1,5 +1,14 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-05-19 05:29 CST）
+
+- 本轮按 `weekly_defensive_overlay` 轮换方向新增并用 `--only-strategy-ids` 增量补跑 `hkconnect_path3_theme_fast_weekly_defensive_wide`、`hkconnect_path3_theme_fast_weekly_defensive_cap26`、`hkconnect_path3_theme_fast_weekly_cashguard`，继续只作为 HK 纯周频路径观察。
+- `defensive_cap26` 五窗口为：2017 `18.51% CAGR / -40.96% MaxDD / 0.74 Sharpe / 29.57 Turn`，2020 `24.96% / -37.71% / 0.88 / 28.84`，2023 `30.27% / -22.24% / 1.09 / 28.43`，2025 `58.24% / -15.24% / 1.54 / 33.60`，2026 `4.14%`；回撤略收，但收益不如现有 winner。
+- `cashguard` 在 2025 几乎复刻现有防守 winner（`69.80% CAGR / -17.81% MaxDD / 1.63 Sharpe / 34.96 Turn`），2023 也有 `36.09% CAGR`，但 2017 长窗回撤扩大到 `-46.10%`，未进入 robust。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 3 tracked winners 未变：2017 `hkconnect_path3_stable_weekly_equal_buffered`，2020/2023 `hkconnect_path3_theme_fast_weekly_buffered`，2025 `hkconnect_path3_theme_fast_weekly_defensive`。
+- 四窗口 robust candidate 仍为 `hkconnect_path3_stable_weekly_equal_buffered`，`meanCAGR=30.23% / minCAGR=21.54% / worstMaxDD=-33.66% / meanTurn=11.33`。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，HK Path 3 rotation 仍为 `stagnation_runs=32 / recommended_focus=weekly_defensive_overlay / rotate`；下一轮重点不是提高周频进攻，而是降低约 `30x` 年换手和长窗回撤。
+
 ## 本轮执行计划（2026-05-18 23:13 CST）
 
 - 本轮 `tracked_active` 增量回测继续覆盖纯周度 Path 3 候选，Path 1/2 月频与双周结论不并入本路径；`update_hkconnect_artifacts.py` 已同步 tracked payload 与三张对比图。

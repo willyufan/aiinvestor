@@ -13,6 +13,16 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-19 05:29 CST）
+
+- 本轮按 `underrepresented_families` 轮换方向扩展候选池：等权/总市值多因子弹性加入 `aggr_08_92_prom6_core_multifactor_balanced` 与 `aggr_10_90_prom6_core_multifactor_balanced`，双周加入 `cap70/cap50` 两个代表，周频成本压力加入 `cap65_hold5_turn15` 与 `cap60_hold6_turn12`。
+- 独立复跑 `scripts/path2_candidate_pass.py` 后，candidate universe 为 `524/524 complete`；五个候选族规模为 `high_concentration_breakout=154 / high_growth_theme=269 / momentum_equal_weight_elastic=16 / biweekly_rebalance_aggressive=18 / weekly_rebalance_aggressive=28`。
+- family-ranked raw winners 仍集中在旧中周期高收益原型：2017 `2/98 risk40_mom_exit60_reconfirm75_caution80`（`38.70% CAGR`），2020 `1/99 risk40_mom_exit60_reconfirm70`（`58.60%`），2023 `1/99 risk50_ma`（`65.59%`），2025 高换手 weekly `aggr_01_99_prom1...cap100_weekly`（`198.70% / 16.79 Turn`）。
+- 新双周 `cap70/cap50` 在 2020 窗口约 `10.16%/10.13% CAGR` 且回撤偏深；新增多因子弹性在 official weighted 口径更稳，推动 Path 2 official tracked/robust 同步到 `aggr_10_90_prom6_core_multifactor_balanced`。
+- `update_weighted_winners.py` 后 Path 2 official window winners 为：2017 `aggr_10_90_prom6_core_multifactor_balanced`，2020 `aggr_08_92_prom6_core_multifactor_balanced`，2023 `aggr_10_90_prom6_core_multifactor_balanced`，2025 `aggr_08_92_prom6_core_multifactor_balanced`。
+- 四窗口 official robust candidate 为 `aggr_10_90_prom6_core_multifactor_balanced`，`meanCAGR=35.95% / minCAGR=14.72% / worstMaxDD=-41.55% / meanTurn=4.03`；raw high-growth 上限继续作为观察，不直接晋升。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，Path 2 rotation 重置为 `stagnation_runs=0 / recommended_focus=medium_cycle_growth / continue`；下一轮继续用中周期高收益原型做确认，而不是再单纯扩大 high_growth 数量。
+
 ## 本轮执行计划（2026-05-18 23:13 CST）
 
 - 本轮独立复跑 `scripts/path2_candidate_pass.py`，candidate universe 继续为 `516/516 complete`；五个候选族规模保持 `high_concentration_breakout=154 / high_growth_theme=269 / momentum_equal_weight_elastic=12 / biweekly_rebalance_aggressive=16 / weekly_rebalance_aggressive=25`。
