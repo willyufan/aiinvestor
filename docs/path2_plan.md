@@ -13,6 +13,30 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-18 20:34 CST）
+
+- 本轮独立复跑 `scripts/path2_candidate_pass.py`，candidate universe 继续为 `516/516 complete`；五个候选族规模保持 `high_concentration_breakout=154 / high_growth_theme=269 / momentum_equal_weight_elastic=12 / biweekly_rebalance_aggressive=16 / weekly_rebalance_aggressive=25`。
+- family-ranked raw winners 为：2017 `2/98 risk40_mom_exit60_reconfirm75_caution80`（`38.70% CAGR`），2020 `1/99 risk40_mom_exit60_reconfirm70`（`58.72%`），2023 `1/99 risk50_ma`（`65.81%`），2025 高换手 weekly `aggr_01_99_prom1...cap100_weekly`（`197.61% / 16.33 Turn`）。
+- candidate-pass raw robust 仍为 `2/98 risk40_mom_exit60_reconfirm75_caution80`，`meanCAGR=64.35% / minCAGR=38.70% / worstMaxDD=-32.85% / meanTurn=4.93`，继续作为观察，不直接晋升 official。
+- `update_weighted_winners.py` 验证后，Path 2 official tracked winners 与 robust candidate 未变；四窗口 robust 仍为 `2/98 risk40_mom_exit60_reconfirm75`，`meanCAGR=62.76% / minCAGR=38.66% / worstMaxDD=-32.76% / meanTurn=4.98`。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，Path 2 rotation 为 `stagnation_runs=28 / recommended_focus=risk_reconfirm_sensitivity / rotate`；下一轮优先比较 `risk40/risk50` 与恢复确认阈值敏感性，同时保持五个 family 不被 high_growth 压扁。
+
+## 本轮执行计划（2026-05-18 11:11 CST）
+
+- 本轮独立复跑 `scripts/path2_candidate_pass.py`，candidate universe 继续为 `516/516 complete`；五个候选族规模为 `high_concentration_breakout=154 / high_growth_theme=269 / momentum_equal_weight_elastic=12 / biweekly_rebalance_aggressive=16 / weekly_rebalance_aggressive=25`。
+- family-ranked raw winners 为：2017 `2/98 risk40_mom_exit60_reconfirm75_caution80`（`38.70% CAGR`），2020 `1/99 risk40_mom_exit60_reconfirm70`（`58.72%`），2023 `1/99 risk50_ma`（`65.81%`），2025 仍为高换手 weekly `aggr_01_99_prom1...cap100_weekly`（`197.61% / 16.33 Turn`）。
+- candidate-pass raw robust 仍为 `2/98 risk40_mom_exit60_reconfirm75_caution80`，`meanCAGR=64.35% / minCAGR=38.70% / worstMaxDD=-32.85% / meanTurn=4.93`，继续只作为观察，不晋升 official。
+- `update_weighted_winners.py` 验证后，Path 2 official tracked winners 与 robust candidate 未变；四窗口 robust 仍为 `2/98 risk40_mom_exit60_reconfirm75`，`meanCAGR=62.76% / minCAGR=38.66% / worstMaxDD=-32.76% / meanTurn=4.98`。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，Path 2 rotation 为 `stagnation_runs=23 / recommended_focus=capacity_and_cost_stress / rotate`；下一轮优先做容量、回撤、换手与交易成本压力，不继续只扩 high_growth family。
+
+## 本轮执行计划（2026-05-18 05:53 CST）
+
+- 本轮按 `underrepresented_families` 方向微扩候选池，将 `aggr_08_92_prom6_core_6_1` 与 `aggr_10_90_prom6_core_6_1` 纳入 `momentum_equal_weight_elastic`；独立复跑 `scripts/path2_candidate_pass.py` 后候选宇宙为 `516/516 complete`。
+- 五个候选族规模为 `high_concentration_breakout=154 / high_growth_theme=269 / momentum_equal_weight_elastic=12 / biweekly_rebalance_aggressive=16 / weekly_rebalance_aggressive=25`，未继续由单一 high_growth family 压扁。
+- family-ranked raw winners 为：2017 `2/98 risk40_mom_exit60_reconfirm75_caution80`（`38.70% CAGR`），2020 `1/99 risk40_mom_exit60_reconfirm70`（`58.72%`），2023 `1/99 risk50_ma`（`65.81%`），2025 仍为高换手 weekly `aggr_01_99_prom1...cap100_weekly`（`197.61% / 16.33 Turn`）。
+- `update_weighted_winners.py` 验证后，Path 2 official tracked winners 与 robust candidate 未变；四窗口 robust 仍为 `2/98 risk40_mom_exit60_reconfirm75`，`meanCAGR=62.76% / minCAGR=38.66% / worstMaxDD=-32.76% / meanTurn=4.98`。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，Path 2 rotation 为 `stagnation_runs=20 / recommended_focus=underrepresented_families / rotate`；下一轮继续按配额补等权动量、双周和周频代表性。
+
 ## 本轮执行计划（2026-05-17 23:12 CST）
 
 - 本轮独立复跑 `scripts/path2_candidate_pass.py`，候选宇宙保持 `513` 个 base candidates；五个候选族规模为 `high_concentration_breakout=154 / high_growth_theme=269 / momentum_equal_weight_elastic=9 / biweekly_rebalance_aggressive=16 / weekly_rebalance_aggressive=25`。

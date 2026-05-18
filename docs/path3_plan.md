@@ -3,6 +3,30 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-18 20:34 CST）
+
+- 本轮通过 `update_weighted_winners.py` 独立巡检 Path 3，继续只使用纯 `_weekly` 口径；guard 对 Path 3 weekly universe 为 `49/49 complete / pass`，未把 Path 1 周度仓位 overlay 或 Path 2 月频/双周候选混入本路径。
+- Path 3 window tracked winners 未换身份：2017 `aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly`，2020 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`，2023 `aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly`，2025 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`。
+- 当前四窗口指标分别为：2017 `23.39% CAGR / -40.04% MaxDD / 0.800 Sharpe / 7.69 Turn`，2020 `14.45% / -51.71% / 0.558 / 12.95`，2023 `34.65% / -37.14% / 0.952 / 13.57`，2025 `48.32% / -28.73% / 1.207 / 14.52`。
+- 四窗口 robust candidate 仍为 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn20_weekly`，`meanCAGR=29.52% / minCAGR=19.09% / worstMaxDD=-37.68% / meanTurn=5.23`；2020 raw pullback 候选继续因 2023 验证不足被拦截。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，Path 3 rotation 为 `stagnation_runs=8 / recommended_focus=risk_downshift / rotate`；下一轮优先比较纯周频降仓、宽确认与换手上限，不提高单周进攻强度。
+
+## 本轮执行计划（2026-05-18 11:11 CST）
+
+- 本轮通过 `update_weighted_winners.py` 独立巡检 Path 3，继续只使用纯 `_weekly` 口径；guard 对 Path 3 weekly universe 为 `49/49 complete / pass`，未把 Path 1 周度仓位 overlay 或 Path 2 月频/双周候选混入本路径。
+- Path 3 window tracked winners 未换身份：2017 `aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly`，2020 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`，2023 `aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly`，2025 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`。
+- 当前四窗口指标分别为：2017 `23.39% CAGR / -40.04% MaxDD / 0.800 Sharpe / 7.69 Turn`，2020 `14.45% / -51.71% / 0.558 / 12.95`，2023 `34.65% / -37.14% / 0.952 / 13.57`，2025 `48.32% / -28.73% / 1.207 / 14.52`。
+- 四窗口 robust candidate 仍为 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn20_weekly`，`meanCAGR=29.52% / minCAGR=19.09% / worstMaxDD=-37.68% / meanTurn=5.23`；2020 单窗候选仍被 2023 验证门槛拦下。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，Path 3 rotation 为 `stagnation_runs=3 / recommended_focus=weekly_exit_buffer / rotate`；下一轮优先比较宽出场、最短持有期和换手上限，不提高单周进攻强度。
+
+## 本轮执行计划（2026-05-18 05:53 CST）
+
+- 本轮新增并完整补跑纯周度候选 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn20_weekly`，Path 3 weekly universe 变为 `49/49 complete`；仍只使用 `_weekly` 口径，未把 Path 1 周度仓位 overlay 或 Path 2 月频/双周候选混入本路径。
+- 新候选四窗口表现为：2017 `19.09% CAGR / -30.35% MaxDD / 0.763 Sharpe / 4.43 Turn`，2020 `19.85% / -25.77% / 0.747 / 4.03`，2023 `20.82% / -37.68% / 0.707 / 3.87`，2025 `58.32% / -22.35% / 1.188 / 8.57`。
+- Path 3 window tracked winners 基本保持原结构：2017 `aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly`，2020 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`，2023 `aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly`，2025 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`。
+- 四窗口 robust candidate 切换为新候选 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn20_weekly`，`meanCAGR=29.52% / minCAGR=19.09% / worstMaxDD=-37.68% / meanTurn=5.23`；相比旧 `cap80_hold3_turn25`，换手降低且 min CAGR 略抬升。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，Path 3 rotation 因 robust 变化重置为 `stagnation_runs=0 / recommended_focus=turnover_reduction / continue`；下一轮优先继续沿最短持有期、换手上限和降仓约束压成本。
+
 ## 本轮执行计划（2026-05-17 23:12 CST）
 
 - 本轮通过 `update_weighted_winners.py` 独立巡检 Path 3，继续只使用纯 `_weekly` 口径；Path 1 周度仓位 overlay 与 Path 2 月频/双周候选未混入本路径。

@@ -4057,6 +4057,159 @@ WINNER_CORE_VARIANTS = [
         "weekly_min_hold_periods": 3,
         "weekly_turnover_cap": 0.25,
     },
+    {
+        "variant_id": "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn20_weekly",
+        "variant_name": "进攻3/97 晋升2只(周频Alpha回踩, 熊市空仓, 单票70%, 持有4周, 换手20%, 单周)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_pullback",
+        "promotion_signal_mode": "weekly_alpha_pullback",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "promoted_core_sell_exit_percentile": 0.80,
+        "weight_cap": 0.70,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 4,
+        "weekly_turnover_cap": 0.20,
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_cash_off_dd_guard50",
+        "variant_name": "进攻8/92 晋升6只(熊市空仓, 日级回撤防守50%)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "core_signal_mode": "6_1",
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "portfolio_drawdown_guard_enabled": True,
+        "portfolio_drawdown_guard_trigger": 0.08,
+        "portfolio_drawdown_guard_release": 0.03,
+        "portfolio_drawdown_guard_exposure": 0.50,
+        "portfolio_drawdown_guard_max_days": 20,
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_core_6_1_dd_guard35",
+        "variant_name": "进攻8/92 晋升6只(核心6-1动量, 日级回撤防守35%)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "core_signal_mode": "6_1",
+        "portfolio_drawdown_guard_enabled": True,
+        "portfolio_drawdown_guard_trigger": 0.04,
+        "portfolio_drawdown_guard_release": 0.015,
+        "portfolio_drawdown_guard_exposure": 0.35,
+        "portfolio_drawdown_guard_max_days": 12,
+    },
+    {
+        "variant_id": "aggr_05_95_prom7_core_6_1_full_risk_dd_guard35",
+        "variant_name": "进攻5/95 晋升7只(核心6-1动量, 关闭熊市降仓, 日级回撤防守35%)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 7,
+        "core_signal_mode": "6_1",
+        "core_risk_off_exposure": 1.0,
+        "satellite_risk_off_exposure": 1.0,
+        "portfolio_drawdown_guard_enabled": True,
+        "portfolio_drawdown_guard_trigger": 0.04,
+        "portfolio_drawdown_guard_release": 0.015,
+        "portfolio_drawdown_guard_exposure": 0.35,
+        "portfolio_drawdown_guard_max_days": 12,
+    },
+    {
+        "variant_id": "aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard50",
+        "variant_name": "进攻5/95 晋升3只(核心6-1动量, 熊市空仓 and, 单票60%, 日级回撤防守50%)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 0.60,
+        "portfolio_drawdown_guard_enabled": True,
+        "portfolio_drawdown_guard_trigger": 0.045,
+        "portfolio_drawdown_guard_release": 0.02,
+        "portfolio_drawdown_guard_exposure": 0.50,
+        "portfolio_drawdown_guard_max_days": 10,
+    },
+    {
+        "variant_id": "aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard30_fast",
+        "variant_name": "进攻5/95 晋升3只(核心6-1动量, 熊市空仓 and, 单票60%, 日级回撤防守30%快恢复)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 0.60,
+        "portfolio_drawdown_guard_enabled": True,
+        "portfolio_drawdown_guard_trigger": 0.10,
+        "portfolio_drawdown_guard_release": 0.06,
+        "portfolio_drawdown_guard_exposure": 0.30,
+        "portfolio_drawdown_guard_max_days": 5,
+    },
+    {
+        "variant_id": "aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard0_fast",
+        "variant_name": "进攻5/95 晋升3只(核心6-1动量, 熊市空仓 and, 单票60%, 日级回撤空仓快恢复)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "weight_cap": 0.60,
+        "portfolio_drawdown_guard_enabled": True,
+        "portfolio_drawdown_guard_trigger": 0.12,
+        "portfolio_drawdown_guard_release": 0.08,
+        "portfolio_drawdown_guard_exposure": 0.0,
+        "portfolio_drawdown_guard_max_days": 5,
+    },
+    {
+        "variant_id": "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95_dd_guard50",
+        "variant_name": "进攻1/99 晋升2只(量价前15%, 动量三档40%, 恢复70, 日级回撤防守50%)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "standard_promotion_min_momentum_6_1_rank": 0.70,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_momentum_6_1_rank": 0.82,
+        "fast_promotion_min_recent_1m_return": 0.005,
+        "fast_promotion_min_amount_surge_ratio": 1.08,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.40,
+        "satellite_risk_off_exposure": 0.40,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.95,
+        "portfolio_drawdown_guard_enabled": True,
+        "portfolio_drawdown_guard_trigger": 0.10,
+        "portfolio_drawdown_guard_release": 0.04,
+        "portfolio_drawdown_guard_exposure": 0.50,
+        "portfolio_drawdown_guard_max_days": 8,
+    },
 ]
 
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
@@ -4104,6 +4257,15 @@ PATH1_FAST_PASS_DIRECTION_GROUPS = {
         "aggr_08_92_prom7",
         "aggr_08_92_prom7_ramp90",
     ],
+    "drawdown_guard": [
+        "aggr_08_92_prom6_cash_off_dd_guard50",
+        "aggr_08_92_prom6_core_6_1_dd_guard35",
+        "aggr_05_95_prom7_core_6_1_full_risk_dd_guard35",
+        "aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard50",
+        "aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard30_fast",
+        "aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard0_fast",
+        "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95_dd_guard50",
+    ],
 }
 
 PATH1_FAST_PASS_VARIANT_IDS = [
@@ -4139,6 +4301,13 @@ PATH1_FAST_PASS_VARIANT_IDS = [
     "aggr_08_92_hold_3_6",
     "aggr_08_92_hold_3_6_ramp90",
     "aggr_05_95_prom7",
+    "aggr_08_92_prom6_cash_off_dd_guard50",
+    "aggr_08_92_prom6_core_6_1_dd_guard35",
+    "aggr_05_95_prom7_core_6_1_full_risk_dd_guard35",
+    "aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard50",
+    "aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard30_fast",
+    "aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard0_fast",
+    "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95_dd_guard50",
 ]
 
 PATH2_SCAN_BASE_PREFIXES = [
@@ -4379,6 +4548,8 @@ PATH2_SCAN_FAMILY_RULES = {
         "variant_ids": [
             "aggr_08_92_prom6_cash_off",
             "aggr_08_92_prom6_cash_off_and",
+            "aggr_08_92_prom6_core_6_1",
+            "aggr_10_90_prom6_core_6_1",
             "aggr_10_90_prom6",
             "aggr_10_90_fast_ramp_cash_off",
             "aggr_10_90_fast_ramp_cash_off_and",
@@ -4456,6 +4627,8 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_10_90_fast_ramp_cash_off",
     "aggr_10_90_fast_ramp_cash_off_and",
     "aggr_10_90_prom6",
+    "aggr_08_92_prom6_core_6_1",
+    "aggr_10_90_prom6_core_6_1",
     "aggr_08_92_prom6_full_risk",
     "aggr_08_92_prom6_core_3_1_full_risk_cap40",
     "aggr_08_92_prom6_core_6_1_full_risk",
@@ -4678,6 +4851,7 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_08_92_prom6_weekly_alpha_pullback_risk50_cap40_hold2_turn40_weekly",
     "aggr_05_95_prom3_weekly_alpha_pullback_risk50_cap60_hold2_turn30_weekly",
     "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly",
+    "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn20_weekly",
 ]
 
 FACTOR_CACHE_VERSION = "v2"
@@ -4898,7 +5072,10 @@ def call_tushare_with_retry(api_callable, **kwargs) -> pd.DataFrame:
 def read_cached_csv(path: Path, date_columns: Iterable[str] | None = None) -> pd.DataFrame:
     if not path.exists():
         return pd.DataFrame()
-    df = pd.read_csv(path)
+    try:
+        df = pd.read_csv(path)
+    except pd.errors.EmptyDataError:
+        return pd.DataFrame()
     for column in date_columns or []:
         if column in df.columns:
             df[column] = pd.to_datetime(df[column])
@@ -7492,6 +7669,174 @@ def apply_weekly_satellite_risk_overlay(
     }, overlay_state
 
 
+def apply_portfolio_drawdown_guard(
+    *,
+    prepared: PreparedData,
+    positions: pd.Series,
+    cash_value: float,
+    gross_positions: pd.Series,
+    gross_cash_value: float,
+    rebalance_date: pd.Timestamp,
+    holding_period_end: pd.Timestamp,
+    base_target_weights: pd.Series,
+    strategy_config: Dict[str, object],
+    guard_state: Dict[str, object],
+) -> Tuple[pd.Series, float, pd.Series, float, List[Dict[str, object]], Dict[str, float], Dict[str, object]]:
+    if not bool(strategy_config.get("portfolio_drawdown_guard_enabled", False)):
+        if not positions.empty:
+            rebalance_prices = prepared.price_ffill.loc[rebalance_date, positions.index]
+            month_end_prices = prepared.price_ffill.loc[holding_period_end, positions.index]
+            positions = positions * (month_end_prices / rebalance_prices)
+        if not gross_positions.empty:
+            gross_rebalance_prices = prepared.price_ffill.loc[rebalance_date, gross_positions.index]
+            gross_month_end_prices = prepared.price_ffill.loc[holding_period_end, gross_positions.index]
+            gross_positions = gross_positions * (gross_month_end_prices / gross_rebalance_prices)
+        return positions, cash_value, gross_positions, gross_cash_value, [], {
+            "portfolio_guard_trade_count": 0,
+            "portfolio_guard_trading_cost": 0.0,
+            "portfolio_guard_avg_one_way_turnover": 0.0,
+        }, guard_state
+
+    trigger = max(0.0, float(strategy_config.get("portfolio_drawdown_guard_trigger", 0.08)))
+    release = max(0.0, float(strategy_config.get("portfolio_drawdown_guard_release", trigger * 0.5)))
+    guard_exposure = max(0.0, min(1.0, float(strategy_config.get("portfolio_drawdown_guard_exposure", 0.50))))
+    max_days = max(1, int(strategy_config.get("portfolio_drawdown_guard_max_days", 20)))
+    trading_dates = prepared.price_ffill.index
+    guard_rows: List[Dict[str, object]] = []
+    guard_turnovers: List[float] = []
+    trade_count = 0
+    cumulative_cost = 0.0
+
+    peak_scope = str(strategy_config.get("portfolio_drawdown_guard_peak_scope", "global") or "global").strip().lower()
+    nav_at_rebalance = float(positions.sum() + cash_value)
+    if peak_scope == "period":
+        peak_nav = nav_at_rebalance if nav_at_rebalance > 0 else 1.0
+        guard_active = False
+        active_days = 0
+    else:
+        peak_nav = float(guard_state.get("peak_nav", 1.0) or 1.0)
+        guard_active = bool(guard_state.get("active", False))
+        active_days = int(guard_state.get("active_days", 0) or 0)
+    prev_date = rebalance_date
+
+    def mark_to_market(to_date: pd.Timestamp) -> None:
+        nonlocal positions, gross_positions, prev_date
+        if to_date <= prev_date:
+            return
+        if not positions.empty:
+            prev_prices = prepared.price_ffill.loc[prev_date, positions.index]
+            now_prices = prepared.price_ffill.loc[to_date, positions.index]
+            positions = positions * (now_prices / prev_prices)
+        if not gross_positions.empty:
+            gross_prev_prices = prepared.price_ffill.loc[prev_date, gross_positions.index]
+            gross_now_prices = prepared.price_ffill.loc[to_date, gross_positions.index]
+            gross_positions = gross_positions * (gross_now_prices / gross_prev_prices)
+        prev_date = to_date
+
+    def trade_to_exposure(trade_date: pd.Timestamp, exposure: float, event_reason: str, evaluation_date: pd.Timestamp, drawdown: float) -> None:
+        nonlocal positions, cash_value, gross_positions, gross_cash_value, trade_count, cumulative_cost
+        target_weights = build_portfolio_overlay_target_weights(base_target_weights, portfolio_total_weight=exposure)
+        tradable_codes: List[str] = []
+        if trade_date in prepared.price_exact.index:
+            exact_prices = prepared.price_exact.loc[trade_date]
+            tradable_codes = exact_prices[exact_prices.notna()].index.tolist()
+        positions, cash_value, _, _, trade_stats = compute_rebalance_trades(
+            current_values=positions,
+            current_cash=cash_value,
+            target_weights=target_weights,
+            rebalance_date=trade_date,
+            tradable_codes=tradable_codes,
+        )
+        gross_positions, gross_cash_value, _, _, _ = compute_rebalance_trades(
+            current_values=gross_positions,
+            current_cash=gross_cash_value,
+            target_weights=target_weights,
+            rebalance_date=trade_date,
+            tradable_codes=tradable_codes,
+            buy_commission=0.0,
+            sell_commission_rate=0.0,
+            stamp_rate_override=0.0,
+        )
+        if trade_stats["two_way_turnover"] > 1e-12:
+            trade_count += 1
+            cumulative_cost += float(trade_stats["trading_cost"])
+            guard_turnovers.append(float(trade_stats["one_way_turnover"]))
+        guard_rows.append(
+            {
+                "date": evaluation_date,
+                "signal_date": evaluation_date,
+                "evaluation_date": evaluation_date,
+                "trade_date": trade_date,
+                "one_way_turnover": trade_stats["one_way_turnover"],
+                "two_way_turnover": trade_stats["two_way_turnover"],
+                "buy_amount": trade_stats["buy_amount"],
+                "sell_amount": trade_stats["sell_amount"],
+                "buy_amount_pct_nav": trade_stats["buy_amount"] / trade_stats["pre_trade_nav"] if trade_stats["pre_trade_nav"] > 0 else 0.0,
+                "sell_amount_pct_nav": trade_stats["sell_amount"] / trade_stats["pre_trade_nav"] if trade_stats["pre_trade_nav"] > 0 else 0.0,
+                "trading_cost": trade_stats["trading_cost"],
+                "trading_cost_pct_nav": trade_stats["trading_cost"] / trade_stats["pre_trade_nav"] if trade_stats["pre_trade_nav"] > 0 else 0.0,
+                "pre_trade_nav": trade_stats["pre_trade_nav"],
+                "buy_cost": trade_stats["buy_cost"],
+                "sell_commission": trade_stats["sell_commission"],
+                "sell_stamp_duty": trade_stats["sell_stamp_duty"],
+                "event_type": "portfolio_drawdown_guard",
+                "risk_stage": "guard_on" if exposure < 1.0 else "guard_off",
+                "raw_risk_stage": event_reason,
+                "drawdown": drawdown,
+                "trade_details_json": "",
+            }
+        )
+
+    if guard_active:
+        trade_to_exposure(rebalance_date, guard_exposure, "carry_active", rebalance_date, 0.0)
+
+    evaluation_dates = [date for date in trading_dates if rebalance_date < date < holding_period_end]
+    for evaluation_date in evaluation_dates:
+        if evaluation_date <= prev_date:
+            continue
+        mark_to_market(evaluation_date)
+        nav_now = float(positions.sum() + cash_value)
+        if nav_now <= 0:
+            continue
+        peak_nav = max(peak_nav, nav_now)
+        drawdown = nav_now / peak_nav - 1.0 if peak_nav > 0 else 0.0
+        if guard_active:
+            active_days += 1
+
+        target_active = guard_active
+        reason = ""
+        if not guard_active and drawdown <= -trigger:
+            target_active = True
+            reason = "trigger"
+        elif guard_active and (drawdown >= -release or active_days >= max_days):
+            target_active = False
+            reason = "release" if drawdown >= -release else "max_days"
+        if target_active == guard_active:
+            continue
+
+        trade_date = get_next_trading_day(trading_dates, evaluation_date)
+        if trade_date is None or trade_date > holding_period_end:
+            guard_active = target_active
+            break
+        mark_to_market(trade_date)
+        guard_active = target_active
+        active_days = 0
+        trade_to_exposure(trade_date, guard_exposure if guard_active else 1.0, reason, evaluation_date, drawdown)
+
+    mark_to_market(holding_period_end)
+    nav_end = float(positions.sum() + cash_value)
+    if nav_end > 0:
+        peak_nav = max(peak_nav, nav_end)
+    next_guard_state = {"peak_nav": peak_nav, "active": guard_active, "active_days": active_days}
+    if peak_scope == "period":
+        next_guard_state = {"peak_nav": 1.0, "active": False, "active_days": 0}
+    return positions, cash_value, gross_positions, gross_cash_value, guard_rows, {
+        "portfolio_guard_trade_count": trade_count,
+        "portfolio_guard_trading_cost": cumulative_cost,
+        "portfolio_guard_avg_one_way_turnover": float(np.mean(guard_turnovers)) if guard_turnovers else 0.0,
+    }, next_guard_state
+
+
 def compute_metrics(
     equity_curve: pd.DataFrame,
     monthly_returns: pd.DataFrame,
@@ -8186,6 +8531,7 @@ def run_backtest(
     risk_evaluation_frequency = str(strategy_config.get("risk_evaluation_frequency", RISK_EVAL_FREQUENCY_MONTHLY) or RISK_EVAL_FREQUENCY_MONTHLY)
     risk_staging_mode = str(strategy_config.get("risk_staging_mode", "two_stage") or "two_stage").strip().lower()
     overlay_state: Dict[str, object] = {"confirmed_stage": "risk_on", "pending_stage": None, "pending_count": 0}
+    drawdown_guard_state: Dict[str, object] = {"peak_nav": 1.0, "active": False, "active_days": 0}
 
     monthly_rows: List[Dict[str, object]] = []
     turnover_rows: List[Dict[str, object]] = []
@@ -8574,16 +8920,25 @@ def run_backtest(
             overlay_state=overlay_state,
         )
         if risk_evaluation_frequency != RISK_EVAL_FREQUENCY_WEEKLY:
-            if not positions.empty:
-                rebalance_prices = price_ffill.loc[rebalance_date, positions.index]
-                month_end_prices = price_ffill.loc[holding_period_end, positions.index]
-                holding_growth = month_end_prices / rebalance_prices
-                positions = positions * holding_growth
-            if not gross_positions.empty:
-                gross_rebalance_prices = price_ffill.loc[rebalance_date, gross_positions.index]
-                gross_month_end_prices = price_ffill.loc[holding_period_end, gross_positions.index]
-                gross_holding_growth = gross_month_end_prices / gross_rebalance_prices
-                gross_positions = gross_positions * gross_holding_growth
+            positions, cash_value, gross_positions, gross_cash_value, drawdown_guard_turnover_rows, drawdown_guard_stats, drawdown_guard_state = apply_portfolio_drawdown_guard(
+                prepared=prepared,
+                positions=positions,
+                cash_value=cash_value,
+                gross_positions=gross_positions,
+                gross_cash_value=gross_cash_value,
+                rebalance_date=rebalance_date,
+                holding_period_end=holding_period_end,
+                base_target_weights=target_weights,
+                strategy_config=strategy_config,
+                guard_state=drawdown_guard_state,
+            )
+        else:
+            drawdown_guard_turnover_rows = []
+            drawdown_guard_stats = {
+                "portfolio_guard_trade_count": 0,
+                "portfolio_guard_trading_cost": 0.0,
+                "portfolio_guard_avg_one_way_turnover": 0.0,
+            }
 
         nav_end = float(positions.sum() + cash_value)
         holding_ages = {str(code): holding_ages.get(str(code), 0) + 1 for code in positions.index}
@@ -8676,6 +9031,9 @@ def run_backtest(
                 "weekly_overlay_trade_count": weekly_overlay_stats["weekly_overlay_trade_count"],
                 "weekly_overlay_trading_cost": weekly_overlay_stats["weekly_overlay_trading_cost"],
                 "weekly_overlay_avg_one_way_turnover": weekly_overlay_stats["weekly_overlay_avg_one_way_turnover"],
+                "portfolio_guard_trade_count": drawdown_guard_stats["portfolio_guard_trade_count"],
+                "portfolio_guard_trading_cost": drawdown_guard_stats["portfolio_guard_trading_cost"],
+                "portfolio_guard_avg_one_way_turnover": drawdown_guard_stats["portfolio_guard_avg_one_way_turnover"],
             }
         )
         trade_details = []
@@ -8700,6 +9058,7 @@ def run_backtest(
             }
         )
         turnover_rows.extend(weekly_overlay_turnover_rows)
+        turnover_rows.extend(drawdown_guard_turnover_rows)
         equity_rows.append(
             {
                 "date": holding_period_end,
