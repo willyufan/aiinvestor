@@ -4,6 +4,17 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-19 23:14 CST）
+
+- 开局 guard 为 `block / blocking=10 / warning=5`；已按 report 原始 `--only-base-ids` 命令补齐 Path 1/core_multifactor 与 Path 2 coverage，随后补跑 `core_explore_80_20_total_mv_winner_core__share_10_90_hold_3_7` 的 warning 缺口，收尾 guard 为 `pass / blocking=0 / warning=0`。
+- 上一轮 Path 1 新增 `growth_quality` 多因子与 3 个 holding-shape 候选均未晋级，robust 仍为 `aggr_08_92_prom6__port_weekly_exposure_buffered_asym13`；本轮按 rotation 继续处理 `core_multifactor_coverage` 后，新增 `industry_quality` 多因子预设。
+- 本轮新增并五窗口确认的 Path 1/core_multifactor base id：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_industry_quality`。实际命令与 Path 2/3 合并执行：
+  `.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_industry_quality,core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm65_caution70_cap95,core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm65_caution70_cap95,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap45_hold9_turn06_weekly,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap50_hold10_turn06_weekly`。
+- `industry_quality` 五窗口 CAGR 为 `10.87% / 11.36% / 27.21% / 78.03% / 43.79%`，2017/2020 长窗与 `-42.85% / -36.44%` 回撤明显弱于现有 Path 1 锚点，未晋级；`core_multifactor=13/13 complete`，fast-family 为 `47/47 complete`，未触发 evict。
+- `scripts/winner_only_pass.py` 本轮为 `base_candidates=47 / total_candidates=423 / evaluated=184`；clear improvement 只出现在旧 `since_2025_only` 候选 `aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered_asym13`，不是本轮新增候选。
+- `update_weighted_winners.py` 后 Path 1 official winners 同步为：2017 `aggr_08_92_prom6__port_weekly_exposure_buffered`，2020/2023 `aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95_dd_guard50`，2025 `aggr_10_90_prom6__port_weekly_exposure_buffered`；四窗口 robust 切为 `aggr_08_92_prom6__port_weekly_exposure_buffered`，`meanCAGR=46.55% / minCAGR=26.56% / worstMaxDD=-29.23% / meanTurn=4.08`。
+- 收尾 rotation 为 `stagnation_runs=3 / signal_quality / rotate`；下一轮 focus -> candidates 池先落在质量/低波/行业强度信号，而不是继续扩 growth tilt。建议先实现并补跑 `aggr_08_92_prom6_core_multifactor_quality_lowvol` 与 `aggr_05_95_prom7_core_multifactor_quality_lowvol`，第一条命令仍用五窗口 `--only-base-ids`，不跑 `research_active/all`。
+
 ## 本轮执行计划（2026-05-19 17:26 CST）
 
 - 开局与收尾 guard 均为 `pass / blocking=0 / warning=0`，首轮同步追加 `18` 条实验记录；本轮没有运行 `research_active/all`，A 股新增候选均用 `--only-base-ids` 五窗口增量确认。

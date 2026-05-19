@@ -3,6 +3,16 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-19 23:14 CST）
+
+- 上一轮新增 `cap50_hold8_turn08_weekly` 成为低换手 robust，下一轮提示为 `cap45/50 + hold9/10 + turn06/08`；本轮只沿纯 `_weekly` 路径推进，没有混入 Path 1 的周度仓位 overlay。
+- 本轮新增并五窗口确认 2 个 Path 3 base ids：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap45_hold9_turn06_weekly` 与 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap50_hold10_turn06_weekly`。实际命令与 Path 1/2 合并执行：
+  `.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_industry_quality,core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm65_caution70_cap95,core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm65_caution70_cap95,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap45_hold9_turn06_weekly,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap50_hold10_turn06_weekly`。
+- `cap45_hold9_turn06` 五窗口 CAGR 为 `14.54% / 12.54% / 7.02% / 66.16% / 31.20%`，换手 `2.66x-4.58x`（2026 观察窗 `8.76x`）；`cap50_hold10_turn06` 为 `15.92% / 15.47% / 4.89% / 61.20% / 43.63%`，换手更低但 2023 塌陷，二者均未晋级。
+- Guard 后 Path 3 weekly universe 为 `56/56 complete`，未触发 evict；本轮验证说明继续压到 `turn06 + hold9/10` 会明显牺牲 2023 可持续性。
+- `update_weighted_winners.py` 后 Path 3 official winners 同步为：2017 `aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly`，2020 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`，2023 `aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly`，2025 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`；四窗口 robust 回到 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn20_weekly`，`meanCAGR=29.87% / minCAGR=19.15% / worstMaxDD=-37.68% / meanTurn=5.28`。
+- 收尾 rotation 为 `stagnation_runs=3 / weekly_exit_buffer / rotate`；下一轮 focus -> candidates 池优先 `cap55/60 + hold8/9 + turn08/10 + wider sell_exit`，第一条命令建议在实现 `cap55_hold9_turn08_exit90_weekly` 与 `cap60_hold8_turn10_exit90_weekly` 后用五窗口 `--only-base-ids` 补跑。
+
 ## 本轮执行计划（2026-05-19 17:26 CST）
 
 - 本轮新增并五窗口 `--only-base-ids` 补跑 3 个纯 `_weekly` 候选：`aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold7_turn10_weekly`、`aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap50_hold8_turn08_weekly`、`aggr_05_95_prom3_weekly_alpha_pullback_risk40_cap55_hold4_turn18_weekly`；未混入 Path 1 周度仓位 overlay。

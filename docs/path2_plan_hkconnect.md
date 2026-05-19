@@ -1,5 +1,14 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-05-19 23:14 CST）
+
+- 上一轮 `hkconnect_path2_theme_monthly_cost_control` 成为 2017/2020 winner 与 robust；本轮按最终 rotation 的 `biweekly_breakout` 补一个双周突破成本防守对照，不裸跑全量 HK。
+- 本轮新增并五窗口确认：`hkconnect_path2_breakout_cost_guard_biweekly`。实际命令与 HK Path 1/3 合并执行：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_equal_buffered_cost_guard,hkconnect_path2_breakout_cost_guard_biweekly,hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`。
+- 新双周突破成本防守五窗口 CAGR 为 `4.10% / 0.38% / -1.05% / 36.56% / -16.67%`，最大回撤仍有 `-55.96% / -55.96% / -40.51% / -16.80% / -9.39%`，换手 `16x-20x`；只保留为失败对照，不晋级。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 2 tracked/robust 未变化：2017/2020 仍为 `theme_monthly_cost_control`，2023 `theme_monthly`，2025 `breakout_concentrated_monthly`；robust 仍为 `theme_monthly_cost_control`，`meanCAGR=37.46% / minCAGR=22.42% / worstMaxDD=-25.34% / meanTurn=5.86`。
+- HK candidate_count 为 `64/64 complete`，本轮未触发 evict；下一轮 focus -> candidates 池仍按 `biweekly_breakout`，但必须先压回撤/换手。建议先实现 `hkconnect_path2_breakout_cost_guard_biweekly_exit35` 与 `hkconnect_path2_breakout_cost_guard_biweekly_risk50`，第一条命令继续用五窗口 `--only-strategy-ids`。
+
 ## 本轮执行计划（2026-05-19 17:26 CST）
 
 - 本轮新增并用 `--only-strategy-ids` 五窗口补跑 3 个成本/回撤控制候选：`hkconnect_path2_equal_elastic_monthly_defensive`、`hkconnect_path2_inverse_elastic_monthly_defensive`、`hkconnect_path2_theme_monthly_cost_control`；没有裸跑全量 HK。

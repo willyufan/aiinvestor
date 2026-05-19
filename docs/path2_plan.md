@@ -13,6 +13,16 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-19 23:14 CST）
+
+- 上一轮 `risk40_mom_exit60_reconfirm65` 等权版成为 official 2017/2020 winner 与 robust，但 `since_2026_01` 仍为负；本轮按 `medium_cycle_growth` 的 2026 防守缺口，增加谨慎仓约束而不扩全量。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm65_caution70_cap95` 与 `core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm65_caution70_cap95`。实际命令与 Path 1/3 合并执行：
+  `.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_industry_quality,core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm65_caution70_cap95,core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm65_caution70_cap95,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap45_hold9_turn06_weekly,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap50_hold10_turn06_weekly`。
+- 新 `caution70` 等权版五窗口 CAGR 为 `33.78% / 55.33% / 53.79% / 92.06% / -14.10%`，总市值版为 `32.83% / 47.78% / 45.75% / 103.20% / -12.72%`；相对上一轮 `reconfirm65` 的 2026 负收益有所收窄，但牺牲 2017/2020/2023 与 2025 弹性，未替换 official robust。
+- `scripts/path2_candidate_pass.py` 后 candidate universe 为 `541/541 complete`，五族规模为 `high_concentration_breakout=154 / high_growth_theme=277 / momentum_equal_weight_elastic=19 / biweekly_rebalance_aggressive=18 / weekly_rebalance_aggressive=33`；未触发 evict。
+- family-ranked raw robust 仍偏向 `risk40_mom_exit60_reconfirm75_caution80`，但 `update_weighted_winners.py` official 口径同步为：2017 `risk40_mom_exit60_reconfirm75_cap95`，2020 `risk40_mom_exit60_reconfirm70_cap95`，2023 `risk50_ma_cap95`，2025 `aggr_05_95_prom3_core_6_1_full_risk_cap60`；四窗口 robust 为 `risk40_mom_exit60_reconfirm75_cap95`，`meanCAGR=61.28% / minCAGR=38.32% / worstMaxDD=-32.76% / meanTurn=4.98`。
+- 收尾 rotation 为 `stagnation_runs=3 / risk_reconfirm_sensitivity / rotate`；下一轮 focus -> candidates 池优先比较 `risk35/40`、`reconfirm75/80` 与 `caution65/70` 的交互，不继续只加高收益族。建议先实现 `risk35_mom_exit60_reconfirm75_caution70_cap95` 和 `risk40_mom_exit60_reconfirm80_caution70_cap95` 的等权/总市值双底座，并用五窗口 `--only-base-ids` 增量补跑。
+
 ## 本轮执行计划（2026-05-19 17:26 CST）
 
 - 本轮沿 `medium_cycle_growth` 新增 3 个高收益参数变体，并对等权/总市值两套底座共 `6` 个 base id 做五窗口 `--only-base-ids` 增量确认：`risk45_mom_exit60_reconfirm70`、`risk40_mom_exit55_reconfirm70`、`risk40_mom_exit60_reconfirm65`。
