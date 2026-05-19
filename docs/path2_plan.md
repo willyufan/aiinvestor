@@ -20,7 +20,7 @@
 - 新 `risk40_mom_exit60_reconfirm65` 等权版成为 2017/2020 official winner 与四窗口 robust：2017 `35.89% CAGR / -33.25% MaxDD / 0.97 Sharpe / 3.98 Turn`，2020 `58.60% / -28.34% / 1.24 / 4.49`，2023 `55.88% / -29.20% / 1.28 / 4.19`，2025 `97.78% / -14.29% / 1.78 / 7.39`。
 - 其他新变体也有效抬高上限：`risk45_mom_exit60_reconfirm70` 等权版成为 2023 official winner（`57.56% CAGR / -31.31% MaxDD / 1.29 Sharpe / 4.32 Turn`），`risk40_mom_exit55_reconfirm70` 总市值版成为 2025 official winner（`108.88% CAGR / -16.71% MaxDD / 1.83 Sharpe / 6.77 Turn`）。
 - 四窗口 official robust candidate 切换为等权 `risk40_mom_exit60_reconfirm65`，`meanCAGR=62.04% / minCAGR=35.89% / worstMaxDD=-33.25% / meanTurn=5.01`；但新高收益族在 `since_2026_01` 均为负（等权约 `-16.78%`、总市值约 `-15.07%`），下一轮要加 2026 风控/确认约束。
-- 收尾 rotation 为 `stagnation_runs=0 / medium_cycle_growth / continue`；下一轮第一优先命令应围绕当前 robust 做 `caution/现金防守/恢复确认` 变体的 `--only-base-ids` 增量补跑。
+- 收尾 rotation 为 `stagnation_runs=1 / medium_cycle_growth / continue`；下一轮第一优先命令应围绕当前 robust 做 `caution/现金防守/恢复确认` 变体的 `--only-base-ids` 增量补跑。
 
 ## 本轮执行计划（2026-05-19 11:12 CST）
 

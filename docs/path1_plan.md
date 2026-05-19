@@ -6,12 +6,13 @@
 
 ## 本轮执行计划（2026-05-19 17:26 CST）
 
-- 开局与收尾 guard 均为 `pass / blocking=0 / warning=0`，收尾追加 `18` 条实验记录；本轮没有运行 `research_active/all`，A 股新增候选均用 `--only-base-ids` 五窗口增量确认。
-- Path 1 / Path 4-lite 新增 `growth_quality` 多因子预设，并把 `aggr_08_92_prom6_core_multifactor_growth_quality`、`aggr_10_90_prom6_core_multifactor_growth_quality`、`aggr_05_95_prom7_core_multifactor_growth_quality` 加入 `core_multifactor` 方向；fast-pass 变为 `base_candidates=43 / total_candidates=387 / evaluated=180`，`core_multifactor=12`。
+- 开局与收尾 guard 均为 `pass / blocking=0 / warning=0`，首轮同步追加 `18` 条实验记录；本轮没有运行 `research_active/all`，A 股新增候选均用 `--only-base-ids` 五窗口增量确认。
+- Path 1 / Path 4-lite 新增 `growth_quality` 多因子预设，并把 `aggr_08_92_prom6_core_multifactor_growth_quality`、`aggr_10_90_prom6_core_multifactor_growth_quality`、`aggr_05_95_prom7_core_multifactor_growth_quality` 加入 `core_multifactor` 方向；随后补做非多因子 `holding_shape` 三候选 `aggr_07_93_hold_3_7_ramp90`、`share_10_90_hold_3_7`、`share_06_94_hold_2_8_ramp85`。最终 fast-pass 为 `base_candidates=46 / total_candidates=414 / evaluated=183`，`core_multifactor=12 / holding_shape=10`。
 - 新多因子候选没有晋级：`08/92 growth_quality` 五窗口 CAGR 为 `12.26% / 13.15% / 26.25% / 77.27% / 66.91%`，`10/90 growth_quality` 为 `12.30% / 12.96% / 25.87% / 77.80% / 65.67%`，`05/95 growth_quality` 为 `11.39% / 10.64% / 30.77% / 76.61% / 77.22%`；2017/2020 长窗收益和 `-42%~-44%` 回撤明显弱于现有 Path 1/core_multifactor 锚点。
+- 新 holding-shape 候选也未晋级：`share_06_94_hold_2_8_ramp85` 在 2020/2025 为 `25.28% / 80.20% CAGR` 且 2026 为 `57.67%`，但 2017 `20.64%`、2023 `26.74%` 不足以替换当前 Path 1 winner；另外两个 `3+7` 形态 2020 约 `24.4% CAGR`、2025 约 `73%~74%`。
 - `scripts/winner_only_pass.py` 仍只在旧候选上给出 2017/2023 clear improvement 观察，`update_weighted_winners.py` 后 Path 1 official winners 未变：2017 `aggr_08_92_prom6__port_weekly_exposure_buffered_asym13`，2020 `aggr_05_95_prom7__sat_three_stage_buffered`，2023 `aggr_05_95_prom7`，2025 `aggr_08_92_prom6`。
 - 四窗口 robust candidate 仍为 `aggr_08_92_prom6__port_weekly_exposure_buffered_asym13`，`meanCAGR=45.46% / minCAGR=25.86% / worstMaxDD=-28.72% / meanTurn=4.11`。
-- 收尾 rotation 为 `stagnation_runs=2 / core_multifactor_coverage / continue`；下一轮若继续多因子，应优先尝试 `momentum_quality` 的低波/回撤 overlay，而不是再扩大纯 growth tilt。
+- 收尾 rotation 为 `stagnation_runs=3 / signal_quality / rotate`；下一轮先做信号质量或低波风控，不再扩大纯 growth tilt 或普通持仓形态邻域。
 
 ## 本轮执行计划（2026-05-19 11:12 CST）
 

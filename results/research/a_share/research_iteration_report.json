@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-19T17:24:53+08:00",
+  "generated_at": "2026-05-19T17:32:15+08:00",
   "as_of": "2026-05-19",
   "coverage_gate": {
     "status": "pass",
@@ -40,8 +40,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 43,
-        "complete_count": 43,
+        "candidate_count": 46,
+        "complete_count": 46,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -118,22 +118,22 @@
   "experiment_log": {
     "path": "results/research/a_share/research_experiments.jsonl",
     "candidate_entries": 79,
-    "appended_entries": 18
+    "appended_entries": 0
   },
   "rotation": {
     "ashare_path1": {
       "signature": "2c11c7a5030415ad31c1",
       "changed": false,
-      "stagnation_runs": 2,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
-      "recommended_focus": "core_multifactor_coverage",
-      "rotation_status": "continue",
+      "recommended_focus": "signal_quality",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-05-19T11:14:08+08:00"
     },
     "ashare_path2": {
       "signature": "8afcc169879a235e49bd",
-      "changed": true,
-      "stagnation_runs": 0,
+      "changed": false,
+      "stagnation_runs": 1,
       "stagnation_threshold": 3,
       "recommended_focus": "medium_cycle_growth",
       "rotation_status": "continue",
@@ -141,8 +141,8 @@
     },
     "ashare_path3": {
       "signature": "82757a155b953f70d9cd",
-      "changed": true,
-      "stagnation_runs": 0,
+      "changed": false,
+      "stagnation_runs": 1,
       "stagnation_threshold": 3,
       "recommended_focus": "turnover_reduction",
       "rotation_status": "continue",
@@ -150,8 +150,8 @@
     },
     "hkconnect_path1": {
       "signature": "00a0ca47623367e10e37",
-      "changed": true,
-      "stagnation_runs": 0,
+      "changed": false,
+      "stagnation_runs": 1,
       "stagnation_threshold": 3,
       "recommended_focus": "monthly_weekly_overlay",
       "rotation_status": "continue",
@@ -159,8 +159,8 @@
     },
     "hkconnect_path2": {
       "signature": "00a0b61b86cadd408c85",
-      "changed": true,
-      "stagnation_runs": 0,
+      "changed": false,
+      "stagnation_runs": 1,
       "stagnation_threshold": 3,
       "recommended_focus": "high_return_monthly",
       "rotation_status": "continue",
@@ -168,8 +168,8 @@
     },
     "hkconnect_path3": {
       "signature": "6c6bb32e5bc467ec77eb",
-      "changed": true,
-      "stagnation_runs": 0,
+      "changed": false,
+      "stagnation_runs": 1,
       "stagnation_threshold": 3,
       "recommended_focus": "weekly_turnover_reduction",
       "rotation_status": "continue",
@@ -191,7 +191,7 @@
         "satellite_defense": 5,
         "signal_variants": 2,
         "core_multifactor": 12,
-        "holding_shape": 7,
+        "holding_shape": 10,
         "supporting_variants": 4,
         "drawdown_guard": 7
       }

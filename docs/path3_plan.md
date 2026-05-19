@@ -10,7 +10,7 @@ Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_we
 - 新 `cap50_hold8_turn08` 成为 2017 window winner 与四窗口 robust：2017 `14.19% CAGR / -30.27% MaxDD / 0.64 Sharpe / 3.01 Turn`，2020 `14.49% / -25.32% / 0.60 / 3.06`，2023 `12.08% / -28.70% / 0.51 / 2.54`，2025 `63.76% / -25.62% / 1.24 / 6.04`。
 - `cap55_hold7_turn10` 没有赢长窗，但 2026 短窗最好（`56.62% CAGR / -8.76% MaxDD / 1.57 Sharpe / 9.30 Turn`）；`risk40_cap55_hold4_turn18` 因 2020 只有 `9.47% CAGR` 被验证门槛拦截，虽有 2026 `113.78% CAGR`，换手已升到 `10.73`。
 - `update_weighted_winners.py` 后 Path 3 official winners 为：2017 `cap50_hold8_turn08_weekly`，2020/2023 `cap60_hold6_turn12_weekly`，2025 `cap65_hold5_turn15_weekly`；robust 切为 `cap50_hold8_turn08_weekly`，`meanCAGR=26.13% / minCAGR=12.08% / worstMaxDD=-30.27% / meanTurn=3.66`。
-- 收尾 rotation 为 `stagnation_runs=0 / turnover_reduction / continue`；下一轮继续尝试 `cap45/50 + hold9/10 + turn06/08`，以 2020/2023 不塌为前提压换手。
+- 收尾 rotation 为 `stagnation_runs=1 / turnover_reduction / continue`；下一轮继续尝试 `cap45/50 + hold9/10 + turn06/08`，以 2020/2023 不塌为前提压换手。
 
 ## 本轮执行计划（2026-05-19 11:12 CST）
 

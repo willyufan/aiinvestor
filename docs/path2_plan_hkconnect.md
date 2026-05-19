@@ -6,7 +6,7 @@
 - `theme_monthly_cost_control` 成为 2017/2020 window winner 与 robust：2017 `22.42% CAGR / -25.34% MaxDD / 1.01 Sharpe / 5.87 Turn`，2020 `29.86% / -19.10% / 1.17 / 5.65`，2023 `28.94% / -14.06% / 1.33 / 5.73`，2025 `68.62% / -8.42% / 2.20 / 6.21`，2026 `67.73% / -8.40% / 1.36 / 5.51`。
 - `equal_elastic_monthly_defensive` 与 `inverse_elastic_monthly_defensive` 在 2025/2026 均强（`84.64% / 69.49% CAGR`），但 2017/2020/2023 回撤仍到 `-36%~-38%`，只适合作为高弹性成本控制观察。
 - HK Path 2 tracked winners 更新为：2017/2020 `hkconnect_path2_theme_monthly_cost_control`，2023 `hkconnect_path2_theme_monthly`，2025 `hkconnect_path2_breakout_concentrated_monthly`；robust 切为 `hkconnect_path2_theme_monthly_cost_control`，`meanCAGR=37.46% / minCAGR=22.42% / worstMaxDD=-25.34% / meanTurn=5.86`。
-- 收尾 guard 为 `pass / blocking=0 / warning=0`，HK Path 2 rotation 重置为 `stagnation_runs=0 / high_return_monthly / continue`；下一轮优先在 `theme_monthly_cost_control` 上做更低换手或 2023 收益修复，而不是继续扩高回撤弹性。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，HK Path 2 rotation 为 `stagnation_runs=1 / high_return_monthly / continue`；下一轮优先在 `theme_monthly_cost_control` 上做更低换手或 2023 收益修复，而不是继续扩高回撤弹性。
 
 ## 本轮执行计划（2026-05-19 11:12 CST）
 

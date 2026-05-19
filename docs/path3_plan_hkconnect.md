@@ -6,7 +6,7 @@
 - `stable_weekly_equal_buffered_cost_guard` 成为 2017 window winner 与 robust：2017 `21.96% CAGR / -26.67% MaxDD / 1.04 Sharpe / 9.66 Turn`，2020 `24.89% / -21.54% / 1.09 / 9.45`，2023 `28.13% / -14.21% / 1.43 / 10.02`，2025 `31.78% / -14.21% / 1.37 / 12.86`。
 - `theme_fast_weekly_turnover_guard` 成为 2025 window winner（`71.19% CAGR / -13.25% MaxDD / 1.88 Sharpe / 31.96 Turn`），且 2023 有 `32.28% CAGR`，但 2017/2020 回撤仍有 `-38.54% / -37.31%`，不适合 robust。
 - HK Path 3 tracked winners 更新为：2017 `stable_weekly_equal_buffered_cost_guard`，2020/2023 `theme_fast_weekly_buffered`，2025 `theme_fast_weekly_turnover_guard`；robust 切为 `stable_weekly_equal_buffered_cost_guard`，`meanCAGR=26.69% / minCAGR=21.96% / worstMaxDD=-26.67% / meanTurn=10.50`。
-- 收尾 guard 为 `pass / blocking=0 / warning=0`，HK Path 3 rotation 重置为 `stagnation_runs=0 / weekly_turnover_reduction / continue`；下一轮继续尝试低换手稳定线，避免只追 `30x` 年化换手的短窗弹性。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，HK Path 3 rotation 为 `stagnation_runs=1 / weekly_turnover_reduction / continue`；下一轮继续尝试低换手稳定线，避免只追 `30x` 年化换手的短窗弹性。
 
 ## 本轮执行计划（2026-05-19 11:12 CST）
 
