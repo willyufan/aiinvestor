@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-19 11:12 CST）
+
+- 本轮独立复核纯 `_weekly` universe，当前 `51/51` 个四窗口候选完整；未把 Path 1 的月度选股 + 周度仓位 overlay 或 Path 2 月频/双周候选混入本路径。
+- `update_weighted_winners.py` 后 Path 3 official winners 保持成本压降结构：2017/2020/2023 为 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold6_turn12_weekly`，2025 为 `cap65_hold5_turn15_weekly`。
+- 当前四窗口指标为：2017 `11.10% CAGR / -35.13% MaxDD / 0.5455 Sharpe / 3.26 Turn`，2020 `16.15% / -27.90% / 0.6308 / 3.59`，2023 `19.31% / -30.35% / 0.7172 / 2.81`，2025 `78.31% / -24.26% / 1.3121 / 7.17`。
+- 四窗口 robust candidate 仍为 `cap60_hold6_turn12_weekly`，`meanCAGR=23.60% / minCAGR=11.10% / worstMaxDD=-35.13% / meanTurn=4.33`。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，Path 3 rotation 为 `stagnation_runs=2 / turnover_reduction / continue`；下一轮继续比较更低换手、宽出场和风险降仓，短窗 2025 弹性不足以掩盖 2020/2023 的收益短板。
+
 ## 本轮执行计划（2026-05-19 05:29 CST）
 
 - 本轮按 `cost_stress` 轮换方向新增并补跑两个纯 `_weekly` 候选：`aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold5_turn15_weekly` 与 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold6_turn12_weekly`，未混入 Path 1 周度仓位 overlay。

@@ -1,5 +1,13 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-05-19 11:12 CST）
+
+- 本轮 `tracked_active` 增量刷新继续覆盖纯周度 Path 3 候选，Path 1/2 月频与双周结论不并入本路径；`update_hkconnect_artifacts.py` 已同步 tracked payload 与三张对比图。
+- HK Path 3 tracked winners 未变：2017 `hkconnect_path3_stable_weekly_equal_buffered`，2020/2023 `hkconnect_path3_theme_fast_weekly_buffered`，2025 `hkconnect_path3_theme_fast_weekly_defensive`。
+- 当前窗口指标为：2017 `21.54% CAGR / -33.66% MaxDD / 0.97 Sharpe / 10.84 Turn`，2020 `26.45% / -34.43% / 0.89 / 30.99`，2023 `38.29% / -19.56% / 1.25 / 29.75`，2025 `69.82% / -17.82% / 1.63 / 34.96`。
+- 四窗口 robust candidate 仍为 `hkconnect_path3_stable_weekly_equal_buffered`，`meanCAGR=30.23% / minCAGR=21.54% / worstMaxDD=-33.66% / meanTurn=11.33`。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，HK Path 3 rotation 为 `stagnation_runs=34 / cost_stress / rotate`；下一轮重点压约 `30x` 年化换手和交易成本，不提高周频进攻强度。
+
 ## 本轮执行计划（2026-05-19 05:29 CST）
 
 - 本轮按 `weekly_defensive_overlay` 轮换方向新增并用 `--only-strategy-ids` 增量补跑 `hkconnect_path3_theme_fast_weekly_defensive_wide`、`hkconnect_path3_theme_fast_weekly_defensive_cap26`、`hkconnect_path3_theme_fast_weekly_cashguard`，继续只作为 HK 纯周频路径观察。

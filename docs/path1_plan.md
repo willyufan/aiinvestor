@@ -4,6 +4,15 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-19 11:12 CST）
+
+- 开局与收尾 guard 均为 `pass / blocking=0 / warning=0`，收尾追加 `10` 条实验记录；Path 4-lite/core_multifactor 仍为 `9/9 complete`，9 个 base candidate 均在 `PATH1_FAST_PASS_VARIANT_IDS` 中。
+- `scripts/winner_only_pass.py` 本轮为 `base_candidates=40 / total_candidates=360 / evaluated=177`；方向继续覆盖 `promotion_ramp / satellite_defense / signal_variants / core_multifactor / holding_shape / supporting_variants / drawdown_guard`。
+- fast-pass raw clear 出现在 2017、2020、2025：2017 `aggr_08_92_prom6`，2020 `aggr_05_95_prom7__sat_three_stage_buffered`，2025 `aggr_08_92_prom6__port_weekly_exposure_buffered_asym13`；已用 `--only-base-ids` 五窗口增量确认，没有运行 `research_active/all`。
+- `update_weighted_winners.py` 后 Path 1 official winners 切换为：2017 `aggr_08_92_prom6__port_weekly_exposure_buffered_asym13`，2020 `aggr_05_95_prom7__sat_three_stage_buffered`，2023 `aggr_05_95_prom7`，2025 `aggr_08_92_prom6`。
+- 四窗口 robust candidate 切换为 `aggr_08_92_prom6__port_weekly_exposure_buffered_asym13`，`meanCAGR=45.46% / minCAGR=25.86% / worstMaxDD=-28.72% / meanTurn=4.11`。
+- raw 2023 仍由 `aggr_05_95_prom7_core_multifactor_balanced__sat_weekly_risk` 领先，但 official 口径没有晋升；收尾 rotation 为 `stagnation_runs=0 / core_multifactor_coverage / continue`，下一轮继续复核 core_multifactor 的短窗优势和周度仓位 overlay 的换手代价。
+
 ## 本轮执行计划（2026-05-19 05:29 CST）
 
 - 开局与收尾均运行 `.venv/bin/python scripts/research_iteration_guard.py`；收尾 guard 为 `pass / blocking=0 / warning=0`，并追加 `78` 条实验记录。

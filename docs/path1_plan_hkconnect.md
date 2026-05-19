@@ -1,5 +1,14 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-05-19 11:12 CST）
+
+- 本轮按增量要求运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --family-scope tracked_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，没有裸跑全量 HK；trade calendar 更新失败后回退本地缓存。
+- `scripts/update_hkconnect_artifacts.py` 已同步 tracked payload 与三张 HK 对比图；港股线继续独立，不并入 A 股 winner。
+- HK Path 1 tracked winners 未变：2017/2023/2025 为 `hkconnect_path1_monthly_equal_buffered`，2020 为 `hkconnect_path1_monthly_equal_buffered_weekly_overlay`。
+- 当前窗口指标为：2017 `24.03% CAGR / -23.59% MaxDD / 1.29 Sharpe / 3.09 Turn`，2020 `31.21% / -14.83% / 1.52 / 3.52`，2023 `33.85% / -14.79% / 1.69 / 2.87`，2025 `40.41% / -14.79% / 1.53 / 3.46`。
+- 四窗口 robust candidate 仍为 `hkconnect_path1_monthly_equal_buffered`，`meanCAGR=32.07% / minCAGR=24.03% / worstMaxDD=-23.59% / meanTurn=3.11`。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，HK Path 1 rotation 为 `stagnation_runs=34 / risk_overlay_cost / rotate`；下一轮优先比较月频稳健线上的风险 overlay 成本和双周缓冲的 2026 短窗失效。
+
 ## 本轮执行计划（2026-05-19 05:29 CST）
 
 - 本轮按 `biweekly_buffer` 轮换方向新增并增量补跑 `hkconnect_path1_biweekly_equal_buffered_wide_exit` 与 `hkconnect_path1_biweekly_equal_buffered_defensive`，命令使用 `--only-strategy-ids`，没有裸跑全量 HK；trade calendar 在线更新失败后回退本地缓存。
