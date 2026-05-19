@@ -69,6 +69,12 @@ PATH_FOCUS_ROTATION = {
         "risk_downshift",
         "cost_stress",
     ],
+    "ashare_path4": [
+        "emergent_theme_coverage",
+        "theme_signal_quality",
+        "theme_risk_control",
+        "theme_capacity_cost",
+    ],
     "hkconnect_path1": [
         "monthly_weekly_overlay",
         "biweekly_buffer",
@@ -243,6 +249,8 @@ def _load_backtest_constants() -> dict[str, Any]:
             "PATH1_FAST_PASS_DIRECTION_GROUPS",
             "PATH1_FAST_PASS_VARIANT_IDS",
             "PATH2_SCAN_FAMILY_RULES",
+            "PATH4_THEME_DISCOVERY_BASE_IDS",
+            "PATH4_THEME_DISCOVERY_VARIANT_IDS",
         ],
     )
 
@@ -273,6 +281,19 @@ def _extract_path2_family_counts(path2_pass: dict[str, Any], constants: dict[str
             "target_representatives": int(rule.get("target_candidates") or 0),
         }
     return result
+
+
+def _extract_path4_theme_candidates(constants: dict[str, Any]) -> list[str]:
+    base_ids = [str(item) for item in constants.get("PATH4_THEME_DISCOVERY_BASE_IDS") or []]
+    variant_ids = [str(item) for item in constants.get("PATH4_THEME_DISCOVERY_VARIANT_IDS") or []]
+    return sorted(
+        {
+            f"{base_id}__{variant_id}"
+            for base_id in base_ids
+            for variant_id in variant_ids
+            if base_id and variant_id
+        }
+    )
 
 
 def _strategy_signature(weighted: dict[str, Any], hk_tracked: dict[str, Any]) -> dict[str, str]:
@@ -568,6 +589,7 @@ def main(argv: list[str] | None = None) -> int:
     constants = _load_backtest_constants()
     direction_groups, path1_fast_ids = _extract_path1_candidates(constants)
     core_multifactor_ids = direction_groups.get("core_multifactor", [])
+    path4_theme_ids = _extract_path4_theme_candidates(constants)
 
     ashare_latest = _read_latest_csv(args.comparison_csv, "strategy_base_id")
     hk_latest = _read_latest_csv(args.hk_comparison_csv, "strategy_id")
@@ -630,6 +652,16 @@ def main(argv: list[str] | None = None) -> int:
             description="Path 3 pure weekly candidates must have comparable four-window results.",
         ),
         _coverage_scope(
+            scope_id="ashare_path4_emergent_theme",
+            market="ashare",
+            path="path4",
+            candidates=path4_theme_ids,
+            required_windows=A_SHARE_OBSERVATION_WINDOWS,
+            windows_by_id=ashare_windows,
+            blocking=True,
+            description="Path 4 emergent-theme candidates use no manual theme labels and must be observed before judging theme-capture quality.",
+        ),
+        _coverage_scope(
             scope_id="hkconnect_all_candidates",
             market="hkconnect",
             path="all",
@@ -652,6 +684,7 @@ def main(argv: list[str] | None = None) -> int:
         "path2": {
             "family_counts": _extract_path2_family_counts(path2_pass, constants),
             "next_run_new_candidate_quota": {
+                "emergent_theme_discovery": 3,
                 "high_concentration_breakout": 2,
                 "high_growth_theme": 2,
                 "momentum_equal_weight_elastic": 2,
@@ -666,6 +699,15 @@ def main(argv: list[str] | None = None) -> int:
                 "weekly_exit_buffer": 3,
                 "risk_downshift": 3,
                 "cost_stress": 2,
+            },
+        },
+        "path4": {
+            "emergent_theme_candidate_count": len(path4_theme_ids),
+            "next_run_new_candidate_quota": {
+                "emergent_theme_coverage": 4,
+                "theme_signal_quality": 3,
+                "theme_risk_control": 3,
+                "theme_capacity_cost": 2,
             },
         },
         "hkconnect": {

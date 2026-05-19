@@ -3,6 +3,16 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-20 05:20 CST）
+
+- 上一轮提示为 `cap55/60 + hold8/9 + turn08/10 + wider sell_exit`；本轮继续只做纯 `_weekly` 候选，没有混入 Path 1 的周度仓位 overlay。
+- 本轮新增并五窗口确认 2 个 Path 3 base ids：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold9_turn08_exit90_weekly` 与 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold8_turn10_exit90_weekly`。实际回测命令见 Path 1 本轮合并命令。
+- `cap55_hold9_turn08_exit90_weekly` 五窗口 CAGR 为 `10.29% / 15.67% / 8.29% / 62.56% / 29.76%`，最大回撤 `-32.68% / -24.44% / -28.79% / -26.28% / -10.30%`，换手 `2.66x / 2.94x / 2.55x / 6.02x / 8.86x`；2020 回撤好，但 2023 收益塌陷。
+- `cap60_hold8_turn10_exit90_weekly` 五窗口 CAGR 为 `11.16% / 15.40% / 16.14% / 69.15% / 30.37%`，最大回撤 `-30.67% / -28.24% / -27.16% / -27.60% / -10.20%`，换手 `3.19x / 2.97x / 2.59x / 6.14x / 9.09x`；较上一候选更均衡，但仍低于现有 robust 的 2017/2020/2023 稳定性。
+- `update_weighted_winners.py` 后 Path 3 official winners 未变化：2017 `aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly`，2020 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`，2023 `aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly`，2025 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`；四窗口 robust 仍为 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn20_weekly`，`meanCAGR=29.87% / minCAGR=19.15% / worstMaxDD=-37.68% / meanTurn=5.28`。
+- Guard 收尾为 `pass`，weekly universe 为 `58`，接近默认 active cap `60` 但未触发 evict；下一轮若新增超过 60，优先归档 `cap45_hold9_turn06` 与 `cap50_hold10_turn06` 这类 2023 塌陷且未改善 robust 的低换手候选。
+- 收尾 rotation 为 `stagnation_runs=6 / risk_downshift / rotate`；下一轮 focus -> candidates 池优先做纯周频降仓，不再只压换手。第一条命令建议先实现 `aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold8_turn10_exit90_weekly` 与 `aggr_03_97_prom2_weekly_alpha_pullback_risk40_cap55_hold9_turn08_exit90_weekly` 后五窗口 `--only-base-ids` 补跑。
+
 ## 本轮执行计划（2026-05-19 23:14 CST）
 
 - 上一轮新增 `cap50_hold8_turn08_weekly` 成为低换手 robust，下一轮提示为 `cap45/50 + hold9/10 + turn06/08`；本轮只沿纯 `_weekly` 路径推进，没有混入 Path 1 的周度仓位 overlay。

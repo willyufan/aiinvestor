@@ -403,6 +403,20 @@ HK_PATH1_VARIANTS.extend(
         },
         {
             **_HK_PATH1_TEMPLATE_BY_ID["hkconnect_path1_monthly_equal_buffered"],
+            "strategy_id": "hkconnect_path1_biweekly_equal_buffered_cashguard",
+            "strategy_name": "沪港通Path1 双周等权缓冲(现金防守)",
+            "candidate_family": "biweekly_equal_buffered",
+            "rebalance_frequency": "biweekly",
+            "risk_off_rule": "and",
+            "risk_off_exposure": 0.00,
+            "risk_caution_exposure": 0.70,
+            "buy_entry_percentile": 0.18,
+            "sell_exit_percentile": 0.42,
+            "max_holdings": 14,
+            "weight_cap": 0.14,
+        },
+        {
+            **_HK_PATH1_TEMPLATE_BY_ID["hkconnect_path1_monthly_equal_buffered"],
             "strategy_id": "hkconnect_path1_weekly_equal_buffered",
             "strategy_name": "沪港通Path1 单周等权缓冲",
             "candidate_family": "weekly_equal_buffered",
@@ -699,6 +713,18 @@ HK_PATH2_VARIANTS.extend(
             "weight_cap": 0.24,
         },
         {
+            **_HK_PATH2_TEMPLATE_BY_ID["hkconnect_path2_breakout_biweekly"],
+            "strategy_id": "hkconnect_path2_breakout_cost_guard_biweekly_exit35",
+            "strategy_name": "沪港通Path2 双周突破(成本防守宽出场35)",
+            "risk_off_rule": "and",
+            "risk_off_exposure": 0.35,
+            "risk_caution_exposure": 0.70,
+            "buy_entry_percentile": 0.09,
+            "sell_exit_percentile": 0.35,
+            "max_holdings": 7,
+            "weight_cap": 0.24,
+        },
+        {
             **_HK_PATH2_TEMPLATE_BY_ID["hkconnect_path2_breakout_weekly"],
             "strategy_id": "hkconnect_path2_breakout_risk50_weekly",
             "strategy_name": "沪港通Path2 单周突破(熊市50%)",
@@ -934,6 +960,18 @@ HK_PATH3_VARIANTS.extend(
             "sell_exit_percentile": 0.28,
             "max_holdings": 7,
             "weight_cap": 0.24,
+        },
+        {
+            **_HK_PATH3_TEMPLATE_BY_ID["hkconnect_path3_theme_fast_weekly"],
+            "strategy_id": "hkconnect_path3_theme_fast_weekly_defensive_turnover18",
+            "strategy_name": "沪港通Path3 单周快速主线(防守低换手18)",
+            "candidate_family": "weekly_high_growth_theme_cost_control",
+            "risk_off_exposure": 0.45,
+            "risk_caution_exposure": 0.74,
+            "buy_entry_percentile": 0.11,
+            "sell_exit_percentile": 0.30,
+            "max_holdings": 8,
+            "weight_cap": 0.22,
         },
         {
             **_HK_PATH3_TEMPLATE_BY_ID["hkconnect_path3_stable_weekly_equal_buffered"],
@@ -1185,6 +1223,15 @@ def get_hk_daily_cache_status(
     if pd.isna(latest_cached):
         return False, None
     return pd.Timestamp(latest_cached) >= cache_target_date, pd.Timestamp(latest_cached)
+
+
+def hk_daily_frame_covers_target(daily: pd.DataFrame, cache_target_date: pd.Timestamp) -> bool:
+    if daily.empty or "trade_date" not in daily.columns:
+        return False
+    latest_cached = pd.to_datetime(daily["trade_date"], errors="coerce").max()
+    if pd.isna(latest_cached):
+        return False
+    return pd.Timestamp(latest_cached).normalize() >= pd.Timestamp(cache_target_date).normalize()
 
 
 def get_hk_cache_worker_daily_client(default_pro):
@@ -1517,6 +1564,11 @@ def prepare_hkconnect_data(
                             warnings.append(f"{ts_code} 触发 hk_daily_adj 频率限制，本轮先停止，后续可继续断点续跑。")
                             continue
                         raise
+                    if not hk_daily_frame_covers_target(daily, cache_target_date):
+                        pending_codes.append(code)
+                        stopped_early = True
+                        warnings.append(f"{code} hk_daily_adj 未覆盖目标交易日 {cache_target_date.date()}，本轮不使用 stale 缓存回测。")
+                        continue
                     if daily.empty:
                         warnings.append(f"{code} 缺少 hk_daily_adj 数据，已跳过。")
                         continue
@@ -1573,6 +1625,11 @@ def prepare_hkconnect_data(
                     warnings.append(f"{ts_code} 触发 hk_daily_adj 频率限制，本轮先停止，后续可继续断点续跑。")
                     break
                 raise
+            if not hk_daily_frame_covers_target(daily, cache_target_date):
+                pending_codes.append(ts_code)
+                stopped_early = True
+                warnings.append(f"{ts_code} hk_daily_adj 未覆盖目标交易日 {cache_target_date.date()}，本轮不使用 stale 缓存回测。")
+                continue
             if daily.empty:
                 warnings.append(f"{ts_code} 缺少 hk_daily_adj 数据，已跳过。")
                 continue

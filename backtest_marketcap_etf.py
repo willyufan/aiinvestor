@@ -202,6 +202,15 @@ MULTI_FACTOR_PRESETS = {
         "industry_leader": 0.10,
         "liquidity_surge": 0.05,
     },
+    "quality_defense": {
+        "momentum_6_1": 0.20,
+        "momentum_3_1": 0.05,
+        "quality": 0.35,
+        "growth_acceleration": 0.05,
+        "industry_strength": 0.20,
+        "industry_leader": 0.10,
+        "liquidity_surge": 0.05,
+    },
 }
 
 VALID_MULTI_FACTOR_KEYS = frozenset(DEFAULT_MULTI_FACTOR_WEIGHTS.keys())
@@ -210,6 +219,7 @@ WEEKLY_ALPHA_SIGNAL_MODES = {
     "weekly_alpha_breakout",
     "weekly_alpha_pullback",
 }
+EMERGENT_THEME_SIGNAL_MODE = "emergent_theme"
 MARKET_INDEX_CODE = "000300.SH"
 BENCHMARK_INDEX_CODE = "000001.SH"
 CORE_INDEX_CODES = ["000300.SH", "000688.SH"]
@@ -616,6 +626,17 @@ WINNER_CORE_VARIANTS = [
         "promoted_core_stage_ramp": {1: 1.00},
         "core_signal_mode": "multi_factor",
         "factor_weights": MULTI_FACTOR_PRESETS["industry_quality"],
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_core_multifactor_quality_defense",
+        "variant_name": "进攻8/92 晋升6只(多因子质量防守)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "multi_factor",
+        "factor_weights": MULTI_FACTOR_PRESETS["quality_defense"],
     },
     {
         "variant_id": "aggr_10_90_prom6_core_6_1",
@@ -2270,6 +2291,58 @@ WINNER_CORE_VARIANTS = [
         "fast_promotion_percentile": 0.10,
         "fast_promotion_min_momentum_6_1_rank": 0.80,
         "fast_promotion_min_amount_surge_ratio": 1.05,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_caution_exposure": 0.70,
+        "satellite_caution_exposure": 0.50,
+        "core_risk_off_exposure": 0.40,
+        "satellite_risk_off_exposure": 0.40,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.95,
+    },
+    {
+        "variant_id": "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk35_mom_exit60_reconfirm75_caution70_cap95",
+        "variant_name": "进攻1/99 晋升2只(量价晋升前15%, 动量三档保留35%, 晋升保留前60%, 恢复确认75, 谨慎仓70/50, 单票95%)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "standard_promotion_min_momentum_6_1_rank": 0.75,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_momentum_6_1_rank": 0.85,
+        "fast_promotion_min_recent_1m_return": 0.01,
+        "fast_promotion_min_amount_surge_ratio": 1.10,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_caution_exposure": 0.70,
+        "satellite_caution_exposure": 0.50,
+        "core_risk_off_exposure": 0.35,
+        "satellite_risk_off_exposure": 0.35,
+        "promoted_core_sell_exit_percentile": 0.60,
+        "weight_cap": 0.95,
+    },
+    {
+        "variant_id": "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm80_caution70_cap95",
+        "variant_name": "进攻1/99 晋升2只(量价晋升前15%, 动量三档保留40%, 晋升保留前60%, 恢复确认80, 谨慎仓70/50, 单票95%)",
+        "winner_core_stable_share": 0.01,
+        "winner_core_promoted_share": 0.99,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "standard_promotion_min_momentum_6_1_rank": 0.80,
+        "standard_promotion_min_momentum_3_1_rank": 0.55,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_momentum_6_1_rank": 0.88,
+        "fast_promotion_min_momentum_3_1_rank": 0.60,
+        "fast_promotion_min_recent_1m_return": 0.02,
+        "fast_promotion_min_amount_surge_ratio": 1.10,
         "market_risk_off_rule": "negative_mom",
         "risk_staging_mode": "three_stage",
         "core_caution_exposure": 0.70,
@@ -4416,6 +4489,48 @@ WINNER_CORE_VARIANTS = [
         "weekly_turnover_cap": 0.06,
     },
     {
+        "variant_id": "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold9_turn08_exit90_weekly",
+        "variant_name": "进攻3/97 晋升2只(周频Alpha回踩, 熊市空仓, 单票55%, 持有9周, 换手8%, 宽出场90%, 单周)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_pullback",
+        "promotion_signal_mode": "weekly_alpha_pullback",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "promoted_core_sell_exit_percentile": 0.90,
+        "weight_cap": 0.55,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 9,
+        "weekly_turnover_cap": 0.08,
+    },
+    {
+        "variant_id": "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold8_turn10_exit90_weekly",
+        "variant_name": "进攻3/97 晋升2只(周频Alpha回踩, 熊市空仓, 单票60%, 持有8周, 换手10%, 宽出场90%, 单周)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_pullback",
+        "promotion_signal_mode": "weekly_alpha_pullback",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "promoted_core_sell_exit_percentile": 0.90,
+        "weight_cap": 0.60,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 8,
+        "weekly_turnover_cap": 0.10,
+    },
+    {
         "variant_id": "aggr_05_95_prom3_weekly_alpha_pullback_risk40_cap55_hold4_turn18_weekly",
         "variant_name": "进攻5/95 晋升3只(周频Alpha回踩, 熊市40%, 单票55%, 持有4周, 换手18%, 单周)",
         "winner_core_stable_share": 0.05,
@@ -4568,6 +4683,96 @@ WINNER_CORE_VARIANTS = [
         "portfolio_drawdown_guard_exposure": 0.50,
         "portfolio_drawdown_guard_max_days": 8,
     },
+    {
+        "variant_id": "aggr_02_98_prom2_emergent_theme_cash_off_and_cap95",
+        "variant_name": "进攻2/98 晋升2只(强主题涌现, 熊市空仓 and, 单票95%)",
+        "winner_core_stable_share": 0.02,
+        "winner_core_promoted_share": 0.98,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "promotion_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "standard_promotion_percentile": 0.12,
+        "fast_promotion_percentile": 0.08,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "core_quality_quantile": 0.35,
+        "promoted_core_quality_quantile": 0.25,
+        "explore_quality_quantile": 0.30,
+        "seed_quality_quantile": 0.20,
+        "promoted_core_sell_exit_percentile": 0.70,
+        "weight_cap": 0.95,
+    },
+    {
+        "variant_id": "aggr_02_98_prom2_emergent_theme_risk40_cap90",
+        "variant_name": "进攻2/98 晋升2只(强主题涌现, 熊市40%, 单票90%)",
+        "winner_core_stable_share": 0.02,
+        "winner_core_promoted_share": 0.98,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "promotion_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "standard_promotion_percentile": 0.12,
+        "fast_promotion_percentile": 0.08,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.40,
+        "satellite_risk_off_exposure": 0.40,
+        "core_quality_quantile": 0.35,
+        "promoted_core_quality_quantile": 0.25,
+        "explore_quality_quantile": 0.30,
+        "seed_quality_quantile": 0.20,
+        "promoted_core_sell_exit_percentile": 0.70,
+        "weight_cap": 0.90,
+    },
+    {
+        "variant_id": "aggr_05_95_prom3_emergent_theme_risk40_cap70",
+        "variant_name": "进攻5/95 晋升3只(强主题涌现, 熊市40%, 单票70%)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "promotion_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.40,
+        "satellite_risk_off_exposure": 0.40,
+        "core_quality_quantile": 0.35,
+        "promoted_core_quality_quantile": 0.25,
+        "explore_quality_quantile": 0.30,
+        "seed_quality_quantile": 0.20,
+        "promoted_core_sell_exit_percentile": 0.75,
+        "weight_cap": 0.70,
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_emergent_theme_risk50_cap50",
+        "variant_name": "进攻8/92 晋升6只(强主题涌现, 熊市50%, 单票50%)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "core_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "promotion_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "standard_promotion_percentile": 0.18,
+        "fast_promotion_percentile": 0.12,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "core_quality_quantile": 0.40,
+        "promoted_core_quality_quantile": 0.30,
+        "explore_quality_quantile": 0.35,
+        "seed_quality_quantile": 0.25,
+        "promoted_core_sell_exit_percentile": 0.80,
+        "weight_cap": 0.50,
+    },
 ]
 
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
@@ -4603,6 +4808,7 @@ PATH1_FAST_PASS_DIRECTION_GROUPS = {
         "aggr_10_90_prom6_core_multifactor_growth_quality",
         "aggr_05_95_prom7_core_multifactor_growth_quality",
         "aggr_08_92_prom6_core_multifactor_industry_quality",
+        "aggr_08_92_prom6_core_multifactor_quality_defense",
     ],
     "holding_shape": [
         "share_15_85_hold_4_6",
@@ -4665,6 +4871,7 @@ PATH1_FAST_PASS_VARIANT_IDS = [
     "aggr_10_90_prom6_core_multifactor_growth_quality",
     "aggr_05_95_prom7_core_multifactor_growth_quality",
     "aggr_08_92_prom6_core_multifactor_industry_quality",
+    "aggr_08_92_prom6_core_multifactor_quality_defense",
     "aggr_09_91_prom7",
     "share_12_88_hold_4_6",
     "aggr_08_92_hold_3_6",
@@ -4682,6 +4889,19 @@ PATH1_FAST_PASS_VARIANT_IDS = [
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95_dd_guard50",
 ]
 
+PATH4_THEME_DISCOVERY_BASE_IDS = [
+    "core_explore_80_20_total_mv_winner_core",
+    "core_explore_90_10_equal_weight_winner_core",
+    "core_explore_90_10_total_mv_winner_core",
+]
+
+PATH4_THEME_DISCOVERY_VARIANT_IDS = [
+    "aggr_02_98_prom2_emergent_theme_cash_off_and_cap95",
+    "aggr_02_98_prom2_emergent_theme_risk40_cap90",
+    "aggr_05_95_prom3_emergent_theme_risk40_cap70",
+    "aggr_08_92_prom6_emergent_theme_risk50_cap50",
+]
+
 PATH2_SCAN_BASE_PREFIXES = [
     "core_explore_95_05_equal_weight_winner_core",
     "core_explore_95_05_total_mv_winner_core",
@@ -4697,6 +4917,11 @@ PATH2_SCAN_BASE_PREFIXES = [
 ]
 
 PATH2_SCAN_FAMILY_RULES = {
+    "emergent_theme_discovery": {
+        "prefixes": PATH4_THEME_DISCOVERY_BASE_IDS,
+        "variant_ids": PATH4_THEME_DISCOVERY_VARIANT_IDS,
+        "target_candidates": 4,
+    },
     "high_concentration_breakout": {
         "prefixes": [
             "core_explore_80_20_equal_weight_winner_core",
@@ -4853,6 +5078,8 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit55_reconfirm70_cap95",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm65_cap95",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm65_caution70_cap95",
+            "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk35_mom_exit60_reconfirm75_caution70_cap95",
+            "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm80_caution70_cap95",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95",
             "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk30_or_cap95",
@@ -5006,6 +5233,8 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap50_hold8_turn08_weekly",
             "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap45_hold9_turn06_weekly",
             "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap50_hold10_turn06_weekly",
+            "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold9_turn08_exit90_weekly",
+            "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold8_turn10_exit90_weekly",
             "aggr_05_95_prom3_weekly_alpha_pullback_risk40_cap55_hold4_turn18_weekly",
         ],
         "target_candidates": 6,
@@ -5026,6 +5255,11 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_10_90_prom6_core_multifactor_growth_quality",
     "aggr_05_95_prom7_core_multifactor_growth_quality",
     "aggr_08_92_prom6_core_multifactor_industry_quality",
+    "aggr_08_92_prom6_core_multifactor_quality_defense",
+    "aggr_02_98_prom2_emergent_theme_cash_off_and_cap95",
+    "aggr_02_98_prom2_emergent_theme_risk40_cap90",
+    "aggr_05_95_prom3_emergent_theme_risk40_cap70",
+    "aggr_08_92_prom6_emergent_theme_risk50_cap50",
     "aggr_08_92_prom6_full_risk",
     "aggr_08_92_prom6_core_3_1_full_risk_cap40",
     "aggr_08_92_prom6_core_6_1_full_risk",
@@ -5106,6 +5340,8 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit55_reconfirm70_cap95",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm65_cap95",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm65_caution70_cap95",
+    "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk35_mom_exit60_reconfirm75_caution70_cap95",
+    "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm80_caution70_cap95",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95",
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_cash_off_and_risk50_cap95",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk30_or_cap95",
@@ -5261,6 +5497,8 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap50_hold8_turn08_weekly",
     "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap45_hold9_turn06_weekly",
     "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap50_hold10_turn06_weekly",
+    "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold9_turn08_exit90_weekly",
+    "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold8_turn10_exit90_weekly",
     "aggr_05_95_prom3_weekly_alpha_pullback_risk40_cap55_hold4_turn18_weekly",
 ]
 
@@ -5495,6 +5733,35 @@ def read_cached_csv(path: Path, date_columns: Iterable[str] | None = None) -> pd
 def save_csv(df: pd.DataFrame, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(path, index=False, float_format=FLOAT_FORMAT)
+
+
+def _latest_index_date(frame: pd.DataFrame) -> pd.Timestamp | None:
+    if frame.empty:
+        return None
+    dates = pd.to_datetime(frame.index, errors="coerce")
+    latest = dates.max()
+    if pd.isna(latest):
+        return None
+    return pd.Timestamp(latest).normalize()
+
+
+def prepared_cache_covers_target(prepared: PreparedData, cache_target_date: pd.Timestamp) -> bool:
+    target = pd.Timestamp(cache_target_date).normalize()
+    price_latest = _latest_index_date(prepared.price_exact)
+    if price_latest is None or price_latest < target:
+        print(
+            f"[Cache] prepared panel cache stale: price_exact latest="
+            f"{price_latest.date() if price_latest is not None else 'None'} < target={target.date()}"
+        )
+        return False
+    mv_latest = _latest_index_date(prepared.total_mv)
+    if mv_latest is None or mv_latest < target:
+        print(
+            f"[Cache] prepared panel cache stale: total_mv latest="
+            f"{mv_latest.date() if mv_latest is not None else 'None'} < target={target.date()}"
+        )
+        return False
+    return True
 
 
 def load_or_fetch_stock_basic(pro) -> pd.DataFrame:
@@ -6280,6 +6547,28 @@ def build_weekly_alpha_scores(
     )
 
 
+def build_emergent_theme_scores(
+    *,
+    momentum_6_1: pd.Series,
+    momentum_3_1: pd.Series,
+    recent_1m_returns: pd.Series,
+    amount_surge_ratio: pd.Series,
+    breakout_signal: pd.Series,
+    industry_strength_scores: pd.Series,
+    industry_leader_scores: pd.Series,
+) -> pd.Series:
+    return blend_ranked_components(
+        [
+            (industry_strength_scores, 0.32),
+            (industry_leader_scores, 0.24),
+            (safe_percentile_rank(momentum_3_1, ascending=True), 0.16),
+            (safe_percentile_rank(recent_1m_returns, ascending=True), 0.12),
+            (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.10),
+            (breakout_signal.astype(float), 0.06),
+        ]
+    )
+
+
 def compute_core_signal_scores(
     *,
     core_signal_mode: str,
@@ -6337,6 +6626,16 @@ def compute_core_signal_scores(
                 (industry_leader_scores, 0.15),
                 (breakout_signal.astype(float), 0.10),
             ]
+        )
+    if mode == EMERGENT_THEME_SIGNAL_MODE:
+        return build_emergent_theme_scores(
+            momentum_6_1=momentum_6_1,
+            momentum_3_1=momentum_3_1,
+            recent_1m_returns=recent_1m_returns,
+            amount_surge_ratio=amount_surge_ratio,
+            breakout_signal=breakout_signal,
+            industry_strength_scores=industry_strength_scores,
+            industry_leader_scores=industry_leader_scores,
         )
     if mode == "multi_factor":
         factor_weights = _validated_multi_factor_weights(strategy_config.get("factor_weights"))
@@ -6656,7 +6955,11 @@ def build_prepared_cache_path(
 def load_prepared_cache(path: Path) -> PreparedData | None:
     if not path.exists():
         return None
-    payload = pd.read_pickle(path)
+    try:
+        payload = pd.read_pickle(path)
+    except Exception as exc:  # noqa: BLE001
+        print(f"[Cache] prepared panel cache 读取失败，将重建: {path} ({exc})")
+        return None
     if not isinstance(payload, dict) or payload.get("version") != PREPARED_CACHE_VERSION:
         return None
     prepared = payload.get("prepared")
@@ -6712,6 +7015,40 @@ def load_monthly_factor_cache(path: Path) -> MonthlyFactorCache | None:
     if not isinstance(payload, dict) or "version" not in payload or payload["version"] != FACTOR_CACHE_VERSION:
         return None
     return MonthlyFactorCache(**payload["cache"])
+
+
+def monthly_factor_cache_covers_prepared(cache: MonthlyFactorCache, prepared: PreparedData) -> bool:
+    signal_dates = get_factor_signal_dates(prepared)
+    if not signal_dates:
+        return True
+    required_maps = [
+        cache.standard_eligible_codes_by_date,
+        cache.seed_eligible_codes_by_date,
+        cache.signal_mvs_by_date,
+        cache.avg_daily_amount_by_date,
+        cache.amount_surge_ratio_by_date,
+        cache.recent_1m_returns_by_date,
+        cache.core_signal_scores_by_date,
+        cache.momentum_6_1_by_date,
+        cache.momentum_3_1_by_date,
+        cache.breakout_signal_by_date,
+        cache.quality_scores_by_date,
+        cache.growth_quality_scores_by_date,
+        cache.growth_acceleration_scores_by_date,
+        cache.industry_strength_scores_by_date,
+        cache.industry_leader_scores_by_date,
+    ]
+    if any(any(signal_date not in mapping for signal_date in signal_dates) for mapping in required_maps):
+        return False
+
+    latest_signal_date = signal_dates[-1]
+    if latest_signal_date in prepared.price_exact.index and latest_signal_date in prepared.total_mv.index:
+        has_price = bool(prepared.price_exact.loc[latest_signal_date].notna().any())
+        has_mv = bool(prepared.total_mv.loc[latest_signal_date].notna().any())
+        if has_price and has_mv:
+            latest_mvs = cache.signal_mvs_by_date.get(latest_signal_date, pd.Series(dtype=float))
+            return bool(cache.seed_eligible_codes_by_date.get(latest_signal_date)) and bool(latest_mvs.notna().any())
+    return True
 
 
 def save_monthly_factor_cache(cache: MonthlyFactorCache, path: Path) -> None:
@@ -7073,6 +7410,10 @@ def build_core_explore_target_weights(
     promoted_core_max_holdings: int = PROMOTED_CORE_MAX_HOLDINGS,
     promoted_core_stage_ramp: Dict[int, float] | None = None,
     promoted_core_sell_exit_percentile: float = 1.0,
+    core_quality_quantile: float = CORE_QUALITY_QUANTILE,
+    promoted_core_quality_quantile: float = 0.40,
+    explore_quality_quantile: float = EXPLORE_QUALITY_QUANTILE,
+    seed_quality_quantile: float = SEED_QUALITY_QUANTILE,
 ) -> Tuple[pd.Series, Dict[str, object]]:
     liquidity = avg_daily_amount.reindex(base_weights.index)
     core_eligible_codes = seed_eligible_codes if core_source_mode == "winner_core" else standard_eligible_codes
@@ -7198,7 +7539,7 @@ def build_core_explore_target_weights(
         target_exposure=stable_target_weight,
         buy_entry_percentile=CORE_BUY_ENTRY_PERCENTILE,
         sell_exit_percentile=CORE_SELL_EXIT_PERCENTILE,
-        quality_quantile=CORE_QUALITY_QUANTILE,
+        quality_quantile=float(core_quality_quantile),
         max_holdings=int(stable_core_max_holdings),
         breakout_signal=breakout_signal,
         base_weight_mode="hybrid",
@@ -7233,7 +7574,7 @@ def build_core_explore_target_weights(
         target_exposure=promoted_target_weight,
         buy_entry_percentile=1.0,
         sell_exit_percentile=promoted_core_sell_exit_percentile,
-        quality_quantile=0.40,
+        quality_quantile=float(promoted_core_quality_quantile),
         max_holdings=int(promoted_core_max_holdings),
         protected_hold_codes=set(promoted_core_raw.index),
         protected_sell_exit_percentile=promoted_core_sell_exit_percentile,
@@ -7280,7 +7621,7 @@ def build_core_explore_target_weights(
         target_exposure=explore_target_exposure,
         buy_entry_percentile=EXPLORE_BUY_ENTRY_PERCENTILE,
         sell_exit_percentile=EXPLORE_SELL_EXIT_PERCENTILE,
-        quality_quantile=EXPLORE_QUALITY_QUANTILE,
+        quality_quantile=float(explore_quality_quantile),
         max_holdings=EXPLORE_MAX_HOLDINGS,
         breakout_signal=breakout_signal,
         base_weight_mode="hybrid",
@@ -7311,7 +7652,7 @@ def build_core_explore_target_weights(
         target_exposure=seed_target_exposure,
         buy_entry_percentile=SEED_BUY_ENTRY_PERCENTILE,
         sell_exit_percentile=SEED_SELL_EXIT_PERCENTILE,
-        quality_quantile=SEED_QUALITY_QUANTILE,
+        quality_quantile=float(seed_quality_quantile),
         max_holdings=SEED_MAX_HOLDINGS,
         allow_missing_quality=True,
         require_breakout_for_buy=True,
@@ -8431,6 +8772,13 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
     stock_basic = load_or_fetch_stock_basic(pro)
     calendar = load_or_fetch_trade_calendar(pro, data_start_date, end_date)
     usable_calendar = calendar.loc[pd.to_datetime(calendar["cal_date"]) <= end_date].copy()
+    open_dates = pd.to_datetime(
+        usable_calendar.loc[usable_calendar["is_open"] == 1, "cal_date"],
+        errors="coerce",
+    ).dropna()
+    if open_dates.empty:
+        raise RuntimeError("A股可用交易日历为空，无法准备缓存。")
+    cache_target_date = pd.Timestamp(open_dates.max()).normalize()
     month_end_dates, _, week_end_dates, _, monthly_period_end_dates = build_month_boundaries(
         usable_calendar,
         formal_calendar=calendar,
@@ -8479,25 +8827,28 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
     prepared_cache_path = build_prepared_cache_path(normalized_codes, data_start_date, end_date)
     prepared_cached = load_prepared_cache(prepared_cache_path)
     if prepared_cached is not None:
-        print(f"[Cache] 已加载 prepared panel cache: {prepared_cache_path}")
-        prepared_cached.core_members_by_date = core_members_by_date
-        prepared_cached.explore_members_by_date = explore_members_by_date
-        prepared_cached.core_index_weights_by_date = core_index_weights_by_date
-        prepared_cached.explore_index_weights_by_date = explore_index_weights_by_date
-        prepared_cached.month_end_dates = month_end_dates
-        prepared_cached.monthly_period_end_dates = monthly_period_end_dates
-        prepared_cached.week_end_dates = week_end_dates
-        factor_cache_path = build_factor_cache_path(prepared_cached)
-        monthly_factor_cache = load_monthly_factor_cache(factor_cache_path)
-        if monthly_factor_cache is None:
-            print("[Cache] 月度因子缓存不存在或失效，开始构建。")
-            monthly_factor_cache = build_monthly_factor_cache(prepared_cached)
-            save_monthly_factor_cache(monthly_factor_cache, factor_cache_path)
-            print(f"[Cache] 月度因子缓存已写入: {factor_cache_path}")
+        if prepared_cache_covers_target(prepared_cached, cache_target_date):
+            print(f"[Cache] 已加载 prepared panel cache: {prepared_cache_path}")
+            prepared_cached.core_members_by_date = core_members_by_date
+            prepared_cached.explore_members_by_date = explore_members_by_date
+            prepared_cached.core_index_weights_by_date = core_index_weights_by_date
+            prepared_cached.explore_index_weights_by_date = explore_index_weights_by_date
+            prepared_cached.month_end_dates = month_end_dates
+            prepared_cached.monthly_period_end_dates = monthly_period_end_dates
+            prepared_cached.week_end_dates = week_end_dates
+            factor_cache_path = build_factor_cache_path(prepared_cached)
+            monthly_factor_cache = load_monthly_factor_cache(factor_cache_path)
+            if monthly_factor_cache is None or not monthly_factor_cache_covers_prepared(monthly_factor_cache, prepared_cached):
+                print("[Cache] 月度因子缓存不存在、失效或未覆盖最新信号日，开始构建。")
+                monthly_factor_cache = build_monthly_factor_cache(prepared_cached)
+                save_monthly_factor_cache(monthly_factor_cache, factor_cache_path)
+                print(f"[Cache] 月度因子缓存已写入: {factor_cache_path}")
+            else:
+                print(f"[Cache] 已加载月度因子缓存: {factor_cache_path}")
+            prepared_cached.monthly_factor_cache = monthly_factor_cache
+            return prepared_cached
         else:
-            print(f"[Cache] 已加载月度因子缓存: {factor_cache_path}")
-        prepared_cached.monthly_factor_cache = monthly_factor_cache
-        return prepared_cached
+            print(f"[Cache] prepared panel cache 未覆盖目标交易日 {cache_target_date.date()}，将重建: {prepared_cache_path}")
 
     per_stock_frames: Dict[str, Dict[str, pd.DataFrame]] = {}
     financials_by_code: Dict[str, pd.DataFrame] = {}
@@ -8529,12 +8880,17 @@ def prepare_data(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> Prepa
         explore_index_weights_by_date,
         data_warnings,
     )
+    if not prepared_cache_covers_target(prepared, cache_target_date):
+        raise RuntimeError(
+            f"A股原始行情缓存未覆盖目标交易日 {cache_target_date.date()}，"
+            "拒绝写入或使用 stale prepared cache；请先补齐 daily/daily_basic/adj_factor。"
+        )
     save_prepared_cache(prepared, prepared_cache_path)
     print(f"[Cache] prepared panel cache 已写入: {prepared_cache_path}")
     factor_cache_path = build_factor_cache_path(prepared)
     monthly_factor_cache = load_monthly_factor_cache(factor_cache_path)
-    if monthly_factor_cache is None:
-        print("[Cache] 月度因子缓存不存在或失效，开始构建。")
+    if monthly_factor_cache is None or not monthly_factor_cache_covers_prepared(monthly_factor_cache, prepared):
+        print("[Cache] 月度因子缓存不存在、失效或未覆盖最新信号日，开始构建。")
         monthly_factor_cache = build_monthly_factor_cache(prepared)
         save_monthly_factor_cache(monthly_factor_cache, factor_cache_path)
         print(f"[Cache] 月度因子缓存已写入: {factor_cache_path}")
@@ -8921,6 +9277,10 @@ def build_month_end_preview_payload(
             promoted_core_max_holdings=int(strategy_config.get("promoted_core_max_holdings", PROMOTED_CORE_MAX_HOLDINGS)),
             promoted_core_stage_ramp=strategy_config.get("promoted_core_stage_ramp", None),
             promoted_core_sell_exit_percentile=float(strategy_config.get("promoted_core_sell_exit_percentile", 1.0)),
+            core_quality_quantile=float(strategy_config.get("core_quality_quantile", CORE_QUALITY_QUANTILE)),
+            promoted_core_quality_quantile=float(strategy_config.get("promoted_core_quality_quantile", 0.40)),
+            explore_quality_quantile=float(strategy_config.get("explore_quality_quantile", EXPLORE_QUALITY_QUANTILE)),
+            seed_quality_quantile=float(strategy_config.get("seed_quality_quantile", SEED_QUALITY_QUANTILE)),
         )
     weight_cap = float(strategy_config.get("weight_cap", WEIGHT_CAP))
     if not np.isfinite(weight_cap) or weight_cap <= 0:
@@ -9073,6 +9433,16 @@ def run_backtest(
                 industry_strength_scores=industry_strength_scores,
                 industry_leader_scores=industry_leader_scores,
             )
+        elif promotion_signal_mode == EMERGENT_THEME_SIGNAL_MODE:
+            promotion_signal_scores = build_emergent_theme_scores(
+                momentum_6_1=momentum_6_1,
+                momentum_3_1=momentum_3_1,
+                recent_1m_returns=recent_1m_returns,
+                amount_surge_ratio=amount_surge_ratio,
+                breakout_signal=breakout_signal,
+                industry_strength_scores=industry_strength_scores,
+                industry_leader_scores=industry_leader_scores,
+            )
         else:
             promotion_signal_scores = pd.Series(dtype=float)
         explore_signal_scores = blend_ranked_components(
@@ -9204,6 +9574,10 @@ def run_backtest(
                 promoted_core_max_holdings=int(strategy_config.get("promoted_core_max_holdings", PROMOTED_CORE_MAX_HOLDINGS)),
                 promoted_core_stage_ramp=strategy_config.get("promoted_core_stage_ramp", None),
                 promoted_core_sell_exit_percentile=float(strategy_config.get("promoted_core_sell_exit_percentile", 1.0)),
+                core_quality_quantile=float(strategy_config.get("core_quality_quantile", CORE_QUALITY_QUANTILE)),
+                promoted_core_quality_quantile=float(strategy_config.get("promoted_core_quality_quantile", 0.40)),
+                explore_quality_quantile=float(strategy_config.get("explore_quality_quantile", EXPLORE_QUALITY_QUANTILE)),
+                seed_quality_quantile=float(strategy_config.get("seed_quality_quantile", SEED_QUALITY_QUANTILE)),
             )
         weight_cap = float(strategy_config.get("weight_cap", WEIGHT_CAP))
         if not np.isfinite(weight_cap) or weight_cap <= 0:
@@ -9626,6 +10000,10 @@ def run_backtest(
         "fast_promotion_percentile": FAST_PROMOTION_PERCENTILE,
         "fast_promotion_amount_surge_ratio": FAST_PROMOTION_AMOUNT_SURGE_RATIO,
         "promoted_core_sell_exit_percentile": PROMOTED_CORE_SELL_EXIT_PERCENTILE,
+        "core_quality_quantile": float(strategy_config.get("core_quality_quantile", CORE_QUALITY_QUANTILE)),
+        "promoted_core_quality_quantile": float(strategy_config.get("promoted_core_quality_quantile", 0.40)),
+        "explore_quality_quantile": float(strategy_config.get("explore_quality_quantile", EXPLORE_QUALITY_QUANTILE)),
+        "seed_quality_quantile": float(strategy_config.get("seed_quality_quantile", SEED_QUALITY_QUANTILE)),
         "core_max_holdings": CORE_MAX_HOLDINGS,
         "explore_max_holdings": EXPLORE_MAX_HOLDINGS,
         "seed_max_holdings": SEED_MAX_HOLDINGS,

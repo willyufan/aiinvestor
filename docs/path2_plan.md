@@ -13,6 +13,17 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-20 05:20 CST）
+
+- 上一轮提示为 `risk35/40`、`reconfirm75/80` 与 `caution65/70` 的交互；本轮在完成 Path 4 coverage block 后，沿 `risk_reconfirm_sensitivity` 新增 `risk35/reconfirm75/caution70` 与 `risk40/reconfirm80/caution70` 两个变体，并同时测试等权/总市值双底座。
+- 本轮新增并五窗口确认 4 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk35_mom_exit60_reconfirm75_caution70_cap95`、`core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk35_mom_exit60_reconfirm75_caution70_cap95`、`core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm80_caution70_cap95`、`core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm80_caution70_cap95`。实际回测命令见 Path 1 本轮合并命令。
+- `risk35/reconfirm75/caution70` 等权版五窗口 CAGR 为 `35.44% / 50.05% / 49.04% / 100.99% / -14.08%`，总市值版为 `34.43% / 42.78% / 41.80% / 113.32% / -12.70%`；长窗仍强，但 2026 防守失败，且不如当前 official robust 的 2017/2020 平衡。
+- `risk40/reconfirm80/caution70` 等权版五窗口 CAGR 为 `30.99% / 29.95% / 47.87% / 81.84% / -15.20%`，总市值版为 `29.19% / 24.09% / 39.48% / 94.63% / -13.84%`；恢复确认过严明显牺牲 2020/2017，不晋级。
+- `scripts/path2_candidate_pass.py` 后 candidate universe 为 `560`，新增独立 `emergent_theme_discovery=12`；family 规模为 `high_concentration_breakout=154 / high_growth_theme=281 / momentum_equal_weight_elastic=19 / biweekly_rebalance_aggressive=18 / weekly_rebalance_aggressive=35`。raw robust 仍为 `risk40_mom_exit60_reconfirm75_caution80`，`meanCAGR=64.35% / minCAGR=38.70% / worstMaxDD=-32.85% / meanTurn=4.93`。
+- `update_weighted_winners.py` 后 Path 2 official winners 未变化：2017 `risk40_mom_exit60_reconfirm75_cap95`，2020 `risk40_mom_exit60_reconfirm70_cap95`，2023 `risk50_ma_cap95`，2025 `aggr_05_95_prom3_core_6_1_full_risk_cap60`；四窗口 robust 仍为 `risk40_mom_exit60_reconfirm75_cap95`，`meanCAGR=61.28% / minCAGR=38.32% / worstMaxDD=-32.76% / meanTurn=4.98`。
+- Guard 收尾为 `pass`，Path 2 rotation 为 `stagnation_runs=6 / underrepresented_families / rotate`；未触发 evict，但 high_growth 已扩到 `281`，下一轮新增前优先补 `momentum_equal_weight_elastic` 或双周/周频代表，不再继续只加 high_growth。
+- 下一轮第一条候选命令建议先实现 `aggr_08_92_prom6_core_multifactor_quality_defense` 在 `core_explore_80_20_equal_weight_winner_core` 与 `core_explore_90_10_equal_weight_winner_core` 的等权弹性版本，或一个双周成本候选，然后用 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <underrepresented_family_ids>` 补跑。
+
 ## 本轮执行计划（2026-05-19 23:14 CST）
 
 - 上一轮 `risk40_mom_exit60_reconfirm65` 等权版成为 official 2017/2020 winner 与 robust，但 `since_2026_01` 仍为负；本轮按 `medium_cycle_growth` 的 2026 防守缺口，增加谨慎仓约束而不扩全量。
