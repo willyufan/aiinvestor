@@ -10,14 +10,19 @@ from typing import Any, Iterable
 
 import pandas as pd
 
-from path2_candidate_pass import _parse_python_constants
-
-
+# sys.path manipulation must happen BEFORE any `scripts.*` or sibling-module
+# imports so the script works both when run directly (python scripts/foo.py)
+# and when imported as a module (python -m scripts.foo) — previously the
+# `path2_candidate_pass` import below relied on Python's implicit add of
+# the script's own directory to sys.path, which only fires under the first
+# invocation pattern.
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from scripts.path2_candidate_pass import _parse_python_constants
 from scripts.results_layout import existing_research_file, research_file
+from scripts.winner_id_utils import load_json as _shared_load_json
 
 BACKTEST_SCRIPT_PATH = ROOT / "backtest_marketcap_etf.py"
 
@@ -83,12 +88,13 @@ PATH_FOCUS_ROTATION = {
 
 
 def _load_json(path: Path, default: Any) -> Any:
-    if not path.exists():
-        return default
-    try:
-        return json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        return default
+    """Thin wrapper around :func:`scripts.winner_id_utils.load_json`.
+
+    Kept for call-site stability — the shared helper signature accepts an
+    optional default while local callers always pass one explicitly, so
+    we forward through unchanged.
+    """
+    return _shared_load_json(path, default)
 
 
 def _write_json(path: Path, payload: Any) -> None:

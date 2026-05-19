@@ -2086,9 +2086,28 @@ def result_path_for(strategy_id: str, sample_tag: str, market_scope: str, filena
     return existing_strategy_result_file(strategy_id, sample_tag, filename, market_scope=market_scope)
 
 
-@lru_cache(maxsize=256)
 def load_strategy_trade_events(strategy_id: str, sample_tag: str, market_scope: str) -> tuple[dict, ...]:
+    """Resolve the turnover.csv path and dispatch to the mtime-keyed cache.
+
+    Reading the file with a plain ``@lru_cache(maxsize=256)`` keyed on
+    (strategy_id, sample_tag, market_scope) would return stale data when
+    the backtest pipeline rewrites turnover.csv — the live process is
+    long-running and would not see the new rows until restart. Threading
+    the file's mtime into the cache key gives us LRU semantics for free
+    while still invalidating the entry whenever the underlying file is
+    updated.
+    """
     path = result_path_for(strategy_id, sample_tag, market_scope, "turnover.csv")
+    try:
+        mtime_ns = path.stat().st_mtime_ns
+    except OSError:
+        mtime_ns = 0
+    return _load_strategy_trade_events_cached(str(path), mtime_ns)
+
+
+@lru_cache(maxsize=256)
+def _load_strategy_trade_events_cached(path_str: str, mtime_ns: int) -> tuple[dict, ...]:
+    path = Path(path_str)
     if not path.exists():
         return tuple()
     events: list[dict] = []

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import json
 import shutil
 import subprocess
 import sys
@@ -25,61 +24,40 @@ from scripts.results_layout import (
     market_backtests_dir,
     normalize_market_scope,
 )
+from scripts.winner_id_utils import collect_csv_topn, collect_ids, load_json
 
-ID_KEYS = {"winner", "raw_winner", "strategy_id", "strategy_base_id"}
 SAMPLE_TAG_PREFIX = "__since_"
 
 
-def _load_json(path: Path) -> Any:
-    if not path.exists():
-        return {}
-    try:
-        return json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        return {}
-
-
-def _collect_ids(obj: Any, target: set[str]) -> None:
-    if isinstance(obj, dict):
-        for key, value in obj.items():
-            if key in ID_KEYS and isinstance(value, str) and value:
-                target.add(value)
-            else:
-                _collect_ids(value, target)
-    elif isinstance(obj, list):
-        for item in obj:
-            _collect_ids(item, target)
-
-
 def _collect_core_active_ids(path: Path, target: set[str]) -> None:
-    payload = _load_json(path)
+    payload = load_json(path)
     if not isinstance(payload, dict):
         return
     for key in ("current_winner_ids", "current_refresh_only_ids"):
         for value in payload.get(key) or []:
             if value:
                 target.add(str(value))
-    _collect_ids(payload.get("strategies") or [], target)
-    _collect_ids(payload.get("refresh_only_strategies") or [], target)
+    collect_ids(payload.get("strategies") or [], target)
+    collect_ids(payload.get("refresh_only_strategies") or [], target)
 
 
 def _collect_weighted_ids(path: Path, target: set[str]) -> None:
-    payload = _load_json(path)
+    payload = load_json(path)
     if not isinstance(payload, dict):
         return
     for key in ("tracks", "path2", "path3"):
-        _collect_ids(payload.get(key) or {}, target)
+        collect_ids(payload.get(key) or {}, target)
 
 
 def _collect_hk_tracked_ids(path: Path, target: set[str]) -> None:
-    payload = _load_json(path)
+    payload = load_json(path)
     if not isinstance(payload, dict):
         return
-    _collect_ids(payload.get("tracks") or {}, target)
+    collect_ids(payload.get("tracks") or {}, target)
 
 
 def _collect_live_registry_ids(path: Path, by_scope: dict[str, set[str]]) -> None:
-    payload = _load_json(path)
+    payload = load_json(path)
     if not isinstance(payload, dict):
         return
 
@@ -98,37 +76,8 @@ def _collect_live_registry_ids(path: Path, by_scope: dict[str, set[str]]) -> Non
     add_items(payload.get("core_active_strategies"))
     leaderboards = payload.get("winner_leaderboards") or {}
     if isinstance(leaderboards, dict):
-        _collect_ids(leaderboards.get("a_share") or {}, by_scope[A_SHARE_SCOPE])
-        _collect_ids(leaderboards.get("hkconnect") or {}, by_scope[HKCONNECT_SCOPE])
-
-
-def _collect_csv_top5(path: Path, *, id_col: str, by_scope: set[str]) -> None:
-    if not path.exists():
-        return
-    try:
-        frame = pd.read_csv(path)
-    except Exception:
-        return
-    if frame.empty or id_col not in frame.columns or "sample_tag" not in frame.columns:
-        return
-
-    group_cols = ["sample_tag"]
-    for optional in ("path", "strategy_kind", "pool_id"):
-        if optional in frame.columns:
-            group_cols.insert(0, optional)
-
-    sort_cols = [col for col in ("cagr", "sharpe_ratio", "max_drawdown") if col in frame.columns]
-    if not sort_cols:
-        return
-    working = frame.copy()
-    for col in sort_cols:
-        working[col] = pd.to_numeric(working[col], errors="coerce")
-    ascending = [False if col != "max_drawdown" else False for col in sort_cols]
-    for _, group in working.groupby(group_cols, dropna=False):
-        ranked = group.sort_values(sort_cols, ascending=ascending, na_position="last").head(5)
-        for value in ranked[id_col].dropna().astype(str):
-            if value:
-                by_scope.add(value)
+        collect_ids(leaderboards.get("a_share") or {}, by_scope[A_SHARE_SCOPE])
+        collect_ids(leaderboards.get("hkconnect") or {}, by_scope[HKCONNECT_SCOPE])
 
 
 def collect_protected_strategy_ids() -> dict[str, set[str]]:
@@ -140,15 +89,15 @@ def collect_protected_strategy_ids() -> dict[str, set[str]]:
         existing_research_file("tracked_winners_hkconnect.json", market_scope=HKCONNECT_SCOPE),
         protected[HKCONNECT_SCOPE],
     )
-    _collect_csv_top5(
+    collect_csv_topn(
         existing_research_file("strategy_comparison_base_method.csv"),
         id_col="strategy_base_id",
-        by_scope=protected[A_SHARE_SCOPE],
+        target=protected[A_SHARE_SCOPE],
     )
-    _collect_csv_top5(
+    collect_csv_topn(
         existing_research_file("strategy_comparison_hkconnect.csv", market_scope=HKCONNECT_SCOPE),
         id_col="strategy_id",
-        by_scope=protected[HKCONNECT_SCOPE],
+        target=protected[HKCONNECT_SCOPE],
     )
     return protected
 

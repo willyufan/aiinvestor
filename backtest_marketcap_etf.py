@@ -7282,8 +7282,18 @@ def apply_weekly_rebalance_constraints(
         "weekly_constraint_deleveraging_bypass": False,
     }
     if min_hold_periods <= 0 and not np.isfinite(turnover_cap):
-        cash_weight = max(0.0, 1.0 - float(target_weights.sum()))
-        return target_weights, cash_weight, stats
+        # Match the post-constraint return shape: sorted by weight desc so
+        # downstream consumers (turnover accounting, weight diff rendering)
+        # see a consistent order regardless of whether constraints fired.
+        passthrough = (
+            target_weights.astype(float)
+            .replace([np.inf, -np.inf], np.nan)
+            .dropna()
+            .clip(lower=0.0)
+        )
+        passthrough = passthrough[passthrough > 1e-12].sort_values(ascending=False)
+        cash_weight = max(0.0, 1.0 - float(passthrough.sum()))
+        return passthrough, cash_weight, stats
 
     constrained = target_weights.astype(float).replace([np.inf, -np.inf], np.nan).dropna().clip(lower=0.0)
     current = current_weights.astype(float).replace([np.inf, -np.inf], np.nan).dropna().clip(lower=0.0)

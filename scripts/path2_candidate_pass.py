@@ -10,14 +10,15 @@ from typing import Any, Iterable
 import numpy as np
 import pandas as pd
 
-from update_weighted_winners import _augment_with_synthetic_windows
-
-
+# sys.path manipulation must happen BEFORE any `scripts.*` or sibling-module
+# imports so the script works both when run directly (python scripts/foo.py)
+# and when imported as a module (python -m scripts.foo).
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.results_layout import existing_research_file, research_file
+from scripts.update_weighted_winners import _augment_with_synthetic_windows
 
 DEFAULT_COMPARISON_CSV = existing_research_file("strategy_comparison_base_method.csv")
 BACKTEST_SCRIPT_PATH = ROOT / "backtest_marketcap_etf.py"
