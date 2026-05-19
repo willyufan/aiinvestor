@@ -129,7 +129,26 @@ class TrackMetrics:
     turnover: float
 
 
-PATH1_REVISED_OBJECTIVE_MIN_DELTA = 0.02
+@dataclass(frozen=True)
+class ImprovementThresholds:
+    min_cagr_improvement: float
+    min_sharpe_improvement: float
+    max_drawdown_worsen_abs: float
+    max_turnover_increase: float
+
+
+# Path 1 stickiness uses an all-of conjunction: a candidate must improve CAGR
+# AND Sharpe while not materially worsening drawdown or turnover. This bias
+# toward uniform improvement is intentional — it prevents large CAGR jumps
+# from displacing the current winner when they come at the cost of risk or
+# trade-cost characteristics that adjacent-window validation alone does not
+# constrain.
+PATH1_IMPROVEMENT_THRESHOLDS = ImprovementThresholds(
+    min_cagr_improvement=0.0010,
+    min_sharpe_improvement=0.0050,
+    max_drawdown_worsen_abs=0.0050,
+    max_turnover_increase=0.15,
+)
 
 
 def _metrics_to_dict(metrics: TrackMetrics) -> dict[str, float]:
@@ -197,17 +216,38 @@ def _is_nan_metrics(metrics: TrackMetrics) -> bool:
     return any(np.isnan(v) for v in (metrics.cagr, metrics.sharpe, metrics.max_drawdown, metrics.turnover))
 
 
-def _meets_path1_revised_objective(*, candidate: TrackMetrics, current: TrackMetrics) -> bool:
+def _is_clear_improvement(
+    *,
+    candidate: TrackMetrics,
+    current: TrackMetrics,
+    thresholds: ImprovementThresholds,
+) -> bool:
+    """Return True only when ``candidate`` is uniformly better than ``current``.
+
+    The check enforces all four constraints in conjunction:
+        - CAGR improvement at least ``min_cagr_improvement``
+        - Sharpe improvement at least ``min_sharpe_improvement``
+        - Max drawdown does not worsen by more than ``max_drawdown_worsen_abs``
+        - Turnover does not grow by more than ``max_turnover_increase``
+
+    This prevents a candidate that posts a large CAGR jump from displacing
+    the incumbent at the cost of a markedly worse Sharpe / MaxDD / turnover
+    profile, which adjacent-window validation cannot detect on its own
+    because it only inspects the validation window.
+    """
     if _is_nan_metrics(candidate) or _is_nan_metrics(current):
         return False
-    cagr_improvement = candidate.cagr - current.cagr
-    # Max drawdown is negative. Less-negative is better, so direct subtraction
-    # measures drawdown relief in absolute percentage points.
-    max_drawdown_improvement = candidate.max_drawdown - current.max_drawdown
-    return (
-        cagr_improvement >= PATH1_REVISED_OBJECTIVE_MIN_DELTA
-        or max_drawdown_improvement >= PATH1_REVISED_OBJECTIVE_MIN_DELTA
-    )
+    if (candidate.cagr - current.cagr) < thresholds.min_cagr_improvement:
+        return False
+    if (candidate.sharpe - current.sharpe) < thresholds.min_sharpe_improvement:
+        return False
+    # Max drawdown is negative. Less-negative is better. Allow a small worsening.
+    drawdown_worsen = current.max_drawdown - candidate.max_drawdown
+    if drawdown_worsen > thresholds.max_drawdown_worsen_abs:
+        return False
+    if (candidate.turnover - current.turnover) > thresholds.max_turnover_increase:
+        return False
+    return True
 
 
 def _eval_python_constant(node: ast.AST, env: dict[str, Any]) -> Any:
@@ -2247,7 +2287,11 @@ def main() -> None:
             return ranked[0]
 
         for candidate_id, candidate_metrics in ranked:
-            if not _meets_path1_revised_objective(candidate=candidate_metrics, current=current_metrics):
+            if not _is_clear_improvement(
+                candidate=candidate_metrics,
+                current=current_metrics,
+                thresholds=PATH1_IMPROVEMENT_THRESHOLDS,
+            ):
                 continue
             if not candidate_passes_validation(candidate_id):
                 continue

@@ -5955,6 +5955,92 @@ def build_weekly_alpha_scores(
     )
 
 
+def compute_core_signal_scores(
+    *,
+    core_signal_mode: str,
+    cached_default: pd.Series,
+    strategy_config: Dict[str, object],
+    momentum_6_1: pd.Series,
+    momentum_3_1: pd.Series,
+    recent_1m_returns: pd.Series,
+    amount_surge_ratio: pd.Series,
+    breakout_signal: pd.Series,
+    quality_scores: pd.Series,
+    growth_acceleration_scores: pd.Series,
+    industry_strength_scores: pd.Series,
+    industry_leader_scores: pd.Series,
+) -> pd.Series:
+    """Resolve the per-date core signal scores from the configured signal mode.
+
+    Centralises the dispatch so the live ``run_backtest`` path and the
+    diagnostic ``build_month_end_preview_payload`` path share one source
+    of truth. When the mode is unset or unrecognised the function returns
+    the cached default unchanged, preserving prior behaviour for variants
+    that rely on the precomputed factor cache.
+    """
+    mode = str(core_signal_mode or "").strip()
+    if mode == "6_1":
+        return momentum_6_1.copy()
+    if mode == "3_1":
+        return momentum_3_1.copy()
+    if mode == "theme":
+        return blend_ranked_components(
+            [
+                (growth_acceleration_scores, 0.30),
+                (industry_strength_scores, 0.25),
+                (industry_leader_scores, 0.20),
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.15),
+                (safe_percentile_rank(momentum_3_1, ascending=True), 0.10),
+            ]
+        )
+    if mode == "industry_trend":
+        return blend_ranked_components(
+            [
+                (industry_strength_scores, 0.30),
+                (industry_leader_scores, 0.25),
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.25),
+                (safe_percentile_rank(momentum_3_1, ascending=True), 0.15),
+                (breakout_signal.astype(float), 0.05),
+            ]
+        )
+    if mode == "midcycle_momentum":
+        return blend_ranked_components(
+            [
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.40),
+                (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.20),
+                (safe_percentile_rank(recent_1m_returns, ascending=True), 0.15),
+                (industry_leader_scores, 0.15),
+                (breakout_signal.astype(float), 0.10),
+            ]
+        )
+    if mode == "multi_factor":
+        factor_weights = _validated_multi_factor_weights(strategy_config.get("factor_weights"))
+        return blend_ranked_components(
+            [
+                (safe_percentile_rank(momentum_6_1, ascending=True),       factor_weights.get("momentum_6_1", 0.0)),
+                (safe_percentile_rank(momentum_3_1, ascending=True),       factor_weights.get("momentum_3_1", 0.0)),
+                (quality_scores,                                            factor_weights.get("quality", 0.0)),
+                (growth_acceleration_scores,                                factor_weights.get("growth_acceleration", 0.0)),
+                (industry_strength_scores,                                  factor_weights.get("industry_strength", 0.0)),
+                (industry_leader_scores,                                    factor_weights.get("industry_leader", 0.0)),
+                (safe_percentile_rank(amount_surge_ratio, ascending=True), factor_weights.get("liquidity_surge", 0.0)),
+            ]
+        )
+    if mode in WEEKLY_ALPHA_SIGNAL_MODES:
+        return build_weekly_alpha_scores(
+            mode,
+            momentum_6_1=momentum_6_1,
+            momentum_3_1=momentum_3_1,
+            recent_1m_returns=recent_1m_returns,
+            amount_surge_ratio=amount_surge_ratio,
+            breakout_signal=breakout_signal,
+            quality_scores=quality_scores,
+            industry_strength_scores=industry_strength_scores,
+            industry_leader_scores=industry_leader_scores,
+        )
+    return cached_default
+
+
 def get_latest_financial_snapshot(financials_df: pd.DataFrame, signal_date: pd.Timestamp) -> pd.Series:
     if financials_df.empty:
         return pd.Series(dtype=float)
@@ -8359,66 +8445,20 @@ def build_month_end_preview_payload(
     industry_strength_scores = factor_cache.industry_strength_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
     industry_leader_scores = factor_cache.industry_leader_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
 
-    core_signal_mode = str(strategy_config.get("core_signal_mode", "") or "").strip()
-    if core_signal_mode == "6_1":
-        core_signal_scores = momentum_6_1.copy()
-    elif core_signal_mode == "3_1":
-        core_signal_scores = momentum_3_1.copy()
-    elif core_signal_mode == "theme":
-        core_signal_scores = blend_ranked_components(
-            [
-                (growth_acceleration_scores, 0.30),
-                (industry_strength_scores, 0.25),
-                (industry_leader_scores, 0.20),
-                (safe_percentile_rank(momentum_6_1, ascending=True), 0.15),
-                (safe_percentile_rank(momentum_3_1, ascending=True), 0.10),
-            ]
-        )
-    elif core_signal_mode == "industry_trend":
-        core_signal_scores = blend_ranked_components(
-            [
-                (industry_strength_scores, 0.30),
-                (industry_leader_scores, 0.25),
-                (safe_percentile_rank(momentum_6_1, ascending=True), 0.25),
-                (safe_percentile_rank(momentum_3_1, ascending=True), 0.15),
-                (breakout_signal.astype(float), 0.05),
-            ]
-        )
-    elif core_signal_mode == "midcycle_momentum":
-        core_signal_scores = blend_ranked_components(
-            [
-                (safe_percentile_rank(momentum_6_1, ascending=True), 0.40),
-                (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.20),
-                (safe_percentile_rank(recent_1m_returns, ascending=True), 0.15),
-                (industry_leader_scores, 0.15),
-                (breakout_signal.astype(float), 0.10),
-            ]
-        )
-    elif core_signal_mode == "multi_factor":
-        factor_weights = _validated_multi_factor_weights(strategy_config.get("factor_weights"))
-        core_signal_scores = blend_ranked_components(
-            [
-                (safe_percentile_rank(momentum_6_1, ascending=True), factor_weights.get("momentum_6_1", 0.0)),
-                (safe_percentile_rank(momentum_3_1, ascending=True), factor_weights.get("momentum_3_1", 0.0)),
-                (quality_scores, factor_weights.get("quality", 0.0)),
-                (growth_acceleration_scores, factor_weights.get("growth_acceleration", 0.0)),
-                (industry_strength_scores, factor_weights.get("industry_strength", 0.0)),
-                (industry_leader_scores, factor_weights.get("industry_leader", 0.0)),
-                (safe_percentile_rank(amount_surge_ratio, ascending=True), factor_weights.get("liquidity_surge", 0.0)),
-            ]
-        )
-    elif core_signal_mode in WEEKLY_ALPHA_SIGNAL_MODES:
-        core_signal_scores = build_weekly_alpha_scores(
-            core_signal_mode,
-            momentum_6_1=momentum_6_1,
-            momentum_3_1=momentum_3_1,
-            recent_1m_returns=recent_1m_returns,
-            amount_surge_ratio=amount_surge_ratio,
-            breakout_signal=breakout_signal,
-            quality_scores=quality_scores,
-            industry_strength_scores=industry_strength_scores,
-            industry_leader_scores=industry_leader_scores,
-        )
+    core_signal_scores = compute_core_signal_scores(
+        core_signal_mode=str(strategy_config.get("core_signal_mode", "") or "").strip(),
+        cached_default=core_signal_scores,
+        strategy_config=strategy_config,
+        momentum_6_1=momentum_6_1,
+        momentum_3_1=momentum_3_1,
+        recent_1m_returns=recent_1m_returns,
+        amount_surge_ratio=amount_surge_ratio,
+        breakout_signal=breakout_signal,
+        quality_scores=quality_scores,
+        growth_acceleration_scores=growth_acceleration_scores,
+        industry_strength_scores=industry_strength_scores,
+        industry_leader_scores=industry_leader_scores,
+    )
 
     explore_signal_scores = blend_ranked_components(
         [
@@ -8659,66 +8699,20 @@ def run_backtest(
         growth_acceleration_scores = factor_cache.growth_acceleration_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
         industry_strength_scores = factor_cache.industry_strength_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
         industry_leader_scores = factor_cache.industry_leader_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
-        core_signal_mode = str(strategy_config.get("core_signal_mode", "") or "").strip()
-        if core_signal_mode == "6_1":
-            core_signal_scores = momentum_6_1.copy()
-        elif core_signal_mode == "3_1":
-            core_signal_scores = momentum_3_1.copy()
-        elif core_signal_mode == "theme":
-            core_signal_scores = blend_ranked_components(
-                [
-                    (growth_acceleration_scores, 0.30),
-                    (industry_strength_scores, 0.25),
-                    (industry_leader_scores, 0.20),
-                    (safe_percentile_rank(momentum_6_1, ascending=True), 0.15),
-                    (safe_percentile_rank(momentum_3_1, ascending=True), 0.10),
-                ]
-            )
-        elif core_signal_mode == "industry_trend":
-            core_signal_scores = blend_ranked_components(
-                [
-                    (industry_strength_scores, 0.30),
-                    (industry_leader_scores, 0.25),
-                    (safe_percentile_rank(momentum_6_1, ascending=True), 0.25),
-                    (safe_percentile_rank(momentum_3_1, ascending=True), 0.15),
-                    (breakout_signal.astype(float), 0.05),
-                ]
-            )
-        elif core_signal_mode == "midcycle_momentum":
-            core_signal_scores = blend_ranked_components(
-                [
-                    (safe_percentile_rank(momentum_6_1, ascending=True), 0.40),
-                    (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.20),
-                    (safe_percentile_rank(recent_1m_returns, ascending=True), 0.15),
-                    (industry_leader_scores, 0.15),
-                    (breakout_signal.astype(float), 0.10),
-                ]
-            )
-        elif core_signal_mode == "multi_factor":
-            factor_weights = _validated_multi_factor_weights(strategy_config.get("factor_weights"))
-            core_signal_scores = blend_ranked_components(
-                [
-                    (safe_percentile_rank(momentum_6_1, ascending=True),     factor_weights.get("momentum_6_1", 0.0)),
-                    (safe_percentile_rank(momentum_3_1, ascending=True),     factor_weights.get("momentum_3_1", 0.0)),
-                    (quality_scores,                                          factor_weights.get("quality", 0.0)),
-                    (growth_acceleration_scores,                              factor_weights.get("growth_acceleration", 0.0)),
-                    (industry_strength_scores,                                factor_weights.get("industry_strength", 0.0)),
-                    (industry_leader_scores,                                  factor_weights.get("industry_leader", 0.0)),
-                    (safe_percentile_rank(amount_surge_ratio, ascending=True), factor_weights.get("liquidity_surge", 0.0)),
-                ]
-            )
-        elif core_signal_mode in WEEKLY_ALPHA_SIGNAL_MODES:
-            core_signal_scores = build_weekly_alpha_scores(
-                core_signal_mode,
-                momentum_6_1=momentum_6_1,
-                momentum_3_1=momentum_3_1,
-                recent_1m_returns=recent_1m_returns,
-                amount_surge_ratio=amount_surge_ratio,
-                breakout_signal=breakout_signal,
-                quality_scores=quality_scores,
-                industry_strength_scores=industry_strength_scores,
-                industry_leader_scores=industry_leader_scores,
-            )
+        core_signal_scores = compute_core_signal_scores(
+            core_signal_mode=str(strategy_config.get("core_signal_mode", "") or "").strip(),
+            cached_default=core_signal_scores,
+            strategy_config=strategy_config,
+            momentum_6_1=momentum_6_1,
+            momentum_3_1=momentum_3_1,
+            recent_1m_returns=recent_1m_returns,
+            amount_surge_ratio=amount_surge_ratio,
+            breakout_signal=breakout_signal,
+            quality_scores=quality_scores,
+            growth_acceleration_scores=growth_acceleration_scores,
+            industry_strength_scores=industry_strength_scores,
+            industry_leader_scores=industry_leader_scores,
+        )
         promotion_signal_mode = str(strategy_config.get("promotion_signal_mode", "") or "").strip()
         if promotion_signal_mode == "momentum_6_1":
             promotion_signal_scores = safe_percentile_rank(momentum_6_1, ascending=True)
