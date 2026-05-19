@@ -3,6 +3,15 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-19 17:26 CST）
+
+- 本轮新增并五窗口 `--only-base-ids` 补跑 3 个纯 `_weekly` 候选：`aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold7_turn10_weekly`、`aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap50_hold8_turn08_weekly`、`aggr_05_95_prom3_weekly_alpha_pullback_risk40_cap55_hold4_turn18_weekly`；未混入 Path 1 周度仓位 overlay。
+- Guard 后 Path 3 weekly universe 变为 `54` 个候选完整覆盖，收尾 `pass / blocking=0 / warning=0`。
+- 新 `cap50_hold8_turn08` 成为 2017 window winner 与四窗口 robust：2017 `14.19% CAGR / -30.27% MaxDD / 0.64 Sharpe / 3.01 Turn`，2020 `14.49% / -25.32% / 0.60 / 3.06`，2023 `12.08% / -28.70% / 0.51 / 2.54`，2025 `63.76% / -25.62% / 1.24 / 6.04`。
+- `cap55_hold7_turn10` 没有赢长窗，但 2026 短窗最好（`56.62% CAGR / -8.76% MaxDD / 1.57 Sharpe / 9.30 Turn`）；`risk40_cap55_hold4_turn18` 因 2020 只有 `9.47% CAGR` 被验证门槛拦截，虽有 2026 `113.78% CAGR`，换手已升到 `10.73`。
+- `update_weighted_winners.py` 后 Path 3 official winners 为：2017 `cap50_hold8_turn08_weekly`，2020/2023 `cap60_hold6_turn12_weekly`，2025 `cap65_hold5_turn15_weekly`；robust 切为 `cap50_hold8_turn08_weekly`，`meanCAGR=26.13% / minCAGR=12.08% / worstMaxDD=-30.27% / meanTurn=3.66`。
+- 收尾 rotation 为 `stagnation_runs=0 / turnover_reduction / continue`；下一轮继续尝试 `cap45/50 + hold9/10 + turn06/08`，以 2020/2023 不塌为前提压换手。
+
 ## 本轮执行计划（2026-05-19 11:12 CST）
 
 - 本轮独立复核纯 `_weekly` universe，当前 `51/51` 个四窗口候选完整；未把 Path 1 的月度选股 + 周度仓位 overlay 或 Path 2 月频/双周候选混入本路径。

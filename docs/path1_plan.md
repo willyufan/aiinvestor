@@ -4,6 +4,15 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-19 17:26 CST）
+
+- 开局与收尾 guard 均为 `pass / blocking=0 / warning=0`，收尾追加 `18` 条实验记录；本轮没有运行 `research_active/all`，A 股新增候选均用 `--only-base-ids` 五窗口增量确认。
+- Path 1 / Path 4-lite 新增 `growth_quality` 多因子预设，并把 `aggr_08_92_prom6_core_multifactor_growth_quality`、`aggr_10_90_prom6_core_multifactor_growth_quality`、`aggr_05_95_prom7_core_multifactor_growth_quality` 加入 `core_multifactor` 方向；fast-pass 变为 `base_candidates=43 / total_candidates=387 / evaluated=180`，`core_multifactor=12`。
+- 新多因子候选没有晋级：`08/92 growth_quality` 五窗口 CAGR 为 `12.26% / 13.15% / 26.25% / 77.27% / 66.91%`，`10/90 growth_quality` 为 `12.30% / 12.96% / 25.87% / 77.80% / 65.67%`，`05/95 growth_quality` 为 `11.39% / 10.64% / 30.77% / 76.61% / 77.22%`；2017/2020 长窗收益和 `-42%~-44%` 回撤明显弱于现有 Path 1/core_multifactor 锚点。
+- `scripts/winner_only_pass.py` 仍只在旧候选上给出 2017/2023 clear improvement 观察，`update_weighted_winners.py` 后 Path 1 official winners 未变：2017 `aggr_08_92_prom6__port_weekly_exposure_buffered_asym13`，2020 `aggr_05_95_prom7__sat_three_stage_buffered`，2023 `aggr_05_95_prom7`，2025 `aggr_08_92_prom6`。
+- 四窗口 robust candidate 仍为 `aggr_08_92_prom6__port_weekly_exposure_buffered_asym13`，`meanCAGR=45.46% / minCAGR=25.86% / worstMaxDD=-28.72% / meanTurn=4.11`。
+- 收尾 rotation 为 `stagnation_runs=2 / core_multifactor_coverage / continue`；下一轮若继续多因子，应优先尝试 `momentum_quality` 的低波/回撤 overlay，而不是再扩大纯 growth tilt。
+
 ## 本轮执行计划（2026-05-19 11:12 CST）
 
 - 开局与收尾 guard 均为 `pass / blocking=0 / warning=0`，收尾追加 `10` 条实验记录；Path 4-lite/core_multifactor 仍为 `9/9 complete`，9 个 base candidate 均在 `PATH1_FAST_PASS_VARIANT_IDS` 中。

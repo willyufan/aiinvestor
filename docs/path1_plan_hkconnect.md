@@ -1,5 +1,13 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-05-19 17:26 CST）
+
+- 本轮新增并用 `--only-strategy-ids` 五窗口补跑 3 个月频周度 overlay 变体：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft`、`hkconnect_path1_monthly_equal_buffered_weekly_overlay_defensive`、`hkconnect_path1_monthly_lowvol_weekly_overlay_soft`；没有裸跑全量 HK。
+- `soft` 版成为 2017/2020/2023 window winner 与 robust：2017 `24.96% CAGR / -24.94% MaxDD / 1.30 Sharpe / 3.40 Turn`，2020 `32.33% / -14.83% / 1.55 / 3.40`，2023 `34.60% / -14.83% / 1.73 / 3.13`；2025 仍由 `hkconnect_path1_monthly_equal_buffered` 保持 `40.41% CAGR`。
+- `defensive` 版收益略低但接近，`lowvol_weekly_overlay_soft` 的 2026 短窗为正（`5.16% CAGR`）且回撤最浅，但 2017/2020/2023 收益弱于 `soft`。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 1 robust candidate 切换为 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft`，`meanCAGR=32.95% / minCAGR=24.96% / worstMaxDD=-24.94% / meanTurn=3.37`。
+- 收尾 guard 为 `pass / blocking=0 / warning=0`，HK Path 1 rotation 重置为 `stagnation_runs=0 / monthly_weekly_overlay / continue`；下一轮优先比较 `soft` overlay 的 2026 防守缺口与 lowvol 版本的收益折损。
+
 ## 本轮执行计划（2026-05-19 11:12 CST）
 
 - 本轮按增量要求运行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --family-scope tracked_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，没有裸跑全量 HK；trade calendar 更新失败后回退本地缓存。
