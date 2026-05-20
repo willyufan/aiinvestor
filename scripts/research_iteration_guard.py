@@ -249,6 +249,7 @@ def _load_backtest_constants() -> dict[str, Any]:
             "PATH1_FAST_PASS_DIRECTION_GROUPS",
             "PATH1_FAST_PASS_VARIANT_IDS",
             "PATH2_SCAN_FAMILY_RULES",
+            "PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS",
             "PATH4_THEME_DISCOVERY_BASE_IDS",
             "PATH4_THEME_DISCOVERY_VARIANT_IDS",
         ],
@@ -598,6 +599,11 @@ def main(argv: list[str] | None = None) -> int:
     hk_latest = _read_latest_csv(args.hk_comparison_csv, "strategy_id")
     ashare_windows = _window_map(ashare_latest, "strategy_base_id")
     hk_windows = _window_map(hk_latest, "strategy_id")
+    path3_archived_ids = {
+        str(item)
+        for item in constants.get("PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS") or []
+        if str(item).strip()
+    }
 
     path2_pass = _load_json(args.path2_pass_json, {})
     winner_pass = _load_json(args.winner_pass_json, {})
@@ -610,6 +616,7 @@ def main(argv: list[str] | None = None) -> int:
         strategy_id
         for strategy_id in ashare_windows
         if str(strategy_id).endswith("_weekly")
+        and str(strategy_id) not in path3_archived_ids
     )
     hk_ids = sorted(hk_windows)
 
