@@ -32,6 +32,15 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-21 05:14 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`；上一轮 `quality_gate_risk30_cap50` 2026 强但需检查容量与单票依赖，本轮按 `theme_signal_quality` 把单票上限从 `50%` 压到 `45%`，继续不使用人工主题标签，也不纳入 ETF。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_quality_gate_risk30_cap45`、`core_explore_90_10_equal_weight_winner_core__aggr_08_92_prom6_emergent_theme_quality_gate_risk30_cap45`、`core_explore_90_10_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_quality_gate_risk30_cap45`。实际回测命令见 Path 1 本轮合并命令。
+- `80/20 total_mv` 五窗口 CAGR 为 `17.93% / 18.85% / 32.93% / 98.63% / 96.07%`，最大回撤 `-29.10% / -35.01% / -21.73% / -16.73% / -5.24%`，换手 `3.46x / 3.89x / 3.48x / 6.15x / 7.82x`；`90/10 equal_weight` 为 `17.97% / 19.36% / 32.89% / 89.33% / 105.26%`，`90/10 total_mv` 为 `18.06% / 18.52% / 32.30% / 102.90% / 80.57%`。
+- 持仓抽样看，cap45 降低了单票集中，2026 观察窗前列为鼎龙股份、国瓷材料、杰瑞股份、宏和科技、长飞光纤、睿创微纳等，单票未超过约 `18%`，不像单票幸运；但 2017/2020 长窗仍弱于现有 Path 4 robust，未晋级。
+- `scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=24`，`update_weighted_winners.py` 后 Path 4 2017 window winner 为旧 `quality_gate_risk40_cap70` 等权候选，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`。收尾 guard 为 `pass`，Path 4 `24/24 complete`，rotation 为 `stagnation_runs=5 / theme_signal_quality / rotate`。
+- 下一轮 focus -> candidates 池继续信号质量，但不要只压单票上限；第一条命令建议实现三底座 `aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap45`，五窗口 `--only-base-ids <next_path4_signal_quality_ids>` 增量确认。
+
 ## 本轮执行计划（2026-05-20 23:27 CST）
 
 - 开局 guard 为 `pass / blocking=0 / warning=0`；上一轮 `risk30_cap50` 抬高短窗但仍需验证质量门槛与容量，本轮按 `emergent_theme_coverage` 补三底座 `quality_gate_risk30_cap50`，继续不使用人工主题标签，也不纳入 ETF。
