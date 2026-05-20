@@ -32,6 +32,15 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-20 13:58 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`，上一轮 12 个强主题候选已补齐；本轮按 `theme_signal_quality / theme_risk_control` 新增 quality gate 变体，继续不使用人工主题标签，也不纳入 ETF。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk40_cap70`、`core_explore_90_10_equal_weight_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk40_cap70`、`core_explore_90_10_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk40_cap70`。实际回测命令见 Path 1 本轮合并命令。
+- 三个 quality gate 版本中，`80/20 total_mv` 最均衡：五窗口 CAGR `17.85% / 27.49% / 37.88% / 114.97% / 119.72%`，最大回撤 `-33.05% / -34.80% / -26.93% / -15.22% / 0.00%`，换手 `4.10x / 4.23x / 4.00x / 6.40x / 7.26x`；相比第一批强主题候选，2020/2023 稳定性更好，但仍需检查持仓是否由单票幸运贡献。
+- `90/10 equal_weight` 五窗口 CAGR 为 `21.22% / 21.52% / 29.07% / 131.46% / 65.15%`，2023 回撤 `-38.40%` 偏深；`90/10 total_mv` 为 `20.74% / 24.58% / 35.69% / 131.04% / 31.40%`，2026 弹性不足且换手最高到 `8.46x`。
+- `scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=15`，guard 显示 Path 4 `15/15 complete`；第一阶段仍不改 official winner/tracked/top5。候选池未触发 evict。
+- 收尾 rotation 未给独立 Path 4 stagnation，但 quotas 给出 `theme_signal_quality=3 / theme_risk_control=3 / theme_capacity_cost=2`；下一轮 focus -> candidates 池先做质量门槛后的容量/集中度压力。第一条命令建议先实现三底座 `aggr_08_92_prom6_emergent_theme_risk30_cap50`，再用 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <three_path4_risk_control_ids>` 增量确认。
+
 ## 本轮执行计划（2026-05-20 05:20 CST）
 
 - 开局 guard 为 `block / blocking=12 / scope=ashare_path4_emergent_theme`；按 report 原始 rerun command 优先补齐 12 个强主题候选的五窗口覆盖，没有替换成全量回测。首次未锁 `--end-date` 触发本地 A 股缓存只到 `2026-05-19` 的 stale guard；随后使用离线缓存并显式锁定 `--end-date 2026-05-19` 完成补跑。

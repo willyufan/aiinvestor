@@ -4,6 +4,16 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-20 13:58 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`，Path 1 rotation 继续指向 `satellite_risk_cost`；上一轮 `quality_defense` 未晋级后，本轮不再扩大普通质量多因子，而是按卫星周频风控成本补一个低卖出阈值的三段式对照。
+- 本轮新增并五窗口确认 1 个 Path 1 base id：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard`。实际命令与 Path 2/3/4 合并执行：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_defense,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold8_turn10_exit90_weekly,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk40_cap70,core_explore_90_10_equal_weight_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk40_cap70,core_explore_90_10_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk40_cap70`。
+- `satellite_cost_guard` 五窗口 CAGR 为 `22.70% / 27.01% / 28.82% / 101.77% / 72.95%`，最大回撤 `-24.11% / -23.10% / -27.02% / -10.23% / -12.30%`，换手 `3.00x / 3.16x / 3.39x / 4.22x / 6.39x`；`winner_only_pass.py` 报告它在 `since_2025_only` 有 clear improvement，但 `update_weighted_winners.py` 因 2023 验证 CAGR `28.82% < 30.56%` 拦截，未替换 2025 official winner。
+- core_multifactor 子段按代码实际返回的覆盖口径巡检为 `14/14 complete`；本轮另有等权弹性 `core_multifactor_quality_defense` 在 Path 2 候选池中确认，五窗口 `9.71% / 13.45% / 26.85% / 50.12% / 69.97%`，长窗收益与回撤不足，不作为 Path 1 多因子晋级线索。
+- `update_weighted_winners.py` 后 Path 1 official winners 未变化：2017 `aggr_08_92_prom6__port_weekly_exposure_buffered`，2020/2023 `risk40_mom_exit60_reconfirm70_cap95_dd_guard50`，2025 `aggr_10_90_prom6__port_weekly_exposure_buffered`；四窗口 robust 仍为 `aggr_08_92_prom6__port_weekly_exposure_buffered`。fast-family 为 `49/49 complete`，其中 `satellite_defense=6`、`core_multifactor=14`，未触发 evict。
+- 最终 guard 后 rotation 为 `stagnation_runs=9 / holding_shape / rotate`；下一轮 focus -> candidates 池先回到持仓形态，同时保留本轮 `satellite_cost_guard` 的 2025 near-miss 观察。下一轮第一条命令建议先实现 `core_explore_80_20_total_mv_winner_core__share_08_92_hold_3_7_ramp90_cost_guard` 与 `core_explore_80_20_total_mv_winner_core__share_10_90_hold_2_8_ramp85_cost_guard`，再用五窗口 `--only-base-ids <two_holding_shape_ids>` 增量确认。
+
 ## 本轮执行计划（2026-05-20 05:20 CST）
 
 - 上一轮 Path 1/core_multifactor 的 `industry_quality` 没有晋级，robust 仍为 `aggr_08_92_prom6__port_weekly_exposure_buffered`；本轮开局 guard 因独立 Path 4 缺口为 `block / blocking=12`，已先按 report 原始 Path 4 `--only-base-ids` 命令补齐覆盖，再推进本路径候选。

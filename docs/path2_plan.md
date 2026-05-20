@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-20 13:58 CST）
+
+- 上一轮 Path 2 rotation 指向 `underrepresented_families`，且 high_growth 已扩到 `281`；本轮只补 1 个等权弹性/多因子代表，不继续加 high_growth 邻域。
+- 本轮新增并五窗口确认 1 个 Path 2 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_defense`。实际回测命令见 Path 1 本轮合并命令。
+- `core_multifactor_quality_defense` 五窗口 CAGR 为 `9.71% / 13.45% / 26.85% / 50.12% / 69.97%`，最大回撤 `-51.64% / -41.68% / -30.97% / -15.53% / -13.55%`，换手 `3.21x / 3.54x / 3.95x / 5.45x / 6.62x`；短窗尚可，但 2017/2020 收益和回撤明显弱于 Path 2 robust，不晋级。
+- `scripts/path2_candidate_pass.py` 后 candidate universe 为 `565/565 complete`；family 规模为 `high_concentration_breakout=154 / high_growth_theme=281 / momentum_equal_weight_elastic=21 / biweekly_rebalance_aggressive=18 / weekly_rebalance_aggressive=36 / emergent_theme_discovery=15`。raw robust 仍为 `risk40_mom_exit60_reconfirm75_caution80`，official robust 仍为 `risk40_mom_exit60_reconfirm75_cap95`。
+- `update_weighted_winners.py` 后 Path 2 official winners 未变化：2017 `risk40_mom_exit60_reconfirm75_cap95`，2020 `risk40_mom_exit60_reconfirm70_cap95`，2023 `risk50_ma_cap95`，2025 `aggr_05_95_prom3_core_6_1_full_risk_cap60`；候选池未触发 evict。
+- 最终 guard 后 rotation 为 `stagnation_runs=9 / capacity_and_cost_stress / rotate`；下一轮 focus -> candidates 池先对当前 high-growth robust 做容量/换手压力，而不是继续扩大弱等权弹性。第一条命令建议先实现 `core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cost_guard` 与对应总市值版本，再用 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <capacity_cost_ids>` 补跑。
+
 ## 本轮执行计划（2026-05-20 05:20 CST）
 
 - 上一轮提示为 `risk35/40`、`reconfirm75/80` 与 `caution65/70` 的交互；本轮在完成 Path 4 coverage block 后，沿 `risk_reconfirm_sensitivity` 新增 `risk35/reconfirm75/caution70` 与 `risk40/reconfirm80/caution70` 两个变体，并同时测试等权/总市值双底座。
