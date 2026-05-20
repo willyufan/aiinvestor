@@ -807,7 +807,7 @@ def _metrics_from_row(row: pd.Series) -> dict[str, float]:
 
 
 def _build_ashare_leaderboards(payload: dict[str, Any]) -> dict[str, Any]:
-    out: dict[str, Any] = {"path1": {}, "path2": {}, "path3": {}}
+    out: dict[str, Any] = {"path1": {}, "path2": {}, "path3": {}, "path4": {}}
 
     def add_window(path_name: str, track_key: str, track_meta: dict[str, Any]) -> None:
         entries = track_meta.get("leaderboard") if isinstance(track_meta, dict) else None
@@ -824,7 +824,7 @@ def _build_ashare_leaderboards(payload: dict[str, Any]) -> dict[str, Any]:
         if track_key == "robust_candidate":
             continue
         add_window("path1", track_key, track_meta)
-    for path_name in ("path2", "path3"):
+    for path_name in ("path2", "path3", "path4"):
         path_payload = payload.get(path_name) or {}
         for track_key, track_meta in (path_payload.get("tracks") or {}).items():
             add_window(path_name, track_key, track_meta)
@@ -965,6 +965,9 @@ def _registry_item(item: dict[str, Any]) -> dict[str, Any]:
         "basket_effective_date": basket_effective_date,
         "exposure_effective_date": exposure_effective_date,
         "schedule_kind": formal_schedule.get("schedule_kind", ""),
+        "frequency": item.get("frequency", ""),
+        "experimental": bool(item.get("experimental", False)),
+        "tracked_only": bool(item.get("tracked_only", False)),
     }
 
 
@@ -984,9 +987,22 @@ def export_live_data() -> dict[str, Any]:
     registry: list[dict[str, Any]] = []
     dedup: dict[str, dict[str, Any]] = {}
 
-    def add_entry(*, path_name: str, winner_type: str, strategy_id: str, sample_tag: str) -> None:
+    def add_entry(
+        *,
+        path_name: str,
+        winner_type: str,
+        strategy_id: str,
+        sample_tag: str,
+        experimental: bool = False,
+        tracked_only: bool = False,
+        frequency: str = "",
+    ) -> None:
         if strategy_id in dedup:
             dedup[strategy_id]["winner_tags"].append(f"{path_name}:{winner_type}")
+            dedup[strategy_id]["experimental"] = bool(dedup[strategy_id].get("experimental")) or experimental
+            dedup[strategy_id]["tracked_only"] = bool(dedup[strategy_id].get("tracked_only")) or tracked_only
+            if frequency and not dedup[strategy_id].get("frequency"):
+                dedup[strategy_id]["frequency"] = frequency
             return
         tracked_info = strategies_map[strategy_id]
         snapshot = load_strategy_snapshot(strategy_id, sample_tag, market_scope="a_share")
@@ -995,6 +1011,9 @@ def export_live_data() -> dict[str, Any]:
         snapshot["winner_tags"] = [f"{path_name}:{winner_type}"]
         snapshot["windows"] = {**tracked_info.get("windows", {}), **snapshot.get("windows", {})}
         snapshot["market_scope"] = "a_share"
+        snapshot["experimental"] = experimental
+        snapshot["tracked_only"] = tracked_only
+        snapshot["frequency"] = frequency
         dedup[strategy_id] = snapshot
 
     for track_key, track_meta in payload["tracks"].items():
@@ -1054,6 +1073,34 @@ def export_live_data() -> dict[str, Any]:
             sample_tag="since_2020_01",
         )
 
+    path4_payload = payload.get("path4") or {}
+    path4_experimental = bool(path4_payload.get("experimental", True))
+    path4_tracked_only = bool(path4_payload.get("tracked_only", True))
+    path4_frequency = str(path4_payload.get("frequency") or "monthly")
+    for track_key, track_meta in (path4_payload.get("tracks") or {}).items():
+        strategy_id = str(track_meta["winner"])
+        add_entry(
+            path_name="path4",
+            winner_type=SAMPLE_LABELS.get(track_key, track_key),
+            strategy_id=strategy_id,
+            sample_tag=guess_sample_tag(track_key),
+            experimental=path4_experimental,
+            tracked_only=path4_tracked_only,
+            frequency=path4_frequency,
+        )
+
+    path4_robust = path4_payload.get("strategy_base_id")
+    if path4_robust:
+        add_entry(
+            path_name="path4",
+            winner_type="robust candidate",
+            strategy_id=str(path4_robust),
+            sample_tag="since_2020_01",
+            experimental=path4_experimental,
+            tracked_only=path4_tracked_only,
+            frequency=path4_frequency,
+        )
+
     registry = list(dedup.values())
     registry.extend(load_hkconnect_registry())
     registry = sorted(
@@ -1076,6 +1123,11 @@ def export_live_data() -> dict[str, Any]:
     }
     if (payload.get("path3") or {}).get("strategy_base_id"):
         path3_known_ids.add(str((payload.get("path3") or {})["strategy_base_id"]))
+    path4_known_ids = {
+        str(meta["winner"]) for meta in (payload.get("path4") or {}).get("tracks", {}).values()
+    }
+    if (payload.get("path4") or {}).get("strategy_base_id"):
+        path4_known_ids.add(str((payload.get("path4") or {})["strategy_base_id"]))
 
     core_active_registry: list[dict[str, Any]] = []
     core_active_entries = load_core_active_registry_entries()
@@ -1091,6 +1143,8 @@ def export_live_data() -> dict[str, Any]:
         registry_path = str(registry_entry.get("last_path") or "")
         if registry_path:
             snapshot["path"] = registry_path
+        elif strategy_id in path4_known_ids:
+            snapshot["path"] = "path4"
         elif strategy_id in path3_known_ids or is_path3_weekly_strategy(strategy_id):
             snapshot["path"] = "path3"
         elif strategy_id in path2_known_ids or "equal_weight_winner_core" in strategy_id:
@@ -1147,6 +1201,10 @@ def export_live_data() -> dict[str, Any]:
                     snapshot["winner_type"] = "leaderboard candidate"
                     snapshot["winner_tags"] = [f"{market_scope}:{path_name}:{track_key}:top{entry.get('rank')}"]
                     snapshot["market_scope"] = str(market_scope)
+                    if str(market_scope) == "a_share" and str(path_name) == "path4":
+                        snapshot["experimental"] = path4_experimental
+                        snapshot["tracked_only"] = path4_tracked_only
+                        snapshot["frequency"] = path4_frequency
                     snapshot_items[strategy_id] = snapshot
     for item in snapshot_items.values():
         strategy_path = LIVE_DIR / "strategies" / f"{item['strategy_id']}.json"

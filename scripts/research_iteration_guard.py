@@ -303,6 +303,7 @@ def _strategy_signature(weighted: dict[str, Any], hk_tracked: dict[str, Any]) ->
         "ashare_path1": weighted.get("tracks") or {},
         "ashare_path2": (weighted.get("path2") or {}).get("tracks") or {},
         "ashare_path3": (weighted.get("path3") or {}).get("tracks") or {},
+        "ashare_path4": (weighted.get("path4") or {}).get("tracks") or {},
     }
     for path_key, tracks in path_sources.items():
         winners: list[str] = []
@@ -314,6 +315,8 @@ def _strategy_signature(weighted: dict[str, Any], hk_tracked: dict[str, Any]) ->
             robust = weighted.get("path2") or {}
         if path_key == "ashare_path3":
             robust = weighted.get("path3") or {}
+        if path_key == "ashare_path4":
+            robust = weighted.get("path4") or {}
         winners.append(f"robust:{robust.get('strategy_base_id') or ''}")
         signatures[path_key] = _stable_key(winners)
 

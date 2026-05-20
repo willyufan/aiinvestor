@@ -164,6 +164,8 @@ def strategy_detail_explanation_html(item: dict, active_view: dict, schedule_kin
         selection_lines.append("Path 2 是高收益探索线：更重视 CAGR 上限突破，同时继续监控回撤和换手。")
     elif path_name == "path3":
         selection_lines.append("Path 3 是周度高频线：专门跟踪纯周度换股候选，和月度选股叠加周度仓位风控分开评估。")
+    elif path_name == "path4":
+        selection_lines.append("Path 4 是强主题涌现观察线：用月频组合跟踪主题扩散信号，当前只做 tracked-only 展示，不直接进入正式实盘分配。")
     if "aggr_10_90" in strategy_id:
         selection_lines.append("进攻仓位配置约为 10/90，探索侧更积极。")
     elif "aggr_08_92" in strategy_id:
@@ -180,11 +182,11 @@ def strategy_detail_explanation_html(item: dict, active_view: dict, schedule_kin
         selection_lines.append("晋升池规模为 2 只，属于高集中度候选。")
     if "core_6_1" in strategy_id:
         selection_lines.append("包含核心 6-1 动量过滤，偏向保留中期趋势更强的标的。")
-    if "theme" in strategy_id:
+    if market_scope == "hkconnect" and "theme" in strategy_id:
         selection_lines.append("沪港通高成长主线候选，偏向成长/主题强势标的。")
-    if "breakout" in strategy_id:
+    if market_scope == "hkconnect" and "breakout" in strategy_id:
         selection_lines.append("沪港通高集中突破候选，偏向强势突破与高弹性标的。")
-    if "equal_elastic" in strategy_id:
+    if market_scope == "hkconnect" and "equal_elastic" in strategy_id:
         selection_lines.append("沪港通等权高弹性候选，强调弹性分散和等权暴露。")
     if not selection_lines:
         selection_lines.append("策略按当前研究配置从候选池中选择相对胜出的股票组合。")
@@ -2023,6 +2025,10 @@ def strategy_card_html(
         tags_html += f"<span class='badge badge-blue' style='margin-right:4px'>窗口 {html.escape(windows_text)}{robust_suffix}</span>"
     elif is_robust and show_winner_tags:
         tags_html += "<span class='badge badge-blue' style='margin-right:4px'>鲁棒</span>"
+    if item.get("tracked_only"):
+        tags_html += "<span class='badge badge-amber' style='margin-right:4px'>观察</span>"
+    elif item.get("experimental"):
+        tags_html += "<span class='badge badge-muted' style='margin-right:4px'>实验</span>"
     tags_html += risk_badge(risk_state)
     return (
         f"<a class='strategy-card' href='{html.escape(href)}' aria-label='查看策略 {html.escape(display_name)}'>"
@@ -2054,6 +2060,7 @@ def path_label(scope: str, path_key: str) -> str:
             "path1": "Path 1 · 稳健路线",
             "path2": "Path 2 · 高收益探索",
             "path3": "Path 3 · 周度高频",
+            "path4": "Path 4 · 强主题观察",
         }
     return labels.get(path_key, path_key)
 
@@ -2728,7 +2735,7 @@ def strategies_html() -> str:
             for item in items:
                 path_groups.setdefault(item["path"], []).append(item)
             path_html = ""
-            for path_key in ("path1", "path2", "path3"):
+            for path_key in ("path1", "path2", "path3", "path4"):
                 path_items = path_groups.get(path_key, [])
                 if not path_items:
                     continue
@@ -2789,7 +2796,7 @@ def strategies_html() -> str:
 
 def strategy_top5_html(scope: str = "a_share", path_key: str = "path1") -> str:
     scope = scope if scope in {"a_share", "hkconnect"} else "a_share"
-    path_key = path_key if path_key in {"path1", "path2", "path3"} else "path1"
+    path_key = path_key if path_key in {"path1", "path2", "path3", "path4"} else "path1"
     payload = load_registry()
     path_payload = (((payload.get("winner_leaderboards") or {}).get(scope) or {}).get(path_key) or {})
     title = f"{market_scope_label(scope)} {path_label(scope, path_key)} Top 5"
@@ -2827,6 +2834,11 @@ def strategy_top5_html(scope: str = "a_share", path_key: str = "path1") -> str:
                     "updated_at": payload.get("as_of", ""),
                     "winner_tags": [],
                 }
+            if scope == "a_share" and path_key == "path4":
+                item["path"] = "path4"
+                item["experimental"] = True
+                item["tracked_only"] = True
+                item.setdefault("frequency", "monthly")
             metrics = entry.get("metrics") or {}
             metrics_override = {
                 "cagr": metric_value(metrics, "weighted_cagr", "cagr", "cagr_mean", default=None),

@@ -45,7 +45,7 @@ def _collect_weighted_ids(path: Path, target: set[str]) -> None:
     payload = load_json(path)
     if not isinstance(payload, dict):
         return
-    for key in ("tracks", "path2", "path3"):
+    for key in ("tracks", "path2", "path3", "path4"):
         collect_ids(payload.get(key) or {}, target)
 
 

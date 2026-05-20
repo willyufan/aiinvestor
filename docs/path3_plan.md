@@ -3,6 +3,15 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-20 18:06 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`；上一轮 `risk30` 降仓候选长窗收益塌陷，最终 focus 指向 `cost_stress`。本轮只新增 1 个纯 `_weekly` 成本守门候选，没有混入 Path 1 的月度选股 + 周度仓位 overlay。
+- 本轮新增并五窗口确认 1 个 Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold6_turn12_exit85_weekly`。实际回测命令见 Path 1 本轮合并命令。
+- `cost_guard_cap60_hold6_turn12_exit85_weekly` 五窗口 CAGR 为 `5.71% / 1.60% / 7.53% / 41.42% / 38.13%`，最大回撤 `-35.21% / -38.00% / -36.73% / -19.54% / -14.66%`，换手 `4.07x / 4.22x / 4.21x / 7.35x / 8.24x`；成本守门太强，2017/2020/2023 全面低于现有 Path 3 robust，只保留失败对照。
+- `update_weighted_winners.py` 后 Path 3 official winners 未变化：2017 `aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly`，2020/2025 `aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly`，2023 `aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly`；四窗口 robust 仍为 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn20_weekly`。
+- Guard 显示 weekly universe 为 `60/60 complete`，已到默认 active cap；本轮没有新增前的实质冲突，因此不回删用户/既有结果，但下一轮新增 Path 3 前必须先 evict。优先归档本轮 `cost_guard_cap60_hold6_turn12_exit85_weekly`，理由是 2020 CAGR 仅 `1.60%` 且未改善回撤/换手组合。
+- 最终 guard 后 rotation 为 `stagnation_runs=12 / turnover_reduction / rotate`；下一轮第一步不是直接加候选，而是先移出上述失败对照，再测试 `aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold5_turn10_exit85_weekly` 或同等低换手但不过度降仓的纯 `_weekly` 变体。
+
 ## 本轮执行计划（2026-05-20 13:58 CST）
 
 - 上一轮提示为 `risk_downshift`，本轮只新增 1 个纯 `_weekly` 降仓候选，没有把 Path 1 的月度选股 + 周度仓位 overlay 混入 Path 3。

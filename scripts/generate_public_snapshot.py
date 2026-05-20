@@ -85,6 +85,9 @@ def build_strategy_entry(
     path_name: str,
     strategies_map: dict[str, Any],
     market_scope: str = "a_share",
+    experimental: bool = False,
+    tracked_only: bool = False,
+    frequency: str = "",
 ) -> dict[str, Any]:
     sample_tag = SAMPLE_TAG_MAP.get(track_key, guess_sample_tag(track_key))
     view = _load_sample_view(strategy_id, sample_tag, market_scope=market_scope)
@@ -125,6 +128,9 @@ def build_strategy_entry(
         "updated_at":            view.get("updated_at", "") if view else "",
         "data_as_of":            market_data_as_of or sched.get("data_as_of") or (view.get("updated_at", "") if view else ""),
         "signal_effective_date": sched.get("suggestion_effective_date") or (view.get("updated_at", "") if view else ""),
+        "experimental":          experimental,
+        "tracked_only":          tracked_only,
+        "frequency":             frequency,
         "metrics":               metrics,
         "window_metrics":        build_window_metrics(strategy_id, strategies_map),
         "latest_weights":        latest_weights,
@@ -281,6 +287,9 @@ def export_strategy_detail(
     market_scope: str,
     path: str,
     winner_type: str,
+    experimental: bool = False,
+    tracked_only: bool = False,
+    frequency: str = "",
 ) -> None:
     """Export per-strategy detail JSON for strategy.html detail tab."""
     preferred_tag = pick_preferred_sample_tag(strategy_id, market_scope=market_scope)
@@ -372,6 +381,9 @@ def export_strategy_detail(
         "market_scope": detail.get("market_scope", market_scope),
         "path": path,
         "winner_type": winner_type,
+        "experimental": experimental,
+        "tracked_only": tracked_only,
+        "frequency": frequency,
         "sample_views": sample_views_out,
     }
     STRATEGIES_DIR.mkdir(parents=True, exist_ok=True)
@@ -412,6 +424,27 @@ def main() -> None:
         entry = build_strategy_entry(track["winner"], track_key, "path3", strategies_map)
         path3_entries.append(entry)
 
+    # ── A股 Path 4：强主题涌现观察路径 ──
+    path4_entries: list[dict] = []
+    path4_payload = payload.get("path4") or {}
+    path4_experimental = bool(path4_payload.get("experimental", True))
+    path4_tracked_only = bool(path4_payload.get("tracked_only", True))
+    path4_frequency = str(path4_payload.get("frequency") or "monthly")
+    for track_key in WINDOW_TRACK_KEYS:
+        track = (path4_payload.get("tracks") or {}).get(track_key)
+        if not track:
+            continue
+        entry = build_strategy_entry(
+            track["winner"],
+            track_key,
+            "path4",
+            strategies_map,
+            experimental=path4_experimental,
+            tracked_only=path4_tracked_only,
+            frequency=path4_frequency,
+        )
+        path4_entries.append(entry)
+
     # ── 沪港通 ──
     hk_entries: list[dict] = []
     if HK_TRACKED_WINNERS_JSON.exists():
@@ -423,15 +456,16 @@ def main() -> None:
         "path1":   path1_entries,
         "path2":   path2_entries,
         "path3":   path3_entries,
+        "path4":   path4_entries,
         "hkconnect": hk_entries,
     }
 
     OUTPUT_PATH.write_text(json.dumps(snapshot, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    total = len(path1_entries) + len(path2_entries) + len(path3_entries) + len(hk_entries)
-    print(f"✓ Exported {len(path1_entries)} path1 + {len(path2_entries)} path2 + {len(path3_entries)} path3 + {len(hk_entries)} hkconnect entries → {OUTPUT_PATH}")
+    total = len(path1_entries) + len(path2_entries) + len(path3_entries) + len(path4_entries) + len(hk_entries)
+    print(f"✓ Exported {len(path1_entries)} path1 + {len(path2_entries)} path2 + {len(path3_entries)} path3 + {len(path4_entries)} path4 + {len(hk_entries)} hkconnect entries → {OUTPUT_PATH}")
 
     # ── Per-strategy detail files ──
-    all_entries = path1_entries + path2_entries + path3_entries + hk_entries
+    all_entries = path1_entries + path2_entries + path3_entries + path4_entries + hk_entries
     seen_ids: set[str] = set()
     detail_count = 0
     for entry in all_entries:
@@ -445,6 +479,9 @@ def main() -> None:
             market_scope=entry["market_scope"],
             path=entry["path"],
             winner_type=entry["winner_type"],
+            experimental=bool(entry.get("experimental", False)),
+            tracked_only=bool(entry.get("tracked_only", False)),
+            frequency=str(entry.get("frequency", "")),
         )
         detail_count += 1
     for stale_path in STRATEGIES_DIR.glob("*.json"):

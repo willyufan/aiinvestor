@@ -128,3 +128,35 @@
 | 2026-05-19 | `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn20_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻3/97 晋升2只(周频Alpha回踩, 熊市空仓, 单票70%, 持有4周, 换手20%, 单周) | 213.83% | 19.95% | -25.77% | 0.7494 | 4.06 |
 | 2026-05-18 | `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn20_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻3/97 晋升2只(周频Alpha回踩, 熊市空仓, 单票70%, 持有4周, 换手20%, 单周) | 213.45% | 19.92% | -25.77% | 0.7487 | 4.06 |
 | 2026-05-15 | `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻3/97 晋升2只(周频Alpha回踩, 熊市空仓, 单票80%, 持有3周, 换手25%, 单周) | 228.26% | 20.88% | -25.89% | 0.7862 | 4.77 |
+
+## Path 4：月频强主题涌现（观察）
+
+### 2017 窗口
+
+| 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-05-19 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50` | 核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(强主题涌现, 熊市30%, 单票50%) | `core_explore_90_10_equal_weight_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50` | 596.18% | 22.88% | -30.11% | 0.9502 | 3.46 |
+
+### 2020 窗口
+
+| 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-05-19 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_risk40_cap70` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升3只(强主题涌现, 熊市40%, 单票70%) |  | 421.81% | 29.37% | -34.49% | 0.8729 | 4.38 |
+
+### 2023 窗口
+
+| 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-05-19 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk40_cap70` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升3只(强主题涌现, 质量门槛, 熊市40%, 单票70%) |  | 199.65% | 37.88% | -26.93% | 1.0201 | 4.00 |
+
+### 2025 窗口
+
+| 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-05-19 | `core_explore_90_10_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_risk40_cap70` | 核心90_探索10_总市值底座_胜出者核心__进攻5/95 晋升3只(强主题涌现, 熊市40%, 单票70%) |  | 247.31% | 140.82% | -16.02% | 2.0733 | 6.81 |
+
+### 鲁棒候选
+
+| 日期 | 策略ID | 策略名称 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-05-19 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50` | 核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(强主题涌现, 熊市30%, 单票50%) | 266.05% | 22.41% | -32.16% | 0.7845 | 4.13 |

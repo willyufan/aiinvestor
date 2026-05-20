@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-20 18:06 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`；上一轮等权弹性/多因子代表未晋级，最终 focus 指向 `capacity_and_cost_stress`。本轮按当前 high-growth robust 的容量压力测试，只补 `cap80 + cost_guard` 等权/总市值双底座。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cost_guard`、`core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cost_guard`。实际回测命令见 Path 1 本轮合并命令。
+- 等权版五窗口 CAGR 为 `36.69% / 49.57% / 49.54% / 108.61% / -10.84%`，最大回撤 `-32.93% / -32.18% / -29.14% / -11.53% / -13.93%`，换手 `3.67x / 4.30x / 4.35x / 7.32x / 6.33x`；总市值版为 `34.36% / 43.02% / 42.68% / 122.70% / -6.91%`，最大回撤 `-33.20% / -32.40% / -30.81% / -14.15% / -12.54%`。容量约束保留了 2020/2023 高收益，但 2026 仍为负，未晋级。
+- `scripts/path2_candidate_pass.py` 后 candidate universe 为 `571/571 complete`；family 规模为 `high_concentration_breakout=154 / high_growth_theme=283 / momentum_equal_weight_elastic=21 / biweekly_rebalance_aggressive=18 / weekly_rebalance_aggressive=37 / emergent_theme_discovery=18`。raw robust 仍为 `risk40_mom_exit60_reconfirm75_caution80`，official robust 仍为 `risk40_mom_exit60_reconfirm75_cap95`。
+- `update_weighted_winners.py` 后 Path 2 official winners 未变化：2017 `risk40_mom_exit60_reconfirm75_cap95`，2020 `risk40_mom_exit60_reconfirm70_cap95`，2023 `risk50_ma_cap95`，2025 `aggr_05_95_prom3_core_6_1_full_risk_cap60`；候选池未触发 evict。
+- 最终 guard 后 rotation 为 `stagnation_runs=12 / medium_cycle_growth / rotate`；下一轮 focus -> candidates 池回到中周期高收益原型，但必须带 2026 防守约束。第一条候选命令建议实现 `risk40_mom_exit60_reconfirm75_cap80_cashguard` 的等权/总市值双底座，并用五窗口 `--only-base-ids <next_medium_cycle_growth_ids>` 增量确认。
+
 ## 本轮执行计划（2026-05-20 13:58 CST）
 
 - 上一轮 Path 2 rotation 指向 `underrepresented_families`，且 high_growth 已扩到 `281`；本轮只补 1 个等权弹性/多因子代表，不继续加 high_growth 邻域。

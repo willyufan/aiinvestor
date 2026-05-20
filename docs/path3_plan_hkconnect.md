@@ -1,5 +1,14 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-05-20 18:06 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`；上一轮 `turnover8` 继续负 2026，最终 focus 仍在 `weekly_defensive_overlay`。本轮补 `cashguard_turnover9`，继续只作为 HK 纯周度 Path 3 比较，不并入 Path 1/2 月频结论。
+- 本轮新增并五窗口确认：`hkconnect_path3_stable_weekly_equal_buffered_cashguard_turnover9`。实际命令与 HK Path 1/2 合并执行：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_cashguard,hkconnect_path2_theme_monthly_cost_control_v2,hkconnect_path3_stable_weekly_equal_buffered_cashguard_turnover9`。
+- `cashguard_turnover9` 五窗口 CAGR 为 `18.81% / 18.85% / 22.93% / 33.40% / -15.74%`，最大回撤 `-27.79% / -22.13% / -12.27% / -12.27% / -12.21%`，换手 `8.74x / 8.49x / 9.03x / 11.17x / 11.24x`；换手低于高弹性周频，但收益和 2026 防守都不如 robust 所需，未晋级。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 3 tracked/robust 未变化：2017 仍为 `stable_weekly_equal_buffered_cost_guard`，2020/2023 `theme_fast_weekly_buffered`，2025 `theme_fast_weekly_turnover_guard`；robust 仍为 `stable_weekly_equal_buffered_cost_guard`，`meanCAGR=26.69% / minCAGR=21.96% / worstMaxDD=-26.67% / meanTurn=10.50`。
+- Guard 显示 HK all candidates `73/73 complete`，本轮未触发 evict；最终 rotation 为 `stagnation_runs=14 / weekly_defensive_overlay / rotate`。下一轮 focus -> candidates 池不要继续在稳定低换手线上加现金防守，第一条命令建议回到高弹性周频的 `hkconnect_path3_theme_fast_weekly_cashguard_turnover20`，并同时记录 30x 换手和长窗回撤代价。
+
 ## 本轮执行计划（2026-05-20 13:58 CST）
 
 - 上一轮 focus 为 `weekly_turnover_reduction`，本轮在 `stable_weekly_equal_buffered_cost_guard` 上继续压换手，仍只作为 HK 纯周度 Path 3 观察，不并入 Path 1/2 月频结论。
