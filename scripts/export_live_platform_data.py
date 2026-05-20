@@ -665,6 +665,7 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
                 attach_latest_prices(history_snapshot_map[basket_date], latest_price_map),
                 target_exposure=target_exposure,
             )
+        official_history_snapshot_map = filter_snapshot_map_on_or_before(history_snapshot_map, basket_date)
     elif schedule_kind == "satellite_weekly_overlay":
         basket_date = str(formal_schedule.get("basket_effective_date") or "")
         basket_weights: list[dict[str, Any]] = []
