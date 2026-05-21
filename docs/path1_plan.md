@@ -4,6 +4,16 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-21 18:23 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`，rotation 指向 `holding_shape`；上一轮三段式成本守门候选只压回撤、未改善 winner，本轮改测更分散的 `2+8` 持仓形态成本防守。
+- 本轮新增并五窗口确认 1 个 Path 1 base id：`core_explore_80_20_total_mv_winner_core__share_06_94_hold_2_8_ramp85_cost_guard`。实际命令与 Path 2/3/4 合并执行：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_06_94_hold_2_8_ramp85_cost_guard,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap70_biweekly,core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_weekly_alpha_pullback_risk40_cap50_hold4_turn18_exit85_weekly,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap40,core_explore_90_10_equal_weight_winner_core__aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap40,core_explore_90_10_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap40`。
+- `share_06_94_hold_2_8_ramp85_cost_guard` 五窗口 CAGR 为 `19.57% / 22.34% / 27.26% / 82.94% / 63.30%`，最大回撤 `-19.21% / -17.57% / -23.06% / -12.48% / -11.67%`，换手 `2.73x / 2.95x / 3.13x / 4.63x / 6.29x`；回撤和换手可控，但 2020/2023 收益低于现有 Path 1 robust，未晋级。
+- `scripts/winner_only_pass.py` 为 `base_candidates=53 / total_candidates=477 / evaluated=190`，clear improvement 仍只来自旧 `satellite_cost_guard` 的 2025 raw；`update_weighted_winners.py` 因 2023 验证不足继续拒绝。Path 1 official winners 与 robust 未变。
+- core_multifactor 子段按代码口径仍为 `16/16 complete`；本轮没有新增多因子 overlay，只把 holding_shape 计数提升到 `12`，未触发 Path 1 evict。
+- 下一轮 focus -> candidates 池：若 rotation 继续 `holding_shape`，不要继续只加防守，先实现 `core_explore_80_20_total_mv_winner_core__share_08_92_hold_2_8_ramp85_cost_guard`，用更高稳定仓比例检查能否保留本轮低回撤并补回 2020/2023 CAGR；仍用五窗口 `--only-base-ids <next_holding_shape_id>`。
+
 ## 本轮执行计划（2026-05-21 11:17 CST）
 
 - 开局 guard 为 `pass / blocking=0 / warning=0`；上一轮 `trend_lowvol_quality` 长窗弱，rotation 转到 `satellite_risk_cost`，因此本轮回到卫星周频风控成本，不再扩普通多因子。

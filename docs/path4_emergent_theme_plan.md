@@ -32,6 +32,15 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-21 18:23 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`，rotation 指向 `theme_risk_control`；上一轮 `risk35_cap45` 2026 强但 2020 回撤偏宽，本轮把单票/容量 cap 进一步压到 `40`，继续不使用人工主题标签，也不纳入 ETF。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap40`、`core_explore_90_10_equal_weight_winner_core__aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap40`、`core_explore_90_10_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap40`。实际命令见 Path 1 本轮合并命令。
+- `80/20 total_mv` 五窗口 CAGR 为 `17.42% / 18.56% / 33.03% / 98.21% / 92.46%`，最大回撤 `-30.61% / -36.96% / -22.88% / -16.73% / -6.80%`，换手 `3.49x / 3.94x / 3.60x / 6.25x / 7.69x`；`90/10 equal_weight` 为 `17.59% / 19.17% / 33.31% / 94.94% / 98.98%`；`90/10 total_mv` 为 `17.54% / 18.33% / 32.47% / 104.83% / 77.17%`。
+- 持仓抽样仍呈多只强票分散贡献，不像单票幸运；但 2017/2020 CAGR 和 2020 回撤弱于现有 Path 4 robust，未改变 window winner 或 robust。
+- `scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=30`，`update_weighted_winners.py` 后 Path 4 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`；候选池未触发 evict。
+- 收尾 guard 后 rotation 切到 `theme_capacity_cost`。下一轮第一条命令建议测试三底座 `aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap35`，用更低单票上限做容量压力检查，并在 plan 中同步持仓集中度/换手；五窗口命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_capacity_cost_ids>`。
+
 ## 本轮执行计划（2026-05-21 11:17 CST）
 
 - 开局 guard 为 `pass / blocking=0 / warning=0`；上一轮 `quality_gate_risk30_cap45` 确认 cap45 能压单票集中但长窗仍弱，本轮按 rotation 的 `theme_risk_control` 把风险阈值从 `30` 放宽到 `35`，继续不使用人工主题标签，也不纳入 ETF。
