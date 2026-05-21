@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-05-21 23:16 CST）
+
+- 开局 guard 为 `pass`，上一轮 `breakout_cost_guard_biweekly_risk50` 继续出现 `-50%` 级长窗回撤；本轮按 `elasticity_cost_control` 回到月频高弹性成本约束。受本轮总实验预算限制，只跑等权 `cost_guard_v3`，把 inverse 版本留作下一轮未跑候选。
+- 本轮新增并五窗口确认：`hkconnect_path2_equal_elastic_monthly_cost_guard_v3`。实际命令见 HK Path 1 本轮合并命令。
+- `equal_elastic_monthly_cost_guard_v3` 五窗口 CAGR 为 `19.36% / 21.13% / 15.13% / 76.36% / 57.75%`，最大回撤 `-33.94% / -33.94% / -35.61% / -8.21% / -5.41%`，换手 `5.61x / 5.48x / 6.05x / 6.31x / 6.83x`；短窗继续强，但 2023 和长窗回撤不达 robust 标准，未晋级。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 2 tracked/robust 未变化：2017/2020 仍为 `theme_monthly_cost_control`，2023 `theme_monthly`，2025 `breakout_concentrated_monthly`；biweekly breakout 支线继续记为暂停/归档观察，不再做普通阈值微调。
+- 下一轮 focus -> candidates 池：第一条命令建议补本轮预算留下的 `hkconnect_path2_inverse_elastic_monthly_cost_guard_v3`，若其 2023 仍弱，则转向 `theme_monthly_cost_control` 的低换手/更高 2023 收益修复，五窗口 `--only-strategy-ids <hk_path2_inverse_cost_v3_id>`。
+
 ## 本轮执行计划（2026-05-21 18:23 CST）
 
 - 开局 guard 为 `pass / blocking=0 / warning=0`，rotation 指向 `biweekly_breakout`；上一轮计划要求判断双周突破是否应归档，本轮补 `risk50` 成本守门版本。

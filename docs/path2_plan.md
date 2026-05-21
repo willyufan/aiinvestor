@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-21 23:16 CST）
+
+- 开局 guard 为 `pass`，上一轮 `cap70_biweekly` 确认双周 underrepresented family 的 2017/2020 回撤不可接受；本轮按上一轮下一步和 candidate-pass raw robust 线，转向当前高收益 robust 邻域的容量/成本压力，不继续扩大双周失败支线。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap80_cost_guard`、`core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap80_cost_guard`。实际命令见 Path 1 本轮合并命令。
+- 等权版五窗口 CAGR 为 `34.10% / 56.20% / 56.46% / 99.55% / -12.18%`，最大回撤 `-39.23% / -33.08% / -33.27% / -14.29% / -13.97%`，换手 `4.12x / 4.65x / 4.49x / 7.34x / 6.38x`；总市值版为 `33.32% / 49.16% / 47.72% / 109.53% / -8.78%`，最大回撤 `-39.58% / -33.47% / -35.16% / -14.51% / -12.54%`。cap80 保留 2020/2023 高收益，但 2026 仍为负，未晋级 official。
+- `scripts/path2_candidate_pass.py` 后 candidate universe 为 `602`，family 规模为 `emergent_theme_discovery=33 / high_concentration_breakout=154 / high_growth_theme=289 / momentum_equal_weight_elastic=24 / biweekly_rebalance_aggressive=20 / weekly_rebalance_aggressive=41`。raw robust 临时切到 `risk50_mom_exit60_reconfirm75_caution75_cap95`，但 `update_weighted_winners.py` official robust 仍为 `risk50_mom_exit60_reconfirm65_cap95`，说明 validation 仍偏好旧恢复确认形态。
+- 候选池未触发 cap evict；本轮结论是容量 cap80 不是解决 2026 负收益的充分条件。下一轮 focus -> candidates 池优先做 `2026 defense without killing 2020/2023`：第一条命令建议实现等权/总市值 `risk50_mom_exit60_reconfirm65_cap80_cashguard`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <path2_cap80_cashguard_ids>`；若继续成本线，先记录本轮 `cap80_cost_guard` 为 2026 失败对照。
+
 ## 本轮执行计划（2026-05-21 18:23 CST）
 
 - 开局 guard 为 `pass / blocking=0 / warning=0`，rotation 继续指向 `underrepresented_families`；上一轮 80/20 等权双周 cap60 深回撤，本轮不再扩 high_growth 邻域，改测 70/30 等权双周 cap70。

@@ -1,5 +1,13 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-05-21 23:16 CST）
+
+- 开局 guard 为 `pass`，上一轮 `theme_fast_weekly_cost_guard_turnover18_exit42` 把 2026 转正但 25x-32x 换手与长窗回撤仍偏高；本轮按 `cost_stress`/低换手检查，把高弹性周频的 cap 和买卖阈值继续放松到 `turnover14_exit45`。
+- 本轮新增并五窗口确认：`hkconnect_path3_theme_fast_weekly_cost_guard_turnover14_exit45`。实际命令见 HK Path 1 本轮合并命令。
+- `theme_fast_weekly_cost_guard_turnover14_exit45` 五窗口 CAGR 为 `15.03% / 21.87% / 24.70% / 57.43% / 13.24%`，最大回撤 `-42.29% / -36.31% / -22.07% / -14.97% / -8.36%`，换手 `25.85x / 24.68x / 25.44x / 31.22x / 31.17x`；相对上一轮 2020/2023/2025 略好，但换手仍未降下来，robust 仍不如稳定周频成本线。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 3 tracked/robust 未变化：2017 仍为 `stable_weekly_equal_buffered_cost_guard`，2020/2023 `theme_fast_weekly_buffered`，2025 `theme_fast_weekly_turnover_guard`。候选池未触发 cap evict。
+- 下一轮 focus -> candidates 池：高弹性周频已证明能修复 2026 但换手难降，第一条命令建议回到稳定周频线测试 `hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover9_exit40`，检查更窄退出能否修复 2026，同时保持 `10x` 左右换手；五窗口 `--only-strategy-ids <hk_path3_stable_turnover9_exit40_id>`。
+
 ## 本轮执行计划（2026-05-21 18:23 CST）
 
 - 开局 guard 为 `pass / blocking=0 / warning=0`，rotation 指向 `weekly_defensive_overlay`；上一轮低换手稳定线继续 2026 负收益，本轮回到高弹性周频并加成本守门，继续只作为 HK 纯周度 Path 3 比较。
