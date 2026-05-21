@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-21T05:19:34+08:00",
+  "generated_at": "2026-05-21T11:22:14+08:00",
   "as_of": "2026-05-20",
   "coverage_gate": {
     "status": "pass",
@@ -61,8 +61,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 585,
-        "complete_count": 585,
+        "candidate_count": 590,
+        "complete_count": 590,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -104,8 +104,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 24,
-        "complete_count": 24,
+        "candidate_count": 27,
+        "complete_count": 27,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -126,8 +126,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 79,
-        "complete_count": 79,
+        "candidate_count": 82,
+        "complete_count": 82,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -140,13 +140,13 @@
   "experiment_log": {
     "path": "results/research/a_share/research_experiments.jsonl",
     "candidate_entries": 85,
-    "appended_entries": 0
+    "appended_entries": 1
   },
   "rotation": {
     "ashare_path1": {
       "signature": "3393bd58194f0e482425",
       "changed": false,
-      "stagnation_runs": 18,
+      "stagnation_runs": 20,
       "stagnation_threshold": 3,
       "recommended_focus": "satellite_risk_cost",
       "rotation_status": "rotate",
@@ -155,54 +155,54 @@
     "ashare_path2": {
       "signature": "f8e1e8915741c0116c7e",
       "changed": false,
-      "stagnation_runs": 5,
+      "stagnation_runs": 7,
       "stagnation_threshold": 3,
-      "recommended_focus": "risk_reconfirm_sensitivity",
+      "recommended_focus": "underrepresented_families",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-20T23:15:50+08:00"
     },
     "ashare_path3": {
       "signature": "a0fc588aa2bee035c7a9",
       "changed": false,
-      "stagnation_runs": 5,
+      "stagnation_runs": 7,
       "stagnation_threshold": 3,
-      "recommended_focus": "weekly_exit_buffer",
+      "recommended_focus": "risk_downshift",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-20T23:15:50+08:00"
     },
     "ashare_path4": {
       "signature": "b692aa515dde5e1c0d22",
       "changed": false,
-      "stagnation_runs": 5,
+      "stagnation_runs": 7,
       "stagnation_threshold": 3,
-      "recommended_focus": "theme_signal_quality",
+      "recommended_focus": "theme_risk_control",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-20T23:15:50+08:00"
     },
     "hkconnect_path1": {
       "signature": "e80b94dffccc5237fb1f",
       "changed": false,
-      "stagnation_runs": 7,
+      "stagnation_runs": 9,
       "stagnation_threshold": 3,
-      "recommended_focus": "risk_overlay_cost",
+      "recommended_focus": "monthly_weekly_overlay",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-20T18:04:23+08:00"
     },
     "hkconnect_path2": {
       "signature": "00a0b61b86cadd408c85",
       "changed": false,
-      "stagnation_runs": 20,
+      "stagnation_runs": 22,
       "stagnation_threshold": 3,
-      "recommended_focus": "high_return_monthly",
+      "recommended_focus": "biweekly_breakout",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-19T17:24:53+08:00"
     },
     "hkconnect_path3": {
       "signature": "6c6bb32e5bc467ec77eb",
       "changed": false,
-      "stagnation_runs": 20,
+      "stagnation_runs": 22,
       "stagnation_threshold": 3,
-      "recommended_focus": "weekly_turnover_reduction",
+      "recommended_focus": "weekly_defensive_overlay",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-19T17:24:53+08:00"
     }
@@ -230,11 +230,11 @@
     "path2": {
       "family_counts": {
         "biweekly_rebalance_aggressive": {
-          "current_count": 18,
+          "current_count": 19,
           "target_representatives": 6
         },
         "emergent_theme_discovery": {
-          "current_count": 24,
+          "current_count": 27,
           "target_representatives": 4
         },
         "high_concentration_breakout": {
@@ -250,7 +250,7 @@
           "target_representatives": 6
         },
         "weekly_rebalance_aggressive": {
-          "current_count": 38,
+          "current_count": 39,
           "target_representatives": 6
         }
       },
@@ -273,7 +273,7 @@
       }
     },
     "path4": {
-      "emergent_theme_candidate_count": 24,
+      "emergent_theme_candidate_count": 27,
       "next_run_new_candidate_quota": {
         "emergent_theme_coverage": 4,
         "theme_signal_quality": 3,
@@ -282,7 +282,7 @@
       }
     },
     "hkconnect": {
-      "candidate_count": 79,
+      "candidate_count": 82,
       "next_run_new_candidate_quota": {
         "path1": 2,
         "path2": 3,

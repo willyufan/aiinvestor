@@ -4,6 +4,15 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-21 11:17 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`；上一轮 `trend_lowvol_quality` 长窗弱，rotation 转到 `satellite_risk_cost`，因此本轮回到卫星周频风控成本，不再扩普通多因子。
+- 本轮新增并五窗口确认 2 个 Path 1 base ids：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__sat_three_stage_buffered_cost_guard`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered_cost_guard`。命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_sat_three_stage_buffered_cost_guard_ids>`。
+- `aggr_08_92_prom6` 版本五窗口 CAGR 为 `25.27% / 28.28% / 32.08% / 96.17% / 78.40%`，最大回撤 `-14.18% / -13.53% / -16.25% / -10.23% / -10.31%`，换手 `3.21x / 3.53x / 3.70x / 4.52x / 7.17x`；`aggr_05_95_prom7` 版本为 `24.90% / 34.00% / 33.96% / 88.78% / 79.58%`，最大回撤 `-13.83% / -14.16% / -17.77% / -11.76% / -6.83%`，换手 `3.12x / 3.53x / 3.71x / 4.76x / 8.20x`。
+- 两个成本守门版本均明显压低 2017/2020/2023 回撤，但 2025 弹性不如当前 winner；`winner_only_pass.py` 仍只把旧 `satellite_cost_guard` 标记为 2025 raw clear improvement，`update_weighted_winners.py` 因 2023 验证不足拒绝，Path 1 official winners 与 robust 未变。
+- core_multifactor 子段按代码口径巡检为 `16/16 complete`；本轮只把 `__sat_three_stage_buffered_cost_guard` 作为 `aggr_08_92_prom6` 与 `aggr_05_95_prom7` 的定向 overlay，不扩成全量 overlay 乘积，未触发 Path 1 evict。
+- 下一轮 focus -> candidates 池：若 rotation 仍指向 `satellite_risk_cost`，先比较 `__sat_three_stage_buffered_cost_guard` 与旧 `satellite_cost_guard` 的验证窗差异；第一条命令建议只补一个更低 2025 损失的 `aggr_10_90_prom6__sat_three_stage_buffered_cost_guard`，仍用五窗口 `--only-base-ids <next_satellite_risk_cost_id>` 增量确认。
+
 ## 本轮执行计划（2026-05-21 05:14 CST）
 
 - 开局 guard 为 `pass / blocking=0 / warning=0`；上一轮 `trend_quality_defense` 2025/2026 尚可但长窗弱，本轮按 rotation 的 `signal_quality` 只补 1 个多因子信号质量候选，继续按代码实际 `core_multifactor` 返回口径计数。

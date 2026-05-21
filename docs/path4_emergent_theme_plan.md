@@ -32,6 +32,15 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-21 11:17 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`；上一轮 `quality_gate_risk30_cap45` 确认 cap45 能压单票集中但长窗仍弱，本轮按 rotation 的 `theme_risk_control` 把风险阈值从 `30` 放宽到 `35`，继续不使用人工主题标签，也不纳入 ETF。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap45`、`core_explore_90_10_equal_weight_winner_core__aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap45`、`core_explore_90_10_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap45`。命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <three_path4_quality_gate_risk35_cap45_ids>`。
+- `80/20 total_mv` 五窗口 CAGR 为 `17.59% / 18.40% / 33.12% / 98.63% / 96.07%`，最大回撤 `-30.61% / -36.96% / -22.79% / -16.73% / -5.24%`，换手 `3.51x / 3.95x / 3.55x / 6.15x / 7.82x`；`90/10 equal_weight` 为 `17.71% / 19.01% / 33.13% / 89.33% / 105.26%`；`90/10 total_mv` 为 `17.76% / 18.28% / 32.53% / 102.90% / 80.57%`。
+- 持仓抽样仍是多只强票分散贡献，近期前列包括鼎龙股份、国瓷材料、杰瑞股份、宏和科技、长飞光纤、睿创微纳等，不像单票幸运；但 2020 回撤扩大、2017/2020 CAGR 低于现有 Path 4 robust，未改变 window winner 或 robust。
+- `scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=27`，`update_weighted_winners.py` 后 Path 4 official winners 与 robust 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`；候选池未触发 evict。
+- 下一轮 focus -> candidates 池：`theme_risk_control` 不能只放宽风险阈值，第一条命令建议测试三底座 `aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap40`，用更低 cap 检查 2026 强势是否仍非单票驱动，五窗口 `--only-base-ids <next_path4_risk_control_ids>`。
+
 ## 本轮执行计划（2026-05-21 05:14 CST）
 
 - 开局 guard 为 `pass / blocking=0 / warning=0`；上一轮 `quality_gate_risk30_cap50` 2026 强但需检查容量与单票依赖，本轮按 `theme_signal_quality` 把单票上限从 `50%` 压到 `45%`，继续不使用人工主题标签，也不纳入 ETF。

@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-05-21 11:17 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`；上一轮等权弹性现金防守 v3 短窗强但 2023/长窗回撤弱，本轮按 `biweekly_breakout`/高收益月频衔接，补跑上一轮预算留下的反向弹性现金防守 v3。
+- 本轮新增并五窗口确认：`hkconnect_path2_inverse_elastic_monthly_cashguard_v3`。命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_inverse_elastic_monthly_cashguard_v3`。
+- 该候选五窗口 CAGR 为 `16.92% / 18.47% / 13.06% / 76.36% / 57.75%`，最大回撤 `-36.39% / -36.39% / -35.57% / -8.21% / -5.41%`，换手 `5.43x / 5.29x / 5.99x / 6.31x / 6.83x`；与等权 v3 几乎同形，2025/2026 强但 2023 和长窗回撤仍不达 robust 标准。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 2 tracked/robust 未变化：2017/2020 仍为 `theme_monthly_cost_control`，2023 `theme_monthly`，2025 `breakout_concentrated_monthly`；未触发 HK explore cap evict。
+- 下一轮 focus -> candidates 池：不要继续复制 elastic v3；若 rotation 仍给 `biweekly_breakout`，第一条命令建议实现 `hkconnect_path2_breakout_cost_guard_biweekly_risk50`，用五窗口 `--only-strategy-ids <hk_path2_biweekly_risk_id>` 判断双周突破是否应归档。
+
 ## 本轮执行计划（2026-05-21 05:14 CST）
 
 - 开局 guard 为 `pass / blocking=0 / warning=0`；上一轮 `inverse_elastic_monthly_cost_guard_v2` 仍是短窗强、2023/长窗回撤弱，本轮按 `high_return_monthly` 先补等权弹性现金防守 v3，并把反向 v3 留作下一轮预算内第一条命令。
