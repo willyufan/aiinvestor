@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-22 05:14 CST）
+
+- 开局 guard 为 `pass`，上一轮 `risk50_mom_exit60_reconfirm65_cap80_cost_guard` 保留中周期收益但 2026 仍负；本轮按 `risk_reconfirm_sensitivity`/2026 防守缺口，在相同 cap80 邻域切到 `cashguard`，继续只用等权/总市值双底座确认。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap80_cashguard`、`core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap80_cashguard`。实际命令见 Path 1 本轮合并命令，命令类型为五窗口 `--only-base-ids` 增量确认。
+- 等权版五窗口 CAGR 为 `29.50% / 48.50% / 43.30% / 99.10% / -11.40%`，最大回撤 `-28.70% / -24.50% / -26.40% / -14.30% / -13.90%`，换手 `3.86x / 4.33x / 4.67x / 7.33x / 6.29x`；总市值版为 `28.60% / 42.20% / 33.20% / 109.00% / -8.00%`，最大回撤 `-28.90% / -29.00% / -28.80% / -13.90% / -12.50%`。cashguard 降低了长窗回撤，但仍不能把 2026 转正，未晋级 official。
+- `scripts/path2_candidate_pass.py` 后 candidate universe 为 `607`，family 规模为 `emergent_theme_discovery=35 / high_concentration_breakout=154 / high_growth_theme=291 / momentum_equal_weight_elastic=24 / biweekly_rebalance_aggressive=20 / weekly_rebalance_aggressive=42`；raw robust 临时偏向 `risk50_mom_exit60_reconfirm75_caution75_cap95`，但 `update_weighted_winners.py` official robust 仍为 `risk50_mom_exit60_reconfirm65_cap95`。
+- 候选池未触发 cap evict。收尾 guard 将下一轮 focus 转到 `underrepresented_families`，因此不要继续只扩 high_growth/cap80 邻域；第一条命令建议补一个 `momentum_equal_weight_elastic` 或双周代表，例如 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_trend_industry_momentum` 或一个低回撤双周成本候选，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_underrepresented_family_id>`。
+
 ## 本轮执行计划（2026-05-21 23:16 CST）
 
 - 开局 guard 为 `pass`，上一轮 `cap70_biweekly` 确认双周 underrepresented family 的 2017/2020 回撤不可接受；本轮按上一轮下一步和 candidate-pass raw robust 线，转向当前高收益 robust 邻域的容量/成本压力，不继续扩大双周失败支线。

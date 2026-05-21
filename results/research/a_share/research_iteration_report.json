@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-21T23:19:58+08:00",
+  "generated_at": "2026-05-22T05:17:31+08:00",
   "as_of": "2026-05-21",
   "coverage_gate": {
     "status": "pass",
@@ -19,8 +19,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 17,
-        "complete_count": 17,
+        "candidate_count": 18,
+        "complete_count": 18,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -40,8 +40,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 54,
-        "complete_count": 54,
+        "candidate_count": 55,
+        "complete_count": 55,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -61,8 +61,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 602,
-        "complete_count": 602,
+        "candidate_count": 607,
+        "complete_count": 607,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -104,8 +104,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 33,
-        "complete_count": 33,
+        "candidate_count": 36,
+        "complete_count": 36,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -126,8 +126,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 88,
-        "complete_count": 88,
+        "candidate_count": 91,
+        "complete_count": 91,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -140,69 +140,69 @@
   "experiment_log": {
     "path": "results/research/a_share/research_experiments.jsonl",
     "candidate_entries": 85,
-    "appended_entries": 12
+    "appended_entries": 0
   },
   "rotation": {
     "ashare_path1": {
       "signature": "3393bd58194f0e482425",
       "changed": false,
-      "stagnation_runs": 26,
+      "stagnation_runs": 30,
       "stagnation_threshold": 3,
-      "recommended_focus": "core_multifactor_coverage",
+      "recommended_focus": "satellite_risk_cost",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-19T23:03:37+08:00"
     },
     "ashare_path2": {
       "signature": "d82900b1b484ceaa45e1",
       "changed": false,
-      "stagnation_runs": 2,
+      "stagnation_runs": 6,
       "stagnation_threshold": 3,
-      "recommended_focus": "medium_cycle_growth",
-      "rotation_status": "continue",
+      "recommended_focus": "underrepresented_families",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-05-21T23:04:53+08:00"
     },
     "ashare_path3": {
       "signature": "a0fc588aa2bee035c7a9",
       "changed": false,
-      "stagnation_runs": 13,
+      "stagnation_runs": 17,
       "stagnation_threshold": 3,
-      "recommended_focus": "turnover_reduction",
+      "recommended_focus": "weekly_exit_buffer",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-20T23:15:50+08:00"
     },
     "ashare_path4": {
       "signature": "b692aa515dde5e1c0d22",
       "changed": false,
-      "stagnation_runs": 13,
+      "stagnation_runs": 17,
       "stagnation_threshold": 3,
-      "recommended_focus": "emergent_theme_coverage",
+      "recommended_focus": "theme_signal_quality",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-20T23:15:50+08:00"
     },
     "hkconnect_path1": {
       "signature": "e80b94dffccc5237fb1f",
       "changed": false,
-      "stagnation_runs": 15,
+      "stagnation_runs": 19,
       "stagnation_threshold": 3,
-      "recommended_focus": "risk_overlay_cost",
+      "recommended_focus": "monthly_weekly_overlay",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-20T18:04:23+08:00"
     },
     "hkconnect_path2": {
       "signature": "00a0b61b86cadd408c85",
       "changed": false,
-      "stagnation_runs": 28,
+      "stagnation_runs": 32,
       "stagnation_threshold": 3,
-      "recommended_focus": "high_return_monthly",
+      "recommended_focus": "biweekly_breakout",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-19T17:24:53+08:00"
     },
     "hkconnect_path3": {
       "signature": "6c6bb32e5bc467ec77eb",
       "changed": false,
-      "stagnation_runs": 28,
+      "stagnation_runs": 32,
       "stagnation_threshold": 3,
-      "recommended_focus": "weekly_turnover_reduction",
+      "recommended_focus": "weekly_defensive_overlay",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-19T17:24:53+08:00"
     }
@@ -221,7 +221,7 @@
         "promotion_ramp": 5,
         "satellite_defense": 6,
         "signal_variants": 2,
-        "core_multifactor": 17,
+        "core_multifactor": 18,
         "holding_shape": 12,
         "supporting_variants": 4,
         "drawdown_guard": 7
@@ -234,7 +234,7 @@
           "target_representatives": 6
         },
         "emergent_theme_discovery": {
-          "current_count": 33,
+          "current_count": 35,
           "target_representatives": 4
         },
         "high_concentration_breakout": {
@@ -242,7 +242,7 @@
           "target_representatives": 6
         },
         "high_growth_theme": {
-          "current_count": 289,
+          "current_count": 291,
           "target_representatives": 6
         },
         "momentum_equal_weight_elastic": {
@@ -250,7 +250,7 @@
           "target_representatives": 6
         },
         "weekly_rebalance_aggressive": {
-          "current_count": 41,
+          "current_count": 42,
           "target_representatives": 6
         }
       },
@@ -273,7 +273,7 @@
       }
     },
     "path4": {
-      "emergent_theme_candidate_count": 33,
+      "emergent_theme_candidate_count": 36,
       "next_run_new_candidate_quota": {
         "emergent_theme_coverage": 4,
         "theme_signal_quality": 3,
@@ -282,7 +282,7 @@
       }
     },
     "hkconnect": {
-      "candidate_count": 88,
+      "candidate_count": 91,
       "next_run_new_candidate_quota": {
         "path1": 2,
         "path2": 3,

@@ -32,6 +32,14 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-22 05:14 CST）
+
+- 开局 guard 为 `pass`，新增注册后按 guard 原始 block 命令补齐 `ashare_path4_emergent_theme 3/36 missing`；上一轮 `quality_gate_risk35_cap35` 证明继续压单票上限不能修复 2020，本轮回到 `aggr_05_95_prom3` 并把 cap 放宽到 `65`，检查质量门槛 + 中等容量是否改善稳定性。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk35_cap65`、`core_explore_90_10_equal_weight_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk35_cap65`、`core_explore_90_10_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk35_cap65`。实际命令见 Path 1 本轮合并命令，命令类型为五窗口 `--only-base-ids` 增量确认。
+- `80/20 total_mv` 五窗口 CAGR 为 `18.50% / 28.20% / 36.60% / 116.10% / 118.10%`，最大回撤 `-30.20% / -32.20% / -25.00% / -15.20% / 0.00%`，换手 `4.02x / 4.13x / 3.88x / 6.41x / 7.30x`；`90/10 equal_weight` 为 `21.70% / 22.10% / 29.40% / 134.70% / 64.00%`，`90/10 total_mv` 为 `21.40% / 24.80% / 35.90% / 133.80% / 32.90%`。
+- 本轮最均衡的是 `80/20 total_mv`：2020/2023 稳定性和 2026 弹性都较强，且 2026 最大回撤为 `0.00%`；但 2020 仍没有稳定打穿既有 Path 4 robust，第一阶段不改写 official winner。`update_weighted_winners.py` 后 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`。
+- `scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=35`，最终 guard 为 `36/36 complete`。下一轮 focus -> candidates 池切到 `theme_signal_quality`：第一条命令建议测试三底座 `aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65` 或 `risk35_cap60`，用更严格风险阈值/略低 cap 判断本轮 2026 弹性是否能保留且不靠单票幸运；五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_signal_quality_ids>`。
+
 ## 本轮执行计划（2026-05-21 23:16 CST）
 
 - 开局 guard 为 `pass`，新增注册后按 guard 原始 block 命令补齐 `ashare_path4_emergent_theme 3/33 missing`；上一轮 `risk35_cap40` 仍有短窗强度但长窗弱，本轮按 `theme_capacity_cost` 把单票上限继续压到 `35%`，检查是否仍不是单票幸运。
