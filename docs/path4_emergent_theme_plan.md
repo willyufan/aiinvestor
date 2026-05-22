@@ -32,6 +32,15 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-22 11:17 CST）
+
+- 开局 guard 为 `pass`；按上一轮下一步新增 `aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65` 后，guard 如预期报 `ashare_path4_emergent_theme 3/39 missing`。第一次按 guard 命令执行时未指定 `--end-date`，本地离线缓存拒绝使用 2026-05-22 stale prepared cache；随后按同一 `--only-base-ids` 范围加 `--end-date 2026-05-19` 补齐，没有跑全量。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65`、`core_explore_90_10_equal_weight_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65`、`core_explore_90_10_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65`。实际补缺口命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65,core_explore_90_10_equal_weight_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65,core_explore_90_10_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65`。
+- `80/20 total_mv` 五窗口 CAGR 为 `18.85% / 28.11% / 36.41% / 116.07% / 118.06%`，最大回撤 `-29.03% / -31.32% / -23.54% / -15.22% / 0.00%`，换手 `3.96x / 4.07x / 3.78x / 6.41x / 7.30x`；`90/10 equal_weight` 为 `21.92% / 22.11% / 28.56% / 134.75% / 64.00%`，`90/10 total_mv` 为 `21.61% / 24.63% / 34.96% / 133.83% / 32.92%`。
+- 本轮仍以 `80/20 total_mv` 最均衡：2020/2023 稳定性强且 2026 最大回撤为 `0.00%`，但 2017 与 2020 仍不足以替换当前 Path 4 robust。`update_weighted_winners.py` 后 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`，第一阶段不改写 official winner。
+- 收尾 guard 为 `ashare_path4_emergent_theme 39/39 complete`，下一轮 focus 为 `theme_capacity_cost`。第一条命令建议在本轮最均衡形态上降低单票/容量压力，测试三底座 `aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap60`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_capacity_cost_ids>`。
+
 ## 本轮执行计划（2026-05-22 05:14 CST）
 
 - 开局 guard 为 `pass`，新增注册后按 guard 原始 block 命令补齐 `ashare_path4_emergent_theme 3/36 missing`；上一轮 `quality_gate_risk35_cap35` 证明继续压单票上限不能修复 2020，本轮回到 `aggr_05_95_prom3` 并把 cap 放宽到 `65`，检查质量门槛 + 中等容量是否改善稳定性。

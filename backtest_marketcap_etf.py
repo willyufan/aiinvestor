@@ -4984,6 +4984,27 @@ WINNER_CORE_VARIANTS = [
         "weekly_turnover_cap": 0.16,
     },
     {
+        "variant_id": "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn14_exit90_weekly",
+        "variant_name": "进攻3/97 晋升2只(周频Alpha回踩, 熊市空仓, 单票70%, 持有4周, 换手14%, 出场90%, 单周)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_pullback",
+        "promotion_signal_mode": "weekly_alpha_pullback",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "promoted_core_sell_exit_percentile": 0.90,
+        "weight_cap": 0.70,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 4,
+        "weekly_turnover_cap": 0.14,
+    },
+    {
         "variant_id": "aggr_08_92_prom6_cash_off_dd_guard50",
         "variant_name": "进攻8/92 晋升6只(熊市空仓, 日级回撤防守50%)",
         "winner_core_stable_share": 0.08,
@@ -5383,6 +5404,29 @@ WINNER_CORE_VARIANTS = [
         "promoted_core_sell_exit_percentile": 0.78,
         "weight_cap": 0.65,
     },
+    {
+        "variant_id": "aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65",
+        "variant_name": "进攻5/95 晋升3只(强主题涌现, 质量门槛, 熊市30%, 单票65%)",
+        "winner_core_stable_share": 0.05,
+        "winner_core_promoted_share": 0.95,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "promotion_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.30,
+        "satellite_risk_off_exposure": 0.30,
+        "core_quality_quantile": 0.50,
+        "promoted_core_quality_quantile": 0.35,
+        "explore_quality_quantile": 0.45,
+        "seed_quality_quantile": 0.30,
+        "promoted_core_sell_exit_percentile": 0.78,
+        "weight_cap": 0.65,
+    },
 ]
 
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
@@ -5532,6 +5576,7 @@ PATH4_THEME_DISCOVERY_VARIANT_IDS = [
     "aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap40",
     "aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap35",
     "aggr_05_95_prom3_emergent_theme_quality_gate_risk35_cap65",
+    "aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65",
 ]
 
 PATH2_SCAN_BASE_PREFIXES = [
@@ -5886,6 +5931,7 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_05_95_prom3_weekly_alpha_pullback_risk40_cap50_hold4_turn18_exit85_weekly",
             "aggr_05_95_prom3_weekly_alpha_pullback_cost_guard_cap50_hold5_turn14_exit85_weekly",
             "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap75_hold4_turn16_exit85_weekly",
+            "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn14_exit90_weekly",
         ],
         "target_candidates": 6,
     },
@@ -5920,6 +5966,7 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap45",
     "aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap40",
     "aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap35",
+    "aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65",
     "aggr_08_92_prom6_full_risk",
     "aggr_08_92_prom6_core_3_1_full_risk_cap40",
     "aggr_08_92_prom6_core_6_1_full_risk",
@@ -6171,6 +6218,7 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_05_95_prom3_weekly_alpha_pullback_risk40_cap50_hold4_turn18_exit85_weekly",
     "aggr_05_95_prom3_weekly_alpha_pullback_cost_guard_cap50_hold5_turn14_exit85_weekly",
     "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap75_hold4_turn16_exit85_weekly",
+    "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn14_exit90_weekly",
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cost_guard",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cashguard",
 ]
@@ -6182,6 +6230,7 @@ PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS = [
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold8_turn10_exit90_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold9_turn08_exit90_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold7_turn08_exit85_weekly",
+    "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_weekly_alpha_pullback_risk40_cap50_hold4_turn18_exit85_weekly",
 ]
 
 FACTOR_CACHE_VERSION = "v2"
@@ -10995,7 +11044,7 @@ def build_satellite_overlay_variants(base_id: str, base_name: str, base_config: 
             "satellite_caution_exposure": SATELLITE_CAUTION_EXPOSURE,
         },
     ]
-    if str(base_config.get("variant_id", "")) in {"aggr_08_92_prom6", "aggr_05_95_prom7"}:
+    if str(base_config.get("variant_id", "")) in {"aggr_08_92_prom6", "aggr_10_90_prom6", "aggr_05_95_prom7"}:
         variants.append(
             {
                 **base_config,
