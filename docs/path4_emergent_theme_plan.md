@@ -32,6 +32,14 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-22 23:15 CST）
+
+- 开局 guard 为 `pass`；按上一轮第一条命令新增三底座 `aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap60` 后，guard 如预期报 `ashare_path4_emergent_theme 3/45 missing`，已优先按 report 原始 `--only-base-ids` 增量补齐，没有替换成全量回测。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap60`、`core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap60`、`core_explore_90_10_total_mv_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap60`。实际补缺口命令见 Path 1 本轮 coverage block 批次。
+- `80/20 total_mv` 五窗口 CAGR 为 `21.94% / 18.88% / 28.80% / 107.21% / 163.61%`，最大回撤 `-31.17% / -37.64% / -22.55% / -17.13% / 0.00%`，换手 `4.41x / 4.42x / 4.14x / 7.41x / 7.13x`；`90/10 equal_weight` 为 `23.95% / 15.94% / 23.69% / 140.10% / 80.68%`，`90/10 total_mv` 为 `21.94% / 17.42% / 23.33% / 141.49% / 49.72%`。
+- 本轮 `aggr_03_97_prom2` 组短窗很强，尤其 `80/20 total_mv` 的 2026 回撤为 `0.00%`，但 2020 稳定性弱于当前 robust；近期持仓仍集中在少数强势票上，需要继续把单票/少票贡献当作风险项记录。`scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=44`，`update_weighted_winners.py` 后 Path 4 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`。
+- 收尾 guard 为 `ashare_path4_emergent_theme 45/45 complete`，下一轮 focus `theme_risk_control`。第一条命令建议不要继续只追短窗 cap，先实现三底座 `aggr_03_97_prom2_emergent_theme_quality_gate_risk35_cap55` 或同等风险控制版本，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_theme_risk_control_ids>`，并继续检查是否由多票强势贡献而非单票幸运。
+
 ## 本轮执行计划（2026-05-22 18:19 CST）
 
 - 开局 guard 为 `pass`；按上一轮 `theme_capacity_cost` 第一条命令新增三底座 `aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap60` 后，guard 如预期报 `ashare_path4_emergent_theme 3/42 missing`。已优先按 report 原始 `--only-base-ids` 增量补齐，没有替换成全量回测。

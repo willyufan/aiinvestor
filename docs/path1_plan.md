@@ -4,6 +4,15 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-22 23:15 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`；上一轮 `share_08_92_hold_2_8_ramp85_cost_guard` 继续证明持仓形态能压回撤但不能补 2017/2020 收益。本轮按上一轮第一条命令和 Path 1/core_multifactor 覆盖要求，新增一个行业动量 + 低波过滤的多因子预设；注册后出现预期 coverage block：`ashare_path1_core_multifactor 1/19 missing` 与 Path 4 三底座缺口，已按 guard 原始 `--only-base-ids` 增量补齐，没有跑全量。
+- 本轮新增并五窗口确认 1 个 Path 1/core_multifactor base id：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_industry_momentum_lowvol`。实际补缺口命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_industry_momentum_lowvol,core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap60,core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap60,core_explore_90_10_total_mv_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap60`。
+- `industry_momentum_lowvol` 五窗口 CAGR 为 `14.29% / 19.40% / 29.60% / 76.25% / 60.36%`，最大回撤 `-36.71% / -32.86% / -28.88% / -11.84% / -7.63%`，换手 `3.19x / 3.61x / 3.95x / 5.47x / 6.59x`。它保留 2025/2026 短窗弹性，但 2017/2020 仍低于 Path 1 robust，且长窗回撤没有改善，未晋级。
+- `scripts/winner_only_pass.py` 为 `base_candidates=57 / total_candidates=513 / evaluated=194`，core_multifactor 按代码实际口径为 `19` 个候选，fast-family 为 `57/57 complete`；clear improvement 仍只来自旧周度仓位 overlay 的 raw 对照，`scripts/update_weighted_winners.py` 后 Path 1 window winner 与 robust 未变化。
+- 候选池未触发 Path 1 evict。收尾 guard 给出下一轮 focus `satellite_risk_cost`；下一轮第一条命令建议回到卫星周度风控成本线，先实现并确认一个只改风险/退出成本的 `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__sat_three_stage_buffered_cost_guard_cashguard` 或同等候选，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path1_satellite_risk_cost_id>`。
+
 ## 本轮执行计划（2026-05-22 18:19 CST）
 
 - 开局 guard 为 `pass / blocking=0 / warning=0`，上一轮 `aggr_10_90_prom6__sat_three_stage_buffered_cost_guard` 只压低回撤、未改变 robust；本轮按上一轮 focus `holding_shape` 实现并确认更高稳定仓比例的 `2+8` 持仓形态。注册后 Path 4 先触发 blocking 缺口，已优先按 guard 原始 `--only-base-ids` 补齐；Path 1 只留下 `ashare_path1_fast_family 1/56 missing` warning，随后用增量批次补齐，没有跑 `research_active/all`。

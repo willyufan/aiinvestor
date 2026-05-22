@@ -1,5 +1,14 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-05-22 23:15 CST）
+
+- 开局 guard 为 `pass`，上一轮 `soft_exit38` 已把 2017 winner 与 robust 推到更低退出阈值；本轮按 `monthly_weekly_overlay` 继续测试 `soft_exit36`，目标是只看 2026 观察窗是否修复且不损伤 robust。
+- 本轮新增并五窗口确认：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit36`。实际 HK 合并命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit36,hkconnect_path2_breakout_cost_guard_biweekly_cashguard_exit35_risk50,hkconnect_path3_theme_fast_weekly_defensive_turnover12_exit48`。
+- `soft_exit36` 五窗口 CAGR 为 `25.96% / 31.81% / 34.53% / 42.95% / -9.45%`，最大回撤 `-20.92% / -13.36% / -13.36% / -13.36% / -10.91%`，换手 `3.30x / 3.34x / 3.11x / 3.45x / 3.67x`。它没有修复 2026，但四窗口 robust 小幅高于 `soft_exit38`。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 1 tracked payload 再次变化：2017 window winner 与 robust candidate 切到 `soft_exit36`，robust `meanCAGR=33.81% / minCAGR=25.96% / worstMaxDD=-20.92% / meanTurn=3.30x`；2020/2023 仍由 `weekly_overlay_soft` 领先，2025 仍由 `weekly_overlay_cashguard` 领先。
+- 候选池未触发 HK explore cap evict。收尾 guard 对 HK Path 1 为 `changed=true / stagnation_runs=0 / focus=monthly_weekly_overlay`；下一轮第一条命令建议不要再机械下调 exit，先比较 `soft_exit36` 与低波/现金防守组合，例如 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38`，五窗口 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_monthly_weekly_overlay_next_id>`。
+
 ## 本轮执行计划（2026-05-22 18:19 CST）
 
 - 开局 guard 为 `pass`，上一轮 `soft_exit40` 已把 2017 winner 与 robust 切到周度 overlay soft 线，但 2026 仍为负；本轮按 `monthly_weekly_overlay` 再把退出阈值降到 `38`，继续作为 HK 独立研究线，不并入 A股 winner。
