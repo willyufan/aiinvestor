@@ -344,6 +344,8 @@ def load_path1_family_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[str
                 "SAT_WEEKLY_RISK_SUFFIX",
                 "SAT_THREE_STAGE_SUFFIX",
                 "SAT_THREE_STAGE_BUFFERED_SUFFIX",
+                "SAT_THREE_STAGE_BUFFERED_COST_GUARD_SUFFIX",
+                "SAT_THREE_STAGE_BUFFERED_COST_GUARD_CASHGUARD_SUFFIX",
                 "SAT_THREE_STAGE_BUFFERED_ASYM13_SUFFIX",
                 "PORT_WEEKLY_EXPOSURE_SUFFIX",
                 "PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX",
@@ -369,6 +371,11 @@ def load_path1_family_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[str
             str(consts.get("SAT_WEEKLY_RISK_SUFFIX") or "__sat_weekly_risk"),
             str(consts.get("SAT_THREE_STAGE_SUFFIX") or "__sat_three_stage_risk"),
             str(consts.get("SAT_THREE_STAGE_BUFFERED_SUFFIX") or "__sat_three_stage_buffered"),
+            str(consts.get("SAT_THREE_STAGE_BUFFERED_COST_GUARD_SUFFIX") or "__sat_three_stage_buffered_cost_guard"),
+            str(
+                consts.get("SAT_THREE_STAGE_BUFFERED_COST_GUARD_CASHGUARD_SUFFIX")
+                or "__sat_three_stage_buffered_cost_guard_cashguard"
+            ),
             str(consts.get("SAT_THREE_STAGE_BUFFERED_ASYM13_SUFFIX") or "__sat_three_stage_buffered_asym13"),
             str(consts.get("PORT_WEEKLY_EXPOSURE_SUFFIX") or "__port_weekly_exposure"),
             str(consts.get("PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX") or "__port_weekly_exposure_buffered"),
@@ -381,6 +388,8 @@ def load_path1_family_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[str
             "__sat_weekly_risk",
             "__sat_three_stage_risk",
             "__sat_three_stage_buffered",
+            "__sat_three_stage_buffered_cost_guard",
+            "__sat_three_stage_buffered_cost_guard_cashguard",
             "__sat_three_stage_buffered_asym13",
             "__port_weekly_exposure",
             "__port_weekly_exposure_buffered",
@@ -403,6 +412,8 @@ def load_active_family_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[st
                 "SAT_WEEKLY_RISK_SUFFIX",
                 "SAT_THREE_STAGE_SUFFIX",
                 "SAT_THREE_STAGE_BUFFERED_SUFFIX",
+                "SAT_THREE_STAGE_BUFFERED_COST_GUARD_SUFFIX",
+                "SAT_THREE_STAGE_BUFFERED_COST_GUARD_CASHGUARD_SUFFIX",
                 "SAT_THREE_STAGE_BUFFERED_ASYM13_SUFFIX",
                 "PORT_WEEKLY_EXPOSURE_SUFFIX",
                 "PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX",
@@ -423,6 +434,11 @@ def load_active_family_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[st
         str(consts.get("SAT_WEEKLY_RISK_SUFFIX") or "__sat_weekly_risk"),
         str(consts.get("SAT_THREE_STAGE_SUFFIX") or "__sat_three_stage_risk"),
         str(consts.get("SAT_THREE_STAGE_BUFFERED_SUFFIX") or "__sat_three_stage_buffered"),
+        str(consts.get("SAT_THREE_STAGE_BUFFERED_COST_GUARD_SUFFIX") or "__sat_three_stage_buffered_cost_guard"),
+        str(
+            consts.get("SAT_THREE_STAGE_BUFFERED_COST_GUARD_CASHGUARD_SUFFIX")
+            or "__sat_three_stage_buffered_cost_guard_cashguard"
+        ),
         str(consts.get("SAT_THREE_STAGE_BUFFERED_ASYM13_SUFFIX") or "__sat_three_stage_buffered_asym13"),
         str(consts.get("PORT_WEEKLY_EXPOSURE_SUFFIX") or "__port_weekly_exposure"),
         str(consts.get("PORT_WEEKLY_EXPOSURE_BUFFERED_SUFFIX") or "__port_weekly_exposure_buffered"),
