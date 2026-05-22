@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-22 18:19 CST）
+
+- 开局 guard 为 `pass`，上一轮 `trend_industry_momentum` 等权弹性代表长窗回撤过深，本轮按 `capacity_and_cost_stress` 回到当前 high_growth robust 邻域，把上一轮 `cap80 cashguard` 继续压到 `cap70`，用等权/总市值双底座确认容量约束是否能修复 2026。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap70_cashguard`、`core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap70_cashguard`。实际命令见 Path 1 本轮 A股非阻塞批次，命令类型为五窗口 `--only-base-ids` 增量确认。
+- 等权版五窗口 CAGR 为 `29.29% / 48.57% / 41.20% / 105.24% / -7.62%`，最大回撤 `-28.74% / -22.88% / -27.15% / -14.29% / -12.60%`，换手 `3.85x / 4.31x / 4.67x / 7.31x / 6.77x`；总市值版为 `28.55% / 42.81% / 32.44% / 114.20% / -2.34%`，最大回撤 `-28.87% / -27.21% / -29.30% / -13.93% / -10.35%`。cap70 降低部分长窗回撤，但 2026 仍为负，未晋级 official。
+- `scripts/path2_candidate_pass.py` 后 candidate universe 为 `618`，family 规模为 `emergent_theme_discovery=41 / high_concentration_breakout=154 / high_growth_theme=293 / momentum_equal_weight_elastic=25 / biweekly_rebalance_aggressive=20 / weekly_rebalance_aggressive=44`。raw robust 仍偏向 `risk50_mom_exit60_reconfirm75_caution75_cap95`，`update_weighted_winners.py` official robust 仍为 `risk50_mom_exit60_reconfirm65_cap95`。
+- 候选池未触发 cap evict。收尾 guard 给出下一轮 focus `medium_cycle_growth`；下一轮不要继续只压 cap，第一条命令建议实现等权/总市值 `risk50_mom_exit60_reconfirm65_caution75_cap70_cashguard`，检查谨慎仓阈值能否让 2026 转正且保留 2020/2023 中周期收益，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_medium_cycle_ids>`。
+
 ## 本轮执行计划（2026-05-22 11:17 CST）
 
 - 开局 guard 为 `pass`，上一轮建议把 focus 从 high_growth/cap80 邻域转向 `underrepresented_families`；本轮补 1 个 `momentum_equal_weight_elastic` 代表，使用等权底座的 `trend_industry_momentum` 多因子压力测试，而不是继续扩单一 high_growth family。

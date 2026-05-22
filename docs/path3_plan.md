@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-22 18:19 CST）
+
+- 开局 guard 为 `pass`，上一轮 `cashoff_cap70_hold4_turn14_exit90_weekly` 修复不了 2020/2026；本轮按 `cost_stress` 新增一个纯 `_weekly` 成本守门版本。新增前把 `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_weekly_alpha_pullback_cost_guard_cap50_hold5_turn14_exit85_weekly` 归档出 active universe，理由是 2020 CAGR 仅 `4.39%`、2023 仅 `16.09%`，且未改善 robust，active weekly cap 维持在 `60`。
+- 本轮新增并五窗口确认 1 个 Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_weekly_alpha_pullback_cost_guard_cap45_hold5_turn12_exit90_weekly`。实际命令见 Path 1 本轮 A股非阻塞批次，命令类型为五窗口 `--only-base-ids` 增量确认。
+- `cost_guard_cap45_hold5_turn12_exit90_weekly` 五窗口 CAGR 为 `12.33% / 2.72% / 15.79% / 46.81% / 63.41%`，最大回撤 `-38.43% / -41.00% / -30.55% / -18.97% / -13.46%`，换手 `5.18x / 5.59x / 6.05x / 6.51x / 8.26x`。它能把 2026 观察窗转强，但 2020 坍塌且长窗回撤过深，不改变 Path 3 window winner 或 robust。
+- `scripts/path2_candidate_pass.py` 后 `weekly_rebalance_aggressive=44`，`scripts/update_weighted_winners.py` 后 Path 3 robust 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly`，`meanCAGR=25.78% / minCAGR=18.95%`。
+- 收尾 guard 给出下一轮 focus `turnover_reduction`。下一轮新增前继续先归档一个 2020/2023 明显塌陷候选；第一条命令建议实现 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap75_hold5_turn12_exit88_weekly` 或同等低换手纯 `_weekly` 版本，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_turnover_reduction_id>`。
+
 ## 本轮执行计划（2026-05-22 11:17 CST）
 
 - 开局 guard 为 `pass`，上一轮第一条命令要求先归档另一个 2023/2020 弱候选再测试 exit buffer；本轮把 `core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_weekly_alpha_pullback_risk40_cap50_hold4_turn18_exit85_weekly` 归档出 active universe，理由是 2020/2023 CAGR 仅 `5.93% / 12.99%` 且未改善 robust。

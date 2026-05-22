@@ -32,6 +32,15 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-22 18:19 CST）
+
+- 开局 guard 为 `pass`；按上一轮 `theme_capacity_cost` 第一条命令新增三底座 `aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap60` 后，guard 如预期报 `ashare_path4_emergent_theme 3/42 missing`。已优先按 report 原始 `--only-base-ids` 增量补齐，没有替换成全量回测。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap60`、`core_explore_90_10_equal_weight_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap60`、`core_explore_90_10_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap60`。实际补缺口命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap60,core_explore_90_10_equal_weight_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap60,core_explore_90_10_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap60`。
+- `80/20 total_mv` 五窗口 CAGR 为 `18.77% / 28.16% / 36.15% / 117.77% / 116.41%`，最大回撤 `-29.03% / -31.32% / -23.57% / -15.22% / 0.00%`，换手 `3.96x / 4.06x / 3.78x / 6.41x / 7.35x`；`90/10 equal_weight` 为 `21.82% / 22.34% / 28.29% / 138.05% / 62.73%`，`90/10 total_mv` 为 `21.51% / 24.60% / 34.70% / 136.63% / 34.44%`。
+- cap60 仍以 `80/20 total_mv` 最均衡，短窗强且 2026 回撤为 `0.00%`，但 2017/2020 仍不足以替换当前 Path 4 robust。`scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=41`，family 前列仍偏向上一轮 `risk30_cap65` 与旧 `risk40_cap70`；`update_weighted_winners.py` 后 Path 4 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`，第一阶段不改写 official winner。
+- 收尾 guard 为 `ashare_path4_emergent_theme 42/42 complete`，下一轮 focus 为 `emergent_theme_coverage`。第一条命令建议扩一个不同 promotion/持有形态的覆盖组，而不是继续只降 cap：实现三底座 `aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap60`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_coverage_ids>`，并继续记录持仓是否由多票强势贡献而非单票幸运。
+
 ## 本轮执行计划（2026-05-22 11:17 CST）
 
 - 开局 guard 为 `pass`；按上一轮下一步新增 `aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65` 后，guard 如预期报 `ashare_path4_emergent_theme 3/39 missing`。第一次按 guard 命令执行时未指定 `--end-date`，本地离线缓存拒绝使用 2026-05-22 stale prepared cache；随后按同一 `--only-base-ids` 范围加 `--end-date 2026-05-19` 补齐，没有跑全量。
