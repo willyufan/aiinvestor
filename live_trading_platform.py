@@ -11,7 +11,7 @@ from functools import lru_cache
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import parse_qs, quote, urlparse
+from urllib.parse import parse_qs, quote, unquote, urlparse
 from zoneinfo import ZoneInfo
 
 from scripts.results_layout import RESULTS_LIVE_DIR, existing_research_file, existing_strategy_result_file
@@ -413,6 +413,11 @@ def init_db() -> None:
             note TEXT DEFAULT '',
             executed_at TEXT NOT NULL
         );
+
+        CREATE TABLE IF NOT EXISTS strategy_favorites (
+            strategy_id TEXT PRIMARY KEY,
+            created_at TEXT NOT NULL
+        );
         """
     )
     columns = {row["name"] for row in cur.execute("PRAGMA table_info(account_holdings)").fetchall()}
@@ -439,6 +444,50 @@ def init_db() -> None:
                 raise
     conn.commit()
     conn.close()
+
+
+def get_favorite_strategy_ids() -> list[str]:
+    with connect_db() as conn:
+        rows = conn.execute(
+            "SELECT strategy_id FROM strategy_favorites ORDER BY created_at DESC, strategy_id"
+        ).fetchall()
+    return [str(row["strategy_id"]) for row in rows]
+
+
+def is_strategy_favorited(strategy_id: str) -> bool:
+    with connect_db() as conn:
+        row = conn.execute(
+            "SELECT 1 FROM strategy_favorites WHERE strategy_id = ?",
+            (strategy_id,),
+        ).fetchone()
+    return row is not None
+
+
+def set_strategy_favorite(strategy_id: str, favorite: bool) -> None:
+    if not strategy_id:
+        return
+    with connect_db() as conn:
+        if favorite:
+            conn.execute(
+                "INSERT OR IGNORE INTO strategy_favorites (strategy_id, created_at) VALUES (?, ?)",
+                (strategy_id, now_str()),
+            )
+        else:
+            conn.execute("DELETE FROM strategy_favorites WHERE strategy_id = ?", (strategy_id,))
+        conn.commit()
+
+
+def favorite_strategy_items() -> list[dict]:
+    items: list[dict] = []
+    for strategy_id in get_favorite_strategy_ids():
+        try:
+            item = load_strategy_snapshot(strategy_id)
+        except Exception:
+            continue
+        item = dict(item)
+        item["is_favorite"] = True
+        items.append(item)
+    return items
 
 
 def seed_demo_data() -> None:
@@ -1829,6 +1878,10 @@ def render_page(title: str, body: str) -> str:
     a.strategy-card:hover {{ background: var(--card-bg); transform: translateY(-1px); }}
     a.strategy-card h3 {{ color: var(--ink); margin-bottom: 8px; }}
     a.strategy-card .muted {{ color: var(--muted); }}
+    .detail-heading {{ display:flex; align-items:flex-start; justify-content:space-between; gap:18px; flex-wrap:wrap; }}
+    .detail-heading h1 {{ margin-bottom: 10px; }}
+    .favorite-form {{ margin:4px 0 16px; }}
+    .favorite-form button {{ min-width:112px; }}
     /* ── Tables ── */
     table {{ width: 100%; border-collapse: collapse; }}
     th {{ font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 8px 12px; text-align: left; border-bottom: 1.5px solid var(--rule); background: transparent; }}
@@ -2020,6 +2073,8 @@ def strategy_card_html(
     if sample_tag:
         href += f"?sample_view={quote(sample_tag)}&history_window=all"
     tags_html = leading_badges
+    if item.get("is_favorite"):
+        tags_html += "<span class='badge badge-amber' style='margin-right:4px'>收藏</span>"
     if windows_text:
         robust_suffix = " / 鲁棒" if is_robust else ""
         tags_html += f"<span class='badge badge-blue' style='margin-right:4px'>窗口 {html.escape(windows_text)}{robust_suffix}</span>"
@@ -2702,9 +2757,15 @@ def strategies_html() -> str:
     registry = payload["strategies"]
     core_active_registry = payload.get("core_active_strategies", [])
     winner_leaderboards = payload.get("winner_leaderboards") or {}
+    favorite_ids = set(get_favorite_strategy_ids())
     groups = {"a_share": [], "hkconnect": []}
     for item in registry:
+        if str(item.get("strategy_id") or "") in favorite_ids:
+            item["is_favorite"] = True
         groups.setdefault(str(item.get("market_scope", "a_share")), []).append(item)
+    for item in core_active_registry:
+        if str(item.get("strategy_id") or "") in favorite_ids:
+            item["is_favorite"] = True
 
     def strategy_card(item: dict, extra_note: str = "") -> str:
         return strategy_card_html(item, extra_note=extra_note)
@@ -2725,6 +2786,22 @@ def strategies_html() -> str:
         )
 
     sections = []
+    favorite_items = favorite_strategy_items()
+    if favorite_items:
+        favorite_cards = "".join(strategy_card(item) for item in favorite_items)
+        sections.append(
+            "<div class='page-section'>"
+            "<div class='section-heading'>我的收藏</div>"
+            f"<div class='strategy-grid'>{favorite_cards}</div>"
+            "</div>"
+        )
+    else:
+        sections.append(
+            "<div class='page-section'>"
+            "<div class='section-heading'>我的收藏</div>"
+            "<div class='card'><p class='muted'>暂无收藏策略。</p></div>"
+            "</div>"
+        )
     for scope in ("a_share", "hkconnect"):
         items = groups.get(scope, [])
         if not items:
@@ -2879,8 +2956,22 @@ def strategy_top5_html(scope: str = "a_share", path_key: str = "path1") -> str:
     return render_page("策略 Top 5", body)
 
 
+def strategy_favorite_form_html(strategy_id: str, is_favorite: bool, next_url: str) -> str:
+    action = "unfavorite" if is_favorite else "favorite"
+    label = "取消收藏" if is_favorite else "收藏策略"
+    button_cls = "secondary" if is_favorite else ""
+    return (
+        f"<form class='favorite-form' method='post' action='/strategies/{quote(strategy_id)}/favorite'>"
+        f"<input type='hidden' name='action' value='{html.escape(action)}' />"
+        f"<input type='hidden' name='next' value='{html.escape(next_url)}' />"
+        f"<button class='{button_cls}'>{html.escape(label)}</button>"
+        "</form>"
+    )
+
+
 def strategy_detail_html(strategy_id: str, history_window_key: str = "all", sample_view_tag: str = "", tab: str = "official") -> str:
     item = load_strategy_snapshot(strategy_id)
+    favorite = is_strategy_favorited(strategy_id)
     windows = item["windows"]
     sample_views = item.get("sample_views") or {}
     requested_tab = "preview" if str(tab or "").lower() == "preview" else "official"
@@ -3168,10 +3259,21 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             f"<p class='muted'>当前展示窗口：{html.escape(selected_history['label'])}。持仓快照展示目标持仓；周度卫星仓实际调仓展示换手摘要。</p>"
             + "".join(snapshot_blocks)
         )
+    next_url = (
+        f"/strategies/{quote(strategy_id)}"
+        f"?sample_view={quote(selected_sample_tag)}"
+        f"&history_window={quote(history_window_key or 'all')}"
+        f"&tab={quote(active_tab)}"
+    )
     header_html = (
+        "<div class='detail-heading'>"
+        "<div>"
         f"<h1>{html.escape(item['display_name'])}</h1>"
         f"<p><code>{html.escape(strategy_id)}</code></p>"
         f"<p>市场: {html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} | 路径: {html.escape(item['path'])} | 类型: {html.escape(item['winner_type'])} | 调仓频率: {html.escape(rebalance_frequency)} | 实际调整频率类型: {html.escape(adjustment_style)} | 当前建议仓位: {fmt_pct(float(active_view['target_total_exposure']))} | 风险状态: {html.escape(active_view['risk_state'])}</p>"
+        "</div>"
+        + strategy_favorite_form_html(strategy_id, favorite, next_url)
+        + "</div>"
         + sample_selector
         + tabs_html
         + f"<div class='card'><h2>当前查看窗口</h2><p>{html.escape(active_sample_label)}：{html.escape(active_sample_start)} → {html.escape(active_sample_end)}</p></div>"
@@ -3769,6 +3871,15 @@ class Handler(BaseHTTPRequestHandler):
             length = int(self.headers.get("Content-Length", "0") or "0")
             raw_body = self.rfile.read(length).decode("utf-8") if length > 0 else ""
             form = parse_qs(raw_body)
+            if path.startswith("/strategies/") and path.endswith("/favorite"):
+                strategy_id = unquote(path.split("/strategies/", 1)[1].rsplit("/favorite", 1)[0])
+                action = (form.get("action") or ["favorite"])[0]
+                set_strategy_favorite(strategy_id, action != "unfavorite")
+                next_url = (form.get("next") or [f"/strategies/{quote(strategy_id)}"])[0]
+                if not next_url.startswith("/") or next_url.startswith("//"):
+                    next_url = f"/strategies/{quote(strategy_id)}"
+                self._redirect(next_url)
+                return
             if path.endswith("/tasks/rebalance") and path.startswith("/accounts/"):
                 account_id = int(path.split("/")[2])
                 binding = get_binding(account_id)
