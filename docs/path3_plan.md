@@ -3,6 +3,15 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-23 17:14 CST）
+
+- 开局 guard 为 `pass`，上一轮 `cost_guard_cap55_hold6_turn10_exit88_weekly` 只修复 2026、但 2020/2023 全面弱；本轮按 `weekly_exit_buffer` 新增更温和的 `exit92` 对照。新增前将 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap55_hold6_turn10_exit88_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是 2020/2023 CAGR 只有 `3.42% / 5.60%` 且未改善 robust，active weekly universe 维持 cap `60`。
+- 本轮新增并五窗口确认 1 个纯 `_weekly` Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap68_hold5_turn10_exit92_weekly`。实际命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm70_cap85_cashguard,core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm70_cap85_cashguard,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap68_hold5_turn10_exit92_weekly`。
+- `cashoff_cap68_hold5_turn10_exit92_weekly` 五窗口 CAGR 为 `16.81% / 9.51% / 12.56% / 68.84% / -1.78%`，最大回撤 `-31.27% / -26.36% / -31.45% / -25.54% / -18.83%`，换手 `3.46x / 2.54x / 2.58x / 6.03x / 10.09x`。退出缓冲能提升 2025，但 2020/2023 收益不足且 2026 仍为负，不改变 Path 3 window winner 或 robust。
+- `scripts/path2_candidate_pass.py` 后 `weekly_rebalance_aggressive=48`；`scripts/update_weighted_winners.py` 后 Path 3 official winners 与 robust 未变化，robust 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly`。
+- 最终 guard 下一轮 focus 轮到 `cost_stress`。下一轮新增前继续先归档一个 2020/2023 明显塌陷候选；第一条命令建议实现并确认更直接的成本压力版本，例如 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap68_hold5_turn10_exit92_weekly` 或同等低换手成本守门候选，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_cost_stress_id>`。
+
 ## 本轮执行计划（2026-05-23 11:18 CST）
 
 - 开局 guard 为 `pass`，上一轮 `risk35_cap70_hold5_turn10_exit88_weekly` 2020/2023 坍塌且不改善 robust；本轮按 `cost_stress` 新增前先把 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk35_cap70_hold5_turn10_exit88_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是五窗口中 2020/2023 CAGR 只有 `2.62% / 3.93%`，active weekly universe 继续维持默认 cap `60`。
