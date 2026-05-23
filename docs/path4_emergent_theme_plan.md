@@ -32,6 +32,14 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-23 23:19 CST）
+
+- 开局 guard 为 `pass`，上一轮 `risk30_cap45` 短窗强但 2020 稳定性和少票集中风险仍不足；本轮按 `theme_capacity_cost` 把三底座 cap 进一步压到 `40`，继续只用无人工主题标签的强主题涌现信号。新增注册后 guard 如预期报 `ashare_path4_emergent_theme 3/57 missing`，已作为第一优先级按原始 `--only-base-ids` 补齐。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap40`、`core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap40`、`core_explore_90_10_total_mv_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap40`。实际补缺口命令见 Path 1 本轮 coverage 批次，命令类型为五窗口 `--only-base-ids` 增量确认。
+- `80/20 total_mv` 五窗口 CAGR 为 `21.36% / 18.42% / 27.54% / 105.69% / 141.78%`，最大回撤 `-28.54% / -35.42% / -20.91% / -17.14% / -4.46%`，换手 `4.45x / 4.60x / 4.33x / 7.51x / 7.36x`；`90/10 equal_weight` 为 `22.53% / 16.69% / 22.74% / 144.17% / 75.24%`，最大回撤 `-26.99% / -38.10% / -25.07% / -18.82% / -13.03%`；`90/10 total_mv` 为 `20.96% / 17.73% / 21.38% / 140.55% / 58.23%`，最大回撤 `-30.52% / -35.81% / -22.07% / -17.00% / -3.41%`。
+- 本轮 `cap40` 仍有极强 2025/2026，但 2020 弱、换手高，且持仓继续集中在鼎龙股份、杰瑞股份、中国海油等少数强势票；按 Path 4 晋级规则不因单一短窗 CAGR 改写 official。`scripts/update_weighted_winners.py` 后 Path 4 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`。
+- `scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=55`，最终 guard 为 `57/57 complete`，候选池未触发 evict。下一轮 focus 转为 `emergent_theme_coverage`；第一条命令建议扩一个不同 promotion/覆盖形态而不是继续只压 cap，例如三底座 `aggr_04_96_prom2_emergent_theme_quality_gate_risk30_cap50`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_coverage_ids>`，继续记录集中度、最差回撤与是否只是少票幸运。
+
 ## 本轮执行计划（2026-05-23 17:14 CST）
 
 - 开局 guard 为 `pass`，上一轮 `risk35_cap45` 把 2025/2026 短窗推高但 2020 仍弱；本轮按 `theme_signal_quality` 把三底座风险阈值压到 `risk30` 并保持 `cap45`，继续只用无人工主题标签的强主题涌现信号。新增注册后 guard 如预期报 `ashare_path4_emergent_theme 3/54 missing`，已作为第一优先级按原始 `--only-base-ids` 补齐。

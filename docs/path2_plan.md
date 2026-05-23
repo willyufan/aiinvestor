@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-23 23:19 CST）
+
+- 开局 guard 为 `pass`，上一轮 `reconfirm70_cap85_cashguard` 仍未修复 2026 负收益；本轮按 `capacity_and_cost_stress` 把相同 high-growth robust 邻域进一步降到 `cap75`，继续只用等权/总市值双底座做五窗口确认。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap75_cashguard`、`core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap75_cashguard`。实际命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap75_cashguard,core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap75_cashguard,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap68_hold5_turn10_exit92_weekly`。
+- 等权版五窗口 CAGR 为 `29.39% / 48.56% / 42.17% / 102.15% / -9.52%`，最大回撤 `-28.74% / -23.39% / -26.80% / -14.29% / -13.08%`，换手 `3.86x / 4.32x / 4.67x / 7.32x / 6.53x`；总市值版为 `28.56% / 42.48% / 32.81% / 111.67% / -5.21%`，最大回撤 `-28.87% / -28.09% / -29.07% / -13.93% / -11.24%`。cap75/cashguard 保留 2020/2023 中周期收益，但仍不能把 2026 转正，不晋级。
+- `scripts/path2_candidate_pass.py` 后 candidate universe 为 `649`，family 规模为 `emergent_theme_discovery=55 / high_growth_theme=301 / momentum_equal_weight_elastic=28 / biweekly_rebalance_aggressive=21 / weekly_rebalance_aggressive=49`；`scripts/update_weighted_winners.py` 后 Path 2 official winners/robust 未变化，robust 仍为 `core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap95`。
+- 候选池未触发 Path 2 evict。最终 guard 下一轮 focus 为 `medium_cycle_growth`；下一轮第一条命令建议不要继续机械降 cap，改测恢复阈值/风险阈值折中，例如等权/总市值 `risk45_mom_exit60_reconfirm70_cap75_cashguard`，注册后五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_medium_cycle_ids>`。
+
 ## 本轮执行计划（2026-05-23 17:14 CST）
 
 - 开局 guard 为 `pass`，上一轮 `cap85_cashguard` 仍保留 2020/2023 中周期收益但 2026 为负；本轮按 `risk_reconfirm_sensitivity` 把恢复确认阈值提高到 `reconfirm70`，继续用等权/总市值双底座确认是否能修复 2026，而不是扩全量 high-growth 邻域。

@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-23 23:19 CST）
+
+- 开局 guard 为 `pass`，上一轮 `cashoff_cap68_hold5_turn10_exit92_weekly` 的 2020/2023 收益不足且 2026 仍负；本轮按 `cost_stress` 改成成本守门版本。新增前已将 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap68_hold5_turn10_exit92_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是 `2020/2023 CAGR=9.51%/12.56%` 且未改善 robust，active weekly universe 维持 cap `60`。
+- 本轮新增并五窗口确认 1 个纯 `_weekly` Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap68_hold5_turn10_exit92_weekly`。实际命令见 Path 2 本轮 A股新增批次，命令类型为五窗口 `--only-base-ids` 增量确认。
+- `cost_guard_cap68_hold5_turn10_exit92_weekly` 五窗口 CAGR 为 `9.65% / 3.70% / 4.83% / 39.64% / 25.25%`，最大回撤 `-33.07% / -33.81% / -37.51% / -22.24% / -17.36%`，换手 `3.92x / 4.05x / 4.27x / 5.40x / 8.00x`。成本守门能让 2026 转正，但 2020/2023 严重坍塌，未改变 Path 3 window winner 或 robust。
+- `scripts/path2_candidate_pass.py` 后 `weekly_rebalance_aggressive=49`；`scripts/update_weighted_winners.py` 后 Path 3 official winners 与 robust 未变化，robust 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly`。
+- 最终 guard 下一轮 focus 为 `turnover_reduction`。下一轮新增前继续先归档一个 2020/2023 明显塌陷候选；第一条命令建议实现更低换手但不过度成本守门的纯周频版本，例如 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold6_turn08_exit94_weekly`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_turnover_reduction_id>`。
+
 ## 本轮执行计划（2026-05-23 17:14 CST）
 
 - 开局 guard 为 `pass`，上一轮 `cost_guard_cap55_hold6_turn10_exit88_weekly` 只修复 2026、但 2020/2023 全面弱；本轮按 `weekly_exit_buffer` 新增更温和的 `exit92` 对照。新增前将 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap55_hold6_turn10_exit88_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是 2020/2023 CAGR 只有 `3.42% / 5.60%` 且未改善 robust，active weekly universe 维持 cap `60`。
