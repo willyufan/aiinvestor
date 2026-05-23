@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-24 05:13 CST）
+
+- 开局 guard 为 `pass`，上一轮 `risk50/reconfirm65/cap75/cashguard` 仍无法修复 2026 负收益；本轮按上一轮 `medium_cycle_growth`/本轮开局 `risk_reconfirm_sensitivity` 把 high-growth robust 邻域改成 `risk45 + reconfirm70 + cap75 + cashguard`，继续只跑等权/总市值双底座。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk45_mom_exit60_reconfirm70_cap75_cashguard`、`core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk45_mom_exit60_reconfirm70_cap75_cashguard`。实际命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk45_mom_exit60_reconfirm70_cap75_cashguard,core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk45_mom_exit60_reconfirm70_cap75_cashguard,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold6_turn08_exit94_weekly`。
+- 等权版五窗口 CAGR 为 `29.52% / 48.00% / 35.59% / 101.37% / -8.75%`，最大回撤 `-20.44% / -23.39% / -26.33% / -14.29% / -12.98%`，换手 `3.96x / 4.25x / 4.47x / 7.32x / 6.44x`；总市值版为 `29.05% / 41.94% / 27.06% / 110.89% / -4.47%`，最大回撤 `-20.57% / -28.09% / -28.47% / -13.93% / -11.24%`。两者保留 2020 中周期收益，但 2023 回落且 2026 仍为负，未晋级。
+- `scripts/path2_candidate_pass.py` 后 candidate universe 为 `656`，family 规模为 `emergent_theme_discovery=58 / high_growth_theme=303 / momentum_equal_weight_elastic=29 / biweekly_rebalance_aggressive=21 / weekly_rebalance_aggressive=50`；`scripts/update_weighted_winners.py` 后 Path 2 robust 仍为 `core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap95`。候选池未触发 Path 2 evict。
+- 最终 guard 下一轮 focus 转为 `underrepresented_families`。下一轮第一条命令不要继续只压 high-growth cap，建议补一个等权多因子弹性代表，例如 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_profitability_lowvol_rebalance` 或同等非 high-growth family，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_underrepresented_family_ids>`。
+
 ## 本轮执行计划（2026-05-23 23:19 CST）
 
 - 开局 guard 为 `pass`，上一轮 `reconfirm70_cap85_cashguard` 仍未修复 2026 负收益；本轮按 `capacity_and_cost_stress` 把相同 high-growth robust 邻域进一步降到 `cap75`，继续只用等权/总市值双底座做五窗口确认。

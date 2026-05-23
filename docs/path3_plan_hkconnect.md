@@ -1,5 +1,14 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-05-24 05:13 CST）
+
+- 开局 guard 为 `pass`，上一轮 `theme_fast_weekly_cost_guard_turnover8_exit52` 仍有 22x-28x 年化换手；本轮按 `weekly_turnover_reduction` 在同一低换手形态上加 defensive overlay，继续只在 HK 纯周度 Path 3 内比较。
+- 本轮新增并五窗口确认：`hkconnect_path3_theme_fast_weekly_defensive_turnover8_exit52`。实际 HK 合并命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit34_cashguard_light,hkconnect_path2_theme_monthly_high_return_cost_control_v2,hkconnect_path3_theme_fast_weekly_defensive_turnover8_exit52`。
+- `theme_fast_weekly_defensive_turnover8_exit52` 五窗口 CAGR 为 `14.86% / 19.50% / 20.21% / 45.63% / 14.87%`，最大回撤 `-37.49% / -28.47% / -22.59% / -17.93% / -8.34%`，换手 `22.42x / 21.88x / 22.86x / 28.14x / 26.86x`。它维持 2026 正收益并略低于旧 24x-29x 换手，但收益/回撤仍弱于稳定周频 robust。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 3 tracked/robust 未变化：2017 与 robust 仍为 `hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`，2020/2023 仍为 `theme_fast_weekly_buffered`，2025 仍为 `theme_fast_weekly_turnover_guard`；候选池未触发 HK explore cap evict。
+- 最终 guard 下一轮 focus 为 `weekly_turnover_reduction`。下一轮第一条命令建议继续压高弹性周频换手到 `turnover6/exit54` 或回到稳定线的 2026 修复，而不是再只加 defensive overlay，例如 `hkconnect_path3_theme_fast_weekly_cost_guard_turnover6_exit54`，五窗口 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path3_weekly_turnover_reduction_id>`。
+
 ## 本轮执行计划（2026-05-23 23:19 CST）
 
 - 开局 guard 为 `pass`，上一轮 `theme_fast_weekly_defensive_turnover10_exit50` 仍有约 24x-29x 年化换手；本轮按 `weekly_turnover_reduction` 继续压到 `turnover8 / exit52`，只在 HK 纯周度 Path 3 内比较。
