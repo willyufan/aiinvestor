@@ -416,7 +416,9 @@ def init_db() -> None:
 
         CREATE TABLE IF NOT EXISTS strategy_favorites (
             strategy_id TEXT PRIMARY KEY,
-            created_at TEXT NOT NULL
+            created_at TEXT NOT NULL,
+            pinned INTEGER NOT NULL DEFAULT 0,
+            pinned_at TEXT
         );
         """
     )
@@ -442,25 +444,56 @@ def init_db() -> None:
         except sqlite3.OperationalError as exc:
             if "duplicate column name" not in str(exc).lower():
                 raise
+    favorite_columns = {row["name"] for row in cur.execute("PRAGMA table_info(strategy_favorites)").fetchall()}
+    if "pinned" not in favorite_columns:
+        try:
+            cur.execute("ALTER TABLE strategy_favorites ADD COLUMN pinned INTEGER NOT NULL DEFAULT 0")
+        except sqlite3.OperationalError as exc:
+            if "duplicate column name" not in str(exc).lower():
+                raise
+    if "pinned_at" not in favorite_columns:
+        try:
+            cur.execute("ALTER TABLE strategy_favorites ADD COLUMN pinned_at TEXT")
+        except sqlite3.OperationalError as exc:
+            if "duplicate column name" not in str(exc).lower():
+                raise
     conn.commit()
     conn.close()
 
 
-def get_favorite_strategy_ids() -> list[str]:
+def get_favorite_strategy_rows() -> list[sqlite3.Row]:
     with connect_db() as conn:
-        rows = conn.execute(
-            "SELECT strategy_id FROM strategy_favorites ORDER BY created_at DESC, strategy_id"
+        return conn.execute(
+            """
+            SELECT strategy_id, created_at, pinned, pinned_at
+            FROM strategy_favorites
+            ORDER BY pinned DESC, COALESCE(pinned_at, created_at) DESC, created_at DESC, strategy_id
+            """
         ).fetchall()
-    return [str(row["strategy_id"]) for row in rows]
+
+
+def get_favorite_strategy_ids() -> list[str]:
+    return [str(row["strategy_id"]) for row in get_favorite_strategy_rows()]
+
+
+def get_favorite_strategy_states() -> dict[str, dict[str, bool]]:
+    return {
+        str(row["strategy_id"]): {"is_favorite": True, "is_pinned": bool(row["pinned"])}
+        for row in get_favorite_strategy_rows()
+    }
+
+
+def get_strategy_favorite_state(strategy_id: str) -> dict[str, bool]:
+    with connect_db() as conn:
+        row = conn.execute(
+            "SELECT pinned FROM strategy_favorites WHERE strategy_id = ?",
+            (strategy_id,),
+        ).fetchone()
+    return {"is_favorite": row is not None, "is_pinned": bool(row["pinned"]) if row else False}
 
 
 def is_strategy_favorited(strategy_id: str) -> bool:
-    with connect_db() as conn:
-        row = conn.execute(
-            "SELECT 1 FROM strategy_favorites WHERE strategy_id = ?",
-            (strategy_id,),
-        ).fetchone()
-    return row is not None
+    return get_strategy_favorite_state(strategy_id)["is_favorite"]
 
 
 def set_strategy_favorite(strategy_id: str, favorite: bool) -> None:
@@ -477,15 +510,39 @@ def set_strategy_favorite(strategy_id: str, favorite: bool) -> None:
         conn.commit()
 
 
+def set_strategy_pinned(strategy_id: str, pinned: bool) -> None:
+    if not strategy_id:
+        return
+    with connect_db() as conn:
+        if pinned:
+            ts = now_str()
+            conn.execute(
+                "INSERT OR IGNORE INTO strategy_favorites (strategy_id, created_at) VALUES (?, ?)",
+                (strategy_id, ts),
+            )
+            conn.execute(
+                "UPDATE strategy_favorites SET pinned = 1, pinned_at = ? WHERE strategy_id = ?",
+                (ts, strategy_id),
+            )
+        else:
+            conn.execute(
+                "UPDATE strategy_favorites SET pinned = 0, pinned_at = NULL WHERE strategy_id = ?",
+                (strategy_id,),
+            )
+        conn.commit()
+
+
 def favorite_strategy_items() -> list[dict]:
     items: list[dict] = []
-    for strategy_id in get_favorite_strategy_ids():
+    for row in get_favorite_strategy_rows():
+        strategy_id = str(row["strategy_id"])
         try:
             item = load_strategy_snapshot(strategy_id)
         except Exception:
             continue
         item = dict(item)
         item["is_favorite"] = True
+        item["is_pinned"] = bool(row["pinned"])
         items.append(item)
     return items
 
@@ -1880,7 +1937,8 @@ def render_page(title: str, body: str) -> str:
     a.strategy-card .muted {{ color: var(--muted); }}
     .detail-heading {{ display:flex; align-items:flex-start; justify-content:space-between; gap:18px; flex-wrap:wrap; }}
     .detail-heading h1 {{ margin-bottom: 10px; }}
-    .favorite-form {{ margin:4px 0 16px; }}
+    .favorite-actions {{ display:flex; gap:8px; align-items:center; justify-content:flex-end; flex-wrap:wrap; margin:4px 0 16px; }}
+    .favorite-form {{ margin:0; }}
     .favorite-form button {{ min-width:112px; }}
     /* ── Tables ── */
     table {{ width: 100%; border-collapse: collapse; }}
@@ -2073,6 +2131,8 @@ def strategy_card_html(
     if sample_tag:
         href += f"?sample_view={quote(sample_tag)}&history_window=all"
     tags_html = leading_badges
+    if item.get("is_pinned"):
+        tags_html += "<span class='badge badge-green' style='margin-right:4px'>置顶</span>"
     if item.get("is_favorite"):
         tags_html += "<span class='badge badge-amber' style='margin-right:4px'>收藏</span>"
     if windows_text:
@@ -2757,15 +2817,16 @@ def strategies_html() -> str:
     registry = payload["strategies"]
     core_active_registry = payload.get("core_active_strategies", [])
     winner_leaderboards = payload.get("winner_leaderboards") or {}
-    favorite_ids = set(get_favorite_strategy_ids())
+    favorite_states = get_favorite_strategy_states()
     groups = {"a_share": [], "hkconnect": []}
     for item in registry:
-        if str(item.get("strategy_id") or "") in favorite_ids:
-            item["is_favorite"] = True
+        item = dict(item)
+        item.update(favorite_states.get(str(item.get("strategy_id") or ""), {}))
         groups.setdefault(str(item.get("market_scope", "a_share")), []).append(item)
-    for item in core_active_registry:
-        if str(item.get("strategy_id") or "") in favorite_ids:
-            item["is_favorite"] = True
+    core_active_registry = [
+        dict(item, **favorite_states.get(str(item.get("strategy_id") or ""), {}))
+        for item in core_active_registry
+    ]
 
     def strategy_card(item: dict, extra_note: str = "") -> str:
         return strategy_card_html(item, extra_note=extra_note)
@@ -2956,10 +3017,7 @@ def strategy_top5_html(scope: str = "a_share", path_key: str = "path1") -> str:
     return render_page("策略 Top 5", body)
 
 
-def strategy_favorite_form_html(strategy_id: str, is_favorite: bool, next_url: str) -> str:
-    action = "unfavorite" if is_favorite else "favorite"
-    label = "取消收藏" if is_favorite else "收藏策略"
-    button_cls = "secondary" if is_favorite else ""
+def strategy_favorite_form_html(strategy_id: str, action: str, label: str, next_url: str, button_cls: str = "") -> str:
     return (
         f"<form class='favorite-form' method='post' action='/strategies/{quote(strategy_id)}/favorite'>"
         f"<input type='hidden' name='action' value='{html.escape(action)}' />"
@@ -2969,9 +3027,24 @@ def strategy_favorite_form_html(strategy_id: str, is_favorite: bool, next_url: s
     )
 
 
+def strategy_favorite_actions_html(strategy_id: str, is_favorite: bool, is_pinned: bool, next_url: str) -> str:
+    if not is_favorite:
+        forms = [strategy_favorite_form_html(strategy_id, "favorite", "收藏策略", next_url)]
+    else:
+        pin_action = "unpin" if is_pinned else "pin"
+        pin_label = "取消置顶" if is_pinned else "置顶"
+        forms = [
+            strategy_favorite_form_html(strategy_id, pin_action, pin_label, next_url),
+            strategy_favorite_form_html(strategy_id, "unfavorite", "取消收藏", next_url, "secondary"),
+        ]
+    return "<div class='favorite-actions'>" + "".join(forms) + "</div>"
+
+
 def strategy_detail_html(strategy_id: str, history_window_key: str = "all", sample_view_tag: str = "", tab: str = "official") -> str:
     item = load_strategy_snapshot(strategy_id)
-    favorite = is_strategy_favorited(strategy_id)
+    favorite_state = get_strategy_favorite_state(strategy_id)
+    favorite = favorite_state["is_favorite"]
+    pinned = favorite_state["is_pinned"]
     windows = item["windows"]
     sample_views = item.get("sample_views") or {}
     requested_tab = "preview" if str(tab or "").lower() == "preview" else "official"
@@ -3272,7 +3345,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         f"<p><code>{html.escape(strategy_id)}</code></p>"
         f"<p>市场: {html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} | 路径: {html.escape(item['path'])} | 类型: {html.escape(item['winner_type'])} | 调仓频率: {html.escape(rebalance_frequency)} | 实际调整频率类型: {html.escape(adjustment_style)} | 当前建议仓位: {fmt_pct(float(active_view['target_total_exposure']))} | 风险状态: {html.escape(active_view['risk_state'])}</p>"
         "</div>"
-        + strategy_favorite_form_html(strategy_id, favorite, next_url)
+        + strategy_favorite_actions_html(strategy_id, favorite, pinned, next_url)
         + "</div>"
         + sample_selector
         + tabs_html
@@ -3874,7 +3947,12 @@ class Handler(BaseHTTPRequestHandler):
             if path.startswith("/strategies/") and path.endswith("/favorite"):
                 strategy_id = unquote(path.split("/strategies/", 1)[1].rsplit("/favorite", 1)[0])
                 action = (form.get("action") or ["favorite"])[0]
-                set_strategy_favorite(strategy_id, action != "unfavorite")
+                if action == "pin":
+                    set_strategy_pinned(strategy_id, True)
+                elif action == "unpin":
+                    set_strategy_pinned(strategy_id, False)
+                else:
+                    set_strategy_favorite(strategy_id, action != "unfavorite")
                 next_url = (form.get("next") or [f"/strategies/{quote(strategy_id)}"])[0]
                 if not next_url.startswith("/") or next_url.startswith("//"):
                     next_url = f"/strategies/{quote(strategy_id)}"
