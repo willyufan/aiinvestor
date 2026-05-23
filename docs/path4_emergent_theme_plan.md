@@ -32,6 +32,14 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-23 11:18 CST）
+
+- 开局 guard 为 `pass`，上一轮 `risk35_cap55` 仍是短窗强、2020/回撤弱；本轮按 `theme_capacity_cost` 把三底座单票/容量上限继续压到 `cap45`。新增注册后 guard 如预期报 `ashare_path4_emergent_theme 3/51 missing`，已作为第一优先级按原始 `--only-base-ids` 补齐，没有替换成全量回测。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk35_cap45`、`core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk35_cap45`、`core_explore_90_10_total_mv_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk35_cap45`。实际补缺口命令见 Path 1 本轮 coverage block 批次，命令类型为五窗口 `--only-base-ids` 增量确认。
+- `80/20 total_mv` 五窗口 CAGR 为 `21.48% / 19.01% / 28.20% / 109.71% / 155.79%`，最大回撤 `-32.50% / -38.14% / -23.83% / -17.13% / -3.21%`，换手 `4.45x / 4.47x / 4.24x / 7.43x / 7.29x`；`90/10 equal_weight` 为 `23.56% / 16.10% / 23.32% / 146.55% / 75.96%`；`90/10 total_mv` 为 `21.77% / 17.29% / 22.02% / 146.81% / 55.26%`。
+- 本轮 `cap45` 把 2025/2026 短窗推得更高，且 `80/20 total_mv` 的 2026 回撤控制较好；但 2020 稳定性仍低于当前 Path 4 robust，`90/10` 两个底座还暴露更深的 2020 回撤。近期持仓仍集中在鼎龙股份、杰瑞股份、中国海油等少数强势票，虽不是单票幸运，但少票集中风险未消除，第一阶段继续不改写 official winner。
+- `scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=49`，2025 family top list 已出现本轮 `cap45` 候选；`scripts/update_weighted_winners.py` 后 Path 4 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`。收尾 guard 为 `ashare_path4_emergent_theme 51/51 complete`，下一轮 focus 为 `theme_signal_quality`；第一条命令建议不要继续只压 cap，改测信号质量/风险阈值交互，例如三底座 `aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap45` 或同等更严格质量门槛版本，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_signal_quality_ids>`，并继续记录持仓集中度与最差回撤。
+
 ## 本轮执行计划（2026-05-23 05:15 CST）
 
 - 开局 guard 为 `pass`；按上一轮第一条命令新增三底座 `aggr_03_97_prom2_emergent_theme_quality_gate_risk35_cap55` 后，guard 如预期报 `ashare_path4_emergent_theme 3/48 missing`。本轮第一优先级已按 report 原始 `--only-base-ids` 增量补齐，没有替换成全量回测。

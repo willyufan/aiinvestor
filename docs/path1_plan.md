@@ -4,6 +4,15 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-23 11:18 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`，上一轮 `sat_three_stage_buffered_cost_guard_cashguard` 只压回撤、未改 Path 1 winner；本轮按 guard rotation 的 `core_multifactor_coverage` 新增一个行业动量 + 质量的多因子预设。新增注册后出现预期 coverage block：`ashare_path1_core_multifactor 1/20 missing` 与 Path 4 三底座缺口，已按 guard 原始 `--only-base-ids` 增量补齐，没有跑全量。
+- 本轮新增并五窗口确认 1 个 Path 1/core_multifactor base id：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_industry_momentum_quality`。实际补缺口命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_industry_momentum_quality,core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk35_cap45,core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk35_cap45,core_explore_90_10_total_mv_winner_core__aggr_03_97_prom2_emergent_theme_quality_gate_risk35_cap45`。
+- `industry_momentum_quality` 五窗口 CAGR 为 `12.04% / 18.56% / 31.13% / 73.25% / 45.47%`，最大回撤 `-39.30% / -34.66% / -28.69% / -11.73% / -10.35%`，换手 `3.16x / 3.47x / 3.83x / 5.52x / 6.84x`。它只保留 2023/2025 短窗弹性，2017/2020 收益和回撤仍弱于 Path 1 robust，未改变 official window winner、robust candidate 或 tracked payload。
+- `scripts/winner_only_pass.py` 仍以退出码 `2` 报告旧 `aggr_05_95_prom7__sat_three_stage_buffered_cost_guard` 的 `since_2020_only` raw improvement；`scripts/update_weighted_winners.py` 后 Path 1 official winners 仍为 2017 `aggr_08_92_prom6__port_weekly_exposure_buffered`、2020/2023 `risk40_mom_exit60_reconfirm70_cap95_dd_guard50`、2025 `aggr_10_90_prom6__port_weekly_exposure_buffered`，robust 仍为 `aggr_08_92_prom6__port_weekly_exposure_buffered`。
+- core_multifactor 按代码实际口径提升到 `20/20 complete`，fast-family 为 `58/58 complete`，候选池未触发 Path 1 evict。收尾 guard 下一轮 focus 为 `signal_quality`；下一轮第一条命令建议不要继续只堆行业动量，先实现一个质量/趋势再平衡的信号质量候选，例如 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_trend_quality_rebalance` 或同等 `quality + trend + lower drawdown` 版本，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path1_signal_quality_id>`。
+
 ## 本轮执行计划（2026-05-23 05:15 CST）
 
 - 开局 guard 为 `pass / blocking=0 / warning=0`，Path 1 fast-family 与 core_multifactor 覆盖完整；上一轮建议的 `satellite_risk_cost` 已落实为三段式卫星风控的 cashguard 版本。代码口径 core_multifactor 仍为 `19/19 complete`，本轮没有新增 core_multifactor 候选，但同步修复了 `scripts/winner_only_pass.py` 与 `scripts/update_weighted_winners.py` 对三段式成本守门 suffix 的识别，避免 fast-pass 漏看旧/新卫星 overlay。

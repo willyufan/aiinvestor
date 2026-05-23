@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-23 11:18 CST）
+
+- 开局 guard 为 `pass`，上一轮 `risk35_cap70_hold5_turn10_exit88_weekly` 2020/2023 坍塌且不改善 robust；本轮按 `cost_stress` 新增前先把 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk35_cap70_hold5_turn10_exit88_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是五窗口中 2020/2023 CAGR 只有 `2.62% / 3.93%`，active weekly universe 继续维持默认 cap `60`。
+- 本轮新增并五窗口确认 1 个纯 `_weekly` Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap55_hold6_turn10_exit88_weekly`。实际命令见 Path 2 本轮 A股非阻塞批次，命令类型为五窗口 `--only-base-ids` 增量确认。
+- `cost_guard_cap55_hold6_turn10_exit88_weekly` 五窗口 CAGR 为 `7.86% / 3.42% / 5.60% / 39.73% / 57.29%`，最大回撤 `-31.23% / -32.97% / -33.81% / -19.90% / -9.06%`，换手 `3.65x / 3.68x / 3.74x / 5.49x / 7.77x`。它能把 2026 修到较强正收益，但 2017/2020/2023 全面低于 Path 3 robust，失败原因仍是成本守门/低换手过度牺牲中长窗收益。
+- `scripts/path2_candidate_pass.py` 后 `weekly_rebalance_aggressive=47`；`scripts/update_weighted_winners.py` 后 Path 3 official winners 与 robust 未变化，robust 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly`。
+- 收尾 guard 下一轮 focus 为 `weekly_exit_buffer`。下一轮新增前继续先归档一个 2020/2023 明显塌陷候选；第一条命令建议不要继续加强成本守门，改测较温和的退出缓冲，例如 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap68_hold5_turn10_exit92_weekly` 或同等 `exit92` 版本，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_exit_buffer_id>`。
+
 ## 本轮执行计划（2026-05-23 05:15 CST）
 
 - 开局 guard 为 `pass`，上一轮 focus 为 `risk_downshift`；本轮新增前先把 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn14_exit90_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是 2020/2026 弱、未改善 robust，并使 active weekly universe 继续维持在默认 cap `60` 内。
