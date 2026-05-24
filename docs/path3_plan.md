@@ -3,6 +3,15 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-25 00:29 CST）
+
+- 开局 guard 为 `pass`，上一轮 `cost_guard_cap65_hold6_turn08_exit90_weekly` 中窗继续坍塌；本轮新增前把该候选加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是 2020/2023 CAGR 仅 `2.40% / 2.43%` 且不改善 robust，active weekly universe 维持 cap `60`。
+- 本轮新增并五窗口确认 1 个纯 `_weekly` Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold7_turn06_exit94_weekly`。命令类型为 A股五窗口 `--only-base-ids` 增量确认：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold7_turn06_exit94_weekly`。
+- `cashoff_cap60_hold7_turn06_exit94_weekly` 五窗口 CAGR 为 `15.08% / 15.93% / 8.45% / 55.53% / 59.70%`，最大回撤 `-29.02% / -34.11% / -29.83% / -25.23% / -10.20%`，换手 `2.79x / 2.51x / 2.51x / 5.44x / 8.77x`。它确实把 2020/2023 换手降到约 `2.5x`，但 2023 收益太低、2025 回撤较深，未改善 Path 3 robust。
+- `scripts/path2_candidate_pass.py` 后 `weekly_rebalance_aggressive=52`；`scripts/update_weighted_winners.py` 后 Path 3 official winner 与 robust 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly`，未改 tracked payload。最终 guard 为 `ashare_path3_weekly_universe 60/60 complete`。
+- 下一轮 focus 为 `weekly_exit_buffer`。下一轮新增前先归档本轮若仍未改善的低换手候选；第一条命令建议收紧退出缓冲而保留低换手框架，例如 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold7_turn06_exit90_weekly`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_exit_buffer_id>`。
+
 ## 本轮执行计划（2026-05-24 17:14 CST）
 
 - 开局 guard 为 `pass`，上一轮 `risk30_cap65_hold6_turn08_exit90_weekly` 修复 2026 但 2020/2023 CAGR 只有 `2.83% / 2.70%`；本轮新增前把该候选加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是中窗坍塌且未改善 robust，active weekly universe 维持 cap `60`。

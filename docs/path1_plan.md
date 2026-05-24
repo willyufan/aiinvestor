@@ -4,6 +4,15 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-25 00:29 CST）
+
+- 开局 guard 为 `pass`；上一轮要求优先补 `core_multifactor_quality_lowvol_reconfirm`。注册后 guard 如预期出现 `ashare_path1_core_multifactor 1/23 missing` 与 Path 4 三底座缺口；首次未加 `--end-date` 的补缺口尝试失败在 `2026-05-25` stale cache 校验，没有写入策略结果，随后用固定 `--end-date 2026-05-19` 增量补齐。
+- 本轮新增并五窗口确认 1 个 Path 1/core_multifactor base id：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_lowvol_reconfirm`。覆盖命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_lowvol_reconfirm`。
+- `quality_lowvol_reconfirm` 五窗口 CAGR 为 `10.16% / 10.83% / 24.23% / 59.70% / 60.18%`，最大回撤 `-49.37% / -38.03% / -28.21% / -13.77% / -5.49%`，换手 `3.08x / 3.38x / 3.83x / 5.22x / 6.40x`。它改善不了 2017/2020 长窗，也弱于当前 Path 1 robust；只提供质量低波再确认的负面对照。
+- `scripts/winner_only_pass.py` 仍以退出码 `2` 只提示旧 `sat_three_stage_buffered_cost_guard` 的 `since_2020_only` raw clear improvement；`scripts/update_weighted_winners.py` 后 Path 1 official winners 与 robust 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`。最终 guard 为 `ashare_path1_core_multifactor 23/23 complete`、`ashare_path1_fast_family 63/63 complete`。
+- 候选池未触发 Path 1 evict。最终 focus 转为 `signal_quality`；下一轮第一条命令建议不要继续只堆低波质量，改注册一个信号质量/趋势确认组合，例如 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_trend_reconfirm`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path1_signal_quality_id>`。
+
 ## 本轮执行计划（2026-05-24 17:14 CST）
 
 - 开局 guard 为 `pass / blocking=0 / warning=0`，上一轮 `sat_three_stage_buffered_cost_guard_cashguard` 只形成 `since_2020_only` clear improvement，未改 official winner/robust；本轮按最终 focus `holding_shape` 注册并确认更低首段 ramp 的持仓形态对照。
