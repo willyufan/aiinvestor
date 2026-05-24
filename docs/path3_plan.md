@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-24 17:14 CST）
+
+- 开局 guard 为 `pass`，上一轮 `risk30_cap65_hold6_turn08_exit90_weekly` 修复 2026 但 2020/2023 CAGR 只有 `2.83% / 2.70%`；本轮新增前把该候选加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是中窗坍塌且未改善 robust，active weekly universe 维持 cap `60`。
+- 本轮新增并五窗口确认 1 个纯 `_weekly` Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap65_hold6_turn08_exit90_weekly`。命令类型为 A股五窗口 `--only-base-ids` 增量确认，实际合并命令见 Path 1 本轮记录。
+- `cost_guard_cap65_hold6_turn08_exit90_weekly` 五窗口 CAGR 为 `9.58% / 2.40% / 2.43% / 18.88% / 33.80%`，最大回撤 `-31.22% / -37.81% / -33.07% / -22.72% / -15.05%`，换手 `3.62x / 3.79x / 3.89x / 4.74x / 7.40x`。成本守门保留 2026 正收益，但 2020/2023 比上一轮 risk-downshift 更弱，确认这条低风险/低换手形态不适合晋级。
+- `scripts/path2_candidate_pass.py` 后 `weekly_rebalance_aggressive=51`；`scripts/update_weighted_winners.py` 后 Path 3 official winner 与 robust 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly`，未改 tracked payload。
+- 最终 guard 为 `ashare_path3_weekly_universe 60/60 complete`，下一轮 focus 转为 `turnover_reduction`。下一轮新增前继续先归档本轮中窗塌陷候选；第一条命令建议测试不加成本守门、进一步降低换手但保留更宽退出的版本，例如 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold7_turn06_exit94_weekly`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_turnover_reduction_id>`。
+
 ## 本轮执行计划（2026-05-24 11:14 CST）
 
 - 开局 guard 为 `pass`，上一轮要求先做 `risk_downshift`；新增前把 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold6_turn08_exit94_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是上一轮确认后 2020/2023 CAGR 仅 `9.10% / 13.69%` 且 2026 为 `-8.95%`，未改善 robust，active weekly universe 维持 cap `60`。

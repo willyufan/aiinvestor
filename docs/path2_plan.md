@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-24 17:14 CST）
+
+- 开局 guard 为 `pass`，上一轮等权 `profitability_lowvol_rebalance` 只保留 2025/2026 弹性、长窗回撤过深；本轮按 `capacity_and_cost_stress` 回到 high-growth robust 邻域，在 `cap70 + cashguard` 上把谨慎仓提高到 `80/55`，用等权/总市值双底座确认。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_caution80_cap70_cashguard`、`core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_caution80_cap70_cashguard`。命令类型为 A股五窗口 `--only-base-ids` 增量确认，实际合并命令见 Path 1 本轮记录。
+- 等权版五窗口 CAGR 为 `29.75% / 49.36% / 42.26% / 106.66% / -8.60%`，最大回撤 `-30.50% / -23.78% / -27.89% / -14.29% / -13.10%`，换手 `3.94x / 4.41x / 4.76x / 7.32x / 6.90x`；总市值版为 `29.03% / 43.61% / 32.92% / 115.68% / -3.10%`，最大回撤 `-30.46% / -27.21% / -30.13% / -13.93% / -10.74%`。提高 caution 后仍无法修复 2026 负收益，不晋级。
+- `scripts/path2_candidate_pass.py` 后 candidate universe 为 `666`，family 规模为 `emergent_theme_discovery=61 / high_growth_theme=305 / momentum_equal_weight_elastic=30 / biweekly_rebalance_aggressive=21 / weekly_rebalance_aggressive=51`；`scripts/update_weighted_winners.py` 后 Path 2 robust 仍为 `core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap95`，未触发 tracked payload 替换。
+- 候选池未触发 Path 2 evict。最终 focus 转为 `medium_cycle_growth`；下一轮第一条命令建议停止继续只降 cap，改测中周期恢复阈值与 2026 防守的折中，例如等权/总市值 `aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk45_mom_exit55_reconfirm70_caution80_cap80_cashguard`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_medium_cycle_ids>`。
+
 ## 本轮执行计划（2026-05-24 11:14 CST）
 
 - 开局 guard 为 `pass`，上一轮 focus 为 `underrepresented_families`，要求不要继续只压 high-growth cap；本轮补等权多因子弹性代表 `profitability_lowvol_rebalance`，作为非 high-growth family 压力测试。
