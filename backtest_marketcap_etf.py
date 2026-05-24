@@ -5424,6 +5424,27 @@ WINNER_CORE_VARIANTS = [
         "weekly_turnover_cap": 0.08,
     },
     {
+        "variant_id": "aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap65_hold6_turn08_exit90_weekly",
+        "variant_name": "进攻3/97 晋升2只(周频Alpha回踩, 熊市30%, 单票65%, 持有6周, 换手8%, 出场90%, 单周)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_pullback",
+        "promotion_signal_mode": "weekly_alpha_pullback",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.30,
+        "satellite_risk_off_exposure": 0.30,
+        "promoted_core_sell_exit_percentile": 0.90,
+        "weight_cap": 0.65,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 6,
+        "weekly_turnover_cap": 0.08,
+    },
+    {
         "variant_id": "aggr_08_92_prom6_cash_off_dd_guard50",
         "variant_name": "进攻8/92 晋升6只(熊市空仓, 日级回撤防守50%)",
         "winner_core_stable_share": 0.08,
@@ -5916,6 +5937,29 @@ WINNER_CORE_VARIANTS = [
         "weight_cap": 0.50,
     },
     {
+        "variant_id": "aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap45",
+        "variant_name": "进攻4/96 晋升2只(强主题涌现, 质量门槛, 熊市35%, 单票45%)",
+        "winner_core_stable_share": 0.04,
+        "winner_core_promoted_share": 0.96,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "promotion_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.35,
+        "satellite_risk_off_exposure": 0.35,
+        "core_quality_quantile": 0.50,
+        "promoted_core_quality_quantile": 0.35,
+        "explore_quality_quantile": 0.45,
+        "seed_quality_quantile": 0.30,
+        "promoted_core_sell_exit_percentile": 0.78,
+        "weight_cap": 0.45,
+    },
+    {
         "variant_id": "aggr_03_97_prom2_emergent_theme_quality_gate_risk35_cap55",
         "variant_name": "进攻3/97 晋升2只(强主题涌现, 质量门槛, 熊市35%, 单票55%)",
         "winner_core_stable_share": 0.03,
@@ -6156,7 +6200,6 @@ PATH4_THEME_DISCOVERY_BASE_IDS = [
 ]
 
 PATH4_THEME_DISCOVERY_VARIANT_IDS = [
-    "aggr_02_98_prom2_emergent_theme_cash_off_and_cap95",
     "aggr_02_98_prom2_emergent_theme_risk40_cap90",
     "aggr_05_95_prom3_emergent_theme_risk40_cap70",
     "aggr_05_95_prom3_emergent_theme_quality_gate_risk40_cap70",
@@ -6176,6 +6219,7 @@ PATH4_THEME_DISCOVERY_VARIANT_IDS = [
     "aggr_03_97_prom2_emergent_theme_quality_gate_risk35_cap55",
     "aggr_03_97_prom2_emergent_theme_quality_gate_risk35_cap45",
     "aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap40",
+    "aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap45",
 ]
 
 PATH2_SCAN_BASE_PREFIXES = [
@@ -6548,6 +6592,7 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap55_hold6_turn10_exit88_weekly",
             "aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap68_hold5_turn10_exit92_weekly",
             "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold6_turn08_exit94_weekly",
+            "aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap65_hold6_turn08_exit90_weekly",
         ],
         "target_candidates": 6,
     },
@@ -6575,7 +6620,6 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_08_92_prom6_core_multifactor_industry_momentum_lowvol",
     "aggr_08_92_prom6_core_multifactor_industry_momentum_quality",
     "aggr_08_92_prom6_core_multifactor_profitability_lowvol_rebalance",
-    "aggr_02_98_prom2_emergent_theme_cash_off_and_cap95",
     "aggr_02_98_prom2_emergent_theme_risk40_cap90",
     "aggr_05_95_prom3_emergent_theme_risk40_cap70",
     "aggr_05_95_prom3_emergent_theme_quality_gate_risk40_cap70",
@@ -6593,6 +6637,7 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap45",
     "aggr_03_97_prom2_emergent_theme_quality_gate_risk35_cap55",
     "aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap40",
+    "aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap45",
     "aggr_08_92_prom6_full_risk",
     "aggr_08_92_prom6_core_3_1_full_risk_cap40",
     "aggr_08_92_prom6_core_6_1_full_risk",
@@ -6859,6 +6904,7 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap55_hold6_turn10_exit88_weekly",
     "aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap68_hold5_turn10_exit92_weekly",
     "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold6_turn08_exit94_weekly",
+    "aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap65_hold6_turn08_exit90_weekly",
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cost_guard",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cashguard",
 ]
@@ -6878,6 +6924,7 @@ PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS = [
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap55_hold6_turn10_exit88_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap68_hold5_turn10_exit92_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap68_hold5_turn10_exit92_weekly",
+    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold6_turn08_exit94_weekly",
 ]
 
 FACTOR_CACHE_VERSION = "v2"

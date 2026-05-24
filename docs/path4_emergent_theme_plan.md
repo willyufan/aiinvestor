@@ -32,6 +32,14 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-24 11:14 CST）
+
+- 开局 guard 为 `pass`，上一轮要求按 `theme_risk_control` 测三底座 `aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap45`；新增前因 Path 4 active cap 已到 `60`，先把最弱变体 `aggr_02_98_prom2_emergent_theme_cash_off_and_cap95` 从 active discovery universe 移出，原因是三底座四窗口最小 CAGR 仅约 `5.11% / 8.39% / 9.06%`，平均 min CAGR 低且未改善 robust。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap45`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap45`、`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap45`。实际命令见 Path 1 本轮 A股合并批次，命令类型为五窗口 `--only-base-ids` 增量确认。
+- `80/20 total_mv` 五窗口 CAGR 为 `21.51% / 19.11% / 28.38% / 109.72% / 154.33%`，最大回撤 `-31.98% / -37.65% / -23.44% / -16.89% / -3.21%`，换手 `4.47x / 4.48x / 4.26x / 7.43x / 7.29x`；`90/10 equal_weight` 为 `23.42% / 16.07% / 23.22% / 148.00% / 75.33%`；`90/10 total_mv` 为 `21.69% / 17.36% / 22.15% / 146.59% / 54.32%`。
+- 本轮新组仍是短窗极强、2020 稳定性不足的形态，且最近持仓继续集中在鼎龙股份、杰瑞股份、中国海油、源杰科技等强势票；按 Path 4 晋级规则不因 2025/2026 单窗 CAGR 改写 official。`scripts/update_weighted_winners.py` 后 Path 4 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`。
+- `scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=58`，最终 guard `ashare_path4_emergent_theme 60/60 complete`；收尾再次运行 guard 后下一轮 focus 转为 `theme_capacity_cost`。第一条命令建议在不引入人工主题/ETF 的前提下继续压单票/容量上限，例如三底座 `aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap40` 或同等 cap40 成本版，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_theme_capacity_cost_ids>`。
+
 ## 本轮执行计划（2026-05-24 05:13 CST）
 
 - 开局 guard 为 `pass`，上一轮建议扩 `aggr_04_96_prom2` 覆盖形态；本轮注册三底座 `aggr_04_96_prom2_emergent_theme_quality_gate_risk30_cap50` 后，guard 如预期报 `ashare_path4_emergent_theme 3/60 missing`，已作为 blocking 第一优先级按原始 `--only-base-ids` 补齐。

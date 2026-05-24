@@ -1,9 +1,9 @@
 {
   "as_of": "2026-05-22",
   "family": "path1_fast_family",
-  "base_candidate_count": 59,
-  "candidate_count": 649,
-  "overlay_candidate_count": 590,
+  "base_candidate_count": 61,
+  "candidate_count": 671,
+  "overlay_candidate_count": 610,
   "direction_groups": {
     "promotion_ramp": [
       "aggr_10_90_fast_ramp",
@@ -45,7 +45,8 @@
       "aggr_08_92_prom6_core_multifactor_trend_industry_momentum",
       "aggr_08_92_prom6_core_multifactor_industry_momentum_lowvol",
       "aggr_08_92_prom6_core_multifactor_industry_momentum_quality",
-      "aggr_08_92_prom6_core_multifactor_trend_quality_rebalance"
+      "aggr_08_92_prom6_core_multifactor_trend_quality_rebalance",
+      "aggr_08_92_prom6_core_multifactor_profitability_lowvol_rebalance"
     ],
     "holding_shape": [
       "share_15_85_hold_4_6",
@@ -60,6 +61,7 @@
       "share_06_94_hold_2_8_ramp85",
       "share_06_94_hold_2_8_ramp85_cost_guard",
       "share_08_92_hold_2_8_ramp85_cost_guard",
+      "share_10_90_hold_2_8_ramp85_cost_guard",
       "aggr_05_95_prom7"
     ],
     "supporting_variants": [
@@ -82,8 +84,8 @@
     "promotion_ramp": 5,
     "satellite_defense": 6,
     "signal_variants": 2,
-    "core_multifactor": 21,
-    "holding_shape": 13,
+    "core_multifactor": 22,
+    "holding_shape": 14,
     "supporting_variants": 4,
     "drawdown_guard": 7
   },
@@ -287,6 +289,15 @@
           }
         },
         {
+          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered_cost_guard_cashguard",
+          "metrics": {
+            "cagr": 0.29324098,
+            "sharpe": 1.12800827,
+            "max_drawdown": -0.14205239,
+            "turnover": 3.38743474
+          }
+        },
+        {
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered_asym13",
           "metrics": {
             "cagr": 0.28818422,
@@ -302,15 +313,6 @@
             "sharpe": 1.07458374,
             "max_drawdown": -0.13667369,
             "turnover": 3.52751572
-          }
-        },
-        {
-          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__sat_three_stage_buffered",
-          "metrics": {
-            "cagr": 0.28329804,
-            "sharpe": 0.94522689,
-            "max_drawdown": -0.27695236,
-            "turnover": 3.40605997
           }
         }
       ]
