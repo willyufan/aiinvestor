@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-25 05:15 CST）
+
+- 开局 guard 为 `pass`，上一轮 `risk45 + exit55 + reconfirm70 + caution80 + cap80 + cashguard` 保留 2017/2020 高收益但 2026 仍负；本轮按 `risk_reconfirm_sensitivity` 继续把风险阈值降到 `risk35`、恢复确认升到 `reconfirm75`，用等权/总市值双底座确认。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk35_mom_exit55_reconfirm75_caution75_cap80_cashguard`、`core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk35_mom_exit55_reconfirm75_caution75_cap80_cashguard`。实际 A股非阻塞命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk35_mom_exit55_reconfirm75_caution75_cap80_cashguard,core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk35_mom_exit55_reconfirm75_caution75_cap80_cashguard,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold7_turn06_exit90_weekly`。
+- 等权版五窗口 CAGR 为 `26.40% / 41.14% / 37.59% / 108.60% / -11.46%`，最大回撤 `-31.78% / -34.45% / -26.60% / -11.78% / -13.93%`，换手 `3.71x / 4.38x / 4.53x / 7.30x / 6.30x`；总市值版为 `25.49% / 35.12% / 27.80% / 119.76% / -7.95%`，最大回撤 `-31.88% / -34.32% / -28.97% / -13.96% / -12.54%`。
+- 该组相对近期 cap/caution 失败组改善部分中窗平衡，但 2026 仍为负，且近期贡献仍集中在源杰科技、腾景科技等少数高弹性票；`scripts/path2_candidate_pass.py` 后 universe 为 `675`，`scripts/update_weighted_winners.py` 后 robust 仍为 `core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap95`，未触发 tracked payload 替换。
+- 候选池未触发 Path 2 evict。最终 focus 转为 `capacity_and_cost_stress`；下一轮第一条命令建议在本组基础上先测更强容量/谨慎仓约束，例如等权/总市值 `aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk35_mom_exit55_reconfirm75_caution80_cap70_cashguard`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_capacity_cost_ids>`。
+
 ## 本轮执行计划（2026-05-25 00:29 CST）
 
 - 开局 guard 为 `pass`，上一轮建议测试中周期恢复阈值与 2026 防守折中；本轮在 high-growth robust 邻域新增 `risk45 + exit55 + reconfirm70 + caution80 + cap80 + cashguard`，用等权/总市值双底座确认。

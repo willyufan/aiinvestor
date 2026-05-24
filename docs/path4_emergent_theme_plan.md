@@ -32,6 +32,14 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-25 05:15 CST）
+
+- 开局 guard 为 `pass`，上一轮 `prom4 + risk35 + cap50` 改善 2020 稳定性但 2020/2023 回撤仍深；本轮按 `theme_signal_quality` 在同一 `prom4` 覆盖形态上加入 `cap45 + exit82`。新增前因 active cap 已到 `60`，从 active discovery universe 移出 `aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap40`，原因是旧 cap40 组未改善 robust 且 2020 稳定性不足。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom4_emergent_theme_quality_gate_risk35_cap45_exit82`、`core_explore_90_10_equal_weight_winner_core__aggr_05_95_prom4_emergent_theme_quality_gate_risk35_cap45_exit82`、`core_explore_90_10_total_mv_winner_core__aggr_05_95_prom4_emergent_theme_quality_gate_risk35_cap45_exit82`。实际补缺口命令见 Path 1 本轮记录，命令类型为五窗口 `--only-base-ids` 增量确认。
+- `80/20 total_mv` 五窗口 CAGR 为 `22.26% / 28.97% / 30.05% / 110.49% / 101.75%`，最大回撤 `-29.52% / -35.17% / -28.43% / -15.42% / -3.21%`，换手 `3.67x / 3.81x / 3.91x / 6.50x / 7.58x`；`90/10 equal_weight` 为 `25.10% / 25.08% / 31.96% / 135.32% / 61.13%`；`90/10 total_mv` 为 `24.19% / 25.98% / 29.57% / 132.95% / 41.53%`。
+- 新组保持 2025 强弹性，但 2020/2023 回撤和少数强票集中风险仍未解决；不能只因短窗 CAGR 晋级。`scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=58`，`scripts/update_weighted_winners.py` 后 Path 4 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`。
+- 最终 guard 为 `ashare_path4_emergent_theme 60/60 complete`，focus 转为 `theme_capacity_cost`。下一轮新增前需继续 evict 一个弱 active；第一条命令建议在本组上先压容量/成本边界，例如三底座 `aggr_05_95_prom4_emergent_theme_quality_gate_risk35_cap40_exit82`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_theme_capacity_cost_ids>`。
+
 ## 本轮执行计划（2026-05-25 00:29 CST）
 
 - 开局 guard 为 `pass`，上一轮建议扩 `prom4` 覆盖形态；本轮新增前因 active cap 已到 `60`，从 active discovery universe 移出 `aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap40`，原因是上一轮三底座 2020 稳定性不足、未改善 robust，且继续占用 cap 会挤压新 `prom4` 覆盖实验。

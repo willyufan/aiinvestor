@@ -4,6 +4,15 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-25 05:15 CST）
+
+- 开局 guard 为 `pass`；上一轮 `quality_lowvol_reconfirm` 只保留短窗弹性、长窗回撤弱，本轮按 `signal_quality` 在代码实际 `core_multifactor` 池新增 `quality_trend_reconfirm`。注册后 guard 如预期出现 `ashare_path1_core_multifactor 1/24 missing` 与 Path 4 三底座缺口，已按原始 `--only-base-ids` 增量补齐，没有跑全量。
+- 本轮新增并五窗口确认 1 个 Path 1/core_multifactor base id：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_trend_reconfirm`。实际补缺口命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_trend_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom4_emergent_theme_quality_gate_risk35_cap45_exit82,core_explore_90_10_equal_weight_winner_core__aggr_05_95_prom4_emergent_theme_quality_gate_risk35_cap45_exit82,core_explore_90_10_total_mv_winner_core__aggr_05_95_prom4_emergent_theme_quality_gate_risk35_cap45_exit82`。
+- `quality_trend_reconfirm` 五窗口 CAGR 为 `12.25% / 13.65% / 29.37% / 72.66% / 60.29%`，最大回撤 `-46.98% / -33.98% / -28.70% / -12.91% / -5.49%`，换手 `3.05x / 3.41x / 3.74x / 5.54x / 6.39x`。它保留 2025/2026 弹性，但 2017/2020 收益和长窗回撤仍弱于当前 Path 1 robust。
+- `scripts/winner_only_pass.py` 以退出码 `2` 继续只报告旧 `sat_three_stage_buffered_cost_guard` 的 `since_2020_only` clear improvement；`scripts/update_weighted_winners.py` 后 Path 1 official winner、robust candidate 与 tracked payload 未被本轮候选替换。最终 guard 为 `ashare_path1_core_multifactor 24/24 complete`、`ashare_path1_fast_family 64/64 complete`。
+- 候选池未触发 Path 1 evict。最终 focus 转为 `holding_shape`；下一轮第一条命令建议从持仓形态而非继续堆多因子开始，例如注册 `core_explore_80_20_total_mv_winner_core__share_08_92_hold_2_8_ramp80_cost_guard`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path1_holding_shape_id>`。
+
 ## 本轮执行计划（2026-05-25 00:29 CST）
 
 - 开局 guard 为 `pass`；上一轮要求优先补 `core_multifactor_quality_lowvol_reconfirm`。注册后 guard 如预期出现 `ashare_path1_core_multifactor 1/23 missing` 与 Path 4 三底座缺口；首次未加 `--end-date` 的补缺口尝试失败在 `2026-05-25` stale cache 校验，没有写入策略结果，随后用固定 `--end-date 2026-05-19` 增量补齐。
