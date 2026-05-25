@@ -22,12 +22,12 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.export_live_platform_data import (
+    LIVE_DIR,
     _load_sample_view,
     build_strategy_detail_payload,
     guess_sample_tag,
     latest_market_data_as_of,
     SAMPLE_LABELS,
-    SAMPLE_TAGS,
     load_json,
     pick_preferred_sample_tag,
 )
@@ -35,6 +35,7 @@ from scripts.results_layout import existing_research_file, market_research_dir, 
 
 TRACKED_WINNERS_JSON = existing_research_file("weighted_track_winners.json")
 HK_TRACKED_WINNERS_JSON = existing_research_file("tracked_winners_hkconnect.json", market_scope="hkconnect")
+STRATEGY_REGISTRY_JSON = LIVE_DIR / "strategy_registry.json"
 OUTPUT_PATH = research_file("public_snapshot.json")
 STRATEGIES_DIR = market_research_dir("a_share") / "strategies"
 
@@ -58,6 +59,39 @@ SAMPLE_TAG_DISPLAY = {
     "since_2025_01": "2025",
     "since_2026_01": "2026",
 }
+
+
+def build_leaderboards() -> dict[str, Any]:
+    """Export winner_leaderboards from strategy_registry.json for public consumption."""
+    if not STRATEGY_REGISTRY_JSON.exists():
+        return {}
+    registry = load_json(STRATEGY_REGISTRY_JSON)
+    raw = registry.get("winner_leaderboards", {})
+    result: dict[str, Any] = {}
+    for market_key, paths in raw.items():  # "a_share", "hkconnect"
+        result[market_key] = {}
+        for path_key, tracks in paths.items():  # "path1", "path2", ...
+            result[market_key][path_key] = {}
+            for track_key, track_data in tracks.items():  # "since_2017_only", ...
+                entries_out = []
+                for e in (track_data.get("entries") or []):
+                    entries_out.append({
+                        "rank": int(e.get("rank", 0)),
+                        "strategy_base_id": str(e.get("strategy_base_id", "")),
+                        "strategy_base_name": str(e.get("strategy_base_name", "")),
+                        "is_official_winner": bool(e.get("is_official_winner", False)),
+                        "metrics": {
+                            "weighted_cagr": round(float(e["metrics"].get("weighted_cagr", 0)), 4),
+                            "weighted_sharpe": round(float(e["metrics"].get("weighted_sharpe", 0)), 4),
+                            "weighted_max_drawdown": round(float(e["metrics"].get("weighted_max_drawdown", 0)), 4),
+                        } if e.get("metrics") else {},
+                    })
+                result[market_key][path_key][track_key] = {
+                    "label": WINDOW_LABELS.get(track_key, track_key),
+                    "sample_tag": str(track_data.get("sample_tag", "")),
+                    "entries": entries_out,
+                }
+    return result
 
 
 def build_window_metrics(strategy_id: str, strategies_map: dict[str, Any]) -> list[dict]:
@@ -451,13 +485,16 @@ def main() -> None:
         hk_payload = load_json(HK_TRACKED_WINNERS_JSON)
         hk_entries = build_hk_entries(hk_payload)
 
+    leaderboards = build_leaderboards()
+
     snapshot = {
-        "as_of":   as_of,
-        "path1":   path1_entries,
-        "path2":   path2_entries,
-        "path3":   path3_entries,
-        "path4":   path4_entries,
+        "as_of": as_of,
+        "path1": path1_entries,
+        "path2": path2_entries,
+        "path3": path3_entries,
+        "path4": path4_entries,
         "hkconnect": hk_entries,
+        "leaderboards": leaderboards,
     }
 
     OUTPUT_PATH.write_text(json.dumps(snapshot, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
