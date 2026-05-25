@@ -18,6 +18,12 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.results_layout import existing_research_file, research_file
+from scripts.strategy_scoring import (
+    PROMOTION_SCORE_POLICY,
+    ROBUST_SCORE_POLICY,
+    score_robust_candidate,
+    score_single_window_candidate,
+)
 from scripts.update_weighted_winners import _augment_with_synthetic_windows
 
 DEFAULT_COMPARISON_CSV = existing_research_file("strategy_comparison_base_method.csv")
@@ -29,8 +35,13 @@ WEIGHTED_REQUIRED_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01")
 PATH2_PROMOTION_SCORE_POLICY = {
     "cagr_2020_weight": 0.70,
     "cagr_2023_weight": 0.30,
-    "sharpe_2020_weight": 0.07,
-    "sharpe_2023_weight": 0.03,
+    "sharpe_2020_weight": 0.60,
+    "sharpe_2023_weight": 0.40,
+    "max_drawdown_2020_weight": 0.50,
+    "max_drawdown_2023_weight": 0.50,
+    "turnover_2020_weight": 0.50,
+    "turnover_2023_weight": 0.50,
+    "scoring_policy": PROMOTION_SCORE_POLICY["version"],
 }
 
 
@@ -120,8 +131,9 @@ def _filter_to_current_as_of(latest: pd.DataFrame) -> pd.DataFrame:
     return latest.copy()
 
 
-def _robust_sort_key(metrics: dict[str, float]) -> tuple[float, float, float, float, float]:
+def _robust_sort_key(metrics: dict[str, Any]) -> tuple[float, float, float, float, float, float]:
     return (
+        float(metrics.get("promotion_score", float("-inf"))),
         float(metrics["cagr_min"]),
         float(metrics["max_drawdown_worst"]),
         float(metrics["sharpe_mean"]),
@@ -167,6 +179,30 @@ def _compute_single_window_metrics(group: pd.DataFrame, sample_tag: str) -> dict
         "max_drawdown": float(row["max_drawdown"].iloc[0]),
         "turnover": float(row["average_annual_turnover"].iloc[0]),
         "total_return": float(row["total_return"].iloc[0]),
+    }
+
+
+def _blended_path2_metrics(
+    metrics_2020: dict[str, float],
+    metrics_2023: dict[str, float],
+) -> dict[str, float]:
+    return {
+        "cagr": (
+            PATH2_PROMOTION_SCORE_POLICY["cagr_2020_weight"] * metrics_2020["cagr"]
+            + PATH2_PROMOTION_SCORE_POLICY["cagr_2023_weight"] * metrics_2023["cagr"]
+        ),
+        "sharpe": (
+            PATH2_PROMOTION_SCORE_POLICY["sharpe_2020_weight"] * metrics_2020["sharpe"]
+            + PATH2_PROMOTION_SCORE_POLICY["sharpe_2023_weight"] * metrics_2023["sharpe"]
+        ),
+        "max_drawdown": (
+            PATH2_PROMOTION_SCORE_POLICY["max_drawdown_2020_weight"] * metrics_2020["max_drawdown"]
+            + PATH2_PROMOTION_SCORE_POLICY["max_drawdown_2023_weight"] * metrics_2023["max_drawdown"]
+        ),
+        "turnover": (
+            PATH2_PROMOTION_SCORE_POLICY["turnover_2020_weight"] * metrics_2020["turnover"]
+            + PATH2_PROMOTION_SCORE_POLICY["turnover_2023_weight"] * metrics_2023["turnover"]
+        ),
     }
 
 
@@ -221,7 +257,7 @@ def main() -> None:
     ranked_candidates: dict[str, list[dict[str, Any]]] = {}
 
     for sample_tag in WINDOW_TAGS:
-        candidates: list[tuple[str, dict[str, float]]] = []
+        candidates: list[tuple[str, dict[str, float], dict[str, Any]]] = []
         for base_id in candidate_ids:
             group = by_id.get(base_id, pd.DataFrame())
             tags = set(group["sample_tag"].astype(str)) if not group.empty else set()
@@ -234,9 +270,17 @@ def main() -> None:
             metrics = _compute_single_window_metrics(group, sample_tag)
             if not metrics:
                 continue
-            candidates.append((base_id, metrics))
+            ytd_metrics = _compute_single_window_metrics(group, "since_2026_01") if "since_2026_01" in tags else None
+            score_detail = score_single_window_candidate(
+                metrics=metrics,
+                strategy_id=base_id,
+                ytd_metrics=ytd_metrics,
+                policy=PROMOTION_SCORE_POLICY,
+            )
+            candidates.append((base_id, metrics, score_detail))
         candidates.sort(
             key=lambda item: (
+                item[2]["score"],
                 item[1]["cagr"],
                 item[1]["sharpe"],
                 item[1]["max_drawdown"],
@@ -245,13 +289,15 @@ def main() -> None:
             reverse=True,
         )
         ranked_candidates[sample_tag] = [
-            {"strategy_base_id": base_id, "metrics": metrics} for base_id, metrics in candidates[:10]
+            {"strategy_base_id": base_id, "metrics": metrics, "promotion_score": score_detail}
+            for base_id, metrics, score_detail in candidates[:10]
         ]
         if candidates:
-            best_id, best_metrics = candidates[0]
+            best_id, best_metrics, best_score_detail = candidates[0]
             window_winners[sample_tag] = {
                 "strategy_base_id": best_id,
                 "metrics": best_metrics,
+                "promotion_score": best_score_detail,
             }
 
     required_tags = set(WINDOW_TAGS)
@@ -266,23 +312,33 @@ def main() -> None:
         sharpe_values = [metrics_by_tag[tag]["sharpe"] for tag in WINDOW_TAGS]
         maxdd_values = [metrics_by_tag[tag]["max_drawdown"] for tag in WINDOW_TAGS]
         turn_values = [metrics_by_tag[tag]["turnover"] for tag in WINDOW_TAGS]
+        ytd_metrics = _compute_single_window_metrics(group, "since_2026_01") if "since_2026_01" in tags else None
+        summary = {
+            "cagr_mean": float(np.mean(cagr_values)),
+            "cagr_min": float(np.min(cagr_values)),
+            "sharpe_mean": float(np.mean(sharpe_values)),
+            "max_drawdown_worst": float(np.min(maxdd_values)),
+            "turnover_mean": float(np.mean(turn_values)),
+        }
+        score_detail = score_robust_candidate(
+            summary=summary,
+            strategy_id=base_id,
+            ytd_metrics=ytd_metrics,
+            policy=ROBUST_SCORE_POLICY,
+        )
+        summary["promotion_score"] = float(score_detail["score"])
+        summary["score_detail"] = score_detail
         robust_candidates.append(
             (
                 base_id,
-                {
-                    "cagr_mean": float(np.mean(cagr_values)),
-                    "cagr_min": float(np.min(cagr_values)),
-                    "sharpe_mean": float(np.mean(sharpe_values)),
-                    "max_drawdown_worst": float(np.min(maxdd_values)),
-                    "turnover_mean": float(np.mean(turn_values)),
-                },
+                summary,
             )
         )
     robust_candidates.sort(key=lambda item: _robust_sort_key(item[1]), reverse=True)
 
     family_ranked_candidates: dict[str, list[dict[str, Any]]] = {}
     for family_name, family_ids in family_candidates.items():
-        ranked: list[tuple[str, float, float, float, float]] = []
+        ranked: list[tuple[str, float, float, float, float, dict[str, Any]]] = []
         for base_id in sorted(set(family_ids)):
             group = by_id.get(base_id, pd.DataFrame())
             tags = set(group["sample_tag"].astype(str)) if not group.empty else set()
@@ -292,12 +348,15 @@ def main() -> None:
             metrics_2023 = _compute_single_window_metrics(group, "since_2023_01")
             if not metrics_2020 or not metrics_2023:
                 continue
-            score = (
-                PATH2_PROMOTION_SCORE_POLICY["cagr_2020_weight"] * metrics_2020["cagr"]
-                + PATH2_PROMOTION_SCORE_POLICY["cagr_2023_weight"] * metrics_2023["cagr"]
-                + PATH2_PROMOTION_SCORE_POLICY["sharpe_2020_weight"] * metrics_2020["sharpe"]
-                + PATH2_PROMOTION_SCORE_POLICY["sharpe_2023_weight"] * metrics_2023["sharpe"]
+            blended_metrics = _blended_path2_metrics(metrics_2020, metrics_2023)
+            ytd_metrics = _compute_single_window_metrics(group, "since_2026_01") if "since_2026_01" in tags else None
+            score_detail = score_single_window_candidate(
+                metrics=blended_metrics,
+                strategy_id=base_id,
+                ytd_metrics=ytd_metrics,
+                policy=PROMOTION_SCORE_POLICY,
             )
+            score = float(score_detail["score"])
             ranked.append(
                 (
                     base_id,
@@ -305,6 +364,7 @@ def main() -> None:
                     metrics_2020["cagr"],
                     metrics_2023["cagr"],
                     min(metrics_2020["max_drawdown"], metrics_2023["max_drawdown"]),
+                    score_detail,
                 )
             )
         ranked.sort(key=lambda item: (item[1], item[2], item[3], item[4]), reverse=True)
@@ -315,8 +375,9 @@ def main() -> None:
                 "cagr_2020": cagr_2020,
                 "cagr_2023": cagr_2023,
                 "worst_max_drawdown": worst_max_drawdown,
+                "score_detail": score_detail,
             }
-            for base_id, score, cagr_2020, cagr_2023, worst_max_drawdown in ranked[
+            for base_id, score, cagr_2020, cagr_2023, worst_max_drawdown, score_detail in ranked[
                 : max(1, family_rules.get(family_name, {}).get("target_candidates", 0))
             ]
         ]

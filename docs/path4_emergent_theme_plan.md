@@ -32,6 +32,14 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-26 05:09 CST）
+
+- 开局 guard 为 `pass`；上一轮 `prom5 + risk35 + cap45 + exit82` 短窗强但 2020/2023 稳定性不足，本轮按 `emergent_theme_coverage` 扩到 `prom6` 覆盖形态，仍不引入人工主题标签或 ETF。命令类型为五窗口 `--only-base-ids` 增量确认，实际 A股合并命令见 Path 1 本轮记录。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_07_93_prom6_emergent_theme_quality_gate_risk35_cap45_exit82`、`core_explore_90_10_equal_weight_winner_core__aggr_07_93_prom6_emergent_theme_quality_gate_risk35_cap45_exit82`、`core_explore_90_10_total_mv_winner_core__aggr_07_93_prom6_emergent_theme_quality_gate_risk35_cap45_exit82`。
+- `80/20 total_mv` 五窗口 CAGR 为 `20.78% / 15.97% / 32.57% / 91.27% / 104.61%`，最大回撤 `-30.60% / -35.87% / -23.14% / -16.70% / -3.21%`，换手 `3.41x / 3.89x / 3.47x / 6.00x / 7.18x`；`90/10 equal_weight` 为 `22.41% / 17.38% / 34.86% / 117.66% / 117.55%`；`90/10 total_mv` 为 `21.69% / 17.52% / 32.43% / 112.91% / 93.85%`。该组继续捕捉鼎龙股份、国瓷材料、杰瑞股份、宏和科技、长飞光纤、睿创微纳等多票强主题，但 2020 回撤和 2025/2026 换手仍偏高。
+- `scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=59`，family 前列仍由 `aggr_05_95_prom4_emergent_theme_quality_gate_risk35_cap45_exit82` 等旧 prom4 质量门槛形态占优；`scripts/update_weighted_winners.py` 后 Path 4 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`，本轮不改 official/tracked。
+- 因 active cap 维持 `60`，本轮从 active discovery universe 移出 `aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap45`，原因是旧 prom2/cap45 组未改善 robust 且 2020 稳定性不足。最终 focus 转为 `theme_signal_quality`；下一轮第一条命令建议在 prom6 覆盖形态上提高风险/信号质量要求，例如三底座 `aggr_07_93_prom6_emergent_theme_quality_gate_risk40_cap45_exit82`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_theme_signal_quality_ids>`。
+
 ## 本轮执行计划（2026-05-25 17:20 CST）
 
 - 开局 guard 为 `pass`；上一轮 `prom4 + cap40 + exit82` 短窗很强但 2020/2023 稳定性仍不足，本轮按 `emergent_theme_coverage` 扩到 `prom5` 覆盖形态。新增前因 active cap 已到 `60`，从 active discovery universe 移出 `aggr_03_97_prom2_emergent_theme_quality_gate_risk35_cap55`，原因是旧 prom2/cap55 组未改善 robust、2020 稳定性不足，且会挤压新的 prom5 覆盖实验。

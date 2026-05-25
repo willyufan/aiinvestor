@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-26 05:09 CST）
+
+- 开局 guard 为 `pass`；上一轮 `exit55/reconfirm75/caution80/cap75` 仍无法修复 2026 负收益，本轮沿 `medium_cycle_growth` 把退出阈值进一步收紧到 `exit50`，继续只用等权/总市值双底座确认。命令类型为五窗口 `--only-base-ids` 增量确认，实际 A股合并命令见 Path 1 本轮记录。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit50_reconfirm75_caution80_cap75_cashguard`、`core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit50_reconfirm75_caution80_cap75_cashguard`。
+- 等权版五窗口 CAGR 为 `27.37% / 41.10% / 37.42% / 112.60% / -10.52%`，最大回撤 `-29.02% / -35.78% / -27.60% / -11.78% / -13.61%`，换手 `3.81x / 4.47x / 4.61x / 7.30x / 6.66x`；总市值版为 `26.55% / 35.36% / 27.84% / 123.31% / -6.02%`，最大回撤 `-28.98% / -35.55% / -29.95% / -13.87% / -11.64%`。该组证明单纯收紧 exit 不能修复 2026，且近期贡献仍高度集中在少数高弹性票。
+- `scripts/path2_candidate_pass.py` 后 candidate universe 为 `699`，`high_growth_theme=315`，raw robust 仍为 `core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap95`；`scripts/update_weighted_winners.py` 后 official robust/tracked payload 未变化。
+- 候选池未触发 Path 2 evict。最终 focus 转为 `risk_reconfirm_sensitivity`；下一轮第一条命令建议不要继续只压 exit，改测更强风险阈值与恢复确认组合，例如等权/总市值 `aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk35_mom_exit50_reconfirm80_caution80_cap70_cashguard`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_risk_reconfirm_ids>`。
+
 ## 本轮执行计划（2026-05-25 17:20 CST）
 
 - 开局 guard 为 `pass`；上一轮 `risk35 + exit55 + reconfirm75 + caution80 + cap70` 仍无法修复 2026 负收益，本轮按 `risk_reconfirm_sensitivity` 把风险阈值调回 `risk40`、保留 `exit55/reconfirm75/caution80/cap75/cashguard`，继续只用等权/总市值双底座确认。

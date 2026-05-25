@@ -20,6 +20,12 @@ from scripts.results_layout import (
     existing_research_file,
     research_file,
 )
+from scripts.strategy_scoring import (
+    PROMOTION_SCORE_POLICY,
+    ROBUST_SCORE_POLICY,
+    score_robust_candidate,
+    score_single_window_candidate,
+)
 
 DEFAULT_COMPARISON_CSV = existing_research_file("strategy_comparison_base_method.csv")
 README_PATH = ROOT / "README.md"
@@ -31,6 +37,16 @@ TRADE_CALENDAR_PATH = ROOT / "data_cache" / "trade_calendar.csv"
 CORE_ACTIVE_MAX_SIZE = 128
 CORE_ACTIVE_STALE_TRADING_DAYS = 30
 TRACK_LEADERBOARD_LIMIT = 5
+PATH1_COMPOSITE_ID = "path1_composite_robust_window_blend_v1"
+PATH1_COMPOSITE_POLICY = {
+    "version": "path1_composite_robust_window_blend_v1",
+    "description": "Blend Path 1 robust and window winners instead of forcing a single winner to carry all regimes.",
+    "robust_candidate": 0.45,
+    "since_2017_01": 0.20,
+    "since_2020_01": 0.20,
+    "since_2023_01": 0.10,
+    "since_2025_01": 0.05,
+}
 
 AUTO_START = "<!-- AUTO:WEIGHTED-WINNERS:START -->"
 AUTO_END = "<!-- AUTO:WEIGHTED-WINNERS:END -->"
@@ -159,6 +175,34 @@ def _metrics_to_dict(metrics: TrackMetrics) -> dict[str, float]:
         "weighted_max_drawdown": metrics.max_drawdown,
         "weighted_turnover": metrics.turnover,
     }
+
+
+def _metrics_to_score_input(metrics: TrackMetrics | dict[str, float]) -> dict[str, float]:
+    if isinstance(metrics, TrackMetrics):
+        return {
+            "cagr": metrics.cagr,
+            "sharpe": metrics.sharpe,
+            "max_drawdown": metrics.max_drawdown,
+            "turnover": metrics.turnover,
+        }
+    return {
+        "cagr": float(metrics.get("cagr", metrics.get("weighted_cagr", float("nan")))),
+        "sharpe": float(metrics.get("sharpe", metrics.get("weighted_sharpe", float("nan")))),
+        "max_drawdown": float(metrics.get("max_drawdown", metrics.get("weighted_max_drawdown", float("nan")))),
+        "turnover": float(metrics.get("turnover", metrics.get("weighted_turnover", float("nan")))),
+    }
+
+
+def _score_detail_for_group(strategy_id: str, metrics: TrackMetrics, group: pd.DataFrame) -> dict[str, Any]:
+    ytd_metrics = None
+    if not group.empty and "sample_tag" in group.columns and "since_2026_01" in set(group["sample_tag"].astype(str)):
+        ytd_metrics = _metrics_to_score_input(_compute_single_window_metrics(group, "since_2026_01"))
+    return score_single_window_candidate(
+        metrics=_metrics_to_score_input(metrics),
+        strategy_id=strategy_id,
+        ytd_metrics=ytd_metrics,
+        policy=PROMOTION_SCORE_POLICY,
+    )
 
 
 def _metrics_from_track_payload(payload: dict[str, Any]) -> TrackMetrics:
@@ -652,7 +696,7 @@ def _rank_single_window_candidates(
     *,
     allowed_base_ids: set[str] | None = None,
 ) -> list[tuple[str, TrackMetrics]]:
-    candidates: list[tuple[str, TrackMetrics]] = []
+    candidates: list[tuple[str, TrackMetrics, float]] = []
     for base_id, group in latest.groupby("strategy_base_id"):
         if allowed_base_ids is not None and str(base_id) not in allowed_base_ids:
             continue
@@ -664,9 +708,13 @@ def _rank_single_window_candidates(
         metrics = _compute_single_window_metrics(group, sample_tag)
         if _is_nan_metrics(metrics):
             continue
-        candidates.append((str(base_id), metrics))
-    candidates.sort(key=_window_sort_key, reverse=True)
-    return candidates
+        score_detail = _score_detail_for_group(str(base_id), metrics, group)
+        candidates.append((str(base_id), metrics, float(score_detail["score"])))
+    candidates.sort(
+        key=lambda item: (item[2], item[1].cagr, item[1].sharpe, item[1].max_drawdown, -item[1].turnover),
+        reverse=True,
+    )
+    return [(strategy_id, metrics) for strategy_id, metrics, _score in candidates]
 
 
 def _pick_winner(
@@ -675,7 +723,7 @@ def _pick_winner(
     *,
     allowed_base_ids: set[str] | None = None,
 ) -> tuple[str, TrackMetrics]:
-    candidates: list[tuple[str, TrackMetrics]] = []
+    candidates: list[tuple[str, TrackMetrics, float]] = []
     for base_id, group in latest.groupby("strategy_base_id"):
         if allowed_base_ids is not None and str(base_id) not in allowed_base_ids:
             continue
@@ -685,17 +733,16 @@ def _pick_winner(
         metrics = _compute_track_metrics(group, weights)
         if any(np.isnan(v) for v in (metrics.cagr, metrics.sharpe, metrics.max_drawdown, metrics.turnover)):
             continue
-        candidates.append((str(base_id), metrics))
+        score_detail = _score_detail_for_group(str(base_id), metrics, group)
+        candidates.append((str(base_id), metrics, float(score_detail["score"])))
     if not candidates:
         raise RuntimeError("No strategies have all three windows to compute weighted winners.")
 
-    # Multi-objective preference:
-    # - primarily maximize weighted CAGR
-    # - then maximize weighted Sharpe
-    # - then prefer less negative weighted max drawdown
-    # - then prefer lower weighted turnover
-    candidates.sort(key=_window_sort_key, reverse=True)
-    return candidates[0]
+    candidates.sort(
+        key=lambda item: (item[2], item[1].cagr, item[1].sharpe, item[1].max_drawdown, -item[1].turnover),
+        reverse=True,
+    )
+    return candidates[0][0], candidates[0][1]
 
 
 def _pick_single_window_winner(
@@ -918,6 +965,7 @@ def _leaderboard_entry(
     official_winner_id: str | None = None,
     raw_winner_id: str | None = None,
     validation_detail: dict[str, Any] | None = None,
+    score_detail: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     metric_payload = _metrics_to_dict(metrics) if isinstance(metrics, TrackMetrics) else dict(metrics)
     entry: dict[str, Any] = {
@@ -937,6 +985,9 @@ def _leaderboard_entry(
             "incumbent_id": validation_detail.get("incumbent_id"),
             "reason": validation_detail.get("reason"),
         }
+    if score_detail:
+        entry["promotion_score"] = float(score_detail.get("score", float("nan")))
+        entry["score_detail"] = score_detail
     return entry
 
 
@@ -959,6 +1010,7 @@ def _build_single_window_leaderboard(
         start=1,
     ):
         validation_detail: dict[str, Any] | None = None
+        score_detail: dict[str, Any] | None = None
         if enable_validation:
             passed, detail = _passes_adjacent_window_check(
                 candidate_id=candidate_id,
@@ -967,6 +1019,9 @@ def _build_single_window_leaderboard(
                 incumbent_winners=incumbent_winners,
             )
             validation_detail = {**detail, "passed": passed}
+        candidate_group = by_id.get(candidate_id, pd.DataFrame())
+        if candidate_group is not None and not candidate_group.empty:
+            score_detail = _score_detail_for_group(candidate_id, metrics, candidate_group)
         rows.append(
             _leaderboard_entry(
                 rank=rank,
@@ -976,6 +1031,7 @@ def _build_single_window_leaderboard(
                 official_winner_id=official_winner_id,
                 raw_winner_id=raw_winner_id,
                 validation_detail=validation_detail,
+                score_detail=score_detail,
             )
         )
     return rows
@@ -1737,6 +1793,173 @@ def _compute_window_metrics(
     }
 
 
+def _normalize_component_weights(components: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    by_id: dict[str, dict[str, Any]] = {}
+    for component in components:
+        strategy_id = str(component.get("strategy_base_id") or "").strip()
+        if not strategy_id:
+            continue
+        weight = max(0.0, float(component.get("target_weight") or 0.0))
+        if weight <= 0:
+            continue
+        item = by_id.setdefault(
+            strategy_id,
+            {
+                "strategy_base_id": strategy_id,
+                "roles": [],
+                "target_weight": 0.0,
+            },
+        )
+        item["target_weight"] = float(item["target_weight"]) + weight
+        role = str(component.get("role") or "").strip()
+        if role and role not in item["roles"]:
+            item["roles"].append(role)
+    total = sum(float(item["target_weight"]) for item in by_id.values())
+    if total <= 0:
+        return []
+    normalized = []
+    for item in by_id.values():
+        normalized.append(
+            {
+                **item,
+                "target_weight": float(item["target_weight"]) / total,
+            }
+        )
+    return sorted(normalized, key=lambda item: (-float(item["target_weight"]), str(item["strategy_base_id"])))
+
+
+def _load_equity_nav(strategy_id: str, sample_tag: str) -> pd.DataFrame | None:
+    for result_dir in candidate_strategy_result_dirs(strategy_id, sample_tag, market_scope="a_share"):
+        path = result_dir / "equity_curve.csv"
+        if not path.exists():
+            continue
+        try:
+            frame = pd.read_csv(path, usecols=["date", "nav"], parse_dates=["date"])
+        except Exception:
+            continue
+        frame = frame.dropna(subset=["date", "nav"]).copy()
+        if frame.empty:
+            continue
+        frame["nav"] = pd.to_numeric(frame["nav"], errors="coerce")
+        frame = frame.dropna(subset=["nav"]).sort_values("date")
+        if frame.empty or float(frame["nav"].iloc[0]) <= 0:
+            continue
+        frame["nav"] = frame["nav"].astype(float) / float(frame["nav"].iloc[0])
+        return frame
+    return None
+
+
+def _composite_metrics_for_window(
+    *,
+    components: list[dict[str, Any]],
+    sample_tag: str,
+    strategies: dict[str, dict],
+) -> dict[str, float] | None:
+    nav_frames: list[pd.DataFrame] = []
+    available_components: list[dict[str, Any]] = []
+    for component in components:
+        strategy_id = str(component["strategy_base_id"])
+        nav = _load_equity_nav(strategy_id, sample_tag)
+        if nav is None:
+            continue
+        nav_frames.append(nav.rename(columns={"nav": strategy_id})[["date", strategy_id]])
+        available_components.append(component)
+    if not nav_frames or not available_components:
+        return None
+    weights = {str(item["strategy_base_id"]): float(item["target_weight"]) for item in available_components}
+    total_weight = sum(weights.values())
+    if total_weight <= 0:
+        return None
+    weights = {strategy_id: weight / total_weight for strategy_id, weight in weights.items()}
+    wide = nav_frames[0]
+    for frame in nav_frames[1:]:
+        wide = wide.merge(frame, on="date", how="outer")
+    wide = wide.sort_values("date").set_index("date")
+    wide = wide.ffill().fillna(1.0)
+    composite_nav = pd.Series(0.0, index=wide.index)
+    for strategy_id, weight in weights.items():
+        composite_nav = composite_nav + wide[strategy_id].astype(float) * weight
+    composite_nav = composite_nav / float(composite_nav.iloc[0])
+    returns = composite_nav.pct_change().dropna()
+    days = max(1, int((composite_nav.index[-1] - composite_nav.index[0]).days))
+    years = days / 365.25
+    total_return = float(composite_nav.iloc[-1] - 1.0)
+    cagr = float(composite_nav.iloc[-1] ** (1.0 / years) - 1.0) if years > 0 and composite_nav.iloc[-1] > 0 else np.nan
+    drawdown = composite_nav / composite_nav.cummax() - 1.0
+    periods_per_year = float(len(returns) / years) if years > 0 and len(returns) > 0 else np.nan
+    sharpe = (
+        float((returns.mean() / returns.std(ddof=1)) * np.sqrt(periods_per_year))
+        if len(returns) > 1 and returns.std(ddof=1) > 0 and not np.isnan(periods_per_year)
+        else np.nan
+    )
+    turnover = 0.0
+    turnover_weight = 0.0
+    for strategy_id, weight in weights.items():
+        window = strategies.get(strategy_id, {}).get("windows", {}).get(sample_tag, {})
+        if "turnover" not in window:
+            continue
+        turnover += weight * float(window["turnover"])
+        turnover_weight += weight
+    return {
+        "total_return": total_return,
+        "cagr": cagr,
+        "max_drawdown": float(drawdown.min()),
+        "sharpe": sharpe,
+        "turnover": float(turnover / turnover_weight) if turnover_weight > 0 else np.nan,
+    }
+
+
+def _build_path1_composite_payload(
+    *,
+    strategies: dict[str, dict],
+    path1_robust_id: str,
+    path1_winners: dict[str, tuple[str, TrackMetrics]],
+) -> dict[str, Any]:
+    raw_components = [
+        {
+            "role": "robust_candidate",
+            "strategy_base_id": path1_robust_id,
+            "target_weight": PATH1_COMPOSITE_POLICY["robust_candidate"],
+        }
+    ]
+    for sample_tag in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01"):
+        winner = path1_winners.get(sample_tag)
+        if not winner:
+            continue
+        raw_components.append(
+            {
+                "role": sample_tag,
+                "strategy_base_id": winner[0],
+                "target_weight": PATH1_COMPOSITE_POLICY[sample_tag],
+            }
+        )
+    components = _normalize_component_weights(raw_components)
+    for component in components:
+        strategy_id = str(component["strategy_base_id"])
+        component["strategy_base_name"] = str(strategies.get(strategy_id, {}).get("strategy_base_name") or strategy_id)
+    windows: dict[str, dict[str, float]] = {}
+    for sample_tag in SAMPLE_TAG_STARTS:
+        metrics = _composite_metrics_for_window(components=components, sample_tag=sample_tag, strategies=strategies)
+        if metrics:
+            windows[sample_tag] = metrics
+    robust_window_tags = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
+    robust_rows = [windows[tag] for tag in robust_window_tags if tag in windows]
+    robust_metrics = {
+        "cagr_mean": float(np.mean([row["cagr"] for row in robust_rows])) if robust_rows else np.nan,
+        "cagr_min": float(np.min([row["cagr"] for row in robust_rows])) if robust_rows else np.nan,
+        "sharpe_mean": float(np.mean([row["sharpe"] for row in robust_rows])) if robust_rows else np.nan,
+        "max_drawdown_worst": float(np.min([row["max_drawdown"] for row in robust_rows])) if robust_rows else np.nan,
+        "turnover_mean": float(np.mean([row["turnover"] for row in robust_rows])) if robust_rows else np.nan,
+    }
+    return {
+        "portfolio_id": PATH1_COMPOSITE_ID,
+        "policy": PATH1_COMPOSITE_POLICY,
+        "components": components,
+        "windows": windows,
+        "robust_metrics": robust_metrics,
+    }
+
+
 def _slice_window_from_existing_results(base_id: str, sample_tag: str) -> dict[str, float] | None:
     sample_start = SAMPLE_TAG_STARTS.get(sample_tag)
     if sample_start is None:
@@ -1863,37 +2086,15 @@ def _augment_with_synthetic_windows(latest: pd.DataFrame) -> pd.DataFrame:
 
 
 def _pick_path2_candidate(latest: pd.DataFrame) -> tuple[str, dict[str, float]]:
-    required_tags = {"since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01"}
-    candidates: list[tuple[str, dict[str, float]]] = []
-    for base_id, group in latest.groupby("strategy_base_id"):
-        tags = set(group["sample_tag"].astype(str))
-        if not required_tags.issubset(tags):
-            continue
-        metrics_by_tag = {tag: _compute_single_window_metrics(group, tag) for tag in sorted(required_tags)}
-        if any(any(np.isnan(v) for v in (m.cagr, m.sharpe, m.max_drawdown, m.turnover)) for m in metrics_by_tag.values()):
-            continue
-        cagr_values = [m.cagr for m in metrics_by_tag.values()]
-        sharpe_values = [m.sharpe for m in metrics_by_tag.values()]
-        maxdd_values = [m.max_drawdown for m in metrics_by_tag.values()]
-        turn_values = [m.turnover for m in metrics_by_tag.values()]
-        summary = {
-            "cagr_mean": float(np.mean(cagr_values)),
-            "cagr_min": float(np.min(cagr_values)),
-            "sharpe_mean": float(np.mean(sharpe_values)),
-            "max_drawdown_worst": float(np.min(maxdd_values)),
-            "turnover_mean": float(np.mean(turn_values)),
-        }
-        candidates.append((str(base_id), summary))
-
+    candidates = _rank_robust_candidates(latest)
     if not candidates:
         raise RuntimeError("No strategies have all four windows to compute Path 2 candidate.")
-
-    candidates.sort(key=lambda item: _robust_sort_key(item[1]), reverse=True)
     return candidates[0]
 
 
-def _robust_sort_key(summary: dict[str, float]) -> tuple[float, float, float, float, float]:
+def _robust_sort_key(summary: dict[str, Any]) -> tuple[float, float, float, float, float, float]:
     return (
+        float(summary.get("promotion_score", float("-inf"))),
         float(summary["cagr_min"]),
         float(summary["max_drawdown_worst"]),
         float(summary["sharpe_mean"]),
@@ -1926,6 +2127,17 @@ def _rank_robust_candidates(latest: pd.DataFrame, *, allowed_base_ids: set[str] 
             "max_drawdown_worst": float(np.min(maxdd_values)),
             "turnover_mean": float(np.mean(turn_values)),
         }
+        ytd_metrics = None
+        if "since_2026_01" in tags:
+            ytd_metrics = _metrics_to_score_input(_compute_single_window_metrics(group, "since_2026_01"))
+        score_detail = score_robust_candidate(
+            summary=summary,
+            strategy_id=base_id_str,
+            ytd_metrics=ytd_metrics,
+            policy=ROBUST_SCORE_POLICY,
+        )
+        summary["promotion_score"] = float(score_detail["score"])
+        summary["score_detail"] = score_detail
         candidates.append((base_id_str, summary))
     candidates.sort(key=lambda item: _robust_sort_key(item[1]), reverse=True)
     return candidates
@@ -1950,6 +2162,7 @@ def _render_block(
     window_2025_metrics: TrackMetrics,
     path1_robust_id: str,
     path1_summary: dict[str, float],
+    path1_composite: dict[str, Any],
     path2_window_2017_id: str,
     path2_window_2017_metrics: TrackMetrics,
     path2_window_2023_id: str,
@@ -2076,6 +2289,63 @@ def _render_block(
             ]
         )
 
+    def render_path1_composite(composite: dict[str, Any]) -> str:
+        components = composite.get("components") if isinstance(composite.get("components"), list) else []
+        windows = composite.get("windows") if isinstance(composite.get("windows"), dict) else {}
+        robust_metrics = composite.get("robust_metrics") if isinstance(composite.get("robust_metrics"), dict) else {}
+
+        def render_component(component: dict[str, Any]) -> str:
+            roles = ", ".join(str(role).replace("since_", "").replace("_", "-") for role in component.get("roles") or [])
+            role_text = f"；来源：{roles}" if roles else ""
+            return (
+                f"- `{component.get('strategy_base_id', '')}`（{component.get('strategy_base_name', '')}）："
+                f"`{float(component.get('target_weight', 0.0)) * 100:.1f}%`{role_text}"
+            )
+
+        def render_window(tag: str) -> str:
+            metrics = windows.get(tag)
+            if not isinstance(metrics, dict):
+                return f"- `{SAMPLE_TAG_STARTS[tag].date()}` 窗口：n/a"
+            return (
+                f"- `{SAMPLE_TAG_STARTS[tag].date()}` → `{sample_end}`: "
+                f"Total Return `{_fmt_pct(float(metrics.get('total_return', float('nan'))))}`, "
+                f"CAGR `{_fmt_pct(float(metrics.get('cagr', float('nan'))))}`, "
+                f"Max DD `{_fmt_pct(float(metrics.get('max_drawdown', float('nan'))))}`, "
+                f"Sharpe `{float(metrics.get('sharpe', float('nan'))):.4f}`, "
+                f"Turnover `{float(metrics.get('turnover', float('nan'))):.2f}`"
+            )
+
+        lines = [
+            "## Path 1：组合方案",
+            "",
+            f"- 组合ID：`{composite.get('portfolio_id', PATH1_COMPOSITE_ID)}`",
+            "- 组合逻辑：不再要求单一 winner 覆盖所有行情，按鲁棒候选与窗口赢家合并权重。",
+            f"- 组合鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）："
+            f"`{_fmt_pct(float(robust_metrics.get('cagr_mean', float('nan'))))}` / "
+            f"`{_fmt_pct(float(robust_metrics.get('cagr_min', float('nan'))))}` / "
+            f"`{float(robust_metrics.get('sharpe_mean', float('nan'))):.4f}` / "
+            f"`{_fmt_pct(float(robust_metrics.get('max_drawdown_worst', float('nan'))))}` / "
+            f"`{float(robust_metrics.get('turnover_mean', float('nan'))):.2f}`",
+            "",
+            "当前组合成分：",
+            "",
+        ]
+        lines.extend(render_component(component) for component in components if isinstance(component, dict))
+        lines.extend(
+            [
+                "",
+                "组合窗口指标：",
+                "",
+                render_window("since_2017_01"),
+                render_window("since_2020_01"),
+                render_window("since_2023_01"),
+                render_window("since_2025_01"),
+                render_window("since_2026_01"),
+                "",
+            ]
+        )
+        return "\n".join(lines)
+
     parts = [
         "项目当前维护 **四条研究路线**：",
         "",
@@ -2101,6 +2371,7 @@ def _render_block(
         "## Path 1：鲁棒候选",
         "",
         render_path2("四窗口鲁棒候选", path1_robust_id, path1_summary),
+        render_path1_composite(path1_composite),
         "## Path 2：窗口跟踪赢家",
         "",
         render_track("2017 窗口赢家（Path 2）", WEIGHTS_2017_ONLY, path2_window_2017_id, path2_window_2017_metrics, path_key="path2", sample_tag="since_2017_01"),
@@ -2300,7 +2571,7 @@ def main() -> None:
         current_id_str = str(current_id) if current_id else ""
 
         def build_ranked_candidates() -> list[tuple[str, TrackMetrics]]:
-            candidates: list[tuple[str, TrackMetrics]] = []
+            candidates: list[tuple[str, TrackMetrics, float]] = []
             for base_id, group in path1_latest.groupby("strategy_base_id"):
                 base_id_str = str(base_id)
                 if base_id_str not in path1_family_ids or base_id_str not in active_family_ids:
@@ -2313,12 +2584,13 @@ def main() -> None:
                 metrics = _compute_single_window_metrics(group, sample_tag)
                 if _is_nan_metrics(metrics):
                     continue
-                candidates.append((base_id_str, metrics))
+                score_detail = _score_detail_for_group(base_id_str, metrics, group)
+                candidates.append((base_id_str, metrics, float(score_detail["score"])))
             candidates.sort(
-                key=lambda item: (item[1].cagr, item[1].sharpe, item[1].max_drawdown, -item[1].turnover),
+                key=lambda item: (item[2], item[1].cagr, item[1].sharpe, item[1].max_drawdown, -item[1].turnover),
                 reverse=True,
             )
-            return candidates
+            return [(strategy_id, metrics) for strategy_id, metrics, _score in candidates]
 
         ranked = build_ranked_candidates()
         if not ranked:
@@ -2418,6 +2690,11 @@ def main() -> None:
         path1_winners = existing_path_window_map("path1")
         path1_raw_winners = existing_path_window_map("path1", raw=True)
         path1_robust_id, path1_summary = existing_path_robust("path1")
+    path1_composite = _build_path1_composite_payload(
+        strategies=strategies,
+        path1_robust_id=path1_robust_id,
+        path1_winners=path1_winners,
+    )
     window_2017_id, window_2017_metrics = path1_winners["since_2017_01"]
     window_2020_id, window_2020_metrics = path1_winners["since_2020_01"]
     window_2023_id, window_2023_metrics = path1_winners["since_2023_01"]
@@ -2537,6 +2814,7 @@ def main() -> None:
                 metrics=summary,
                 strategies=strategies,
                 official_winner_id=official_id,
+                score_detail=summary.get("score_detail") if isinstance(summary.get("score_detail"), dict) else None,
             )
             for rank, (strategy_id, summary) in enumerate(
                 _rank_robust_candidates(latest_for_path, allowed_base_ids=allowed_base_ids)[:TRACK_LEADERBOARD_LIMIT],
@@ -2639,6 +2917,7 @@ def main() -> None:
                 "leaderboard": robust_leaderboards_by_path["path1"],
             },
         },
+        "path1_composite": path1_composite,
         "path2": {
             "tracks": {
                 "since_2017_only": _track_for("path2", path2_winners, path2_raw_winners, "since_2017_01", WEIGHTS_2017_ONLY),
@@ -2730,6 +3009,7 @@ def main() -> None:
         window_2025_metrics,
         path1_robust_id,
         path1_summary,
+        path1_composite,
         path2_window_2017_id,
         path2_window_2017_metrics,
         path2_window_2023_id,

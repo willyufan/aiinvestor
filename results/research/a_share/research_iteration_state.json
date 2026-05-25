@@ -1,67 +1,67 @@
 {
-  "updated_at": "2026-05-25T17:23:18+08:00",
-  "as_of": "2026-05-22",
+  "updated_at": "2026-05-26T05:17:53+08:00",
+  "as_of": "2026-05-25",
   "paths": {
     "ashare_path1": {
       "signature": "3393bd58194f0e482425",
       "changed": false,
-      "stagnation_runs": 92,
+      "stagnation_runs": 98,
       "stagnation_threshold": 3,
-      "recommended_focus": "satellite_risk_cost",
+      "recommended_focus": "core_multifactor_coverage",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-19T23:03:37+08:00"
     },
     "ashare_path2": {
-      "signature": "d82900b1b484ceaa45e1",
+      "signature": "635fbbaab437a9570e77",
       "changed": false,
-      "stagnation_runs": 68,
+      "stagnation_runs": 5,
       "stagnation_threshold": 3,
-      "recommended_focus": "underrepresented_families",
+      "recommended_focus": "risk_reconfirm_sensitivity",
       "rotation_status": "rotate",
-      "last_changed_at": "2026-05-21T23:04:53+08:00"
+      "last_changed_at": "2026-05-25T23:04:41+08:00"
     },
     "ashare_path3": {
-      "signature": "a0fc588aa2bee035c7a9",
+      "signature": "3487e7a0bec2d6d9282c",
       "changed": false,
-      "stagnation_runs": 79,
+      "stagnation_runs": 5,
       "stagnation_threshold": 3,
-      "recommended_focus": "risk_downshift",
+      "recommended_focus": "weekly_exit_buffer",
       "rotation_status": "rotate",
-      "last_changed_at": "2026-05-20T23:15:50+08:00"
+      "last_changed_at": "2026-05-25T23:04:41+08:00"
     },
     "ashare_path4": {
-      "signature": "b692aa515dde5e1c0d22",
+      "signature": "01e55c54f22335b44703",
       "changed": false,
-      "stagnation_runs": 79,
+      "stagnation_runs": 5,
       "stagnation_threshold": 3,
-      "recommended_focus": "theme_risk_control",
+      "recommended_focus": "theme_signal_quality",
       "rotation_status": "rotate",
-      "last_changed_at": "2026-05-20T23:15:50+08:00"
+      "last_changed_at": "2026-05-25T23:04:41+08:00"
     },
     "hkconnect_path1": {
       "signature": "52b8e392f074f95a3bde",
       "changed": false,
-      "stagnation_runs": 36,
+      "stagnation_runs": 42,
       "stagnation_threshold": 3,
-      "recommended_focus": "monthly_weekly_overlay",
+      "recommended_focus": "risk_overlay_cost",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-23T17:10:17+08:00"
     },
     "hkconnect_path2": {
       "signature": "00a0b61b86cadd408c85",
       "changed": false,
-      "stagnation_runs": 94,
+      "stagnation_runs": 100,
       "stagnation_threshold": 3,
-      "recommended_focus": "biweekly_breakout",
+      "recommended_focus": "high_return_monthly",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-19T17:24:53+08:00"
     },
     "hkconnect_path3": {
       "signature": "b7342ce17b7c2ec9f0ba",
       "changed": false,
-      "stagnation_runs": 53,
+      "stagnation_runs": 59,
       "stagnation_threshold": 3,
-      "recommended_focus": "cost_stress",
+      "recommended_focus": "weekly_defensive_overlay",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-22T23:03:50+08:00"
     }
@@ -81,7 +81,7 @@
         "satellite_defense": 6,
         "signal_variants": 2,
         "core_multifactor": 25,
-        "holding_shape": 16,
+        "holding_shape": 17,
         "supporting_variants": 4,
         "drawdown_guard": 7
       }
@@ -92,6 +92,10 @@
           "current_count": 21,
           "target_representatives": 6
         },
+        "decorrelated_defensive_mix": {
+          "current_count": 16,
+          "target_representatives": 8
+        },
         "emergent_theme_discovery": {
           "current_count": 59,
           "target_representatives": 4
@@ -101,15 +105,15 @@
           "target_representatives": 6
         },
         "high_growth_theme": {
-          "current_count": 313,
-          "target_representatives": 6
+          "current_count": 315,
+          "target_representatives": 4
         },
         "momentum_equal_weight_elastic": {
           "current_count": 30,
           "target_representatives": 6
         },
         "weekly_rebalance_aggressive": {
-          "current_count": 55,
+          "current_count": 56,
           "target_representatives": 6
         }
       },
@@ -141,7 +145,7 @@
       }
     },
     "hkconnect": {
-      "candidate_count": 133,
+      "candidate_count": 136,
       "next_run_new_candidate_quota": {
         "path1": 2,
         "path2": 3,
