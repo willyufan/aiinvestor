@@ -32,6 +32,13 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-26 23:15 CST）
+
+- 开局 guard 为 `pass`；上一轮要求优先执行 `theme_signal_quality` 的 `risk40/cap45/exit82`，本轮在三底座注册 `aggr_07_93_prom6_emergent_theme_quality_gate_risk40_cap45_exit82`。注册后 guard 如预期出现 Path 4 blocking 缺口，已按 `--only-base-ids` 五窗口增量补齐，命令见 Path 1 blocking 批次。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_07_93_prom6_emergent_theme_quality_gate_risk40_cap45_exit82`、`core_explore_90_10_equal_weight_winner_core__aggr_07_93_prom6_emergent_theme_quality_gate_risk40_cap45_exit82`、`core_explore_90_10_total_mv_winner_core__aggr_07_93_prom6_emergent_theme_quality_gate_risk40_cap45_exit82`。
+- `80/20 total_mv` 五窗口 CAGR 为 `20.22% / 15.08% / 34.11% / 91.27% / 104.61%`，最大回撤 `-33.06% / -39.08% / -24.92% / -16.70% / -3.21%`，换手 `3.47x / 3.96x / 3.57x / 6.00x / 7.18x`；`90/10 equal_weight` 为 `21.94% / 16.78% / 34.25% / 117.66% / 117.55%`；`90/10 total_mv` 为 `21.19% / 16.92% / 31.90% / 112.91% / 93.85%`。该组仍能捕捉鼎龙股份、源杰科技、国瓷材料、杰瑞股份、长飞光纤、睿创微纳等多票强主题，不是单票幸运；但 2020 回撤加深，不能只按 2025/2026 短窗晋级。
+- 因 Path 4 active cap 维持 `60`，本轮从 active discovery universe 移出 `aggr_02_98_prom2_emergent_theme_risk40_cap90`，原因是旧第一批 cap90 形态集中度/稳定性弱于新的 quality-gate 线且未改善 robust。`scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=59`，`scripts/update_weighted_winners.py` 后 Path 4 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`，official/tracked 未改。最终 guard 为 `ashare_path4_emergent_theme 60/60 complete`，下一轮 focus 仍为 `theme_signal_quality`；第一条命令建议继续提高信号质量但压集中度，例如三底座 `aggr_07_93_prom6_emergent_theme_quality_gate_risk45_cap40_exit80`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_theme_signal_quality_ids>`。
+
 ## 本轮执行计划（2026-05-26 05:09 CST）
 
 - 开局 guard 为 `pass`；上一轮 `prom5 + risk35 + cap45 + exit82` 短窗强但 2020/2023 稳定性不足，本轮按 `emergent_theme_coverage` 扩到 `prom6` 覆盖形态，仍不引入人工主题标签或 ETF。命令类型为五窗口 `--only-base-ids` 增量确认，实际 A股合并命令见 Path 1 本轮记录。

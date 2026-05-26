@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-26 23:15 CST）
+
+- 开局 guard 为 `pass`；上一轮要求从 `underrepresented_families` 补非 high-growth 代表，本轮用双周 rebalance + 成本守门做压力测试，并把等权多因子 companion 纳入 Path 2 横向比较。A股非阻塞命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_profitability_industry_reconfirm,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap75_biweekly_cost_guard,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap58_hold6_turn06_exit88_weekly`。
+- 本轮新增并五窗口确认 1 个 Path 2 underrepresented/biweekly base id：`core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap75_biweekly_cost_guard`。五窗口 CAGR 为 `7.80% / 12.91% / 21.82% / 66.66% / 36.64%`，最大回撤 `-43.17% / -34.99% / -27.49% / -20.18% / -11.61%`，换手 `4.99x / 5.47x / 6.03x / 12.00x / 12.54x`。双周成本守门没有改善 2020/2023，上限也低于 high-growth robust。
+- 等权多因子 companion `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_profitability_industry_reconfirm` 的五窗口 CAGR 为 `12.76% / 15.65% / 30.93% / 55.06% / 69.85%`，2026 较强但 2017/2020/2023 回撤过深，只保留为 decorrelated defensive mix 失败对照。
+- `scripts/path2_candidate_pass.py` 后 candidate universe 为 `705`，raw robust 仍为 `core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap95`；`scripts/update_weighted_winners.py` 后 Path 2 official winner/robust/tracked payload 未变化。候选池未触发 Path 2 evict。最终 focus 转为 `capacity_and_cost_stress`；下一轮第一条命令建议回到 high-growth robust 邻域压 cap 与成本，而不是继续扩弱双周，例如等权/总市值 `aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cost_guard`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_capacity_cost_ids>`。
+
 ## 本轮执行计划（2026-05-26 05:09 CST）
 
 - 开局 guard 为 `pass`；上一轮 `exit55/reconfirm75/caution80/cap75` 仍无法修复 2026 负收益，本轮沿 `medium_cycle_growth` 把退出阈值进一步收紧到 `exit50`，继续只用等权/总市值双底座确认。命令类型为五窗口 `--only-base-ids` 增量确认，实际 A股合并命令见 Path 1 本轮记录。
