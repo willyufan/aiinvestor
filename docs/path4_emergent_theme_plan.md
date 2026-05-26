@@ -32,6 +32,14 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-27 05:20 CST）
+
+- 开局 guard 为 `pass`；上一轮要求优先执行三底座 `aggr_07_93_prom6_emergent_theme_quality_gate_risk45_cap40_exit80`，本轮已注册并按 guard blocking `--only-base-ids` 五窗口补齐，继续不使用人工主题标签、不纳入 ETF。实际补缺口命令见 Path 1 本轮 blocking 批次。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_07_93_prom6_emergent_theme_quality_gate_risk45_cap40_exit80`、`core_explore_90_10_equal_weight_winner_core__aggr_07_93_prom6_emergent_theme_quality_gate_risk45_cap40_exit80`、`core_explore_90_10_total_mv_winner_core__aggr_07_93_prom6_emergent_theme_quality_gate_risk45_cap40_exit80`。
+- `80/20 total_mv` 五窗口 CAGR 为 `19.76% / 14.78% / 34.66% / 92.14% / 102.80%`，最大回撤 `-34.06% / -40.43% / -26.47% / -16.70% / -4.46%`，换手 `3.52x / 4.03x / 3.66x / 6.00x / 7.22x`；`90/10 equal_weight` 为 `21.12% / 16.31% / 33.93% / 120.64% / 109.83%`；`90/10 total_mv` 为 `20.61% / 16.24% / 31.80% / 115.42% / 90.99%`。新组能捕捉鼎龙股份、源杰科技、国瓷材料、杰瑞股份、宏和科技、长飞光纤、睿创微纳等多票强主题，不是单票幸运；但 2020 回撤仍深，不能只按 2025/2026 短窗晋级。
+- 因 Path 4 active cap 维持 `60`，本轮从 active discovery universe 移出 `aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap60`，原因是旧 prom2/cap60 组长窗与 2020 稳定性弱于后续 prom4-prom7 quality-gate 线，且未改善 robust。`scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=58`；`scripts/update_weighted_winners.py` 后 Path 4 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`，四窗口 meanCAGR `44.46%`、minCAGR `21.78%`、worstMaxDD `-33.79%`、meanTurn `4.24x`，official/tracked 未改。
+- 最终 guard 为 `ashare_path4_emergent_theme 60/60 complete`，下一轮 focus 转为 `theme_capacity_cost`。第一条命令建议继续压单票/容量上限，并在新增前再 evict 一个弱 prom2 active，例如三底座 `aggr_07_93_prom6_emergent_theme_quality_gate_risk45_cap35_exit80`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_theme_capacity_cost_ids>`。
+
 ## 本轮执行计划（2026-05-26 23:15 CST）
 
 - 开局 guard 为 `pass`；上一轮要求优先执行 `theme_signal_quality` 的 `risk40/cap45/exit82`，本轮在三底座注册 `aggr_07_93_prom6_emergent_theme_quality_gate_risk40_cap45_exit82`。注册后 guard 如预期出现 Path 4 blocking 缺口，已按 `--only-base-ids` 五窗口增量补齐，命令见 Path 1 blocking 批次。

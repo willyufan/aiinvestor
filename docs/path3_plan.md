@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-27 05:20 CST）
+
+- 开局 guard 为 `pass`；上一轮要求新增前先归档 `cashoff_cap58_hold6_turn06_exit88_weekly`，本轮已加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是 2023 CAGR 只有 `11.63%` 且不改善 robust。随后按 `cost_stress` 新增同一形态的纯 `_weekly` 成本守门版。
+- 本轮新增并五窗口确认 1 个纯 `_weekly` Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap58_hold6_turn06_exit88_weekly`。实际命令见 Path 2 本轮 A股非阻塞批次，命令类型为五窗口 `--only-base-ids` 增量确认。
+- `cost_guard_cap58_hold6_turn06_exit88_weekly` 五窗口 CAGR 为 `8.70% / -0.27% / 5.89% / 48.99% / 103.97%`，最大回撤 `-37.89% / -51.25% / -35.05% / -24.89% / -7.91%`，换手 `3.50x / 3.90x / 3.93x / 4.95x / 7.05x`。成本守门只强化 2026 短窗，2020/2023 收益和回撤明显坍塌，不适合晋级。
+- `scripts/path2_candidate_pass.py` 后 `weekly_rebalance_aggressive=58`；`scripts/update_weighted_winners.py` 后 Path 3 window winner、robust candidate 与 tracked payload 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly`，四窗口 meanCAGR `30.44%`、minCAGR `12.70%`、worstMaxDD `-28.69%`、meanTurn `8.98x`。最终 guard 为 `ashare_path3_weekly_universe 60/60 complete`。
+- 下一轮新增前应先归档本轮 `cost_guard_cap58_hold6_turn06_exit88_weekly`，理由是 2020/2023 失败且不改善 robust。最终 focus 转为 `weekly_exit_buffer`；第一条命令建议改测不加成本守门、但保留低换手框架的更宽退出缓冲版本，例如 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap58_hold6_turn04_exit92_weekly`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_exit_buffer_id>`。
+
 ## 本轮执行计划（2026-05-26 23:15 CST）
 
 - 开局 guard 为 `pass`；上一轮要求新增前先归档 `cashoff_cap58_hold7_turn05_exit92_weekly`，本轮已加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是 2023 CAGR 只有 `11.64%` 且 2026 为负。随后按 `risk_downshift/weekly_exit_buffer` 把持有期缩到 6 周、退出收紧到 `exit88`，仍只在纯 `_weekly` Path 3 内比较。

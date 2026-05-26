@@ -1917,6 +1917,60 @@
         }
       }
     },
+    "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit32": {
+      "strategy_name": "沪港通Path1 月度等权缓冲(周度轻成本32)",
+      "path": "path1",
+      "candidate_family": "monthly_equal_buffered_weekly_overlay",
+      "rebalance_frequency": "monthly",
+      "short_label": "monthly\nequal\nbuffered\nweekly\noverlay\nsoft\ncost\nguard\nexit32",
+      "windows": {
+        "since_2017_01": {
+          "sample_start": "2017-02-01",
+          "sample_end": "2026-04-30",
+          "total_return": 6.39855259,
+          "cagr": 0.24154313,
+          "max_drawdown": -0.23186656,
+          "sharpe_ratio": 1.30244849,
+          "average_annual_turnover": 3.54735534
+        },
+        "since_2020_01": {
+          "sample_start": "2020-02-03",
+          "sample_end": "2026-04-30",
+          "total_return": 4.08410127,
+          "cagr": 0.29716216,
+          "max_drawdown": -0.13357974,
+          "sharpe_ratio": 1.48252526,
+          "average_annual_turnover": 3.5502627
+        },
+        "since_2023_01": {
+          "sample_start": "2023-02-01",
+          "sample_end": "2026-04-30",
+          "total_return": 1.497586,
+          "cagr": 0.32529935,
+          "max_drawdown": -0.13357974,
+          "sharpe_ratio": 1.66019843,
+          "average_annual_turnover": 3.256331
+        },
+        "since_2025_01": {
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-04-30",
+          "total_return": 0.56307394,
+          "cagr": 0.42949822,
+          "max_drawdown": -0.13357974,
+          "sharpe_ratio": 1.65808655,
+          "average_annual_turnover": 3.44807141
+        },
+        "since_2026_01": {
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-04-30",
+          "total_return": -0.02451265,
+          "cagr": -0.09450392,
+          "max_drawdown": -0.10908477,
+          "sharpe_ratio": -0.19792479,
+          "average_annual_turnover": 3.67430393
+        }
+      }
+    },
     "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit32": {
       "strategy_name": "沪港通Path1 月度等权缓冲(周度轻风控32)",
       "path": "path1",
@@ -4290,6 +4344,60 @@
           "max_drawdown": -0.05571076,
           "sharpe_ratio": 1.48598716,
           "average_annual_turnover": 7.31926225
+        }
+      }
+    },
+    "hkconnect_path2_inverse_elastic_monthly_cost_guard_v6": {
+      "strategy_name": "沪港通Path2 月度逆市值高弹性(成本防守v6)",
+      "path": "path2",
+      "candidate_family": "momentum_equal_weight_elastic",
+      "rebalance_frequency": "monthly",
+      "short_label": "inverse\nelastic\nmonthly\ncost\nguard\nv6",
+      "windows": {
+        "since_2017_01": {
+          "sample_start": "2017-02-01",
+          "sample_end": "2026-04-30",
+          "total_return": 3.35093444,
+          "cagr": 0.1722924,
+          "max_drawdown": -0.34063037,
+          "sharpe_ratio": 0.84401534,
+          "average_annual_turnover": 5.8616922
+        },
+        "since_2020_01": {
+          "sample_start": "2020-02-03",
+          "sample_end": "2026-04-30",
+          "total_return": 1.87662539,
+          "cagr": 0.18418984,
+          "max_drawdown": -0.34063037,
+          "sharpe_ratio": 0.83508682,
+          "average_annual_turnover": 5.7120816
+        },
+        "since_2023_01": {
+          "sample_start": "2023-02-01",
+          "sample_end": "2026-04-30",
+          "total_return": 0.51170723,
+          "cagr": 0.13558809,
+          "max_drawdown": -0.3508627,
+          "sharpe_ratio": 0.66539866,
+          "average_annual_turnover": 6.3036078
+        },
+        "since_2025_01": {
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-04-30",
+          "total_return": 1.00786763,
+          "cagr": 0.74657831,
+          "max_drawdown": -0.07962005,
+          "sharpe_ratio": 2.39637462,
+          "average_annual_turnover": 6.43234884
+        },
+        "since_2026_01": {
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-04-30",
+          "total_return": 0.10628943,
+          "cagr": 0.49787319,
+          "max_drawdown": -0.05348703,
+          "sharpe_ratio": 1.19814289,
+          "average_annual_turnover": 7.11784139
         }
       }
     },
@@ -6774,6 +6882,60 @@
           "max_drawdown": -0.08363934,
           "sharpe_ratio": 0.59482362,
           "average_annual_turnover": 31.13681033
+        }
+      }
+    },
+    "hkconnect_path3_theme_fast_weekly_cost_guard_turnover2_exit62": {
+      "strategy_name": "沪港通Path3 单周快速主线(成本防守2出场62)",
+      "path": "path3",
+      "candidate_family": "weekly_high_growth_theme_cost_control",
+      "rebalance_frequency": "weekly",
+      "short_label": "theme\nfast\nweekly\ncost\nguard\nturnover2\nexit62",
+      "windows": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-05-15",
+          "total_return": 2.02379107,
+          "cagr": 0.12568548,
+          "max_drawdown": -0.35434396,
+          "sharpe_ratio": 0.61769405,
+          "average_annual_turnover": 17.62937585
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-05-15",
+          "total_return": 1.41093949,
+          "cagr": 0.14874411,
+          "max_drawdown": -0.27068067,
+          "sharpe_ratio": 0.66852761,
+          "average_annual_turnover": 17.31324241
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-09",
+          "sample_end": "2026-05-15",
+          "total_return": 0.46767112,
+          "cagr": 0.12223793,
+          "max_drawdown": -0.25639312,
+          "sharpe_ratio": 0.59745103,
+          "average_annual_turnover": 18.48358939
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-06",
+          "sample_end": "2026-05-15",
+          "total_return": 0.59358295,
+          "cagr": 0.40675372,
+          "max_drawdown": -0.15370931,
+          "sharpe_ratio": 1.43504113,
+          "average_annual_turnover": 22.7201847
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-05",
+          "sample_end": "2026-05-15",
+          "total_return": 0.05473328,
+          "cagr": 0.15701176,
+          "max_drawdown": -0.08752887,
+          "sharpe_ratio": 0.81606609,
+          "average_annual_turnover": 21.66403551
         }
       }
     },

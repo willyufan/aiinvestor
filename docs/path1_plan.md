@@ -4,6 +4,14 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-27 05:20 CST）
+
+- 开局 guard 为 `pass`；上一轮 `profitability_industry_reconfirm` 仍无法修复长窗回撤，本轮按 `signal_quality` 注册并优先补齐代码实际 `core_multifactor` 新变体 `aggr_08_92_prom6_core_multifactor_quality_trend_cashguard_reconfirm`。注册后 guard 如预期给出 Path 1 core_multifactor 与 Path 4 新变体缺口，已用五窗口 `--only-base-ids` 增量补齐，没有跑全量。blocking 命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_trend_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_07_93_prom6_emergent_theme_quality_gate_risk45_cap40_exit80,core_explore_90_10_equal_weight_winner_core__aggr_07_93_prom6_emergent_theme_quality_gate_risk45_cap40_exit80,core_explore_90_10_total_mv_winner_core__aggr_07_93_prom6_emergent_theme_quality_gate_risk45_cap40_exit80`。
+- 本轮新增并五窗口确认 1 个 Path 1/core_multifactor base id：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_trend_cashguard_reconfirm`。五窗口 CAGR 为 `17.22% / 13.49% / 19.22% / 72.87% / 66.29%`，最大回撤为 `-25.91% / -24.30% / -11.95% / -13.78% / -5.49%`，换手为 `2.85x / 3.40x / 3.67x / 5.41x / 6.50x`。趋势质量现金守门改善回撤形态，但 2020/2023 收益仍低于当前 Path 1 robust，不能替换 window winner 或 robust candidate。
+- core_multifactor 子段按代码实际池完成 `27/27` 覆盖；`scripts/update_weighted_winners.py` 后 Path 1 window winner、robust candidate 与 tracked payload 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__port_weekly_exposure_buffered`，四窗口 meanCAGR `50.20%`、minCAGR `28.01%`、worstMaxDD `-29.18%`、meanTurn `4.08x`。候选池未触发 Path 1 evict。
+- 最终 guard 为 `pass`，`ashare_path1_core_multifactor 27/27 complete`、`ashare_path1_fast_family 69/69 complete`，下一轮 focus 转为 `holding_shape`。第一条命令建议回到持仓形态线，补一个区别于近期 2+8/ramp80 的 3+7 成本防守形态，例如 `core_explore_80_20_total_mv_winner_core__share_12_88_hold_3_7_ramp85_cost_guard`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path1_holding_shape_id>`。
+
 ## 本轮执行计划（2026-05-26 23:15 CST）
 
 - 开局 guard 为 `pass`；按上一轮 `core_multifactor_coverage` 注册 `profitability_industry_reconfirm`，注册后 guard 如预期给出 `ashare_path1_core_multifactor` 与 Path 4 新变体缺口，已用 `--only-base-ids` 增量补齐，没有跑全量。blocking 覆盖命令为：
