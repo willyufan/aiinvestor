@@ -1,5 +1,13 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-05-28 04:19 CST）
+
+- 开局 guard 为 `pass`；上一轮 `theme_fast_weekly_cost_guard_turnover1_exit66` 降低换手但仍不改善 robust，本轮按 `cost_stress` 在同一低 turnover 高弹性周频线上放宽到 `exit68`。
+- 本轮新增并五窗口确认：`hkconnect_path3_theme_fast_weekly_cost_guard_turnover1_exit68`。实际 HK 合并命令见 HK Path 1 本轮记录，命令类型为五窗口 `--only-strategy-ids` 增量确认。
+- `theme_fast_weekly_cost_guard_turnover1_exit68` 五窗口 CAGR 为 `15.35% / 16.32% / 15.97% / 50.04% / 22.03%`，最大回撤为 `-35.40% / -26.31% / -24.75% / -14.59% / -8.26%`，换手为 `14.91x / 14.67x / 16.16x / 19.50x / 18.32x`。它较 `exit66` 小幅改善收益与换手，但 2017/2020/2023 收益、回撤和 15x+ 换手仍弱于稳定周频 robust。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 3 tracked/robust 未变化，robust 仍为 `hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`。候选池未触发 HK explore cap evict。
+- 最终 guard 为 `pass`，下一轮 focus 转为 `weekly_turnover_reduction`。第一条命令建议不要继续只放宽 exit，转向稳定周频低换手分支修复 2026，例如 `hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover8_exit40`，五窗口 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path3_weekly_turnover_reduction_next_id>`。
+
 ## 本轮执行计划（2026-05-27 17:17 CST）
 
 - 开局 guard 为 `pass`；上一轮 `theme_fast_weekly_cost_guard_turnover2_exit64` 继续降低换手但不改善 robust，本轮按 `weekly_turnover_reduction` 进一步压到 `turnover1/exit66`，仍只在 HK 纯周度 Path 3 内比较。

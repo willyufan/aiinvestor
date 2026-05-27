@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-28 04:19 CST）
+
+- 开局 guard 为 `pass`；上一轮 `cost_guard_cap58_hold6_turn04_exit90_weekly` 2020 转负且 2023 仍弱，本轮新增前已加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，active weekly universe 维持 `60/60 complete`。随后按 `turnover_reduction` 测试更低 cap、更长持有、更宽出场的纯 `_weekly` 版本。
+- 本轮新增并五窗口确认 1 个纯 `_weekly` Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold8_turn04_exit94_weekly`。实际 A股合并命令见 Path 1 本轮记录，命令类型为五窗口 `--only-base-ids` 增量确认。
+- `cashoff_cap55_hold8_turn04_exit94_weekly` 五窗口 CAGR 为 `14.67% / 15.11% / 4.83% / 20.96% / 36.17%`，最大回撤为 `-26.54% / -27.54% / -29.08% / -26.12% / -10.20%`，换手为 `2.50x / 2.74x / 2.32x / 4.63x / 8.64x`。它保留低换手，但 2023 收益继续坍塌且 2025 弹性不足，不能替换 Path 3 robust。
+- `scripts/path2_candidate_pass.py` 后 `weekly_rebalance_aggressive=61`；`scripts/update_weighted_winners.py` 后 Path 3 window winner、robust candidate 与 tracked payload 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly`。本轮 evict/归档：`cost_guard_cap58_hold6_turn04_exit90_weekly`，原因是 2020 负收益与 2023 弱。
+- 最终 guard 为 `pass`，下一轮 focus 仍为 `turnover_reduction`。下一轮新增前应先归档本轮 `cashoff_cap55_hold8_turn04_exit94_weekly`，理由是 2023 CAGR 只有 `4.83%` 且不改善 robust；第一条命令建议不要继续拓宽 exit，改测低换手但保留更高 cap 的纯周频对照，例如 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold8_turn04_exit94_weekly`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_turnover_reduction_id>`。
+
 ## 本轮执行计划（2026-05-27 17:17 CST）
 
 - 开局 guard 为 `pass`；上一轮 `cashoff_cap58_hold6_turn04_exit92_weekly` 2023 CAGR 只有 `8.07%` 且不改善 robust，本轮新增前已加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，active weekly universe 维持 `60/60 complete`。随后按 `cost_stress` 测试同一低换手框架的成本守门/更窄出场版本。

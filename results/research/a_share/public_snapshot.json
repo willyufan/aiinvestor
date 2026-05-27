@@ -4411,8 +4411,8 @@
           "entries": [
             {
               "rank": 1,
-              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit34_cashguard_light",
-              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻风控34浅现金)",
+              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_cashguard",
+              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度现金防守)",
               "is_official_winner": true,
               "metrics": {
                 "weighted_cagr": 0.0,
@@ -4422,17 +4422,6 @@
             },
             {
               "rank": 2,
-              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_cashguard",
-              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度现金防守)",
-              "is_official_winner": false,
-              "metrics": {
-                "weighted_cagr": 0.0,
-                "weighted_sharpe": 0.0,
-                "weighted_max_drawdown": 0.0
-              }
-            },
-            {
-              "rank": 3,
               "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cashguard_exit45",
               "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻风控+现金防守45)",
               "is_official_winner": false,
@@ -4443,7 +4432,7 @@
               }
             },
             {
-              "rank": 4,
+              "rank": 3,
               "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit32",
               "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻成本32)",
               "is_official_winner": false,
@@ -4454,9 +4443,20 @@
               }
             },
             {
-              "rank": 5,
+              "rank": 4,
               "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit32",
               "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻风控32)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.0,
+                "weighted_sharpe": 0.0,
+                "weighted_max_drawdown": 0.0
+              }
+            },
+            {
+              "rank": 5,
+              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit34",
+              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻风控34)",
               "is_official_winner": false,
               "metrics": {
                 "weighted_cagr": 0.0,
