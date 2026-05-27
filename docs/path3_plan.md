@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-27 17:17 CST）
+
+- 开局 guard 为 `pass`；上一轮 `cashoff_cap58_hold6_turn04_exit92_weekly` 2023 CAGR 只有 `8.07%` 且不改善 robust，本轮新增前已加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，active weekly universe 维持 `60/60 complete`。随后按 `cost_stress` 测试同一低换手框架的成本守门/更窄出场版本。
+- 本轮新增并五窗口确认 1 个纯 `_weekly` Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap58_hold6_turn04_exit90_weekly`。实际 A股合并命令见 Path 1 本轮记录，命令类型为五窗口 `--only-base-ids` 增量确认。
+- `cost_guard_cap58_hold6_turn04_exit90_weekly` 五窗口 CAGR 为 `10.75% / -0.29% / 8.72% / 27.32% / 109.31%`，最大回撤为 `-31.73% / -50.25% / -25.16% / -22.40% / -7.73%`，换手为 `2.94x / 3.11x / 2.81x / 3.61x / 6.75x`。它只强化 2026，2020 转负且 2023 仍塌陷，不能替换 Path 3 robust。
+- `scripts/path2_candidate_pass.py` 后 `weekly_rebalance_aggressive=60`；`scripts/update_weighted_winners.py` 后 Path 3 window winner、robust candidate 与 tracked payload 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly`。本轮 evict/归档：`cashoff_cap58_hold6_turn04_exit92_weekly`，原因是 2023 收益过低且未改善 robust。
+- 最终 guard 为 `pass`，下一轮 focus 已轮换为 `turnover_reduction`。下一轮新增前应先归档本轮 `cost_guard_cap58_hold6_turn04_exit90_weekly`，理由是 2020 负收益与 2023 弱；第一条命令建议不继续强成本守门，改测更低换手且退出更宽的纯 `_weekly` 版本，例如 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold8_turn04_exit94_weekly`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_turnover_reduction_id>`。
+
 ## 本轮执行计划（2026-05-27 11:22 CST）
 
 - 开局 guard 为 `pass`；上一轮要求新增前先归档 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap58_hold6_turn06_exit88_weekly`，本轮已加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是 2020/2023 失败且不改善 robust。随后按 `weekly_exit_buffer` 新增纯 `_weekly` 的 `turn04/exit92` 低换手缓冲版本。

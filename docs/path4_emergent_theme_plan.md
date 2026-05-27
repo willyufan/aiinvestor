@@ -32,6 +32,14 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-27 17:17 CST）
+
+- 开局 guard 为 `pass`；上一轮 `aggr_07_93_prom6_emergent_theme_quality_gate_risk45_cap35_exit80` 能捕捉多票强主题但 2020 回撤仍深，本轮新增前从 active discovery universe 移出 `aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap45`，原因是旧 prom2/cap45 组 2020 稳定性弱且未改善 robust。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom7_emergent_theme_quality_gate_risk45_cap35_exit80`、`core_explore_90_10_equal_weight_winner_core__aggr_08_92_prom7_emergent_theme_quality_gate_risk45_cap35_exit80`、`core_explore_90_10_total_mv_winner_core__aggr_08_92_prom7_emergent_theme_quality_gate_risk45_cap35_exit80`。实际 blocking 补齐命令见 Path 1 本轮合并命令。
+- 新 prom7 组五窗口表现：`80/20 total_mv` CAGR `18.52% / 15.22% / 34.30% / 82.60% / 103.01%`，最大回撤 `-30.87% / -39.65% / -26.65% / -14.27% / -7.33%`；`90/10 equal_weight` CAGR `19.23% / 18.86% / 32.84% / 89.41% / 97.88%`；`90/10 total_mv` CAGR `18.72% / 17.91% / 32.22% / 90.82% / 82.29%`。
+- 持仓仍由鼎龙股份、国瓷材料、杰瑞股份、宏和科技、长飞光纤、睿创微纳等多票贡献，不是单票幸运；但 2020 回撤在 `-37.80%` 到 `-39.65%`，2020 稳定性仍弱于现有 robust，不能只凭 2025/2026 短窗晋级。`scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=60`，`scripts/update_weighted_winners.py` 后 Path 4 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`，official/tracked 未改。
+- 最终 guard 为 `pass`，`ashare_path4_emergent_theme 60/60 complete`，下一轮 focus 已轮换为 `theme_risk_control`。第一条命令建议新增前继续 evict 一个弱 prom2 active，并在本轮 prom7 强主题框架上收紧风险/退出，例如三底座 `aggr_08_92_prom7_emergent_theme_quality_gate_risk40_cap35_exit78`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_theme_risk_control_ids>`。
+
 ## 本轮执行计划（2026-05-27 11:22 CST）
 
 - 开局 guard 为 `pass`；上一轮要求优先执行三底座 `aggr_07_93_prom6_emergent_theme_quality_gate_risk45_cap35_exit80`，本轮已注册并按 guard blocking `--only-base-ids` 五窗口补齐，继续不使用人工主题标签、不纳入 ETF。
