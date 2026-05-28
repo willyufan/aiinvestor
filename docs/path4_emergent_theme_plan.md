@@ -32,6 +32,15 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-29 04:17 CST）
+
+- 开局 guard 为 `pass`；上一轮 `prom8/risk35/cap30/exit76` 组短窗继续强但 2020 回撤仍深，本轮按 `emergent_theme_coverage` 扩到 `prom9`，继续不使用人工主题标签、不纳入 ETF。新增前从 active discovery universe 移出 `aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap40`，原因是旧 prom6/cap40 已被后续 prom8-prom9/cap30 线覆盖，且不改善 robust。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk35_cap30_exit76`、`core_explore_90_10_equal_weight_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk35_cap30_exit76`、`core_explore_90_10_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk35_cap30_exit76`。本路径可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk35_cap30_exit76,core_explore_90_10_equal_weight_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk35_cap30_exit76,core_explore_90_10_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk35_cap30_exit76`。
+- 新 prom9/cap30 组三底座五窗口 CAGR：`80/20 total_mv` 为 `17.83% / 15.56% / 29.01% / 73.19% / 96.35%`，`90/10 equal_weight` 为 `20.84% / 16.10% / 30.35% / 81.78% / 90.30%`，`90/10 total_mv` 为 `20.10% / 13.80% / 28.77% / 82.70% / 77.57%`。2025/2026 仍强，2020 最大回撤仍约 `-32%`，长窗稳定性低于现有 Path 4 robust。
+- 持仓由鼎龙股份、杰普特、华峰测控、源杰科技、宏和科技、广钢气体、睿创微纳、盛科通信-U、天赐材料等多票贡献，不是单票幸运；但不能只凭短窗 CAGR 晋级。`scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=59`，`scripts/update_weighted_winners.py` 后 Path 4 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`，official/tracked 未改。
+- 最终 guard 为 `pass`，`ashare_path4_emergent_theme 60/60 complete`，下一轮 focus 为 `theme_signal_quality`。第一条命令建议新增前继续 evict 一个弱旧 quality-gate active，并在 prom9/cap30 上提高信号质量或更严风险过滤，例如三底座 `aggr_10_90_prom9_emergent_theme_quality_gate_risk40_cap30_exit78`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_theme_signal_quality_ids>`。
+
 ## 本轮执行计划（2026-05-28 22:19 CST）
 
 - 开局 guard 为 `pass`；上一轮 `risk35/cap35/exit76` 短窗强但 2020 回撤仍深，本轮按 `theme_capacity_cost` 把单票上限继续收紧到 `cap30`，仍不使用人工主题标签、不纳入 ETF。新增前从 active discovery universe 移出 `aggr_05_95_prom3_emergent_theme_risk40_cap70`，原因是第一批旧 cap70 已被后续 quality-gate/prom7-prom8 线覆盖，且不改善 robust。
