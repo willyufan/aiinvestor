@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-28 10:34 CST）
+
+- 开局 guard 为 `pass`；上一轮 `reconfirm75/caution85/cap75` 保留 2020/2025 弹性但 2026 转负，本轮按 `medium_cycle_growth/risk_reconfirm_sensitivity` 继续同一中周期高收益族，把单票 cap 降到 `65`，观察能否修复 2026 与集中风险。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk45_mom_exit55_reconfirm75_caution85_cap65_cashguard`、`core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk45_mom_exit55_reconfirm75_caution85_cap65_cashguard`。实际 A股合并命令见 Path 1 本轮记录，命令类型为五窗口 `--only-base-ids` 增量确认。
+- 等权版五窗口 CAGR 为 `25.34% / 39.69% / 38.86% / 130.50% / -12.60%`，最大回撤为 `-52.66% / -36.35% / -33.69% / -11.51% / -13.03%`，换手为 `3.77x / 4.65x / 4.44x / 7.30x / 7.25x`；总市值版为 `24.84% / 35.04% / 31.15% / 142.71% / -6.29%`，最大回撤为 `-52.50% / -35.26% / -33.51% / -13.29% / -10.19%`。降低 cap 没有修复 2017 深回撤与 2026 负收益，不晋级。
+- `scripts/path2_candidate_pass.py` 后 candidate universe 为 `733`，`high_growth_theme=323`、`weekly_rebalance_aggressive=62`、`emergent_theme_discovery=60`；`scripts/update_weighted_winners.py` 后 Path 2 tracked/window winner 有同步校验但本轮候选未替换 official/robust，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off`。候选池未触发 Path 2 evict。
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 733/733 complete`，下一轮 focus 为 `underrepresented_families`。第一条命令建议暂停 high-growth cap/risk 邻域，补一个低相关双周或防守多因子代表，例如 `core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap70_biweekly_cost_guard`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_underrepresented_ids>`。
+
 ## 本轮执行计划（2026-05-28 04:19 CST）
 
 - 开局 guard 为 `pass`；上一轮等权多因子 companion 只提供低相关失败对照，本轮按 `medium_cycle_growth` 回到高收益中周期族。上一轮建议的 `risk45_mom_exit55_reconfirm70_caution80_cap80_cashguard` 已有完整结果，因此本轮新增更严恢复确认、更高谨慎仓、更低 cap 的 `reconfirm75/caution85/cap75` 版本。
