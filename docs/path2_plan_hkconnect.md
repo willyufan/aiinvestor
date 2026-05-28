@@ -1,5 +1,14 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-05-28 16:18 CST）
+
+- 开局 guard 为 `pass`；上一轮强约束双周 breakout 最后复核失败，本轮按 `high_return_monthly` 回到主题月频高收益修复池，新增 `hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v7`。
+- 本轮新增并五窗口确认：`hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v7`。本路径可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v7`。
+- `theme_monthly_reconfirm_high_return_cost_control_v7` 五窗口 CAGR 为 `19.28% / 24.90% / 23.93% / 65.61% / 58.64%`，最大回撤为 `-26.73% / -17.49% / -12.75% / -10.05% / -9.91%`，换手为 `5.57x / 5.34x / 5.51x / 5.87x / 5.25x`。v7 保持 2025/2026 强正收益和可控回撤，但 2023 仍低于 `25%` 验收线，且 2017/2020 不及 robust。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 2 tracked/robust 未变化，robust 仍为 `hkconnect_path2_theme_monthly_cost_control`。候选池未触发 HK explore cap evict。
+- 最终 guard 为 `pass`，HK candidates `157/157 complete`，下一轮 focus 仍为 `biweekly_breakout`。该 focus 继续映射为“失败支线只允许终止复核”，不重启普通 breakout；若必须响应，第一条命令只测更低风险/出场的 `hkconnect_path2_breakout_cost_guard_biweekly_defensive_cashguard_exit28_risk20`，五窗口 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path2_biweekly_breakout_terminal_check_id>`；若继续失败，新增预算转回主题月频修复池。
+
 ## 本轮执行计划（2026-05-28 10:34 CST）
 
 - 开局 guard 为 `pass`；上一轮 `exit32/risk30` 的强约束双周 breakout 仍失败，本轮按 plan 中“最后复核池”完成更低 `exit30/risk25`，不重启普通双周 breakout 邻域。

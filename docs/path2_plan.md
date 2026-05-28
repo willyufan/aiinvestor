@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-28 16:18 CST）
+
+- 开局 guard 为 `pass`；上一轮 high-growth `cap65` 仍未修复 2017 深回撤与 2026 负收益，本轮按 `underrepresented_families` 暂停 high-growth 邻域，补一个双周 rebalance + 成本守门的低相关代表。
+- 本轮新增并五窗口确认 1 个 Path 2/biweekly base id：`core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap70_biweekly_cost_guard`。本路径可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap70_biweekly_cost_guard`。
+- `cap70_biweekly_cost_guard` 五窗口 CAGR 为 `7.80% / 12.90% / 21.82% / 66.66% / 36.64%`，最大回撤为 `-43.06% / -34.99% / -27.49% / -20.18% / -11.61%`，换手为 `4.98x / 5.47x / 6.03x / 12.00x / 12.54x`。结果确认这条双周成本线的长窗收益和回撤都弱，短窗换手也偏高，只保留为 underrepresented 失败对照。
+- `scripts/path2_candidate_pass.py` 后 candidate universe 为 `738`，`biweekly_rebalance_aggressive=23`、`weekly_rebalance_aggressive=63`、`high_growth_theme=323`；`scripts/update_weighted_winners.py` 后 Path 2 window winner/robust/tracked payload 重新同步但未被本轮候选替换，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off`。候选池未触发 Path 2 evict。
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 738/738 complete`，下一轮 focus 为 `capacity_and_cost_stress`。第一条命令建议回到 high-growth robust 邻域做容量/成本压力，而不是继续扩弱双周线，例如等权/总市值 `aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk45_mom_exit55_reconfirm75_caution85_cap60_cashguard_cost_guard`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_capacity_cost_ids>`。
+
 ## 本轮执行计划（2026-05-28 10:34 CST）
 
 - 开局 guard 为 `pass`；上一轮 `reconfirm75/caution85/cap75` 保留 2020/2025 弹性但 2026 转负，本轮按 `medium_cycle_growth/risk_reconfirm_sensitivity` 继续同一中周期高收益族，把单票 cap 降到 `65`，观察能否修复 2026 与集中风险。

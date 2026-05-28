@@ -3,6 +3,15 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-28 16:18 CST）
+
+- 开局 guard 为 `pass`；上一轮 `cashoff_cap60_hold8_turn04_exit94_weekly` 继续 2023 塌陷且 2020 回撤恶化，本轮新增前已将其加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，active weekly universe 维持 cap `60`。随后按 `risk_downshift` 测试同一低换手框架的 `risk30/cap60/exit92` 纯 `_weekly` 版本。
+- 本轮新增并五窗口确认 1 个纯 `_weekly` Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold8_turn04_exit92_weekly`。本路径可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold8_turn04_exit92_weekly`。
+- `risk30_cap60_hold8_turn04_exit92_weekly` 五窗口 CAGR 为 `10.89% / 1.00% / 8.52% / 33.18% / 52.95%`，最大回撤为 `-30.30% / -48.13% / -28.15% / -20.00% / -11.42%`，换手为 `3.05x / 3.24x / 3.32x / 3.52x / 5.95x`。风险降档强化 2026，但几乎牺牲 2020/2023，可持续性弱于 Path 3 robust。
+- `scripts/path2_candidate_pass.py` 后 `weekly_rebalance_aggressive=63`；`scripts/update_weighted_winners.py` 后 Path 3 window winner、robust candidate 与 tracked payload 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly`。本轮 evict/归档：`cashoff_cap60_hold8_turn04_exit94_weekly`，原因是 2023 CAGR 仅 `4.83%` 且 2020 回撤恶化。
+- 最终 guard 为 `pass`，`ashare_path3_weekly_universe 60/60 complete`，下一轮 focus 为 `cost_stress`。下一轮新增前应先归档本轮 `risk30_cap60_hold8_turn04_exit92_weekly`，理由是 2020 CAGR 仅 `1.00%`、2023 只有 `8.52%`；第一条命令建议测试同一形态的成本压力/更窄出场版本，例如 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold8_turn04_exit90_weekly`，五窗口 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_cost_stress_id>`。
+
 ## 本轮执行计划（2026-05-28 10:34 CST）
 
 - 开局 guard 为 `pass`；上一轮 `cashoff_cap55_hold8_turn04_exit94_weekly` 2023 CAGR 只有 `4.83%`，本轮新增前已将其加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，active weekly universe 维持 `60/60 complete`。随后按 `turnover_reduction/weekly_exit_buffer` 提高 cap 到 `60`，验证低换手形态是否只是被 cap55 压低收益。
