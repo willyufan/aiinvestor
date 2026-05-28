@@ -1,5 +1,14 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-05-28 22:19 CST）
+
+- 开局 guard 为 `pass`；上一轮 plan 要求回到 monthly-weekly overlay 邻域，本轮新增 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34`，作为无低波但保留成本守门的 `exit34` 对照，继续作为 HK 独立研究线，不并入 A股 winner。
+- 本轮新增并五窗口确认：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34`。实际 HK 合并命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34,hkconnect_path2_inverse_elastic_monthly_cost_guard_v8,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit40`。
+- `soft_cost_guard_exit34` 五窗口 CAGR 为 `24.31% / 29.83% / 32.59% / 42.95% / -9.45%`，最大回撤为 `-22.67% / -13.36% / -13.36% / -13.36% / -10.91%`，换手为 `3.52x / 3.55x / 3.26x / 3.45x / 3.67x`。它恢复了长窗收益，但 2026 重新转负，不替换 HK Path 1 robust。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 1 tracked/robust 未变化，robust 仍为 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit34`。候选池未触发 HK explore cap evict，三张 HK 图表已刷新。
+- 最终 guard 为 `pass`，HK candidates `160/160 complete`，下一轮 focus 为 `biweekly_buffer`。第一条命令建议回到双周低波/成本缓冲，用更低出场阈值检查是否能保留 2026 正收益并少损长窗，例如 `hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit32`，五窗口 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_biweekly_buffer_next_id>`。
+
 ## 本轮执行计划（2026-05-28 16:18 CST）
 
 - 开局 guard 为 `pass`；上一轮 plan 要求回到双周低波/成本缓冲，本轮新增 `hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit34`，继续作为 HK 独立研究线，不并入 A股 winner。
