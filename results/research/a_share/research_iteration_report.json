@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-29T22:20:58+08:00",
+  "generated_at": "2026-05-30T04:33:31+08:00",
   "as_of": "2026-05-29",
   "coverage_gate": {
     "status": "pass",
@@ -19,8 +19,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 32,
-        "complete_count": 32,
+        "candidate_count": 33,
+        "complete_count": 33,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -40,8 +40,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 79,
-        "complete_count": 79,
+        "candidate_count": 80,
+        "complete_count": 80,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -61,8 +61,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 765,
-        "complete_count": 765,
+        "candidate_count": 770,
+        "complete_count": 770,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -126,8 +126,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 172,
-        "complete_count": 172,
+        "candidate_count": 175,
+        "complete_count": 175,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -140,70 +140,70 @@
   "experiment_log": {
     "path": "results/research/a_share/research_experiments.jsonl",
     "candidate_entries": 93,
-    "appended_entries": 6
+    "appended_entries": 0
   },
   "rotation": {
     "ashare_path1": {
       "signature": "0540d6c96b14f94745a8",
       "changed": false,
-      "stagnation_runs": 2,
+      "stagnation_runs": 8,
       "stagnation_threshold": 3,
-      "recommended_focus": "core_multifactor_coverage",
-      "rotation_status": "continue",
+      "recommended_focus": "satellite_risk_cost",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-05-29T22:04:41+08:00"
     },
     "ashare_path2": {
       "signature": "e1d1f91c9e3287cfc319",
       "changed": false,
-      "stagnation_runs": 2,
+      "stagnation_runs": 8,
       "stagnation_threshold": 3,
-      "recommended_focus": "medium_cycle_growth",
-      "rotation_status": "continue",
+      "recommended_focus": "underrepresented_families",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-05-29T22:04:41+08:00"
     },
     "ashare_path3": {
       "signature": "2bc3c2f8c15bedec4fdc",
       "changed": false,
-      "stagnation_runs": 2,
+      "stagnation_runs": 8,
       "stagnation_threshold": 3,
-      "recommended_focus": "turnover_reduction",
-      "rotation_status": "continue",
+      "recommended_focus": "risk_downshift",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-05-29T22:04:41+08:00"
     },
     "ashare_path4": {
       "signature": "057fe13d169505e729d7",
       "changed": false,
-      "stagnation_runs": 3,
+      "stagnation_runs": 9,
       "stagnation_threshold": 3,
-      "recommended_focus": "theme_signal_quality",
+      "recommended_focus": "theme_capacity_cost",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-29T16:40:05+08:00"
     },
     "hkconnect_path1": {
       "signature": "bf7733bef64a11a0f367",
       "changed": false,
-      "stagnation_runs": 2,
+      "stagnation_runs": 8,
       "stagnation_threshold": 3,
-      "recommended_focus": "monthly_weekly_overlay",
-      "rotation_status": "continue",
+      "recommended_focus": "risk_overlay_cost",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-05-29T22:04:41+08:00"
     },
     "hkconnect_path2": {
       "signature": "00a0b61b86cadd408c85",
       "changed": false,
-      "stagnation_runs": 152,
+      "stagnation_runs": 158,
       "stagnation_threshold": 3,
-      "recommended_focus": "elasticity_cost_control",
+      "recommended_focus": "biweekly_breakout",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-19T17:24:53+08:00"
     },
     "hkconnect_path3": {
       "signature": "aecfd95bd48a1391295d",
       "changed": false,
-      "stagnation_runs": 2,
+      "stagnation_runs": 8,
       "stagnation_threshold": 3,
-      "recommended_focus": "weekly_turnover_reduction",
-      "rotation_status": "continue",
+      "recommended_focus": "cost_stress",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-05-29T22:04:41+08:00"
     }
   },
@@ -221,7 +221,7 @@
         "promotion_ramp": 5,
         "satellite_defense": 8,
         "signal_variants": 2,
-        "core_multifactor": 32,
+        "core_multifactor": 33,
         "holding_shape": 20,
         "supporting_variants": 4,
         "drawdown_guard": 7
@@ -246,7 +246,7 @@
           "target_representatives": 6
         },
         "high_growth_theme": {
-          "current_count": 331,
+          "current_count": 333,
           "target_representatives": 4
         },
         "momentum_equal_weight_elastic": {
@@ -254,7 +254,7 @@
           "target_representatives": 6
         },
         "weekly_rebalance_aggressive": {
-          "current_count": 67,
+          "current_count": 68,
           "target_representatives": 6
         }
       },
@@ -286,7 +286,7 @@
       }
     },
     "hkconnect": {
-      "candidate_count": 172,
+      "candidate_count": 175,
       "next_run_new_candidate_quota": {
         "path1": 2,
         "path2": 3,
