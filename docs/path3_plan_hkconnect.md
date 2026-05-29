@@ -1,5 +1,14 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-05-29 22:21 CST）
+
+- 开局 guard 为 `pass` 且 HK coverage complete；上一轮 `defensive_turnover5_exit40` 把 2026 修到小幅正收益但 2017 回撤偏深。本轮按 `weekly_turnover_reduction` 在稳定周频低换手线上继续压 turnover 到 `4`，保留 cost_guard 与 `exit42`。
+- 本轮新增并五窗口确认：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover4_exit42`。可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover4_exit42`。
+- `stable_weekly_equal_buffered_cost_guard_turnover4_exit42` 五窗口 CAGR 为 `21.27% / 23.83% / 24.81% / 40.37% / 3.80%`，最大回撤为 `-28.49% / -19.88% / -12.01% / -12.43% / -7.35%`，换手为 `7.24x / 7.08x / 7.62x / 9.07x / 9.88x`。它进一步降低换手并保持 2026 转正，但 2017/2023 仍未超过稳定周频 robust。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 3 tracked/robust 未变化，robust 仍为 `hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`；HK comparison 图已刷新。候选池未触发 HK explore cap evict。
+- 最终 guard 为 `pass`，下一轮 focus 继续 `weekly_turnover_reduction`。第一条命令建议在 turnover4 基础上测试 defensive overlay 或更宽 exit，而不是回到 15x+ 高换手主题周频，例如 `hkconnect_path3_stable_weekly_equal_buffered_defensive_turnover4_exit40`：`.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path3_weekly_turnover_reduction_next_id>`。
+
 ## 本轮执行计划（2026-05-29 16:33 CST）
 
 - 开局 HK coverage 为 complete；上一轮 `stable_weekly_equal_buffered_cost_guard_turnover5_exit42` 继续降低换手但 2026 仍负。本轮按 `weekly_defensive_overlay` 在稳定周频低换手线上新增防守版 `turnover5/exit40`，继续只在 HK 纯周度 Path 3 内比较。

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-29T16:40:05+08:00",
-  "as_of": "2026-05-28",
+  "generated_at": "2026-05-29T22:20:58+08:00",
+  "as_of": "2026-05-29",
   "coverage_gate": {
     "status": "pass",
     "blocking_missing_count": 0,
@@ -19,8 +19,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 31,
-        "complete_count": 31,
+        "candidate_count": 32,
+        "complete_count": 32,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -40,8 +40,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 78,
-        "complete_count": 78,
+        "candidate_count": 79,
+        "complete_count": 79,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -61,8 +61,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 759,
-        "complete_count": 759,
+        "candidate_count": 765,
+        "complete_count": 765,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -126,8 +126,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 169,
-        "complete_count": 169,
+        "candidate_count": 172,
+        "complete_count": 172,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -140,71 +140,71 @@
   "experiment_log": {
     "path": "results/research/a_share/research_experiments.jsonl",
     "candidate_entries": 93,
-    "appended_entries": 2
+    "appended_entries": 6
   },
   "rotation": {
     "ashare_path1": {
-      "signature": "3393bd58194f0e482425",
+      "signature": "0540d6c96b14f94745a8",
       "changed": false,
-      "stagnation_runs": 17,
+      "stagnation_runs": 2,
       "stagnation_threshold": 3,
-      "recommended_focus": "signal_quality",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-05-28T22:03:52+08:00"
+      "recommended_focus": "core_multifactor_coverage",
+      "rotation_status": "continue",
+      "last_changed_at": "2026-05-29T22:04:41+08:00"
     },
     "ashare_path2": {
-      "signature": "c7c92b807c2fb705cfdd",
+      "signature": "e1d1f91c9e3287cfc319",
       "changed": false,
-      "stagnation_runs": 17,
+      "stagnation_runs": 2,
       "stagnation_threshold": 3,
-      "recommended_focus": "risk_reconfirm_sensitivity",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-05-28T22:03:52+08:00"
+      "recommended_focus": "medium_cycle_growth",
+      "rotation_status": "continue",
+      "last_changed_at": "2026-05-29T22:04:41+08:00"
     },
     "ashare_path3": {
-      "signature": "3487e7a0bec2d6d9282c",
+      "signature": "2bc3c2f8c15bedec4fdc",
       "changed": false,
-      "stagnation_runs": 17,
+      "stagnation_runs": 2,
       "stagnation_threshold": 3,
-      "recommended_focus": "weekly_exit_buffer",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-05-28T22:03:52+08:00"
+      "recommended_focus": "turnover_reduction",
+      "rotation_status": "continue",
+      "last_changed_at": "2026-05-29T22:04:41+08:00"
     },
     "ashare_path4": {
       "signature": "057fe13d169505e729d7",
-      "changed": true,
-      "stagnation_runs": 0,
+      "changed": false,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
-      "recommended_focus": "emergent_theme_coverage",
-      "rotation_status": "continue",
+      "recommended_focus": "theme_signal_quality",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-05-29T16:40:05+08:00"
     },
     "hkconnect_path1": {
-      "signature": "52b8e392f074f95a3bde",
+      "signature": "bf7733bef64a11a0f367",
       "changed": false,
-      "stagnation_runs": 91,
+      "stagnation_runs": 2,
       "stagnation_threshold": 3,
       "recommended_focus": "monthly_weekly_overlay",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-05-23T17:10:17+08:00"
+      "rotation_status": "continue",
+      "last_changed_at": "2026-05-29T22:04:41+08:00"
     },
     "hkconnect_path2": {
       "signature": "00a0b61b86cadd408c85",
       "changed": false,
-      "stagnation_runs": 149,
+      "stagnation_runs": 152,
       "stagnation_threshold": 3,
-      "recommended_focus": "biweekly_breakout",
+      "recommended_focus": "elasticity_cost_control",
       "rotation_status": "rotate",
       "last_changed_at": "2026-05-19T17:24:53+08:00"
     },
     "hkconnect_path3": {
-      "signature": "b7342ce17b7c2ec9f0ba",
+      "signature": "aecfd95bd48a1391295d",
       "changed": false,
-      "stagnation_runs": 108,
+      "stagnation_runs": 2,
       "stagnation_threshold": 3,
       "recommended_focus": "weekly_turnover_reduction",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-05-22T23:03:50+08:00"
+      "rotation_status": "continue",
+      "last_changed_at": "2026-05-29T22:04:41+08:00"
     }
   },
   "quotas": {
@@ -221,7 +221,7 @@
         "promotion_ramp": 5,
         "satellite_defense": 8,
         "signal_variants": 2,
-        "core_multifactor": 31,
+        "core_multifactor": 32,
         "holding_shape": 20,
         "supporting_variants": 4,
         "drawdown_guard": 7
@@ -246,7 +246,7 @@
           "target_representatives": 6
         },
         "high_growth_theme": {
-          "current_count": 329,
+          "current_count": 331,
           "target_representatives": 4
         },
         "momentum_equal_weight_elastic": {
@@ -286,7 +286,7 @@
       }
     },
     "hkconnect": {
-      "candidate_count": 169,
+      "candidate_count": 172,
       "next_run_new_candidate_quota": {
         "path1": 2,
         "path2": 3,

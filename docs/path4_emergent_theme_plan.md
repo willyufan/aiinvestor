@@ -32,6 +32,15 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-29 22:21 CST）
+
+- 开局 guard 为 `pass`；上一轮 `aggr_10_90_prom9_emergent_theme_quality_gate_signal18_risk40_cap30_exit78` 把 2020 等权提升到 `19.83%`，但尚未形成 robust 替换。本轮按 `emergent_theme_coverage/theme_signal_quality` 继续提高 prom 到 10，并把旧 `aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap45` 从 active Path 4 池移出，原因是相对新 signal18/cap30 线收益与风险均弱，避免候选池只增不减。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal18_risk40_cap30_exit78`、`core_explore_90_10_equal_weight_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal18_risk40_cap30_exit78`、`core_explore_90_10_total_mv_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal18_risk40_cap30_exit78`。可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal18_risk40_cap30_exit78,core_explore_90_10_equal_weight_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal18_risk40_cap30_exit78,core_explore_90_10_total_mv_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal18_risk40_cap30_exit78`。
+- 三底座五窗口 CAGR：`80/20 total_mv` 为 `18.55% / 18.47% / 30.36% / 86.34% / 112.83%`，`90/10 equal_weight` 为 `19.01% / 19.69% / 33.36% / 101.71% / 112.35%`，`90/10 total_mv` 为 `18.35% / 17.56% / 30.73% / 97.96% / 84.28%`。最大回撤长中窗约 `-24%~-30%`，换手约 `3.0x~9.0x`；等权版短窗较强，但 2020 仍低于上一轮 signal18 prom9 等权 winner。
+- `scripts/path2_candidate_pass.py` 后 emergent theme family 完整，`scripts/update_weighted_winners.py` 后 Path 4 window winner/robust 未变，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`；不改 official winner。最终 guard `ashare_path4_emergent_theme 60/60 complete`，本轮 evict/归档：`aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap45`。
+- 下一轮 focus 为 `theme_signal_quality`。第一条命令建议从 `prom9/signal18` 而不是 prom10 继续，测试更严格质量/行业 leader 约束或更低 cap，例如注册三底座 `aggr_10_90_prom9_emergent_theme_quality_gate_signal20_risk40_cap28_exit78`：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_theme_signal_quality_ids>`。
+
 ## 本轮执行计划（2026-05-29 16:33 CST）
 
 - 开局 guard 对 `ashare_path4_emergent_theme` 报 blocking 缺口；先按 blocking scope 补齐，但原始命令默认目标日 `2026-05-29` 命中本地 A股缓存未覆盖，改用 `AIINVESTOR_FORCE_OFFLINE=1 --end-date 2026-05-28` 完成五窗口补齐。上一轮 `risk40_cap30_exit78` 已把 2023 winner 推到 prom9/cap30 线，本轮按 `theme_signal_quality` 在同一 prom9 框架上提高信号质量阈值到 `signal18`。
