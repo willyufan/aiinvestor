@@ -4,6 +4,15 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-29 16:33 CST）
+
+- 开局 guard 先给出 Path 4 blocking 和 Path 1 fast-family warning；Path 4 按 blocking scope 补齐后，Path 1 只用 `--only-base-ids` 增量确认本轮候选。上一轮 `sat_three_stage_buffered_cost_guard_cashguard_light` 只改善防守形态，未替换 Path 1 robust；本轮按上一轮 focus 回到 `holding_shape`，测试更低 ramp 的 `2+8` 持仓形态。
+- 本轮新增并五窗口确认 1 个 Path 1 fast-family base id：`core_explore_80_20_total_mv_winner_core__share_08_92_hold_2_8_ramp75_cost_guard`。可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_08_92_hold_2_8_ramp75_cost_guard`。
+- `share_08_92_hold_2_8_ramp75_cost_guard` 五窗口 CAGR 为 `21.28% / 22.51% / 33.28% / 100.33% / 106.96%`，最大回撤为 `-18.81% / -18.28% / -23.44% / -11.31% / -11.71%`，换手为 `2.70x / 2.98x / 3.03x / 4.52x / 6.13x`。它继续证明低 ramp 持仓形态能改善短窗弹性和回撤，但长窗和 2023 不及现有 Path 1 robust。
+- core_multifactor 子段本轮巡检代码实际池为 `31/31 complete`，未新增多因子 base id；`scripts/winner_only_pass.py` 仍只提示旧 `aggr_05_95_prom7__sat_three_stage_buffered_cost_guard` 的 `since_2020_only` clear improvement。`scripts/update_weighted_winners.py` 后 Path 1 window winner、robust candidate 与 tracked payload 未被本轮候选替换，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`。候选池未触发 Path 1 evict。
+- 最终 guard 为 `pass`，`ashare_path1_fast_family 78/78 complete`、`ashare_path1_core_multifactor 31/31 complete`，下一轮 focus 轮换为 `signal_quality`。第一条命令建议回到代码实际 `core_multifactor` 池，补一个区别于近期现金防守失败组的质量+估值/趋势低相关组合，例如 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_trend_cost_guard_reconfirm`：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path1_signal_quality_id>`。
+
 ## 本轮执行计划（2026-05-29 10:22 CST）
 
 - 开局 guard 为 `pass`；上一轮 `quality_profitability_cashguard_reconfirm` 继续只改善防守形态、不改善 Path 1 robust。本轮按 rotation 的 `satellite_risk_cost` 新增 `aggr_05_95_prom7` 卫星三档轻现金成本防守，对照旧 `aggr_05_95_prom7__sat_three_stage_buffered_cost_guard` clear improvement 是否能以浅现金版保留收益。
