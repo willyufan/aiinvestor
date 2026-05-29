@@ -43,6 +43,36 @@ SAMPLE_TAG_LABELS = {
     "since_2025_01": "2025窗口",
     "since_2026_01": "2026观察窗",
 }
+SELECTION_DIAGNOSTIC_FIELDS = [
+    "selection_bucket",
+    "selection_status",
+    "target_weight_rank",
+    "target_weight_count",
+    "signal_rank",
+    "signal_universe_count",
+    "selection_score",
+    "momentum_12_1",
+    "momentum_6_1",
+    "momentum_3_1",
+    "recent_1m_return",
+    "avg_daily_amount",
+    "amount_surge_ratio",
+    "liquidity_score",
+    "quality_score",
+    "industry_strength_score",
+    "industry_leader_score",
+    "breakout_signal",
+    "buy_candidate",
+    "keep_candidate",
+    "protected_keep",
+    "selected_by_model",
+    "risk_stage",
+    "raw_risk_stage",
+    "market_risk_off",
+    "market_momentum",
+    "target_total_exposure",
+    "risk_trigger",
+]
 
 
 def infer_adjustment_style(strategy_id: str, rebalance_frequency: str) -> str:
@@ -88,6 +118,27 @@ def infer_schedule_kind(strategy_id: str, rebalance_frequency: str) -> str:
     if rebalance_frequency == "weekly":
         return "weekly"
     return "monthly"
+
+
+def copy_selection_diagnostics(source: dict[str, Any], target: dict[str, Any]) -> dict[str, Any]:
+    for key in SELECTION_DIAGNOSTIC_FIELDS:
+        if key not in source:
+            continue
+        value = source.get(key)
+        if value is None:
+            continue
+        try:
+            if pd.isna(value):
+                continue
+        except Exception:
+            pass
+        if hasattr(value, "item"):
+            try:
+                value = value.item()
+            except Exception:
+                pass
+        target[key] = value
+    return target
 
 
 def is_path3_weekly_strategy(strategy_id: str) -> bool:
@@ -195,12 +246,15 @@ def normalize_holdings_with_cash(holdings: list[dict[str, Any]], target_exposure
         for row in sorted(non_cash, key=lambda item: float(item.get("weight", 0.0)), reverse=True):
             base_weight = max(0.0, float(row.get("weight", 0.0)))
             normalized.append(
-                {
-                    "ts_code": str(row.get("ts_code")),
-                    "name": str(row.get("name", "")),
-                    "weight": exposure * base_weight / non_cash_total,
-                    "latest_price": latest_price_map.get(str(row.get("ts_code"))),
-                }
+                copy_selection_diagnostics(
+                    row,
+                    {
+                        "ts_code": str(row.get("ts_code")),
+                        "name": str(row.get("name", "")),
+                        "weight": exposure * base_weight / non_cash_total,
+                        "latest_price": latest_price_map.get(str(row.get("ts_code"))),
+                    },
+                )
             )
     cash_weight = max(0.0, 1.0 - exposure)
     if cash_weight > 1e-12:
@@ -226,11 +280,14 @@ def load_weight_history_snapshot_map(path: Path) -> dict[str, list[dict[str, Any
     snapshot_map: dict[str, list[dict[str, Any]]] = {}
     for snapshot_date, sub in frame.groupby("date", sort=False):
         snapshot_map[pd.Timestamp(snapshot_date).strftime("%Y-%m-%d")] = [
-            {
-                "ts_code": str(row["ts_code"]),
-                "name": str(row["name"]),
-                "weight": float(row["weight"]),
-            }
+            copy_selection_diagnostics(
+                row,
+                {
+                    "ts_code": str(row["ts_code"]),
+                    "name": str(row["name"]),
+                    "weight": float(row["weight"]),
+                },
+            )
             for row in sub.sort_values("weight", ascending=False).to_dict("records")
         ]
     return snapshot_map
@@ -264,12 +321,15 @@ def attach_latest_prices(rows: list[dict[str, Any]], latest_price_map: dict[str,
         if latest_price is None and ts_code != "CASH":
             latest_price = find_latest_price(ts_code)
         attached.append(
-            {
-                "ts_code": ts_code,
-                "name": str(row.get("name", "")),
-                "weight": float(row.get("weight", 0.0)),
-                "latest_price": latest_price,
-            }
+            copy_selection_diagnostics(
+                row,
+                {
+                    "ts_code": ts_code,
+                    "name": str(row.get("name", "")),
+                    "weight": float(row.get("weight", 0.0)),
+                    "latest_price": latest_price,
+                },
+            )
         )
     return attached
 
@@ -516,17 +576,20 @@ def _load_trade_events(path: Path) -> list[dict[str, Any]]:
                     if not isinstance(item, dict):
                         continue
                     details.append(
-                        {
-                            "ts_code": str(item.get("ts_code") or ""),
-                            "name": str(item.get("name") or ""),
-                            "side": str(item.get("side") or ""),
-                            "current_weight": float(item.get("current_weight") or 0.0),
-                            "target_weight": float(item.get("target_weight") or 0.0),
-                            "post_trade_weight": float(item.get("post_trade_weight") or 0.0),
-                            "diff_weight": float(item.get("diff_weight") or 0.0),
-                            "gross_amount_pct_nav": float(item.get("gross_amount_pct_nav") or 0.0),
-                            "fee_pct_nav": float(item.get("fee_pct_nav") or 0.0),
-                        }
+                        copy_selection_diagnostics(
+                            item,
+                            {
+                                "ts_code": str(item.get("ts_code") or ""),
+                                "name": str(item.get("name") or ""),
+                                "side": str(item.get("side") or ""),
+                                "current_weight": float(item.get("current_weight") or 0.0),
+                                "target_weight": float(item.get("target_weight") or 0.0),
+                                "post_trade_weight": float(item.get("post_trade_weight") or 0.0),
+                                "diff_weight": float(item.get("diff_weight") or 0.0),
+                                "gross_amount_pct_nav": float(item.get("gross_amount_pct_nav") or 0.0),
+                                "fee_pct_nav": float(item.get("fee_pct_nav") or 0.0),
+                            },
+                        )
                     )
         buy_amount = float(row.get("buy_amount") or 0.0)
         sell_amount = float(row.get("sell_amount") or 0.0)
@@ -604,12 +667,15 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
             ts_code = str(row["ts_code"])
             latest_price = find_latest_price(ts_code)
             latest_weights.append(
-                {
-                    "ts_code": ts_code,
-                    "name": str(row["name"]),
-                    "weight": float(row["weight"]),
-                    "latest_price": latest_price,
-                }
+                copy_selection_diagnostics(
+                    row,
+                    {
+                        "ts_code": ts_code,
+                        "name": str(row["name"]),
+                        "weight": float(row["weight"]),
+                        "latest_price": latest_price,
+                    },
+                )
             )
 
     if monthly_path.exists():

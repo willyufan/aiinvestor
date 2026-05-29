@@ -45,6 +45,9 @@ from backtest_marketcap_etf import (
     safe_percentile_rank,
     blend_ranked_components,
     build_single_sleeve_weights,
+    build_stock_selection_diagnostics,
+    enrich_with_selection_diagnostics,
+    SELECTION_DIAGNOSTIC_COLUMNS,
     compute_market_exposure,
     compute_rebalance_trades,
     apply_weight_cap_with_redistribution,
@@ -901,6 +904,21 @@ HK_PATH1_VARIANTS.extend(
         },
         {
             **_HK_PATH1_TEMPLATE_BY_ID["hkconnect_path1_monthly_equal_buffered"],
+            "strategy_id": "hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit30",
+            "strategy_name": "沪港通Path1 双周等权缓冲(低波轻成本30)",
+            "candidate_family": "biweekly_equal_buffered",
+            "rebalance_frequency": "biweekly",
+            "signal_family": "path1_lowvol",
+            "risk_off_rule": "and",
+            "risk_off_exposure": 0.35,
+            "risk_caution_exposure": 0.74,
+            "buy_entry_percentile": 0.15,
+            "sell_exit_percentile": 0.30,
+            "max_holdings": 14,
+            "weight_cap": 0.14,
+        },
+        {
+            **_HK_PATH1_TEMPLATE_BY_ID["hkconnect_path1_monthly_equal_buffered"],
             "strategy_id": "hkconnect_path1_weekly_equal_buffered",
             "strategy_name": "沪港通Path1 单周等权缓冲",
             "candidate_family": "weekly_equal_buffered",
@@ -1709,6 +1727,18 @@ HK_PATH2_VARIANTS.extend(
             "weight_cap": 0.16,
         },
         {
+            **_HK_PATH2_TEMPLATE_BY_ID["hkconnect_path2_theme_monthly"],
+            "strategy_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v9",
+            "strategy_name": "沪港通Path2 月度高成长主线(再确认高收益成本约束v9)",
+            "risk_off_rule": "and",
+            "risk_off_exposure": 0.42,
+            "risk_caution_exposure": 0.82,
+            "buy_entry_percentile": 0.08,
+            "sell_exit_percentile": 0.30,
+            "max_holdings": 12,
+            "weight_cap": 0.14,
+        },
+        {
             **_HK_PATH2_TEMPLATE_BY_ID["hkconnect_path2_equal_elastic_weekly"],
             "strategy_id": "hkconnect_path2_inverse_elastic_weekly",
             "strategy_name": "沪港通Path2 单周逆市值高弹性",
@@ -2270,6 +2300,19 @@ HK_PATH3_VARIANTS.extend(
             "sell_exit_percentile": 0.38,
             "max_holdings": 18,
             "weight_cap": 0.09,
+        },
+        {
+            **_HK_PATH3_TEMPLATE_BY_ID["hkconnect_path3_stable_weekly_equal_buffered"],
+            "strategy_id": "hkconnect_path3_stable_weekly_equal_buffered_defensive_turnover5_exit40",
+            "strategy_name": "沪港通Path3 单周稳健等权缓冲(防守低换手5出场40)",
+            "candidate_family": "weekly_equal_buffered_cost_control",
+            "risk_off_rule": "and",
+            "risk_off_exposure": 0.42,
+            "risk_caution_exposure": 0.70,
+            "buy_entry_percentile": 0.22,
+            "sell_exit_percentile": 0.40,
+            "max_holdings": 22,
+            "weight_cap": 0.07,
         },
         {
             **_HK_PATH3_TEMPLATE_BY_ID["hkconnect_path3_stable_weekly_equal_buffered"],
@@ -3238,17 +3281,47 @@ def build_hk_month_end_preview_payload(
         raw_target_weights,
         cap=float(strategy_config.get("weight_cap", HK_WEIGHT_CAP)),
     )
+    diagnostic_codes = (
+        set(map(str, target_weights.index))
+        | set(map(str, positions.index))
+        | set(selection_stats.get("buy_candidates", set()) or set())
+        | set(selection_stats.get("keep_candidates", set()) or set())
+    )
+    selection_diagnostics = build_stock_selection_diagnostics(
+        codes=diagnostic_codes,
+        target_weights=target_weights,
+        signal_scores=signal_scores,
+        selected_codes=set(map(str, target_weights.index)),
+        buy_candidates=set(selection_stats.get("buy_candidates", set()) or set()),
+        keep_candidates=set(selection_stats.get("keep_candidates", set()) or set()),
+        protected_keep_candidates=set(selection_stats.get("protected_keep_candidates", set()) or set()),
+        bucket_by_code={str(code): "沪港通精选" for code in diagnostic_codes},
+        momentum_12_1=signal_scores,
+        recent_1m_returns=recent_1m_returns,
+        liquidity_scores=quality_scores,
+        quality_scores=quality_scores,
+        breakout_signal=breakout_signal,
+        risk_stage=str(regime.get("risk_stage") or ("risk_off" if regime.get("risk_off") else "risk_on")),
+        market_risk_off=bool(regime.get("risk_off")),
+        market_momentum=float(regime["market_12_1_momentum"]) if pd.notna(regime.get("market_12_1_momentum")) else None,
+        target_total_exposure=float(target_weights.sum()) if not target_weights.empty else 0.0,
+    )
+    preview_detail_codes = set(map(str, target_weights.index)) | set(map(str, positions.index))
     price_row = prepared.price_ffill.loc[signal_date] if signal_date in prepared.price_ffill.index else pd.Series(dtype=float)
     holdings: List[Dict[str, object]] = []
     for ts_code, weight in target_weights.sort_values(ascending=False).items():
         latest_price = price_row.get(ts_code, np.nan)
         holdings.append(
-            {
-                "ts_code": str(ts_code),
-                "name": str(prepared.code_to_name.get(str(ts_code), "")),
-                "weight": float(weight),
-                "latest_price": float(latest_price) if pd.notna(latest_price) else None,
-            }
+            enrich_with_selection_diagnostics(
+                {
+                    "ts_code": str(ts_code),
+                    "name": str(prepared.code_to_name.get(str(ts_code), "")),
+                    "weight": float(weight),
+                    "latest_price": float(latest_price) if pd.notna(latest_price) else None,
+                },
+                selection_diagnostics,
+                str(ts_code),
+            )
         )
     if target_cash_weight > 1e-12:
         holdings.append({"ts_code": "CASH", "name": "现金", "weight": float(target_cash_weight), "latest_price": None})
@@ -3266,6 +3339,11 @@ def build_hk_month_end_preview_payload(
             key: int(value)
             for key, value in selection_stats.items()
             if key.endswith("_count") and isinstance(value, (int, np.integer))
+        },
+        "selection_diagnostics": {
+            code: selection_diagnostics[code]
+            for code in sorted(preview_detail_codes)
+            if code in selection_diagnostics
         },
         "holdings": holdings,
     }
@@ -3398,6 +3476,11 @@ def apply_hk_weekly_portfolio_overlay(
             detail_row = dict(detail)
             ts_code = str(detail_row.get("ts_code") or "")
             detail_row["name"] = prepared.code_to_name.get(ts_code, "")
+            detail_row["risk_stage"] = str(regime["risk_stage"])
+            detail_row["target_total_exposure"] = float(target_weights.sum()) if not target_weights.empty else 0.0
+            detail_row["market_momentum"] = float(regime["market_12_1_momentum"]) if pd.notna(regime.get("market_12_1_momentum")) else None
+            detail_row["market_risk_off"] = bool(regime.get("risk_off"))
+            detail_row["risk_trigger"] = "weekly_overlay"
             trade_details.append(detail_row)
         overlay_rows.append(
             {
@@ -3510,6 +3593,11 @@ def run_hk_backtest(
 
         signal_scores = build_hk_signal_scores(prepared, signal_date, str(strategy_config["signal_family"]))
         base_weights = build_hk_base_weights(prepared, signal_date, eligible_codes, str(strategy_config["base_weight_method"]))
+        avg_daily_amount = prepared.factor_cache.avg_daily_amount_by_date.get(signal_date, pd.Series(dtype=float))
+        amount_surge_ratio = prepared.factor_cache.amount_surge_ratio_by_date.get(signal_date, pd.Series(dtype=float))
+        momentum_12_1 = prepared.factor_cache.momentum_12_1_by_date.get(signal_date, pd.Series(dtype=float))
+        momentum_6_1 = prepared.factor_cache.momentum_6_1_by_date.get(signal_date, pd.Series(dtype=float))
+        momentum_3_1 = prepared.factor_cache.momentum_3_1_by_date.get(signal_date, pd.Series(dtype=float))
         recent_1m_returns = prepared.factor_cache.recent_1m_returns_by_date.get(signal_date, pd.Series(dtype=float))
         quality_scores = prepared.factor_cache.liquidity_quality_scores_by_date.get(signal_date, pd.Series(dtype=float))
         breakout_signal = prepared.factor_cache.breakout_signal_by_date.get(signal_date, pd.Series(dtype=bool))
@@ -3572,6 +3660,36 @@ def run_hk_backtest(
                 cap=float(strategy_config.get("weight_cap", HK_WEIGHT_CAP)),
             )
 
+        diagnostic_codes = (
+            set(map(str, target_weights.index))
+            | set(map(str, currently_held_codes))
+            | set(selection_stats.get("buy_candidates", set()) or set())
+            | set(selection_stats.get("keep_candidates", set()) or set())
+        )
+        selection_diagnostics = build_stock_selection_diagnostics(
+            codes=diagnostic_codes,
+            target_weights=target_weights,
+            signal_scores=signal_scores,
+            selected_codes=set(map(str, target_weights.index)),
+            buy_candidates=set(selection_stats.get("buy_candidates", set()) or set()),
+            keep_candidates=set(selection_stats.get("keep_candidates", set()) or set()),
+            protected_keep_candidates=set(selection_stats.get("protected_keep_candidates", set()) or set()),
+            bucket_by_code={str(code): "沪港通精选" for code in diagnostic_codes},
+            momentum_12_1=momentum_12_1,
+            momentum_6_1=momentum_6_1,
+            momentum_3_1=momentum_3_1,
+            recent_1m_returns=recent_1m_returns,
+            avg_daily_amount=avg_daily_amount,
+            amount_surge_ratio=amount_surge_ratio,
+            liquidity_scores=quality_scores,
+            quality_scores=quality_scores,
+            breakout_signal=breakout_signal,
+            risk_stage=str(regime.get("risk_stage") or ("risk_off" if regime.get("risk_off") else "risk_on")),
+            market_risk_off=bool(regime.get("risk_off")),
+            market_momentum=float(regime["market_12_1_momentum"]) if pd.notna(regime.get("market_12_1_momentum")) else None,
+            target_total_exposure=float(target_weights.sum()) if not target_weights.empty else 0.0,
+        )
+
         nav_at_signal_date = float(positions.sum() + cash_value)
         if not positions.empty:
             current_price_rebalance = prepared.price_ffill.loc[rebalance_date, positions.index]
@@ -3621,7 +3739,16 @@ def run_hk_backtest(
                 month_weights = (positions / nav_end).sort_values(ascending=False)
                 for ts_code, weight in month_weights.items():
                     weights_history_rows.append(
-                        {"date": period_end, "ts_code": ts_code, "name": prepared.code_to_name.get(ts_code, ""), "weight": float(weight)}
+                        enrich_with_selection_diagnostics(
+                            {
+                                "date": period_end,
+                                "ts_code": ts_code,
+                                "name": prepared.code_to_name.get(ts_code, ""),
+                                "weight": float(weight),
+                            },
+                            selection_diagnostics,
+                            str(ts_code),
+                        )
                     )
             cash_weight = float(cash_value / nav_end)
             if cash_weight > 1e-12:
@@ -3658,6 +3785,7 @@ def run_hk_backtest(
             detail_row = dict(detail)
             ts_code = str(detail_row.get("ts_code") or "")
             detail_row["name"] = prepared.code_to_name.get(ts_code, "")
+            enrich_with_selection_diagnostics(detail_row, selection_diagnostics, ts_code)
             trade_details.append(detail_row)
         turnover_rows.append(
             {
@@ -3740,7 +3868,12 @@ def run_hk_backtest(
             (positions / latest_nav).sort_values(ascending=False).rename("weight").reset_index().rename(columns={"index": "ts_code"})
         )
         latest_weights["name"] = latest_weights["ts_code"].map(prepared.code_to_name)
-        latest_weights = latest_weights[["ts_code", "name", "weight"]]
+        extra_cols = [col for col in SELECTION_DIAGNOSTIC_COLUMNS if col in weights_history.columns]
+        if extra_cols and not weights_history.empty:
+            latest_date = weights_history["date"].max()
+            latest_diag = weights_history.loc[weights_history["date"] == latest_date, ["ts_code", *extra_cols]]
+            latest_weights = latest_weights.merge(latest_diag, on="ts_code", how="left")
+        latest_weights = latest_weights[["ts_code", "name", "weight", *[col for col in extra_cols if col in latest_weights.columns]]]
 
     summary = {
         "pool_id": "hkconnect_static_latest",

@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import html
 import json
+import math
 import mimetypes
 import os
 import sqlite3
@@ -109,6 +110,38 @@ def rebalance_frequency_label(freq: str) -> str:
         "weekly": "单周",
     }
     return mapping.get(str(freq or "monthly"), str(freq or "monthly"))
+
+
+SELECTION_DIAGNOSTIC_FIELDS = [
+    "selection_bucket",
+    "selection_status",
+    "target_weight_rank",
+    "target_weight_count",
+    "signal_rank",
+    "signal_universe_count",
+    "selection_score",
+    "momentum_12_1",
+    "momentum_6_1",
+    "momentum_3_1",
+    "recent_1m_return",
+    "avg_daily_amount",
+    "amount_surge_ratio",
+    "liquidity_score",
+    "quality_score",
+    "industry_strength_score",
+    "industry_leader_score",
+    "breakout_signal",
+    "buy_candidate",
+    "keep_candidate",
+    "protected_keep",
+    "selected_by_model",
+    "risk_stage",
+    "raw_risk_stage",
+    "market_risk_off",
+    "market_momentum",
+    "target_total_exposure",
+    "risk_trigger",
+]
 
 
 def adjustment_style_label(item: dict) -> str:
@@ -2078,6 +2111,28 @@ def safe_float(value: object, default: float = 0.0) -> float:
         return default
 
 
+def optional_float(value: object) -> float | None:
+    try:
+        number = float(value)
+    except Exception:
+        return None
+    if not math.isfinite(number):
+        return None
+    return number
+
+
+def selection_detail_from(row: dict) -> dict:
+    return {key: row.get(key) for key in SELECTION_DIAGNOSTIC_FIELDS if row.get(key) is not None}
+
+
+def format_rank(rank: object, count: object) -> str:
+    rank_num = optional_float(rank)
+    count_num = optional_float(count)
+    if rank_num is None or count_num is None or count_num <= 0:
+        return ""
+    return f"#{int(rank_num)}/{int(count_num)}"
+
+
 def short_date(value: object) -> str:
     text = str(value or "").strip()
     return text[:10] if len(text) >= 10 else ""
@@ -2301,6 +2356,7 @@ def collect_trade_attribution(trade_events: list[dict], previous_date: str, curr
                     "buy_weight": 0.0,
                     "sell_weight": 0.0,
                     "event_count": 0,
+                    "selection_detail": {},
                 },
             )
             entry["trade_weight"] += delta
@@ -2308,7 +2364,90 @@ def collect_trade_attribution(trade_events: list[dict], previous_date: str, curr
             entry["buy_weight"] += max(0.0, delta)
             entry["sell_weight"] += max(0.0, -delta)
             entry["event_count"] += 1
+            selection_detail = selection_detail_from(detail)
+            if selection_detail:
+                entry["selection_detail"] = selection_detail
     return trade_map, missing_trade_details
+
+
+def risk_stage_text(value: object) -> str:
+    return {
+        "risk_on": "满仓",
+        "caution": "谨慎",
+        "risk_off": "降风险",
+        "guard_on": "回撤保护",
+        "guard_off": "解除保护",
+    }.get(str(value or ""), str(value or ""))
+
+
+def strategy_signal_reason_parts(detail: dict) -> list[str]:
+    parts: list[str] = []
+    bucket = str(detail.get("selection_bucket") or "")
+    if bucket:
+        parts.append(bucket)
+    target_rank = format_rank(detail.get("target_weight_rank"), detail.get("target_weight_count"))
+    signal_rank = format_rank(detail.get("signal_rank"), detail.get("signal_universe_count"))
+    if target_rank:
+        parts.append(f"目标权重排名 {target_rank}")
+    if signal_rank:
+        parts.append(f"信号排名 {signal_rank}")
+    momentum_6_1 = optional_float(detail.get("momentum_6_1"))
+    recent_1m = optional_float(detail.get("recent_1m_return"))
+    amount_surge = optional_float(detail.get("amount_surge_ratio"))
+    liquidity_score = optional_float(detail.get("liquidity_score"))
+    if momentum_6_1 is not None:
+        parts.append(f"6-1动量 {fmt_pct(momentum_6_1)}")
+    if recent_1m is not None:
+        parts.append(f"近1月 {fmt_pct(recent_1m)}")
+    if amount_surge is not None:
+        parts.append(f"放量 {amount_surge:.2f}x")
+    if liquidity_score is not None:
+        parts.append(f"流动性评分 {liquidity_score:.2f}")
+    if detail.get("breakout_signal") is True:
+        parts.append("突破信号")
+    risk_stage = risk_stage_text(detail.get("risk_stage"))
+    target_total = optional_float(detail.get("target_total_exposure"))
+    if risk_stage:
+        risk_text = f"风控 {risk_stage}"
+        if target_total is not None:
+            risk_text += f" / 目标总仓位 {fmt_pct(target_total)}"
+        parts.append(risk_text)
+    return parts
+
+
+def strategy_rebalance_reason(action: str, source_type: str, schedule_kind: str, detail: dict | None = None) -> str:
+    if source_type in {"cash", "drift"}:
+        return ""
+    if source_type == "missing":
+        return "缺少逐票交易明细，无法确认这次是否由策略主动调仓触发。"
+    detail = detail or {}
+    schedule_label = {
+        "monthly": "月度选股/权重模型",
+        "portfolio_weekly_overlay": "月度股票池 + 周度总仓位模型",
+        "satellite_weekly_overlay": "月度股票池 + 周度卫星仓位模型",
+        "biweekly": "双周选股/权重模型",
+        "weekly": "周度选股/权重模型",
+    }.get(str(schedule_kind or ""), "策略选股/权重模型")
+    if detail.get("risk_trigger"):
+        risk_stage = risk_stage_text(detail.get("risk_stage"))
+        target_total = optional_float(detail.get("target_total_exposure"))
+        risk_text = f"周度风控触发{('（' + risk_stage + '）') if risk_stage else ''}"
+        if target_total is not None:
+            risk_text += f"，组合目标仓位调至 {fmt_pct(target_total)}"
+        return risk_text + "。"
+    parts = strategy_signal_reason_parts(detail)
+    suffix = f"（{'；'.join(parts)}）" if parts else ""
+    selected = detail.get("selected_by_model")
+    if action == "新增":
+        return f"{schedule_label}本期重算后将该标的纳入目标组合{suffix}。"
+    if action == "清仓":
+        reason = "跌出目标组合" if selected is False else "移出目标组合"
+        return f"{schedule_label}本期重算后该标的{reason}{suffix}。"
+    if action == "加仓":
+        return f"{schedule_label}本期把该标的目标权重上调{suffix}。"
+    if action == "减仓":
+        return f"{schedule_label}本期把该标的目标权重下调{suffix}。"
+    return f"{schedule_label}本期重算后调整该标的目标权重{suffix}。"
 
 
 def flatten_history_snapshots(history_windows: list[dict]) -> list[dict]:
@@ -2348,7 +2487,12 @@ def build_history_selection(history_windows: list[dict], history_window_key: str
     return str(history_window_index), history_windows[history_window_index]
 
 
-def build_rebalance_change_rows(latest_weights: list[dict], history_windows: list[dict], trade_events: list[dict] | None = None) -> dict | None:
+def build_rebalance_change_rows(
+    latest_weights: list[dict],
+    history_windows: list[dict],
+    trade_events: list[dict] | None = None,
+    schedule_kind: str = "",
+) -> dict | None:
     snapshots = [snapshot for snapshot in flatten_history_snapshots(history_windows) if snapshot.get("holdings")]
     if len(snapshots) < 2:
         return None
@@ -2368,6 +2512,7 @@ def build_rebalance_change_rows(latest_weights: list[dict], history_windows: lis
             "name": str(row.get("name", "")),
             "weight": float(row.get("weight", 0.0)),
             "latest_price": latest_price_map.get(str(row.get("ts_code"))),
+            "selection_detail": selection_detail_from(row),
         }
         for row in current_snapshot.get("holdings", [])
         if row.get("ts_code")
@@ -2377,6 +2522,7 @@ def build_rebalance_change_rows(latest_weights: list[dict], history_windows: lis
             "ts_code": str(row.get("ts_code")),
             "name": str(row.get("name", "")),
             "weight": float(row.get("weight", 0.0)),
+            "selection_detail": selection_detail_from(row),
         }
         for row in previous_snapshot.get("holdings", [])
         if row.get("ts_code")
@@ -2408,8 +2554,15 @@ def build_rebalance_change_rows(latest_weights: list[dict], history_windows: lis
             source_type = "cash"
             source_label = "现金余额"
             source_summary["现金余额"] += 1
+            strategy_detail = {}
         else:
             trade_info = trade_map.get(code, {})
+            strategy_detail = (
+                trade_info.get("selection_detail")
+                or current.get("selection_detail")
+                or previous.get("selection_detail")
+                or {}
+            )
             trade_abs_weight = float(trade_info.get("trade_abs_weight", 0.0))
             has_trade_detail = trade_abs_weight > 5e-4
             if has_trade_detail:
@@ -2453,6 +2606,8 @@ def build_rebalance_change_rows(latest_weights: list[dict], history_windows: lis
                 "drift_weight": drift_weight,
                 "source_type": source_type,
                 "source_label": source_label,
+                "strategy_reason": strategy_rebalance_reason(action, source_type, schedule_kind, strategy_detail),
+                "selection_detail": strategy_detail,
                 "action": action,
                 "latest_price": current.get("latest_price"),
             }
@@ -2552,6 +2707,127 @@ def render_weight_diff_table(rows: list[dict], empty_text: str) -> str:
     )
 
 
+def build_preview_change_rows(
+    official_weights: list[dict],
+    preview_weights: list[dict],
+    schedule_kind: str,
+    preview_selection_diagnostics: dict | None = None,
+) -> list[dict]:
+    preview_selection_diagnostics = preview_selection_diagnostics or {}
+    previous_map = {
+        str(row.get("ts_code")): {
+            "ts_code": str(row.get("ts_code")),
+            "name": str(row.get("name", "")),
+            "weight": float(row.get("weight", 0.0)),
+            "latest_price": row.get("latest_price"),
+            "selection_detail": selection_detail_from(row),
+        }
+        for row in official_weights or []
+        if row.get("ts_code")
+    }
+    current_map = {
+        str(row.get("ts_code")): {
+            "ts_code": str(row.get("ts_code")),
+            "name": str(row.get("name", "")),
+            "weight": float(row.get("weight", 0.0)),
+            "latest_price": row.get("latest_price"),
+            "selection_detail": selection_detail_from(row),
+        }
+        for row in preview_weights or []
+        if row.get("ts_code")
+    }
+    rows: list[dict] = []
+    for code in sorted(set(previous_map) | set(current_map)):
+        previous = previous_map.get(code, {"ts_code": code, "name": "", "weight": 0.0, "latest_price": None})
+        current = current_map.get(code, {"ts_code": code, "name": "", "weight": 0.0, "latest_price": None})
+        previous_weight = float(previous.get("weight", 0.0))
+        current_weight = float(current.get("weight", 0.0))
+        diff = current_weight - previous_weight
+        if abs(diff) < 1e-9:
+            continue
+        if previous_weight <= 1e-9 and current_weight > 1e-9:
+            action = "新增"
+        elif current_weight <= 1e-9 and previous_weight > 1e-9:
+            action = "清仓"
+        elif diff > 0:
+            action = "加仓"
+        else:
+            action = "减仓"
+        detail = (
+            current.get("selection_detail")
+            or preview_selection_diagnostics.get(code)
+            or previous.get("selection_detail")
+            or {}
+        )
+        source_type = "cash" if code == "CASH" else "preview"
+        rows.append(
+            {
+                "ts_code": code,
+                "name": str(current.get("name") or previous.get("name") or ""),
+                "action": action,
+                "previous_weight": previous_weight,
+                "current_weight": current_weight,
+                "diff_weight": diff,
+                "latest_price": current.get("latest_price") or previous.get("latest_price"),
+                "source_type": source_type,
+                "source_label": "现金余额" if code == "CASH" else "Preview重算",
+                "strategy_reason": strategy_rebalance_reason(action, source_type, schedule_kind, detail),
+            }
+        )
+    action_order = {"新增": 0, "加仓": 1, "减仓": 2, "清仓": 3}
+    rows.sort(key=lambda item: (action_order.get(str(item["action"]), 9), -abs(float(item["diff_weight"])), str(item["ts_code"])))
+    return rows
+
+
+def render_preview_change_table(rows: list[dict], empty_text: str, show_reasons: bool) -> str:
+    if not rows:
+        return f"<p class='muted'>{html.escape(empty_text)}</p>"
+    body = []
+    for row in rows:
+        diff_weight = float(row.get("diff_weight", 0.0))
+        abs_diff = abs(diff_weight)
+        row_style = ""
+        if abs_diff >= 0.10:
+            row_style = " style='background:#dbeafe;font-weight:700'"
+        elif abs_diff >= 0.05:
+            row_style = " style='background:#eff6ff;font-weight:600'"
+        elif row["action"] in {"新增", "清仓"}:
+            row_style = " style='background:#f8fafc'"
+        action_style = ""
+        if row["action"] in {"新增", "加仓"}:
+            action_style = " style='color:#166534;font-weight:700'"
+        elif row["action"] in {"减仓", "清仓"}:
+            action_style = " style='color:#b45309;font-weight:700'"
+        source_cls = "badge-muted" if str(row.get("source_type")) == "cash" else "badge-blue"
+        source_html = f"<span class='badge {source_cls}'>{html.escape(str(row.get('source_label') or 'n/a'))}</span>"
+        reason_cell = ""
+        if show_reasons:
+            show_strategy_reason = row["action"] in {"新增", "清仓"} or abs_diff >= 0.05
+            strategy_reason = str(row.get("strategy_reason") or "") if show_strategy_reason else ""
+            reason_text = html.escape(strategy_reason) if strategy_reason else "<span class='muted'>-</span>"
+            reason_cell = f"<td class='muted' style='min-width:220px'>{reason_text}</td>"
+        latest_price = row.get("latest_price")
+        body.append(
+            f"<tr{row_style}><td>{html.escape(str(row['ts_code']))}</td>"
+            f"<td>{html.escape(str(row['name']))}</td>"
+            f"<td{action_style}>{html.escape(str(row['action']))}</td>"
+            f"<td>{source_html}</td>"
+            f"{reason_cell}"
+            f"<td>{fmt_pct(float(row.get('previous_weight') or 0.0))}</td>"
+            f"<td>{fmt_pct(float(row.get('current_weight') or 0.0))}</td>"
+            f"<td>{signed_pct_html(diff_weight)}</td>"
+            f"<td>{fmt_amt(float(latest_price)) if latest_price is not None else 'n/a'}</td></tr>"
+        )
+    reason_head = "<th>策略理由</th>" if show_reasons else ""
+    return (
+        "<table><thead><tr><th>代码</th><th>名称</th><th>动作</th><th>口径</th>"
+        + reason_head
+        + "<th>正式权重</th><th>Preview 权重</th><th>变化</th><th>最新价格</th></tr></thead><tbody>"
+        + "".join(body)
+        + "</tbody></table>"
+    )
+
+
 def render_preview_unavailable(reason: str) -> str:
     return (
         "<div class='card'><h2>Preview</h2>"
@@ -2560,13 +2836,18 @@ def render_preview_unavailable(reason: str) -> str:
     )
 
 
-def render_month_end_preview(preview: dict, official_weights: list[dict]) -> str:
+def render_month_end_preview(preview: dict, official_weights: list[dict], schedule_kind: str, show_reasons: bool) -> str:
     if not preview or not preview.get("holdings"):
         return render_preview_unavailable(
             "暂无 month-end preview 数据。下一次月度策略回测与 live 导出生成 preview 后，这里会展示“如果今天是月末”的候选组合。"
         )
     holdings = list(preview.get("holdings") or [])
-    diff_rows = build_weight_diff_rows(official_weights, holdings)
+    diff_rows = build_preview_change_rows(
+        official_weights,
+        holdings,
+        schedule_kind,
+        preview_selection_diagnostics=preview.get("selection_diagnostics") if isinstance(preview.get("selection_diagnostics"), dict) else {},
+    )
     holding_rows = []
     for row in holdings:
         latest_price = row.get("latest_price")
@@ -2586,8 +2867,9 @@ def render_month_end_preview(preview: dict, official_weights: list[dict]) -> str
         f"<p>Preview 风险状态：{html.escape(str(preview.get('risk_state') or 'n/a'))}</p>"
         + (f"<p>Preview 市场动量：{fmt_pct(float(market_momentum))}</p>" if market_momentum is not None else "")
         + "</div>"
-        + "<div class='card'><h2>Preview 相对正式组合变化</h2>"
-        + render_weight_diff_table(diff_rows, "Preview 与当前正式组合没有权重变化。")
+        + "<div class='card'><h2>Preview 相对正式组合变化明细</h2>"
+        + "<p class='muted'>这里展示 Preview 候选组合相对当前正式组合的假设变化；不是已经发生的真实交易，因此口径统一标为 Preview 重算。</p>"
+        + render_preview_change_table(diff_rows, "Preview 与当前正式组合没有权重变化。", show_reasons)
         + "</div>"
         + "<div class='card'><h2>Preview 候选组合</h2>"
         + "<table><thead><tr><th>代码</th><th>名称</th><th>Preview 权重</th><th>最新价格</th></tr></thead><tbody>"
@@ -3040,7 +3322,13 @@ def strategy_favorite_actions_html(strategy_id: str, is_favorite: bool, is_pinne
     return "<div class='favorite-actions'>" + "".join(forms) + "</div>"
 
 
-def strategy_detail_html(strategy_id: str, history_window_key: str = "all", sample_view_tag: str = "", tab: str = "official") -> str:
+def strategy_detail_html(
+    strategy_id: str,
+    history_window_key: str = "all",
+    sample_view_tag: str = "",
+    tab: str = "official",
+    show_reasons: bool = True,
+) -> str:
     item = load_strategy_snapshot(strategy_id)
     favorite_state = get_strategy_favorite_state(strategy_id)
     favorite = favorite_state["is_favorite"]
@@ -3082,7 +3370,11 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
     preview_payload = active_view.get("month_end_preview") or item.get("month_end_preview") or {}
     preview_frequency = str(active_view.get("rebalance_frequency", item.get("rebalance_frequency", "monthly")) or "").strip().lower()
     active_tab = "preview" if requested_tab == "preview" else "official"
-    tab_base = f"/strategies/{quote(strategy_id)}?sample_view={quote(selected_sample_tag)}&history_window={quote(history_window_key or 'all')}"
+    reason_param = "1" if show_reasons else "0"
+    tab_base = (
+        f"/strategies/{quote(strategy_id)}?sample_view={quote(selected_sample_tag)}"
+        f"&history_window={quote(history_window_key or 'all')}&show_reasons={quote(reason_param)}"
+    )
     tabs_html = (
         "<div class='tabs'>"
         f"<a class='tab{' active' if active_tab == 'official' else ''}' href='{html.escape(tab_base + '&tab=official')}'>正式建议</a>"
@@ -3113,6 +3405,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             f"<select name='sample_view' style='display:block;margin-top:8px;padding:8px 10px;min-width:320px'>{''.join(sample_options)}</select>"
             f"<input type='hidden' name='history_window' value='{html.escape(history_window_key or 'all')}' />"
             f"<input type='hidden' name='tab' value='{html.escape(active_tab)}' />"
+            f"<input type='hidden' name='show_reasons' value='{html.escape(reason_param)}' />"
             "<div style='margin-top:10px'><button>切换窗口</button></div>"
             "</form>"
         )
@@ -3129,7 +3422,12 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
     trade_events = active_view.get("trade_events") or list(
         load_strategy_trade_events(strategy_id, selected_sample_tag, str(item.get("market_scope") or "a_share"))
     )
-    rebalance_change = build_rebalance_change_rows(active_view.get("latest_weights") or [], history_windows, trade_events)
+    rebalance_change = build_rebalance_change_rows(
+        active_view.get("latest_weights") or [],
+        history_windows,
+        trade_events,
+        schedule_kind,
+    )
     change_summary_html = ""
     change_rows_html = ""
     if rebalance_change:
@@ -3187,14 +3485,24 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             drift_weight = row.get("drift_weight")
             trade_text = signed_pct_html(float(trade_weight)) if trade_weight is not None else "<span class='muted'>n/a</span>"
             drift_text = signed_pct_html(float(drift_weight)) if drift_weight is not None else "<span class='muted'>n/a</span>"
+            reason_cell = ""
+            if show_reasons:
+                show_strategy_reason = row["action"] in {"新增", "清仓"} or abs_diff >= 0.05
+                strategy_reason = str(row.get("strategy_reason") or "") if show_strategy_reason else ""
+                reason_text = html.escape(strategy_reason) if strategy_reason else "<span class='muted'>-</span>"
+                reason_cell = f"<td class='muted' style='min-width:220px'>{reason_text}</td>"
             change_rows.append(
-                f"<tr{row_style}><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td{action_style}>{html.escape(row['action'])}</td><td>{source_html}</td><td>{fmt_pct(float(row['previous_weight']))}</td><td>{fmt_pct(float(row['current_weight']))}</td><td>{signed_pct_html(diff_weight)}</td><td>{trade_text}</td><td>{drift_text}</td><td>{fmt_amt(float(row['latest_price'] or 0.0)) if row['latest_price'] is not None else 'n/a'}</td></tr>"
+                f"<tr{row_style}><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td{action_style}>{html.escape(row['action'])}</td><td>{source_html}</td>{reason_cell}<td>{fmt_pct(float(row['previous_weight']))}</td><td>{fmt_pct(float(row['current_weight']))}</td><td>{signed_pct_html(diff_weight)}</td><td>{trade_text}</td><td>{drift_text}</td><td>{fmt_amt(float(row['latest_price'] or 0.0)) if row['latest_price'] is not None else 'n/a'}</td></tr>"
             )
         if change_rows:
+            reason_head = "<th>策略理由</th>" if show_reasons else ""
+            reason_note = "策略理由只解释主动调仓，纯漂移不解释；" if show_reasons else ""
             change_rows_html = (
                 "<div class='card' style='margin-top:16px'><h2>最新调仓建议变化明细</h2>"
-                "<p class='muted'>总变化来自最近两次权重快照；真实交易来自逐票交易明细；市值漂移=总变化-真实交易。变化≥10% 的行会重点高亮，变化≥5% 的行会浅色高亮。</p>"
-                "<table><thead><tr><th>代码</th><th>名称</th><th>动作</th><th>归因</th><th>上次权重</th><th>当前权重</th><th>总变化</th><th>真实交易</th><th>市值漂移</th><th>最新价格</th></tr></thead><tbody>"
+                f"<p class='muted'>总变化来自最近两次权重快照；真实交易来自逐票交易明细；市值漂移=总变化-真实交易。{reason_note}变化≥10% 的行会重点高亮，变化≥5% 的行会浅色高亮。</p>"
+                "<table><thead><tr><th>代码</th><th>名称</th><th>动作</th><th>归因</th>"
+                + reason_head
+                + "<th>上次权重</th><th>当前权重</th><th>总变化</th><th>真实交易</th><th>市值漂移</th><th>最新价格</th></tr></thead><tbody>"
                 + "".join(change_rows)
                 + "</tbody></table></div>"
             )
@@ -3285,6 +3593,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
             f"<select name='history_window' style='display:block;margin-top:8px;padding:8px 10px;min-width:320px'>{''.join(options)}</select>"
             f"<input type='hidden' name='sample_view' value='{html.escape(selected_sample_tag)}' />"
             f"<input type='hidden' name='tab' value='{html.escape(active_tab)}' />"
+            f"<input type='hidden' name='show_reasons' value='{html.escape(reason_param)}' />"
             "<div style='margin-top:10px'><button>切换窗口</button></div>"
             "</form>"
         )
@@ -3337,6 +3646,20 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         f"?sample_view={quote(selected_sample_tag)}"
         f"&history_window={quote(history_window_key or 'all')}"
         f"&tab={quote(active_tab)}"
+        f"&show_reasons={quote(reason_param)}"
+    )
+    reason_toggle_url = (
+        f"/strategies/{quote(strategy_id)}"
+        f"?sample_view={quote(selected_sample_tag)}"
+        f"&history_window={quote(history_window_key or 'all')}"
+        f"&tab={quote(active_tab)}"
+        f"&show_reasons={quote('0' if show_reasons else '1')}"
+    )
+    reason_toggle_html = (
+        "<div style='display:flex;justify-content:flex-end;margin:-4px 0 12px'>"
+        f"<a class='button' style='background:transparent;color:var(--ink)' href='{html.escape(reason_toggle_url)}'>"
+        f"{'隐藏策略理由' if show_reasons else '展示策略理由'}"
+        "</a></div>"
     )
     header_html = (
         "<div class='detail-heading'>"
@@ -3349,6 +3672,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
         + "</div>"
         + sample_selector
         + tabs_html
+        + reason_toggle_html
         + f"<div class='card'><h2>当前查看窗口</h2><p>{html.escape(active_sample_label)}：{html.escape(active_sample_start)} → {html.escape(active_sample_end)}</p></div>"
     )
     if active_tab == "preview":
@@ -3361,7 +3685,7 @@ def strategy_detail_html(strategy_id: str, history_window_key: str = "all", samp
                 "双周策略按双周信号节奏更新，当前不生成 month-end preview；请以“正式建议”页为准。"
             )
         else:
-            preview_body = render_month_end_preview(preview_payload, official_weights_for_preview)
+            preview_body = render_month_end_preview(preview_payload, official_weights_for_preview, schedule_kind, show_reasons)
         body = header_html + preview_body
         return render_page("策略详情", body)
 
@@ -3882,7 +4206,17 @@ class Handler(BaseHTTPRequestHandler):
                 history_window_key = (query.get("history_window") or ["all"])[0]
                 sample_view_tag = (query.get("sample_view") or [""])[0]
                 tab = (query.get("tab") or ["official"])[0]
-                self._html(strategy_detail_html(strategy_id, history_window_key=history_window_key, sample_view_tag=sample_view_tag, tab=tab))
+                show_reasons_raw = str((query.get("show_reasons") or ["1"])[0]).strip().lower()
+                show_reasons = show_reasons_raw not in {"0", "false", "no", "off"}
+                self._html(
+                    strategy_detail_html(
+                        strategy_id,
+                        history_window_key=history_window_key,
+                        sample_view_tag=sample_view_tag,
+                        tab=tab,
+                        show_reasons=show_reasons,
+                    )
+                )
                 return
             if path == "/accounts":
                 self._html(accounts_html())

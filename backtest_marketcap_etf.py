@@ -709,6 +709,20 @@ WINNER_CORE_VARIANTS = [
         "weight_cap": 0.20,
     },
     {
+        "variant_id": "share_08_92_hold_2_8_ramp75_cost_guard",
+        "variant_name": "比例8/92(2+8 分步加仓75成本防守)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 8,
+        "promoted_core_stage_ramp": {1: 0.75, 2: 1.00},
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "promoted_core_sell_exit_percentile": 0.65,
+        "weight_cap": 0.20,
+    },
+    {
         "variant_id": "share_10_90_hold_2_8_ramp85_cost_guard",
         "variant_name": "比例10/90(2+8 分步加仓成本防守)",
         "winner_core_stable_share": 0.10,
@@ -2639,6 +2653,33 @@ WINNER_CORE_VARIANTS = [
         "core_risk_off_exposure": 0.40,
         "satellite_risk_off_exposure": 0.40,
         "promoted_core_sell_exit_percentile": 0.65,
+        "weight_cap": 0.80,
+    },
+    {
+        "variant_id": "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cost_guard_v2",
+        "variant_name": "进攻2/98 晋升2只(量价前15%, 动量三档40%, 恢复75, 单票80%, 严格成本防守v2)",
+        "winner_core_stable_share": 0.02,
+        "winner_core_promoted_share": 0.98,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.15,
+        "standard_promotion_min_momentum_6_1_rank": 0.78,
+        "standard_promotion_min_momentum_3_1_rank": 0.55,
+        "fast_promotion_percentile": 0.10,
+        "fast_promotion_min_momentum_6_1_rank": 0.88,
+        "fast_promotion_min_momentum_3_1_rank": 0.60,
+        "fast_promotion_min_recent_1m_return": 0.02,
+        "fast_promotion_min_amount_surge_ratio": 1.15,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_caution_exposure": 0.70,
+        "satellite_caution_exposure": 0.50,
+        "core_risk_off_exposure": 0.38,
+        "satellite_risk_off_exposure": 0.38,
+        "promoted_core_sell_exit_percentile": 0.62,
         "weight_cap": 0.80,
     },
     {
@@ -6439,6 +6480,29 @@ WINNER_CORE_VARIANTS = [
         "weekly_turnover_cap": 0.03,
     },
     {
+        "variant_id": "aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold9_turn03_exit90_weekly",
+        "variant_name": "进攻3/97 晋升2只(周频Alpha回踩, 成本防守, 单票60%, 持有9周, 换手3%, 出场90%, 单周)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_pullback",
+        "promotion_signal_mode": "weekly_alpha_pullback",
+        "standard_promotion_percentile": 0.15,
+        "fast_promotion_percentile": 0.10,
+        "market_risk_off_rule": "and",
+        "core_caution_exposure": 0.72,
+        "satellite_caution_exposure": 0.52,
+        "core_risk_off_exposure": 0.35,
+        "satellite_risk_off_exposure": 0.35,
+        "promoted_core_sell_exit_percentile": 0.90,
+        "weight_cap": 0.60,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 9,
+        "weekly_turnover_cap": 0.03,
+    },
+    {
         "variant_id": "aggr_08_92_prom6_cash_off_dd_guard50",
         "variant_name": "进攻8/92 晋升6只(熊市空仓, 日级回撤防守50%)",
         "winner_core_stable_share": 0.08,
@@ -7322,6 +7386,29 @@ WINNER_CORE_VARIANTS = [
         "weight_cap": 0.30,
     },
     {
+        "variant_id": "aggr_10_90_prom9_emergent_theme_quality_gate_signal18_risk40_cap30_exit78",
+        "variant_name": "进攻10/90 晋升9只(强主题涌现, 严格信号18%, 熊市40%, 单票30%, 出场78%)",
+        "winner_core_stable_share": 0.10,
+        "winner_core_promoted_share": 0.90,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 9,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "promotion_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "standard_promotion_percentile": 0.18,
+        "fast_promotion_percentile": 0.08,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.40,
+        "satellite_risk_off_exposure": 0.40,
+        "core_quality_quantile": 0.55,
+        "promoted_core_quality_quantile": 0.40,
+        "explore_quality_quantile": 0.50,
+        "seed_quality_quantile": 0.35,
+        "promoted_core_sell_exit_percentile": 0.78,
+        "weight_cap": 0.30,
+    },
+    {
         "variant_id": "aggr_03_97_prom2_emergent_theme_quality_gate_risk35_cap55",
         "variant_name": "进攻3/97 晋升2只(强主题涌现, 质量门槛, 熊市35%, 单票55%)",
         "winner_core_stable_share": 0.03,
@@ -7486,6 +7573,7 @@ PATH1_FAST_PASS_DIRECTION_GROUPS = {
         "share_06_94_hold_2_8_ramp85_cost_guard",
         "share_08_92_hold_2_8_ramp85_cost_guard",
         "share_08_92_hold_2_8_ramp80_cost_guard",
+        "share_08_92_hold_2_8_ramp75_cost_guard",
         "share_10_90_hold_2_8_ramp85_cost_guard",
         "share_10_90_hold_2_8_ramp80_cost_guard",
         "share_12_88_hold_2_8_ramp80_cost_guard",
@@ -7573,6 +7661,7 @@ PATH1_FAST_PASS_VARIANT_IDS = [
     "share_06_94_hold_2_8_ramp85_cost_guard",
     "share_08_92_hold_2_8_ramp85_cost_guard",
     "share_08_92_hold_2_8_ramp80_cost_guard",
+    "share_08_92_hold_2_8_ramp75_cost_guard",
     "share_10_90_hold_2_8_ramp85_cost_guard",
     "share_10_90_hold_2_8_ramp80_cost_guard",
     "share_12_88_hold_2_8_ramp80_cost_guard",
@@ -7595,7 +7684,6 @@ PATH4_THEME_DISCOVERY_BASE_IDS = [
 PATH4_THEME_DISCOVERY_VARIANT_IDS = [
     "aggr_08_92_prom6_emergent_theme_risk50_cap50",
     "aggr_08_92_prom6_emergent_theme_risk30_cap50",
-    "aggr_08_92_prom6_emergent_theme_quality_gate_risk30_cap45",
     "aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap45",
     "aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65",
     "aggr_05_95_prom4_emergent_theme_quality_gate_risk35_cap50",
@@ -7613,6 +7701,7 @@ PATH4_THEME_DISCOVERY_VARIANT_IDS = [
     "aggr_09_91_prom8_emergent_theme_quality_gate_risk35_cap30_exit76",
     "aggr_10_90_prom9_emergent_theme_quality_gate_risk35_cap30_exit76",
     "aggr_10_90_prom9_emergent_theme_quality_gate_risk40_cap30_exit78",
+    "aggr_10_90_prom9_emergent_theme_quality_gate_signal18_risk40_cap30_exit78",
 ]
 
 PATH2_SCAN_BASE_PREFIXES = [
@@ -7743,6 +7832,7 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_08_92_prom6_core_multifactor_profitability_industry_reconfirm",
             "share_08_92_hold_2_8_ramp85_cost_guard",
             "share_08_92_hold_2_8_ramp80_cost_guard",
+            "share_08_92_hold_2_8_ramp75_cost_guard",
             "share_10_90_hold_2_8_ramp85_cost_guard",
             "share_10_90_hold_2_8_ramp80_cost_guard",
             "share_12_88_hold_2_8_ramp80_cost_guard",
@@ -7811,6 +7901,7 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap95",
             "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap95",
             "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cost_guard",
+            "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cost_guard_v2",
             "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_caution80_cap80_cost_guard",
             "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk35_mom_exit55_reconfirm80_caution80_cap80_cost_guard",
             "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cashguard",
@@ -8043,6 +8134,7 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold8_turn04_exit90_weekly",
             "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold9_turn03_exit94_weekly",
             "aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold9_turn03_exit92_weekly",
+            "aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold9_turn03_exit90_weekly",
         ],
         "target_candidates": 6,
     },
@@ -8081,12 +8173,12 @@ PATH2_SCAN_VARIANT_IDS = [
     "share_12_88_hold_3_7_ramp85_cost_guard",
     "share_08_92_hold_2_8_ramp85_cost_guard",
     "share_08_92_hold_2_8_ramp80_cost_guard",
+    "share_08_92_hold_2_8_ramp75_cost_guard",
     "share_10_90_hold_2_8_ramp85_cost_guard",
     "share_10_90_hold_2_8_ramp80_cost_guard",
     "aggr_08_92_prom6_emergent_theme_risk50_cap50",
     "aggr_08_92_prom6_emergent_theme_risk30_cap50",
     "aggr_08_92_prom6_emergent_theme_quality_gate_risk30_cap50",
-    "aggr_08_92_prom6_emergent_theme_quality_gate_risk30_cap45",
     "aggr_08_92_prom6_emergent_theme_quality_gate_risk35_cap45",
     "aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65",
     "aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap60",
@@ -8105,6 +8197,7 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_09_91_prom8_emergent_theme_quality_gate_risk35_cap30_exit76",
     "aggr_10_90_prom9_emergent_theme_quality_gate_risk35_cap30_exit76",
     "aggr_10_90_prom9_emergent_theme_quality_gate_risk40_cap30_exit78",
+    "aggr_10_90_prom9_emergent_theme_quality_gate_signal18_risk40_cap30_exit78",
     "aggr_08_92_prom6_full_risk",
     "aggr_08_92_prom6_core_3_1_full_risk_cap40",
     "aggr_08_92_prom6_core_6_1_full_risk",
@@ -8398,7 +8491,9 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold8_turn04_exit90_weekly",
     "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold9_turn03_exit94_weekly",
     "aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold9_turn03_exit92_weekly",
+    "aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold9_turn03_exit90_weekly",
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cost_guard",
+    "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cost_guard_v2",
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_caution80_cap80_cost_guard",
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk35_mom_exit55_reconfirm80_caution80_cap80_cost_guard",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cashguard",
@@ -8436,6 +8531,7 @@ PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS = [
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold8_turn04_exit90_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold8_turn04_exit92_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold9_turn03_exit94_weekly",
+    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold9_turn03_exit92_weekly",
 ]
 
 FACTOR_CACHE_VERSION = "v2"
@@ -10318,6 +10414,172 @@ def build_single_sleeve_weights(
     }
 
 
+SELECTION_DIAGNOSTIC_COLUMNS = [
+    "selection_bucket",
+    "selection_status",
+    "target_weight_rank",
+    "target_weight_count",
+    "signal_rank",
+    "signal_universe_count",
+    "selection_score",
+    "momentum_12_1",
+    "momentum_6_1",
+    "momentum_3_1",
+    "recent_1m_return",
+    "avg_daily_amount",
+    "amount_surge_ratio",
+    "liquidity_score",
+    "quality_score",
+    "industry_strength_score",
+    "industry_leader_score",
+    "breakout_signal",
+    "buy_candidate",
+    "keep_candidate",
+    "protected_keep",
+    "selected_by_model",
+    "risk_stage",
+    "raw_risk_stage",
+    "market_risk_off",
+    "market_momentum",
+    "target_total_exposure",
+    "risk_trigger",
+]
+
+
+def _diagnostic_float(value: object) -> float | None:
+    try:
+        number = float(value)
+    except Exception:
+        return None
+    if not np.isfinite(number):
+        return None
+    return number
+
+
+def _series_value(series: pd.Series | None, code: str) -> float | None:
+    if series is None or series.empty or code not in series.index:
+        return None
+    return _diagnostic_float(series.loc[code])
+
+
+def _series_bool(series: pd.Series | None, code: str) -> bool | None:
+    if series is None or series.empty or code not in series.index:
+        return None
+    value = series.loc[code]
+    if pd.isna(value):
+        return None
+    return bool(value)
+
+
+def _rank_desc(series: pd.Series | None, code: str) -> tuple[int | None, int]:
+    if series is None or series.empty:
+        return None, 0
+    valid = series.replace([np.inf, -np.inf], np.nan).dropna().astype(float)
+    if valid.empty:
+        return None, 0
+    ordered_codes = [str(item) for item in valid.sort_values(ascending=False).index]
+    if code not in ordered_codes:
+        return None, len(ordered_codes)
+    return ordered_codes.index(code) + 1, len(ordered_codes)
+
+
+def _put_optional(row: Dict[str, object], key: str, value: object) -> None:
+    if value is None:
+        return
+    if isinstance(value, float) and not np.isfinite(value):
+        return
+    row[key] = value
+
+
+def build_stock_selection_diagnostics(
+    *,
+    codes: Iterable[str],
+    target_weights: pd.Series,
+    signal_scores: pd.Series,
+    selected_codes: Set[str],
+    buy_candidates: Set[str],
+    keep_candidates: Set[str],
+    protected_keep_candidates: Set[str] | None = None,
+    bucket_by_code: Dict[str, str] | None = None,
+    momentum_12_1: pd.Series | None = None,
+    momentum_6_1: pd.Series | None = None,
+    momentum_3_1: pd.Series | None = None,
+    recent_1m_returns: pd.Series | None = None,
+    avg_daily_amount: pd.Series | None = None,
+    amount_surge_ratio: pd.Series | None = None,
+    liquidity_scores: pd.Series | None = None,
+    quality_scores: pd.Series | None = None,
+    industry_strength_scores: pd.Series | None = None,
+    industry_leader_scores: pd.Series | None = None,
+    breakout_signal: pd.Series | None = None,
+    risk_stage: str = "",
+    raw_risk_stage: str = "",
+    market_risk_off: bool | None = None,
+    market_momentum: float | None = None,
+    target_total_exposure: float | None = None,
+    risk_trigger: str = "",
+) -> Dict[str, Dict[str, object]]:
+    target_ranked_codes = [str(item) for item in target_weights.sort_values(ascending=False).index]
+    selected_codes = {str(code) for code in selected_codes}
+    buy_candidates = {str(code) for code in buy_candidates}
+    keep_candidates = {str(code) for code in keep_candidates}
+    protected_keep_candidates = {str(code) for code in (protected_keep_candidates or set())}
+    bucket_by_code = {str(code): str(bucket) for code, bucket in (bucket_by_code or {}).items()}
+    diagnostics: Dict[str, Dict[str, object]] = {}
+    for raw_code in codes:
+        code = str(raw_code)
+        selected = code in selected_codes or code in target_ranked_codes
+        signal_rank, signal_count = _rank_desc(signal_scores, code)
+        status = "selected" if selected else "not_selected"
+        if code in buy_candidates:
+            status = "buy_candidate" if selected else "buy_candidate_not_selected"
+        elif code in keep_candidates:
+            status = "keep_candidate" if selected else "keep_candidate_not_selected"
+        row: Dict[str, object] = {
+            "selection_status": status,
+            "buy_candidate": code in buy_candidates,
+            "keep_candidate": code in keep_candidates,
+            "protected_keep": code in protected_keep_candidates,
+            "selected_by_model": selected,
+        }
+        _put_optional(row, "selection_bucket", bucket_by_code.get(code))
+        if code in target_ranked_codes:
+            row["target_weight_rank"] = target_ranked_codes.index(code) + 1
+            row["target_weight_count"] = len(target_ranked_codes)
+        _put_optional(row, "signal_rank", signal_rank)
+        _put_optional(row, "signal_universe_count", signal_count or None)
+        _put_optional(row, "selection_score", _series_value(signal_scores, code))
+        _put_optional(row, "momentum_12_1", _series_value(momentum_12_1, code))
+        _put_optional(row, "momentum_6_1", _series_value(momentum_6_1, code))
+        _put_optional(row, "momentum_3_1", _series_value(momentum_3_1, code))
+        _put_optional(row, "recent_1m_return", _series_value(recent_1m_returns, code))
+        _put_optional(row, "avg_daily_amount", _series_value(avg_daily_amount, code))
+        _put_optional(row, "amount_surge_ratio", _series_value(amount_surge_ratio, code))
+        _put_optional(row, "liquidity_score", _series_value(liquidity_scores, code))
+        _put_optional(row, "quality_score", _series_value(quality_scores, code))
+        _put_optional(row, "industry_strength_score", _series_value(industry_strength_scores, code))
+        _put_optional(row, "industry_leader_score", _series_value(industry_leader_scores, code))
+        _put_optional(row, "breakout_signal", _series_bool(breakout_signal, code))
+        _put_optional(row, "risk_stage", risk_stage or None)
+        _put_optional(row, "raw_risk_stage", raw_risk_stage or None)
+        _put_optional(row, "market_risk_off", market_risk_off)
+        _put_optional(row, "market_momentum", market_momentum)
+        _put_optional(row, "target_total_exposure", target_total_exposure)
+        _put_optional(row, "risk_trigger", risk_trigger or None)
+        diagnostics[code] = row
+    return diagnostics
+
+
+def enrich_with_selection_diagnostics(row: Dict[str, object], diagnostics: Dict[str, Dict[str, object]], ts_code: str) -> Dict[str, object]:
+    detail = diagnostics.get(str(ts_code))
+    if not detail:
+        return row
+    for key in SELECTION_DIAGNOSTIC_COLUMNS:
+        if key in detail:
+            row[key] = detail[key]
+    return row
+
+
 def build_core_explore_target_weights(
     base_weights: pd.Series,
     avg_daily_amount: pd.Series,
@@ -11409,6 +11671,12 @@ def apply_weekly_satellite_risk_overlay(
             detail_row = dict(detail)
             ts_code = str(detail_row.get("ts_code") or "")
             detail_row["name"] = prepared.code_to_name.get(ts_code, "")
+            detail_row["risk_stage"] = effective_stage
+            detail_row["raw_risk_stage"] = str(regime["risk_stage"])
+            detail_row["target_total_exposure"] = float(target_weights.sum()) if not target_weights.empty else 0.0
+            detail_row["market_momentum"] = _diagnostic_float(regime.get("market_12_1_momentum"))
+            detail_row["market_risk_off"] = bool(regime.get("risk_off"))
+            detail_row["risk_trigger"] = "weekly_overlay"
             trade_details.append(detail_row)
         overlay_turnover_rows.append(
             {
@@ -12015,18 +12283,23 @@ def _weights_to_preview_holdings(
     price_ffill: pd.DataFrame,
     signal_date: pd.Timestamp,
     code_to_name: Dict[str, str],
+    selection_diagnostics: Dict[str, Dict[str, object]] | None = None,
 ) -> List[Dict[str, object]]:
     rows: List[Dict[str, object]] = []
     price_row = price_ffill.loc[signal_date] if signal_date in price_ffill.index else pd.Series(dtype=float)
     for ts_code, weight in weights.sort_values(ascending=False).items():
         latest_price = price_row.get(ts_code, np.nan)
         rows.append(
-            {
-                "ts_code": str(ts_code),
-                "name": str(code_to_name.get(str(ts_code), "")),
-                "weight": float(weight),
-                "latest_price": float(latest_price) if pd.notna(latest_price) else None,
-            }
+            enrich_with_selection_diagnostics(
+                {
+                    "ts_code": str(ts_code),
+                    "name": str(code_to_name.get(str(ts_code), "")),
+                    "weight": float(weight),
+                    "latest_price": float(latest_price) if pd.notna(latest_price) else None,
+                },
+                selection_diagnostics or {},
+                str(ts_code),
+            )
         )
     if cash_weight > 1e-12:
         rows.append({"ts_code": "CASH", "name": "现金", "weight": float(cash_weight), "latest_price": None})
@@ -12222,6 +12495,91 @@ def build_month_end_preview_payload(
     if not np.isfinite(weight_cap) or weight_cap <= 0:
         weight_cap = WEIGHT_CAP
     target_weights, target_cash_weight = apply_weight_cap_with_redistribution(raw_target_weights, cap=min(1.0, weight_cap))
+    candidate_code_sets = [
+        set(selection_stats.get(key, set()) or set())
+        for key in (
+            "core_buy_candidates",
+            "stable_core_buy_candidates",
+            "promoted_core_buy_candidates",
+            "explore_buy_candidates",
+            "seed_buy_candidates",
+            "core_keep_candidates",
+            "stable_core_keep_candidates",
+            "promoted_core_keep_candidates",
+            "explore_keep_candidates",
+            "seed_keep_candidates",
+        )
+    ]
+    buy_candidate_codes = set().union(
+        *[
+            set(selection_stats.get(key, set()) or set())
+            for key in (
+                "core_buy_candidates",
+                "stable_core_buy_candidates",
+                "promoted_core_buy_candidates",
+                "explore_buy_candidates",
+                "seed_buy_candidates",
+            )
+        ]
+    )
+    keep_candidate_codes = set().union(
+        *[
+            set(selection_stats.get(key, set()) or set())
+            for key in (
+                "core_keep_candidates",
+                "stable_core_keep_candidates",
+                "promoted_core_keep_candidates",
+                "explore_keep_candidates",
+                "seed_keep_candidates",
+            )
+        ]
+    )
+    diagnostic_codes = set(map(str, target_weights.index)) | set(map(str, currently_held_codes)) | set().union(*candidate_code_sets)
+    bucket_by_code: Dict[str, str] = {}
+    for bucket_name, keys in (
+        ("稳定核心", ("stable_core_selected_codes", "stable_core_buy_candidates", "stable_core_keep_candidates")),
+        ("晋升核心", ("promoted_core_selected_codes", "promoted_core_buy_candidates", "promoted_core_keep_candidates")),
+        ("探索仓", ("explore_selected_codes", "explore_buy_candidates", "explore_keep_candidates")),
+        ("种子仓", ("seed_selected_codes", "seed_buy_candidates", "seed_keep_candidates")),
+        ("核心仓", ("core_selected_codes", "core_buy_candidates", "core_keep_candidates")),
+    ):
+        for key in keys:
+            for code in selection_stats.get(key, set()) or set():
+                bucket_by_code.setdefault(str(code), bucket_name)
+    signal_components = [core_signal_scores, explore_signal_scores, seed_signal_scores]
+    if strategy_kind == "pure_core_growth":
+        signal_components = [pure_core_signal_scores]
+    diagnostic_signal_scores = (
+        pd.concat([series for series in signal_components if not series.empty]).groupby(level=0).max()
+        if any(not series.empty for series in signal_components)
+        else pd.Series(dtype=float)
+    )
+    selection_diagnostics = build_stock_selection_diagnostics(
+        codes=diagnostic_codes,
+        target_weights=target_weights,
+        signal_scores=diagnostic_signal_scores,
+        selected_codes=set(map(str, target_weights.index)),
+        buy_candidates=buy_candidate_codes,
+        keep_candidates=keep_candidate_codes,
+        protected_keep_candidates=set(selection_stats.get("core_protected_keep_candidates", set()) or set()),
+        bucket_by_code=bucket_by_code,
+        momentum_6_1=momentum_6_1,
+        momentum_3_1=momentum_3_1,
+        recent_1m_returns=recent_1m_returns,
+        avg_daily_amount=avg_daily_amount,
+        amount_surge_ratio=amount_surge_ratio,
+        liquidity_scores=safe_percentile_rank(avg_daily_amount, ascending=True),
+        quality_scores=quality_scores,
+        industry_strength_scores=industry_strength_scores,
+        industry_leader_scores=industry_leader_scores,
+        breakout_signal=breakout_signal,
+        risk_stage=str(market_regime.get("risk_stage") or ("risk_off" if market_regime.get("risk_off") else "risk_on")),
+        raw_risk_stage=str(market_regime.get("raw_risk_stage") or ""),
+        market_risk_off=bool(market_regime.get("risk_off")),
+        market_momentum=_diagnostic_float(market_regime.get("market_12_1_momentum")),
+        target_total_exposure=float(target_weights.sum()) if not target_weights.empty else 0.0,
+    )
+    preview_detail_codes = set(map(str, target_weights.index)) | set(map(str, currently_held_codes))
     return {
         "mode": "month_end_preview",
         "status": "available",
@@ -12237,12 +12595,18 @@ def build_month_end_preview_payload(
             for key, value in selection_stats.items()
             if key.endswith("_count") and isinstance(value, (int, np.integer))
         },
+        "selection_diagnostics": {
+            code: selection_diagnostics[code]
+            for code in sorted(preview_detail_codes)
+            if code in selection_diagnostics
+        },
         "holdings": _weights_to_preview_holdings(
             target_weights,
             target_cash_weight,
             price_ffill=prepared.price_ffill,
             signal_date=signal_date,
             code_to_name=prepared.code_to_name,
+            selection_diagnostics=selection_diagnostics,
         ),
     }
 
@@ -12609,6 +12973,93 @@ def run_backtest(
                 strategy_config=strategy_config,
             )
 
+        candidate_code_sets = [
+            set(selection_stats.get(key, set()) or set())
+            for key in (
+                "core_buy_candidates",
+                "stable_core_buy_candidates",
+                "promoted_core_buy_candidates",
+                "explore_buy_candidates",
+                "seed_buy_candidates",
+                "core_keep_candidates",
+                "stable_core_keep_candidates",
+                "promoted_core_keep_candidates",
+                "explore_keep_candidates",
+                "seed_keep_candidates",
+            )
+        ]
+        buy_candidate_codes = set().union(
+            *[
+                set(selection_stats.get(key, set()) or set())
+                for key in (
+                    "core_buy_candidates",
+                    "stable_core_buy_candidates",
+                    "promoted_core_buy_candidates",
+                    "explore_buy_candidates",
+                    "seed_buy_candidates",
+                )
+            ]
+        )
+        keep_candidate_codes = set().union(
+            *[
+                set(selection_stats.get(key, set()) or set())
+                for key in (
+                    "core_keep_candidates",
+                    "stable_core_keep_candidates",
+                    "promoted_core_keep_candidates",
+                    "explore_keep_candidates",
+                    "seed_keep_candidates",
+                )
+            ]
+        )
+        diagnostic_codes = set(map(str, target_weights.index)) | set(map(str, currently_held_codes)) | set().union(*candidate_code_sets)
+        bucket_by_code: Dict[str, str] = {}
+        for bucket_name, keys in (
+            ("稳定核心", ("stable_core_selected_codes", "stable_core_buy_candidates", "stable_core_keep_candidates")),
+            ("晋升核心", ("promoted_core_selected_codes", "promoted_core_buy_candidates", "promoted_core_keep_candidates")),
+            ("探索仓", ("explore_selected_codes", "explore_buy_candidates", "explore_keep_candidates")),
+            ("种子仓", ("seed_selected_codes", "seed_buy_candidates", "seed_keep_candidates")),
+            ("核心仓", ("core_selected_codes", "core_buy_candidates", "core_keep_candidates")),
+        ):
+            for key in keys:
+                for code in selection_stats.get(key, set()) or set():
+                    bucket_by_code.setdefault(str(code), bucket_name)
+        signal_components = [core_signal_scores, explore_signal_scores, seed_signal_scores]
+        if strategy_kind == "pure_core_growth":
+            signal_components = [pure_core_signal_scores]
+        elif not promotion_signal_scores.empty:
+            signal_components.append(promotion_signal_scores)
+        diagnostic_signal_scores = (
+            pd.concat([series for series in signal_components if not series.empty]).groupby(level=0).max()
+            if any(not series.empty for series in signal_components)
+            else pd.Series(dtype=float)
+        )
+        selection_diagnostics = build_stock_selection_diagnostics(
+            codes=diagnostic_codes,
+            target_weights=target_weights,
+            signal_scores=diagnostic_signal_scores,
+            selected_codes=set(map(str, target_weights.index)),
+            buy_candidates=buy_candidate_codes,
+            keep_candidates=keep_candidate_codes,
+            protected_keep_candidates=set(selection_stats.get("core_protected_keep_candidates", set()) or set()),
+            bucket_by_code=bucket_by_code,
+            momentum_6_1=momentum_6_1,
+            momentum_3_1=momentum_3_1,
+            recent_1m_returns=recent_1m_returns,
+            avg_daily_amount=avg_daily_amount,
+            amount_surge_ratio=amount_surge_ratio,
+            liquidity_scores=safe_percentile_rank(avg_daily_amount, ascending=True),
+            quality_scores=quality_scores,
+            industry_strength_scores=industry_strength_scores,
+            industry_leader_scores=industry_leader_scores,
+            breakout_signal=breakout_signal,
+            risk_stage=str(market_regime.get("risk_stage") or ("risk_off" if market_regime.get("risk_off") else "risk_on")),
+            raw_risk_stage=str(market_regime.get("raw_risk_stage") or ""),
+            market_risk_off=bool(market_regime.get("risk_off")),
+            market_momentum=_diagnostic_float(market_regime.get("market_12_1_momentum")),
+            target_total_exposure=float(target_weights.sum()) if not target_weights.empty else 0.0,
+        )
+
         if not positions.empty:
             current_price_rebalance = price_ffill.loc[rebalance_date, positions.index]
             signal_price_for_positions = price_ffill.loc[signal_date, positions.index]
@@ -12671,12 +13122,16 @@ def run_backtest(
                 month_weights = (positions / nav_end).sort_values(ascending=False)
                 for ts_code, weight in month_weights.items():
                     weights_history_rows.append(
-                        {
-                            "date": holding_period_end,
-                            "ts_code": ts_code,
-                            "name": prepared.code_to_name.get(ts_code, ""),
-                            "weight": float(weight),
-                        }
+                        enrich_with_selection_diagnostics(
+                            {
+                                "date": holding_period_end,
+                                "ts_code": ts_code,
+                                "name": prepared.code_to_name.get(ts_code, ""),
+                                "weight": float(weight),
+                            },
+                            selection_diagnostics,
+                            str(ts_code),
+                        )
                     )
             cash_weight = float(cash_value / nav_end)
             if cash_weight > 1e-12:
@@ -12765,6 +13220,7 @@ def run_backtest(
             detail_row = dict(detail)
             ts_code = str(detail_row.get("ts_code") or "")
             detail_row["name"] = prepared.code_to_name.get(ts_code, "")
+            enrich_with_selection_diagnostics(detail_row, selection_diagnostics, ts_code)
             trade_details.append(detail_row)
         turnover_rows.append(
             {
@@ -12853,7 +13309,12 @@ def run_backtest(
             .rename(columns={"index": "ts_code"})
         )
         latest_weights["name"] = latest_weights["ts_code"].map(prepared.code_to_name)
-        latest_weights = latest_weights[["ts_code", "name", "weight"]]
+        extra_cols = [col for col in SELECTION_DIAGNOSTIC_COLUMNS if col in weights_history.columns]
+        if extra_cols and not weights_history.empty:
+            latest_date = weights_history["date"].max()
+            latest_diag = weights_history.loc[weights_history["date"] == latest_date, ["ts_code", *extra_cols]]
+            latest_weights = latest_weights.merge(latest_diag, on="ts_code", how="left")
+        latest_weights = latest_weights[["ts_code", "name", "weight", *[col for col in extra_cols if col in latest_weights.columns]]]
 
     strategy_kind = str(strategy_config.get("strategy_kind", "core_explore"))
     if strategy_kind == "pure_core_growth":
