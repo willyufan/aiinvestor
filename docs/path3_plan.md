@@ -3,6 +3,15 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-29 10:22 CST）
+
+- 开局 guard 为 `pass`；上一轮 `cashoff_cap60_hold9_turn03_exit94_weekly` 2023 CAGR 仅 `0.58%`，本轮新增前已将其加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，active weekly universe 维持 cap `60`。随后按 `risk_downshift` 在同一低换手形态上把熊市暴露改为 `30%`、退出收紧到 `exit92`。
+- 本轮新增并五窗口确认 1 个纯 `_weekly` Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold9_turn03_exit92_weekly`。可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold9_turn03_exit92_weekly`。
+- `risk30_cap60_hold9_turn03_exit92_weekly` 五窗口 CAGR 为 `12.02% / 7.07% / 10.97% / 16.54% / 91.99%`，最大回撤为 `-26.48% / -29.67% / -25.16% / -19.31% / -10.38%`，换手为 `2.56x / 2.81x / 2.94x / 3.05x / 4.12x`。风险降档修复 2026 弹性，但 2020/2023/2025 仍弱，不替换 Path 3 window winner 或 robust。
+- `scripts/path2_candidate_pass.py` 后 `weekly_rebalance_aggressive=66`；最终 guard 的 `ashare_path3_weekly_universe` 仍为 `60/60 complete`。本轮 evict/归档：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold9_turn03_exit94_weekly`，原因是 2023 近乎失效且不改善 robust。
+- 最终 guard 为 `pass`，下一轮 focus 轮换为 `cost_stress`。下一轮新增前应先归档本轮 `risk30_cap60_hold9_turn03_exit92_weekly`，理由是 2020 CAGR 只有 `7.07%`、2023 只有 `10.97%`；第一条命令建议测试同一低换手形态的成本守门/更宽退出对照，例如 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold9_turn03_exit90_weekly`：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_cost_stress_id>`。
+
 ## 本轮执行计划（2026-05-29 04:17 CST）
 
 - 开局 guard 为 `pass`；上一轮 `cost_guard_cap60_hold8_turn04_exit90_weekly` 继续 2020/2023 坍塌，本轮新增前已将其加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，active weekly universe 维持 cap `60`。随后按 `weekly_exit_buffer/turnover_reduction` 测试更低换手、更长持有的现金防守纯 `_weekly` 版本。

@@ -1,5 +1,14 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-05-29 10:22 CST）
+
+- 开局 guard 为 `pass`；上一轮 `theme_monthly_reconfirm_high_return_cost_control_v8` 仍低于 2023 验收线，本轮按 `biweekly_breakout` 的失败支线终止复核，只测更低 `exit28/risk20` 的强防守双周 breakout，不重启普通 breakout 邻域。HK 缓存到 2026-05-27，`--end-date 2026-05-28` 准备保护失败后改用 `--end-date 2026-05-27`。
+- 本轮新增并五窗口确认：`hkconnect_path2_breakout_cost_guard_biweekly_defensive_cashguard_exit28_risk20`。可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_breakout_cost_guard_biweekly_defensive_cashguard_exit28_risk20`。
+- `exit28_risk20` 五窗口 CAGR 为 `0.34% / -3.51% / -1.35% / 30.40% / -23.16%`，最大回撤为 `-60.30% / -60.30% / -37.07% / -15.20% / -10.21%`，换手为 `13.35x / 13.17x / 15.11x / 20.11x / 19.81x`。结果确认双周 breakout 支线即使强现金防守仍无法修复长窗深回撤和 2026 负收益，应终止该支线扩展。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 2 tracked/robust 未变化，robust 仍为 `hkconnect_path2_theme_monthly_cost_control`。候选池未触发 HK explore cap evict。
+- 最终 guard 为 `pass`，下一轮 focus 轮换为 `elasticity_cost_control`。第一条命令建议回到月频弹性成本线，只测一个更严格的终止复核，例如 `hkconnect_path2_inverse_elastic_monthly_cost_guard_v9`，要求 `since_2023_01 >= 15%` 且 long-window MaxDD 低于 `30%`：`.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path2_elasticity_cost_control_next_id>`；若仍失败，预算转回主题月频修复池。
+
 ## 本轮执行计划（2026-05-29 04:17 CST）
 
 - 开局 guard 为 `pass`；上一轮 `inverse_elastic_monthly_cost_guard_v8` 2023 与长窗回撤继续失败，本轮按 `high_return_monthly` 回到主题月频高收益修复池，新增 `hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v8`，目标是保留 2025/2026 强收益同时让 2023 接近验收线。
