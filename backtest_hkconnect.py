@@ -79,10 +79,23 @@ HK_PRICE_DIR = HK_CACHE_DIR / "daily_adj"
 HK_FACTOR_DIR = HK_CACHE_DIR / "factor_cache"
 HK_MANUAL_CONNECT_PATH = HK_BASIC_DIR / "stock_hsgt_manual.csv"
 HK_PROGRESS_PATH = HK_BASIC_DIR / "prepare_progress.json"
+HK_BASIC_COLUMNS = [
+    "ts_code",
+    "name",
+    "fullname",
+    "enname",
+    "cn_spell",
+    "market",
+    "list_status",
+    "list_date",
+    "delist_date",
+    "trade_unit",
+    "isin",
+    "curr_type",
+]
 
 CONNECT_UNIVERSE_START = pd.Timestamp("2025-08-12")
 HK_DATA_HISTORY_MONTHS = 18
-HK_MIN_LISTING_MONTHS = 12
 HK_ROLLING_AMOUNT_WINDOW = 60
 HK_BREAKOUT_LOOKBACK_DAYS = 20
 HK_WEIGHT_CAP = 0.30
@@ -2366,12 +2379,20 @@ def extend_hk_calendar_with_cached_price_dates(
     return extended
 
 
-def load_or_fetch_hk_basic(pro) -> pd.DataFrame:
-    cache_path = HK_BASIC_DIR / "hk_basic.csv"
-    cached = read_cached_csv(cache_path, date_columns=["list_date", "delist_date"])
-    if not cached.empty:
-        return cached
+def normalize_hk_basic_frame(hk_basic: pd.DataFrame) -> pd.DataFrame:
+    if hk_basic.empty:
+        return hk_basic
+    hk_basic = hk_basic.copy()
+    for column in HK_BASIC_COLUMNS:
+        if column not in hk_basic.columns:
+            hk_basic[column] = np.nan
+    hk_basic["ts_code"] = hk_basic["ts_code"].astype(str)
+    hk_basic["list_date"] = pd.to_datetime(hk_basic["list_date"], errors="coerce")
+    hk_basic["delist_date"] = pd.to_datetime(hk_basic["delist_date"], errors="coerce")
+    return hk_basic.sort_values("ts_code").drop_duplicates(subset=["ts_code"], keep="last").reset_index(drop=True)
 
+
+def fetch_hk_basic(pro) -> pd.DataFrame:
     frames: List[pd.DataFrame] = []
     for list_status in ["L", "D", "P"]:
         try:
@@ -2381,10 +2402,80 @@ def load_or_fetch_hk_basic(pro) -> pd.DataFrame:
             if list_status == "L":
                 raise
     hk_basic = pd.concat(frames, ignore_index=True).drop_duplicates(subset=["ts_code"])
-    hk_basic["list_date"] = pd.to_datetime(hk_basic["list_date"], format="%Y%m%d", errors="coerce")
-    hk_basic["delist_date"] = pd.to_datetime(hk_basic["delist_date"], format="%Y%m%d", errors="coerce")
-    hk_basic = hk_basic.sort_values("ts_code").reset_index(drop=True)
-    save_csv(hk_basic, cache_path)
+    hk_basic = normalize_hk_basic_frame(hk_basic)
+    return hk_basic
+
+
+def build_hk_basic_fallback_rows(latest_connect: pd.DataFrame, missing_codes: Set[str]) -> pd.DataFrame:
+    if latest_connect.empty or not missing_codes:
+        return pd.DataFrame(columns=HK_BASIC_COLUMNS)
+
+    connect = latest_connect.copy()
+    connect["ts_code"] = connect["ts_code"].astype(str)
+    connect = connect.loc[connect["ts_code"].isin(missing_codes)].copy()
+    if connect.empty:
+        return pd.DataFrame(columns=HK_BASIC_COLUMNS)
+    if "trade_date" in connect.columns:
+        connect["trade_date"] = pd.to_datetime(connect["trade_date"], errors="coerce")
+
+    fallback_rows: List[Dict[str, object]] = []
+    for ts_code, group in connect.groupby("ts_code", sort=True):
+        names = group.get("name", pd.Series(dtype=object)).dropna().astype(str)
+        names = names.loc[names.str.len() > 0]
+        trade_dates = pd.to_datetime(group.get("trade_date", pd.Series(dtype=object)), errors="coerce").dropna()
+        fallback_rows.append(
+            {
+                "ts_code": ts_code,
+                "name": names.iloc[0] if not names.empty else ts_code,
+                "fullname": "",
+                "enname": "",
+                "cn_spell": "",
+                "market": "主板",
+                "list_status": "L",
+                "list_date": trade_dates.min() if not trade_dates.empty else CONNECT_UNIVERSE_START,
+                "delist_date": pd.NaT,
+                "trade_unit": np.nan,
+                "isin": "",
+                "curr_type": "HKD",
+            }
+        )
+    return normalize_hk_basic_frame(pd.DataFrame(fallback_rows, columns=HK_BASIC_COLUMNS))
+
+
+def load_or_fetch_hk_basic(pro, latest_connect: pd.DataFrame | None = None) -> pd.DataFrame:
+    cache_path = HK_BASIC_DIR / "hk_basic.csv"
+    cached = normalize_hk_basic_frame(read_cached_csv(cache_path, date_columns=["list_date", "delist_date"]))
+    if cached.empty:
+        hk_basic = fetch_hk_basic(pro)
+        save_csv(hk_basic, cache_path)
+    else:
+        hk_basic = cached
+
+    if latest_connect is None or latest_connect.empty or "ts_code" not in latest_connect.columns:
+        return hk_basic
+
+    required_codes = set(latest_connect["ts_code"].dropna().astype(str))
+    missing_codes = required_codes - set(hk_basic["ts_code"].dropna().astype(str))
+    if missing_codes:
+        print(f"[HK Data] hk_basic 缺少 {len(missing_codes)} 只最新港股通标的，正在刷新 hk_basic。")
+        try:
+            refreshed = fetch_hk_basic(pro)
+            save_csv(refreshed, cache_path)
+            hk_basic = refreshed
+            missing_codes = required_codes - set(hk_basic["ts_code"].dropna().astype(str))
+        except Exception as exc:
+            if cached.empty:
+                raise
+            print(f"[Warn] hk_basic 刷新失败，使用本地缓存并对缺失标的临时 fallback：{exc}")
+
+    if missing_codes:
+        fallback = build_hk_basic_fallback_rows(latest_connect, missing_codes)
+        if not fallback.empty:
+            names = ", ".join(
+                f"{row.ts_code}/{row.name}" for row in fallback[["ts_code", "name"]].itertuples(index=False)
+            )
+            print(f"[Warn] hk_basic 刷新后仍缺少 {len(fallback)} 只标的，本轮使用 stock_hsgt 名称 fallback：{names}")
+            hk_basic = normalize_hk_basic_frame(pd.concat([hk_basic, fallback], ignore_index=True))
     return hk_basic
 
 
@@ -2643,8 +2734,6 @@ def compute_hk_factor_cache(prepared: HKPreparedData) -> HKFactorCache:
         for ts_code, list_date in prepared.code_to_list_date.items():
             if pd.isna(list_date):
                 continue
-            if list_date > signal_date - pd.DateOffset(months=HK_MIN_LISTING_MONTHS):
-                continue
             if ts_code not in signal_prices.index or pd.isna(signal_prices.get(ts_code)):
                 continue
             if ts_code not in signal_mvs.index or pd.isna(signal_mvs.get(ts_code)):
@@ -2755,8 +2844,8 @@ def prepare_hkconnect_data(
     started_at = time.monotonic()
     data_start_date = start_date - pd.DateOffset(months=HK_DATA_HISTORY_MONTHS)
     warnings: List[str] = []
-    hk_basic = load_or_fetch_hk_basic(pro_daily)
     latest_connect = load_or_fetch_stock_hsgt_latest(pro_connect, end_date)
+    hk_basic = load_or_fetch_hk_basic(pro_daily, latest_connect=latest_connect)
     connect_codes = sorted(latest_connect["ts_code"].astype(str).unique().tolist())
     connect_basic = hk_basic.loc[hk_basic["ts_code"].isin(connect_codes)].copy()
     if connect_basic.empty:
