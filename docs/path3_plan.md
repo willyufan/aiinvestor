@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-30 22:20 CST）
+
+- 开局 guard 为 `pass`；上一轮低换手 `cashoff_cap58_hold10_turn02_exit94_weekly` 2023 仍弱，本轮新增前将其加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是 2023 CAGR 仅 `8.91%` 且不改善 robust。随后按 `risk_downshift` 改测 `risk25/cap58/hold10/turn02/exit94` 纯 `_weekly` 版本。
+- 本轮新增并五窗口确认 1 个 Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk25_cap58_hold10_turn02_exit94_weekly`。实际 A股合并命令见 Path 1 本轮记录，命令类型为五窗口 `--only-base-ids` 增量确认。
+- `risk25_cap58_hold10_turn02_exit94_weekly` 五窗口 CAGR 为 `9.43% / -3.41% / 1.04% / 8.05% / 67.64%`，最大回撤为 `-27.20% / -41.58% / -26.17% / -20.94% / -10.34%`，换手为 `1.67x / 2.46x / 1.98x / 1.50x / 3.33x`。风险降档牺牲了 2020/2023，除 2026 外没有可用改善，不晋级。
+- `scripts/path2_candidate_pass.py` 后 weekly family 完整；`scripts/update_weighted_winners.py` 后 Path 3 window winner/robust/tracked 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly`。本轮归档：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap58_hold10_turn02_exit94_weekly`。
+- 最终 guard 为 `pass`，`ashare_path3_weekly_universe 60/60 complete`，下一轮 focus 轮换为 `cost_stress`。下一轮新增前应把本轮 `risk25_cap58_hold10_turn02_exit94_weekly` 列入待归档观察；第一条命令建议停止继续降风险，改测低换手成本压力但提高中窗暴露，例如 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold9_turn02_exit92_weekly`：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_cost_stress_id>`。
+
 ## 本轮执行计划（2026-05-30 16:22 CST）
 
 - 开局 guard 为 `pass`；上一轮 `cost_guard_cap55_hold10_turn03_exit92_weekly` 2020 转负，本轮新增前已将其加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是 2020/2023 不改善 robust 且成本守门只强化 2026。随后按 `turnover_reduction/weekly_exit_buffer` 改测 `cashoff_cap58/hold10/turn02/exit94`。
