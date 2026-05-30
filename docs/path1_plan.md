@@ -4,6 +4,15 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-30 16:22 CST）
+
+- 开局 guard 为 `pass`；上一轮建议回到代码实际 `core_multifactor` 池，本轮按 `core_multifactor_coverage/signal_quality` 注册盈利+估值+现金守门组合，不凭文字假定 overlay 数量。注册后按 blocking scope 只补新 base 的五窗口覆盖。
+- 本轮新增并五窗口确认 1 个 Path 1/core_multifactor base id：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_profitability_value_cashguard_reconfirm`。可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_profitability_value_cashguard_reconfirm`。
+- `profitability_value_cashguard_reconfirm` 五窗口 CAGR 为 `16.40% / 14.43% / 16.58% / 67.10% / 99.10%`，最大回撤为 `-24.73% / -28.29% / -13.26% / -15.26% / -4.62%`，换手为 `2.79x / 3.32x / 3.63x / 5.13x / 5.92x`。它改善 2026 弹性和短窗回撤，但 2017/2020/2023 收益仍弱于 Path 1 robust，不晋级。
+- `scripts/winner_only_pass.py` 仍以退出码 `2` 提示旧 `aggr_05_95_prom7__sat_three_stage_buffered_cost_guard` 的 `since_2020_only` clear improvement；`scripts/update_weighted_winners.py` 后 Path 1 composite/tracked payload 已同步，robust 组件为 `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__port_weekly_exposure_buffered`，window winner 未被本轮多因子候选替换。候选池未触发 Path 1 evict。
+- 最终 guard 为 `pass`，`ashare_path1_core_multifactor 34/34 complete`、`ashare_path1_fast_family 82/82 complete`，下一轮 focus 轮换为 `satellite_risk_cost`。第一条命令建议回到旧 `aggr_05_95_prom7` 卫星三段式 clear-improvement 邻域，注册更低风险阈值/成本守门再确认，例如 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk30_reconfirm`：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path1_satellite_risk_cost_id>`。
+
 ## 本轮执行计划（2026-05-30 10:17 CST）
 
 - 开局 guard 为 `pass`，上一轮 `quality_lowvol_value_reconfirm` 只提供 2026 弹性，未改善 Path 1 robust。本轮按 final rotation 的 `holding_shape`，新增 `2+8 / ramp80 / cost_guard` 的更进攻持仓形态；core_multifactor 子段按代码实际池完成巡检，仍为 `33/33 complete`，本轮没有新增多因子 overlay。
