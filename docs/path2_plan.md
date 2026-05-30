@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-31 04:21 CST）
+
+- 开局 guard 为 `pass`；上一轮 focus 指向 `capacity_and_cost_stress`，本轮继续在 high-growth 中周期高收益族压集中度，把 `top12/reconfirm85/caution65/cap60` 作为 v7，并用等权与总市值双底座确认。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk35_mom_exit55_reconfirm85_caution65_cap60_cost_guard_v7`、`core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk35_mom_exit55_reconfirm85_caution65_cap60_cost_guard_v7`。可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk35_mom_exit55_reconfirm85_caution65_cap60_cost_guard_v7,core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk35_mom_exit55_reconfirm85_caution65_cap60_cost_guard_v7`。
+- 等权版五窗口 CAGR 为 `20.02% / 35.37% / 49.79% / 134.76% / 1.46%`，最大回撤为 `-43.39% / -32.84% / -25.85% / -16.42% / -10.11%`，换手为 `3.61x / 4.28x / 4.29x / 7.75x / 7.07x`；总市值版为 `18.87% / 30.24% / 44.13% / 145.06% / 9.59%`，最大回撤为 `-48.19% / -34.75% / -25.78% / -17.17% / -7.95%`，换手为 `3.63x / 4.20x / 4.20x / 7.34x / 7.06x`。v7 修复总市值 2026，但 2017/2020 回撤仍过深，未替换 Path 2 winner/robust。
+- 新增后将 `aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk35_mom_exit55_reconfirm85_caution70_cap65_cost_guard_v6` 从 active high-growth 扫描池移出，原因是 v6 已被 v7 的更低 `caution65/cap60` 约束覆盖且未改善 robust。`scripts/path2_candidate_pass.py` 后 Path 2 comparable universe 为 `790/790 complete`，high-growth family 为 `333`，robust/tracked 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off`。
+- 最终 guard 为 `pass`，下一轮 focus 轮换为 `risk_reconfirm_sensitivity`。第一条命令建议不要继续单纯降 cap，改测更低 risk/更严恢复确认对 2026 与 2023 的折中，例如双底座 `aggr_02_98_prom2_core_6_1_promo_liqmom_top10_risk32_mom_exit52_reconfirm88_caution60_cap55_cost_guard_v8`：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_risk_reconfirm_ids>`。
+
 ## 本轮执行计划（2026-05-30 22:20 CST）
 
 - 开局 guard 为 `pass`；上一轮要求从 `underrepresented_families` 补低相关/多因子代表。本轮新增等权 `quality_growth_signal_reconfirm`，用质量、成长加速度、行业强度与流动性放量组合做非 high-growth 对照。

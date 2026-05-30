@@ -4,6 +4,15 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-31 04:21 CST）
+
+- 开局 guard 为 `pass`；上一轮 focus 要求回到 `holding_shape`，本轮沿 2+8 低 ramp 持仓形态新增 `share_04_96_hold_2_8_ramp75_cost_guard`。代码实际 `core_multifactor` 池同步巡检为 `34/34 complete`，本轮没有新增 core_multifactor overlay。
+- 本轮新增并五窗口确认 1 个 Path 1 fast-family base id：`core_explore_80_20_total_mv_winner_core__share_04_96_hold_2_8_ramp75_cost_guard`。可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_04_96_hold_2_8_ramp75_cost_guard`。
+- `share_04_96_hold_2_8_ramp75_cost_guard` 五窗口 CAGR 为 `20.47% / 22.41% / 33.89% / 102.39% / 108.69%`，最大回撤为 `-20.71% / -19.95% / -22.87% / -11.63% / -11.99%`，换手为 `2.74x / 2.97x / 3.10x / 4.55x / 6.42x`。它继续证明低 ramp 持仓线可压回撤并保留短窗弹性，但 2017/2020/2023 仍低于现有 Path 1 robust，不晋级。
+- `scripts/update_weighted_winners.py` 后 Path 1 window winner、robust candidate 与 tracked payload 未被本轮候选替换，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__port_weekly_exposure_buffered`。候选池未触发 Path 1 evict。
+- 最终 guard 为 `pass`，`ashare_path1_fast_family 84/84 complete`、`ashare_path1_core_multifactor 34/34 complete`，下一轮 focus 轮换为 `signal_quality`。第一条命令建议回到代码实际多因子/信号质量池，注册区别于近期 lowvol/value 失败组的质量+盈利+行业强度再确认候选：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path1_signal_quality_or_core_multifactor_id>`。
+
 ## 本轮执行计划（2026-05-30 22:20 CST）
 
 - 开局 guard 为 `pass`；上一轮建议回到 `satellite_risk_cost` 的 `aggr_05_95_prom7` 卫星三段式再确认。本轮按该方向新增 `risk30_reconfirm`，同时巡检代码实际 `core_multifactor` 池，最终仍为 `34/34 complete`，本轮没有把 Path 2 的等权质量成长多因子计入 Path 1 core_multifactor。

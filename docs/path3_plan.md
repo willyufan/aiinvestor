@@ -3,6 +3,15 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-05-31 04:21 CST）
+
+- 开局 guard 为 `pass`；上一轮要求从 `cost_stress` 改测低换手成本压力。本轮新增前已把 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk25_cap58_hold10_turn02_exit94_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，原因是 2020 为负且 2023 仅 `1.04%`。
+- 本轮新增并五窗口确认 1 个纯 `_weekly` Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold9_turn02_exit92_weekly`。可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold9_turn02_exit92_weekly`。
+- `cost_guard_cap60_hold9_turn02_exit92_weekly` 五窗口 CAGR 为 `13.09% / -3.03% / 3.61% / 9.20% / 72.09%`，最大回撤为 `-27.90% / -40.26% / -25.43% / -20.79% / -10.35%`，换手为 `1.49x / 1.87x / 1.91x / 1.55x / 3.40x`。它只保留 2026 弹性和低换手，2020/2023 失败，不晋级。
+- `scripts/path2_candidate_pass.py` 后 weekly family 完整；`scripts/update_weighted_winners.py` 后 Path 3 window winner、robust/tracked 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly`。本轮新增候选列入下一轮待归档观察。
+- 最终 guard 为 `pass`，`ashare_path3_weekly_universe 60/60 complete`，下一轮 focus 轮换为 `weekly_exit_buffer`。第一条命令建议在低换手框架上放宽退出而不是继续成本守门，例如 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap62_hold9_turn02_exit94_weekly`：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_weekly_exit_buffer_id>`。
+
 ## 本轮执行计划（2026-05-30 22:20 CST）
 
 - 开局 guard 为 `pass`；上一轮低换手 `cashoff_cap58_hold10_turn02_exit94_weekly` 2023 仍弱，本轮新增前将其加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，理由是 2023 CAGR 仅 `8.91%` 且不改善 robust。随后按 `risk_downshift` 改测 `risk25/cap58/hold10/turn02/exit94` 纯 `_weekly` 版本。
