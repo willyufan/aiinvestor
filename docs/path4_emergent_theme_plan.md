@@ -32,6 +32,14 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-31 22:26 CST）
+
+- 开局 guard 为 `pass`；注册本轮强主题 active 变体后，guard 按预期报 `ashare_path4_emergent_theme 3/60 missing`，本轮第一优先级按 rerun command 五窗口补齐，没有改跑全量。上一轮 `signal22/risk30/cap20/exit72` 仍是短窗强、2020 弱，本轮按 `emergent_theme_coverage/theme_capacity_cost` 把 promotion 提到 `12/88 prom11` 且 cap 继续压到 `18`，观察更宽覆盖能否保留短窗同时改善稳定性。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_12_88_prom11_emergent_theme_quality_gate_signal22_risk30_cap18_exit72`、`core_explore_90_10_equal_weight_winner_core__aggr_12_88_prom11_emergent_theme_quality_gate_signal22_risk30_cap18_exit72`、`core_explore_90_10_total_mv_winner_core__aggr_12_88_prom11_emergent_theme_quality_gate_signal22_risk30_cap18_exit72`。补齐命令见 Path 1 本轮 blocking 批次。
+- 三底座五窗口 CAGR：`80/20 total_mv` 为 `14.46% / 15.66% / 32.60% / 104.96% / 133.64%`，`90/10 equal_weight` 为 `14.20% / 16.81% / 33.72% / 119.18% / 102.87%`，`90/10 total_mv` 为 `14.08% / 14.69% / 32.14% / 122.03% / 96.08%`。2023/短窗仍强，且 80/20 total 的 2020 回撤收窄到 `-24.38%`，但 2017/2020 CAGR 明显低于当前 Path 4 robust。
+- 持仓抽样继续由杰普特、天孚通信、鼎龙股份、源杰科技、中国海油、广钢气体、盛科通信等多票贡献，不像单票幸运；主要风险仍是强行业拥挤与短窗换手。`scripts/update_weighted_winners.py` 后 Path 4 window winner/robust 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`。
+- 候选池 active cap 保持 `60`：本轮从 active `PATH4_THEME_DISCOVERY_VARIANT_IDS` 移出 `aggr_07_93_prom6_emergent_theme_quality_gate_risk45_cap40_exit80`，原因是旧 prom6/cap40 已被 signal20/22 与更低 cap 线覆盖且不改善 robust；新增 `aggr_12_88_prom11_emergent_theme_quality_gate_signal22_risk30_cap18_exit72`。下一轮 focus 已转到 `theme_signal_quality`；第一条命令建议不要继续只降 cap，改做信号质量或拥挤/换手惩罚：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_signal_quality_or_crowding_ids>`。
+
 ## 本轮执行计划（2026-05-31 16:20 CST）
 
 - 开局 guard 为 `pass`，但注册本轮新变体后 `ashare_path4_emergent_theme` 变为 blocking；本轮按 rerun command 第一优先级补齐五窗口，没有改跑全量。上一轮 `signal22/risk35/cap20/exit74` 仍未改善 2020 稳定性，本轮按 `theme_risk_control` 把风险保留降到 `risk30`、exit 降到 `72`，并从 active discovery universe 与全局 Path2 scan 中移出 `aggr_07_93_prom6_emergent_theme_quality_gate_risk40_cap45_exit82`，原因是旧 prom6/cap45 已被 signal22/cap20 线覆盖且不改善 robust。

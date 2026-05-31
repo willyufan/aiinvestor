@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-05-31 22:26 CST）
+
+- 开局 guard 为 `pass` 且 HK coverage complete；上一轮 `v13_return_guard` 回到主题月频修复池但 2023 仍未达 `30%`。本轮因 rotation 指向 `elasticity_cost_control`，只做一次更严格 inverse elastic 终止复核 `v13_terminal`，验收仍是 `since_2023_01 >= 15%` 且长窗 MaxDD 低于 `30%`。
+- 本轮新增并五窗口确认：`hkconnect_path2_inverse_elastic_monthly_cost_guard_v13_terminal`。实际 HK 合并命令见 HK Path 1 本轮记录，命令类型为五窗口 `--only-strategy-ids` 增量确认。
+- `v13_terminal` 五窗口 CAGR 为 `10.72% / 10.08% / 9.36% / 49.86% / 15.12%`，最大回撤为 `-37.42% / -37.42% / -31.62% / -11.82% / -11.82%`，换手为 `4.59x / 4.44x / 5.10x / 5.94x / 6.66x`。它低于 `v12_terminal` 的 2023，且长窗回撤继续穿 `30%`，inverse elastic 支线终止复核失败。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 2 window winner/robust 未变化，robust 仍为 `hkconnect_path2_theme_monthly_cost_control`；候选池未触发 HK explore cap evict。结论：`elasticity_cost_control` 不再追加普通参数，后续只保留历史对照。
+- 下一轮第一条命令应转回主题月频高收益修复池，目标 `since_2023_01 >= 30%` 且 2017 MaxDD 不劣于 `-25%`：`.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path2_theme_monthly_v14_repair_id>`。
+
 ## 本轮执行计划（2026-05-31 16:20 CST）
 
 - 开局 guard 为 `pass` 且 HK coverage complete；上一轮 `inverse_elastic_monthly_cost_guard_v12_terminal` 终止复核失败，本轮按 `high_return_monthly` 回到主题月频高收益修复池，新增 `v13_return_guard`，目标是保持 2017 MaxDD 小于 `25%` 并把 2023 向 `30%` 验收线拉近。

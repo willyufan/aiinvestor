@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-31 22:26 CST）
+
+- 开局 guard 为 `pass`；上一轮 `90/10 quality-defense cashguard` 在 2020/2023 明显弱，本轮按 `medium_cycle_growth` 回到 high-growth 中周期高收益族，新增 `top10/risk34/exit54/reconfirm86/caution62/cap58` v9 双底座，目标是恢复 v7 的 2023 强度并观察 2026 是否可接受。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top10_risk34_mom_exit54_reconfirm86_caution62_cap58_cost_guard_v9`、`core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top10_risk34_mom_exit54_reconfirm86_caution62_cap58_cost_guard_v9`。可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top10_risk34_mom_exit54_reconfirm86_caution62_cap58_cost_guard_v9,core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top10_risk34_mom_exit54_reconfirm86_caution62_cap58_cost_guard_v9,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap64_hold8_turn03_exit90_weekly`。
+- 等权版五窗口 CAGR 为 `24.52% / 30.66% / 42.79% / 68.41% / 2.94%`，最大回撤为 `-39.80% / -42.96% / -27.88% / -15.11% / -10.01%`，换手为 `3.65x / 4.44x / 4.36x / 8.36x / 7.10x`；总市值版为 `21.99% / 25.77% / 38.06% / 75.69% / 11.38%`，最大回撤为 `-41.66% / -43.15% / -30.62% / -17.16% / -7.74%`。v9 等权把 2023 拉回 `40%+`，但 2020 未到 `40%` 且长窗回撤仍过深，2026 太弱，不晋级。
+- `scripts/path2_candidate_pass.py` 后 Path 2 universe 为 `806`；`scripts/update_weighted_winners.py` 后 Path 2 window winner/robust 未变化，official robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off`。本轮未触发 Path 2 evict，但 v9 说明 high-growth 族仍有 2023 弹性、风险控制仍未解决。
+- 下一轮 focus 建议转向 `capacity_and_cost_stress` 或 `risk_reconfirm_sensitivity`，第一条命令不要扩大 top10 高集中度，而是测试更低单票/更浅 risk-off 或 cashguard 组合：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_capacity_or_risk_id>`。
+
 ## 本轮执行计划（2026-05-31 16:20 CST）
 
 - 开局 guard 为 `pass`；上一轮 high-growth v8 修复 2026 但牺牲 2023，上轮建议转向 `underrepresented_families`。本轮新增低相关多因子/防守代表，把既有 `quality_defense_cashguard_reconfirm` 放到 `90/10 equal_weight` 底座上，验证是否能比 80/20 等权版改善中窗。
