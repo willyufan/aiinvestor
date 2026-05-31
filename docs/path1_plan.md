@@ -4,6 +4,15 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-05-31 16:20 CST）
+
+- 开局 guard 为 `pass`；上一轮 `profitability_industry_signal_reconfirm` 只改善 2026 弹性，不改善 Path 1 robust。本轮先按 guard 提示补齐 Path 4 blocking，再回到 `satellite_risk_cost` 的 `aggr_05_95_prom7` 卫星三档邻域，新增 `risk25_reconfirm`，目标是相对旧 clear-improvement 候选继续压回撤与换手。
+- 本轮新增并五窗口确认 1 个 Path 1 fast-family base id：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm`。可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm`。
+- `risk25_reconfirm` 五窗口 CAGR 为 `25.43% / 33.37% / 39.59% / 102.81% / 129.40%`，最大回撤为 `-12.83% / -14.73% / -19.62% / -11.66% / -6.83%`，换手为 `3.04x / 3.39x / 3.60x / 5.02x / 8.42x`。它保留了 2020 强度并显著浅于 `dd_guard50` 回撤，但 2020 CAGR 仍低于旧 `aggr_05_95_prom7__sat_three_stage_buffered_cost_guard` 的 `34.00%`，不替换 official window winner。
+- core_multifactor 子段按代码实际池巡检为 `35/35 complete`，本轮未新增 core_multifactor overlay；`scripts/winner_only_pass.py` 仍只提示旧 `aggr_05_95_prom7__sat_three_stage_buffered_cost_guard` 在 `since_2020_only` 有 clear improvement。`scripts/update_weighted_winners.py` 后 Path 1 window winner、robust/tracked payload 未被本轮候选替换，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__port_weekly_exposure_buffered`。候选池未触发 Path 1 evict。
+- 最终 guard 为 `pass`，下一轮 focus 轮换为 `holding_shape`。第一条命令建议暂停继续压卫星风险，回到低 ramp 持仓形态，注册一个不同于近期 2+8/3+7 失败组的稳仓对照：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path1_holding_shape_id>`。
+
 ## 本轮执行计划（2026-05-31 10:26 CST）
 
 - 开局 guard 为 `pass`；上一轮 focus 指向 `signal_quality`，本轮回到代码实际 `core_multifactor` 池，新增盈利质量+行业强度+信号再确认组合 `aggr_08_92_prom6_core_multifactor_profitability_industry_signal_reconfirm`。注册后 guard 一度提示 Path 1 core 与 Path 4 新增候选缺口，本轮按 `--only-base-ids` 增量补齐，没有改跑全量。

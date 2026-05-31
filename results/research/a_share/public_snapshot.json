@@ -2733,8 +2733,8 @@
       ]
     },
     {
-      "strategy_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34_v8_drawdown_guard",
-      "display_name": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34_v8_drawdown_guard",
+      "strategy_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cashguard_exit34_v9_repair",
+      "display_name": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cashguard_exit34_v9_repair",
       "path": "path1",
       "market_scope": "hkconnect",
       "winner_type": "2025-window winner",
@@ -2756,26 +2756,26 @@
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.2202,
+          "cagr": 0.2072,
           "sharpe": 0.0,
-          "max_drawdown": -0.2682,
-          "total_return": 5.3006
+          "max_drawdown": -0.2899,
+          "total_return": 4.7071
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.2948,
+          "cagr": 0.2779,
           "sharpe": 0.0,
-          "max_drawdown": -0.1281,
-          "total_return": 4.0267
+          "max_drawdown": -0.1284,
+          "total_return": 3.6302
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.324,
+          "cagr": 0.3122,
           "sharpe": 0.0,
           "max_drawdown": -0.1087,
-          "total_return": 1.4896
+          "total_return": 1.418
         },
         {
           "tag": "since_2025_01",
@@ -4781,8 +4781,8 @@
           "entries": [
             {
               "rank": 1,
-              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34_v8_drawdown_guard",
-              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻成本34v8回撤守门)",
+              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cashguard_exit34_v9_repair",
+              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻现金34v9修复)",
               "is_official_winner": true,
               "metrics": {
                 "weighted_cagr": 0.0,
@@ -4792,6 +4792,17 @@
             },
             {
               "rank": 2,
+              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34_v8_drawdown_guard",
+              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻成本34v8回撤守门)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.0,
+                "weighted_sharpe": 0.0,
+                "weighted_max_drawdown": 0.0
+              }
+            },
+            {
+              "rank": 3,
               "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cashguard_exit34_v2",
               "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻现金34v2)",
               "is_official_winner": false,
@@ -4802,7 +4813,7 @@
               }
             },
             {
-              "rank": 3,
+              "rank": 4,
               "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34",
               "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻成本34)",
               "is_official_winner": false,
@@ -4813,20 +4824,9 @@
               }
             },
             {
-              "rank": 4,
+              "rank": 5,
               "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34_v6",
               "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻成本34v6)",
-              "is_official_winner": false,
-              "metrics": {
-                "weighted_cagr": 0.0,
-                "weighted_sharpe": 0.0,
-                "weighted_max_drawdown": 0.0
-              }
-            },
-            {
-              "rank": 5,
-              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit34",
-              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻风控34)",
               "is_official_winner": false,
               "metrics": {
                 "weighted_cagr": 0.0,

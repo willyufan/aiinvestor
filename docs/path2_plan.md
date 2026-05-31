@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-31 16:20 CST）
+
+- 开局 guard 为 `pass`；上一轮 high-growth v8 修复 2026 但牺牲 2023，上轮建议转向 `underrepresented_families`。本轮新增低相关多因子/防守代表，把既有 `quality_defense_cashguard_reconfirm` 放到 `90/10 equal_weight` 底座上，验证是否能比 80/20 等权版改善中窗。
+- 本轮新增并五窗口确认 1 个 Path 2 base id：`core_explore_90_10_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_defense_cashguard_reconfirm`。可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_defense_cashguard_reconfirm`。
+- 该候选五窗口 CAGR 为 `17.91% / 11.35% / 16.08% / 73.82% / 85.54%`，最大回撤为 `-24.71% / -27.56% / -20.95% / -16.20% / -11.37%`，换手为 `2.93x / 3.36x / 3.90x / 5.76x / 7.21x`。它相对 80/20 等权版改善 2017，但 2020/2023 仍远低于 high-growth winner，不晋级。
+- `scripts/path2_candidate_pass.py` 后 comparable universe 为 `799`；`scripts/update_weighted_winners.py` 后 Path 2 window winner 和 robust/tracked 未被本轮候选替换，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off`。本轮未触发 Path 2 evict，但结果确认低相关质量防守线只能作为失败对照，不能继续扩大量。
+- 最终 guard 为 `pass`，下一轮 focus 轮换为 `capacity_and_cost_stress`。第一条命令建议回到现有 high-growth robust 邻域做容量/成本压力，而不是继续增加弱多因子：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_capacity_cost_ids>`。
+
 ## 本轮执行计划（2026-05-31 10:26 CST）
 
 - 开局 guard 为 `pass`；上一轮 focus 为 `risk_reconfirm_sensitivity`，本轮在 high-growth 中周期高收益族做更低 `risk32/exit52/reconfirm88/caution60/cap55` 的 v8 双底座复核，目标是修复 2026 并观察 2023 是否还能留在高收益区间。

@@ -32,6 +32,15 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-31 16:20 CST）
+
+- 开局 guard 为 `pass`，但注册本轮新变体后 `ashare_path4_emergent_theme` 变为 blocking；本轮按 rerun command 第一优先级补齐五窗口，没有改跑全量。上一轮 `signal22/risk35/cap20/exit74` 仍未改善 2020 稳定性，本轮按 `theme_risk_control` 把风险保留降到 `risk30`、exit 降到 `72`，并从 active discovery universe 与全局 Path2 scan 中移出 `aggr_07_93_prom6_emergent_theme_quality_gate_risk40_cap45_exit82`，原因是旧 prom6/cap45 已被 signal22/cap20 线覆盖且不改善 robust。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal22_risk30_cap20_exit72`、`core_explore_90_10_equal_weight_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal22_risk30_cap20_exit72`、`core_explore_90_10_total_mv_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal22_risk30_cap20_exit72`。实际补齐命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal22_risk30_cap20_exit72,core_explore_90_10_equal_weight_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal22_risk30_cap20_exit72,core_explore_90_10_total_mv_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal22_risk30_cap20_exit72`。
+- 三底座五窗口 CAGR：`80/20 total_mv` 为 `14.51% / 18.27% / 32.14% / 101.62% / 126.88%`，`90/10 equal_weight` 为 `14.75% / 18.07% / 33.31% / 117.80% / 96.36%`，`90/10 total_mv` 为 `14.41% / 15.43% / 31.77% / 118.03% / 89.00%`。2023 和短窗仍强，但 2017/2020 未超过现有 Path 4 robust，短窗换手最高仍到 `9.08x`，不能只凭短窗晋级。
+- 最近持仓由杰普特、宏和科技、鼎龙股份/源杰科技、国瓷材料、杰瑞股份、睿创微纳、广钢气体、中国海油等多票贡献，不是单票幸运；主要风险仍是强行业拥挤、容量和换手成本。`scripts/path2_candidate_pass.py` 后 emergent theme family 保持完整，`scripts/update_weighted_winners.py` 后 Path 4 window winner/robust 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`。
+- 最终 guard 为 `pass`，最后一次收尾 guard 将下一轮 focus 轮换为 `emergent_theme_coverage`。第一条命令建议不要继续单纯降 risk，改测覆盖边界与容量约束的折中，例如在 `signal22/risk30` 线上调整 `prom/cap` 或加入换手/拥挤惩罚：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_emergent_theme_coverage_ids>`。
+
 ## 本轮执行计划（2026-05-31 10:26 CST）
 
 - 开局 guard 为 `pass`；上一轮 focus 为 `theme_signal_quality`，本轮在 `prom10/cap20/exit74` 上把强主题信号阈值提高到 `signal22`。新增前从 active discovery universe 与全局 Path2 scan 中移出 `aggr_07_93_prom6_emergent_theme_quality_gate_risk35_cap45_exit82`，原因是旧 prom6/cap45 已被 signal20/signal22 高门槛线覆盖且不改善 robust。
