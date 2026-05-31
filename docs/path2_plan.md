@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-05-31 10:26 CST）
+
+- 开局 guard 为 `pass`；上一轮 focus 为 `risk_reconfirm_sensitivity`，本轮在 high-growth 中周期高收益族做更低 `risk32/exit52/reconfirm88/caution60/cap55` 的 v8 双底座复核，目标是修复 2026 并观察 2023 是否还能留在高收益区间。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top10_risk32_mom_exit52_reconfirm88_caution60_cap55_cost_guard_v8`、`core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top10_risk32_mom_exit52_reconfirm88_caution60_cap55_cost_guard_v8`。实际 A股合并命令见 Path 1 本轮记录，命令类型为五窗口 `--only-base-ids` 增量确认。
+- 等权版五窗口 CAGR 为 `18.89% / 30.62% / 20.85% / 64.91% / 10.64%`，最大回撤为 `-43.24% / -33.68% / -27.84% / -14.86% / -9.86%`，换手为 `3.68x / 4.37x / 4.39x / 8.62x / 5.94x`；总市值版为 `16.54% / 26.38% / 19.03% / 71.93% / 16.38%`，最大回撤为 `-45.01% / -33.22% / -26.12% / -16.49% / -7.44%`。v8 修复了 2026 正收益，但 2023 从 v7 的 `44%+ / 49%+` 降到约 `19%-21%`，不晋级。
+- 新增后将 v7 从 active high-growth 扫描池移出，理由是 v8 覆盖了更严 `top10/reconfirm88/cap55` 复核且 v7 未改善 robust；历史结果保留。`scripts/path2_candidate_pass.py` 后 Path 2 comparable universe 为 `795`，high-growth family 为 `333`，window winner 与 official robust 未被 v8 替换，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off`。
+- 最终 guard 为 `pass`，下一轮 focus 轮换为 `underrepresented_families`。第一条命令建议暂停继续压 high-growth cap，补一个低相关防守/多因子或双周代表，目标先把 2020/2023 稳定性拉回而不是追逐 2026：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_underrepresented_family_ids>`。
+
 ## 本轮执行计划（2026-05-31 04:21 CST）
 
 - 开局 guard 为 `pass`；上一轮 focus 指向 `capacity_and_cost_stress`，本轮继续在 high-growth 中周期高收益族压集中度，把 `top12/reconfirm85/caution65/cap60` 作为 v7，并用等权与总市值双底座确认。

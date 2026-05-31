@@ -32,6 +32,14 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-05-31 10:26 CST）
+
+- 开局 guard 为 `pass`；上一轮 focus 为 `theme_signal_quality`，本轮在 `prom10/cap20/exit74` 上把强主题信号阈值提高到 `signal22`。新增前从 active discovery universe 与全局 Path2 scan 中移出 `aggr_07_93_prom6_emergent_theme_quality_gate_risk35_cap45_exit82`，原因是旧 prom6/cap45 已被 signal20/signal22 高门槛线覆盖且不改善 robust。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal22_risk35_cap20_exit74`、`core_explore_90_10_equal_weight_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal22_risk35_cap20_exit74`、`core_explore_90_10_total_mv_winner_core__aggr_11_89_prom10_emergent_theme_quality_gate_signal22_risk35_cap20_exit74`。实际 A股合并命令见 Path 1 本轮记录，命令类型为五窗口 `--only-base-ids` 增量确认。
+- 三底座五窗口 CAGR：`80/20 total_mv` 为 `14.08% / 18.16% / 32.86% / 100.38% / 126.88%`，`90/10 equal_weight` 为 `14.37% / 17.79% / 34.03% / 117.04% / 96.36%`，`90/10 total_mv` 为 `13.99% / 15.11% / 32.24% / 116.47% / 89.00%`。2023 和短窗仍强，但 2017/2020 没有超过当前 Path 4 robust，2026 换手升到 `7.15x-9.08x`，不能只凭短窗晋级。
+- 最近持仓由杰普特、宏和科技、天孚通信、国瓷材料/鼎龙股份、源杰科技、杰瑞股份、睿创微纳、广钢气体等多票贡献，并非单票幸运；但强行业/强龙头拥挤和容量成本仍是主风险。`scripts/update_weighted_winners.py` 后 Path 4 window winner/robust 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`。
+- 最终 guard 为 `pass`，`ashare_path4_emergent_theme 60` 完整，下一轮 focus 轮换为 `theme_risk_control`。第一条命令建议在 signal22 线下降风险或增加回撤触发，而不是继续提高信号阈值：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_theme_risk_control_ids>`。
+
 ## 本轮执行计划（2026-05-31 04:21 CST）
 
 - 开局 guard 为 `pass`；上一轮建议继续在 `signal20/prom10` 线上压容量和换手。本轮先按 guard 阻塞优先级补齐 Path 4 强主题涌现新增三底座，然后将 `aggr_06_94_prom5_emergent_theme_quality_gate_risk35_cap45_exit82` 从 active discovery universe 和全局 Path2 scan 中移出，原因是旧 prom5/cap45 已被 signal18/signal20/prom10 线覆盖且未改善 robust。
