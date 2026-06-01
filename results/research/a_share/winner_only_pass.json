@@ -1,9 +1,9 @@
 {
   "as_of": "2026-05-29",
   "family": "path1_fast_family",
-  "base_candidate_count": 86,
-  "candidate_count": 946,
-  "overlay_candidate_count": 860,
+  "base_candidate_count": 88,
+  "candidate_count": 968,
+  "overlay_candidate_count": 880,
   "direction_groups": {
     "promotion_ramp": [
       "aggr_10_90_fast_ramp",
@@ -22,7 +22,8 @@
       "aggr_08_92_prom6__sat_three_stage_buffered_cost_guard_cashguard",
       "aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_cashguard_light",
       "aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk30_reconfirm",
-      "aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm"
+      "aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm",
+      "aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm"
     ],
     "signal_variants": [
       "aggr_08_92_prom6_core_6_1",
@@ -64,7 +65,8 @@
       "aggr_08_92_prom6_core_multifactor_quality_lowvol_value_reconfirm",
       "aggr_08_92_prom6_core_multifactor_profitability_value_cashguard_reconfirm",
       "aggr_08_92_prom6_core_multifactor_profitability_industry_signal_reconfirm",
-      "aggr_08_92_prom6_core_multifactor_profitability_growth_signal_reconfirm"
+      "aggr_08_92_prom6_core_multifactor_profitability_growth_signal_reconfirm",
+      "aggr_08_92_prom6_core_multifactor_quality_industry_signal_cashguard_reconfirm"
     ],
     "holding_shape": [
       "share_15_85_hold_4_6",
@@ -108,9 +110,9 @@
   },
   "direction_candidate_counts": {
     "promotion_ramp": 5,
-    "satellite_defense": 10,
+    "satellite_defense": 11,
     "signal_variants": 2,
-    "core_multifactor": 36,
+    "core_multifactor": 37,
     "holding_shape": 22,
     "supporting_variants": 4,
     "drawdown_guard": 7
@@ -238,6 +240,15 @@
           }
         },
         {
+          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm",
+          "metrics": {
+            "cagr": 0.38442906,
+            "sharpe": 1.11634418,
+            "max_drawdown": -0.21550979,
+            "turnover": 3.56146712
+          }
+        },
+        {
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk30_reconfirm",
           "metrics": {
             "cagr": 0.34988522,
@@ -254,15 +265,6 @@
             "max_drawdown": -0.28829909,
             "turnover": 4.08162688
           }
-        },
-        {
-          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__port_weekly_exposure_buffered",
-          "metrics": {
-            "cagr": 0.34482368,
-            "sharpe": 0.98906946,
-            "max_drawdown": -0.29178637,
-            "turnover": 4.07617348
-          }
         }
       ]
     },
@@ -278,24 +280,33 @@
         }
       },
       "best": {
-        "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered_cost_guard",
+        "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm",
         "metrics": {
-          "cagr": 0.33996327,
-          "sharpe": 1.23555081,
-          "max_drawdown": -0.14155899,
-          "turnover": 3.53158901
+          "cagr": 0.34379598,
+          "sharpe": 1.1994837,
+          "max_drawdown": -0.14730196,
+          "turnover": 3.37741318
         }
       },
       "best_clear": {
-        "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered_cost_guard",
+        "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm",
         "metrics": {
-          "cagr": 0.33996327,
-          "sharpe": 1.23555081,
-          "max_drawdown": -0.14155899,
-          "turnover": 3.53158901
+          "cagr": 0.34379598,
+          "sharpe": 1.1994837,
+          "max_drawdown": -0.14730196,
+          "turnover": 3.37741318
         }
       },
       "top5": [
+        {
+          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm",
+          "metrics": {
+            "cagr": 0.34379598,
+            "sharpe": 1.1994837,
+            "max_drawdown": -0.14730196,
+            "turnover": 3.37741318
+          }
+        },
         {
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered_cost_guard",
           "metrics": {
@@ -330,15 +341,6 @@
             "sharpe": 1.05756203,
             "max_drawdown": -0.2684182,
             "turnover": 3.36491434
-          }
-        },
-        {
-          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered_cost_guard_cashguard",
-          "metrics": {
-            "cagr": 0.29324098,
-            "sharpe": 1.12800827,
-            "max_drawdown": -0.14205239,
-            "turnover": 3.38743474
           }
         }
       ]

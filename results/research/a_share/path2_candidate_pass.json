@@ -57,7 +57,6 @@
     "aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap60",
     "aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap45",
     "aggr_05_95_prom4_emergent_theme_quality_gate_risk35_cap50",
-    "aggr_08_92_prom7_emergent_theme_quality_gate_risk45_cap35_exit80",
     "aggr_08_92_prom7_emergent_theme_quality_gate_risk40_cap35_exit78",
     "aggr_09_91_prom8_emergent_theme_quality_gate_risk40_cap35_exit78",
     "aggr_09_91_prom8_emergent_theme_quality_gate_risk35_cap35_exit76",
@@ -75,6 +74,7 @@
     "aggr_11_89_prom10_emergent_theme_quality_gate_signal22_risk30_cap20_exit72",
     "aggr_12_88_prom11_emergent_theme_quality_gate_signal22_risk30_cap18_exit72",
     "aggr_12_88_prom11_emergent_theme_quality_gate_signal24_risk30_cap18_exit72",
+    "aggr_12_88_prom11_emergent_theme_quality_gate_signal24_risk25_cap18_exit70",
     "aggr_08_92_prom6_full_risk",
     "aggr_08_92_prom6_core_3_1_full_risk_cap40",
     "aggr_08_92_prom6_core_6_1_full_risk",
@@ -377,6 +377,7 @@
     "aggr_03_97_prom2_weekly_alpha_pullback_risk25_cap62_hold9_turn02_exit94_weekly",
     "aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap64_hold8_turn03_exit90_weekly",
     "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap64_hold8_turn03_exit94_weekly",
+    "aggr_03_97_prom2_weekly_alpha_pullback_risk25_cap64_hold8_turn03_exit92_weekly",
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cost_guard",
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cost_guard_v2",
     "aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_caution80_cap80_cost_guard",
@@ -398,7 +399,6 @@
       "variant_ids": [
         "aggr_08_92_prom6_emergent_theme_risk30_cap50",
         "aggr_05_95_prom4_emergent_theme_quality_gate_risk35_cap50",
-        "aggr_08_92_prom7_emergent_theme_quality_gate_risk45_cap35_exit80",
         "aggr_08_92_prom7_emergent_theme_quality_gate_risk40_cap35_exit78",
         "aggr_09_91_prom8_emergent_theme_quality_gate_risk40_cap35_exit78",
         "aggr_09_91_prom8_emergent_theme_quality_gate_risk35_cap35_exit76",
@@ -415,7 +415,8 @@
         "aggr_11_89_prom10_emergent_theme_quality_gate_signal22_risk35_cap20_exit74",
         "aggr_11_89_prom10_emergent_theme_quality_gate_signal22_risk30_cap20_exit72",
         "aggr_12_88_prom11_emergent_theme_quality_gate_signal22_risk30_cap18_exit72",
-        "aggr_12_88_prom11_emergent_theme_quality_gate_signal24_risk30_cap18_exit72"
+        "aggr_12_88_prom11_emergent_theme_quality_gate_signal24_risk30_cap18_exit72",
+        "aggr_12_88_prom11_emergent_theme_quality_gate_signal24_risk25_cap18_exit70"
       ],
       "target_candidates": 4
     },
@@ -529,6 +530,7 @@
         "aggr_08_92_prom6_core_multifactor_profitability_industry_reconfirm",
         "aggr_08_92_prom6_core_multifactor_profitability_value_cashguard_reconfirm",
         "aggr_08_92_prom6_core_multifactor_quality_growth_signal_reconfirm",
+        "aggr_08_92_prom6_core_multifactor_quality_value_trend_cost_guard_reconfirm",
         "share_08_92_hold_2_8_ramp85_cost_guard",
         "share_08_92_hold_2_8_ramp80_cost_guard",
         "share_08_92_hold_2_8_ramp75_cost_guard",
@@ -849,7 +851,8 @@
         "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap62_hold9_turn02_exit94_weekly",
         "aggr_03_97_prom2_weekly_alpha_pullback_risk25_cap62_hold9_turn02_exit94_weekly",
         "aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap64_hold8_turn03_exit90_weekly",
-        "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap64_hold8_turn03_exit94_weekly"
+        "aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap64_hold8_turn03_exit94_weekly",
+        "aggr_03_97_prom2_weekly_alpha_pullback_risk25_cap64_hold8_turn03_exit92_weekly"
       ],
       "target_candidates": 6
     }
@@ -865,8 +868,8 @@
     "turnover_2023_weight": 0.5,
     "scoring_policy": "promotion_score_v1"
   },
-  "raw_candidate_count": 821,
-  "candidate_count": 811,
+  "raw_candidate_count": 825,
+  "candidate_count": 815,
   "incomplete_candidate_count": 10,
   "incomplete_candidates": [
     {
@@ -993,11 +996,11 @@
   "family_candidate_counts": {
     "emergent_theme_discovery": 60,
     "high_concentration_breakout": 154,
-    "decorrelated_defensive_mix": 24,
+    "decorrelated_defensive_mix": 26,
     "high_growth_theme": 337,
     "momentum_equal_weight_elastic": 30,
     "biweekly_rebalance_aggressive": 23,
-    "weekly_rebalance_aggressive": 76
+    "weekly_rebalance_aggressive": 77
   },
   "candidate_family_membership": {
     "core_explore_60_40_equal_weight_winner_core": [],
@@ -1542,6 +1545,9 @@
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk25_cap62_hold9_turn02_exit94_weekly": [
       "weekly_rebalance_aggressive"
     ],
+    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk25_cap64_hold8_turn03_exit92_weekly": [
+      "weekly_rebalance_aggressive"
+    ],
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold8_turn04_exit92_weekly": [
       "weekly_rebalance_aggressive"
     ],
@@ -1723,6 +1729,9 @@
       "decorrelated_defensive_mix"
     ],
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_lowvol_trend_reconfirm": [
+      "decorrelated_defensive_mix"
+    ],
+    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_trend_cost_guard_reconfirm": [
       "decorrelated_defensive_mix"
     ],
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_trend_industry_momentum": [
@@ -2355,7 +2364,9 @@
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_trend_reconfirm": [
       "decorrelated_defensive_mix"
     ],
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_trend_cost_guard_reconfirm": [],
+    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_trend_cost_guard_reconfirm": [
+      "decorrelated_defensive_mix"
+    ],
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_trend_industry_momentum": [
       "momentum_equal_weight_elastic"
     ],
@@ -2381,9 +2392,6 @@
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_weekly_alpha_breakout_risk50_cap40_hold2_turn40_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_weekly_alpha_pullback_risk50_cap40_hold2_turn40_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom7_emergent_theme_quality_gate_risk40_cap35_exit78": [
-      "emergent_theme_discovery"
-    ],
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom7_emergent_theme_quality_gate_risk45_cap35_exit80": [
       "emergent_theme_discovery"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_09_91_prom8_emergent_theme_quality_gate_risk35_cap30_exit76": [
@@ -2449,6 +2457,9 @@
       "emergent_theme_discovery"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_12_88_prom11_emergent_theme_quality_gate_signal22_risk30_cap18_exit72": [
+      "emergent_theme_discovery"
+    ],
+    "core_explore_80_20_total_mv_winner_core__aggr_12_88_prom11_emergent_theme_quality_gate_signal24_risk25_cap18_exit70": [
       "emergent_theme_discovery"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_12_88_prom11_emergent_theme_quality_gate_signal24_risk30_cap18_exit72": [
@@ -2787,9 +2798,7 @@
     "core_explore_90_10_equal_weight_winner_core__aggr_08_92_prom7_emergent_theme_quality_gate_risk40_cap35_exit78": [
       "emergent_theme_discovery"
     ],
-    "core_explore_90_10_equal_weight_winner_core__aggr_08_92_prom7_emergent_theme_quality_gate_risk45_cap35_exit80": [
-      "emergent_theme_discovery"
-    ],
+    "core_explore_90_10_equal_weight_winner_core__aggr_08_92_prom7_emergent_theme_quality_gate_risk45_cap35_exit80": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_09_91_prom8_emergent_theme_quality_gate_risk35_cap30_exit76": [
       "emergent_theme_discovery"
     ],
@@ -2833,6 +2842,9 @@
       "emergent_theme_discovery"
     ],
     "core_explore_90_10_equal_weight_winner_core__aggr_12_88_prom11_emergent_theme_quality_gate_signal22_risk30_cap18_exit72": [
+      "emergent_theme_discovery"
+    ],
+    "core_explore_90_10_equal_weight_winner_core__aggr_12_88_prom11_emergent_theme_quality_gate_signal24_risk25_cap18_exit70": [
       "emergent_theme_discovery"
     ],
     "core_explore_90_10_equal_weight_winner_core__aggr_12_88_prom11_emergent_theme_quality_gate_signal24_risk30_cap18_exit72": [
@@ -3146,9 +3158,7 @@
     "core_explore_90_10_total_mv_winner_core__aggr_08_92_prom7_emergent_theme_quality_gate_risk40_cap35_exit78": [
       "emergent_theme_discovery"
     ],
-    "core_explore_90_10_total_mv_winner_core__aggr_08_92_prom7_emergent_theme_quality_gate_risk45_cap35_exit80": [
-      "emergent_theme_discovery"
-    ],
+    "core_explore_90_10_total_mv_winner_core__aggr_08_92_prom7_emergent_theme_quality_gate_risk45_cap35_exit80": [],
     "core_explore_90_10_total_mv_winner_core__aggr_09_91_prom8_emergent_theme_quality_gate_risk35_cap30_exit76": [
       "emergent_theme_discovery"
     ],
@@ -3192,6 +3202,9 @@
       "emergent_theme_discovery"
     ],
     "core_explore_90_10_total_mv_winner_core__aggr_12_88_prom11_emergent_theme_quality_gate_signal22_risk30_cap18_exit72": [
+      "emergent_theme_discovery"
+    ],
+    "core_explore_90_10_total_mv_winner_core__aggr_12_88_prom11_emergent_theme_quality_gate_signal24_risk25_cap18_exit70": [
       "emergent_theme_discovery"
     ],
     "core_explore_90_10_total_mv_winner_core__aggr_12_88_prom11_emergent_theme_quality_gate_signal24_risk30_cap18_exit72": [

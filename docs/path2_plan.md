@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-01 10:27 CST）
+
+- 开局 guard 为 `pass`；上一轮 high-growth v10 保住 2023 高收益但 2020/2026 弱、回撤深。本轮按 `underrepresented_families` 暂停 high-growth v 系列，使用已有多因子质量+估值+趋势+成本守门变体放到 `80/20 equal_weight` 底座，作为低相关防守/多因子对照。
+- 本轮新增并五窗口确认 1 个 Path 2 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_trend_cost_guard_reconfirm`。可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_trend_cost_guard_reconfirm`。
+- 该候选五窗口 CAGR 为 `14.11% / 15.77% / 32.95% / 63.17% / 103.03%`，最大回撤为 `-35.11% / -30.15% / -21.63% / -15.34% / -13.55%`，换手为 `2.99x / 3.31x / 3.61x / 5.75x / 6.73x`。它验证了低相关多因子可以给 2026 正弹性，但 2020/2023 仍明显低于 high-growth winner，不晋级。
+- `scripts/path2_candidate_pass.py` 后 Path 2 comparable universe 为 `815`，`decorrelated_defensive_mix=26`、`weekly_rebalance_aggressive=77`、`emergent_theme_discovery=60`；`scripts/update_weighted_winners.py` 后 Path 2 window winner/robust/tracked 未被本轮候选替换，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off`。本轮未触发 Path 2 evict。
+- 下一轮 focus 为 `capacity_and_cost_stress`。第一条命令建议回到 high-growth robust 邻域做容量/成本压力，而不是继续扩弱多因子；候选池可先补 `core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk36_mom_exit54_reconfirm84_caution66_cap50_cost_guard_v11` 与总市值对照：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_capacity_cost_ids>`。
+
 ## 本轮执行计划（2026-06-01 04:18 CST）
 
 - 开局 guard 为 `pass`；上一轮 high-growth v9 把 2023 拉回 `40%+` 但 2020 和 2026 仍弱。本轮按 `risk_reconfirm_sensitivity` 继续在中周期高收益族做 v10，扩大到 `risk36/exit54/reconfirm84/caution64/cap55`，用等权与总市值双底座确认是否能保留 2023 强度并修复 2026。

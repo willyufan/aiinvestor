@@ -3,6 +3,15 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-01 10:27 CST）
+
+- 开局 guard 为 `pass`；上一轮 `cashoff_cap64_hold8_turn03_exit94_weekly` 宽出场只改善 2017/2026，2020/2023 仍弱。本轮新增前已将它加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，原因是 `since_2020_01 CAGR=7.00%`、`since_2023_01 CAGR=17.93%` 且不改善 robust；随后按 `risk_downshift` 测试同一 `cap64/hold8/turn03` 的 `risk25/exit92` 纯 `_weekly` 版本。
+- 本轮新增并五窗口确认 1 个 Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk25_cap64_hold8_turn03_exit92_weekly`。可复现实验命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk25_cap64_hold8_turn03_exit92_weekly`。
+- `risk25_cap64_hold8_turn03_exit92_weekly` 五窗口 CAGR 为 `8.21% / 0.48% / 1.85% / 15.46% / 74.90%`，最大回撤为 `-27.89% / -38.70% / -25.96% / -17.32% / -10.18%`，换手为 `2.45x / 2.72x / 2.60x / 2.87x / 3.68x`。风险降档只保留 2026 弹性，2020/2023 基本失效，不晋级。
+- `scripts/path2_candidate_pass.py` 后 weekly family 完整；最终 guard 口径 `ashare_path3_weekly_universe 60/60 complete`。`scripts/update_weighted_winners.py` 后 Path 3 window winner/robust/tracked 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly`。本轮归档：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap64_hold8_turn03_exit94_weekly`；当前 `risk25...exit92_weekly` 列入下一轮待归档观察。
+- 下一轮 focus 为 `cost_stress`。第一条命令建议先归档本轮 `risk25...exit92_weekly`，然后改测成本压力但提高 2020 暴露质量，例如 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap66_hold7_turn04_exit90_weekly`：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_cost_stress_id>`。
+
 ## 本轮执行计划（2026-06-01 04:18 CST）
 
 - 开局 guard 为 `pass`；上一轮 `cost_guard_cap64_hold8_turn03_exit90_weekly` 换手低但 2020/2023 收益不足。本轮新增前把它加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，原因是 `since_2020_01 CAGR=0.47%` 且不改善 robust；随后按 `weekly_exit_buffer/turnover_reduction` 改测同一 `cap64/hold8/turn03` 的现金防守宽出场 `exit94`。
