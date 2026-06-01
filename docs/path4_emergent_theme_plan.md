@@ -32,6 +32,15 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-06-01 22:30 CST）
+
+- 开局 guard 为 `pass`；注册本轮 active 后 `ashare_path4_emergent_theme` 按预期变为 `3/60 missing`，已作为 blocking scope 第一优先级按 rerun command 补齐五窗口。上一轮 `signal24/risk25/cap18/exit70` 仍是 2023/短窗强、2020 弱；本轮按 `emergent_theme_coverage` 把 promotion 提到 `13/87 prom12`，并把单票 cap 压到 `16`，继续不使用人工主题标签、不纳入 ETF。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_risk25_cap16_exit70`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_risk25_cap16_exit70`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_risk25_cap16_exit70`。实际 A股合并命令见 Path 1 本轮记录，命令类型为五窗口 `--only-base-ids` 增量确认。
+- 三底座五窗口 CAGR：`80/20 total_mv` 为 `13.14% / 14.14% / 34.99% / 108.44% / 118.22%`，`90/10 equal_weight` 为 `12.53% / 15.65% / 36.02% / 128.96% / 112.62%`，`90/10 total_mv` 为 `13.09% / 13.99% / 33.40% / 126.12% / 82.84%`。2023 与 2025 仍有强主题弹性，但 2017/2020 明显低于当前 Path 4 robust，2026 换手最高到 `9.34x`，不能凭短窗晋级。
+- 最近持仓由杰普特、宏和科技、鼎龙股份、国瓷材料、源杰科技、天孚通信、华峰测控、广钢气体、杰瑞股份、中国海油等多票贡献，不像单票幸运；主要问题仍是强行业拥挤、容量与短窗换手。`scripts/update_weighted_winners.py` 后 Path 4 window winner/robust/tracked 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`。
+- 候选池 active cap 维持 `60`：本轮从 active `PATH4_THEME_DISCOVERY_VARIANT_IDS` 与全局 scan 移出 `aggr_05_95_prom4_emergent_theme_quality_gate_risk35_cap50`，原因是旧 quality-gate 中段形态已被 signal24/risk25/cap16 线覆盖且不改善 robust；新增 `aggr_13_87_prom12_emergent_theme_quality_gate_signal24_risk25_cap16_exit70`。最终 guard 为 `pass`，`ashare_path4_emergent_theme 60/60 complete`。
+- 最终 guard 把下一轮 focus 轮换为 `theme_signal_quality`。第一条命令建议不要继续只提高 promotion 或压 cap，改加信号质量、leader 分散或容量拥挤惩罚：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_signal_quality_crowding_ids>`。
+
 ## 本轮执行计划（2026-06-01 10:27 CST）
 
 - 开局与收尾 guard 均为 `pass`，`ashare_path4_emergent_theme 60/60 complete`；上一轮 `signal24/risk30/cap18/exit72` 仍是短窗强、2020 弱。本轮按 `theme_capacity_cost/theme_risk_control` 在 signal24 线上进一步降熊市保留到 `risk25`，出场收紧到 `exit70`，继续不使用人工主题标签、不纳入 ETF。

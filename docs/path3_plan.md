@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-01 22:30 CST）
+
+- 开局 guard 为 `pass`；上一轮 `risk25_cap64_hold8_turn03_exit92_weekly` 只保留 2026 弹性、2020/2023 失败。本轮新增前把 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap66_hold7_turn04_exit90_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，原因是同一 cap/hold 线的成本守门版 2020 弱且不改善 robust；随后按 `turnover_reduction` 测试 cashoff + `exit94` 的纯 `_weekly` 版本。
+- 本轮新增并五窗口确认 1 个 Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap66_hold7_turn04_exit94_weekly`。实际 A股合并命令见 Path 1 本轮记录，命令类型为五窗口 `--only-base-ids` 增量确认。
+- `cashoff_cap66_hold7_turn04_exit94_weekly` 五窗口 CAGR 为 `15.08% / 6.77% / 26.41% / 21.48% / -14.61%`，最大回撤为 `-27.04% / -32.14% / -28.18% / -25.97% / -18.56%`，换手为 `2.58x / 2.20x / 2.42x / 5.19x / 8.50x`。它在 `since_2023_01` 的纯 weekly 子池排名靠前，但 2020 和 2026 失败，不能替换 Path 3 window winner 或 robust。
+- `scripts/path2_candidate_pass.py` 后 weekly family 完整；最终 guard 口径 `ashare_path3_weekly_universe 60/60 complete`。`scripts/update_weighted_winners.py` 后 Path 3 window winner/robust/tracked 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly`。本轮归档：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap66_hold7_turn04_exit90_weekly`；本轮新增候选列入下一轮待归档观察。
+- 最终 guard 把下一轮 focus 轮换为 `weekly_exit_buffer`。第一条命令建议不要继续单纯降低换手，改在 `cap66/hold7/turn04` 上用退出缓冲修复 2020 和 2026，例如更宽 exit 叠加回撤触发：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_weekly_exit_buffer_id>`。
+
 ## 本轮执行计划（2026-06-01 10:27 CST）
 
 - 开局 guard 为 `pass`；上一轮 `cashoff_cap64_hold8_turn03_exit94_weekly` 宽出场只改善 2017/2026，2020/2023 仍弱。本轮新增前已将它加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，原因是 `since_2020_01 CAGR=7.00%`、`since_2023_01 CAGR=17.93%` 且不改善 robust；随后按 `risk_downshift` 测试同一 `cap64/hold8/turn03` 的 `risk25/exit92` 纯 `_weekly` 版本。
