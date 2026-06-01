@@ -610,3 +610,10 @@
 - 纯周度线的收益弹性明显强于 Path 2 的中长窗口月频锚点，但换手也显著更高。
 - 当前 Path 3 的核心问题不是短窗强度，而是 `30x+` 年化换手和 `-33.61%` 最差回撤是否能被实际交易成本、流动性和仓位约束接受。
 - 下一轮优先围绕 `theme_fast_weekly` 做降换手/降回撤变体，而不是继续单纯提高周度进攻强度。
+## 本轮执行计划（2026-06-01 16:23 CST）
+
+- 上一轮候选/结果摘要：上一轮建议在稳定周频等权缓冲线中继续压换手/集中度，本轮实现 `hardcap` 版本，目标是在不扩大周频进攻强度的前提下降低回撤和换手。
+- 本轮候选 ID：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover1_exit46_hardcap`。增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover1_exit46_hardcap`。
+- 五窗口结果：CAGR 为 `19.36% / 19.67% / 21.36% / 40.47% / 2.89%`，最大回撤为 `-28.29% / -19.75% / -13.25% / -11.56% / -9.19%`，换手为 `6.41x / 6.30x / 6.89x / 8.04x / 9.53x`。
+- 结论：hardcap 明显低于主题快周频的收益，但换手也远低于 `theme_fast_weekly` 系列；它没有改写 Path 3 window winner 或 robust candidate，适合作为低换手参照而非晋级候选。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> weekly_defensive_overlay`。下一轮不要继续只加硬上限，第一候选建议围绕现有强周频 winner 做防守覆盖：`hkconnect_path3_theme_fast_weekly_defensive_exit62_turnover2_cost_guard`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_exit62_turnover2_cost_guard`。

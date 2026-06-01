@@ -1268,3 +1268,10 @@
   - `since_2025_01`：`36.11% CAGR / -14.78% MaxDD / 1.3635 Sharpe / 3.60 Turn`
 - `robust_candidate` 继续是 `hkconnect_path1_monthly_equal_buffered`（`meanCAGR 27.97% / minCAGR 21.77%`）；`since_2026_01` 观察窗 raw leader 仍是 `hkconnect_path1_monthly_lowvol`（`-27.91% CAGR / -5.52% MaxDD / -2.2545 Sharpe / 3.74 Turn`）。
 - 本轮需要同步 README 与 tracked payload 来纠正港股摘要的 stale `2026-04-30` 数值；下一轮仍只保留 `monthly_equal_buffered` 主攻和 `monthly_lowvol` 低回撤对照，不新增港股 Path 1 候选族。
+## 本轮执行计划（2026-06-01 16:23 CST）
+
+- 上一轮候选/结果摘要：上一轮建议测试 `monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit30_v13_risk_overlay`，用于检查 Path 1 月频主线叠加周度仓位与更软风险降仓后，是否能改善 `since_2025_01` 同时不过度损伤长窗。
+- 本轮候选 ID：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit30_v13_risk_overlay`。增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit30_v13_risk_overlay`。
+- 五窗口结果：CAGR 为 `21.64% / 28.64% / 32.03% / 52.56% / -0.50%`，最大回撤为 `-27.03% / -13.04% / -10.86% / -10.86% / -9.29%`，换手为 `3.70x / 3.62x / 3.41x / 3.61x / 4.19x`。
+- 结论：`update_hkconnect_artifacts.py` 后 `hkconnect_path1` 发生有效 tracked payload 变化，`since_2025_01` window winner 切到本轮 v13；robust candidate 仍是 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit34`，长窗 winner 没有切换。2026 观察窗转负，说明 v13 不宜直接作为全窗口主线。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> monthly_weekly_overlay` 且 rotation 为 `continue`。下一轮第一候选建议 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit30_v14_ytd_repair`，略放宽风险降仓或恢复确认以修复 2026；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit30_v14_ytd_repair`。

@@ -1731,3 +1731,10 @@
   - `robust`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80`（`meanCAGR 58.06% / minCAGR 18.04%`）
 - 关键约束继续不变：`since_2020_01` 上限仍停在 `32.07% CAGR`，距离 `40%+` 目标仍有明显缺口；`biweekly / weekly` 两个高频族各只有 `4` 个候选，且仍没有改写主线。
 - 下一轮继续优先新增更适配 `since_2020_01` 的中周期/月频高收益原型，并继续压紧 family membership 口径；不把预算继续投向高频克隆扩张。
+## 本轮执行计划（2026-06-01 16:23 CST）
+
+- 上一轮候选/结果摘要：上一轮建议继续推进 high-growth 容量/成本线 `top12_risk36_exit54_reconfirm84_caution66_cap50_cost_guard_v11`，用于检查 `since_2020_01` 中周期高收益是否能在更低单票上限和更严格恢复确认下保留。
+- 本轮候选 ID：`core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk36_mom_exit54_reconfirm84_caution66_cap50_cost_guard_v11`、`core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk36_mom_exit54_reconfirm84_caution66_cap50_cost_guard_v11`。增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v11_ids>`。
+- `90/10 equal_weight` 五窗口 CAGR 为 `22.12% / 33.68% / 48.52% / 140.31% / 7.96%`，最大回撤为 `-43.66% / -32.75% / -26.05% / -16.39% / -9.62%`，换手为 `3.60x / 4.25x / 4.35x / 7.73x / 7.56x`；`90/10 total_mv` 为 `19.90% / 29.00% / 44.07% / 151.62% / 18.00%`，最大回撤 `-49.38% / -35.08% / -25.98% / -15.93% / -6.93%`。
+- 结论：v11 的 `since_2023_01` 和 `since_2025_01` 弹性可比，但 2017/2020 回撤仍深，2026 观察窗明显不稳；`path2_candidate_pass.py` 后 universe 为 `820`，`update_weighted_winners.py` 后 Path 2 window winner 与 robust candidate 未被 v11 改写。
+- 下一轮 focus：最终 guard 给出 `ashare_path2 -> medium_cycle_growth`。下一轮不要继续单纯压 cap，第一候选建议做 `aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk34_mom_exit52_reconfirm86_caution62_cap45_cost_guard_v12`，目标是修复 2020 回撤和 2026 弱观测；首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v12_ids>`。

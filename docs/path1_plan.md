@@ -1560,3 +1560,11 @@
   - `since_2023_01`：`core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure`（`30.93% CAGR / 0.8987 Sharpe / -31.82% MaxDD / 0.98 Turn`），仍是收益更高但回撤/风险调整收益明显不合格。
   - `since_2017_01 / since_2025_01`：`aggr_08_92_prom6_ramp90__port_weekly_exposure_buffered` 系列具备更高 raw CAGR，但继续因为 Sharpe 或 MaxDD 不过线而不晋级。
 - 下一轮 `Path 1` 继续只在 `promotion_ramp / satellite_defense / holding_shape / weekly_exposure_path / supporting_variants` 五个既定方向内推进；`weekly_exposure_path` 仍优先比较 `buffered` 与 `asym`，不重新打开额外信号族。
+## 本轮执行计划（2026-06-01 16:23 CST）
+
+- 上一轮候选/结果摘要：上一轮留下的 `holding_shape` 候选为 `share_06_94_hold_2_8_ramp75_cost_guard`，目标是继续压低 `share_06_94_hold_2_8` 的回撤与加仓节奏；本轮开局 guard 为 `pass`，随后新增注册后补齐该候选五窗口覆盖。
+- 本轮候选 ID：`core_explore_80_20_total_mv_winner_core__share_06_94_hold_2_8_ramp75_cost_guard`。增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_06_94_hold_2_8_ramp75_cost_guard`。
+- 五窗口结果：CAGR 为 `21.03% / 22.36% / 33.32% / 100.90% / 109.61%`，最大回撤为 `-19.23% / -19.42% / -23.21% / -11.47% / -11.67%`，换手为 `2.71x / 2.98x / 3.06x / 4.53x / 6.29x`。它改善了 holding-shape 的短窗弹性，但没有改写 Path 1 window winner 或 robust candidate。
+- `winner_only_pass.py` 本轮提示 `since_2020_only` 存在 fast-pass clear improvement：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm` 为当前 fast-pass 最优，但 `update_weighted_winners.py` 后官方 `since_2020_01` 仍保持 `core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95_dd_guard50`，需要下一轮继续核对 fast-pass 与正式 promotion score 的差异。
+- core_multifactor 子段巡检：本轮读取代码后实际覆盖为 `37` 个 core_multifactor variants，最终 guard 没有 core_multifactor 缺口；本轮没有新增多因子实验，因为预算优先用于 guard 补齐、holding_shape、Path 2/3/4 与 HK 三路候选。
+- 下一轮 focus：最终 guard 给出 `ashare_path1 -> core_multifactor_coverage`。下一轮第一候选建议实现 `aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cost_guard_reconfirm`，用五窗口 `--only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cost_guard_reconfirm` 先补 80/20 total_mv；若 fast-pass 仍提示 `sat_three_stage_buffered_cost_guard_risk20_reconfirm`，同步复核它与官方 promotion score 的排序差异。

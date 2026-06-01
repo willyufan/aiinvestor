@@ -1274,3 +1274,10 @@
   - `since_2025_01`：`94.85% CAGR / -7.72% MaxDD / 2.5222 Sharpe / 8.65 Turn`
   - `robust_candidate`：`hkconnect_path2_equal_elastic_monthly`（`meanCAGR 36.01% / minCAGR 17.59% / worstMaxDD -38.60%`）
 - `since_2026_01` 仍只做观察窗：当前 raw leader 是 `hkconnect_path2_breakout_monthly`（`197.40% CAGR / -4.77% MaxDD / 1.6881 Sharpe / 7.10 Turn`）。下一轮继续以 `theme_monthly` 作为中长窗口锚点、`breakout_monthly` 作为短窗口/观察窗锚点，`equal_elastic_monthly` 只作为 robust payload 的当前胜出者保留；不新增港股候选族。
+## 本轮执行计划（2026-06-01 16:23 CST）
+
+- 上一轮候选/结果摘要：上一轮 `elasticity_cost_control` focus 下建议若严格 inverse-elastic 仍有响应，则测试 `hkconnect_path2_inverse_elastic_monthly_cost_guard_v14_terminal`；本轮按 rotation 先跑该严格终端确认。
+- 本轮候选 ID：`hkconnect_path2_inverse_elastic_monthly_cost_guard_v14_terminal`。增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_inverse_elastic_monthly_cost_guard_v14_terminal`。
+- 五窗口结果：CAGR 为 `11.20% / 10.43% / 10.48% / 51.42% / 22.87%`，最大回撤为 `-36.59% / -36.59% / -30.76% / -11.97% / -11.96%`，换手为 `4.41x / 4.28x / 4.96x / 5.73x / 6.50x`。
+- 结论：v14 只保留短窗弹性，中长窗远弱于 `theme_monthly_cost_control` 与现有 Path 2 tracked winners；`update_hkconnect_artifacts.py` 后 Path 2 window winner 与 robust candidate 均未改变。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> high_return_monthly`，说明 strict inverse-elastic 线暂时降级。下一轮第一候选建议转回主题/月频高收益线：`hkconnect_path2_theme_monthly_cost_control_v16_breakout_overlay`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_cost_control_v16_breakout_overlay`。
