@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-02 04:20 CST）
+
+- 开局 guard 为 `pass` 且 HK coverage complete；上一轮 v16 把 2023 推近 `30%` 但未达标。本轮开局 rotation 曾给 `elasticity_cost_control`，但该支线已连续 terminal 失败，本 plan 继续将其映射为失败支线，不重启普通 inverse elastic；新增预算转回 `high_return_monthly`，注册 v17。
+- 本轮新增并五窗口确认：`hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v17_2023_break30`。实际 HK 合并命令见 HK Path 1 本轮记录，命令类型为五窗口 `--only-strategy-ids` 增量确认。
+- `v17_2023_break30` 五窗口 CAGR 为 `23.04% / 29.17% / 30.86% / 64.89% / 73.44%`，最大回撤为 `-20.70% / -16.81% / -15.26% / -10.25% / -7.64%`，换手为 `5.76x / 5.60x / 5.62x / 6.09x / 5.74x`。它首次让该修复池的 `since_2023_01` 突破 `30%`，且 2017 MaxDD 优于 `-25%`，但仍未超过 HK Path 2 既有 `theme_monthly` 2023 winner 与 `theme_monthly_cost_control` robust。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 2 window winner/robust/tracked 未变化，robust 仍为 `hkconnect_path2_theme_monthly_cost_control`；HK comparison 图与 public snapshot 已刷新。候选池未触发 HK explore cap evict。
+- 最终 guard 中下一轮 focus 为 `high_return_monthly`。第一条命令建议继续沿 v17 做 2017/2020 回撤和换手压力，而不是回到失败的 inverse elastic：`.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path2_high_return_monthly_v18_id>`。
+
 ## 本轮执行计划（2026-06-01 22:30 CST）
 
 - 开局 guard 为 `pass` 且 HK coverage complete；上一轮 `v15_2023_guard` 继续把 2023 推近但未达 `30%`。本轮虽然 rotation 仍给 `biweekly_breakout`，本 plan 继续把该 focus 映射为失败支线，不重启普通 breakout；新增预算投向主题月频高收益修复池，注册 `v16_2023_lift`。

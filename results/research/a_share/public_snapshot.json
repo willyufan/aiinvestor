@@ -2708,8 +2708,8 @@
       ]
     },
     {
-      "strategy_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit28_v14_2026_repair",
-      "display_name": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit28_v14_2026_repair",
+      "strategy_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cashguard_exit28_v15_2026_repair",
+      "display_name": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cashguard_exit28_v15_2026_repair",
       "path": "path1",
       "market_scope": "hkconnect",
       "winner_type": "2025-window winner",
@@ -2731,26 +2731,26 @@
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.2006,
+          "cagr": 0.1903,
           "sharpe": 0.0,
-          "max_drawdown": -0.2858,
-          "total_return": 4.4249
+          "max_drawdown": -0.2953,
+          "total_return": 4.0084
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.2594,
+          "cagr": 0.2446,
           "sharpe": 0.0,
-          "max_drawdown": -0.1304,
-          "total_return": 3.2273
+          "max_drawdown": -0.1325,
+          "total_return": 2.9257
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.2704,
+          "cagr": 0.2619,
           "sharpe": 0.0,
           "max_drawdown": -0.1182,
-          "total_return": 1.1767
+          "total_return": 1.1298
         },
         {
           "tag": "since_2025_01",
@@ -4766,8 +4766,8 @@
           "entries": [
             {
               "rank": 1,
-              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cashguard_exit34_v9_repair",
-              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻现金34v9修复)",
+              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit28_v14_2026_repair",
+              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻成本28v14修复2026)",
               "is_official_winner": true,
               "metrics": {
                 "weighted_cagr": 0.0,
@@ -4777,6 +4777,28 @@
             },
             {
               "rank": 2,
+              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cashguard_exit28_v15_2026_repair",
+              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻现金28v15修复2026)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.0,
+                "weighted_sharpe": 0.0,
+                "weighted_max_drawdown": 0.0
+              }
+            },
+            {
+              "rank": 3,
+              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cashguard_exit34_v9_repair",
+              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻现金34v9修复)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.0,
+                "weighted_sharpe": 0.0,
+                "weighted_max_drawdown": 0.0
+              }
+            },
+            {
+              "rank": 4,
               "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34_v8_drawdown_guard",
               "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻成本34v8回撤守门)",
               "is_official_winner": false,
@@ -4787,31 +4809,9 @@
               }
             },
             {
-              "rank": 3,
+              "rank": 5,
               "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit30_v13_risk_overlay",
               "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻成本30v13风险叠加)",
-              "is_official_winner": false,
-              "metrics": {
-                "weighted_cagr": 0.0,
-                "weighted_sharpe": 0.0,
-                "weighted_max_drawdown": 0.0
-              }
-            },
-            {
-              "rank": 4,
-              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit32_v10_repair",
-              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻成本32v10修复)",
-              "is_official_winner": false,
-              "metrics": {
-                "weighted_cagr": 0.0,
-                "weighted_sharpe": 0.0,
-                "weighted_max_drawdown": 0.0
-              }
-            },
-            {
-              "rank": 5,
-              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cashguard_exit32_v3",
-              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻现金32v3)",
               "is_official_winner": false,
               "metrics": {
                 "weighted_cagr": 0.0,
@@ -4840,6 +4840,17 @@
             },
             {
               "rank": 2,
+              "strategy_base_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v17_2023_break30",
+              "strategy_base_name": "沪港通Path2 月度高成长主线(再确认2023冲30v17)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.0,
+                "weighted_sharpe": 0.0,
+                "weighted_max_drawdown": 0.0
+              }
+            },
+            {
+              "rank": 3,
               "strategy_base_id": "hkconnect_path2_equal_elastic_monthly",
               "strategy_base_name": "沪港通Path2 月度等权高弹性",
               "is_official_winner": false,
@@ -4850,7 +4861,7 @@
               }
             },
             {
-              "rank": 3,
+              "rank": 4,
               "strategy_base_id": "hkconnect_path2_inverse_elastic_monthly",
               "strategy_base_name": "沪港通Path2 月度逆市值高弹性",
               "is_official_winner": false,
@@ -4861,20 +4872,9 @@
               }
             },
             {
-              "rank": 4,
-              "strategy_base_id": "hkconnect_path2_theme_monthly_cost_control_lowturn",
-              "strategy_base_name": "沪港通Path2 月度高成长主线(低换手成本约束)",
-              "is_official_winner": false,
-              "metrics": {
-                "weighted_cagr": 0.0,
-                "weighted_sharpe": 0.0,
-                "weighted_max_drawdown": 0.0
-              }
-            },
-            {
               "rank": 5,
-              "strategy_base_id": "hkconnect_path2_equal_elastic_monthly_defensive",
-              "strategy_base_name": "沪港通Path2 月度等权高弹性(低成本防守)",
+              "strategy_base_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v16_2023_lift",
+              "strategy_base_name": "沪港通Path2 月度高成长主线(再确认2023收益抬升v16)",
               "is_official_winner": false,
               "metrics": {
                 "weighted_cagr": 0.0,
@@ -4901,6 +4901,17 @@
             },
             {
               "rank": 2,
+              "strategy_base_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v17_2023_break30",
+              "strategy_base_name": "沪港通Path2 月度高成长主线(再确认2023冲30v17)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.0,
+                "weighted_sharpe": 0.0,
+                "weighted_max_drawdown": 0.0
+              }
+            },
+            {
+              "rank": 3,
               "strategy_base_id": "hkconnect_path2_theme_monthly_cost_control_lowturn",
               "strategy_base_name": "沪港通Path2 月度高成长主线(低换手成本约束)",
               "is_official_winner": false,
@@ -4911,7 +4922,7 @@
               }
             },
             {
-              "rank": 3,
+              "rank": 4,
               "strategy_base_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v5",
               "strategy_base_name": "沪港通Path2 月度高成长主线(再确认高收益成本约束v5)",
               "is_official_winner": false,
@@ -4922,20 +4933,9 @@
               }
             },
             {
-              "rank": 4,
-              "strategy_base_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v6",
-              "strategy_base_name": "沪港通Path2 月度高成长主线(再确认高收益成本约束v6)",
-              "is_official_winner": false,
-              "metrics": {
-                "weighted_cagr": 0.0,
-                "weighted_sharpe": 0.0,
-                "weighted_max_drawdown": 0.0
-              }
-            },
-            {
               "rank": 5,
-              "strategy_base_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v13_return_guard",
-              "strategy_base_name": "沪港通Path2 月度高成长主线(再确认高收益收益修复v13)",
+              "strategy_base_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v16_2023_lift",
+              "strategy_base_name": "沪港通Path2 月度高成长主线(再确认2023收益抬升v16)",
               "is_official_winner": false,
               "metrics": {
                 "weighted_cagr": 0.0,
@@ -4973,6 +4973,17 @@
             },
             {
               "rank": 3,
+              "strategy_base_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v17_2023_break30",
+              "strategy_base_name": "沪港通Path2 月度高成长主线(再确认2023冲30v17)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.0,
+                "weighted_sharpe": 0.0,
+                "weighted_max_drawdown": 0.0
+              }
+            },
+            {
+              "rank": 4,
               "strategy_base_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v5",
               "strategy_base_name": "沪港通Path2 月度高成长主线(再确认高收益成本约束v5)",
               "is_official_winner": false,
@@ -4983,20 +4994,9 @@
               }
             },
             {
-              "rank": 4,
-              "strategy_base_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v13_return_guard",
-              "strategy_base_name": "沪港通Path2 月度高成长主线(再确认高收益收益修复v13)",
-              "is_official_winner": false,
-              "metrics": {
-                "weighted_cagr": 0.0,
-                "weighted_sharpe": 0.0,
-                "weighted_max_drawdown": 0.0
-              }
-            },
-            {
               "rank": 5,
-              "strategy_base_id": "hkconnect_path2_theme_fast_monthly",
-              "strategy_base_name": "沪港通Path2 月度快速主线",
+              "strategy_base_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v16_2023_lift",
+              "strategy_base_name": "沪港通Path2 月度高成长主线(再确认2023收益抬升v16)",
               "is_official_winner": false,
               "metrics": {
                 "weighted_cagr": 0.0,

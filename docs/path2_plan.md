@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-02 04:20 CST）
+
+- 开局 guard 为 `pass`；上一轮 high-growth v12 修复短窗但 2020 未达 `40%`。本轮按开局 `risk_reconfirm_sensitivity` 继续在中周期 high-growth 族做 v13，把 v12 的 `risk34/exit52/reconfirm86/caution64/cap48` 调成 `risk32/exit52/reconfirm88/caution62/cap50`，用等权与总市值双底座确认；最终 guard 下一轮 focus 轮换为 `underrepresented_families`。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk32_mom_exit52_reconfirm88_caution62_cap50_cost_guard_v13`、`core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk32_mom_exit52_reconfirm88_caution62_cap50_cost_guard_v13`。实际 A股合并命令见 Path 1 本轮记录，命令类型为五窗口 `--only-base-ids` 增量确认。
+- v13 等权版五窗口 CAGR 为 `28.34% / 33.15% / 39.27% / 124.30% / 11.78%`，最大回撤为 `-40.30% / -29.39% / -26.99% / -21.30% / -9.62%`，换手为 `3.52x / 4.31x / 4.53x / 7.83x / 6.18x`；总市值版为 `26.19% / 28.70% / 34.91% / 132.96% / 18.32%`，最大回撤为 `-40.03% / -30.17% / -26.71% / -21.76% / -6.93%`。v13 没有把 2020 拉到 `40%`，且 2017 回撤仍深，不晋级。
+- `scripts/path2_candidate_pass.py` 后 Path 2 comparable universe 为 `831/831 complete`，high-growth family 已到 `343`；`scripts/update_weighted_winners.py` 后 Path 2 window winner/robust/tracked 未被 v13 替换，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off`。本轮未触发 Path 2 evict。
+- 下一轮 focus 为 `underrepresented_families`。第一条命令建议暂停 high-growth v 系列，补一个低相关/非单一 high-growth 的代表，例如 momentum equal-weight elastic、decorrelated defensive mix 或 biweekly 对照：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_underrepresented_family_ids>`。
+
 ## 本轮执行计划（2026-06-01 22:30 CST）
 
 - 开局 guard 为 `pass`；上一轮低相关多因子对照只提供 2026 弹性，不能替换 high-growth winner。本轮按 `medium_cycle_growth` 回到中周期高收益族，把 v11 的 `top12/risk36/exit54/reconfirm84/caution66/cap50` 改成更浅风险和更低 cap 的 `risk34/exit52/reconfirm86/caution64/cap48` v12，用等权与总市值双底座确认。

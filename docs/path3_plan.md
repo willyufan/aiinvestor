@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-02 04:20 CST）
+
+- 开局 guard 为 `pass`；上一轮 `cashoff_cap66_hold7_turn04_exit94_weekly` 2020 和 2026 失败。本轮新增前将它加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，原因是 `since_2020_01 CAGR=6.77%`、`since_2026_01 CAGR=-14.61%` 且不改善 robust；随后按开局 `weekly_exit_buffer` 在同一 cap/hold/turn 线上把 exit 放宽到 `96`。
+- 本轮新增并五窗口确认 1 个纯 `_weekly` Path 3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap66_hold7_turn04_exit96_weekly`。实际 A股合并命令见 Path 1 本轮记录，命令类型为五窗口 `--only-base-ids` 增量确认。
+- `cashoff_cap66_hold7_turn04_exit96_weekly` 五窗口 CAGR 为 `15.08% / 6.77% / 26.47% / 21.50% / -14.61%`，最大回撤为 `-27.04% / -32.14% / -28.18% / -25.95% / -18.56%`，换手为 `2.58x / 2.20x / 2.42x / 5.19x / 8.50x`。它与 exit94 近似，没有修复 2020/2026，只保留 2023 中等弹性，不替换 Path 3 window winner 或 robust。
+- `scripts/path2_candidate_pass.py` 后 weekly family 完整；最终 guard 口径 `ashare_path3_weekly_universe 60/60 complete`。`scripts/update_weighted_winners.py` 后 Path 3 tracked/robust 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly`。本轮归档：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap66_hold7_turn04_exit94_weekly`。
+- 下一轮 focus 为 `risk_downshift`。第一条命令建议不要继续放宽 exit，改测同一低换手形态的浅风险/回撤触发版本，且新增前若 exit96 仍无改善应列入待归档：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path3_risk_downshift_id>`。
+
 ## 本轮执行计划（2026-06-01 22:30 CST）
 
 - 开局 guard 为 `pass`；上一轮 `risk25_cap64_hold8_turn03_exit92_weekly` 只保留 2026 弹性、2020/2023 失败。本轮新增前把 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap66_hold7_turn04_exit90_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，原因是同一 cap/hold 线的成本守门版 2020 弱且不改善 robust；随后按 `turnover_reduction` 测试 cashoff + `exit94` 的纯 `_weekly` 版本。

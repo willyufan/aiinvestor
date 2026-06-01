@@ -1,5 +1,13 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-02 04:20 CST）
+
+- 开局 guard 为 `pass` 且 HK coverage complete；上一轮 stable turnover1 hardcap 收益不足。本轮按开局 `weekly_turnover_reduction` 转向高收益 theme weekly，加 `cost_guard/turnover1/exit68/hardcap`，测试能否保留主题周频弹性同时降低换手。
+- 本轮新增并五窗口确认：`hkconnect_path3_theme_fast_weekly_cost_guard_turnover1_exit68_hardcap`。实际 HK 合并命令见 HK Path 1 本轮记录，命令类型为五窗口 `--only-strategy-ids` 增量确认。
+- `theme_fast_weekly_cost_guard_turnover1_exit68_hardcap` 五窗口 CAGR 为 `16.20% / 17.45% / 19.46% / 46.83% / 15.97%`，最大回撤为 `-34.30% / -26.16% / -22.55% / -15.89% / -8.30%`，换手为 `13.79x / 13.65x / 15.09x / 19.17x / 18.90x`。hardcap 仍没把主题周频换手压到可接受区间，且长中窗收益低于 stable robust，不晋级。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 3 window winner/robust/tracked 未变化，robust 仍为 `hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`；HK comparison 图、live/public snapshot 已刷新。候选池未触发 HK explore cap evict。
+- 最终 guard 中下一轮 focus 为 `weekly_defensive_overlay`。第一条命令建议回到 stable weekly robust 邻域做 defensive overlay/risk-off，而不是继续追 theme weekly 的高换手弹性：`.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path3_weekly_defensive_overlay_next_id>`。
+
 ## 本轮执行计划（2026-06-01 22:30 CST）
 
 - 开局 guard 为 `pass` 且 HK coverage complete；上一轮 `cost_guard_turnover2_exit46` 与 turnover2 稳定线同形，收益不足。本轮按 `cost_stress` 在 turnover1 低换手线上加 defensive overlay 和 hardcap，测试是否能比普通 turnover1/2 更好地压换手和回撤，仍只在 HK 纯周度 Path 3 内比较。
