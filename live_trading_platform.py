@@ -3327,7 +3327,7 @@ def strategy_detail_html(
     history_window_key: str = "all",
     sample_view_tag: str = "",
     tab: str = "official",
-    show_reasons: bool = True,
+    show_reasons: bool = False,
 ) -> str:
     item = load_strategy_snapshot(strategy_id)
     favorite_state = get_strategy_favorite_state(strategy_id)
@@ -4206,7 +4206,7 @@ class Handler(BaseHTTPRequestHandler):
                 history_window_key = (query.get("history_window") or ["all"])[0]
                 sample_view_tag = (query.get("sample_view") or [""])[0]
                 tab = (query.get("tab") or ["official"])[0]
-                show_reasons_raw = str((query.get("show_reasons") or ["1"])[0]).strip().lower()
+                show_reasons_raw = str((query.get("show_reasons") or ["0"])[0]).strip().lower()
                 show_reasons = show_reasons_raw not in {"0", "false", "no", "off"}
                 self._html(
                     strategy_detail_html(
