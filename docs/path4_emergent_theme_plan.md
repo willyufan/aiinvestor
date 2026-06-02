@@ -32,6 +32,14 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-06-02 16:20 CST）
+
+- 开局 guard 为 `pass`；注册本轮 active 后 `ashare_path4_emergent_theme` 按预期变为 `3/60 missing`，已作为 blocking scope 第一优先级按 rerun command 补齐五窗口。上一轮 `leader68/risk20/cap16/exit68` 短窗强但 2020 弱，本轮按 `emergent_theme_coverage/theme_capacity_cost` 继续压单票 cap 到 `12`，不使用人工主题标签、不纳入 ETF。
+- 本轮新增并五窗口确认 3 个 Path 4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap12_exit68`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap12_exit68`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap12_exit68`。blocking 补齐命令见 Path 1 本轮记录，命令类型为五窗口 `--only-base-ids`。
+- 三底座五窗口 CAGR：`80/20 total_mv` 为 `11.97% / 16.01% / 28.52% / 88.95% / 88.11%`，`90/10 equal_weight` 为 `12.06% / 15.99% / 29.75% / 104.90% / 88.29%`，`90/10 total_mv` 为 `12.34% / 14.13% / 26.66% / 100.31% / 61.70%`。cap12 降低了部分短窗单票风险，但 2017/2020 仍明显低于 Path 4 robust，且 2026 换手最高到 `9.42x`，不能只凭 2025/2026 晋级。
+- 最近持仓由宏和科技、天孚通信、源杰科技、华峰测控、华海清科、杰瑞股份、中国海油、长飞光纤、赤峰黄金等多票贡献，不是单票幸运；主要问题仍是强行业拥挤、容量成本和 2020 稳定性。`scripts/update_weighted_winners.py` 后 Path 4 window winner/robust/tracked 未变化，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`。
+- 候选池 active cap 维持 `60`：本轮从 active `PATH4_THEME_DISCOVERY_VARIANT_IDS` 与全局 scan 移出 `aggr_09_91_prom8_emergent_theme_quality_gate_risk35_cap30_exit76`，原因是旧 prom8/cap30 风险线已被 signal24、leader68 与低 cap 线覆盖且不改善 robust；新增 `aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap12_exit68`。最新 guard 为 `pass`，下一轮 focus 为 `emergent_theme_coverage`；第一条命令建议不要继续只压 cap，改做主题覆盖/拥挤惩罚双目标：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path4_emergent_theme_coverage_ids>`。
+
 ## 本轮执行计划（2026-06-02 13:49 CST）
 
 - 开局 guard 为 `pass`；注册本轮 active 后 `ashare_path4_emergent_theme` 按预期变为 `3/60 missing`，已作为 blocking scope 第一优先级按 rerun command 补齐五窗口，没有改跑全量。上一轮 `leader68/risk25/cap16/exit70` 仍是短窗强、2020 弱；本轮按 `theme_risk_control` 把熊市保留降到 `risk20`、出场收紧到 `exit68`，继续不使用人工主题标签、不纳入 ETF。
@@ -461,3 +469,12 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `80/20 total_mv` 五窗口 CAGR 为 `14.19% / 13.11% / 35.90% / 97.80% / 124.74%`，最大回撤为 `-23.40% / -26.35% / -16.25% / -10.78% / -8.73%`，换手为 `2.95x / 3.28x / 3.40x / 5.78x / 7.20x`；`90/10 equal_weight` 为 `13.16% / 13.44% / 37.67% / 118.10% / 113.46%`，`90/10 total_mv` 为 `13.52% / 11.24% / 35.22% / 114.59% / 88.12%`。
 - 持仓抽样仍是多票强势结构，近期包括杰普特、宏和科技、鼎龙股份、天孚通信、源杰科技、杰瑞股份、华峰测控等，并非单票幸运；但 2017/2020 CAGR 明显低于现有 Path 4 robust，未改变 window winner、robust candidate 或 tracked payload。`scripts/path2_candidate_pass.py` 后 Path 4 coverage 达到 `60/60 complete`。
 - 下一轮 focus：最终 guard 给出 `ashare_path4 -> emergent_theme_coverage`。下一轮不要继续只降 cap，第一候选建议实现 `aggr_12_88_prom11_emergent_theme_quality_gate_signal24_risk25_cap16_exit70_coverage_penalty`，增加主题覆盖/拥挤惩罚，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <three_path4_coverage_penalty_ids>`。
+
+## 本轮执行计划（2026-06-02 22:30 CST）
+
+- 上一轮候选/结果摘要：上一轮 `signal24_leader68_risk20_cap12_exit68` 继续显示短窗强但 2017/2020 弱。本轮按 guard blocking scope 优先补齐 Path 4 新强主题涌现候选，继续不使用人工主题标签、不纳入 ETF。
+- 本轮 active pool cap 处理：Path 4 active 候选池维持 `60` 个；新增前从 `PATH4_THEME_DISCOVERY_VARIANT_IDS` 与 `PATH2_SCAN_VARIANT_IDS` 移除旧弱线 `aggr_10_90_prom9_emergent_theme_quality_gate_signal18_risk40_cap30_exit78`。evict 原因：signal18/risk40/cap30 在长窗与 robust 排序持续落后，且继续占用强主题涌现 cap。
+- 本轮候选 ID：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk25_cap16_exit70`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk25_cap16_exit70`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk25_cap16_exit70`。补缺口命令与 Path 1 core_multifactor 合并执行，使用 `--only-base-ids <three_path4_signal26_ids>` 覆盖五窗口。
+- `80/20 total_mv` 五窗口 CAGR 为 `14.47% / 16.97% / 31.77% / 89.85% / 118.70%`，最大回撤为 `-25.52% / -29.94% / -15.17% / -10.20% / -8.78%`，换手为 `2.85x / 3.22x / 3.22x / 5.69x / 7.11x`；`90/10 equal_weight` CAGR 为 `12.49% / 15.28% / 32.60% / 108.94% / 114.40%`；`90/10 total_mv` 为 `13.44% / 14.50% / 30.22% / 104.72% / 93.50%`。
+- 持仓抽样仍是多票强势结构，近期包括宏和科技、国瓷材料、大族数控、杰瑞股份、中国海油、沃尔德、长飞光纤、精智达等，不像单票幸运；但 2017/2020 低于旧 `risk30_cap50` robust，未改变 Path 4 window winner、robust candidate 或 tracked payload。`scripts/path2_candidate_pass.py` 后 `emergent_theme_discovery=60` 且最终 guard 为 `60/60 complete`。
+- 下一轮 focus：最终 guard 给出 `ashare_path4 -> theme_risk_control`。下一轮第一候选建议 `aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk20_cap16_exit68`，用更低 risk/exit 检查 2020 回撤是否能改善；首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <three_path4_risk20_signal26_ids>`。

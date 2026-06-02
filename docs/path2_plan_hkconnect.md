@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-02 16:20 CST）
+
+- 开局 guard 为 `pass` 且 HK coverage complete；上一轮 `v18_2020_guard` 修复回撤但 `since_2023_01` 又低于 `30%`。本轮虽然 rotation 给 `elasticity_cost_control`，该支线已多轮 terminal 失败，plan 继续把它映射为失败支线；新增预算转回 `high_return_monthly`，注册 `v19_2023_restore`，目标恢复 2023 收益且保持 2017 MaxDD 优于 `-20%`。
+- 本轮新增并五窗口确认：`hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v19_2023_restore`。实际 HK 合并命令见 HK Path 1 本轮记录，命令类型为五窗口 `--only-strategy-ids` 增量确认。
+- `v19_2023_restore` 五窗口 CAGR 为 `22.08% / 27.51% / 29.21% / 57.26% / 65.60%`，最大回撤为 `-17.57% / -15.16% / -13.44% / -9.36% / -6.98%`，换手为 `5.29x / 5.22x / 5.35x / 5.52x / 5.20x`。它保持了浅回撤和 2026 弹性，但 2023 仍低于 `30%`，也未超过 `hkconnect_path2_theme_monthly_cost_control` robust。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 2 tracks 未切换，robust 仍为 `hkconnect_path2_theme_monthly_cost_control`；`tracked_winners_hkconnect.json` 与 HK comparison 图已同步。候选池未触发 HK explore cap evict。
+- 最新 guard 为 `pass`，下一轮 focus 为 `elasticity_cost_control`。第一条命令建议只允许一次更严格 terminal check，若不跑 terminal 则继续主题月频 v20，验收线仍是 `since_2023_01 >= 30%` 且 2017 MaxDD 优于 `-20%`：`.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path2_elasticity_terminal_or_theme_v20_id>`。
+
 ## 本轮执行计划（2026-06-02 13:49 CST）
 
 - 开局 guard 为 `pass` 且 HK coverage complete；上一轮 v17 首次让修复池 `since_2023_01` 超过 `30%`，但仍没超过既有 robust。最终 rotation 继续给 `biweekly_breakout`，本 plan 仍将普通 biweekly breakout 视为失败支线，不重启；新增预算继续投向 `high_return_monthly`，注册 v18，用更强 2020/回撤守门确认 v17 的稳定性。
@@ -1305,3 +1313,11 @@
 - 五窗口结果：CAGR 为 `11.20% / 10.43% / 10.48% / 51.42% / 22.87%`，最大回撤为 `-36.59% / -36.59% / -30.76% / -11.97% / -11.96%`，换手为 `4.41x / 4.28x / 4.96x / 5.73x / 6.50x`。
 - 结论：v14 只保留短窗弹性，中长窗远弱于 `theme_monthly_cost_control` 与现有 Path 2 tracked winners；`update_hkconnect_artifacts.py` 后 Path 2 window winner 与 robust candidate 均未改变。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> high_return_monthly`，说明 strict inverse-elastic 线暂时降级。下一轮第一候选建议转回主题/月频高收益线：`hkconnect_path2_theme_monthly_cost_control_v16_breakout_overlay`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_cost_control_v16_breakout_overlay`。
+
+## 本轮执行计划（2026-06-02 22:30 CST）
+
+- 上一轮候选/结果摘要：上一轮 strict inverse-elastic v14 中长窗弱，本轮仍做一次更终端的 v15 检查，确认该线是否彻底降级；同时最终 focus 已转向 `high_return_monthly`。
+- 本轮候选 ID：`hkconnect_path2_inverse_elastic_monthly_cost_guard_v15_terminal`。增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_inverse_elastic_monthly_cost_guard_v15_terminal`。
+- 五窗口结果：CAGR 为 `10.01% / 8.90% / 7.47% / 45.75% / 12.86%`，最大回撤为 `-40.62% / -40.62% / -33.02% / -12.23% / -12.60%`，换手为 `4.27x / 4.18x / 4.84x / 5.50x / 6.44x`。
+- 结论：v15 比 v14 更弱，中长窗和 2026 均不接近 `theme_monthly_cost_control` 或 `breakout_concentrated_monthly`；`update_hkconnect_artifacts.py` 后 Path 2 window winner 与 robust candidate 均未改变。strict inverse-elastic 暂归档为失败参照，不再连续追加终端小变体。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> high_return_monthly`。下一轮第一候选建议回到主题月频高收益线：`hkconnect_path2_theme_monthly_cost_control_v20_breakout_reconfirm`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_cost_control_v20_breakout_reconfirm`。

@@ -13,6 +13,15 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-02 16:20 CST）
+
+- 开局 guard 为 `pass`；上一轮双周 `cap65 + cost_guard` 代表没有修复 2017/2020，最终 rotation 回到 `medium_cycle_growth`。本轮重启 high-growth 中周期族，但把 v13 的 `risk32/exit52/reconfirm88/caution62/cap50` 改为更强确认和更低集中度的 `top12/risk30/exit50/reconfirm90/caution60/cap45` v14，用等权与总市值双底座确认。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk30_mom_exit50_reconfirm90_caution60_cap45_cost_guard_v14`、`core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk30_mom_exit50_reconfirm90_caution60_cap45_cost_guard_v14`。增量确认命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk30_mom_exit50_reconfirm90_caution60_cap45_cost_guard_v14,core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk30_mom_exit50_reconfirm90_caution60_cap45_cost_guard_v14,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap68_hold6_turn08_exit90_weekly`。
+- v14 等权版五窗口 CAGR 为 `26.77% / 36.22% / 40.03% / 131.34% / 13.20%`，最大回撤为 `-37.00% / -21.23% / -19.25% / -20.88% / -9.38%`，换手为 `3.35x / 4.12x / 4.61x / 7.91x / 6.41x`；总市值版为 `24.61% / 30.89% / 35.92% / 139.93% / 20.62%`，最大回撤为 `-37.97% / -24.32% / -19.12% / -21.08% / -6.43%`。等权版把 2023 重新推过 `40%`，但 2020 仍未达 `40%`，且最新持仓高度集中于源杰科技/腾景科技，存在单票幸运与容量风险，不晋级。
+- `scripts/path2_candidate_pass.py` 后 Path 2 comparable universe 为 `843`，`high_growth_theme=343`、`weekly_rebalance_aggressive=82`、`emergent_theme_discovery=60`。`scripts/update_weighted_winners.py` 后 Path 2 window winner/robust/tracked 未被 v14 替换，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off`。本轮未触发 Path 2 evict。
+- 最新 guard 为 `pass`，下一轮 focus 为 `medium_cycle_growth`。第一条命令建议继续在 v14 邻域做“降单票幸运”的中周期修复，例如提高 promoted count 或加入行业/流动性分散，而不是继续降低 cap 到牺牲 2020：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_medium_cycle_growth_ids>`。
+
 ## 本轮执行计划（2026-06-02 13:49 CST）
 
 - 开局 guard 为 `pass`；上一轮 v13 high-growth 没把 2020 拉到 `40%`，且最终 focus 指向 `underrepresented_families`。本轮暂停 high-growth v 系列，新增 `biweekly_rebalance_aggressive` 的 `cap65 + cost_guard` 代表，用 80/20 与 70/30 等权双底座确认，避免 Path 2 候选池继续被单一 high-growth family 压扁。
@@ -1762,3 +1771,11 @@
 - `90/10 equal_weight` 五窗口 CAGR 为 `22.12% / 33.68% / 48.52% / 140.31% / 7.96%`，最大回撤为 `-43.66% / -32.75% / -26.05% / -16.39% / -9.62%`，换手为 `3.60x / 4.25x / 4.35x / 7.73x / 7.56x`；`90/10 total_mv` 为 `19.90% / 29.00% / 44.07% / 151.62% / 18.00%`，最大回撤 `-49.38% / -35.08% / -25.98% / -15.93% / -6.93%`。
 - 结论：v11 的 `since_2023_01` 和 `since_2025_01` 弹性可比，但 2017/2020 回撤仍深，2026 观察窗明显不稳；`path2_candidate_pass.py` 后 universe 为 `820`，`update_weighted_winners.py` 后 Path 2 window winner 与 robust candidate 未被 v11 改写。
 - 下一轮 focus：最终 guard 给出 `ashare_path2 -> medium_cycle_growth`。下一轮不要继续单纯压 cap，第一候选建议做 `aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk34_mom_exit52_reconfirm86_caution62_cap45_cost_guard_v12`，目标是修复 2020 回撤和 2026 弱观测；首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v12_ids>`。
+
+## 本轮执行计划（2026-06-02 22:30 CST）
+
+- 上一轮候选/结果摘要：上一轮 high-growth v14 修复部分 2026 观察但仍被单一 high-growth family 压扁；本轮在 `medium_cycle_growth` 邻域改为 `prom3/top14/risk32/exit52/reconfirm88/caution62/cap40`，检查增加晋升数和扩大候选池能否降低集中度。
+- 本轮候选 ID：`core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top14_risk32_mom_exit52_reconfirm88_caution62_cap40_cost_guard_v15`、`core_explore_90_10_total_mv_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top14_risk32_mom_exit52_reconfirm88_caution62_cap40_cost_guard_v15`。增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v15_ids>`。
+- `90/10 equal_weight` 五窗口 CAGR 为 `23.30% / 23.18% / 34.50% / 139.23% / 23.01%`，最大回撤为 `-35.58% / -26.32% / -20.54% / -13.51% / -9.15%`，换手为 `3.32x / 3.92x / 4.28x / 6.79x / 6.67x`；`90/10 total_mv` CAGR 为 `21.51% / 19.45% / 32.37% / 147.35% / 31.27%`。
+- 结论：v15 的 2025 弹性仍强，但 2020/2023 显著弱于当前 Path 2 window winners，持仓抽样仍集中在少数强票，未解决 high-growth family 的集中度约束。`path2_candidate_pass.py` 后 universe 为 `849`，`update_weighted_winners.py` 后 Path 2 window winner 与 robust candidate 均未改变。
+- 下一轮 focus：最终 guard 给出 `ashare_path2 -> risk_reconfirm_sensitivity`。下一轮不要继续只扩 topN，第一候选建议 `aggr_03_97_prom3_core_6_1_promo_liqmom_top14_risk30_mom_exit50_reconfirm92_caution60_cap40_cost_guard_v16`，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v16_ids>`。

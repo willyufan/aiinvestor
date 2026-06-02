@@ -1,5 +1,14 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-06-02 16:20 CST）
+
+- 开局 guard 为 `pass` 且 HK coverage complete；上一轮 `v16_ytd_balance` 仍未修复 2026，最终 rotation 转向 `risk_overlay_cost`。本轮按该 focus 回到真正双周缓冲线，新增低波+浅 risk-off 的 `exit28_v17_repair`，目标是在不继续扩 monthly-weekly overlay 同形参数的前提下观察 2026 修复和长窗回撤。
+- 本轮新增并五窗口确认：`hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit28_v17_repair`。实际 HK 合并命令为：
+  `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit28_v17_repair,hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v19_2023_restore,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_riskoff45_turnover8_exit42`。
+- `v17_repair` 五窗口 CAGR 为 `17.15% / 18.51% / 31.06% / 36.91% / -0.52%`，最大回撤为 `-20.65% / -18.95% / -10.19% / -6.91% / -4.44%`，换手为 `5.75x / 5.47x / 5.07x / 6.65x / 7.04x`。它改善 2026 亏损幅度和 2025 回撤，但长窗收益明显低于 monthly-weekly robust，不晋级。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 1 tracks 未切换，robust 仍为 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit34`；`tracked_winners_hkconnect.json` 的 strategies payload 纳入本轮 v17，三张 HK comparison 图已刷新。候选池未触发 HK explore cap evict。
+- 最新 guard 为 `pass`，下一轮 focus 为 `risk_overlay_cost`。第一条命令建议不要继续普通双周低波线，回到 robust 的 monthly-weekly overlay 做浅 risk-off 或 2026 drawdown repair：`.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_risk_overlay_cost_next_id>`。
+
 ## 本轮执行计划（2026-06-02 13:49 CST）
 
 - 开局 guard 为 `pass` 且 HK coverage complete；上一轮 `v15_2026_repair` 仍没修复 2026 负收益，最终 rotation 转向 `biweekly_buffer`。本轮没有回到普通双周低收益线，而是在 monthly-weekly overlay 上把 `exit32` 与轻成本守门组合做 `v16_ytd_balance`，目标是观察能否保留 2025 winner 水平并减少 2026 年内亏损。
@@ -1302,3 +1311,11 @@
 - 五窗口结果：CAGR 为 `21.64% / 28.64% / 32.03% / 52.56% / -0.50%`，最大回撤为 `-27.03% / -13.04% / -10.86% / -10.86% / -9.29%`，换手为 `3.70x / 3.62x / 3.41x / 3.61x / 4.19x`。
 - 结论：`update_hkconnect_artifacts.py` 后 `hkconnect_path1` 发生有效 tracked payload 变化，`since_2025_01` window winner 切到本轮 v13；robust candidate 仍是 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit34`，长窗 winner 没有切换。2026 观察窗转负，说明 v13 不宜直接作为全窗口主线。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> monthly_weekly_overlay` 且 rotation 为 `continue`。下一轮第一候选建议 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit30_v14_ytd_repair`，略放宽风险降仓或恢复确认以修复 2026；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit30_v14_ytd_repair`。
+
+## 本轮执行计划（2026-06-02 22:30 CST）
+
+- 上一轮候选/结果摘要：上一轮 v17/v13 一类周度 overlay 修复了 `since_2025_01`，但 2026 观察窗转负。本轮继续在 `monthly_weekly_overlay` 下测试 `exit34_v18_drawdown_repair`，目标是保留短窗弹性并控制回撤。
+- 本轮候选 ID：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34_v18_drawdown_repair`。增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34_v18_drawdown_repair`。
+- 五窗口结果：CAGR 为 `20.31% / 26.41% / 27.13% / 46.51% / -8.02%`，最大回撤为 `-28.68% / -11.82% / -11.82% / -11.82% / -10.70%`，换手为 `3.57x / 3.53x / 3.49x / 3.57x / 4.10x`。
+- 结论：`update_hkconnect_artifacts.py` 后 HK Path 1 tracked payload 发生有效变化，`since_2025_01` window winner 切到本轮 v18；但 2017/2020/2023 与 robust candidate 仍分别由旧 `soft_exit32`、`lowvol_cost_guard` 与 `soft_exit32` 占据，v18 的 2026 观察窗仍为负，不宜直接升为全窗口主线。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> monthly_weekly_overlay` 且 rotation 为 `continue`。下一轮第一候选建议 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34_v19_ytd_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34_v19_ytd_repair`。
