@@ -657,3 +657,11 @@
 - 五窗口结果：CAGR 为 `20.67% / 21.72% / 25.72% / 33.90% / -11.65%`，最大回撤为 `-25.41% / -22.84% / -11.75% / -11.75% / -10.42%`，换手为 `8.27x / 7.94x / 8.52x / 10.48x / 11.20x`。
 - 结论：本轮候选相对 hardcap 提升了 2020/2023，但 2025 和 2026 明显弱，仍未改写 Path 3 window winner 或 robust candidate；它适合作为低换手 defensive 对照，不替代 `theme_fast_weekly` 与 `stable_weekly_equal_buffered_wide_cost_guard`。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> weekly_defensive_overlay`。下一轮第一候选继续围绕强周频 winner 做防守覆盖而非稳定线小修：`hkconnect_path3_theme_fast_weekly_defensive_exit62_turnover2_cost_guard`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_exit62_turnover2_cost_guard`。
+
+## 本轮执行计划（2026-06-03 12:10 CST）
+
+- 上一轮候选/结果摘要：上一轮 `riskoff55_turnover8_exit44_ytd_guard` 提升 2020/2023 但 2025/2026 弱。本轮按 `cost_stress` 加现金防守版本，检查稳定周频线能否降低回撤与 2026 损失。
+- 本轮候选 ID：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_cashguard_turnover8_exit44_2026_repair`。增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_cashguard_turnover8_exit44_2026_repair`。
+- 五窗口结果：CAGR 为 `18.29% / 18.98% / 22.38% / 33.90% / -11.65%`，最大回撤为 `-28.55% / -22.90% / -11.75% / -11.75% / -10.42%`，换手为 `8.45x / 8.18x / 8.78x / 10.48x / 11.20x`。
+- 结论：现金防守没有修复 2026，反而压低长窗收益；`update_hkconnect_artifacts.py` 后 Path 3 window winner 与 robust candidate 未改变，robust 仍为 `hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`。该线仅保留为低换手防守对照。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> weekly_turnover_reduction`。下一轮第一候选建议只做稳定线降换手：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit44_2026_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit44_2026_repair`。

@@ -1319,3 +1319,11 @@
 - 五窗口结果：CAGR 为 `20.31% / 26.41% / 27.13% / 46.51% / -8.02%`，最大回撤为 `-28.68% / -11.82% / -11.82% / -11.82% / -10.70%`，换手为 `3.57x / 3.53x / 3.49x / 3.57x / 4.10x`。
 - 结论：`update_hkconnect_artifacts.py` 后 HK Path 1 tracked payload 发生有效变化，`since_2025_01` window winner 切到本轮 v18；但 2017/2020/2023 与 robust candidate 仍分别由旧 `soft_exit32`、`lowvol_cost_guard` 与 `soft_exit32` 占据，v18 的 2026 观察窗仍为负，不宜直接升为全窗口主线。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> monthly_weekly_overlay` 且 rotation 为 `continue`。下一轮第一候选建议 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34_v19_ytd_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit34_v19_ytd_repair`。
+
+## 本轮执行计划（2026-06-03 12:10 CST）
+
+- 上一轮候选/结果摘要：上一轮 v18 改写了 `since_2025_01`，但 2026 仍为负。本轮在 `monthly_weekly_overlay` 上提高 risk-off exposure 到 `42%`，检查是否能修复 2026 且不丢短窗。
+- 本轮候选 ID：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff42_exit34_v19_2026_guard`。增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff42_exit34_v19_2026_guard`。
+- 五窗口结果：CAGR 为 `22.23% / 28.86% / 29.12% / 46.51% / -8.02%`，最大回撤为 `-25.61% / -11.82% / -11.82% / -11.82% / -10.70%`，换手为 `3.21x / 3.22x / 3.24x / 3.57x / 4.10x`。
+- 结论：v19 长窗好于 v18，但 2026 仍未修复；`update_hkconnect_artifacts.py` 后 HK Path 1 window winner 与 robust candidate 未改变，`since_2025_01` 仍由 v18 占据，robust 仍为 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit32`。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> biweekly_buffer`。下一轮第一候选建议转回双周缓冲线而非继续月周小修：`hkconnect_path1_biweekly_equal_buffered_soft_cost_guard_exit34_v20_buffer`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_equal_buffered_soft_cost_guard_exit34_v20_buffer`。

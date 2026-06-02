@@ -1321,3 +1321,11 @@
 - 五窗口结果：CAGR 为 `10.01% / 8.90% / 7.47% / 45.75% / 12.86%`，最大回撤为 `-40.62% / -40.62% / -33.02% / -12.23% / -12.60%`，换手为 `4.27x / 4.18x / 4.84x / 5.50x / 6.44x`。
 - 结论：v15 比 v14 更弱，中长窗和 2026 均不接近 `theme_monthly_cost_control` 或 `breakout_concentrated_monthly`；`update_hkconnect_artifacts.py` 后 Path 2 window winner 与 robust candidate 均未改变。strict inverse-elastic 暂归档为失败参照，不再连续追加终端小变体。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> high_return_monthly`。下一轮第一候选建议回到主题月频高收益线：`hkconnect_path2_theme_monthly_cost_control_v20_breakout_reconfirm`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_cost_control_v20_breakout_reconfirm`。
+
+## 本轮执行计划（2026-06-03 12:10 CST）
+
+- 上一轮候选/结果摘要：上一轮 strict inverse-elastic v15 已确认降级。本轮把开局 `biweekly_breakout` 映射为失败支线，不重启普通 breakout，改回主题月频高收益修复池，注册 `v20_2023_repair`。
+- 本轮候选 ID：`hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v20_2023_repair`。增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v20_2023_repair`。
+- 五窗口结果：CAGR 为 `21.70% / 27.10% / 28.44% / 57.26% / 65.60%`，最大回撤为 `-18.22% / -15.91% / -14.59% / -9.36% / -6.98%`，换手为 `5.21x / 5.18x / 5.28x / 5.52x / 5.20x`。
+- 结论：v20 比 strict inverse-elastic 显著可交易，但 2023 仍未突破 `30%`，且低于 `theme_monthly_cost_control` robust；`update_hkconnect_artifacts.py` 后 Path 2 window winner、robust candidate 和 tracked payload 均未改变。候选池未触发 HK explore cap evict。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> elasticity_cost_control`。下一轮第一候选建议只做一个更温和的 equal-elastic 成本控制复核：`hkconnect_path2_equal_elastic_monthly_cost_guard_v16_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v16_repair`；若仍弱，停止该 focus 并回到主题月频。
