@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-02 13:49 CST）
+
+- 开局 guard 为 `pass`；上一轮 v13 high-growth 没把 2020 拉到 `40%`，且最终 focus 指向 `underrepresented_families`。本轮暂停 high-growth v 系列，新增 `biweekly_rebalance_aggressive` 的 `cap65 + cost_guard` 代表，用 80/20 与 70/30 等权双底座确认，避免 Path 2 候选池继续被单一 high-growth family 压扁。
+- 本轮新增并五窗口确认 2 个 Path 2 base ids：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap65_biweekly_cost_guard`、`core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap65_biweekly_cost_guard`。实际 A股合并命令见 Path 1 本轮记录，命令类型为五窗口 `--only-base-ids` 增量确认。
+- 80/20 等权版五窗口 CAGR 为 `3.09% / 10.27% / 26.73% / 67.41% / 61.98%`，最大回撤为 `-65.45% / -57.61% / -31.01% / -26.92% / -14.18%`，换手为 `4.46x / 4.69x / 4.93x / 9.23x / 11.51x`；70/30 等权版为 `3.78% / 10.72% / 23.53% / 67.59% / 64.20%`，最大回撤为 `-57.93% / -52.58% / -28.90% / -21.38% / -12.95%`，换手为 `4.92x / 5.30x / 6.08x / 11.61x / 12.56x`。双周低相关线没有修复 2017/2020，短窗换手也偏高，不晋级。
+- `scripts/path2_candidate_pass.py` 后 Path 2 comparable universe 为 `837/837 complete`，其中 `biweekly_rebalance_aggressive=25`、`decorrelated_defensive_mix=27`、`high_growth_theme=343`。`scripts/update_weighted_winners.py` 后 Path 2 window winner/robust/tracked 未被本轮候选替换，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off`。本轮未触发 Path 2 evict。
+- 最终 guard 下一轮 focus 为 `capacity_and_cost_stress`。第一条命令建议不要继续扩双周弱线，回到 high-growth robust 邻域做容量/成本压力，优先用更低 cap 或更严恢复确认测试 2017/2020 回撤：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-05-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path2_capacity_cost_ids>`。
+
 ## 本轮执行计划（2026-06-02 04:20 CST）
 
 - 开局 guard 为 `pass`；上一轮 high-growth v12 修复短窗但 2020 未达 `40%`。本轮按开局 `risk_reconfirm_sensitivity` 继续在中周期 high-growth 族做 v13，把 v12 的 `risk34/exit52/reconfirm86/caution64/cap48` 调成 `risk32/exit52/reconfirm88/caution62/cap50`，用等权与总市值双底座确认；最终 guard 下一轮 focus 轮换为 `underrepresented_families`。

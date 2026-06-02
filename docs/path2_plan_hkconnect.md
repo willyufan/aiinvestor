@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-02 13:49 CST）
+
+- 开局 guard 为 `pass` 且 HK coverage complete；上一轮 v17 首次让修复池 `since_2023_01` 超过 `30%`，但仍没超过既有 robust。最终 rotation 继续给 `biweekly_breakout`，本 plan 仍将普通 biweekly breakout 视为失败支线，不重启；新增预算继续投向 `high_return_monthly`，注册 v18，用更强 2020/回撤守门确认 v17 的稳定性。
+- 本轮新增并五窗口确认：`hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v18_2020_guard`。实际 HK 合并命令见 HK Path 1 本轮记录，命令类型为五窗口 `--only-strategy-ids` 增量确认。
+- `v18_2020_guard` 五窗口 CAGR 为 `21.73% / 27.49% / 29.60% / 57.51% / 65.60%`，最大回撤为 `-18.83% / -16.11% / -14.06% / -9.36% / -6.98%`，换手为 `5.35x / 5.25x / 5.33x / 5.52x / 5.20x`。它改善 2026 与回撤，但 `since_2023_01` 又退回 `30%` 以下，仍未超过 `hkconnect_path2_theme_monthly_cost_control` robust。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path 2 tracks 未切换，robust 仍为 `hkconnect_path2_theme_monthly_cost_control`；`tracked_winners_hkconnect.json` 的 strategies payload 纳入了 v18，HK comparison 图与 public/live snapshot 已刷新。候选池未触发 HK explore cap evict。
+- 下一轮 focus 为 `biweekly_breakout`，继续按失败支线处理：若必须响应，只允许做一次严格 terminal check；否则优先从 v17/v18 对照中设计 `high_return_monthly` 的 2023 恢复候选，目标是 `since_2023_01 >= 30%` 且 2017 MaxDD 继续优于 `-20%`。第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path2_biweekly_terminal_or_theme_v19_id>`。
+
 ## 本轮执行计划（2026-06-02 04:20 CST）
 
 - 开局 guard 为 `pass` 且 HK coverage complete；上一轮 v16 把 2023 推近 `30%` 但未达标。本轮开局 rotation 曾给 `elasticity_cost_control`，但该支线已连续 terminal 失败，本 plan 继续将其映射为失败支线，不重启普通 inverse elastic；新增预算转回 `high_return_monthly`，注册 v17。
