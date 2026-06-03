@@ -1,5 +1,13 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-06-03 14:34 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`，HK coverage 为 `226/226 complete`；本轮按 `biweekly_buffer` 新增 `hkconnect_path1_biweekly_equal_buffered_soft_cost_guard_exit34_v20_buffer`，用于检验普通双周缓冲线在更宽持仓和较低单票上限下，是否能修复 2026 且保住长窗。
+- 本轮 HK 合并增量命令为：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_equal_buffered_soft_cost_guard_exit34_v20_buffer,hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair`。
+- `v20_buffer` 五窗口 CAGR 为 `21.02% / 20.83% / 19.35% / 27.31% / -16.14%`，最大回撤为 `-21.12% / -21.12% / -14.50% / -14.50% / -8.23%`，换手为 `5.51x / 5.36x / 5.53x / 7.14x / 6.47x`。
+- 结论：该双周缓冲候选没有修复 2026，且 2023/2025 明显弱于 monthly-weekly overlay robust；`scripts/update_hkconnect_artifacts.py` 后 HK Path 1 window winner、robust candidate 和 tracked payload 均未切换。候选池从 `226` 扩到 `229`，最终 guard 仍为 `pass`。
+- 下一轮 focus 仍显示 `hkconnect_path1 -> biweekly_buffer`，但普通双周等权缓冲连续弱，下一轮不要继续同形 `exit/risk_off` 微调；第一候选建议转成双周多因子质量动量线，例如 `hkconnect_path1_biweekly_quality_momentum_equal_buffered_v21`，先复用动量、低波、流动性字段做新信号家族，而不是只调整出场阈值。
+
 ## 本轮执行计划（2026-06-02 16:20 CST）
 
 - 开局 guard 为 `pass` 且 HK coverage complete；上一轮 `v16_ytd_balance` 仍未修复 2026，最终 rotation 转向 `risk_overlay_cost`。本轮按该 focus 回到真正双周缓冲线，新增低波+浅 risk-off 的 `exit28_v17_repair`，目标是在不继续扩 monthly-weekly overlay 同形参数的前提下观察 2026 修复和长窗回撤。

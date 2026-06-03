@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-03 14:34 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`，HK coverage complete；本轮响应 `biweekly_breakout`，但不重启普通高换手 breakout，而是新增主题双周成本确认候选 `hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair`，测试主题主线在双周频率下是否能兼顾收益、回撤和 2026 观察窗。
+- 本轮新增并五窗口确认：`hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair`。实际 HK 合并命令见 HK Path 1 本轮记录，命令类型为五窗口 `--only-strategy-ids` 增量确认。
+- `v21_breakout_repair` 五窗口 CAGR 为 `22.62% / 25.00% / 19.27% / 27.64% / -3.26%`，最大回撤为 `-30.42% / -30.42% / -20.55% / -15.27% / -8.91%`，换手为 `14.39x / 13.68x / 13.82x / 17.45x / 17.15x`。
+- 结论：该双周主题突破仍没解决 2023 收益塌陷和高换手问题，也未修复 2026；`scripts/update_hkconnect_artifacts.py` 后 HK Path 2 window winner、robust candidate 和 tracked payload 均未切换，robust 仍由 `hkconnect_path2_theme_monthly_cost_control` 占据。
+- 最终 guard 给出 `hkconnect_path2 -> elasticity_cost_control`，但 strict inverse-elastic 已多轮 terminal 失败；下一轮只允许一个温和 equal-elastic 成本控制复核，例如 `hkconnect_path2_equal_elastic_monthly_cost_guard_v16_repair`，若仍弱，停止该 focus 并转向新的质量/流动性动量族。
+
 ## 本轮执行计划（2026-06-02 16:20 CST）
 
 - 开局 guard 为 `pass` 且 HK coverage complete；上一轮 `v18_2020_guard` 修复回撤但 `since_2023_01` 又低于 `30%`。本轮虽然 rotation 给 `elasticity_cost_control`，该支线已多轮 terminal 失败，plan 继续把它映射为失败支线；新增预算转回 `high_return_monthly`，注册 `v19_2023_restore`，目标恢复 2023 收益且保持 2017 MaxDD 优于 `-20%`。

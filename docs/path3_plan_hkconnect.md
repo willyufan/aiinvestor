@@ -1,5 +1,13 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-03 14:34 CST）
+
+- 开局 guard 为 `pass / blocking=0 / warning=0`，HK coverage complete；本轮按 `cost_stress` 新增 `hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair`，继续在 stable weekly robust 邻域降低换手和单票上限，避免回到 15x+ 的 theme fast weekly。
+- 本轮新增并五窗口确认：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair`。实际 HK 合并命令见 HK Path 1 本轮记录，命令类型为五窗口 `--only-strategy-ids` 增量确认。
+- `turnover6_exit42_coststress` 五窗口 CAGR 为 `21.49% / 24.40% / 26.41% / 38.85% / -0.59%`，最大回撤为 `-28.47% / -20.23% / -12.02% / -12.40% / -7.57%`，换手为 `7.43x / 7.12x / 7.69x / 9.30x / 9.99x`。
+- 结论：它比上一轮 `turnover7_exit42_2026_balance` 明显改善 2020/2023，并把 2026 从深负拉到接近持平；但 2017、2020、2023 仍未超过 `hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard` robust，`scripts/update_hkconnect_artifacts.py` 后 window winner、robust candidate 和 tracked payload 均未切换。
+- 最终 guard 给出 `hkconnect_path3 -> weekly_turnover_reduction`。下一轮第一候选建议继续沿这条改善方向做更低换手但不牺牲 2026 的版本，例如 `hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover5_exit42_coststress_ytd_guard`；若 2026 再转负，则停止 stable 低换手小修，转向新信号家族。
+
 ## 本轮执行计划（2026-06-02 16:20 CST）
 
 - 开局 guard 为 `pass` 且 HK coverage complete；上一轮 theme fast weekly 仍高换手且不改善 robust。本轮按 `weekly_turnover_reduction` 回到 stable weekly robust 邻域，新增 `riskoff45/turnover8/exit42`，目标是在 `8x` 左右换手区间观察能否改善 2017/2020，同时避免 15x+ 主题周频扩展。

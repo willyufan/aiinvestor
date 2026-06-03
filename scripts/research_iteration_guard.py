@@ -32,6 +32,8 @@ DEFAULT_WINNER_PASS_JSON = existing_research_file("winner_only_pass.json")
 DEFAULT_WEIGHTED_WINNERS_JSON = existing_research_file("weighted_track_winners.json")
 DEFAULT_HK_COMPARISON_CSV = existing_research_file("strategy_comparison_hkconnect.csv", market_scope="hkconnect")
 DEFAULT_HK_TRACKED_JSON = existing_research_file("tracked_winners_hkconnect.json", market_scope="hkconnect")
+DEFAULT_EVENT_THEME_REGISTRY_JSON = research_file("event_theme_registry.json")
+DEFAULT_EVENT_THEME_CANDIDATES_JSONL = research_file("event_theme_candidates.jsonl")
 
 DEFAULT_REPORT_JSON = research_file("research_iteration_report.json")
 DEFAULT_STATE_JSON = research_file("research_iteration_state.json")
@@ -75,6 +77,12 @@ PATH_FOCUS_ROTATION = {
         "theme_risk_control",
         "theme_capacity_cost",
     ],
+    "ashare_path5": [
+        "event_basket_registry",
+        "frozen_candidate_audit",
+        "event_backtest_entry",
+        "path4_comparison",
+    ],
     "hkconnect_path1": [
         "monthly_weekly_overlay",
         "biweekly_buffer",
@@ -89,6 +97,26 @@ PATH_FOCUS_ROTATION = {
         "weekly_turnover_reduction",
         "weekly_defensive_overlay",
         "cost_stress",
+    ],
+    "hkconnect_path4": [
+        "quality_momentum",
+        "liquidity_momentum",
+        "ytd_guard",
+    ],
+    "hkconnect_path5": [
+        "pullback_definition",
+        "retest_confirmation",
+        "pause_or_redesign",
+    ],
+    "hkconnect_path6": [
+        "large_liquid_core",
+        "lowvol_liquid_core",
+        "capacity_cost",
+    ],
+    "hkconnect_path7": [
+        "barbell_sleeve_structure",
+        "biweekly_barbell",
+        "turnover_control",
     ],
 }
 
@@ -333,6 +361,190 @@ def _strategy_signature(weighted: dict[str, Any], hk_tracked: dict[str, Any]) ->
         signatures[f"hkconnect_{path_name}"] = _stable_key(winners)
 
     return signatures
+
+
+def _display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
+def _hk_path_candidate_ids(frame: pd.DataFrame, path_names: Iterable[str]) -> dict[str, list[str]]:
+    result = {str(path_name): [] for path_name in path_names}
+    if frame.empty or "path" not in frame.columns or "strategy_id" not in frame.columns:
+        return result
+    path_series = frame["path"].astype(str)
+    for path_name in result:
+        ids = frame.loc[path_series == path_name, "strategy_id"].dropna().astype(str)
+        result[path_name] = sorted({strategy_id for strategy_id in ids if strategy_id.strip()})
+    return result
+
+
+def _hk_path_comparison_signatures(frame: pd.DataFrame, path_names: Iterable[str]) -> dict[str, str]:
+    signatures: dict[str, str] = {}
+    path_names = tuple(str(path_name) for path_name in path_names)
+    if frame.empty or "path" not in frame.columns or "strategy_id" not in frame.columns:
+        return {f"hkconnect_{path_name}": _stable_key([]) for path_name in path_names}
+
+    work = frame.copy()
+    for column in ("cagr", "sharpe_ratio", "max_drawdown", "average_annual_turnover"):
+        if column not in work.columns:
+            work[column] = pd.NA
+        work[column] = pd.to_numeric(work[column], errors="coerce")
+    work["strategy_id"] = work["strategy_id"].astype(str)
+    work["sample_tag"] = work["sample_tag"].astype(str)
+    work["path"] = work["path"].astype(str)
+
+    for path_name in path_names:
+        subset = work.loc[work["path"] == path_name].copy()
+        parts: list[Any] = [f"candidate_count:{subset['strategy_id'].nunique()}"]
+        for window in HK_REQUIRED_WINDOWS:
+            window_rows = subset.loc[subset["sample_tag"] == window].copy()
+            if window_rows.empty:
+                parts.append(f"{window}:")
+                continue
+            winner = window_rows.sort_values(
+                ["cagr", "sharpe_ratio", "max_drawdown", "average_annual_turnover", "strategy_id"],
+                ascending=[False, False, False, True, True],
+                na_position="last",
+            ).iloc[0]
+            parts.append(
+                {
+                    "window": window,
+                    "winner": winner["strategy_id"],
+                    "cagr": round(float(winner["cagr"]), 8) if pd.notna(winner["cagr"]) else None,
+                    "max_drawdown": (
+                        round(float(winner["max_drawdown"]), 8) if pd.notna(winner["max_drawdown"]) else None
+                    ),
+                }
+            )
+
+        robust_rows = subset.loc[subset["sample_tag"].isin(A_SHARE_REQUIRED_WINDOWS)].copy()
+        if robust_rows.empty:
+            parts.append("robust:")
+        else:
+            summary = (
+                robust_rows.groupby("strategy_id", as_index=False)
+                .agg(
+                    window_count=("sample_tag", "nunique"),
+                    cagr_min=("cagr", "min"),
+                    maxdd_worst=("max_drawdown", "min"),
+                    sharpe_mean=("sharpe_ratio", "mean"),
+                    cagr_mean=("cagr", "mean"),
+                    turnover_mean=("average_annual_turnover", "mean"),
+                )
+                .loc[lambda data: data["window_count"] >= len(A_SHARE_REQUIRED_WINDOWS)]
+            )
+            if summary.empty:
+                parts.append("robust:")
+            else:
+                robust = summary.sort_values(
+                    ["cagr_min", "maxdd_worst", "sharpe_mean", "cagr_mean", "turnover_mean", "strategy_id"],
+                    ascending=[False, False, False, False, True, True],
+                    na_position="last",
+                ).iloc[0]
+                parts.append(
+                    {
+                        "robust": robust["strategy_id"],
+                        "cagr_min": (
+                            round(float(robust["cagr_min"]), 8) if pd.notna(robust["cagr_min"]) else None
+                        ),
+                        "maxdd_worst": (
+                            round(float(robust["maxdd_worst"]), 8)
+                            if pd.notna(robust["maxdd_worst"])
+                            else None
+                        ),
+                    }
+                )
+        signatures[f"hkconnect_{path_name}"] = _stable_key(parts)
+    return signatures
+
+
+def _read_jsonl(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    records: list[dict[str, Any]] = []
+    for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        if not line.strip():
+            continue
+        try:
+            record = json.loads(line)
+        except json.JSONDecodeError:
+            records.append({"_line": line_number, "_parse_error": "invalid_json"})
+            continue
+        if isinstance(record, dict):
+            records.append(record)
+    return records
+
+
+def _event_theme_status(registry_path: Path, candidates_path: Path) -> dict[str, Any]:
+    registry = _load_json(registry_path, {})
+    baskets_raw = registry.get("baskets") if isinstance(registry, dict) else []
+    baskets = [basket for basket in (baskets_raw or []) if isinstance(basket, dict)]
+    candidates = _read_jsonl(candidates_path)
+
+    inactive_statuses = {"archived", "rejected", "disabled"}
+    active_baskets = [
+        basket
+        for basket in baskets
+        if str(basket.get("status") or "").strip().lower() not in inactive_statuses
+    ]
+    frozen_basket_ids = {
+        str(basket.get("basket_id") or "")
+        for basket in active_baskets
+        if bool(basket.get("frozen"))
+    }
+    pending_audit_count = sum(
+        1
+        for candidate in candidates
+        if str(candidate.get("audit_status") or "").startswith("pending")
+    )
+    backtest_ready_count = sum(
+        1
+        for candidate in candidates
+        if str(candidate.get("audit_status") or "") in {"approved", "source_audited"}
+        and bool(candidate.get("include_in_backtest", True))
+    )
+
+    return {
+        "registry_path": _display_path(registry_path),
+        "candidates_path": _display_path(candidates_path),
+        "registry_exists": registry_path.exists(),
+        "candidates_exists": candidates_path.exists(),
+        "basket_count": len(baskets),
+        "active_basket_count": len(active_baskets),
+        "basket_ids": [str(basket.get("basket_id") or "") for basket in active_baskets],
+        "candidate_count": len(candidates),
+        "frozen_candidate_count": sum(
+            1
+            for candidate in candidates
+            if str(candidate.get("basket_id") or "") in frozen_basket_ids
+        ),
+        "pending_audit_count": pending_audit_count,
+        "backtest_ready_count": backtest_ready_count,
+        "minimum_event_basket_entry": {
+            "ready": bool(active_baskets and candidates),
+            "next_step": "source_audit_then_event_backtest_entry",
+            "required_artifacts": [
+                _display_path(registry_path),
+                _display_path(candidates_path),
+                "event backtest runner or strategy entry",
+            ],
+        },
+    }
+
+
+def _event_theme_signature(status: dict[str, Any]) -> str:
+    return _stable_key(
+        [
+            status.get("basket_ids") or [],
+            status.get("candidate_count") or 0,
+            status.get("frozen_candidate_count") or 0,
+            status.get("pending_audit_count") or 0,
+            status.get("backtest_ready_count") or 0,
+        ]
+    )
 
 
 def _update_state(
@@ -583,6 +795,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--weighted-winners-json", type=Path, default=DEFAULT_WEIGHTED_WINNERS_JSON)
     parser.add_argument("--hk-comparison-csv", type=Path, default=DEFAULT_HK_COMPARISON_CSV)
     parser.add_argument("--hk-tracked-json", type=Path, default=DEFAULT_HK_TRACKED_JSON)
+    parser.add_argument("--event-theme-registry-json", type=Path, default=DEFAULT_EVENT_THEME_REGISTRY_JSON)
+    parser.add_argument("--event-theme-candidates-jsonl", type=Path, default=DEFAULT_EVENT_THEME_CANDIDATES_JSONL)
     parser.add_argument("--write-report", type=Path, default=DEFAULT_REPORT_JSON)
     parser.add_argument("--state-json", type=Path, default=DEFAULT_STATE_JSON)
     parser.add_argument("--experiment-log", type=Path, default=DEFAULT_EXPERIMENT_LOG)
@@ -599,6 +813,7 @@ def main(argv: list[str] | None = None) -> int:
     hk_latest = _read_latest_csv(args.hk_comparison_csv, "strategy_id")
     ashare_windows = _window_map(ashare_latest, "strategy_base_id")
     hk_windows = _window_map(hk_latest, "strategy_id")
+    hk_expansion_path_ids = _hk_path_candidate_ids(hk_latest, ("path4", "path5", "path6", "path7"))
     path3_archived_ids = {
         str(item)
         for item in constants.get("PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS") or []
@@ -610,6 +825,7 @@ def main(argv: list[str] | None = None) -> int:
     weighted = _load_json(args.weighted_winners_json, {})
     hk_tracked = _load_json(args.hk_tracked_json, {})
     previous_state = _load_json(args.state_json, {})
+    event_theme_status = _event_theme_status(args.event_theme_registry_json, args.event_theme_candidates_jsonl)
 
     path2_ids = sorted((path2_pass.get("candidate_family_membership") or {}).keys())
     path3_ids = sorted(
@@ -682,10 +898,36 @@ def main(argv: list[str] | None = None) -> int:
             description="HK-connect candidates are expected to be evaluated on all five windows.",
         ),
     ]
+    for path_name, description in (
+        ("path4", "HK Path4 quality/liquidity momentum expansion candidates must be comparable."),
+        ("path5", "HK Path5 pullback/retest expansion candidates must be comparable."),
+        ("path6", "HK Path6 large-liquid defensive core candidates must be comparable."),
+        ("path7", "HK Path7 barbell expansion candidates must be comparable."),
+    ):
+        coverage_scopes.append(
+            _coverage_scope(
+                scope_id=f"hkconnect_{path_name}_expansion",
+                market="hkconnect",
+                path=path_name,
+                candidates=hk_expansion_path_ids.get(path_name, []),
+                required_windows=HK_REQUIRED_WINDOWS,
+                windows_by_id=hk_windows,
+                blocking=True,
+                description=description,
+            )
+        )
     blocking_missing = sum(scope["missing_count"] for scope in coverage_scopes if scope["blocking"])
     warning_missing = sum(scope["missing_count"] for scope in coverage_scopes if not scope["blocking"])
 
     signatures = _strategy_signature(weighted, hk_tracked)
+    signatures.update(_hk_path_comparison_signatures(hk_latest, ("path4", "path5", "path6", "path7")))
+    signatures["ashare_path5"] = _event_theme_signature(event_theme_status)
+    hk_path_counts = {}
+    if not hk_latest.empty and "path" in hk_latest.columns and "strategy_id" in hk_latest.columns:
+        hk_path_counts = {
+            str(path): int(count)
+            for path, count in hk_latest.groupby("path")["strategy_id"].nunique().sort_index().items()
+        }
     quotas = {
         "path1": {
             "minimum_direction_counts": PATH1_MIN_DIRECTION_COUNTS,
@@ -720,12 +962,26 @@ def main(argv: list[str] | None = None) -> int:
                 "theme_capacity_cost": 2,
             },
         },
+        "ashare_path5": {
+            "event_theme_status": event_theme_status,
+            "next_run_new_candidate_quota": {
+                "event_basket_registry": 1,
+                "frozen_candidate_audit": 1,
+                "event_backtest_entry": 2,
+                "path4_comparison": 1,
+            },
+        },
         "hkconnect": {
             "candidate_count": len(hk_ids),
+            "path_counts": hk_path_counts,
             "next_run_new_candidate_quota": {
                 "path1": 2,
                 "path2": 3,
                 "path3": 3,
+                "path4": 3,
+                "path5": 2,
+                "path6": 3,
+                "path7": 2,
             },
         },
     }
@@ -763,6 +1019,7 @@ def main(argv: list[str] | None = None) -> int:
         },
         "rotation": state["paths"],
         "quotas": quotas,
+        "path5_event_baskets": event_theme_status,
     }
     _write_json(args.write_report, report)
     _write_json(args.state_json, state)

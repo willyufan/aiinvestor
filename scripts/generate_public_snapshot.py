@@ -26,6 +26,8 @@ from scripts.export_live_platform_data import (
     _load_sample_view,
     build_strategy_detail_payload,
     guess_sample_tag,
+    HK_EXPERIMENTAL_PATH_NAMES,
+    HK_TRACKED_PATH_NAMES,
     latest_market_data_as_of,
     SAMPLE_LABELS,
     load_json,
@@ -173,12 +175,12 @@ def build_strategy_entry(
 
 def build_hk_entries(hk_payload: dict[str, Any]) -> list[dict]:
     """Build HK Connect strategy entries.
-    HK JSON structure: tracks.path1.since_2017_01.winner / tracks.path2.since_2017_01.winner / tracks.path3...
+    HK JSON structure: tracks.path1.since_2017_01.winner / tracks.path2.since_2017_01.winner / ...
     """
     entries = []
     strategies_map = hk_payload.get("strategies", {})
     seen: set[str] = set()
-    for path_name in ["path1", "path2", "path3"]:
+    for path_name in HK_TRACKED_PATH_NAMES:
         path_tracks = hk_payload.get("tracks", {}).get(path_name, {})
         for sample_tag, track_data in path_tracks.items():
             if not isinstance(track_data, dict):
@@ -190,7 +192,9 @@ def build_hk_entries(hk_payload: dict[str, Any]) -> list[dict]:
             # derive track_key from sample_tag for window label
             track_key = next((k for k, v in SAMPLE_TAG_MAP.items() if v == sample_tag), sample_tag)
             view = _load_sample_view(strategy_id, sample_tag, market_scope="hkconnect")
-            base_name = strategies_map.get(strategy_id, {}).get("strategy_base_name", strategy_id)
+            strategy_meta = strategies_map.get(strategy_id, {})
+            base_name = strategy_meta.get("strategy_base_name") or strategy_meta.get("strategy_name") or strategy_id
+            is_experimental = path_name in HK_EXPERIMENTAL_PATH_NAMES
             # Use metrics from JSON if view unavailable
             raw_metrics = track_data.get("metrics", {})
             metrics: dict = {}
@@ -237,6 +241,9 @@ def build_hk_entries(hk_payload: dict[str, Any]) -> list[dict]:
                 "metrics":               metrics,
                 "window_metrics":        build_window_metrics(strategy_id, strategies_map),
                 "latest_weights":        latest_weights,
+                "experimental":          is_experimental,
+                "tracked_only":          is_experimental,
+                "frequency":             str(strategy_meta.get("rebalance_frequency") or ""),
             })
     return entries
 

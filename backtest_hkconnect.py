@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import importlib.util
 import json
 import os
 import threading
@@ -107,6 +108,7 @@ HK_MIN_WEIGHT_TRADE_THRESHOLD = 0.005
 # upstream daily_adj availability guard separate from the market close.
 HK_MARKET_CLOSE_TIME = pd.Timedelta(hours=16, minutes=10)
 HKCONNECT_DAILY_ADJ_READY_BUFFER = pd.Timedelta(hours=1, minutes=50)
+HK_AKSHARE_FALLBACK_VENDOR = "akshare_fallback"
 HK_BUY_COMMISSION = BUY_COMMISSION
 HK_SELL_COMMISSION = SELL_COMMISSION
 HK_RISK_EVAL_FREQUENCY_MONTHLY = "monthly"
@@ -1172,6 +1174,20 @@ HK_PATH1_VARIANTS.extend(
         },
         {
             **_HK_PATH1_TEMPLATE_BY_ID["hkconnect_path1_monthly_equal_buffered"],
+            "strategy_id": "hkconnect_path1_biweekly_equal_buffered_soft_cost_guard_exit34_v20_buffer",
+            "strategy_name": "沪港通Path1 双周等权缓冲(轻成本34v20缓冲)",
+            "candidate_family": "biweekly_equal_buffered",
+            "rebalance_frequency": "biweekly",
+            "risk_off_rule": "and",
+            "risk_off_exposure": 0.26,
+            "risk_caution_exposure": 0.76,
+            "buy_entry_percentile": 0.15,
+            "sell_exit_percentile": 0.34,
+            "max_holdings": 16,
+            "weight_cap": 0.12,
+        },
+        {
+            **_HK_PATH1_TEMPLATE_BY_ID["hkconnect_path1_monthly_equal_buffered"],
             "strategy_id": "hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit28_v17_repair",
             "strategy_name": "沪港通Path1 双周等权缓冲(低波轻成本28v17修复)",
             "candidate_family": "biweekly_equal_buffered",
@@ -1637,6 +1653,18 @@ HK_PATH2_VARIANTS.extend(
             "sell_exit_percentile": 0.16,
             "max_holdings": 5,
             "weight_cap": 0.32,
+        },
+        {
+            **_HK_PATH2_TEMPLATE_BY_ID["hkconnect_path2_theme_biweekly"],
+            "strategy_id": "hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair",
+            "strategy_name": "沪港通Path2 双周主题突破(成本确认v21修复)",
+            "risk_off_rule": "and",
+            "risk_off_exposure": 0.36,
+            "risk_caution_exposure": 0.78,
+            "buy_entry_percentile": 0.08,
+            "sell_exit_percentile": 0.30,
+            "max_holdings": 8,
+            "weight_cap": 0.18,
         },
         {
             **_HK_PATH2_TEMPLATE_BY_ID["hkconnect_path2_equal_elastic_monthly"],
@@ -2926,6 +2954,18 @@ HK_PATH3_VARIANTS.extend(
         },
         {
             **_HK_PATH3_TEMPLATE_BY_ID["hkconnect_path3_stable_weekly_equal_buffered"],
+            "strategy_id": "hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair",
+            "strategy_name": "沪港通Path3 单周稳健等权缓冲(成本压力低换手6出场42修复2026)",
+            "candidate_family": "weekly_equal_buffered_cost_control",
+            "risk_off_exposure": 0.46,
+            "risk_caution_exposure": 0.74,
+            "buy_entry_percentile": 0.20,
+            "sell_exit_percentile": 0.42,
+            "max_holdings": 22,
+            "weight_cap": 0.075,
+        },
+        {
+            **_HK_PATH3_TEMPLATE_BY_ID["hkconnect_path3_stable_weekly_equal_buffered"],
             "strategy_id": "hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover8_exit40",
             "strategy_name": "沪港通Path3 单周稳健等权缓冲(成本防守低换手8出场40)",
             "candidate_family": "weekly_equal_buffered_cost_control",
@@ -3087,6 +3127,167 @@ HK_PATH2_VARIANTS = [
     for variant in HK_PATH2_VARIANTS
     if str(variant.get("rebalance_frequency", "")).lower() != "weekly"
 ]
+HK_PATH4_VARIANTS: List[Dict[str, object]] = [
+    {
+        "strategy_id": "hkconnect_path4_quality_momentum_monthly_smoke",
+        "strategy_name": "沪港通Path4 月度质量动量(smoke)",
+        "path": "path4",
+        "candidate_family": "quality_momentum",
+        "rebalance_frequency": "monthly",
+        "base_weight_method": "equal_weight",
+        "base_weight_mode": "signal",
+        "signal_family": "path4_quality_momentum",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.45,
+        "risk_caution_exposure": 0.80,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.18,
+        "sell_exit_percentile": 0.36,
+        "max_holdings": 14,
+        "weight_cap": 0.14,
+    },
+    {
+        "strategy_id": "hkconnect_path4_liquidity_momentum_biweekly_smoke",
+        "strategy_name": "沪港通Path4 双周流动性动量(smoke)",
+        "path": "path4",
+        "candidate_family": "liquidity_momentum",
+        "rebalance_frequency": "biweekly",
+        "base_weight_method": "equal_weight",
+        "base_weight_mode": "signal",
+        "signal_family": "path4_liquidity_momentum",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.40,
+        "risk_caution_exposure": 0.78,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.14,
+        "sell_exit_percentile": 0.32,
+        "max_holdings": 12,
+        "weight_cap": 0.12,
+    },
+]
+HK_PATH5_VARIANTS: List[Dict[str, object]] = [
+    {
+        "strategy_id": "hkconnect_path5_pullback_continuation_monthly_smoke",
+        "strategy_name": "沪港通Path5 月度回踩续涨(smoke)",
+        "path": "path5",
+        "candidate_family": "pullback_continuation",
+        "rebalance_frequency": "monthly",
+        "base_weight_method": "equal_weight",
+        "base_weight_mode": "signal",
+        "signal_family": "path5_pullback_continuation",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.45,
+        "risk_caution_exposure": 0.80,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.16,
+        "sell_exit_percentile": 0.36,
+        "max_holdings": 14,
+        "weight_cap": 0.13,
+    },
+    {
+        "strategy_id": "hkconnect_path5_breakout_retest_biweekly_smoke",
+        "strategy_name": "沪港通Path5 双周突破回踩(smoke)",
+        "path": "path5",
+        "candidate_family": "breakout_retest",
+        "rebalance_frequency": "biweekly",
+        "base_weight_method": "equal_weight",
+        "base_weight_mode": "signal",
+        "signal_family": "path5_breakout_retest",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.40,
+        "risk_caution_exposure": 0.78,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.14,
+        "sell_exit_percentile": 0.34,
+        "max_holdings": 12,
+        "weight_cap": 0.12,
+    },
+]
+HK_PATH6_VARIANTS: List[Dict[str, object]] = [
+    {
+        "strategy_id": "hkconnect_path6_large_liquid_core_monthly_smoke",
+        "strategy_name": "沪港通Path6 月度大市值高流动核心(smoke)",
+        "path": "path6",
+        "candidate_family": "large_liquid_core",
+        "rebalance_frequency": "monthly",
+        "base_weight_method": "total_mv",
+        "base_weight_mode": "hybrid",
+        "signal_family": "path6_large_liquid_core",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.55,
+        "risk_caution_exposure": 0.85,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.22,
+        "sell_exit_percentile": 0.42,
+        "max_holdings": 18,
+        "weight_cap": 0.10,
+    },
+    {
+        "strategy_id": "hkconnect_path6_lowvol_liquid_biweekly_smoke",
+        "strategy_name": "沪港通Path6 双周低波流动核心(smoke)",
+        "path": "path6",
+        "candidate_family": "large_liquid_core",
+        "rebalance_frequency": "biweekly",
+        "base_weight_method": "total_mv",
+        "base_weight_mode": "hybrid",
+        "signal_family": "path6_large_liquid_core",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.50,
+        "risk_caution_exposure": 0.82,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.20,
+        "sell_exit_percentile": 0.40,
+        "max_holdings": 20,
+        "weight_cap": 0.09,
+    },
+]
+HK_PATH7_VARIANTS: List[Dict[str, object]] = [
+    {
+        "strategy_id": "hkconnect_path7_barbell_quality_growth_monthly_smoke",
+        "strategy_name": "沪港通Path7 月度质量成长杠铃(smoke)",
+        "path": "path7",
+        "candidate_family": "barbell_quality_growth",
+        "rebalance_frequency": "monthly",
+        "base_weight_method": "equal_weight",
+        "base_weight_mode": "signal",
+        "signal_family": "path7_barbell_quality_growth",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.50,
+        "risk_caution_exposure": 0.82,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.18,
+        "sell_exit_percentile": 0.38,
+        "max_holdings": 16,
+        "weight_cap": 0.10,
+    },
+    {
+        "strategy_id": "hkconnect_path7_barbell_quality_growth_biweekly_smoke",
+        "strategy_name": "沪港通Path7 双周质量成长杠铃(smoke)",
+        "path": "path7",
+        "candidate_family": "barbell_quality_growth",
+        "rebalance_frequency": "biweekly",
+        "base_weight_method": "equal_weight",
+        "base_weight_mode": "signal",
+        "signal_family": "path7_barbell_quality_growth",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.45,
+        "risk_caution_exposure": 0.80,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.16,
+        "sell_exit_percentile": 0.36,
+        "max_holdings": 16,
+        "weight_cap": 0.10,
+    },
+]
+HK_EXPANSION_VARIANTS = HK_PATH4_VARIANTS + HK_PATH5_VARIANTS + HK_PATH6_VARIANTS + HK_PATH7_VARIANTS
 
 
 def ensure_hk_directories() -> None:
@@ -3316,7 +3517,164 @@ def load_or_fetch_stock_hsgt_latest(pro, end_date: pd.Timestamp) -> pd.DataFrame
     return latest
 
 
-def load_or_fetch_hk_daily_adj(pro, ts_code: str, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
+def hk_ts_code_to_akshare_symbol(ts_code: str) -> str:
+    return str(ts_code).split(".", 1)[0].zfill(5)
+
+
+def fetch_hk_daily_raw(pro, ts_code: str, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
+    raw = call_tushare_with_retry(
+        pro.hk_daily,
+        ts_code=ts_code,
+        start_date=start_date.strftime("%Y%m%d"),
+        end_date=end_date.strftime("%Y%m%d"),
+    )
+    if raw.empty:
+        return raw
+    raw = raw.copy()
+    raw["trade_date"] = pd.to_datetime(raw["trade_date"], format="%Y%m%d", errors="coerce")
+    for column in ["open", "high", "low", "close", "pre_close", "change", "pct_chg", "vol", "amount"]:
+        if column in raw.columns:
+            raw[column] = pd.to_numeric(raw[column], errors="coerce")
+    return raw.sort_values("trade_date").drop_duplicates(subset=["trade_date"]).reset_index(drop=True)
+
+
+def fetch_akshare_hk_qfq(ts_code: str, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
+    try:
+        import akshare as ak
+    except ImportError as exc:
+        raise RuntimeError("启用 --allow-hk-akshare-fallback 需要先安装 akshare。") from exc
+
+    symbol = hk_ts_code_to_akshare_symbol(ts_code)
+    frame = ak.stock_hk_hist(
+        symbol=symbol,
+        period="daily",
+        start_date=start_date.strftime("%Y%m%d"),
+        end_date=end_date.strftime("%Y%m%d"),
+        adjust="qfq",
+    )
+    if frame.empty:
+        return pd.DataFrame(columns=["trade_date", "qfq_close"])
+
+    column_map = {
+        "日期": "trade_date",
+        "date": "trade_date",
+        "收盘": "qfq_close",
+        "close": "qfq_close",
+    }
+    frame = frame.rename(columns={key: value for key, value in column_map.items() if key in frame.columns})
+    if "trade_date" not in frame.columns or "qfq_close" not in frame.columns:
+        raise RuntimeError(f"AkShare stock_hk_hist({symbol}) 返回字段无法识别：{list(frame.columns)}")
+    frame = frame[["trade_date", "qfq_close"]].copy()
+    frame["trade_date"] = pd.to_datetime(frame["trade_date"], errors="coerce")
+    frame["qfq_close"] = pd.to_numeric(frame["qfq_close"], errors="coerce")
+    return frame.dropna(subset=["trade_date", "qfq_close"]).sort_values("trade_date").drop_duplicates(subset=["trade_date"]).reset_index(drop=True)
+
+
+def build_hk_akshare_fallback_rows(
+    pro,
+    ts_code: str,
+    daily: pd.DataFrame,
+    start_date: pd.Timestamp,
+    end_date: pd.Timestamp,
+) -> Tuple[pd.DataFrame, Set[pd.Timestamp]]:
+    raw = fetch_hk_daily_raw(pro, ts_code, start_date, end_date)
+    if raw.empty:
+        return pd.DataFrame(), set()
+    ak_qfq = fetch_akshare_hk_qfq(ts_code, start_date, end_date)
+    if ak_qfq.empty:
+        return pd.DataFrame(), set(pd.to_datetime(raw["trade_date"], errors="coerce").dropna().dt.normalize())
+
+    existing_dates: Set[pd.Timestamp] = set()
+    if not daily.empty and "trade_date" in daily.columns:
+        existing_dates = set(pd.to_datetime(daily["trade_date"], errors="coerce").dropna().dt.normalize())
+    raw_dates = set(pd.to_datetime(raw["trade_date"], errors="coerce").dropna().dt.normalize())
+    raw_by_date = {pd.Timestamp(row.trade_date).normalize(): row for row in raw.itertuples(index=False)}
+    qfq_by_date = {pd.Timestamp(row.trade_date).normalize(): row for row in ak_qfq.itertuples(index=False)}
+    missing_dates = sorted(date for date in raw_dates if date not in existing_dates)
+
+    fallback_rows: List[Dict[str, object]] = []
+    working_daily = daily.copy()
+    for trade_date in missing_dates:
+        raw_row = raw_by_date.get(trade_date)
+        qfq_row = qfq_by_date.get(trade_date)
+        if raw_row is None or qfq_row is None:
+            continue
+        raw_close = float(getattr(raw_row, "close", np.nan))
+        qfq_close = float(getattr(qfq_row, "qfq_close", np.nan))
+        raw_pre_close = float(getattr(raw_row, "pre_close", np.nan))
+        if not np.isfinite(raw_close) or raw_close <= 0 or not np.isfinite(qfq_close) or qfq_close <= 0:
+            continue
+
+        if not working_daily.empty and "trade_date" in working_daily.columns:
+            prior_dates = pd.to_datetime(working_daily["trade_date"], errors="coerce")
+            prior = working_daily.loc[prior_dates < trade_date].tail(1)
+        else:
+            prior = pd.DataFrame()
+        if not prior.empty and "forward_adj_close" in prior.columns and np.isfinite(raw_pre_close) and raw_pre_close > 0:
+            prior_forward = pd.to_numeric(prior["forward_adj_close"], errors="coerce").iloc[-1]
+            expected_forward = float(prior_forward) * (raw_close / raw_pre_close) if pd.notna(prior_forward) else np.nan
+            if np.isfinite(expected_forward) and expected_forward > 0:
+                relative_diff = abs(qfq_close - expected_forward) / expected_forward
+                if relative_diff > 0.02:
+                    print(
+                        f"[Warn] {ts_code} AkShare qfq 与 Tushare raw 推导收益不一致，"
+                        f"跳过 {trade_date.date()} fallback：diff={relative_diff:.2%}"
+                    )
+                    continue
+
+        adj_factor = qfq_close / raw_close
+        row: Dict[str, object] = {
+            "ts_code": ts_code,
+            "trade_date": trade_date,
+            "close": raw_close,
+            "open": getattr(raw_row, "open", np.nan),
+            "high": getattr(raw_row, "high", np.nan),
+            "low": getattr(raw_row, "low", np.nan),
+            "pre_close": raw_pre_close,
+            "change": getattr(raw_row, "change", np.nan),
+            "pct_change": getattr(raw_row, "pct_chg", np.nan),
+            "vol": getattr(raw_row, "vol", np.nan),
+            "amount": getattr(raw_row, "amount", np.nan),
+            "adj_factor": adj_factor,
+            "forward_adj_close": qfq_close,
+            "data_vendor": HK_AKSHARE_FALLBACK_VENDOR,
+            "raw_price_source": "tushare_hk_daily",
+            "adjusted_price_source": "akshare_stock_hk_hist_qfq",
+            "market_value_source": "previous_tushare_hk_daily_adj",
+        }
+        vol = float(row["vol"]) if pd.notna(row["vol"]) else np.nan
+        amount = float(row["amount"]) if pd.notna(row["amount"]) else np.nan
+        row["vwap"] = amount / vol if np.isfinite(amount) and np.isfinite(vol) and vol > 0 else np.nan
+        for column in ["turnover_ratio", "free_share", "total_share", "free_mv", "total_mv"]:
+            row[column] = prior[column].iloc[-1] if not prior.empty and column in prior.columns else np.nan
+        fallback_rows.append(row)
+        working_daily = pd.concat([working_daily, pd.DataFrame([row])], ignore_index=True)
+
+    return pd.DataFrame(fallback_rows), raw_dates
+
+
+def prune_after_missing_raw_dates(daily: pd.DataFrame, raw_dates: Set[pd.Timestamp], ts_code: str) -> pd.DataFrame:
+    if daily.empty or not raw_dates or "trade_date" not in daily.columns:
+        return daily
+    typed = daily.copy()
+    typed["trade_date"] = pd.to_datetime(typed["trade_date"], errors="coerce")
+    daily_dates = set(typed["trade_date"].dropna().dt.normalize())
+    missing_dates = sorted(date for date in raw_dates if date not in daily_dates)
+    if not missing_dates:
+        return typed
+    first_missing = missing_dates[0]
+    print(f"[Warn] {ts_code} 港股 raw 行情存在但复权缓存缺失 {first_missing.date()}，截断后续缓存以保持连续性。")
+    return typed.loc[typed["trade_date"].dt.normalize() < first_missing].reset_index(drop=True)
+
+
+def load_or_fetch_hk_daily_adj(
+    pro,
+    ts_code: str,
+    start_date: pd.Timestamp,
+    end_date: pd.Timestamp,
+    *,
+    allow_akshare_fallback: bool = False,
+) -> pd.DataFrame:
     cache_path = HK_PRICE_DIR / f"{ts_code}.csv"
     cached = read_cached_csv(cache_path, date_columns=["trade_date"])
     if "trade_date" in cached.columns:
@@ -3364,6 +3722,18 @@ def load_or_fetch_hk_daily_adj(pro, ts_code: str, start_date: pd.Timestamp, end_
         daily["forward_adj_close"] = pd.to_numeric(daily["close"], errors="coerce")
     if "amount" not in daily.columns and {"vol", "close"}.issubset(set(daily.columns)):
         daily["amount"] = pd.to_numeric(daily["vol"], errors="coerce") * pd.to_numeric(daily["close"], errors="coerce")
+    if allow_akshare_fallback:
+        try:
+            fallback_rows, raw_dates = build_hk_akshare_fallback_rows(pro, ts_code, daily, fetch_from, end_date)
+        except Exception as exc:
+            print(f"[Warn] {ts_code} AkShare fallback 失败：{exc}")
+            raw_dates = set()
+            fallback_rows = pd.DataFrame()
+        if not fallback_rows.empty:
+            daily = pd.concat([daily, fallback_rows], ignore_index=True)
+            dates_text = ",".join(pd.to_datetime(fallback_rows["trade_date"]).dt.strftime("%Y-%m-%d").tolist())
+            print(f"[HK Data] {ts_code} 使用 AkShare fallback 补齐缺失交易日：{dates_text}")
+        daily = prune_after_missing_raw_dates(daily, raw_dates, ts_code)
     daily = daily.sort_values("trade_date").drop_duplicates(subset=["trade_date"]).reset_index(drop=True)
     save_csv(daily, cache_path)
     return daily
@@ -3407,9 +3777,16 @@ def prepare_single_hk_daily_cache(
     ts_code: str,
     data_start_date: pd.Timestamp,
     end_date: pd.Timestamp,
+    allow_akshare_fallback: bool = False,
 ) -> Tuple[str, pd.DataFrame]:
     worker_pro = get_hk_cache_worker_daily_client(default_pro)
-    daily = load_or_fetch_hk_daily_adj(worker_pro, ts_code, data_start_date, end_date)
+    daily = load_or_fetch_hk_daily_adj(
+        worker_pro,
+        ts_code,
+        data_start_date,
+        end_date,
+        allow_akshare_fallback=allow_akshare_fallback,
+    )
     return ts_code, daily
 
 
@@ -3430,6 +3807,26 @@ def append_hk_daily_frames(
         mv_frames.append(daily[["trade_date", "total_mv"]].rename(columns={"total_mv": ts_code}).set_index("trade_date"))
     if "amount" in daily.columns:
         amount_frames.append(daily[["trade_date", "amount"]].rename(columns={"amount": ts_code}).set_index("trade_date"))
+
+
+def collect_hk_akshare_fallback_dates(
+    fallback_dates_by_code: Dict[str, Set[str]],
+    ts_code: str,
+    daily: pd.DataFrame,
+    cache_target_date: pd.Timestamp,
+) -> None:
+    if daily.empty or "data_vendor" not in daily.columns or "trade_date" not in daily.columns:
+        return
+    typed = daily.copy()
+    typed["trade_date"] = pd.to_datetime(typed["trade_date"], errors="coerce")
+    fallback_rows = typed.loc[
+        (typed["data_vendor"] == HK_AKSHARE_FALLBACK_VENDOR)
+        & typed["trade_date"].notna()
+        & (typed["trade_date"] <= cache_target_date)
+    ]
+    if fallback_rows.empty:
+        return
+    fallback_dates_by_code.setdefault(ts_code, set()).update(fallback_rows["trade_date"].dt.strftime("%Y-%m-%d").tolist())
 
 
 def save_hk_prepare_progress(
@@ -3620,6 +4017,7 @@ def prepare_hkconnect_data(
     warm_cache_only: bool = False,
     sleep_between_codes: float = 0.0,
     max_runtime_minutes: float | None = None,
+    allow_hk_akshare_fallback: bool = False,
 ) -> HKPreparedData | None:
     started_at = time.monotonic()
     data_start_date = start_date - pd.DateOffset(months=HK_DATA_HISTORY_MONTHS)
@@ -3671,6 +4069,7 @@ def prepare_hkconnect_data(
     amount_frames: List[pd.DataFrame] = []
     fresh_codes: List[str] = []
     pending_codes: List[str] = []
+    akshare_fallback_dates_by_code: Dict[str, Set[str]] = {}
     new_fetch_count = 0
     stopped_early = False
     last_attempted: str | None = None
@@ -3678,7 +4077,15 @@ def prepare_hkconnect_data(
         max_new_codes is None
         and sleep_between_codes <= 0
         and max_runtime_minutes is None
+        and not allow_hk_akshare_fallback
     )
+
+    if allow_hk_akshare_fallback:
+        warnings.append(
+            "已显式启用 --allow-hk-akshare-fallback：仅当 Tushare hk_daily_adj 缺口可由 "
+            "Tushare hk_daily + AkShare stock_hk_hist(qfq) 交叉校验补齐时使用；"
+            "缺口日 total_mv/free_mv 沿用上一有效 Tushare hk_daily_adj。"
+        )
 
     if can_parallel_refresh:
         stale_codes: List[Tuple[int, str]] = []
@@ -3688,6 +4095,7 @@ def prepare_hkconnect_data(
                 fresh_codes.append(ts_code)
                 if not warm_cache_only:
                     daily = read_cached_csv(HK_PRICE_DIR / f"{ts_code}.csv", date_columns=["trade_date"])
+                    collect_hk_akshare_fallback_dates(akshare_fallback_dates_by_code, ts_code, daily, cache_target_date)
                     if not daily.empty and "forward_adj_close" in daily.columns:
                         append_hk_daily_frames(
                             ts_code=ts_code,
@@ -3704,7 +4112,14 @@ def prepare_hkconnect_data(
             print(f"[HK Data] 使用 {worker_count} 个 worker 并行准备 {len(stale_codes)} 只待更新股票缓存。")
             with ThreadPoolExecutor(max_workers=worker_count) as executor:
                 futures = {
-                    executor.submit(prepare_single_hk_daily_cache, pro_daily, ts_code, data_start_date, end_date): (idx, ts_code)
+                    executor.submit(
+                        prepare_single_hk_daily_cache,
+                        pro_daily,
+                        ts_code,
+                        data_start_date,
+                        end_date,
+                        allow_hk_akshare_fallback,
+                    ): (idx, ts_code)
                     for idx, ts_code in stale_codes
                 }
                 for completed, future in enumerate(as_completed(futures), start=1):
@@ -3731,6 +4146,7 @@ def prepare_hkconnect_data(
                     if "forward_adj_close" not in daily.columns:
                         warnings.append(f"{code} 无法构造前复权价格，已跳过。")
                         continue
+                    collect_hk_akshare_fallback_dates(akshare_fallback_dates_by_code, code, daily, cache_target_date)
                     fresh_codes.append(code)
                     if not warm_cache_only:
                         append_hk_daily_frames(
@@ -3749,6 +4165,7 @@ def prepare_hkconnect_data(
                 fresh_codes.append(ts_code)
                 if not warm_cache_only:
                     daily = read_cached_csv(HK_PRICE_DIR / f"{ts_code}.csv", date_columns=["trade_date"])
+                    collect_hk_akshare_fallback_dates(akshare_fallback_dates_by_code, ts_code, daily, cache_target_date)
                     if not daily.empty and "forward_adj_close" in daily.columns:
                         append_hk_daily_frames(
                             ts_code=ts_code,
@@ -3772,7 +4189,13 @@ def prepare_hkconnect_data(
             print(f"[HK Data] ({idx}/{len(connect_codes)}) 正在准备 {ts_code}")
             last_attempted = ts_code
             try:
-                daily = load_or_fetch_hk_daily_adj(pro_daily, ts_code, data_start_date, end_date)
+                daily = load_or_fetch_hk_daily_adj(
+                    pro_daily,
+                    ts_code,
+                    data_start_date,
+                    end_date,
+                    allow_akshare_fallback=allow_hk_akshare_fallback,
+                )
                 new_fetch_count += 1
             except RuntimeError as exc:
                 pending_codes.append(ts_code)
@@ -3792,6 +4215,7 @@ def prepare_hkconnect_data(
             if "forward_adj_close" not in daily.columns:
                 warnings.append(f"{ts_code} 无法构造前复权价格，已跳过。")
                 continue
+            collect_hk_akshare_fallback_dates(akshare_fallback_dates_by_code, ts_code, daily, cache_target_date)
             fresh_codes.append(ts_code)
             append_hk_daily_frames(
                 ts_code=ts_code,
@@ -3807,6 +4231,16 @@ def prepare_hkconnect_data(
     for ts_code in connect_codes:
         if ts_code not in fresh_codes and ts_code not in pending_codes:
             pending_codes.append(ts_code)
+    if akshare_fallback_dates_by_code:
+        fallback_dates = sorted({date for dates in akshare_fallback_dates_by_code.values() for date in dates})
+        examples = ", ".join(
+            f"{code}:{'/'.join(sorted(dates))}"
+            for code, dates in sorted(akshare_fallback_dates_by_code.items())[:5]
+        )
+        warnings.append(
+            f"HK AkShare fallback 已用于 {len(akshare_fallback_dates_by_code)} 只股票、"
+            f"{len(fallback_dates)} 个交易日（{','.join(fallback_dates)}）；示例 {examples}。"
+        )
     save_hk_prepare_progress(
         total_codes=len(connect_codes),
         fresh_codes=sorted(set(fresh_codes)),
@@ -3932,6 +4366,67 @@ def build_hk_signal_scores(prepared: HKPreparedData, signal_date: pd.Timestamp, 
                 (breakout_signal.astype(float), 0.10),
                 (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.10),
                 (safe_percentile_rank(recent_1m, ascending=True), 0.10),
+            ]
+        )
+    if signal_family == "path4_quality_momentum":
+        return blend_ranked_components(
+            [
+                (safe_percentile_rank(momentum_12_1, ascending=True), 0.30),
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.25),
+                (liquidity_quality, 0.20),
+                (low_vol_scores, 0.20),
+                (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.05),
+            ]
+        )
+    if signal_family == "path4_liquidity_momentum":
+        return blend_ranked_components(
+            [
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.30),
+                (safe_percentile_rank(momentum_3_1, ascending=True), 0.20),
+                (liquidity_quality, 0.30),
+                (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.15),
+                (breakout_signal.astype(float), 0.05),
+            ]
+        )
+    if signal_family == "path5_pullback_continuation":
+        return blend_ranked_components(
+            [
+                (safe_percentile_rank(momentum_12_1, ascending=True), 0.30),
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.30),
+                (safe_percentile_rank(recent_1m, ascending=False), 0.20),
+                (liquidity_quality, 0.15),
+                (low_vol_scores, 0.05),
+            ]
+        )
+    if signal_family == "path5_breakout_retest":
+        return blend_ranked_components(
+            [
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.25),
+                (safe_percentile_rank(momentum_3_1, ascending=True), 0.20),
+                (safe_percentile_rank(recent_1m, ascending=False), 0.15),
+                (breakout_signal.astype(float), 0.20),
+                (liquidity_quality, 0.20),
+            ]
+        )
+    if signal_family == "path6_large_liquid_core":
+        return blend_ranked_components(
+            [
+                (liquidity_quality, 0.35),
+                (low_vol_scores, 0.25),
+                (safe_percentile_rank(momentum_12_1, ascending=True), 0.20),
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.15),
+                (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.05),
+            ]
+        )
+    if signal_family == "path7_barbell_quality_growth":
+        return blend_ranked_components(
+            [
+                (low_vol_scores, 0.25),
+                (liquidity_quality, 0.20),
+                (safe_percentile_rank(momentum_12_1, ascending=True), 0.20),
+                (safe_percentile_rank(momentum_3_1, ascending=True), 0.15),
+                (breakout_signal.astype(float), 0.10),
+                (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.10),
             ]
         )
     return blend_ranked_components(
@@ -4636,6 +5131,11 @@ def run_hk_backtest(
         "base_weight_method": str(strategy_config["base_weight_method"]),
         "selection_overlay": "独立沪港通策略线：仅限最新可得沪港通（SH_HK/SZ_HK）名单内的港股，基于动量、突破、流动性与仓位风控做优胜劣汰。",
         "universe_note": "受 Tushare stock_hsgt 历史覆盖限制，当前使用最新可得沪港通名单作为静态回测池。",
+        "data_source_note": (
+            "港股行情主口径为 Tushare hk_daily_adj；若 warnings 标明 AkShare fallback，"
+            "则仅对应缺口日使用 Tushare hk_daily + AkShare stock_hk_hist(qfq) 构造前复权价，"
+            "total_mv/free_mv 沿用上一有效 Tushare hk_daily_adj。"
+        ),
         "transaction_cost_note": "当前港股交易成本采用近似双边佣金模型（无印花税建模），仅用于研究比较。",
         "metrics": metrics,
         "warnings": warnings,
@@ -4669,7 +5169,7 @@ def build_output_dir(strategy_id: str, sample_tag: str) -> Path:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="回测独立沪港通策略线（Path 1 / Path 2 / Path 3）")
+    parser = argparse.ArgumentParser(description="回测独立沪港通策略线（Path 1 / Path 2 / Path 3 / 扩展 smoke）")
     parser.add_argument("--start-date", default="2017-01-01")
     parser.add_argument("--end-date", default=pd.Timestamp.today().strftime("%Y-%m-%d"))
     parser.add_argument("--sample-tags", type=str, default="")
@@ -4680,7 +5180,7 @@ def parse_args() -> argparse.Namespace:
         default="research_active",
         help=(
             "Strategy family scope: tracked_active runs HK tracked/top5/live active ids; "
-            "research_active/all run all configured HK Path 1/2/3 variants. "
+            "research_active/all run all configured HK Path 1/2/3 variants plus expansion smoke variants. "
             "active is a compatibility alias for tracked_active."
         ),
     )
@@ -4688,6 +5188,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-new-codes", type=int, default=None)
     parser.add_argument("--sleep-between-codes", type=float, default=0.0)
     parser.add_argument("--max-runtime-minutes", type=float, default=None)
+    parser.add_argument(
+        "--allow-hk-akshare-fallback",
+        action="store_true",
+        help=(
+            "显式允许在 Tushare hk_daily_adj 缺失交易日时，用 Tushare hk_daily + "
+            "AkShare stock_hk_hist(qfq) 补齐港股价格缺口；默认关闭。"
+        ),
+    )
     return parser.parse_args()
 
 
@@ -4695,6 +5203,8 @@ def main() -> None:
     args = parse_args()
     if not TUSHARE_DAILY_TOKEN:
         raise RuntimeError("未找到 TUSHARE_TOKEN_DAILY，请先配置环境变量或本地 config.py。")
+    if bool(args.allow_hk_akshare_fallback) and importlib.util.find_spec("akshare") is None:
+        raise RuntimeError("启用 --allow-hk-akshare-fallback 需要先安装 akshare（例如 pip install -r requirements.txt）。")
 
     ensure_hk_directories()
     pro_daily = ts.pro_api(TUSHARE_DAILY_TOKEN)
@@ -4718,6 +5228,7 @@ def main() -> None:
         warm_cache_only=bool(args.warm_cache_only),
         sleep_between_codes=float(args.sleep_between_codes or 0.0),
         max_runtime_minutes=args.max_runtime_minutes,
+        allow_hk_akshare_fallback=bool(args.allow_hk_akshare_fallback),
     )
     if prepared is None:
         return
@@ -4726,7 +5237,7 @@ def main() -> None:
         if selected_sample_tags
         else list(HK_SAMPLE_WINDOWS)
     )
-    strategy_variants = HK_PATH1_VARIANTS + HK_PATH2_VARIANTS + HK_PATH3_VARIANTS
+    strategy_variants = HK_PATH1_VARIANTS + HK_PATH2_VARIANTS + HK_PATH3_VARIANTS + HK_EXPANSION_VARIANTS
     if selected_strategy_ids:
         strategy_variants = [variant for variant in strategy_variants if variant["strategy_id"] in selected_strategy_ids]
         known_ids = {str(variant["strategy_id"]) for variant in strategy_variants}

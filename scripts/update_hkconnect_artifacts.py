@@ -31,7 +31,8 @@ OUTPUT_PATHS = {
     "path2": DOCS_DIR / "strategy_comparison_hkconnect_path2.png",
     "path3": DOCS_DIR / "strategy_comparison_hkconnect_path3.png",
 }
-PATH_NAMES = ("path1", "path2", "path3")
+CHART_PATH_NAMES = ("path1", "path2", "path3")
+TRACK_PATH_NAMES = ("path1", "path2", "path3", "path4", "path5", "path6", "path7")
 
 WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
 WINDOW_LABELS = {
@@ -96,9 +97,11 @@ def _metric_row(row: pd.Series) -> dict[str, Any]:
 
 def _short_label(strategy_id: str) -> str:
     label = strategy_id
-    for prefix in ("hkconnect_path1_", "hkconnect_path2_", "hkconnect_path3_"):
+    for path_name in TRACK_PATH_NAMES:
+        prefix = f"hkconnect_{path_name}_"
         if label.startswith(prefix):
             label = label[len(prefix) :]
+            break
     return label.replace("_", "\n")
 
 
@@ -149,7 +152,7 @@ def _build_payload(latest: pd.DataFrame) -> dict[str, Any]:
     payload: dict[str, Any] = {
         "as_of": _date_text(latest["sample_end"].max()),
         "window_tags": list(WINDOW_TAGS),
-        "tracks": {path_name: {} for path_name in PATH_NAMES},
+        "tracks": {path_name: {} for path_name in TRACK_PATH_NAMES},
         "strategies": {},
     }
 
@@ -167,7 +170,7 @@ def _build_payload(latest: pd.DataFrame) -> dict[str, Any]:
             },
         }
 
-    for path_name in PATH_NAMES:
+    for path_name in TRACK_PATH_NAMES:
         subset = latest[latest["path"] == path_name].copy()
         if subset.empty:
             continue
@@ -297,7 +300,7 @@ def main() -> None:
 
     payload = _build_payload(latest)
     TRACKED_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    for path_name in PATH_NAMES:
+    for path_name in CHART_PATH_NAMES:
         _render_chart(latest, payload, path_name)
 
     print(f"[OK] wrote {TRACKED_JSON}")

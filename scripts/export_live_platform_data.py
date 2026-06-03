@@ -36,6 +36,8 @@ SAMPLE_LABELS = {
 HISTORY_WINDOW_SNAPSHOTS = 12
 SAMPLE_TAGS = ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"]
 HK_TRACKED_WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
+HK_TRACKED_PATH_NAMES = ("path1", "path2", "path3", "path4", "path5", "path6", "path7")
+HK_EXPERIMENTAL_PATH_NAMES = ("path4", "path5", "path6", "path7")
 SAMPLE_TAG_LABELS = {
     "since_2017_01": "2017窗口",
     "since_2020_01": "2020窗口",
@@ -898,8 +900,8 @@ def _build_ashare_leaderboards(payload: dict[str, Any]) -> dict[str, Any]:
 
 
 def _build_hkconnect_leaderboards(df: pd.DataFrame) -> dict[str, Any]:
-    out: dict[str, Any] = {"path1": {}, "path2": {}, "path3": {}}
-    for path_name in ("path1", "path2", "path3"):
+    out: dict[str, Any] = {path_name: {} for path_name in HK_TRACKED_PATH_NAMES}
+    for path_name in HK_TRACKED_PATH_NAMES:
         for sample_tag in HK_TRACKED_WINDOW_TAGS:
             subset = df[(df["path"] == path_name) & (df["sample_tag"] == sample_tag)].copy()
             if subset.empty:
@@ -948,12 +950,23 @@ def load_hkconnect_registry() -> list[dict[str, Any]]:
     def add_entry(*, path_name: str, winner_type: str, strategy_id: str, sample_tag: str) -> None:
         if strategy_id in dedup:
             dedup[strategy_id]["winner_tags"].append(f"hkconnect:{path_name}:{winner_type}")
+            dedup[strategy_id]["experimental"] = (
+                bool(dedup[strategy_id].get("experimental")) or path_name in HK_EXPERIMENTAL_PATH_NAMES
+            )
+            dedup[strategy_id]["tracked_only"] = (
+                bool(dedup[strategy_id].get("tracked_only")) or path_name in HK_EXPERIMENTAL_PATH_NAMES
+            )
             return
         snapshot = load_strategy_snapshot(strategy_id, sample_tag, market_scope="hkconnect")
         snapshot["path"] = path_name
         snapshot["winner_type"] = winner_type
         snapshot["winner_tags"] = [f"hkconnect:{path_name}:{winner_type}"]
         snapshot["market_scope"] = "hkconnect"
+        snapshot["experimental"] = path_name in HK_EXPERIMENTAL_PATH_NAMES
+        snapshot["tracked_only"] = path_name in HK_EXPERIMENTAL_PATH_NAMES
+        meta_rows = df[df["strategy_id"].astype(str) == strategy_id].copy()
+        if not meta_rows.empty and "rebalance_frequency" in meta_rows.columns:
+            snapshot["frequency"] = str(meta_rows.iloc[-1].get("rebalance_frequency") or "")
         dedup[strategy_id] = snapshot
 
     for sample_tag, winner_type in [
@@ -963,7 +976,7 @@ def load_hkconnect_registry() -> list[dict[str, Any]]:
         ("since_2025_01", "2025-window winner"),
     ]:
         sample_df = df[df["sample_tag"] == sample_tag]
-        for path_name in ("path1", "path2", "path3"):
+        for path_name in HK_TRACKED_PATH_NAMES:
             sub = sample_df[sample_df["path"] == path_name].sort_values(["cagr", "sharpe_ratio"], ascending=[False, False])
             if sub.empty:
                 continue
@@ -974,7 +987,7 @@ def load_hkconnect_registry() -> list[dict[str, Any]]:
                 sample_tag=sample_tag,
             )
 
-    for path_name in ("path1", "path2", "path3"):
+    for path_name in HK_TRACKED_PATH_NAMES:
         robust_id = _pick_hk_robust_candidate(df, path_name)
         if robust_id:
             add_entry(
@@ -1271,6 +1284,9 @@ def export_live_data() -> dict[str, Any]:
                         snapshot["experimental"] = path4_experimental
                         snapshot["tracked_only"] = path4_tracked_only
                         snapshot["frequency"] = path4_frequency
+                    if str(market_scope) == "hkconnect" and str(path_name) in HK_EXPERIMENTAL_PATH_NAMES:
+                        snapshot["experimental"] = True
+                        snapshot["tracked_only"] = True
                     snapshot_items[strategy_id] = snapshot
     for item in snapshot_items.values():
         strategy_path = LIVE_DIR / "strategies" / f"{item['strategy_id']}.json"
