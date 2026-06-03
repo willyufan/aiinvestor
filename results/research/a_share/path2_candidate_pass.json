@@ -60,7 +60,6 @@
     "aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65",
     "aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap60",
     "aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap45",
-    "aggr_10_90_prom9_emergent_theme_quality_gate_risk40_cap30_exit78",
     "aggr_10_90_prom9_emergent_theme_quality_gate_signal20_risk40_cap28_exit78",
     "aggr_11_89_prom10_emergent_theme_quality_gate_signal20_risk40_cap25_exit78",
     "aggr_11_89_prom10_emergent_theme_quality_gate_signal20_risk35_cap25_exit76",
@@ -78,6 +77,7 @@
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk25_cap16_exit70",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk20_cap16_exit68",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk20_cap12_exit68",
+    "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk20_cap12_exit68",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk15_cap12_exit66",
     "aggr_08_92_prom6_full_risk",
     "aggr_08_92_prom6_core_3_1_full_risk_cap40",
@@ -419,7 +419,6 @@
       "prefix_only_prefixes": [],
       "variant_ids": [
         "aggr_08_92_prom6_emergent_theme_risk30_cap50",
-        "aggr_10_90_prom9_emergent_theme_quality_gate_risk40_cap30_exit78",
         "aggr_10_90_prom9_emergent_theme_quality_gate_signal20_risk40_cap28_exit78",
         "aggr_11_89_prom10_emergent_theme_quality_gate_signal20_risk40_cap25_exit78",
         "aggr_11_89_prom10_emergent_theme_quality_gate_signal20_risk35_cap25_exit76",
@@ -437,6 +436,7 @@
         "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk25_cap16_exit70",
         "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk20_cap16_exit68",
         "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk20_cap12_exit68",
+        "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk20_cap12_exit68",
         "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk15_cap12_exit66"
       ],
       "target_candidates": 4
@@ -910,8 +910,8 @@
     "turnover_2023_weight": 0.5,
     "scoring_policy": "promotion_score_v1"
   },
-  "raw_candidate_count": 872,
-  "candidate_count": 862,
+  "raw_candidate_count": 874,
+  "candidate_count": 864,
   "incomplete_candidate_count": 10,
   "incomplete_candidates": [
     {
@@ -2486,9 +2486,6 @@
     "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_core_multifactor_growth_quality": [
       "momentum_equal_weight_elastic"
     ],
-    "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk40_cap30_exit78": [
-      "emergent_theme_discovery"
-    ],
     "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_signal20_risk40_cap28_exit78": [
       "emergent_theme_discovery"
     ],
@@ -2529,6 +2526,9 @@
       "emergent_theme_discovery"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_risk25_cap16_exit70": [
+      "emergent_theme_discovery"
+    ],
+    "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk20_cap12_exit68": [
       "emergent_theme_discovery"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk15_cap12_exit66": [
@@ -2901,9 +2901,7 @@
     "core_explore_90_10_equal_weight_winner_core__aggr_09_91_prom8_emergent_theme_quality_gate_risk35_cap35_exit76": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_09_91_prom8_emergent_theme_quality_gate_risk40_cap35_exit78": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk35_cap30_exit76": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk40_cap30_exit78": [
-      "emergent_theme_discovery"
-    ],
+    "core_explore_90_10_equal_weight_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk40_cap30_exit78": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_signal18_risk40_cap30_exit78": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_signal20_risk40_cap25_exit78": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_signal20_risk40_cap28_exit78": [
@@ -2947,6 +2945,9 @@
       "emergent_theme_discovery"
     ],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_risk25_cap16_exit70": [
+      "emergent_theme_discovery"
+    ],
+    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk20_cap12_exit68": [
       "emergent_theme_discovery"
     ],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk15_cap12_exit66": [
@@ -3291,9 +3292,7 @@
     "core_explore_90_10_total_mv_winner_core__aggr_09_91_prom8_emergent_theme_quality_gate_risk35_cap35_exit76": [],
     "core_explore_90_10_total_mv_winner_core__aggr_09_91_prom8_emergent_theme_quality_gate_risk40_cap35_exit78": [],
     "core_explore_90_10_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk35_cap30_exit76": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk40_cap30_exit78": [
-      "emergent_theme_discovery"
-    ],
+    "core_explore_90_10_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk40_cap30_exit78": [],
     "core_explore_90_10_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_signal18_risk40_cap30_exit78": [],
     "core_explore_90_10_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_signal20_risk40_cap25_exit78": [],
     "core_explore_90_10_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_signal20_risk40_cap28_exit78": [
@@ -3337,6 +3336,9 @@
       "emergent_theme_discovery"
     ],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_risk25_cap16_exit70": [
+      "emergent_theme_discovery"
+    ],
+    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk20_cap12_exit68": [
       "emergent_theme_discovery"
     ],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk15_cap12_exit66": [

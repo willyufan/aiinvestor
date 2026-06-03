@@ -1352,3 +1352,10 @@
 - 五窗口结果：CAGR 为 `9.48% / 8.32% / 6.10% / 38.78% / 1.91%`，最大回撤为 `-38.86% / -38.86% / -31.81% / -12.82% / -13.17%`，换手为 `4.18x / 4.13x / 4.85x / 5.57x / 6.44x`。
 - 结论：v16 明显弱于 v15 和主题月频修复线，strict inverse-elastic 终端线确认失败；`update_hkconnect_artifacts.py` 后 HK Path 2 window winner、robust candidate 与 tracked payload 均未改变。候选池未触发 HK explore cap evict。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> biweekly_breakout`。下一轮先不要重启普通高换手 breakout，建议测试带成本/确认的主题双周突破：`hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair`。
+
+## 本轮执行计划（2026-06-04 04:18 CST）
+
+- 上一轮候选/结果摘要：上一轮 strict inverse-elastic v16 终端线确认失败，下一步原建议主题双周突破。但本轮新增预算优先给 HK Path1 与 Path4/6/7 扩展线；Path 2 本轮完成巡检、保留下一轮候选，不新增回测。
+- 巡检结果：最终 guard 显示 HK 全候选 `246/246 complete`，Path 2 stagnation 仍高达 `241`，focus 为 `elasticity_cost_control`。`update_hkconnect_artifacts.py` 后 Path 2 window winner 与 robust candidate 未改变，当前 robust 仍为 `hkconnect_path2_theme_monthly_cost_control`，`since_2025_01` winner 仍由 `hkconnect_path2_breakout_concentrated_monthly` 占据。
+- 本轮候选设计但未回测：`hkconnect_path2_equal_elastic_monthly_cost_guard_v17_repair`，目标是最后一次用更温和 equal-elastic 成本控制复核 elasticity focus，而不是继续 strict inverse-elastic 终端线。未回测原因：本轮 HK 新增执行预算已投给 Path1、Path4、Path6、Path7，共 4 个 strategy ids。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> elasticity_cost_control`。下一轮首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v17_repair`；若仍不能接近 `theme_monthly_cost_control`，停止 elasticity 线，回到主题月频/双周高收益候选。

@@ -333,7 +333,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-06-03 | `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk40_cap30_exit78` | 核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升9只(强主题涌现, 质量门槛, 熊市40%, 单票30%, 出场78%) |  | 194.10% | 36.10% | -24.23% | 1.1224 | 3.74 |
+| 2026-06-03 | `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk15_cap12_exit66` | 核心90_探索10_等权底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 信号26%, 龙头72%, 熊市15%, 单票12%, 出场66%) |  | 164.19% | 31.99% | -12.66% | 1.1095 | 3.24 |
 | 2026-06-02 | `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk40_cap30_exit78` | 核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升9只(强主题涌现, 质量门槛, 熊市40%, 单票30%, 出场78%) |  | 181.92% | 34.46% | -24.23% | 1.0848 | 3.74 |
 | 2026-06-01 | `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk40_cap30_exit78` | 核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升9只(强主题涌现, 质量门槛, 熊市40%, 单票30%, 出场78%) |  | 165.55% | 32.19% | -24.23% | 1.0251 | 3.74 |
 | 2026-05-29 | `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom9_emergent_theme_quality_gate_risk40_cap30_exit78` | 核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升9只(强主题涌现, 质量门槛, 熊市40%, 单票30%, 出场78%) |  | 175.67% | 34.55% | -24.23% | 1.0770 | 3.74 |

@@ -688,3 +688,10 @@
 - 五窗口结果：CAGR 为 `19.52% / 21.22% / 23.95% / 34.47% / -14.65%`，最大回撤为 `-28.62% / -22.69% / -11.97% / -11.97% / -11.32%`，换手为 `7.84x / 7.47x / 8.13x / 9.77x / 10.50x`。
 - 结论：turnover7/exit42 相对上一轮 cashguard 提升了 2020/2023，但 2026 更弱，仍未改写 HK Path 3 window winner 或 robust candidate；继续只作为低换手防守对照，不替代主题快周频或现有 wide cost guard robust。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> cost_stress`。下一轮第一候选建议把稳定线降换手与现金防守分开测试成本压力：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair`。
+
+## 本轮执行计划（2026-06-04 04:18 CST）
+
+- 上一轮候选/结果摘要：上一轮 `turnover7/exit42` 相对 cashguard 提升了 2020/2023，但 2026 更弱，未改写 Path 3 tracked。最终 guard 继续给出 `weekly_turnover_reduction`，本轮保持 HK Path 3 纯周频口径。
+- 巡检结果：`update_hkconnect_artifacts.py` 后 HK Path 3 winners 仍为 2017 `hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`、2020 `hkconnect_path3_theme_weekly`、2023 `hkconnect_path3_theme_fast_weekly`、2025 `hkconnect_path3_breakout_cashoff_weekly`；robust candidate 仍为 `hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`。本轮未把 Path1/2 月频或双周候选并入 Path 3。
+- 本轮候选设计但未回测：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair`。未回测原因：HK Path3 stagnation 虽长，但本轮预算优先补 HK 扩展线的新增比较信息；Path3 已完整覆盖 `79` 个候选，先保留下一轮首命令。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> weekly_turnover_reduction`。下一轮首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair`；如果 2026 仍负，则停止稳定线小修，回到主题快周频的防守覆盖。

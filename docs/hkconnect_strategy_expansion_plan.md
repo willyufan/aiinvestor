@@ -1,5 +1,16 @@
 # 沪港通策略空间扩展计划
 
+## 2026-06-04 04:18 CST 扩展复核结果
+
+本轮按 HK Path4/6/7 扩展 focus 各新增 1 个候选，Path5 继续暂停同形回踩线。实际回测命令与 HK Path1 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff28_exit36_v22_drawdown_repair,hkconnect_path4_quality_momentum_monthly_2026_repair_v2,hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3`。
+
+- Path4 多因子质量动量：`hkconnect_path4_quality_momentum_monthly_2026_repair_v2` 五窗口 CAGR `20.34% / 24.14% / 28.80% / 31.84% / -9.40%`，最大回撤 `-16.05% / -10.79% / -10.79% / -11.64% / -10.59%`，换手 `2.98x / 2.85x / 2.76x / 3.47x / 4.20x`。它弱于现有 `quality_momentum_monthly_ytd_guard`，没有替换 Path4 robust。
+- Path5 回踩续涨：本轮未跑新增 id。原因是当前 `pullback_continuation` 和 `breakout_retest` 两个 smoke 已显示 2026/2023 断层，最终 guard focus 为 `pullback_definition`；下一轮必须先重写回踩定义或加入成交/趋势再确认，不能继续注册同形 smoke。
+- Path6 大市值高流动核心：`hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2` 五窗口 CAGR `12.90% / 14.60% / 22.41% / 30.79% / 1.82%`，最大回撤 `-17.85% / -14.82% / -6.18% / -2.73% / -3.83%`，换手 `1.23x / 1.26x / 1.11x / 1.70x / 2.67x`。本轮有效变化是 HK Path6 `since_2025_01` winner 切到该 v2；robust 仍是首批 `large_liquid_core_monthly_smoke`。
+- Path7 杠铃组合：`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3` 五窗口 CAGR `14.81% / 13.68% / 21.25% / 30.08% / 21.16%`，最大回撤 `-22.53% / -14.44% / -11.03% / -6.69% / -3.00%`，换手 `5.20x / 4.99x / 4.55x / 5.28x / 6.44x`。它显著改善 2026 与换手，但中长窗弱于现有 barbell smoke，未替换 robust；说明“核心袖”需要更明确的双 sleeve，而不是只靠 hybrid 权重。
+
+最终 guard 为 `pass`，HK Path4 `4/4`、Path5 `2/2`、Path6 `4/4`、Path7 `4/4` complete；Path4/6/7 因新增 tracked 信号均为 `changed=true` 后下一次 guard 记录为 `stagnation_runs=1`。下一轮第一条扩展命令建议优先 Path7 真双 sleeve 结构：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_quality_growth_biweekly_dual_sleeve_v4`；Path4 下一候选为 `quality_momentum_monthly_ytd_guard_v3`，Path6 下一候选为 `large_liquid_core_biweekly_liquidity_mix_v3`，Path5 只做 pullback definition redesign 记录。
+
 ## 2026-06-03 22:20 CST 扩展复核结果
 
 本轮在 Path4-7 扩展线只新增/确认 3 个 smoke 后续候选，Path5 暂停同形回踩线，避免继续复跑弱定义：

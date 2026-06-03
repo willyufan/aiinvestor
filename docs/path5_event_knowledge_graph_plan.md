@@ -137,3 +137,11 @@ Path 5 成立需要满足至少一个条件：
 - 和现有策略持仓重合度低，对组合有增量价值。
 
 如果 A 股验证有效，再进入 H 股同步阶段：把主题篮子映射到沪港通、A+H 公司和港股同产业链标的，并重新评估港股流动性和交易约束。
+
+## 本轮执行计划（2026-06-04 04:18 CST）
+
+- 上一轮候选/结果摘要：上一轮已创建最小事件篮子 `mrc_uec_ai_network_20260506_v0`，registry 状态为 `source_audit_started`，6 个冻结候选均为 `pending_source_review`，`include_in_backtest=false`。本轮继续先维护入口和审计状态，不把 Path 4 观察 seed 当成有效策略结论。
+- 本轮巡检对象：`results/research/a_share/event_theme_registry.json`、`results/research/a_share/event_theme_candidates.jsonl`、`results/research/a_share/event_theme_audit.jsonl`。最终 guard 显示 `candidate_count=6 / frozen_candidate_count=6 / pending_audit_count=6 / backtest_ready_count=0`，最小 basket entry 已存在但下一步仍是 `source_audit_then_event_backtest_entry`。
+- 本轮候选池：`300394.SZ 天孚通信`、`688498.SH 源杰科技`、`300502.SZ 新易盛`、`300308.SZ 中际旭创`、`688195.SH 腾景科技`、`300408.SZ 三环集团`。本轮仅追加审计记录为 `pending_primary_source_review`，没有把任何候选改为 `backtest_ready=true`。
+- 未回测原因：Path 5 还缺公司公告、交易所披露或权威产业来源审计；在来源未通过前，不运行事件篮子回测，也不与 Path 4 强主题涌现做收益比较。当前命令状态为“不执行回测”，而不是缺口补跑。
+- 下一轮 focus：最终 guard 给出 `ashare_path5 -> path4_comparison`。下一轮第一步仍不是回测，而是完成来源审计；建议先对 6 个冻结候选逐条补来源链接并更新 audit JSONL。若至少 4 个候选通过审计，首条回测入口命令预留为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01`；若脚本仍不存在，则先实现最小 runner，再与 Path 4 `risk15/cap12` 和 coverage_penalty 做横向比较。
