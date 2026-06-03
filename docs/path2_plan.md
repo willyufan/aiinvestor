@@ -13,6 +13,13 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-03 22:20 CST）
+
+- 开局 guard 的 Path2 coverage 为 `860/860 complete`；本轮没有追加 Path2 回测预算，原因是 coverage 补缺口已经占用 Path4 三底座五窗口与 Path1 fast-family，HK 还需完成六个增量 id。`scripts/path2_candidate_pass.py` 已巡检并更新 family ranking，当前 comparable universe 为 `862`，robust 仍集中在既有 liqmom 高收益族。
+- 本轮候选设计分两层：`recommended_focus=medium_cycle_growth` 映射到下一批 high-growth 修复池，目标是提高 promoted count 并降低单票幸运；同时保留已注册但未回测的 `biweekly_rebalance_aggressive` 成本容量候选 `aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard`，用于补足非 high-growth 族代表。
+- 未回测候选 id：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard`、`core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard`。下一轮若先补 underrepresented/capacity 对照，第一条命令为：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard`。
+- `scripts/update_weighted_winners.py` 后 Path2 window winner、robust candidate 与 tracked payload 未被本轮同步改变；最新 robust candidate 仍为既有 high-growth/liqmom 族，Path2 未触发 evict。下一轮若严格响应 `medium_cycle_growth`，应先注册一个分散化 v18 双底座，而不是继续降低 cap 牺牲 2020 收益。
+
 ## 本轮执行计划（2026-06-02 16:20 CST）
 
 - 开局 guard 为 `pass`；上一轮双周 `cap65 + cost_guard` 代表没有修复 2017/2020，最终 rotation 回到 `medium_cycle_growth`。本轮重启 high-growth 中周期族，但把 v13 的 `risk32/exit52/reconfirm88/caution62/cap50` 改为更强确认和更低集中度的 `top12/risk30/exit50/reconfirm90/caution60/cap45` v14，用等权与总市值双底座确认。

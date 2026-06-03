@@ -1,5 +1,12 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-06-03 22:20 CST）
+
+- 开局 guard 为 `pass`，HK coverage 在本轮代码注册后通过五窗口增量回测补到 `237/237 complete`。Path1 本轮新增 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_cost_guard_exit34_v21_ytd_guard`，目标是在 monthly-weekly overlay 上加入低波与 ytd 防守，修复 2026 观察窗。
+- 本轮 HK 合并增量命令为：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_cost_guard_exit34_v21_ytd_guard,hkconnect_path2_inverse_elastic_monthly_cost_guard_v16_terminal,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover5_exit42_coststress_ytd_guard,hkconnect_path4_quality_momentum_monthly_ytd_guard,hkconnect_path6_large_liquid_core_monthly_ytd_guard,hkconnect_path7_barbell_quality_growth_biweekly_defensive_v2`。
+- `v21_ytd_guard` 五窗口 CAGR 为 `17.81% / 21.92% / 28.50% / 28.87% / -4.83%`，最大回撤为 `-21.66% / -10.09% / -9.08% / -8.80% / -7.56%`，换手为 `3.53x / 3.40x / 3.18x / 3.56x / 4.33x`。
+- 结论：低波 ytd guard 压住了中短窗回撤，但 2017/2020/2025 收益弱于 monthly-weekly robust，2026 仍为负；`scripts/update_hkconnect_artifacts.py` 后 HK Path1 window winner、robust candidate 和 tracked payload 未切换。下一轮 focus 为 `monthly_weekly_overlay`，第一条命令建议停止继续低波同形修复，改测浅 risk-off 或 2026 drawdown repair：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_monthly_weekly_overlay_drawdown_next_id>`。
+
 ## 本轮执行计划（2026-06-03 14:34 CST）
 
 - 开局 guard 为 `pass / blocking=0 / warning=0`，HK coverage 为 `226/226 complete`；本轮按 `biweekly_buffer` 新增 `hkconnect_path1_biweekly_equal_buffered_soft_cost_guard_exit34_v20_buffer`，用于检验普通双周缓冲线在更宽持仓和较低单票上限下，是否能修复 2026 且保住长窗。

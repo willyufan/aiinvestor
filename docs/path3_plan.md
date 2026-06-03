@@ -3,6 +3,12 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-03 22:20 CST）
+
+- 开局与最新 guard 的 Path3 coverage 均为 `60/60 complete`；本轮未追加 Path3 回测，预算优先给 Path4 blocking、Path1 warning 与 HK 增量。Path3 已完成巡检：`scripts/update_weighted_winners.py` 后 window winner、robust candidate 和 tracked payload 均未切换，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly`。
+- `recommended_focus=cost_stress`，本轮候选设计回到更接近既有 winner 的 `cash_off_and_weekly` 邻域，而不是继续 pullback 低换手链条。已注册但未回测的纯 `_weekly` 候选为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit90_weekly`，对照已在 CSV 中存在的 `cap50_hold2_turn12_exit90_weekly`（四窗口 CAGR `14.60% / 12.04% / 14.89% / 80.01%`，换手 `3.78x / 3.72x / 3.48x / 6.39x`）。
+- 本轮没有新增 Path3 归档；候选池 active cap 未触发 evict。下一轮第一条命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit90_weekly`。验收重点是 `since_2020_01/since_2023_01` 是否能超过既有 stable weekly，同时换手不能重新回到高频过度区间。
+
 ## 本轮执行计划（2026-06-02 16:20 CST）
 
 - 开局 guard 为 `pass`；上一轮 `risk20_cap66_hold7_turn04_exit94_weekly` 只保留 2026 弹性，2020/2023/2025 都失效。本轮新增前将它加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，原因是 `since_2020_01 CAGR=1.75%`、`since_2025_01 CAGR=1.23%` 且不改善 robust；随后按 `turnover_reduction` 注册 `cap68/hold6/turn08/exit90` 成本守门版，测试略放宽换手后能否恢复 2020 暴露。

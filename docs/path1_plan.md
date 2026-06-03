@@ -4,6 +4,13 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-03 22:20 CST）
+
+- 开局 guard 先因 Path4 blocking 与 Path1 fast-family warning 报 `block`；按 rerun command 只补缺口，没有改跑全量。Path1 本轮补齐 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm` 四窗口，命令为：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm`。
+- `risk18_reconfirm` 四窗口 CAGR 为 `21.99% / 29.70% / 29.13% / 84.60%`，最大回撤为 `-14.22% / -14.73% / -21.31% / -11.70%`，换手为 `3.00x / 3.40x / 3.51x / 4.91x`。它比旧 `risk20_reconfirm` 的 2020 CAGR 弱，收益质量不足以替换 Path1 winner 或 robust。
+- core_multifactor 子段按代码实际 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS` 巡检为 `41/41 complete`；本轮没有新增多因子 overlay。`scripts/update_weighted_winners.py` 后 Path1 window winner、robust candidate 与 tracked payload 未被 `risk18` 替换，候选池未触发 evict。
+- 最新 guard 为 `pass`，`ashare_path1_fast_family 98/98 complete`，下一轮 focus 仍是 `core_multifactor_coverage`。第一条命令建议不要继续下调 satellite risk，改回能修复 2017/2020 的多因子低波/盈利/行业防守组合：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <next_path1_core_multifactor_coverage_id>`。
+
 ## 本轮执行计划（2026-06-02 16:20 CST）
 
 - 开局 guard 为 `pass`，上一轮 `share_12_88_hold_2_8_ramp75_cost_guard` 只保留短窗弹性，不能替换 Path 1 robust。本轮按 rotation 的 `core_multifactor_coverage/signal_quality` 回到代码实际 `core_multifactor` 池，新增质量+价值+行业强度成本守门再确认；注册后 guard 给出 `ashare_path1_core_multifactor 1/39 missing` 与 Path4 blocking，已按 `--only-base-ids` 增量补齐，没有改跑全量。

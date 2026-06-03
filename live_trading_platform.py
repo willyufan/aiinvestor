@@ -27,6 +27,8 @@ DEFAULT_ACCOUNT_NAME = "模拟账户A"
 DEFAULT_ACCOUNT_BROKER = "手工测试"
 DEFAULT_CAPITAL = 1_000_000.0
 DEFAULT_TRACKED_WINNER_KEY = "since_2020_only"
+A_SHARE_STRATEGY_PATHS = ("path1", "path2", "path3", "path4")
+HKCONNECT_STRATEGY_PATHS = ("path1", "path2", "path3", "path4", "path5", "path6", "path7")
 
 def _load_tushare_tokens() -> tuple[str, str]:
     daily  = os.environ.get("TUSHARE_TOKEN_DAILY",  "")
@@ -191,14 +193,30 @@ def strategy_detail_explanation_html(item: dict, active_view: dict, schedule_kin
         core_source = "核心底座采用当前策略族定义的胜出者核心。"
 
     selection_lines: list[str] = []
-    if path_name == "path1":
-        selection_lines.append("Path 1 是主攻稳健线：优先在回撤、换手、Sharpe 和实盘可执行性之间做平衡。")
-    elif path_name == "path2":
-        selection_lines.append("Path 2 是高收益探索线：更重视 CAGR 上限突破，同时继续监控回撤和换手。")
-    elif path_name == "path3":
-        selection_lines.append("Path 3 是周度高频线：专门跟踪纯周度换股候选，和月度选股叠加周度仓位风控分开评估。")
-    elif path_name == "path4":
-        selection_lines.append("Path 4 是强主题涌现观察线：用月频组合跟踪主题扩散信号，当前只做 tracked-only 展示，不直接进入正式实盘分配。")
+    if market_scope == "hkconnect":
+        if path_name == "path1":
+            selection_lines.append("沪港通 Path 1 是月度组合叠加周度风控线：优先平衡收益、回撤、换手和可执行性。")
+        elif path_name == "path2":
+            selection_lines.append("沪港通 Path 2 是高收益探索线：偏向成长、突破和高弹性候选。")
+        elif path_name == "path3":
+            selection_lines.append("沪港通 Path 3 是周度高频线：专门跟踪周度换股和更快风险响应。")
+        elif path_name == "path4":
+            selection_lines.append("沪港通 Path 4 是多因子质量/流动性动量线：用质量、动量与流动性约束扩展候选空间。")
+        elif path_name == "path5":
+            selection_lines.append("沪港通 Path 5 是回踩续涨线：观察强势股回踩确认后的再启动候选。")
+        elif path_name == "path6":
+            selection_lines.append("沪港通 Path 6 是大市值高流动核心线：偏向容量更大、流动性更稳的核心持仓。")
+        elif path_name == "path7":
+            selection_lines.append("沪港通 Path 7 是杠铃组合线：在质量成长与防守核心之间做组合平衡。")
+    else:
+        if path_name == "path1":
+            selection_lines.append("Path 1 是主攻稳健线：优先在回撤、换手、Sharpe 和实盘可执行性之间做平衡。")
+        elif path_name == "path2":
+            selection_lines.append("Path 2 是高收益探索线：更重视 CAGR 上限突破，同时继续监控回撤和换手。")
+        elif path_name == "path3":
+            selection_lines.append("Path 3 是周度高频线：专门跟踪纯周度换股候选，和月度选股叠加周度仓位风控分开评估。")
+        elif path_name == "path4":
+            selection_lines.append("Path 4 是强主题涌现观察线：用月频组合跟踪主题扩散信号，当前只做 tracked-only 展示，不直接进入正式实盘分配。")
     if "aggr_10_90" in strategy_id:
         selection_lines.append("进攻仓位配置约为 10/90，探索侧更积极。")
     elif "aggr_08_92" in strategy_id:
@@ -2224,6 +2242,10 @@ def path_label(scope: str, path_key: str) -> str:
             "path1": "Path 1 · 月度+周度风控",
             "path2": "Path 2 · 高收益探索",
             "path3": "Path 3 · 周度高频",
+            "path4": "Path 4 · 质量/流动性动量",
+            "path5": "Path 5 · 回踩续涨",
+            "path6": "Path 6 · 大市值高流动核心",
+            "path7": "Path 7 · 杠铃组合",
         }
     else:
         labels = {
@@ -2235,9 +2257,15 @@ def path_label(scope: str, path_key: str) -> str:
     return labels.get(path_key, path_key)
 
 
+def path_keys_for_scope(scope: str) -> tuple[str, ...]:
+    if scope == "hkconnect":
+        return HKCONNECT_STRATEGY_PATHS
+    return A_SHARE_STRATEGY_PATHS
+
+
 def leaderboard_order_keys(path_payload: dict) -> list[str]:
-    order = ["since_2017_only", "since_2020_only", "since_2023_only", "since_2025_only"]
-    order += ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01"]
+    order = ["since_2017_only", "since_2020_only", "since_2023_only", "since_2025_only", "since_2026_only"]
+    order += ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"]
     return [key for key in order if key in path_payload] + [key for key in path_payload if key not in set(order)]
 
 
@@ -3155,7 +3183,7 @@ def strategies_html() -> str:
             for item in items:
                 path_groups.setdefault(item["path"], []).append(item)
             path_html = ""
-            for path_key in ("path1", "path2", "path3", "path4"):
+            for path_key in path_keys_for_scope("a_share"):
                 path_items = path_groups.get(path_key, [])
                 if not path_items:
                     continue
@@ -3178,7 +3206,7 @@ def strategies_html() -> str:
                     f"<div style='font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px'>{html.escape(path_label('hkconnect', path_key))}</div>"
                     + top5_entry("hkconnect", path_key)
                     + f"<div class='strategy-grid'>{''.join(strategy_card(it) for it in items if it.get('path') == path_key)}</div>"
-                    for path_key in ("path1", "path2", "path3")
+                    for path_key in path_keys_for_scope("hkconnect")
                     if any(it.get("path") == path_key for it in items)
                 )
                 + "</div>"
@@ -3216,7 +3244,8 @@ def strategies_html() -> str:
 
 def strategy_top5_html(scope: str = "a_share", path_key: str = "path1") -> str:
     scope = scope if scope in {"a_share", "hkconnect"} else "a_share"
-    path_key = path_key if path_key in {"path1", "path2", "path3", "path4"} else "path1"
+    allowed_paths = path_keys_for_scope(scope)
+    path_key = path_key if path_key in allowed_paths else allowed_paths[0]
     payload = load_registry()
     path_payload = (((payload.get("winner_leaderboards") or {}).get(scope) or {}).get(path_key) or {})
     title = f"{market_scope_label(scope)} {path_label(scope, path_key)} Top 5"

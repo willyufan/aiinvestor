@@ -41,18 +41,21 @@ STRATEGY_REGISTRY_JSON = LIVE_DIR / "strategy_registry.json"
 OUTPUT_PATH = research_file("public_snapshot.json")
 STRATEGIES_DIR = market_research_dir("a_share") / "strategies"
 
-WINDOW_TRACK_KEYS = ["since_2017_only", "since_2020_only", "since_2023_only", "since_2025_only"]
+WINDOW_TRACK_KEYS = ["since_2017_only", "since_2020_only", "since_2023_only", "since_2025_only", "since_2026_only"]
 WINDOW_LABELS = {
     "since_2017_only": "2017 窗口",
     "since_2020_only": "2020 窗口",
     "since_2023_only": "2023 窗口",
     "since_2025_only": "2025 窗口",
+    "since_2026_only": "2026 窗口",
+    "since_2026_01": "2026 窗口",
 }
 SAMPLE_TAG_MAP = {
     "since_2017_only": "since_2017_01",
     "since_2020_only": "since_2020_01",
     "since_2023_only": "since_2023_01",
     "since_2025_only": "since_2025_01",
+    "since_2026_only": "since_2026_01",
 }
 SAMPLE_TAG_DISPLAY = {
     "since_2017_01": "2017",

@@ -1,5 +1,16 @@
 # 沪港通策略空间扩展计划
 
+## 2026-06-03 22:20 CST 扩展复核结果
+
+本轮在 Path4-7 扩展线只新增/确认 3 个 smoke 后续候选，Path5 暂停同形回踩线，避免继续复跑弱定义：
+
+- Path4 多因子质量动量：`hkconnect_path4_quality_momentum_monthly_ytd_guard` 五窗口 CAGR `20.87% / 25.92% / 30.81% / 33.19% / -6.68%`，最大回撤 `-15.16% / -11.46% / -9.80% / -10.16% / -9.16%`，换手 `3.03x / 2.92x / 2.81x / 3.65x / 4.14x`。相对首批 monthly smoke，长中窗和 2026 均有改善，是本轮扩展线最有增量的候选；但 2026 仍负，不能直接切 robust。
+- Path5 回踩续涨：本轮未跑新增 id。原因是首批 pullback/retest 两个 smoke 都显示 2026 或 2023 断层，继续同形只会扩充弱候选池；下一轮必须先修改回踩定义或加入再确认条件，再注册新 id。
+- Path6 大市值高流动核心：`hkconnect_path6_large_liquid_core_monthly_ytd_guard` 五窗口 CAGR `14.17% / 16.15% / 25.33% / 29.20% / 9.28%`，最大回撤 `-17.17% / -14.33% / -5.35% / -2.68% / -2.64%`，换手 `1.24x / 1.25x / 1.15x / 1.50x / 2.60x`。它保留低回撤和正 2026，但长窗收益弱于首批 large-liquid smoke，适合作防守基线而不是收益 winner。
+- Path7 杠铃组合：`hkconnect_path7_barbell_quality_growth_biweekly_defensive_v2` 五窗口 CAGR `18.39% / 17.54% / 26.42% / 33.29% / 7.11%`，最大回撤 `-20.17% / -13.70% / -10.81% / -11.15% / -5.66%`，换手 `10.40x / 10.10x / 9.97x / 13.00x / 11.63x`。相对首批 biweekly smoke 收益略弱但 2026 正，说明当前单信号近似还不够，需要真正双 sleeve。
+
+`scripts/update_hkconnect_artifacts.py` 已刷新 Path1-3 tracked 与图表；Path4-7 仍只进入 tracked/public/live payload，尚无独立图表。最终 guard 为 `pass`，HK Path4-7 各 `2/2 complete`。下一轮第一条扩展命令建议优先 Path4 ytd guard 的 2026 转正修复，其次 Path6 市值/流动性混合权重；Path5 必须先重定义，不直接新增同形回踩。
+
 ## 2026-06-03 smoke 结果
 
 本轮已把扩展计划中的 Path 4-7 先落成 8 个可跑 smoke 候选，并完成五窗口回测：

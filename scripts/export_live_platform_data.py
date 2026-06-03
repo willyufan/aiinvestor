@@ -31,11 +31,16 @@ SAMPLE_LABELS = {
     "since_2020_only": "2020-window winner",
     "since_2023_only": "2023-window winner",
     "since_2025_only": "2025-window winner",
+    "since_2026_only": "2026-window winner",
     "robust_candidate": "robust candidate",
 }
 HISTORY_WINDOW_SNAPSHOTS = 12
 SAMPLE_TAGS = ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"]
+A_SHARE_TRACKED_PATH_NAMES = ("path1", "path2", "path3", "path4")
+A_SHARE_2026_TRACK_KEY = "since_2026_only"
+A_SHARE_2026_SAMPLE_TAG = "since_2026_01"
 HK_TRACKED_WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
+HK_LEADERBOARD_WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01")
 HK_TRACKED_PATH_NAMES = ("path1", "path2", "path3", "path4", "path5", "path6", "path7")
 HK_EXPERIMENTAL_PATH_NAMES = ("path4", "path5", "path6", "path7")
 SAMPLE_TAG_LABELS = {
@@ -625,6 +630,8 @@ def guess_sample_tag(track_key: str) -> str:
         return "since_2023_01"
     if track_key == "since_2025_only":
         return "since_2025_01"
+    if track_key == "since_2026_only":
+        return "since_2026_01"
     return "since_2020_01"
 
 
@@ -899,10 +906,93 @@ def _build_ashare_leaderboards(payload: dict[str, Any]) -> dict[str, Any]:
     return {path: tracks for path, tracks in out.items() if tracks}
 
 
+def _build_ashare_2026_leaderboards() -> dict[str, Any]:
+    """Build display-only 2026 winners for each A-share research path."""
+    comparison_path = existing_research_file("strategy_comparison_base_method.csv")
+    if not comparison_path.exists():
+        comparison_path = existing_research_file("strategy_comparison.csv")
+    if not comparison_path.exists():
+        return {}
+    try:
+        from scripts.update_weighted_winners import (
+            STATIC_BASE_IDS,
+            TRACK_LEADERBOARD_LIMIT,
+            _augment_with_synthetic_windows,
+            _build_strategy_map,
+            _filter_ids_to_current_as_of,
+            _latest_per_strategy_window,
+            _leaderboard_entry,
+            _matches_path2,
+            _matches_path3,
+            _rank_single_window_candidates,
+            load_active_family_ids,
+            load_path1_family_ids,
+            load_path2_scan_rules,
+            load_path4_theme_ids,
+        )
+
+        frame = pd.read_csv(comparison_path)
+        latest_all = _augment_with_synthetic_windows(_latest_per_strategy_window(frame))
+        if latest_all.empty:
+            return {}
+        all_base_ids = set(latest_all["strategy_base_id"].astype(str).unique())
+        path2_prefixes, path2_variant_ids = load_path2_scan_rules()
+        path_ids: dict[str, set[str]] = {
+            "path1": (load_path1_family_ids() & load_active_family_ids() & all_base_ids) - STATIC_BASE_IDS,
+            "path2": {
+                str(base_id)
+                for base_id in all_base_ids
+                if _matches_path2(str(base_id), path2_prefixes, path2_variant_ids)
+            }
+            - STATIC_BASE_IDS,
+            "path3": {str(base_id) for base_id in all_base_ids if _matches_path3(str(base_id))} - STATIC_BASE_IDS,
+            "path4": (load_path4_theme_ids() & all_base_ids) - STATIC_BASE_IDS,
+        }
+        strategies = _build_strategy_map(latest_all)
+        out: dict[str, Any] = {}
+        for path_name in A_SHARE_TRACKED_PATH_NAMES:
+            allowed_ids = path_ids.get(path_name, set())
+            if not allowed_ids:
+                continue
+            latest_for_path = _filter_ids_to_current_as_of(latest_all, allowed_ids)
+            if latest_for_path.empty:
+                continue
+            ranked = _rank_single_window_candidates(
+                latest_for_path,
+                A_SHARE_2026_SAMPLE_TAG,
+                allowed_base_ids=allowed_ids,
+            )[:TRACK_LEADERBOARD_LIMIT]
+            if not ranked:
+                continue
+            winner_id = ranked[0][0]
+            entries = [
+                _leaderboard_entry(
+                    rank=rank,
+                    strategy_id=strategy_id,
+                    metrics=metrics,
+                    strategies=strategies,
+                    official_winner_id=winner_id,
+                    raw_winner_id=winner_id,
+                )
+                for rank, (strategy_id, metrics) in enumerate(ranked, start=1)
+            ]
+            out[path_name] = {
+                A_SHARE_2026_TRACK_KEY: {
+                    "track_key": A_SHARE_2026_TRACK_KEY,
+                    "label": SAMPLE_LABELS[A_SHARE_2026_TRACK_KEY],
+                    "sample_tag": A_SHARE_2026_SAMPLE_TAG,
+                    "entries": entries,
+                }
+            }
+        return out
+    except Exception:
+        return {}
+
+
 def _build_hkconnect_leaderboards(df: pd.DataFrame) -> dict[str, Any]:
     out: dict[str, Any] = {path_name: {} for path_name in HK_TRACKED_PATH_NAMES}
     for path_name in HK_TRACKED_PATH_NAMES:
-        for sample_tag in HK_TRACKED_WINDOW_TAGS:
+        for sample_tag in HK_LEADERBOARD_WINDOW_TAGS:
             subset = df[(df["path"] == path_name) & (df["sample_tag"] == sample_tag)].copy()
             if subset.empty:
                 continue
@@ -974,6 +1064,7 @@ def load_hkconnect_registry() -> list[dict[str, Any]]:
         ("since_2020_01", "2020-window winner"),
         ("since_2023_01", "2023-window winner"),
         ("since_2025_01", "2025-window winner"),
+        ("since_2026_01", "2026-window winner"),
     ]:
         sample_df = df[df["sample_tag"] == sample_tag]
         for path_name in HK_TRACKED_PATH_NAMES:
@@ -1053,7 +1144,10 @@ def _registry_item(item: dict[str, Any]) -> dict[str, Any]:
 def export_live_data() -> dict[str, Any]:
     payload = load_json(TRACKED_WINNERS_JSON)
     strategies_map: dict[str, Any] = payload["strategies"]
-    winner_leaderboards: dict[str, Any] = {"a_share": _build_ashare_leaderboards(payload)}
+    ashare_leaderboards = _build_ashare_leaderboards(payload)
+    for path_name, tracks in _build_ashare_2026_leaderboards().items():
+        ashare_leaderboards.setdefault(path_name, {}).update(tracks)
+    winner_leaderboards: dict[str, Any] = {"a_share": ashare_leaderboards}
     hk_comparison_path = existing_research_file("strategy_comparison_hkconnect.csv", market_scope="hkconnect")
     if hk_comparison_path.exists():
         try:
@@ -1083,7 +1177,7 @@ def export_live_data() -> dict[str, Any]:
             if frequency and not dedup[strategy_id].get("frequency"):
                 dedup[strategy_id]["frequency"] = frequency
             return
-        tracked_info = strategies_map[strategy_id]
+        tracked_info = strategies_map.get(strategy_id, {})
         snapshot = load_strategy_snapshot(strategy_id, sample_tag, market_scope="a_share")
         snapshot["path"] = path_name
         snapshot["winner_type"] = winner_type
@@ -1179,6 +1273,29 @@ def export_live_data() -> dict[str, Any]:
             tracked_only=path4_tracked_only,
             frequency=path4_frequency,
         )
+
+    for path_name in A_SHARE_TRACKED_PATH_NAMES:
+        leaderboard = (
+            ((winner_leaderboards.get("a_share") or {}).get(path_name) or {}).get(A_SHARE_2026_TRACK_KEY) or {}
+        )
+        entries = leaderboard.get("entries") if isinstance(leaderboard, dict) else []
+        if not entries:
+            continue
+        strategy_id = str(entries[0].get("strategy_base_id") or "")
+        if not strategy_id:
+            continue
+        try:
+            add_entry(
+                path_name=path_name,
+                winner_type=SAMPLE_LABELS[A_SHARE_2026_TRACK_KEY],
+                strategy_id=strategy_id,
+                sample_tag=A_SHARE_2026_SAMPLE_TAG,
+                experimental=path_name == "path4" and path4_experimental,
+                tracked_only=path_name == "path4" and path4_tracked_only,
+                frequency=path4_frequency if path_name == "path4" else "",
+            )
+        except (FileNotFoundError, KeyError):
+            continue
 
     registry = list(dedup.values())
     registry.extend(load_hkconnect_registry())

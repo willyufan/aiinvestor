@@ -1,15 +1,17 @@
 # Path 5 事件知识图谱研究计划
 
-## 2026-06-03 状态
+## 2026-06-03 22:20 CST 状态
 
-这条 A 股路径本轮还没有进入真实回测。原因是 Path 5 的核心不是价格因子的参数变体，而是“事件报告 + 冻结候选池 + 审计记录”；当前仓库还没有事件主题注册表、冻结候选池和对应 backtest 入口。直接用现有 Path 4 强主题涌现来代替，会丢掉这条路径最关键的可追溯性。
+这条 A 股路径本轮仍未进入真实回测。当前最小入口已经存在：`results/research/a_share/event_theme_registry.json` 与 `results/research/a_share/event_theme_candidates.jsonl` 记录了首个冻结篮子 `mrc_uec_ai_network_20260506_v0`，候选数 `6`，冻结数 `6`。本轮新增 `results/research/a_share/event_theme_audit.jsonl` 并把 registry 状态改为 `source_audit_started`，但六个候选全部仍是 `pending_primary_source_review`，`backtest_ready=false`。
 
-下一步第一轮应先做最小可跑版本：
+本轮只维护来源审计状态，不把待审计 seed 当作有效策略结论，也不与 Path 4 强主题结果混写。下一步第一轮应先完成最小可跑版本：
 
-1. 以 MRC/UEC/800G-1.6T AI 网络升级为首个事件样本，建立一份冻结候选池。
-2. 生成 `event_theme_registry.json` 与 `event_theme_candidates.jsonl`。
+1. 为 `300394.SZ / 688498.SH / 300502.SZ / 300308.SZ / 688195.SH / 300408.SZ` 补公司公告、年报或权威产业来源，逐条把 audit 状态从 `pending_primary_source_review` 改为 `source_audit_passed` 或 `source_audit_failed`。
+2. 只有审计通过的候选才能进入事件篮子回测；继续保持冻结候选池，不覆盖原 seed。
 3. 增加一个只读取冻结候选池的 A 股事件组合回测入口，先跑等权和流动性约束两个版本。
 4. 和 Path 4 的强主题涌现候选对比 T+20D、T+60D、T+120D 以及月度持有表现。
+
+下一轮第一条命令不是回测，而是审计状态补齐：`.venv/bin/python scripts/research_iteration_guard.py` 后优先读取 `results/research/a_share/event_theme_audit.jsonl`，补主来源并只在 `backtest_ready_count > 0` 后再注册 event backtest entry。
 
 ## 定位
 
