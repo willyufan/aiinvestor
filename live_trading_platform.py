@@ -2263,6 +2263,55 @@ def path_keys_for_scope(scope: str) -> tuple[str, ...]:
     return A_SHARE_STRATEGY_PATHS
 
 
+def path_anchor(scope: str, path_key: str) -> str:
+    return f"{scope}-{path_key}"
+
+
+def leaderboard_short_label(track_key: str) -> str:
+    label_map = {
+        "since_2017_only": "2017",
+        "since_2017_01": "2017",
+        "since_2020_only": "2020",
+        "since_2020_01": "2020",
+        "since_2023_only": "2023",
+        "since_2023_01": "2023",
+        "since_2025_only": "2025",
+        "since_2025_01": "2025",
+        "since_2026_only": "2026",
+        "since_2026_01": "2026",
+        "robust_candidate": "鲁棒",
+    }
+    return label_map.get(str(track_key), str(track_key))
+
+
+def path_overview_html(scope: str, path_counts: dict[str, int], winner_leaderboards: dict) -> str:
+    chips: list[str] = []
+    for path_key in path_keys_for_scope(scope):
+        count = path_counts.get(path_key, 0)
+        if count <= 0:
+            continue
+        path_payload = ((winner_leaderboards.get(scope) or {}).get(path_key) or {})
+        window_labels = [
+            leaderboard_short_label(track_key)
+            for track_key in leaderboard_order_keys(path_payload)
+            if isinstance(path_payload, dict) and (path_payload.get(track_key) or {}).get("entries")
+        ]
+        windows_text = " / ".join(window_labels) if window_labels else "暂无窗口"
+        chips.append(
+            f"<a class='button' href='#{html.escape(path_anchor(scope, path_key))}' "
+            "style='margin:0 8px 8px 0'>"
+            f"{html.escape(path_label(scope, path_key))} · {count}个 · {html.escape(windows_text)}</a>"
+        )
+    if not chips:
+        return ""
+    return (
+        "<div class='card' style='padding:14px 16px;margin:8px 0 18px'>"
+        "<div class='muted' style='font-size:12px;margin-bottom:10px'>路径与外层窗口概览，点击可跳到对应 Path。</div>"
+        + "".join(chips)
+        + "</div>"
+    )
+
+
 def leaderboard_order_keys(path_payload: dict) -> list[str]:
     order = ["since_2017_only", "since_2020_only", "since_2023_only", "since_2025_only", "since_2026_only"]
     order += ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"]
@@ -3148,10 +3197,20 @@ def strategies_html() -> str:
         total_entries = sum(len((payload or {}).get("entries") or []) for payload in path_payload.values() if isinstance(payload, dict))
         if total_entries <= 0:
             return ""
+        window_labels = [
+            leaderboard_short_label(track_key)
+            for track_key in leaderboard_order_keys(path_payload)
+            if (path_payload.get(track_key) or {}).get("entries")
+        ]
+        windows_html = "".join(
+            f"<span class='badge badge-blue' style='margin-right:4px'>{html.escape(label)}</span>"
+            for label in window_labels
+        )
         return (
             "<div class='card' style='padding:14px 16px;margin:8px 0 14px'>"
             "<div style='display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap'>"
-            "<div class='muted' style='font-size:12px'>各窗口候选按当前 winner 规则排序；进入后一次性展开全部 Top 5。</div>"
+            "<div><div class='muted' style='font-size:12px;margin-bottom:6px'>各窗口候选按当前 winner 规则排序；进入后一次性展开全部 Top 5。</div>"
+            f"<div>{windows_html}</div></div>"
             f"<a class='button' href='/strategies/top5?scope={quote(scope)}&path={quote(path_key)}'>查看 Top 5</a>"
             "</div></div>"
         )
@@ -3182,6 +3241,7 @@ def strategies_html() -> str:
             path_groups: dict[str, list] = {}
             for item in items:
                 path_groups.setdefault(item["path"], []).append(item)
+            path_counts = {key: len(value) for key, value in path_groups.items()}
             path_html = ""
             for path_key in path_keys_for_scope("a_share"):
                 path_items = path_groups.get(path_key, [])
@@ -3189,21 +3249,26 @@ def strategies_html() -> str:
                     continue
                 path_title = path_label("a_share", path_key)
                 path_html += (
-                    f"<div style='font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px'>{html.escape(path_title)}</div>"
+                    f"<div id='{html.escape(path_anchor('a_share', path_key))}' style='font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px'>{html.escape(path_title)}</div>"
                     + top5_entry("a_share", path_key)
                     + f"<div class='strategy-grid'>{''.join(strategy_card(it) for it in path_items)}</div>"
                 )
             section_html = (
                 "<div class='page-section'>"
                 "<div class='section-heading'>A 股策略</div>"
+                + path_overview_html("a_share", path_counts, winner_leaderboards)
                 + path_html + "</div>"
             )
         else:
+            path_counts: dict[str, int] = {}
+            for item in items:
+                path_counts[str(item.get("path") or "")] = path_counts.get(str(item.get("path") or ""), 0) + 1
             section_html = (
                 "<div class='page-section'>"
                 "<div class='section-heading'>沪港通策略</div>"
+                + path_overview_html("hkconnect", path_counts, winner_leaderboards)
                 + "".join(
-                    f"<div style='font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px'>{html.escape(path_label('hkconnect', path_key))}</div>"
+                    f"<div id='{html.escape(path_anchor('hkconnect', path_key))}' style='font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px'>{html.escape(path_label('hkconnect', path_key))}</div>"
                     + top5_entry("hkconnect", path_key)
                     + f"<div class='strategy-grid'>{''.join(strategy_card(it) for it in items if it.get('path') == path_key)}</div>"
                     for path_key in path_keys_for_scope("hkconnect")
@@ -3228,6 +3293,10 @@ def strategies_html() -> str:
         ("2023窗口", "/docs/strategy_family_since_2023_01.png"),
         ("2025窗口", "/docs/strategy_family_since_2025_01.png"),
     ]
+    if (ROOT / "docs" / "strategy_family_since_2026_01.png").exists():
+        chart_specs.append(("2026窗口", "/docs/strategy_family_since_2026_01.png"))
+    elif (ROOT / "docs" / "strategy_comparison_since_2026_01.png").exists():
+        chart_specs.append(("2026窗口", "/docs/strategy_comparison_since_2026_01.png"))
     chart_cards = "".join(
         f"<div class='card'><h3 style='margin-bottom:8px'>{html.escape(lbl)}</h3>"
         f"<img src='{html.escape(url)}' alt='{html.escape(lbl)}' style='width:100%;border:1px solid #e0d8cc' /></div>"
