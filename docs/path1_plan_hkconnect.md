@@ -1327,3 +1327,11 @@
 - 五窗口结果：CAGR 为 `22.23% / 28.86% / 29.12% / 46.51% / -8.02%`，最大回撤为 `-25.61% / -11.82% / -11.82% / -11.82% / -10.70%`，换手为 `3.21x / 3.22x / 3.24x / 3.57x / 4.10x`。
 - 结论：v19 长窗好于 v18，但 2026 仍未修复；`update_hkconnect_artifacts.py` 后 HK Path 1 window winner 与 robust candidate 未改变，`since_2025_01` 仍由 v18 占据，robust 仍为 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit32`。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> biweekly_buffer`。下一轮第一候选建议转回双周缓冲线而非继续月周小修：`hkconnect_path1_biweekly_equal_buffered_soft_cost_guard_exit34_v20_buffer`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_equal_buffered_soft_cost_guard_exit34_v20_buffer`。
+
+## 本轮执行计划（2026-06-03 10:35 CST）
+
+- 上一轮候选/结果摘要：上一轮 v19 提高 risk-off exposure 后 2026 仍为负。本轮 guard focus 回到 `monthly_weekly_overlay`，所以测试更低 risk-off exposure `34%` 与 `exit34`，确认月频主线叠加周度仓位能否保住 2025 且减少长窗拖累。
+- 本轮候选 ID：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff34_exit34_v20_2026_repair`。增量命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff34_exit34_v20_2026_repair`。
+- 五窗口结果：CAGR 为 `20.63% / 26.55% / 26.09% / 39.32% / -15.62%`，最大回撤为 `-27.10% / -11.82% / -11.82% / -11.82% / -10.70%`，换手为 `3.37x / 3.31x / 3.34x / 3.65x / 4.29x`。
+- 结论：v20 比 v19 更弱，2026 仍未修复，且未替换 `soft_exit32`、`lowvol_cost_guard` 或 v18 短窗 winner；`update_hkconnect_artifacts.py` 后 HK Path 1 window winner、robust candidate 与 tracked payload 均未改变。HK explore cap 未触发 evict。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> monthly_weekly_overlay`。下一轮第一候选建议测试更宽恢复/出场而不是继续压 risk-off：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff30_exit36_v21_2026_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff30_exit36_v21_2026_repair`。

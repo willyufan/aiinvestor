@@ -665,3 +665,11 @@
 - 五窗口结果：CAGR 为 `18.29% / 18.98% / 22.38% / 33.90% / -11.65%`，最大回撤为 `-28.55% / -22.90% / -11.75% / -11.75% / -10.42%`，换手为 `8.45x / 8.18x / 8.78x / 10.48x / 11.20x`。
 - 结论：现金防守没有修复 2026，反而压低长窗收益；`update_hkconnect_artifacts.py` 后 Path 3 window winner 与 robust candidate 未改变，robust 仍为 `hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`。该线仅保留为低换手防守对照。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> weekly_turnover_reduction`。下一轮第一候选建议只做稳定线降换手：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit44_2026_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit44_2026_repair`。
+
+## 本轮执行计划（2026-06-03 10:35 CST）
+
+- 上一轮候选/结果摘要：上一轮 cashguard 稳定周频线没有修复 2026。本轮按开局 `weekly_defensive_overlay / cost_stress` 继续在稳定周频等权缓冲线上测试 `turnover7/exit42`，检查更低换手与年内平衡是否能保住 2020/2023。
+- 本轮候选 ID：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover7_exit42_2026_balance`。增量命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover7_exit42_2026_balance`。
+- 五窗口结果：CAGR 为 `19.52% / 21.22% / 23.95% / 34.47% / -14.65%`，最大回撤为 `-28.62% / -22.69% / -11.97% / -11.97% / -11.32%`，换手为 `7.84x / 7.47x / 8.13x / 9.77x / 10.50x`。
+- 结论：turnover7/exit42 相对上一轮 cashguard 提升了 2020/2023，但 2026 更弱，仍未改写 HK Path 3 window winner 或 robust candidate；继续只作为低换手防守对照，不替代主题快周频或现有 wide cost guard robust。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> cost_stress`。下一轮第一候选建议把稳定线降换手与现金防守分开测试成本压力：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair`。

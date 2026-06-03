@@ -1329,3 +1329,11 @@
 - 五窗口结果：CAGR 为 `21.70% / 27.10% / 28.44% / 57.26% / 65.60%`，最大回撤为 `-18.22% / -15.91% / -14.59% / -9.36% / -6.98%`，换手为 `5.21x / 5.18x / 5.28x / 5.52x / 5.20x`。
 - 结论：v20 比 strict inverse-elastic 显著可交易，但 2023 仍未突破 `30%`，且低于 `theme_monthly_cost_control` robust；`update_hkconnect_artifacts.py` 后 Path 2 window winner、robust candidate 和 tracked payload 均未改变。候选池未触发 HK explore cap evict。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> elasticity_cost_control`。下一轮第一候选建议只做一个更温和的 equal-elastic 成本控制复核：`hkconnect_path2_equal_elastic_monthly_cost_guard_v16_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-05-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v16_repair`；若仍弱，停止该 focus 并回到主题月频。
+
+## 本轮执行计划（2026-06-03 10:35 CST）
+
+- 上一轮候选/结果摘要：上一轮 v20 主题月频可交易但没有突破 robust，本轮仍按 `elasticity_cost_control` 做一次 strict inverse-elastic 终端复核，确认该线是否需要继续降级。
+- 本轮候选 ID：`hkconnect_path2_inverse_elastic_monthly_cost_guard_v16_terminal`。增量命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_inverse_elastic_monthly_cost_guard_v16_terminal`。
+- 五窗口结果：CAGR 为 `9.48% / 8.32% / 6.10% / 38.78% / 1.91%`，最大回撤为 `-38.86% / -38.86% / -31.81% / -12.82% / -13.17%`，换手为 `4.18x / 4.13x / 4.85x / 5.57x / 6.44x`。
+- 结论：v16 明显弱于 v15 和主题月频修复线，strict inverse-elastic 终端线确认失败；`update_hkconnect_artifacts.py` 后 HK Path 2 window winner、robust candidate 与 tracked payload 均未改变。候选池未触发 HK explore cap evict。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> biweekly_breakout`。下一轮先不要重启普通高换手 breakout，建议测试带成本/确认的主题双周突破：`hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair`。
