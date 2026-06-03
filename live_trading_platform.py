@@ -2284,6 +2284,25 @@ def leaderboard_short_label(track_key: str) -> str:
     return label_map.get(str(track_key), str(track_key))
 
 
+def leaderboard_sample_tag(track_key: str, leaderboard: dict) -> str:
+    sample_tag = str((leaderboard or {}).get("sample_tag") or "")
+    if sample_tag:
+        return sample_tag
+    sample_map = {
+        "since_2017_only": "since_2017_01",
+        "since_2017_01": "since_2017_01",
+        "since_2020_only": "since_2020_01",
+        "since_2020_01": "since_2020_01",
+        "since_2023_only": "since_2023_01",
+        "since_2023_01": "since_2023_01",
+        "since_2025_only": "since_2025_01",
+        "since_2025_01": "since_2025_01",
+        "since_2026_only": "since_2026_01",
+        "since_2026_01": "since_2026_01",
+    }
+    return sample_map.get(str(track_key), "")
+
+
 def path_overview_html(scope: str, path_counts: dict[str, int], winner_leaderboards: dict) -> str:
     chips: list[str] = []
     for path_key in path_keys_for_scope(scope):
@@ -3190,6 +3209,78 @@ def strategies_html() -> str:
     def strategy_card(item: dict, extra_note: str = "") -> str:
         return strategy_card_html(item, extra_note=extra_note)
 
+    def path_window_winner_cards(scope: str, path_key: str, path_items: list[dict]) -> str:
+        path_payload = ((winner_leaderboards.get(scope) or {}).get(path_key) or {})
+        if not isinstance(path_payload, dict) or not path_payload:
+            return "".join(strategy_card(it) for it in path_items)
+        items_by_id = {str(item.get("strategy_id") or ""): item for item in path_items}
+        robust_entries = ((path_payload.get("robust_candidate") or {}).get("entries") or [])
+        robust_ids = {
+            str(entry.get("strategy_base_id") or entry.get("strategy_id") or "")
+            for entry in robust_entries
+            if isinstance(entry, dict)
+        }
+        cards: list[str] = []
+        window_strategy_ids: set[str] = set()
+        for track_key in leaderboard_order_keys(path_payload):
+            if track_key == "robust_candidate":
+                continue
+            leaderboard = path_payload.get(track_key) or {}
+            entries = leaderboard.get("entries") if isinstance(leaderboard, dict) else []
+            if not entries:
+                continue
+            entry = entries[0]
+            strategy_id = str(entry.get("strategy_base_id") or entry.get("strategy_id") or "")
+            if not strategy_id:
+                continue
+            item = items_by_id.get(strategy_id)
+            if item is None:
+                try:
+                    item = load_strategy_snapshot(strategy_id)
+                except Exception:
+                    continue
+                item = dict(item)
+                item["path"] = path_key
+                item["market_scope"] = scope
+            sample_tag = leaderboard_sample_tag(str(track_key), leaderboard)
+            label = leaderboard_short_label(str(track_key))
+            robust_suffix = " / 鲁棒" if strategy_id in robust_ids else ""
+            leading = (
+                "<span class='badge badge-blue' style='margin-right:4px'>"
+                f"窗口 {html.escape(label)}{html.escape(robust_suffix)}</span>"
+            )
+            cards.append(
+                strategy_card_html(
+                    item,
+                    sample_tag=sample_tag,
+                    leading_badges=leading,
+                    show_winner_tags=False,
+                )
+            )
+            window_strategy_ids.add(strategy_id)
+        for robust_id in sorted(robust_ids):
+            if not robust_id or robust_id in window_strategy_ids:
+                continue
+            item = items_by_id.get(robust_id)
+            if item is None:
+                try:
+                    item = load_strategy_snapshot(robust_id)
+                except Exception:
+                    continue
+                item = dict(item)
+                item["path"] = path_key
+                item["market_scope"] = scope
+            leading = "<span class='badge badge-blue' style='margin-right:4px'>鲁棒</span>"
+            cards.append(
+                strategy_card_html(
+                    item,
+                    sample_tag=leaderboard_sample_tag("robust_candidate", path_payload.get("robust_candidate") or {}),
+                    leading_badges=leading,
+                    show_winner_tags=False,
+                )
+            )
+        return "".join(cards) if cards else "".join(strategy_card(it) for it in path_items)
+
     def top5_entry(scope: str, path_key: str) -> str:
         path_payload = ((winner_leaderboards.get(scope) or {}).get(path_key) or {})
         if not isinstance(path_payload, dict) or not path_payload:
@@ -3251,7 +3342,7 @@ def strategies_html() -> str:
                 path_html += (
                     f"<div id='{html.escape(path_anchor('a_share', path_key))}' style='font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px'>{html.escape(path_title)}</div>"
                     + top5_entry("a_share", path_key)
-                    + f"<div class='strategy-grid'>{''.join(strategy_card(it) for it in path_items)}</div>"
+                    + f"<div class='strategy-grid'>{path_window_winner_cards('a_share', path_key, path_items)}</div>"
                 )
             section_html = (
                 "<div class='page-section'>"
@@ -3270,7 +3361,7 @@ def strategies_html() -> str:
                 + "".join(
                     f"<div id='{html.escape(path_anchor('hkconnect', path_key))}' style='font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px'>{html.escape(path_label('hkconnect', path_key))}</div>"
                     + top5_entry("hkconnect", path_key)
-                    + f"<div class='strategy-grid'>{''.join(strategy_card(it) for it in items if it.get('path') == path_key)}</div>"
+                    + f"<div class='strategy-grid'>{path_window_winner_cards('hkconnect', path_key, [it for it in items if it.get('path') == path_key])}</div>"
                     for path_key in path_keys_for_scope("hkconnect")
                     if any(it.get("path") == path_key for it in items)
                 )
