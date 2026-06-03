@@ -63,6 +63,29 @@ SAMPLE_TAG_DISPLAY = {
 }
 
 
+def _float_metric(metrics: dict[str, Any], keys: tuple[str, ...]) -> float:
+    for key in keys:
+        value = metrics.get(key)
+        if value is None:
+            continue
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            continue
+    return 0.0
+
+
+def _public_leaderboard_metrics(metrics: dict[str, Any]) -> dict[str, float]:
+    """Normalize A-share weighted metrics and HK raw metrics into the public shape."""
+    if not metrics:
+        return {}
+    return {
+        "weighted_cagr": round(_float_metric(metrics, ("weighted_cagr", "cagr")), 4),
+        "weighted_sharpe": round(_float_metric(metrics, ("weighted_sharpe", "sharpe_ratio", "sharpe")), 4),
+        "weighted_max_drawdown": round(_float_metric(metrics, ("weighted_max_drawdown", "max_drawdown")), 4),
+    }
+
+
 def build_leaderboards() -> dict[str, Any]:
     """Export winner_leaderboards from strategy_registry.json for public consumption."""
     if not STRATEGY_REGISTRY_JSON.exists():
@@ -82,11 +105,7 @@ def build_leaderboards() -> dict[str, Any]:
                         "strategy_base_id": str(e.get("strategy_base_id", "")),
                         "strategy_base_name": str(e.get("strategy_base_name", "")),
                         "is_official_winner": bool(e.get("is_official_winner", False)),
-                        "metrics": {
-                            "weighted_cagr": round(float(e["metrics"].get("weighted_cagr", 0)), 4),
-                            "weighted_sharpe": round(float(e["metrics"].get("weighted_sharpe", 0)), 4),
-                            "weighted_max_drawdown": round(float(e["metrics"].get("weighted_max_drawdown", 0)), 4),
-                        } if e.get("metrics") else {},
+                        "metrics": _public_leaderboard_metrics(e.get("metrics") or {}),
                     })
                 result[market_key][path_key][track_key] = {
                     "label": WINDOW_LABELS.get(track_key, track_key),
@@ -488,8 +507,10 @@ def main() -> None:
 
     # ── 沪港通 ──
     hk_entries: list[dict] = []
+    hk_strategy_meta: dict[str, Any] = {}
     if HK_TRACKED_WINNERS_JSON.exists():
         hk_payload = load_json(HK_TRACKED_WINNERS_JSON)
+        hk_strategy_meta = hk_payload.get("strategies", {})
         hk_entries = build_hk_entries(hk_payload)
 
     leaderboards = build_leaderboards()
@@ -528,6 +549,42 @@ def main() -> None:
             frequency=str(entry.get("frequency", "")),
         )
         detail_count += 1
+    for market_scope, path_payload in leaderboards.items():
+        if not isinstance(path_payload, dict):
+            continue
+        for path_name, tracks in path_payload.items():
+            if not isinstance(tracks, dict):
+                continue
+            for track_key, leaderboard in tracks.items():
+                if not isinstance(leaderboard, dict):
+                    continue
+                for entry in leaderboard.get("entries") or []:
+                    strategy_id = str(entry.get("strategy_base_id") or entry.get("strategy_id") or "")
+                    if not strategy_id or strategy_id in seen_ids:
+                        continue
+                    experimental = False
+                    tracked_only = False
+                    frequency = ""
+                    if str(market_scope) == "a_share" and str(path_name) == "path4":
+                        experimental = path4_experimental
+                        tracked_only = path4_tracked_only
+                        frequency = path4_frequency
+                    elif str(market_scope) == "hkconnect" and str(path_name) in HK_EXPERIMENTAL_PATH_NAMES:
+                        experimental = True
+                        tracked_only = True
+                        frequency = str((hk_strategy_meta.get(strategy_id) or {}).get("rebalance_frequency") or "")
+                    export_strategy_detail(
+                        strategy_id=strategy_id,
+                        display_name=str(entry.get("strategy_base_name") or strategy_id),
+                        market_scope=str(market_scope),
+                        path=str(path_name),
+                        winner_type="leaderboard candidate",
+                        experimental=experimental,
+                        tracked_only=tracked_only,
+                        frequency=frequency,
+                    )
+                    seen_ids.add(strategy_id)
+                    detail_count += 1
     for stale_path in STRATEGIES_DIR.glob("*.json"):
         if stale_path.stem not in seen_ids:
             stale_path.unlink()
