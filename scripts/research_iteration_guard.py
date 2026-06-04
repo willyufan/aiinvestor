@@ -420,7 +420,7 @@ def _hk_path_comparison_signatures(frame: pd.DataFrame, path_names: Iterable[str
                 }
             )
 
-        robust_rows = subset.loc[subset["sample_tag"].isin(A_SHARE_REQUIRED_WINDOWS)].copy()
+        robust_rows = subset.loc[subset["sample_tag"].isin(HK_REQUIRED_WINDOWS)].copy()
         if robust_rows.empty:
             parts.append("robust:")
         else:
@@ -434,7 +434,7 @@ def _hk_path_comparison_signatures(frame: pd.DataFrame, path_names: Iterable[str
                     cagr_mean=("cagr", "mean"),
                     turnover_mean=("average_annual_turnover", "mean"),
                 )
-                .loc[lambda data: data["window_count"] >= len(A_SHARE_REQUIRED_WINDOWS)]
+                .loc[lambda data: data["window_count"] >= len(HK_REQUIRED_WINDOWS)]
             )
             if summary.empty:
                 parts.append("robust:")

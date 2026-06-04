@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-04 10:16 CST）
+
+- 开局 guard 为 `pass`，上一轮未跑的 underrepresented/capacity 对照仍需要推进。本轮先把 `aggr_08_92_prom6_core_multifactor_quality_profitability_industry_defense_reconfirm` 加入 `PATH2_SCAN_VARIANT_IDS`，随后用 80/20 与 90/10 等权底座五窗口确认，避免 Path2 universe 继续只被 high-growth/liqmom 族压扁。
+- 本轮新增并确认 2 个 Path2 低相关多因子候选：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_industry_defense_reconfirm`、`core_explore_90_10_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_industry_defense_reconfirm`。实际命令见 Path1 本轮记录，命令类型为五窗口 `--only-base-ids` 增量确认。
+- 两个候选的五窗口 CAGR 分别为 `15.27% / 14.85% / 28.12% / 53.58% / 58.78%` 与 `15.01% / 14.70% / 25.98% / 63.12% / 48.89%`；回撤相对 high-growth 族更温和，但 2020/2023 收益明显低于 Path2 winner，作为低相关失败对照记录，不晋级。
+- `scripts/path2_candidate_pass.py` 后 comparable universe 更新为 `868`，robust 仍为既有 liqmom/high-growth 确认族；`scripts/update_weighted_winners.py` 后 Path2 window winner、robust candidate 和 tracked payload 未切换，本轮未触发 evict。
+- 下一轮 focus 仍是 `underrepresented_families`，但不要继续扩低收益多因子。第一条命令建议补回上一轮未跑的双周 capacity/cost 对照：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard`。
+
 ## 本轮执行计划（2026-06-03 22:20 CST）
 
 - 开局 guard 的 Path2 coverage 为 `860/860 complete`；本轮没有追加 Path2 回测预算，原因是 coverage 补缺口已经占用 Path4 三底座五窗口与 Path1 fast-family，HK 还需完成六个增量 id。`scripts/path2_candidate_pass.py` 已巡检并更新 family ranking，当前 comparable universe 为 `862`，robust 仍集中在既有 liqmom 高收益族。

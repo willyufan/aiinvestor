@@ -2451,6 +2451,144 @@
       "frequency": "monthly"
     },
     {
+      "strategy_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit32",
+      "display_name": "沪港通Path1 月度等权缓冲(周度轻风控32)",
+      "path": "path1",
+      "market_scope": "hkconnect",
+      "winner_type": "2020-window winner",
+      "window_label": "2020 窗口",
+      "sample_tag": "since_2020_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.3266,
+        "sharpe": 1.6088,
+        "max_drawdown": -0.1168,
+        "total_return": 4.9901,
+        "turnover": 3.4794
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.2535,
+          "sharpe": 0.0,
+          "max_drawdown": -0.2212,
+          "total_return": 7.2359
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.3266,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1168,
+          "total_return": 4.9901
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.3172,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1157,
+          "total_return": 1.5054
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.3518,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1157,
+          "total_return": 0.4947
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": -0.1104,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0844,
+          "total_return": -0.0382
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.088639
+        },
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.083087
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.079274
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.074267
+        },
+        {
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.073839
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.072662
+        },
+        {
+          "ts_code": "00005.HK",
+          "name": "汇丰控股",
+          "weight": 0.071396
+        },
+        {
+          "ts_code": "02628.HK",
+          "name": "中国人寿",
+          "weight": 0.06941
+        },
+        {
+          "ts_code": "01113.HK",
+          "name": "长实集团",
+          "weight": 0.068944
+        },
+        {
+          "ts_code": "01171.HK",
+          "name": "兖矿能源",
+          "weight": 0.06878
+        },
+        {
+          "ts_code": "02601.HK",
+          "name": "中国太保",
+          "weight": 0.066471
+        },
+        {
+          "ts_code": "00288.HK",
+          "name": "万洲国际",
+          "weight": 0.065818
+        },
+        {
+          "ts_code": "01898.HK",
+          "name": "中煤能源",
+          "weight": 0.063791
+        },
+        {
+          "ts_code": "01378.HK",
+          "name": "中国宏桥",
+          "weight": 0.058673
+        }
+      ],
+      "experimental": false,
+      "tracked_only": false,
+      "frequency": "monthly"
+    },
+    {
       "strategy_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_cost_guard",
       "display_name": "沪港通Path1 月度等权缓冲(周度低波成本防守)",
       "path": "path1",
@@ -2747,6 +2885,144 @@
       "frequency": "monthly"
     },
     {
+      "strategy_id": "hkconnect_path1_biweekly_lowvol",
+      "display_name": "沪港通Path1 双周低波偏稳",
+      "path": "path1",
+      "market_scope": "hkconnect",
+      "winner_type": "2026-window winner",
+      "window_label": "2026 窗口",
+      "sample_tag": "since_2026_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.1622,
+        "sharpe": 1.3742,
+        "max_drawdown": -0.0405,
+        "total_return": 0.0595,
+        "turnover": 4.0968
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.1773,
+          "sharpe": 0.0,
+          "max_drawdown": -0.2231,
+          "total_return": 3.6263
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.1906,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1698,
+          "total_return": 2.0461
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.2501,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0946,
+          "total_return": 1.1106
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.3093,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0852,
+          "total_return": 0.4522
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.1622,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0405,
+          "total_return": 0.0595
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.135353
+        },
+        {
+          "ts_code": "00939.HK",
+          "name": "建设银行",
+          "weight": 0.118474
+        },
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.10899
+        },
+        {
+          "ts_code": "01288.HK",
+          "name": "农业银行",
+          "weight": 0.096142
+        },
+        {
+          "ts_code": "03988.HK",
+          "name": "中国银行",
+          "weight": 0.090919
+        },
+        {
+          "ts_code": "00941.HK",
+          "name": "中国移动",
+          "weight": 0.076628
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.065912
+        },
+        {
+          "ts_code": "00005.HK",
+          "name": "汇丰控股",
+          "weight": 0.064311
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.050426
+        },
+        {
+          "ts_code": "02318.HK",
+          "name": "中国平安",
+          "weight": 0.039141
+        },
+        {
+          "ts_code": "02628.HK",
+          "name": "中国人寿",
+          "weight": 0.038615
+        },
+        {
+          "ts_code": "03968.HK",
+          "name": "招商银行",
+          "weight": 0.034196
+        },
+        {
+          "ts_code": "01299.HK",
+          "name": "友邦保险",
+          "weight": 0.031312
+        },
+        {
+          "ts_code": "02899.HK",
+          "name": "紫金矿业",
+          "weight": 0.023137
+        }
+      ],
+      "experimental": false,
+      "tracked_only": false,
+      "frequency": "biweekly"
+    },
+    {
       "strategy_id": "hkconnect_path2_theme_monthly_cost_control",
       "display_name": "沪港通Path2 月度高成长主线(成本约束)",
       "path": "path2",
@@ -2765,6 +3041,129 @@
         "max_drawdown": -0.2198,
         "total_return": 6.0227,
         "turnover": 5.8845
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.2322,
+          "sharpe": 0.0,
+          "max_drawdown": -0.2198,
+          "total_return": 6.0227
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.3023,
+          "sharpe": 0.0,
+          "max_drawdown": -0.2198,
+          "total_return": 4.3283
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.3155,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1393,
+          "total_return": 1.4946
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.5811,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0971,
+          "total_return": 0.8419
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.3115,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0876,
+          "total_return": 0.0946
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.117111
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.10929
+        },
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.103177
+        },
+        {
+          "ts_code": "02628.HK",
+          "name": "中国人寿",
+          "weight": 0.098734
+        },
+        {
+          "ts_code": "02338.HK",
+          "name": "潍柴动力",
+          "weight": 0.098517
+        },
+        {
+          "ts_code": "01171.HK",
+          "name": "兖矿能源",
+          "weight": 0.09692
+        },
+        {
+          "ts_code": "00012.HK",
+          "name": "恒基地产",
+          "weight": 0.096078
+        },
+        {
+          "ts_code": "01898.HK",
+          "name": "中煤能源",
+          "weight": 0.092586
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.090963
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.08633
+        },
+        {
+          "ts_code": "CASH",
+          "name": "现金",
+          "weight": 0.010293
+        }
+      ],
+      "experimental": false,
+      "tracked_only": false,
+      "frequency": "monthly"
+    },
+    {
+      "strategy_id": "hkconnect_path2_theme_monthly_cost_control",
+      "display_name": "沪港通Path2 月度高成长主线(成本约束)",
+      "path": "path2",
+      "market_scope": "hkconnect",
+      "winner_type": "2020-window winner",
+      "window_label": "2020 窗口",
+      "sample_tag": "since_2020_01",
+      "risk_state": "caution",
+      "target_exposure": 0.9897,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.3023,
+        "sharpe": 1.1113,
+        "max_drawdown": -0.2198,
+        "total_return": 4.3283,
+        "turnover": 5.6634
       },
       "window_metrics": [
         {
@@ -2996,6 +3395,94 @@
         "max_drawdown": -0.0845,
         "total_return": 1.4905,
         "turnover": 9.4496
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.1014,
+          "sharpe": 0.0,
+          "max_drawdown": -0.6479,
+          "total_return": 1.4642
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.1158,
+          "sharpe": 0.0,
+          "max_drawdown": -0.6479,
+          "total_return": 1.0019
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.1382,
+          "sharpe": 0.0,
+          "max_drawdown": -0.4451,
+          "total_return": 0.5398
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.9825,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0845,
+          "total_return": 1.4905
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 1.1201,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0497,
+          "total_return": 0.2847
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.26546
+        },
+        {
+          "ts_code": "01171.HK",
+          "name": "兖矿能源",
+          "weight": 0.249089
+        },
+        {
+          "ts_code": "02338.HK",
+          "name": "潍柴动力",
+          "weight": 0.242814
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.242637
+        }
+      ],
+      "experimental": false,
+      "tracked_only": false,
+      "frequency": "monthly"
+    },
+    {
+      "strategy_id": "hkconnect_path2_breakout_concentrated_monthly",
+      "display_name": "沪港通Path2 月度极集中突破",
+      "path": "path2",
+      "market_scope": "hkconnect",
+      "winner_type": "2026-window winner",
+      "window_label": "2026 窗口",
+      "sample_tag": "since_2026_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 1.1201,
+        "sharpe": 1.5959,
+        "max_drawdown": -0.0497,
+        "total_return": 0.2847,
+        "turnover": 9.0028
       },
       "window_metrics": [
         {
@@ -3488,6 +3975,114 @@
       "frequency": "weekly"
     },
     {
+      "strategy_id": "hkconnect_path3_equal_elastic_cashoff_weekly",
+      "display_name": "沪港通Path3 单周等权高弹性(熊市空仓)",
+      "path": "path3",
+      "market_scope": "hkconnect",
+      "winner_type": "2026-window winner",
+      "window_label": "2026 窗口",
+      "sample_tag": "since_2026_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.6063,
+        "sharpe": 1.8676,
+        "max_drawdown": -0.0936,
+        "total_return": 0.2109,
+        "turnover": 36.6505
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.16,
+          "sharpe": 0.0,
+          "max_drawdown": -0.4876,
+          "total_return": 3.0278
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.1979,
+          "sharpe": 0.0,
+          "max_drawdown": -0.4876,
+          "total_return": 2.1681
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.2479,
+          "sharpe": 0.0,
+          "max_drawdown": -0.371,
+          "total_return": 1.107
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.6307,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1502,
+          "total_return": 0.9867
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.6063,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0936,
+          "total_return": 0.2109
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "00992.HK",
+          "name": "联想集团",
+          "weight": 0.17613
+        },
+        {
+          "ts_code": "00148.HK",
+          "name": "建滔集团",
+          "weight": 0.149972
+        },
+        {
+          "ts_code": "01888.HK",
+          "name": "建滔积层板",
+          "weight": 0.128693
+        },
+        {
+          "ts_code": "00522.HK",
+          "name": "ASMPT",
+          "weight": 0.122782
+        },
+        {
+          "ts_code": "00189.HK",
+          "name": "东岳集团",
+          "weight": 0.121273
+        },
+        {
+          "ts_code": "00005.HK",
+          "name": "汇丰控股",
+          "weight": 0.109182
+        },
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.106947
+        },
+        {
+          "ts_code": "06651.HK",
+          "name": "五一视界",
+          "weight": 0.085814
+        }
+      ],
+      "experimental": false,
+      "tracked_only": false,
+      "frequency": "weekly"
+    },
+    {
       "strategy_id": "hkconnect_path4_quality_momentum_monthly_ytd_guard",
       "display_name": "沪港通Path4 月度质量动量(年内守门)",
       "path": "path4",
@@ -3506,6 +4101,302 @@
         "max_drawdown": -0.1516,
         "total_return": 4.8673,
         "turnover": 3.034
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.2087,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1516,
+          "total_return": 4.8673
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.2592,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1146,
+          "total_return": 3.3051
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.3081,
+          "sharpe": 0.0,
+          "max_drawdown": -0.098,
+          "total_return": 1.4479
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.3319,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1016,
+          "total_return": 0.4655
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": -0.0668,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0916,
+          "total_return": -0.0228
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.079249
+        },
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.07517
+        },
+        {
+          "ts_code": "00001.HK",
+          "name": "长和",
+          "weight": 0.075099
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.070555
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.068332
+        },
+        {
+          "ts_code": "00012.HK",
+          "name": "恒基地产",
+          "weight": 0.067245
+        },
+        {
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.065865
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.064213
+        },
+        {
+          "ts_code": "01113.HK",
+          "name": "长实集团",
+          "weight": 0.061765
+        },
+        {
+          "ts_code": "00005.HK",
+          "name": "汇丰控股",
+          "weight": 0.061722
+        },
+        {
+          "ts_code": "03988.HK",
+          "name": "中国银行",
+          "weight": 0.061717
+        },
+        {
+          "ts_code": "00939.HK",
+          "name": "建设银行",
+          "weight": 0.060226
+        },
+        {
+          "ts_code": "01171.HK",
+          "name": "兖矿能源",
+          "weight": 0.056768
+        },
+        {
+          "ts_code": "00288.HK",
+          "name": "万洲国际",
+          "weight": 0.055987
+        },
+        {
+          "ts_code": "01898.HK",
+          "name": "中煤能源",
+          "weight": 0.053571
+        },
+        {
+          "ts_code": "02601.HK",
+          "name": "中国太保",
+          "weight": 0.052929
+        }
+      ],
+      "experimental": true,
+      "tracked_only": true,
+      "frequency": "monthly"
+    },
+    {
+      "strategy_id": "hkconnect_path4_quality_momentum_monthly_ytd_guard",
+      "display_name": "沪港通Path4 月度质量动量(年内守门)",
+      "path": "path4",
+      "market_scope": "hkconnect",
+      "winner_type": "2020-window winner",
+      "window_label": "2020 窗口",
+      "sample_tag": "since_2020_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.2592,
+        "sharpe": 1.4104,
+        "max_drawdown": -0.1146,
+        "total_return": 3.3051,
+        "turnover": 2.9218
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.2087,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1516,
+          "total_return": 4.8673
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.2592,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1146,
+          "total_return": 3.3051
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.3081,
+          "sharpe": 0.0,
+          "max_drawdown": -0.098,
+          "total_return": 1.4479
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.3319,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1016,
+          "total_return": 0.4655
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": -0.0668,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0916,
+          "total_return": -0.0228
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.079249
+        },
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.07517
+        },
+        {
+          "ts_code": "00001.HK",
+          "name": "长和",
+          "weight": 0.075099
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.070555
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.068332
+        },
+        {
+          "ts_code": "00012.HK",
+          "name": "恒基地产",
+          "weight": 0.067245
+        },
+        {
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.065865
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.064213
+        },
+        {
+          "ts_code": "01113.HK",
+          "name": "长实集团",
+          "weight": 0.061765
+        },
+        {
+          "ts_code": "00005.HK",
+          "name": "汇丰控股",
+          "weight": 0.061722
+        },
+        {
+          "ts_code": "03988.HK",
+          "name": "中国银行",
+          "weight": 0.061717
+        },
+        {
+          "ts_code": "00939.HK",
+          "name": "建设银行",
+          "weight": 0.060226
+        },
+        {
+          "ts_code": "01171.HK",
+          "name": "兖矿能源",
+          "weight": 0.056768
+        },
+        {
+          "ts_code": "00288.HK",
+          "name": "万洲国际",
+          "weight": 0.055987
+        },
+        {
+          "ts_code": "01898.HK",
+          "name": "中煤能源",
+          "weight": 0.053571
+        },
+        {
+          "ts_code": "02601.HK",
+          "name": "中国太保",
+          "weight": 0.052929
+        }
+      ],
+      "experimental": true,
+      "tracked_only": true,
+      "frequency": "monthly"
+    },
+    {
+      "strategy_id": "hkconnect_path4_quality_momentum_monthly_ytd_guard",
+      "display_name": "沪港通Path4 月度质量动量(年内守门)",
+      "path": "path4",
+      "market_scope": "hkconnect",
+      "winner_type": "2023-window winner",
+      "window_label": "2023 窗口",
+      "sample_tag": "since_2023_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.3081,
+        "sharpe": 1.5735,
+        "max_drawdown": -0.098,
+        "total_return": 1.4479,
+        "turnover": 2.8115
       },
       "window_metrics": [
         {
@@ -3764,6 +4655,134 @@
       "frequency": "biweekly"
     },
     {
+      "strategy_id": "hkconnect_path4_liquidity_momentum_biweekly_smoke",
+      "display_name": "沪港通Path4 双周流动性动量(smoke)",
+      "path": "path4",
+      "market_scope": "hkconnect",
+      "winner_type": "2026-window winner",
+      "window_label": "2026 窗口",
+      "sample_tag": "since_2026_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.2013,
+        "sharpe": 1.0137,
+        "max_drawdown": -0.0709,
+        "total_return": 0.0731,
+        "turnover": 11.4522
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.1683,
+          "sharpe": 0.0,
+          "max_drawdown": -0.3329,
+          "total_return": 3.3044
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.1603,
+          "sharpe": 0.0,
+          "max_drawdown": -0.3329,
+          "total_return": 1.5832
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.064,
+          "sharpe": 0.0,
+          "max_drawdown": -0.3307,
+          "total_return": 0.2308
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.5448,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1547,
+          "total_return": 0.8261
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.2013,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0709,
+          "total_return": 0.0731
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.097877
+        },
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.096656
+        },
+        {
+          "ts_code": "00001.HK",
+          "name": "长和",
+          "weight": 0.094983
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.086513
+        },
+        {
+          "ts_code": "00688.HK",
+          "name": "中国海外发展",
+          "weight": 0.086288
+        },
+        {
+          "ts_code": "06869.HK",
+          "name": "长飞光纤光缆",
+          "weight": 0.085867
+        },
+        {
+          "ts_code": "03750.HK",
+          "name": "宁德时代",
+          "weight": 0.085521
+        },
+        {
+          "ts_code": "01171.HK",
+          "name": "兖矿能源",
+          "weight": 0.085123
+        },
+        {
+          "ts_code": "02338.HK",
+          "name": "潍柴动力",
+          "weight": 0.084943
+        },
+        {
+          "ts_code": "03988.HK",
+          "name": "中国银行",
+          "weight": 0.083287
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.077795
+        },
+        {
+          "ts_code": "00300.HK",
+          "name": "美的集团",
+          "weight": 0.072334
+        }
+      ],
+      "experimental": true,
+      "tracked_only": true,
+      "frequency": "biweekly"
+    },
+    {
       "strategy_id": "hkconnect_path5_pullback_continuation_monthly_smoke",
       "display_name": "沪港通Path5 月度回踩续涨(smoke)",
       "path": "path5",
@@ -3907,6 +4926,292 @@
       "frequency": "monthly"
     },
     {
+      "strategy_id": "hkconnect_path5_pullback_continuation_monthly_smoke",
+      "display_name": "沪港通Path5 月度回踩续涨(smoke)",
+      "path": "path5",
+      "market_scope": "hkconnect",
+      "winner_type": "2020-window winner",
+      "window_label": "2020 窗口",
+      "sample_tag": "since_2020_01",
+      "risk_state": "caution",
+      "target_exposure": 0.9876,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.2014,
+        "sharpe": 1.0435,
+        "max_drawdown": -0.1454,
+        "total_return": 2.1961,
+        "turnover": 4.3274
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.2001,
+          "sharpe": 0.0,
+          "max_drawdown": -0.219,
+          "total_return": 4.4872
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.2014,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1454,
+          "total_return": 2.1961
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.1915,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1454,
+          "total_return": 0.7931
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.238,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1443,
+          "total_return": 0.3293
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": -0.1727,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1452,
+          "total_return": -0.0612
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.085391
+        },
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.081306
+        },
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.077776
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.075913
+        },
+        {
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.075153
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.074966
+        },
+        {
+          "ts_code": "02600.HK",
+          "name": "中国铝业",
+          "weight": 0.07473
+        },
+        {
+          "ts_code": "01299.HK",
+          "name": "友邦保险",
+          "weight": 0.071068
+        },
+        {
+          "ts_code": "01171.HK",
+          "name": "兖矿能源",
+          "weight": 0.064802
+        },
+        {
+          "ts_code": "02899.HK",
+          "name": "紫金矿业",
+          "weight": 0.063813
+        },
+        {
+          "ts_code": "01378.HK",
+          "name": "中国宏桥",
+          "weight": 0.063153
+        },
+        {
+          "ts_code": "06869.HK",
+          "name": "长飞光纤光缆",
+          "weight": 0.062348
+        },
+        {
+          "ts_code": "01138.HK",
+          "name": "中远海能",
+          "weight": 0.06096
+        },
+        {
+          "ts_code": "01898.HK",
+          "name": "中煤能源",
+          "weight": 0.056261
+        },
+        {
+          "ts_code": "CASH",
+          "name": "现金",
+          "weight": 0.012363
+        }
+      ],
+      "experimental": true,
+      "tracked_only": true,
+      "frequency": "monthly"
+    },
+    {
+      "strategy_id": "hkconnect_path5_pullback_continuation_monthly_smoke",
+      "display_name": "沪港通Path5 月度回踩续涨(smoke)",
+      "path": "path5",
+      "market_scope": "hkconnect",
+      "winner_type": "2023-window winner",
+      "window_label": "2023 窗口",
+      "sample_tag": "since_2023_01",
+      "risk_state": "caution",
+      "target_exposure": 0.9876,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.1915,
+        "sharpe": 0.9493,
+        "max_drawdown": -0.1454,
+        "total_return": 0.7931,
+        "turnover": 4.5473
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.2001,
+          "sharpe": 0.0,
+          "max_drawdown": -0.219,
+          "total_return": 4.4872
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.2014,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1454,
+          "total_return": 2.1961
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.1915,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1454,
+          "total_return": 0.7931
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.238,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1443,
+          "total_return": 0.3293
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": -0.1727,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1452,
+          "total_return": -0.0612
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.085391
+        },
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.081306
+        },
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.077776
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.075913
+        },
+        {
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.075153
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.074966
+        },
+        {
+          "ts_code": "02600.HK",
+          "name": "中国铝业",
+          "weight": 0.07473
+        },
+        {
+          "ts_code": "01299.HK",
+          "name": "友邦保险",
+          "weight": 0.071068
+        },
+        {
+          "ts_code": "01171.HK",
+          "name": "兖矿能源",
+          "weight": 0.064802
+        },
+        {
+          "ts_code": "02899.HK",
+          "name": "紫金矿业",
+          "weight": 0.063813
+        },
+        {
+          "ts_code": "01378.HK",
+          "name": "中国宏桥",
+          "weight": 0.063153
+        },
+        {
+          "ts_code": "06869.HK",
+          "name": "长飞光纤光缆",
+          "weight": 0.062348
+        },
+        {
+          "ts_code": "01138.HK",
+          "name": "中远海能",
+          "weight": 0.06096
+        },
+        {
+          "ts_code": "01898.HK",
+          "name": "中煤能源",
+          "weight": 0.056261
+        },
+        {
+          "ts_code": "CASH",
+          "name": "现金",
+          "weight": 0.012363
+        }
+      ],
+      "experimental": true,
+      "tracked_only": true,
+      "frequency": "monthly"
+    },
+    {
       "strategy_id": "hkconnect_path5_breakout_retest_biweekly_smoke",
       "display_name": "沪港通Path5 双周突破回踩(smoke)",
       "path": "path5",
@@ -3925,6 +5230,134 @@
         "max_drawdown": -0.1487,
         "total_return": 0.4969,
         "turnover": 19.2652
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.1423,
+          "sharpe": 0.0,
+          "max_drawdown": -0.2496,
+          "total_return": 2.4858
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.1067,
+          "sharpe": 0.0,
+          "max_drawdown": -0.2219,
+          "total_return": 0.9103
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.1101,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1785,
+          "total_return": 0.4183
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.3382,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1487,
+          "total_return": 0.4969
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": -0.0374,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0633,
+          "total_return": -0.0145
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.107077
+        },
+        {
+          "ts_code": "00001.HK",
+          "name": "长和",
+          "weight": 0.096051
+        },
+        {
+          "ts_code": "00300.HK",
+          "name": "美的集团",
+          "weight": 0.089546
+        },
+        {
+          "ts_code": "00688.HK",
+          "name": "中国海外发展",
+          "weight": 0.089403
+        },
+        {
+          "ts_code": "02319.HK",
+          "name": "蒙牛乳业",
+          "weight": 0.086287
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.084745
+        },
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.082677
+        },
+        {
+          "ts_code": "03988.HK",
+          "name": "中国银行",
+          "weight": 0.080102
+        },
+        {
+          "ts_code": "01997.HK",
+          "name": "九龙仓置业",
+          "weight": 0.074402
+        },
+        {
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.073583
+        },
+        {
+          "ts_code": "02328.HK",
+          "name": "中国财险",
+          "weight": 0.073482
+        },
+        {
+          "ts_code": "00257.HK",
+          "name": "光大环境",
+          "weight": 0.071291
+        }
+      ],
+      "experimental": true,
+      "tracked_only": true,
+      "frequency": "biweekly"
+    },
+    {
+      "strategy_id": "hkconnect_path5_breakout_retest_biweekly_smoke",
+      "display_name": "沪港通Path5 双周突破回踩(smoke)",
+      "path": "path5",
+      "market_scope": "hkconnect",
+      "winner_type": "2026-window winner",
+      "window_label": "2026 窗口",
+      "sample_tag": "since_2026_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": -0.0374,
+        "sharpe": -0.1786,
+        "max_drawdown": -0.0633,
+        "total_return": -0.0145,
+        "turnover": 17.4143
       },
       "window_metrics": [
         {
@@ -4193,197 +5626,676 @@
       "frequency": "monthly"
     },
     {
-      "strategy_id": "hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2",
-      "display_name": "沪港通Path6 月度大市值高流动核心(流动性混合v2)",
+      "strategy_id": "hkconnect_path6_large_liquid_core_monthly_smoke",
+      "display_name": "沪港通Path6 月度大市值高流动核心(smoke)",
       "path": "path6",
       "market_scope": "hkconnect",
-      "winner_type": "2025-window winner",
-      "window_label": "2025 窗口",
-      "sample_tag": "since_2025_01",
-      "risk_state": "caution",
-      "target_exposure": 0.9791,
+      "winner_type": "2020-window winner",
+      "window_label": "2020 窗口",
+      "sample_tag": "since_2020_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
       "updated_at": "2026-05-29",
       "data_as_of": "2026-06-03",
       "signal_effective_date": "2026-05-29",
       "metrics": {
-        "cagr": 0.3079,
-        "sharpe": 2.078,
-        "max_drawdown": -0.0273,
-        "total_return": 0.4303,
-        "turnover": 1.6976
+        "cagr": 0.179,
+        "sharpe": 1.3366,
+        "max_drawdown": -0.1354,
+        "total_return": 1.8382,
+        "turnover": 1.2285
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.129,
+          "cagr": 0.1515,
           "sharpe": 0.0,
-          "max_drawdown": -0.1785,
-          "total_return": 2.1042
+          "max_drawdown": -0.1662,
+          "total_return": 2.7317
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.146,
+          "cagr": 0.179,
           "sharpe": 0.0,
-          "max_drawdown": -0.1482,
-          "total_return": 1.3702
+          "max_drawdown": -0.1354,
+          "total_return": 1.8382
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.2241,
+          "cagr": 0.2599,
           "sharpe": 0.0,
-          "max_drawdown": -0.0618,
-          "total_return": 0.9619
+          "max_drawdown": -0.0532,
+          "total_return": 1.1599
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.3079,
+          "cagr": 0.305,
           "sharpe": 0.0,
-          "max_drawdown": -0.0273,
-          "total_return": 0.4303
+          "max_drawdown": -0.0297,
+          "total_return": 0.4261
         },
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 0.0182,
+          "cagr": 0.0821,
           "sharpe": 0.0,
-          "max_drawdown": -0.0383,
-          "total_return": 0.006
+          "max_drawdown": -0.0249,
+          "total_return": 0.0267
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "00700.HK",
+          "name": "腾讯控股",
+          "weight": 0.084113
+        },
+        {
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.083816
+        },
+        {
+          "ts_code": "00939.HK",
+          "name": "建设银行",
+          "weight": 0.075447
+        },
+        {
+          "ts_code": "01288.HK",
+          "name": "农业银行",
+          "weight": 0.071942
+        },
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.07131
+        },
+        {
+          "ts_code": "00005.HK",
+          "name": "汇丰控股",
+          "weight": 0.063507
+        },
+        {
+          "ts_code": "03750.HK",
+          "name": "宁德时代",
+          "weight": 0.058506
+        },
+        {
+          "ts_code": "03988.HK",
+          "name": "中国银行",
+          "weight": 0.058079
+        },
+        {
+          "ts_code": "00941.HK",
+          "name": "中国移动",
+          "weight": 0.057688
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.04996
+        },
+        {
+          "ts_code": "02318.HK",
+          "name": "中国平安",
+          "weight": 0.049808
+        },
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.047173
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.044615
+        },
+        {
+          "ts_code": "02628.HK",
+          "name": "中国人寿",
+          "weight": 0.042338
+        },
+        {
+          "ts_code": "03968.HK",
+          "name": "招商银行",
+          "weight": 0.039653
+        },
+        {
+          "ts_code": "01299.HK",
+          "name": "友邦保险",
+          "weight": 0.038565
+        },
+        {
+          "ts_code": "00386.HK",
+          "name": "中国石油化工股份",
+          "weight": 0.035812
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.03327
+        }
+      ],
+      "experimental": true,
+      "tracked_only": true,
+      "frequency": "monthly"
+    },
+    {
+      "strategy_id": "hkconnect_path6_large_liquid_core_monthly_smoke",
+      "display_name": "沪港通Path6 月度大市值高流动核心(smoke)",
+      "path": "path6",
+      "market_scope": "hkconnect",
+      "winner_type": "2023-window winner",
+      "window_label": "2023 窗口",
+      "sample_tag": "since_2023_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.2599,
+        "sharpe": 1.911,
+        "max_drawdown": -0.0532,
+        "total_return": 1.1599,
+        "turnover": 1.0678
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.1515,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1662,
+          "total_return": 2.7317
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.179,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1354,
+          "total_return": 1.8382
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.2599,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0532,
+          "total_return": 1.1599
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.305,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0297,
+          "total_return": 0.4261
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.0821,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0249,
+          "total_return": 0.0267
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "00700.HK",
+          "name": "腾讯控股",
+          "weight": 0.084113
+        },
+        {
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.083816
+        },
+        {
+          "ts_code": "00939.HK",
+          "name": "建设银行",
+          "weight": 0.075447
+        },
+        {
+          "ts_code": "01288.HK",
+          "name": "农业银行",
+          "weight": 0.071942
+        },
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.07131
+        },
+        {
+          "ts_code": "00005.HK",
+          "name": "汇丰控股",
+          "weight": 0.063507
+        },
+        {
+          "ts_code": "03750.HK",
+          "name": "宁德时代",
+          "weight": 0.058506
+        },
+        {
+          "ts_code": "03988.HK",
+          "name": "中国银行",
+          "weight": 0.058079
+        },
+        {
+          "ts_code": "00941.HK",
+          "name": "中国移动",
+          "weight": 0.057688
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.04996
+        },
+        {
+          "ts_code": "02318.HK",
+          "name": "中国平安",
+          "weight": 0.049808
+        },
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.047173
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.044615
+        },
+        {
+          "ts_code": "02628.HK",
+          "name": "中国人寿",
+          "weight": 0.042338
+        },
+        {
+          "ts_code": "03968.HK",
+          "name": "招商银行",
+          "weight": 0.039653
+        },
+        {
+          "ts_code": "01299.HK",
+          "name": "友邦保险",
+          "weight": 0.038565
+        },
+        {
+          "ts_code": "00386.HK",
+          "name": "中国石油化工股份",
+          "weight": 0.035812
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.03327
+        }
+      ],
+      "experimental": true,
+      "tracked_only": true,
+      "frequency": "monthly"
+    },
+    {
+      "strategy_id": "hkconnect_path6_large_liquid_core_biweekly_liquidity_mix_v3",
+      "display_name": "沪港通Path6 双周大市值高流动核心(流动性混合v3)",
+      "path": "path6",
+      "market_scope": "hkconnect",
+      "winner_type": "2025-window winner",
+      "window_label": "2025 窗口",
+      "sample_tag": "since_2025_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.3233,
+        "sharpe": 2.02,
+        "max_drawdown": -0.0777,
+        "total_return": 0.4738,
+        "turnover": 1.9675
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.1286,
+          "sharpe": 0.0,
+          "max_drawdown": -0.2165,
+          "total_return": 2.1112
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.1323,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1603,
+          "total_return": 1.2109
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.2205,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1096,
+          "total_return": 0.9478
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.3233,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0777,
+          "total_return": 0.4738
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.1278,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0255,
+          "total_return": 0.0474
         }
       ],
       "latest_weights": [
         {
           "ts_code": "01398.HK",
           "name": "工商银行",
-          "weight": 0.063328
+          "weight": 0.066904
         },
         {
           "ts_code": "00857.HK",
           "name": "中国石油股份",
-          "weight": 0.062931
-        },
-        {
-          "ts_code": "01288.HK",
-          "name": "农业银行",
-          "weight": 0.059228
+          "weight": 0.065418
         },
         {
           "ts_code": "00700.HK",
           "name": "腾讯控股",
-          "weight": 0.057799
+          "weight": 0.065205
         },
         {
           "ts_code": "00939.HK",
           "name": "建设银行",
-          "weight": 0.057335
+          "weight": 0.064977
         },
         {
-          "ts_code": "03988.HK",
-          "name": "中国银行",
-          "weight": 0.055235
+          "ts_code": "01288.HK",
+          "name": "农业银行",
+          "weight": 0.057266
         },
         {
           "ts_code": "00941.HK",
           "name": "中国移动",
-          "weight": 0.052403
+          "weight": 0.052937
         },
         {
-          "ts_code": "00005.HK",
-          "name": "汇丰控股",
-          "weight": 0.049144
+          "ts_code": "03988.HK",
+          "name": "中国银行",
+          "weight": 0.050518
         },
         {
           "ts_code": "03750.HK",
           "name": "宁德时代",
-          "weight": 0.049125
+          "weight": 0.050457
+        },
+        {
+          "ts_code": "00005.HK",
+          "name": "汇丰控股",
+          "weight": 0.0454
         },
         {
           "ts_code": "02388.HK",
           "name": "中银香港",
-          "weight": 0.040267
-        },
-        {
-          "ts_code": "03968.HK",
-          "name": "招商银行",
-          "weight": 0.038609
+          "weight": 0.04389
         },
         {
           "ts_code": "00883.HK",
           "name": "中国海洋石油",
-          "weight": 0.037815
-        },
-        {
-          "ts_code": "00386.HK",
-          "name": "中国石油化工股份",
-          "weight": 0.037202
+          "weight": 0.040802
         },
         {
           "ts_code": "01088.HK",
           "name": "中国神华",
-          "weight": 0.034518
+          "weight": 0.04006
         },
         {
-          "ts_code": "02628.HK",
-          "name": "中国人寿",
-          "weight": 0.032878
-        },
-        {
-          "ts_code": "01299.HK",
-          "name": "友邦保险",
-          "weight": 0.032162
+          "ts_code": "03968.HK",
+          "name": "招商银行",
+          "weight": 0.039451
         },
         {
           "ts_code": "02318.HK",
           "name": "中国平安",
-          "weight": 0.032153
+          "weight": 0.038584
+        },
+        {
+          "ts_code": "02628.HK",
+          "name": "中国人寿",
+          "weight": 0.035075
         },
         {
           "ts_code": "00016.HK",
           "name": "新鸿基地产",
-          "weight": 0.029053
+          "weight": 0.033794
         },
         {
-          "ts_code": "01658.HK",
-          "name": "邮储银行",
-          "weight": 0.028633
+          "ts_code": "01299.HK",
+          "name": "友邦保险",
+          "weight": 0.029922
+        },
+        {
+          "ts_code": "00001.HK",
+          "name": "长和",
+          "weight": 0.029709
         },
         {
           "ts_code": "00300.HK",
           "name": "美的集团",
-          "weight": 0.028123
-        },
-        {
-          "ts_code": "02601.HK",
-          "name": "中国太保",
-          "weight": 0.026241
+          "weight": 0.028346
         },
         {
           "ts_code": "00998.HK",
           "name": "中信银行",
-          "weight": 0.026045
+          "weight": 0.027927
         },
         {
           "ts_code": "00388.HK",
           "name": "香港交易所",
-          "weight": 0.0247
+          "weight": 0.027283
         },
         {
           "ts_code": "02899.HK",
           "name": "紫金矿业",
-          "weight": 0.024173
+          "weight": 0.027211
         },
         {
-          "ts_code": "CASH",
-          "name": "现金",
-          "weight": 0.0209
+          "ts_code": "00728.HK",
+          "name": "中国电信",
+          "weight": 0.025576
+        },
+        {
+          "ts_code": "00386.HK",
+          "name": "中国石油化工股份",
+          "weight": 0.023948
         }
       ],
       "experimental": true,
       "tracked_only": true,
-      "frequency": "monthly"
+      "frequency": "biweekly"
+    },
+    {
+      "strategy_id": "hkconnect_path6_lowvol_liquid_biweekly_smoke",
+      "display_name": "沪港通Path6 双周低波流动核心(smoke)",
+      "path": "path6",
+      "market_scope": "hkconnect",
+      "winner_type": "2026-window winner",
+      "window_label": "2026 窗口",
+      "sample_tag": "since_2026_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.2089,
+        "sharpe": 2.1647,
+        "max_drawdown": -0.0239,
+        "total_return": 0.0757,
+        "turnover": 4.0707
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.1458,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1999,
+          "total_return": 2.5873
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.1499,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1591,
+          "total_return": 1.4388
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.2353,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1054,
+          "total_return": 1.0282
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.2977,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0816,
+          "total_return": 0.4345
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.2089,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0239,
+          "total_return": 0.0757
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.083167
+        },
+        {
+          "ts_code": "00939.HK",
+          "name": "建设银行",
+          "weight": 0.076476
+        },
+        {
+          "ts_code": "01288.HK",
+          "name": "农业银行",
+          "weight": 0.072866
+        },
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.070807
+        },
+        {
+          "ts_code": "03988.HK",
+          "name": "中国银行",
+          "weight": 0.066582
+        },
+        {
+          "ts_code": "00941.HK",
+          "name": "中国移动",
+          "weight": 0.063742
+        },
+        {
+          "ts_code": "00005.HK",
+          "name": "汇丰控股",
+          "weight": 0.060793
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.051789
+        },
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.049778
+        },
+        {
+          "ts_code": "03750.HK",
+          "name": "宁德时代",
+          "weight": 0.048487
+        },
+        {
+          "ts_code": "02318.HK",
+          "name": "中国平安",
+          "weight": 0.043943
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.043259
+        },
+        {
+          "ts_code": "02628.HK",
+          "name": "中国人寿",
+          "weight": 0.0412
+        },
+        {
+          "ts_code": "03968.HK",
+          "name": "招商银行",
+          "weight": 0.040536
+        },
+        {
+          "ts_code": "00300.HK",
+          "name": "美的集团",
+          "weight": 0.035882
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.03517
+        },
+        {
+          "ts_code": "00001.HK",
+          "name": "长和",
+          "weight": 0.034794
+        },
+        {
+          "ts_code": "00388.HK",
+          "name": "香港交易所",
+          "weight": 0.034577
+        },
+        {
+          "ts_code": "00386.HK",
+          "name": "中国石油化工股份",
+          "weight": 0.032806
+        },
+        {
+          "ts_code": "01299.HK",
+          "name": "友邦保险",
+          "weight": 0.032332
+        }
+      ],
+      "experimental": true,
+      "tracked_only": true,
+      "frequency": "biweekly"
     },
     {
       "strategy_id": "hkconnect_path7_barbell_quality_growth_biweekly_smoke",
@@ -4680,6 +6592,470 @@
       "experimental": true,
       "tracked_only": true,
       "frequency": "monthly"
+    },
+    {
+      "strategy_id": "hkconnect_path7_barbell_quality_growth_biweekly_smoke",
+      "display_name": "沪港通Path7 双周质量成长杠铃(smoke)",
+      "path": "path7",
+      "market_scope": "hkconnect",
+      "winner_type": "2023-window winner",
+      "window_label": "2023 窗口",
+      "sample_tag": "since_2023_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.2871,
+        "sharpe": 1.3865,
+        "max_drawdown": -0.1079,
+        "total_return": 1.3268,
+        "turnover": 10.7288
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.1936,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1764,
+          "total_return": 4.2625
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.1817,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1324,
+          "total_return": 1.9041
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.2871,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1079,
+          "total_return": 1.3268
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.3424,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1116,
+          "total_return": 0.5033
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.083,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0608,
+          "total_return": 0.0311
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.080586
+        },
+        {
+          "ts_code": "00939.HK",
+          "name": "建设银行",
+          "weight": 0.073426
+        },
+        {
+          "ts_code": "00001.HK",
+          "name": "长和",
+          "weight": 0.072264
+        },
+        {
+          "ts_code": "00300.HK",
+          "name": "美的集团",
+          "weight": 0.068864
+        },
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.065771
+        },
+        {
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.065405
+        },
+        {
+          "ts_code": "03988.HK",
+          "name": "中国银行",
+          "weight": 0.064503
+        },
+        {
+          "ts_code": "00688.HK",
+          "name": "中国海外发展",
+          "weight": 0.063287
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.061947
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.060028
+        },
+        {
+          "ts_code": "01113.HK",
+          "name": "长实集团",
+          "weight": 0.056111
+        },
+        {
+          "ts_code": "00012.HK",
+          "name": "恒基地产",
+          "weight": 0.053712
+        },
+        {
+          "ts_code": "00998.HK",
+          "name": "中信银行",
+          "weight": 0.053651
+        },
+        {
+          "ts_code": "01288.HK",
+          "name": "农业银行",
+          "weight": 0.053496
+        },
+        {
+          "ts_code": "00257.HK",
+          "name": "光大环境",
+          "weight": 0.053305
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.052883
+        }
+      ],
+      "experimental": true,
+      "tracked_only": true,
+      "frequency": "biweekly"
+    },
+    {
+      "strategy_id": "hkconnect_path7_barbell_quality_growth_biweekly_smoke",
+      "display_name": "沪港通Path7 双周质量成长杠铃(smoke)",
+      "path": "path7",
+      "market_scope": "hkconnect",
+      "winner_type": "2025-window winner",
+      "window_label": "2025 窗口",
+      "sample_tag": "since_2025_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.3424,
+        "sharpe": 1.5878,
+        "max_drawdown": -0.1116,
+        "total_return": 0.5033,
+        "turnover": 13.7067
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.1936,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1764,
+          "total_return": 4.2625
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.1817,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1324,
+          "total_return": 1.9041
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.2871,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1079,
+          "total_return": 1.3268
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.3424,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1116,
+          "total_return": 0.5033
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.083,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0608,
+          "total_return": 0.0311
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.080586
+        },
+        {
+          "ts_code": "00939.HK",
+          "name": "建设银行",
+          "weight": 0.073426
+        },
+        {
+          "ts_code": "00001.HK",
+          "name": "长和",
+          "weight": 0.072264
+        },
+        {
+          "ts_code": "00300.HK",
+          "name": "美的集团",
+          "weight": 0.068864
+        },
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.065771
+        },
+        {
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.065405
+        },
+        {
+          "ts_code": "03988.HK",
+          "name": "中国银行",
+          "weight": 0.064503
+        },
+        {
+          "ts_code": "00688.HK",
+          "name": "中国海外发展",
+          "weight": 0.063287
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.061947
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.060028
+        },
+        {
+          "ts_code": "01113.HK",
+          "name": "长实集团",
+          "weight": 0.056111
+        },
+        {
+          "ts_code": "00012.HK",
+          "name": "恒基地产",
+          "weight": 0.053712
+        },
+        {
+          "ts_code": "00998.HK",
+          "name": "中信银行",
+          "weight": 0.053651
+        },
+        {
+          "ts_code": "01288.HK",
+          "name": "农业银行",
+          "weight": 0.053496
+        },
+        {
+          "ts_code": "00257.HK",
+          "name": "光大环境",
+          "weight": 0.053305
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.052883
+        }
+      ],
+      "experimental": true,
+      "tracked_only": true,
+      "frequency": "biweekly"
+    },
+    {
+      "strategy_id": "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3",
+      "display_name": "沪港通Path7 双周质量成长杠铃(核心袖v3)",
+      "path": "path7",
+      "market_scope": "hkconnect",
+      "winner_type": "2026-window winner",
+      "window_label": "2026 窗口",
+      "sample_tag": "since_2026_01",
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
+      "updated_at": "2026-05-29",
+      "data_as_of": "2026-06-03",
+      "signal_effective_date": "2026-05-29",
+      "metrics": {
+        "cagr": 0.2116,
+        "sharpe": 2.0664,
+        "max_drawdown": -0.03,
+        "total_return": 0.0766,
+        "turnover": 6.4413
+      },
+      "window_metrics": [
+        {
+          "tag": "since_2017_01",
+          "label": "2017",
+          "cagr": 0.1481,
+          "sharpe": 0.0,
+          "max_drawdown": -0.2253,
+          "total_return": 2.6544
+        },
+        {
+          "tag": "since_2020_01",
+          "label": "2020",
+          "cagr": 0.1368,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1444,
+          "total_return": 1.267
+        },
+        {
+          "tag": "since_2023_01",
+          "label": "2023",
+          "cagr": 0.2125,
+          "sharpe": 0.0,
+          "max_drawdown": -0.1103,
+          "total_return": 0.9055
+        },
+        {
+          "tag": "since_2025_01",
+          "label": "2025",
+          "cagr": 0.3008,
+          "sharpe": 0.0,
+          "max_drawdown": -0.0669,
+          "total_return": 0.4392
+        },
+        {
+          "tag": "since_2026_01",
+          "label": "2026",
+          "cagr": 0.2116,
+          "sharpe": 0.0,
+          "max_drawdown": -0.03,
+          "total_return": 0.0766
+        }
+      ],
+      "latest_weights": [
+        {
+          "ts_code": "00941.HK",
+          "name": "中国移动",
+          "weight": 0.07367
+        },
+        {
+          "ts_code": "03988.HK",
+          "name": "中国银行",
+          "weight": 0.072832
+        },
+        {
+          "ts_code": "00939.HK",
+          "name": "建设银行",
+          "weight": 0.072794
+        },
+        {
+          "ts_code": "01288.HK",
+          "name": "农业银行",
+          "weight": 0.070648
+        },
+        {
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.070554
+        },
+        {
+          "ts_code": "00857.HK",
+          "name": "中国石油股份",
+          "weight": 0.069585
+        },
+        {
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.057035
+        },
+        {
+          "ts_code": "03750.HK",
+          "name": "宁德时代",
+          "weight": 0.056592
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.056127
+        },
+        {
+          "ts_code": "00005.HK",
+          "name": "汇丰控股",
+          "weight": 0.051498
+        },
+        {
+          "ts_code": "02388.HK",
+          "name": "中银香港",
+          "weight": 0.049768
+        },
+        {
+          "ts_code": "03968.HK",
+          "name": "招商银行",
+          "weight": 0.048764
+        },
+        {
+          "ts_code": "00300.HK",
+          "name": "美的集团",
+          "weight": 0.04463
+        },
+        {
+          "ts_code": "00001.HK",
+          "name": "长和",
+          "weight": 0.039383
+        },
+        {
+          "ts_code": "00016.HK",
+          "name": "新鸿基地产",
+          "weight": 0.034042
+        },
+        {
+          "ts_code": "01299.HK",
+          "name": "友邦保险",
+          "weight": 0.034006
+        },
+        {
+          "ts_code": "00388.HK",
+          "name": "香港交易所",
+          "weight": 0.033407
+        },
+        {
+          "ts_code": "00688.HK",
+          "name": "中国海外发展",
+          "weight": 0.032908
+        },
+        {
+          "ts_code": "01113.HK",
+          "name": "长实集团",
+          "weight": 0.031025
+        },
+        {
+          "ts_code": "00998.HK",
+          "name": "中信银行",
+          "weight": 0.027777
+        }
+      ],
+      "experimental": true,
+      "tracked_only": true,
+      "frequency": "biweekly"
     }
   ],
   "leaderboards": {
@@ -7277,6 +9653,17 @@
                 "weighted_sharpe": 0.9884,
                 "weighted_max_drawdown": -0.1785
               }
+            },
+            {
+              "rank": 5,
+              "strategy_base_id": "hkconnect_path6_large_liquid_core_biweekly_liquidity_mix_v3",
+              "strategy_base_name": "沪港通Path6 双周大市值高流动核心(流动性混合v3)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.1286,
+                "weighted_sharpe": 0.8466,
+                "weighted_max_drawdown": -0.2165
+              }
             }
           ]
         },
@@ -7326,6 +9713,17 @@
                 "weighted_cagr": 0.146,
                 "weighted_sharpe": 1.1597,
                 "weighted_max_drawdown": -0.1482
+              }
+            },
+            {
+              "rank": 5,
+              "strategy_base_id": "hkconnect_path6_large_liquid_core_biweekly_liquidity_mix_v3",
+              "strategy_base_name": "沪港通Path6 双周大市值高流动核心(流动性混合v3)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.1323,
+                "weighted_sharpe": 0.826,
+                "weighted_max_drawdown": -0.1603
               }
             }
           ]
@@ -7377,6 +9775,17 @@
                 "weighted_sharpe": 1.6825,
                 "weighted_max_drawdown": -0.0618
               }
+            },
+            {
+              "rank": 5,
+              "strategy_base_id": "hkconnect_path6_large_liquid_core_biweekly_liquidity_mix_v3",
+              "strategy_base_name": "沪港通Path6 双周大市值高流动核心(流动性混合v3)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.2205,
+                "weighted_sharpe": 1.2267,
+                "weighted_max_drawdown": -0.1096
+              }
             }
           ]
         },
@@ -7386,9 +9795,20 @@
           "entries": [
             {
               "rank": 1,
+              "strategy_base_id": "hkconnect_path6_large_liquid_core_biweekly_liquidity_mix_v3",
+              "strategy_base_name": "沪港通Path6 双周大市值高流动核心(流动性混合v3)",
+              "is_official_winner": true,
+              "metrics": {
+                "weighted_cagr": 0.3233,
+                "weighted_sharpe": 2.02,
+                "weighted_max_drawdown": -0.0777
+              }
+            },
+            {
+              "rank": 2,
               "strategy_base_id": "hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2",
               "strategy_base_name": "沪港通Path6 月度大市值高流动核心(流动性混合v2)",
-              "is_official_winner": true,
+              "is_official_winner": false,
               "metrics": {
                 "weighted_cagr": 0.3079,
                 "weighted_sharpe": 2.078,
@@ -7396,7 +9816,7 @@
               }
             },
             {
-              "rank": 2,
+              "rank": 3,
               "strategy_base_id": "hkconnect_path6_large_liquid_core_monthly_smoke",
               "strategy_base_name": "沪港通Path6 月度大市值高流动核心(smoke)",
               "is_official_winner": false,
@@ -7407,7 +9827,7 @@
               }
             },
             {
-              "rank": 3,
+              "rank": 4,
               "strategy_base_id": "hkconnect_path6_lowvol_liquid_biweekly_smoke",
               "strategy_base_name": "沪港通Path6 双周低波流动核心(smoke)",
               "is_official_winner": false,
@@ -7418,7 +9838,7 @@
               }
             },
             {
-              "rank": 4,
+              "rank": 5,
               "strategy_base_id": "hkconnect_path6_large_liquid_core_monthly_ytd_guard",
               "strategy_base_name": "沪港通Path6 月度大市值高流动核心(年内守门)",
               "is_official_winner": false,
@@ -7447,6 +9867,17 @@
             },
             {
               "rank": 2,
+              "strategy_base_id": "hkconnect_path6_large_liquid_core_biweekly_liquidity_mix_v3",
+              "strategy_base_name": "沪港通Path6 双周大市值高流动核心(流动性混合v3)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.1278,
+                "weighted_sharpe": 1.4191,
+                "weighted_max_drawdown": -0.0255
+              }
+            },
+            {
+              "rank": 3,
               "strategy_base_id": "hkconnect_path6_large_liquid_core_monthly_ytd_guard",
               "strategy_base_name": "沪港通Path6 月度大市值高流动核心(年内守门)",
               "is_official_winner": false,
@@ -7457,7 +9888,7 @@
               }
             },
             {
-              "rank": 3,
+              "rank": 4,
               "strategy_base_id": "hkconnect_path6_large_liquid_core_monthly_smoke",
               "strategy_base_name": "沪港通Path6 月度大市值高流动核心(smoke)",
               "is_official_winner": false,
@@ -7468,7 +9899,7 @@
               }
             },
             {
-              "rank": 4,
+              "rank": 5,
               "strategy_base_id": "hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2",
               "strategy_base_name": "沪港通Path6 月度大市值高流动核心(流动性混合v2)",
               "is_official_winner": false,
@@ -7521,6 +9952,17 @@
             },
             {
               "rank": 4,
+              "strategy_base_id": "hkconnect_path7_barbell_quality_growth_biweekly_dual_sleeve_v4",
+              "strategy_base_name": "沪港通Path7 双周质量成长杠铃(双袖v4)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.1612,
+                "weighted_sharpe": 0.9276,
+                "weighted_max_drawdown": -0.192
+              }
+            },
+            {
+              "rank": 5,
               "strategy_base_id": "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3",
               "strategy_base_name": "沪港通Path7 双周质量成长杠铃(核心袖v3)",
               "is_official_winner": false,
@@ -7571,6 +10013,17 @@
             },
             {
               "rank": 4,
+              "strategy_base_id": "hkconnect_path7_barbell_quality_growth_biweekly_dual_sleeve_v4",
+              "strategy_base_name": "沪港通Path7 双周质量成长杠铃(双袖v4)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.1456,
+                "weighted_sharpe": 0.8493,
+                "weighted_max_drawdown": -0.1496
+              }
+            },
+            {
+              "rank": 5,
               "strategy_base_id": "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3",
               "strategy_base_name": "沪港通Path7 双周质量成长杠铃(核心袖v3)",
               "is_official_winner": false,
@@ -7621,6 +10074,17 @@
             },
             {
               "rank": 4,
+              "strategy_base_id": "hkconnect_path7_barbell_quality_growth_biweekly_dual_sleeve_v4",
+              "strategy_base_name": "沪港通Path7 双周质量成长杠铃(双袖v4)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.2277,
+                "weighted_sharpe": 1.1827,
+                "weighted_max_drawdown": -0.1075
+              }
+            },
+            {
+              "rank": 5,
               "strategy_base_id": "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3",
               "strategy_base_name": "沪港通Path7 双周质量成长杠铃(核心袖v3)",
               "is_official_winner": false,
@@ -7671,6 +10135,17 @@
             },
             {
               "rank": 4,
+              "strategy_base_id": "hkconnect_path7_barbell_quality_growth_biweekly_dual_sleeve_v4",
+              "strategy_base_name": "沪港通Path7 双周质量成长杠铃(双袖v4)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.2866,
+                "weighted_sharpe": 1.4124,
+                "weighted_max_drawdown": -0.1057
+              }
+            },
+            {
+              "rank": 5,
               "strategy_base_id": "hkconnect_path7_barbell_quality_growth_monthly_smoke",
               "strategy_base_name": "沪港通Path7 月度质量成长杠铃(smoke)",
               "is_official_winner": false,
@@ -7699,6 +10174,17 @@
             },
             {
               "rank": 2,
+              "strategy_base_id": "hkconnect_path7_barbell_quality_growth_biweekly_dual_sleeve_v4",
+              "strategy_base_name": "沪港通Path7 双周质量成长杠铃(双袖v4)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.0873,
+                "weighted_sharpe": 0.7254,
+                "weighted_max_drawdown": -0.0501
+              }
+            },
+            {
+              "rank": 3,
               "strategy_base_id": "hkconnect_path7_barbell_quality_growth_biweekly_smoke",
               "strategy_base_name": "沪港通Path7 双周质量成长杠铃(smoke)",
               "is_official_winner": false,
@@ -7709,7 +10195,7 @@
               }
             },
             {
-              "rank": 3,
+              "rank": 4,
               "strategy_base_id": "hkconnect_path7_barbell_quality_growth_biweekly_defensive_v2",
               "strategy_base_name": "沪港通Path7 双周质量成长杠铃(防守v2)",
               "is_official_winner": false,
@@ -7720,7 +10206,7 @@
               }
             },
             {
-              "rank": 4,
+              "rank": 5,
               "strategy_base_id": "hkconnect_path7_barbell_quality_growth_monthly_smoke",
               "strategy_base_name": "沪港通Path7 月度质量成长杠铃(smoke)",
               "is_official_winner": false,

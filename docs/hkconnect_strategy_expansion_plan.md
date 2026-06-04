@@ -1,5 +1,16 @@
 # 沪港通策略空间扩展计划
 
+## 2026-06-04 10:16 CST 扩展复核结果
+
+本轮按 HK 扩展线新增 Path6 与 Path7 各 1 个候选，Path4/Path5 仅做巡检和下一轮设计。实际回测命令与 HK Path1/2 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff26_exit38_v23_cost_repair,hkconnect_path2_equal_elastic_monthly_cost_guard_v17_repair,hkconnect_path6_large_liquid_core_biweekly_liquidity_mix_v3,hkconnect_path7_barbell_quality_growth_biweekly_dual_sleeve_v4`。
+
+- Path4 多因子质量动量：本轮未新增回测；上一轮 v2 仍未修复 2026，下一轮候选设计为 `hkconnect_path4_quality_momentum_monthly_ytd_guard_v3`，目标是保留 `quality_momentum_monthly_ytd_guard` 的 2020/2023 稳定性并降低 2026 负收益。第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_ytd_guard_v3`。
+- Path5 回踩续涨：本轮仍不跑同形回踩线。原因是 smoke 的 `pullback_continuation` 与 `breakout_retest` 已显示 2026/2023 断层；下一步必须先改 `pullback_definition`，加入成交质量或趋势再确认，不能直接注册第三个同形 id。
+- Path6 大市值高流动核心：`hkconnect_path6_large_liquid_core_biweekly_liquidity_mix_v3` 五窗口 CAGR `12.86% / 13.23% / 22.05% / 32.33% / 12.78%`，最大回撤 `-21.65% / -16.03% / -10.96% / -7.77% / -2.55%`。它把 2026 转正并被 `tracked_winners_hkconnect.json` 记录为 HK Path6 的窗口 winner，但长窗收益弱于首批 monthly smoke，robust 未切换。
+- Path7 杠铃组合：`hkconnect_path7_barbell_quality_growth_biweekly_dual_sleeve_v4` 五窗口 CAGR `16.12% / 14.56% / 22.77% / 28.66% / 8.73%`，最大回撤 `-19.20% / -14.96% / -10.75% / -10.57% / -5.01%`。它比 v3 更接近“双袖”结构且 2026 为正，但 2017/2020/2023 弱于 Path7 既有 biweekly smoke，不替换 robust。
+
+`scripts/update_hkconnect_artifacts.py` 已刷新 HK tracked 与 Path1-3 图表；Path4-7 仍缺独立图表。本轮扩展线未触发 evict。下一轮第一优先级：先跑 Path4 `ytd_guard_v3`，第二优先级继续 Path6 防守核心的低换手版本；Path5 只做定义重写，不回测。
+
 ## 2026-06-04 04:18 CST 扩展复核结果
 
 本轮按 HK Path4/6/7 扩展 focus 各新增 1 个候选，Path5 继续暂停同形回踩线。实际回测命令与 HK Path1 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff28_exit36_v22_drawdown_repair,hkconnect_path4_quality_momentum_monthly_2026_repair_v2,hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3`。

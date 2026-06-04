@@ -1,5 +1,17 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-04 10:16 CST 状态
+
+本轮 guard 为 `pass`，Path5 仍处于事件入口与来源审计阶段，没有进入真实回测，也没有把待审计 seed 当作有效策略结论。`results/research/a_share/event_theme_registry.json` 与 `results/research/a_share/event_theme_candidates.jsonl` 继续保留冻结篮子 `mrc_uec_ai_network_20260506_v0`，六个候选仍需主来源审计；`backtest_ready=false` 时不注册 event backtest entry。
+
+本轮巡检结论：
+
+1. 事件候选池未扩容，避免在来源未确认时扩大后视风险。
+2. Path4 强主题涌现本轮没有新 winner 变化，因此 Path5 下一步仍应先补“可审计来源 + 冻结篮子”而不是直接和 Path4 做收益比较。
+3. 下一轮第一条动作不是回测：先读取 `results/research/a_share/event_theme_audit.jsonl`，为 `300394.SZ / 688498.SH / 300502.SZ / 300308.SZ / 688195.SH / 300408.SZ` 逐条补主来源并更新 audit 状态。
+
+下一轮命令提示：`.venv/bin/python scripts/research_iteration_guard.py` 后若 `pending_audit_count > 0`，先补审计 JSONL；只有 `source_audit_passed` 候选数大于 0 后，才注册最小事件篮子回测入口并与 Path4 的 `emergent_theme_discovery` 做 T+20D/T+60D/T+120D 对比。
+
 ## 2026-06-03 22:20 CST 状态
 
 这条 A 股路径本轮仍未进入真实回测。当前最小入口已经存在：`results/research/a_share/event_theme_registry.json` 与 `results/research/a_share/event_theme_candidates.jsonl` 记录了首个冻结篮子 `mrc_uec_ai_network_20260506_v0`，候选数 `6`，冻结数 `6`。本轮新增 `results/research/a_share/event_theme_audit.jsonl` 并把 registry 状态改为 `source_audit_started`，但六个候选全部仍是 `pending_primary_source_review`，`backtest_ready=false`。

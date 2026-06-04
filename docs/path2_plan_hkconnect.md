@@ -1,5 +1,12 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-04 10:16 CST）
+
+- 开局 guard 为 `pass`，上一轮 strict inverse-elastic terminal 已连续失败；本轮只给 `elasticity_cost_control` 一个温和等权月频成本防守复核，不重启高换手 breakout。
+- 本轮新增并五窗口确认：`hkconnect_path2_equal_elastic_monthly_cost_guard_v17_repair`。实际命令见 HK Path1 本轮记录，命令类型为五窗口 `--only-strategy-ids` 增量确认。
+- `v17_repair` 五窗口 CAGR 为 `12.75% / 11.31% / 8.11% / 46.00% / 10.90%`，最大回撤为 `-37.29% / -37.29% / -34.67% / -10.53% / -9.79%`。结论：等权 elastic 支线仍低于 2023 验收线且长窗回撤穿 `30%`，不替换 HK Path2 window winner 或 robust。
+- `scripts/update_hkconnect_artifacts.py` 后 robust 仍为 `hkconnect_path2_theme_monthly_cost_control`；本轮候选只进入 strategies payload 作为失败对照。下一轮 focus 应从 `elasticity_cost_control` 映射到新质量/流动性动量族，第一条命令建议：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_quality_liquidity_momentum_monthly_v1`；若未注册，先注册而不是继续 v18 elastic。
+
 ## 本轮执行计划（2026-06-03 22:20 CST）
 
 - 开局 guard 为 `pass`，本轮按 rotation 的 `biweekly_breakout/elasticity_cost_control` 做一次 strict terminal 复核，而不是重启普通高换手 breakout。复核 id 为 `hkconnect_path2_inverse_elastic_monthly_cost_guard_v16_terminal`，与 HK 合并命令一起五窗口确认。

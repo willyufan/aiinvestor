@@ -34,12 +34,13 @@ OUTPUT_PATHS = {
 CHART_PATH_NAMES = ("path1", "path2", "path3")
 TRACK_PATH_NAMES = ("path1", "path2", "path3", "path4", "path5", "path6", "path7")
 
-WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
+WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01")
 WINDOW_LABELS = {
     "since_2017_01": "2017",
     "since_2020_01": "2020",
     "since_2023_01": "2023",
     "since_2025_01": "2025",
+    "since_2026_01": "2026",
 }
 PATH_TITLES = {
     "path1": "HK Connect Path 1 Comparison",

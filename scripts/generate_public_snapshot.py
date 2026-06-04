@@ -201,16 +201,14 @@ def build_hk_entries(hk_payload: dict[str, Any]) -> list[dict]:
     """
     entries = []
     strategies_map = hk_payload.get("strategies", {})
-    seen: set[str] = set()
     for path_name in HK_TRACKED_PATH_NAMES:
         path_tracks = hk_payload.get("tracks", {}).get(path_name, {})
         for sample_tag, track_data in path_tracks.items():
             if not isinstance(track_data, dict):
                 continue
             strategy_id = str(track_data.get("winner", ""))
-            if not strategy_id or strategy_id in seen:
+            if not strategy_id:
                 continue
-            seen.add(strategy_id)
             # derive track_key from sample_tag for window label
             track_key = next((k for k, v in SAMPLE_TAG_MAP.items() if v == sample_tag), sample_tag)
             view = _load_sample_view(strategy_id, sample_tag, market_scope="hkconnect")

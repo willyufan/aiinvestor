@@ -10082,6 +10082,7 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_08_92_prom6_core_multifactor_quality_growth_industry_cost_guard_reconfirm",
     "aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm",
     "aggr_08_92_prom6_core_multifactor_quality_lowvol_industry_cost_guard_reconfirm",
+    "aggr_08_92_prom6_core_multifactor_quality_profitability_industry_defense_reconfirm",
     "aggr_08_92_prom6_core_multifactor_quality_industry_reconfirm",
     "share_08_92_hold_3_7_ramp90_cost_guard",
     "share_12_88_hold_3_7_ramp85_cost_guard",

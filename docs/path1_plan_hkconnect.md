@@ -1,5 +1,12 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-06-04 10:16 CST）
+
+- 开局 guard 为 `pass`，HK blocking 为 0；上一轮 Path1 的 v22 仍没有修复 2026，本轮按 `monthly_weekly_overlay` 继续做浅 risk-off + exit38 的成本修复，而不是回到普通双周缓冲线。
+- 本轮新增并五窗口确认：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff26_exit38_v23_cost_repair`。实际 HK 合并命令为：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff26_exit38_v23_cost_repair,hkconnect_path2_equal_elastic_monthly_cost_guard_v17_repair,hkconnect_path6_large_liquid_core_biweekly_liquidity_mix_v3,hkconnect_path7_barbell_quality_growth_biweekly_dual_sleeve_v4`。
+- `v23_cost_repair` 五窗口 CAGR 为 `18.70% / 23.68% / 21.84% / 34.75% / -7.11%`，最大回撤为 `-28.41% / -12.28% / -12.28% / -12.28% / -9.10%`。它没有修复 2026，且 2023/2025 弱于现有 monthly-weekly robust；`scripts/update_hkconnect_artifacts.py` 后 HK Path1 window winner、robust candidate 和 tracked payload 未切换。
+- 下一轮 focus 仍是 `monthly_weekly_overlay`，但不要继续只降低 risk-off。第一条命令建议转向低波/质量过滤的 2026 drawdown repair：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_riskoff24_exit38_v24_2026_repair`；若未注册，先在 Path1 variants 中注册。
+
 ## 本轮执行计划（2026-06-03 22:20 CST）
 
 - 开局 guard 为 `pass`，HK coverage 在本轮代码注册后通过五窗口增量回测补到 `237/237 complete`。Path1 本轮新增 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_cost_guard_exit34_v21_ytd_guard`，目标是在 monthly-weekly overlay 上加入低波与 ytd 防守，修复 2026 观察窗。
