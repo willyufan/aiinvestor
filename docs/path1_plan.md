@@ -4,6 +4,13 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-04 16:16 CST）
+
+- 开局 guard 为 `pass`，`PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 按代码实际返回为 `42` 个，fast-family 为 `99/99 complete`。`winner_only_pass.py` 仍只提示旧 `aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm` 在 `since_2020_only` clear improvement，本轮不把它当新结论。
+- 本轮按 `holding_shape` 新增并五窗口确认 1 个 Path1 fast-pass 候选：`core_explore_80_20_total_mv_winner_core__share_16_84_hold_2_8_ramp70_cost_guard`。合并增量命令为：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_16_84_hold_2_8_ramp70_cost_guard,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn08_exit92_weekly,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader72_risk15_cap12_exit64,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader72_risk15_cap12_exit64,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader72_risk15_cap12_exit64`。
+- `share_16_84_hold_2_8_ramp70_cost_guard` 五窗口 CAGR 为 `20.67% / 22.73% / 33.59% / 93.39% / 90.12%`，最大回撤为 `-18.72% / -17.84% / -22.60% / -10.65% / -11.71%`，换手为 `2.65x / 2.96x / 2.96x / 4.41x / 5.44x`。它改善短窗弹性，但未超过 Path1 composite 的 2017/2020/2023 质量，也未替换 window winner、robust candidate 或 tracked payload。
+- 本轮未新增 core_multifactor overlay，未触发 Path1 active evict。下一轮 focus 继续映射到 `holding_shape` 与 `satellite_risk_cost`：第一条命令建议只确认一个更接近既有 robust 的持仓形态，而不是继续扩弱多因子：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_18_82_hold_2_8_ramp70_cost_guard`；若未注册，先加入 Path1 `holding_shape` 后再跑增量。
+
 ## 本轮执行计划（2026-06-04 10:16 CST）
 
 - 开局 guard 为 `pass`，无 blocking/warning coverage；`PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 按代码实际池巡检为 `42` 个变体，`winner_only_pass.py` 评估 `path1_fast_family base_candidates=98`、`evaluated=241`，仍只在 `since_2020_only` 给出旧 `aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm` clear improvement。`scripts/update_weighted_winners.py` 后 Path1 window winner、robust candidate 与 tracked payload 未切换。

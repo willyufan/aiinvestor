@@ -1,5 +1,13 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-04 16:16 CST 状态
+
+本轮 guard 为 `pass`，Path5 继续处在事件入口、冻结候选池和来源审计阶段；没有进入真实回测，也没有把待审计 seed 当成有效策略结论。
+
+本轮巡检对象仍为 `results/research/a_share/event_theme_registry.json`、`results/research/a_share/event_theme_candidates.jsonl` 与 `results/research/a_share/event_theme_audit.jsonl`。冻结篮子 `mrc_uec_ai_network_20260506_v0` 保持 `6` 个候选，`pending_audit_count` 仍大于 0，`backtest_ready_count=0`；因此不注册 event backtest entry。
+
+下一轮第一条动作仍不是回测：先补 `300394.SZ / 688498.SH / 300502.SZ / 300308.SZ / 688195.SH / 300408.SZ` 的主来源审计，并把 audit 状态更新为 `source_audit_passed` 或 `source_audit_failed`。只有通过审计的候选数大于 0 后，才执行预留入口：`.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01`；若脚本仍不存在，先实现最小 runner，再和 Path4 `signal26/28 leader72 cap12` 做 T+20D/T+60D/T+120D 对比。
+
 ## 2026-06-04 10:16 CST 状态
 
 本轮 guard 为 `pass`，Path5 仍处于事件入口与来源审计阶段，没有进入真实回测，也没有把待审计 seed 当作有效策略结论。`results/research/a_share/event_theme_registry.json` 与 `results/research/a_share/event_theme_candidates.jsonl` 继续保留冻结篮子 `mrc_uec_ai_network_20260506_v0`，六个候选仍需主来源审计；`backtest_ready=false` 时不注册 event backtest entry。

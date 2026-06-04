@@ -1024,6 +1024,20 @@ WINNER_CORE_VARIANTS = [
         "weight_cap": 0.22,
     },
     {
+        "variant_id": "share_16_84_hold_2_8_ramp70_cost_guard",
+        "variant_name": "比例16/84(2+8 分步加仓70成本防守)",
+        "winner_core_stable_share": 0.16,
+        "winner_core_promoted_share": 0.84,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 8,
+        "promoted_core_stage_ramp": {1: 0.70, 2: 1.00},
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.50,
+        "satellite_risk_off_exposure": 0.50,
+        "promoted_core_sell_exit_percentile": 0.65,
+        "weight_cap": 0.20,
+    },
+    {
         "variant_id": "share_12_88_hold_4_6",
         "variant_name": "比例12/88",
         "winner_core_stable_share": 0.12,
@@ -6318,6 +6332,23 @@ WINNER_CORE_VARIANTS = [
         "weekly_turnover_cap": 0.12,
     },
     {
+        "variant_id": "aggr_08_92_prom6_cash_off_and_cap60_hold3_turn08_exit92_weekly",
+        "variant_name": "进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有3周, 换手8%, 出场92%, 单周)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "market_risk_off_rule": "and",
+        "core_risk_off_exposure": 0.0,
+        "satellite_risk_off_exposure": 0.0,
+        "promoted_core_sell_exit_percentile": 0.92,
+        "weight_cap": 0.60,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 3,
+        "weekly_turnover_cap": 0.08,
+    },
+    {
         "variant_id": "aggr_08_92_prom6_weekly_alpha_balanced_risk50_cap40_hold2_turn40_weekly",
         "variant_name": "进攻8/92 晋升6只(周频Alpha均衡, 熊市50%, 单票40%, 持有2周, 换手40%, 单周)",
         "winner_core_stable_share": 0.08,
@@ -9328,6 +9359,34 @@ WINNER_CORE_VARIANTS = [
         "promoted_core_sell_exit_percentile": 0.66,
         "weight_cap": 0.12,
     },
+    {
+        "variant_id": "aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader72_risk15_cap12_exit64",
+        "variant_name": "进攻13/87 晋升12只(强主题涌现, 信号28%, 龙头72%, 熊市15%, 单票12%, 出场64%)",
+        "winner_core_stable_share": 0.13,
+        "winner_core_promoted_share": 0.87,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 12,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "promotion_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "standard_promotion_percentile": 0.28,
+        "standard_promotion_min_industry_leader": 0.72,
+        "standard_promotion_min_momentum_3_1_rank": 0.60,
+        "fast_promotion_percentile": 0.06,
+        "fast_promotion_min_industry_leader": 0.86,
+        "fast_promotion_min_momentum_3_1_rank": 0.70,
+        "fast_promotion_min_amount_surge_ratio": 1.32,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.15,
+        "satellite_risk_off_exposure": 0.15,
+        "core_quality_quantile": 0.66,
+        "promoted_core_quality_quantile": 0.50,
+        "explore_quality_quantile": 0.60,
+        "seed_quality_quantile": 0.44,
+        "promoted_core_sell_exit_percentile": 0.64,
+        "weight_cap": 0.12,
+    },
 ]
 
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
@@ -9426,6 +9485,7 @@ PATH1_FAST_PASS_DIRECTION_GROUPS = {
         "share_12_88_hold_2_8_ramp80_cost_guard",
         "share_12_88_hold_2_8_ramp75_cost_guard",
         "share_14_86_hold_2_8_ramp75_cost_guard",
+        "share_16_84_hold_2_8_ramp70_cost_guard",
         "aggr_05_95_prom7",
     ],
     "supporting_variants": [
@@ -9535,6 +9595,7 @@ PATH1_FAST_PASS_VARIANT_IDS = [
     "share_12_88_hold_2_8_ramp80_cost_guard",
     "share_12_88_hold_2_8_ramp75_cost_guard",
     "share_14_86_hold_2_8_ramp75_cost_guard",
+    "share_16_84_hold_2_8_ramp70_cost_guard",
     "aggr_05_95_prom7",
     "aggr_08_92_prom6_cash_off_dd_guard50",
     "aggr_08_92_prom6_core_6_1_dd_guard35",
@@ -9572,6 +9633,7 @@ PATH4_THEME_DISCOVERY_VARIANT_IDS = [
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk20_cap12_exit68",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk20_cap12_exit68",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk15_cap12_exit66",
+    "aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader72_risk15_cap12_exit64",
 ]
 
 PATH2_SCAN_BASE_PREFIXES = [
@@ -9977,6 +10039,7 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_08_92_prom6_cash_off_and_cap55_hold2_turn10_exit92_weekly",
             "aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly",
             "aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit90_weekly",
+            "aggr_08_92_prom6_cash_off_and_cap60_hold3_turn08_exit92_weekly",
             "aggr_08_92_prom6_weekly_alpha_balanced_risk50_cap40_hold2_turn40_weekly",
             "aggr_05_95_prom3_weekly_alpha_balanced_risk50_cap60_hold2_turn30_weekly",
             "aggr_03_97_prom2_weekly_alpha_balanced_cashoff_cap80_hold3_turn25_weekly",
@@ -10116,6 +10179,7 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk20_cap12_exit68",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk20_cap12_exit68",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk15_cap12_exit66",
+    "aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader72_risk15_cap12_exit64",
     "aggr_08_92_prom6_full_risk",
     "aggr_08_92_prom6_core_3_1_full_risk_cap40",
     "aggr_08_92_prom6_core_6_1_full_risk",
@@ -10445,6 +10509,7 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_08_92_prom6_cash_off_and_cap55_hold2_turn10_exit92_weekly",
     "aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly",
     "aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit90_weekly",
+    "aggr_08_92_prom6_cash_off_and_cap60_hold3_turn08_exit92_weekly",
 ]
 
 PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS = [
@@ -10499,6 +10564,7 @@ PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS = [
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk20_cap66_hold7_turn04_exit94_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap68_hold6_turn08_exit90_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap55_hold2_turn10_exit92_weekly",
+    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap50_hold2_turn12_exit90_weekly",
 ]
 
 FACTOR_CACHE_VERSION = "v2"

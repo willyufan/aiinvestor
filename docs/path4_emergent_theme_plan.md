@@ -32,6 +32,14 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-06-04 16:16 CST）
+
+- 开局 guard 为 `pass`，`ashare_path4_emergent_theme` 为 `60/60 complete`，没有 blocking rerun command。本轮按 `theme_signal_quality` 新增并确认 signal28/leader72/risk15/cap12/exit64 三底座，不使用人工主题标签、不纳入 ETF。
+- 本轮新增 3 个 Path4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader72_risk15_cap12_exit64`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader72_risk15_cap12_exit64`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader72_risk15_cap12_exit64`。实际命令见 Path1 本轮记录，命令类型为五窗口 `--only-base-ids` 增量确认。
+- 三底座五窗口 CAGR：`80/20 total_mv` 为 `11.70% / 16.08% / 31.64% / 82.90% / 87.54%`，`90/10 equal_weight` 为 `12.13% / 15.91% / 31.17% / 94.79% / 76.10%`，`90/10 total_mv` 为 `12.71% / 15.26% / 29.95% / 93.05% / 73.49%`。最大回撤在 2020 窗口仍达 `-24.52% / -24.87% / -30.97%`，短窗换手最高到 `8.51x`；结论是 signal28 提高信号门槛后没有改善 2020 稳定性，不能只凭 2025/2026 晋级。
+- `scripts/update_weighted_winners.py` 后 Path4 window winners 与 robust 未切换，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`。本轮新增前已从 active/scan 归档 `aggr_11_89_prom10_emergent_theme_quality_gate_signal18_risk40_cap30_exit78` 的旧弱线，原因是 signal18/risk40 已被 signal26/28 与 leader/cap12 线覆盖且不改善 robust。
+- 下一轮 focus 继续 `theme_signal_quality`，但不再单纯抬 signal 门槛。第一条命令建议改测“信号质量 + 低拥挤/低换手”组合：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader72_risk15_cap10_exit64,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader72_risk15_cap10_exit64,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader72_risk15_cap10_exit64`；新增前继续先 evict 一条同形旧弱线。
+
 ## 本轮执行计划（2026-06-04 10:16 CST）
 
 - 开局 guard 为 `pass`，`ashare_path4_emergent_theme` 已 `60/60 complete`，本轮没有 blocking rerun command；预算优先给 A股 Path2/3 与 HK 四个新增候选。Path4 完成巡检：`scripts/path2_candidate_pass.py` 中 `emergent_theme_discovery` family 仍完整，`scripts/update_weighted_winners.py` 后 Path4 window winner/robust candidate 未被本轮同步改变。

@@ -3,6 +3,13 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-04 16:16 CST）
+
+- 开局 guard 为 `pass`，`ashare_path3_weekly_universe` 为 `61/61 complete`。本轮继续保持纯 `_weekly` 口径，没有把 Path1 的月度选股 + 周度仓位 overlay 混入。
+- 本轮新增并五窗口确认 1 个 Path3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn08_exit92_weekly`。该 id 相比上一轮 Path3 robust `cap60_hold2_turn12_exit92_weekly` 延长持仓到 3 周、降低换手阈值到 8%，用于验证降换手是否保住 2020/2023。
+- 五窗口 CAGR 为 `12.70% / 16.47% / 13.34% / 77.81% / 23.71%`，最大回撤为 `-25.19% / -29.06% / -25.67% / -16.32% / -11.60%`，换手为 `3.35x / 2.85x / 2.63x / 5.08x / 4.80x`。`scripts/update_weighted_winners.py` validation 显示其 `since_2020_01` 未达晋级要求，不替换 Path3 window winner 或 robust。
+- 本轮已归档 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap50_hold2_turn12_exit90_weekly`，原因是旧 cap50/exit90 线短窗弹性不足且已被 cap60/exit92 邻域覆盖。最终 guard 将下一轮 focus 轮到 `risk_downshift`，第一条命令建议注册并确认低风险/低换手版：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap55_hold3_turn08_exit92_weekly`。
+
 ## 本轮执行计划（2026-06-04 10:16 CST）
 
 - 开局 guard 为 `pass`，`ashare_path3_weekly_universe` 已完整；上一轮计划的 `cash_off_and_cap60_hold2_turn12_exit90_weekly` 本轮按纯 `_weekly` 要求五窗口确认，没有把月度 overlay 误算进 Path3。

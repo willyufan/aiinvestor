@@ -13,6 +13,13 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-04 16:16 CST）
+
+- 开局 guard 为 `pass`，本轮 Path2 没有新增独立回测 id；预算优先给 Path1 holding shape、Path3 纯周度降换手、Path4 强主题信号质量和 HK Path5。`scripts/path2_candidate_pass.py` 已重新巡检，comparable universe 更新到 `872`，其中新增比较信息主要来自 Path4 `emergent_theme_discovery` family。
+- 本轮复核结论：Path2 window winners 与 robust candidate 均未切换；robust 仍为 `core_explore_90_10_equal_weight_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap95`。本轮不把 Path1 `share_16_84` 或 Path3 `_weekly` 结果并入 Path2 结论。
+- 下一轮 focus 由 guard 给出 `capacity_and_cost_stress`，且当前 family 仍被 high-growth/liqmom 压得较重。下一轮第一条命令继续补前序未跑的双周 capacity/cost 对照：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard`。
+- 本轮未触发 Path2 active cap evict。若下一轮新增前 candidate pool 继续膨胀，先归档最近三轮未改善 2020/2023 且同形的 low-return multifactor 对照，再注册新的 `capacity_and_cost_stress` id。
+
 ## 本轮执行计划（2026-06-04 10:16 CST）
 
 - 开局 guard 为 `pass`，上一轮未跑的 underrepresented/capacity 对照仍需要推进。本轮先把 `aggr_08_92_prom6_core_multifactor_quality_profitability_industry_defense_reconfirm` 加入 `PATH2_SCAN_VARIANT_IDS`，随后用 80/20 与 90/10 等权底座五窗口确认，避免 Path2 universe 继续只被 high-growth/liqmom 族压扁。

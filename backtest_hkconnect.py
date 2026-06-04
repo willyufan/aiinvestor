@@ -3311,6 +3311,25 @@ HK_PATH5_VARIANTS: List[Dict[str, object]] = [
         "max_holdings": 12,
         "weight_cap": 0.12,
     },
+    {
+        "strategy_id": "hkconnect_path5_pullback_continuation_monthly_ytd_repair_v2",
+        "strategy_name": "沪港通Path5 月度回踩续涨(年内修复v2)",
+        "path": "path5",
+        "candidate_family": "pullback_continuation",
+        "rebalance_frequency": "monthly",
+        "base_weight_method": "equal_weight",
+        "base_weight_mode": "signal",
+        "signal_family": "path5_pullback_continuation",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.30,
+        "risk_caution_exposure": 0.70,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.20,
+        "sell_exit_percentile": 0.32,
+        "max_holdings": 18,
+        "weight_cap": 0.10,
+    },
 ]
 HK_PATH6_VARIANTS: List[Dict[str, object]] = [
     {

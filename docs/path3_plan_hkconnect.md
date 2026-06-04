@@ -1,5 +1,11 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-04 16:16 CST）
+
+- 开局 guard 为 `pass`，当前轮复跑确认 `hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair`，保持 HK Path3 纯周频口径；没有把 HK Path1/2 月频、双周候选并入本路径。
+- 复跑后五窗口 CAGR 为 `21.49% / 24.40% / 26.41% / 38.85% / -0.59%`，最大回撤为 `-28.47% / -20.23% / -12.02% / -12.40% / -7.57%`，换手为 `7.43x / 7.12x / 7.69x / 9.30x / 9.99x`。它比更早的 turnover7 线改善中窗，但 2026 仍未转正，不替换 Path3 window winner 或 robust。
+- `scripts/update_hkconnect_artifacts.py` 后 robust 仍为 `hkconnect_path3_theme_fast_weekly_cost_guard_turnover1_exit68`。最终 guard 将下一轮 focus 轮到 `weekly_defensive_overlay`，第一条命令建议确认主题快周频的防守覆盖，而不是继续 stable 低换手小修：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_exit60_turnover2_cost_guard_v2`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-04 10:16 CST）
 
 - 开局 guard 为 `pass`，HK Path3 coverage 完整。本轮没有新增 HK Path3 回测，因为 `hkconnect_path3_stable_weekly_equal_buffered_defensive_turnover3_exit42` 已经在 comparison 中具备五窗口结果；预算优先投给 Path1/2/6/7 新增候选。

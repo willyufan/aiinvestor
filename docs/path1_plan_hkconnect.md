@@ -1,5 +1,11 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-06-04 16:16 CST）
+
+- 开局 guard 为 `pass`，HK coverage 无 blocking。当前轮复跑确认 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff26_exit38_v23_cost_repair`，与 HK Path2/3/5 合并执行五窗口 `--only-strategy-ids`，没有新增 Path1 id。
+- 复跑后 `v23_cost_repair` 五窗口 CAGR 为 `18.70% / 23.68% / 21.84% / 34.75% / -7.11%`，最大回撤为 `-28.41% / -12.28% / -12.28% / -12.28% / -9.10%`，换手为 `3.39x / 3.34x / 3.33x / 3.60x / 4.30x`。2026 仍为负，2017 回撤偏深，不替换 HK Path1 window winner 或 robust。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path1 tracked payload 未切换。最终 guard 将下一轮 focus 轮到 `biweekly_buffer`；第一条命令建议从低波/质量双周缓冲修复 2026，而不是继续 monthly-weekly risk-off 单参数：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v24`；若未注册，先在 Path1 variants 中注册。
+
 ## 本轮执行计划（2026-06-04 10:16 CST）
 
 - 开局 guard 为 `pass`，HK blocking 为 0；上一轮 Path1 的 v22 仍没有修复 2026，本轮按 `monthly_weekly_overlay` 继续做浅 risk-off + exit38 的成本修复，而不是回到普通双周缓冲线。
