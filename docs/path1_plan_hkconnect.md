@@ -1,5 +1,11 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-06-05 04:11 CST）
+
+- 最新 guard 为 `pass`，HK coverage 为 `254/254 complete`，HK Path1 当前 `76` 个候选完整。本轮没有新增 HK Path1 回测，预算优先投给 HK Path3/4/6 与 A股 Path3/4；`scripts/update_hkconnect_artifacts.py` 后 Path1 window winner、robust candidate 和 tracked payload 未切换。
+- 巡检结论：上一轮 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff26_exit38_v23_cost_repair` 仍未修复 2026，Path1 robust 继续由 monthly-weekly overlay 旧线占据；普通 biweekly buffer 连续弱，不能只靠 exit/risk-off 微调。
+- 最新 rotation focus 为 `biweekly_buffer`。下一轮第一条命令建议用质量/动量双周缓冲修复 2026，而不是继续同形 monthly-weekly：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v24`；若未注册，先在 Path1 variants 中注册。
+
 ## 本轮执行计划（2026-06-04 16:16 CST）
 
 - 开局 guard 为 `pass`，HK coverage 无 blocking。当前轮复跑确认 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff26_exit38_v23_cost_repair`，与 HK Path2/3/5 合并执行五窗口 `--only-strategy-ids`，没有新增 Path1 id。

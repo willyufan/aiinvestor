@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-05 04:11 CST）
+
+- 最新 guard 为 `pass`，`ashare_path2_candidate_universe 877/877 complete`；`scripts/path2_candidate_pass.py` 已重建 comparable universe。Path2 window winner 与 robust candidate 未被本轮 v18 替换，robust 仍为既有 liqmom/high-growth 族。
+- 本轮纳入并确认 2 个 Path2 `high_growth_theme` v18 候选：`core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution58_cap32_cost_guard_v18`、`core_explore_90_10_total_mv_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution58_cap32_cost_guard_v18`。命令类型为五窗口 `--only-base-ids` 增量确认。
+- v18 等权版五窗口 CAGR 为 `13.17% / 25.41% / 30.18% / 81.16% / 16.15%`，总市值版为 `12.13% / 22.43% / 29.20% / 83.51% / 23.67%`；两者 2020/2023 都低于当前 Path2 winner，且长窗回撤仍偏深，不晋级。
+- 本轮 `emergent_theme_discovery` family 的 family-ranked 第一名变为 `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk15_cap12_exit66`，但这属于 Path4 横向观察，不改写 Path2 official winner。最新 rotation focus 为 `risk_reconfirm_sensitivity`；下一轮第一条命令建议在 v18 邻域提高恢复确认并继续降单票幸运：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution56_cap28_cost_guard_v19,core_explore_90_10_total_mv_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution56_cap28_cost_guard_v19`；若未注册，先注册后再跑。
+- 本轮未触发 Path2 active cap evict；若下一轮新增前池继续膨胀，优先归档最近三轮未改善 2020/2023 的同形 low-return multifactor 对照。
+
 ## 本轮执行计划（2026-06-04 16:16 CST）
 
 - 开局 guard 为 `pass`，本轮 Path2 没有新增独立回测 id；预算优先给 Path1 holding shape、Path3 纯周度降换手、Path4 强主题信号质量和 HK Path5。`scripts/path2_candidate_pass.py` 已重新巡检，comparable universe 更新到 `872`，其中新增比较信息主要来自 Path4 `emergent_theme_discovery` family。

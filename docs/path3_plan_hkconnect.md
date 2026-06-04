@@ -1,5 +1,12 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-05 04:11 CST）
+
+- 最新 guard 为 `pass`，HK Path3 当前 `80` 个候选完整；本轮保持纯周频口径，没有把 HK Path1/2 月频、双周候选并入本路径。
+- 本轮新增并五窗口确认 1 个 HK Path3 候选：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover4_exit42_v2`。实际命令为：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover4_exit42_v2,hkconnect_path4_liquidity_momentum_biweekly_ytd_guard_v2,hkconnect_path6_large_liquid_core_monthly_lowturn_v4`。
+- `soft_riskoff38_turnover4_exit42_v2` 五窗口 CAGR 为 `18.73% / 21.00% / 22.90% / 36.93% / 1.06%`，最大回撤为 `-30.94% / -18.81% / -12.96% / -13.30% / -9.03%`，换手为 `7.10x / 6.94x / 7.45x / 8.50x / 9.36x`。它把 2026 拉正但中长窗不及 stable weekly robust，不替换 window winner 或 robust。
+- 最终 rotation focus 为 `weekly_turnover_reduction`。下一轮第一条命令建议先确认主题快周频防守覆盖能否把换手压回可接受区间并保留收益：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_exit60_turnover2_cost_guard_v2`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-04 16:16 CST）
 
 - 开局 guard 为 `pass`，当前轮复跑确认 `hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair`，保持 HK Path3 纯周频口径；没有把 HK Path1/2 月频、双周候选并入本路径。

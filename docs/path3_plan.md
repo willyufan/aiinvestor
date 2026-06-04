@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-05 04:11 CST）
+
+- 最新 guard 为 `pass`，`ashare_path3_weekly_universe 60/60 complete`；本轮保持纯 `_weekly` 口径，没有把 Path1 的月度 overlay 混入 Path3。
+- 本轮纳入并五窗口确认 1 个 Path3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly`。命令类型为五窗口 `--only-base-ids` 增量确认。
+- 该候选五窗口 CAGR 为 `16.12% / 17.87% / 8.29% / 68.93% / 115.86%`，最大回撤为 `-27.21% / -26.87% / -27.01% / -17.34% / -6.65%`，换手为 `2.71x / 2.13x / 1.89x / 4.00x / 7.07x`。`scripts/update_weighted_winners.py` 后它切换为 Path3 `since_2017_01` window winner，但 `since_2023_01` 明显塌陷，robust candidate 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly`。
+- 本轮从 active/scan 归档 3 条旧 pullback/cashoff 弱线：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn20_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap75_hold4_turn16_exit85_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap75_hold5_turn12_exit88_weekly`；原因是 2020/2023 弱且已被 cap60/cash_off 邻域覆盖。
+- 最新 rotation focus 为 `turnover_reduction`。下一轮第一条命令建议沿本轮 winner 降换手但修复 2023：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-04 16:16 CST）
 
 - 开局 guard 为 `pass`，`ashare_path3_weekly_universe` 为 `61/61 complete`。本轮继续保持纯 `_weekly` 口径，没有把 Path1 的月度选股 + 周度仓位 overlay 混入。

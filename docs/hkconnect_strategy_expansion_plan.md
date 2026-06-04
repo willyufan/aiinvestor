@@ -1,5 +1,16 @@
 # 沪港通策略空间扩展计划
 
+## 2026-06-05 04:11 CST 扩展复核结果
+
+本轮扩展线新增并五窗口确认 HK Path4 `hkconnect_path4_liquidity_momentum_biweekly_ytd_guard_v2` 与 HK Path6 `hkconnect_path6_large_liquid_core_monthly_lowturn_v4`，Path5/7 仅巡检和下一轮设计。实际命令与 HK Path3 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover4_exit42_v2,hkconnect_path4_liquidity_momentum_biweekly_ytd_guard_v2,hkconnect_path6_large_liquid_core_monthly_lowturn_v4`。
+
+- Path4 多因子质量/流动性动量：`hkconnect_path4_liquidity_momentum_biweekly_ytd_guard_v2` 五窗口 CAGR `15.26% / 14.07% / 6.76% / 54.89% / 26.77%`，最大回撤 `-34.49% / -34.49% / -32.74% / -15.97% / -6.64%`，换手 `8.75x / 8.62x / 9.10x / 10.68x / 9.98x`。它切换 Path4 `since_2025_01`、`since_2026_01` window winner，并成为 Path4 robust candidate，但 2020/2023 断层和长窗回撤仍深。最新 focus 为 `quality_momentum`；下一轮第一条命令应回到质量动量月频修复：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_ytd_guard_v3`。
+- Path5 回踩续涨：本轮未新增回测；`pullback_continuation` 与 `breakout_retest` 仍显示 2026/2023 断层。最新 focus 为 `retest_confirmation`，下一轮只能先改回踩/突破回踩定义，候选建议 `hkconnect_path5_breakout_retest_biweekly_volume_confirm_v3`，若未注册先注册后再五窗口确认；若仍无法修复 2026，则暂停同形回踩线。
+- Path6 大市值高流动核心：`hkconnect_path6_large_liquid_core_monthly_lowturn_v4` 五窗口 CAGR `12.52% / 14.35% / 20.48% / 30.03% / 1.69%`，最大回撤 `-18.73% / -15.35% / -6.92% / -3.52% / -4.33%`，换手 `1.19x / 1.24x / 1.12x / 1.63x / 2.61x`。它保留低回撤低换手，但收益弱于现有 large-liquid smoke，不替换 winner 或 robust。最新 focus 为 `large_liquid_core`；下一轮第一条命令建议测试低波+流动性权重而不是继续单纯降换手：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_lowvol_liquid_monthly_lowturn_v5`。
+- Path7 杠铃组合：本轮未新增回测；tracked 仍由 biweekly/monthly smoke 与 `core_sleeve_v3` 占据。最新 focus 为 `biweekly_barbell`，下一轮第一条命令建议做更清晰的双袖结构：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_quality_growth_biweekly_defensive_sleeve_v5`。
+
+`scripts/update_hkconnect_artifacts.py` 已刷新 HK tracked 与 Path1-3 图表；Path4 因 v2 切换 robust/tracked payload，是本轮 HK 扩展线主要增量。本轮扩展线未触发 evict。
+
 ## 2026-06-04 16:16 CST 扩展复核结果
 
 本轮扩展线新增并五窗口确认 HK Path5 `hkconnect_path5_pullback_continuation_monthly_ytd_repair_v2`，Path4/6/7 仅巡检和下一轮设计。实际回测命令与 HK Path1/2/3 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff26_exit38_v23_cost_repair,hkconnect_path2_equal_elastic_monthly_cost_guard_v17_repair,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair,hkconnect_path5_pullback_continuation_monthly_ytd_repair_v2`。

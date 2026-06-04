@@ -6,6 +6,7 @@
     "core_explore_70_30_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly",
+    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly",
     "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95_dd_guard50",
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered",
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off",
@@ -538,35 +539,40 @@
       ],
       "win_count": 3,
       "last_path": "path3",
-      "last_track": "since_2017_only",
-      "last_sample_tag": "since_2017_01",
+      "last_track": "robust_candidate",
+      "last_sample_tag": "since_2020_01",
       "last_metrics": {
-        "weighted_cagr": 0.16489245,
-        "weighted_sharpe": 0.80547351,
-        "weighted_max_drawdown": -0.24552581,
-        "weighted_turnover": 3.83785507
+        "cagr_mean": 0.29039043249999996,
+        "cagr_min": 0.16489245,
+        "sharpe_mean": 0.985212945,
+        "max_drawdown_worst": -0.29097045,
+        "turnover_mean": 4.2658505775,
+        "promotion_score": 0.2809294047999999,
+        "score_detail": {
+          "policy": "robust_score_v1",
+          "score": 0.2809294047999999,
+          "base_score": 0.2809294047999999,
+          "ytd_penalty": 0.0,
+          "concentration_penalty": 0.0,
+          "concentration": {
+            "sample_tag": "since_2026_01",
+            "avg_top1_weight": 0.2521476819047618,
+            "avg_top3_weight": 0.5208326390476191,
+            "max_top1_weight": 1.0,
+            "max_top3_weight": 1.0,
+            "latest_top1_weight": 0.18326541,
+            "latest_top3_weight": 0.44353834999999997,
+            "observations": 21
+          }
+        }
       },
       "current_winner_roles": [
-        {
-          "path": "path3",
-          "track": "since_2017_only",
-          "sample_tag": "since_2017_01",
-          "kind": "validated",
-          "refresh_only": false
-        },
         {
           "path": "path3",
           "track": "robust_candidate",
           "sample_tag": "since_2020_01",
           "kind": "robust",
           "refresh_only": false
-        },
-        {
-          "path": "path3",
-          "track": "since_2020_only",
-          "sample_tag": "since_2020_01",
-          "kind": "raw",
-          "refresh_only": true
         }
       ],
       "refresh_only": false,
@@ -599,6 +605,44 @@
           "sample_tag": "since_2023_01",
           "kind": "validated",
           "refresh_only": false
+        }
+      ],
+      "refresh_only": false,
+      "active": true,
+      "days_since_last_win": 0
+    },
+    {
+      "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly",
+      "strategy_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周)",
+      "first_win_date": "2026-06-04",
+      "last_win_date": "2026-06-04",
+      "win_dates": [
+        "2026-06-04"
+      ],
+      "win_count": 1,
+      "last_path": "path3",
+      "last_track": "since_2017_only",
+      "last_sample_tag": "since_2017_01",
+      "last_metrics": {
+        "weighted_cagr": 0.16123624,
+        "weighted_sharpe": 0.84667734,
+        "weighted_max_drawdown": -0.27212111,
+        "weighted_turnover": 2.71367402
+      },
+      "current_winner_roles": [
+        {
+          "path": "path3",
+          "track": "since_2017_only",
+          "sample_tag": "since_2017_01",
+          "kind": "validated",
+          "refresh_only": false
+        },
+        {
+          "path": "path3",
+          "track": "since_2020_only",
+          "sample_tag": "since_2020_01",
+          "kind": "raw",
+          "refresh_only": true
         }
       ],
       "refresh_only": false,
