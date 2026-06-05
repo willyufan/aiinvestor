@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-05 10:22 CST）
+
+- 最终 guard 为 `pass`，`ashare_path3_weekly_universe 61/61 complete`；本轮保持纯 `_weekly` 口径，没有把 Path1 月度选股 + 周度 overlay 误并入 Path3。
+- 本轮新增并五窗口确认 1 个 Path3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly`。命令类型为五窗口 `--only-base-ids` 增量确认，实际合并命令见 Path1 本轮记录。
+- 该候选五窗口 CAGR 为 `17.56% / 19.15% / 11.76% / 37.95% / 81.77%`，最大回撤 `-25.37% / -26.28% / -21.04% / -13.32% / -11.56%`，换手 `2.21x / 1.92x / 1.22x / 2.07x / 4.10x`。它切换为 Path3 `since_2017_01` window winner，但 2023 收益不足，不能替换 2023/2020 winner 或 robust candidate。
+- `scripts/update_weighted_winners.py` validation 明确拒绝该候选作为 2020 winner，原因是验证窗口 `since_2023_01` 的 CAGR 低于要求。本轮未新增归档；上一轮已归档的弱 pullback/cashoff 线继续保留归档状态。
+- 最新 rotation focus 为 `turnover_reduction`，但本轮说明单纯降换手会牺牲 2023。下一轮第一条命令建议在本轮 winner 上稍放松出场或恢复 2023 暴露：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn06_exit92_weekly`；若未注册，先加入 Path3 weekly scan，验收重点是 `since_2023_01` 不低于当前 robust，同时换手不回到高频过度区间。
+
 ## 本轮执行计划（2026-06-05 04:11 CST）
 
 - 最新 guard 为 `pass`，`ashare_path3_weekly_universe 60/60 complete`；本轮保持纯 `_weekly` 口径，没有把 Path1 的月度 overlay 混入 Path3。

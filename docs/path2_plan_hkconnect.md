@@ -1,5 +1,11 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-05 10:22 CST）
+
+- 最终 guard 为 `pass`，HK Path2 当前 `79` 个候选完整。本轮只注册/设计 `hkconnect_path2_theme_biweekly_cost_guard_v22_breakout_coststress`，没有执行 HK Path2 回测；`scripts/update_hkconnect_artifacts.py` 后 Path2 window winner、robust candidate 和 tracked payload 未切换，robust 仍为 `hkconnect_path2_theme_monthly_cost_control`。
+- 巡检结论：equal/inverse elastic 与普通 breakout 支线仍按失败支线处理；主题月频高收益修复池的可比性仍好于高换手 breakout。v22 只能作为一次“主题双周成本压力”复核，不能扩大成多参数批量。
+- 最终 guard 将下一轮 focus 推到 `high_return_monthly`。已注册的 `hkconnect_path2_theme_biweekly_cost_guard_v22_breakout_coststress` 保留为失败支线复核池，但下一轮第一条命令应优先回到主题月频高收益修复：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v23_2023_restore`。若未注册，先注册；验收线仍是 `since_2023_01 >= 30%` 且 2017 MaxDD 不劣于 `-20%~-25%`。
+
 ## 本轮执行计划（2026-06-05 04:11 CST）
 
 - 最新 guard 为 `pass`，HK Path2 当前 `79` 个候选完整。本轮没有新增 HK Path2 回测；`scripts/update_hkconnect_artifacts.py` 后 Path2 window winner、robust candidate 和 tracked payload 未切换，robust 仍为 `hkconnect_path2_theme_monthly_cost_control`。

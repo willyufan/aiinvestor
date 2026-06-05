@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-05 10:22 CST）
+
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 883/883 complete`；`scripts/path2_candidate_pass.py` 更新 comparable universe 到 `883`。本轮 Path2 window winner 与 robust candidate 未被 v19 替换，robust 仍为既有 liqmom/high-growth 族。
+- 本轮新增并五窗口确认 2 个 Path2 `high_growth_theme` v19 候选：`core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution56_cap28_cost_guard_v19`、`core_explore_90_10_total_mv_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution56_cap28_cost_guard_v19`。命令类型为五窗口 `--only-base-ids` 增量确认，实际合并命令见 Path1 本轮记录。
+- v19 等权版五窗口 CAGR 为 `14.41% / 21.58% / 44.12% / 88.47% / 24.50%`，最大回撤 `-28.16% / -20.65% / -23.18% / -15.71% / -8.62%`；总市值版为 `12.61% / 16.08% / 43.64% / 90.20% / 33.47%`，最大回撤 `-30.37% / -28.70% / -24.52% / -15.73% / -5.85%`。结论：2023 已超过 `40%`，但 2020 仍低于 Path2 目标和当前 winner，且长窗不强，不晋级。
+- `path2_candidate_pass.py` 当前窗口 winners：2017 `...risk35_mom_exit55_reconfirm82_caution70_cap70_cost_guard_v5`、2020 `...risk40_mom_exit60_reconfirm70_cap95`、2023 `...risk50_or_cap95`、2025 `...cash_off_and_cap100_weekly`；robust 仍为 `...risk40_mom_exit60_reconfirm75_cap95`。本轮未触发 Path2 evict；若继续扩池，优先归档最近多轮未改善 2020/2023 的同形 low-return 多因子和 v18/v19 短窗弹性失败线。
+- 最新 rotation focus 为 `underrepresented_families`。下一轮第一条命令建议先补非 high-growth 代表，而不是继续 v20：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard`；若预算只能跑 1 组，优先 80/20 等权底座。
+
 ## 本轮执行计划（2026-06-05 04:11 CST）
 
 - 最新 guard 为 `pass`，`ashare_path2_candidate_universe 877/877 complete`；`scripts/path2_candidate_pass.py` 已重建 comparable universe。Path2 window winner 与 robust candidate 未被本轮 v18 替换，robust 仍为既有 liqmom/high-growth 族。
