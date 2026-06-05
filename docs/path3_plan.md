@@ -3,6 +3,13 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-05 22:21 CST）
+
+- 最终 guard 为 `pass`，`ashare_path3_weekly_universe 62/62 complete`；本轮继续保持纯 `_weekly` 口径，没有把 Path1 月度选股 + 周度仓位 overlay 计入 Path3。
+- 本轮按上一轮 `weekly_exit_buffer` 提示新增并五窗口确认 1 个 Path3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn06_exit92_weekly`。命令为：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn06_exit92_weekly`。
+- 该候选五窗口 CAGR 为 `11.42% / 22.68% / 19.66% / 81.69% / 72.20%`，最大回撤 `-23.84% / -26.51% / -22.50% / -13.65% / -11.45%`，换手 `2.94x / 2.34x / 2.19x / 3.53x / 5.75x`。它明显修复 2020，相比上一轮 `turn05_exit94` 也恢复短窗弹性，但 2023 仍低于 stable weekly robust，不替换 Path3 robust/tracked。
+- 本轮未新增归档；旧 weak pullback/cashoff 归档继续保留。最终 rotation focus 为 `risk_downshift`，下一轮第一条命令建议在当前 hold3/turn06/exit92 上做浅风险降档或 cap 下调，验收重点是 2020 不回落且 2023 不低于 robust：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap55_hold3_turn06_exit92_weekly`；若未注册，先加入 Path3 weekly scan 后再跑。
+
 ## 本轮执行计划（2026-06-05 10:22 CST）
 
 - 最终 guard 为 `pass`，`ashare_path3_weekly_universe 61/61 complete`；本轮保持纯 `_weekly` 口径，没有把 Path1 月度选股 + 周度 overlay 误并入 Path3。

@@ -1,5 +1,12 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-05 22:21 CST）
+
+- 最终 guard 为 `pass`，HK Path3 当前 `81` 个候选完整。本轮没有执行 HK Path3 回测；继续保持纯周频口径，没有把 HK Path1/2 的月频或双周候选并入本路径。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path3 window winner、robust candidate 和 tracked payload 未切换；tracked robust 当前为 `hkconnect_path3_theme_fast_weekly_cost_guard_turnover1_exit68_hardcap`，但高换手问题仍未解决。
+- 本轮候选设计保留上一轮未跑的 stable weekly 防守覆盖候选 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover4_exit40_v3`。最终 rotation focus 为 `weekly_defensive_overlay`，下一轮第一条命令为：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover4_exit40_v3`；若未注册，先注册后再跑。
+- 验收线：换手应接近 `7x-9x`，且 `since_2020_01/since_2023_01` 不低于 stable weekly robust 主要对照。若失败，停止 theme fast weekly 高换手扩展，转向 stable weekly 成本/防守结构。
+
 ## 本轮执行计划（2026-06-05 10:22 CST）
 
 - 最终 guard 为 `pass`，HK Path3 当前 `81` 个候选完整；本轮保持纯周频口径，没有把 HK Path1/2 月频、双周候选并入本路径。

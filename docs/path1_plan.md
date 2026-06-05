@@ -4,6 +4,13 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-05 22:21 CST）
+
+- 最终 guard 为 `pass`，`ashare_path1_core_multifactor 44/44 complete`、`ashare_path1_fast_family 103/103 complete`；本轮 `winner_only_pass.py` 仍以 exit 2 提示旧 `aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm` 在 `since_2020_only` clear improvement，但 `scripts/update_weighted_winners.py` 后 official Path1 tracked 仍未切换。
+- 本轮按上一轮 holding_shape 提示新增并五窗口确认 1 个 Path1 fast-pass 候选：`core_explore_80_20_total_mv_winner_core__share_18_82_hold_2_8_ramp68_cost_guard`。可复现命令为：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_18_82_hold_2_8_ramp68_cost_guard`。
+- `share_18_82_hold_2_8_ramp68_cost_guard` 五窗口 CAGR 为 `20.14% / 22.78% / 34.85% / 95.78% / 98.88%`，最大回撤为 `-19.84% / -17.54% / -21.46% / -10.49% / -11.67%`，换手为 `2.65x / 2.97x / 2.94x / 4.43x / 5.50x`。相对上一轮 `share_16_84` 改善 2020/2023/短窗，但 2017 与 robust 质量仍不足，不替换 window winner、robust candidate 或 tracked payload。
+- core_multifactor 子段本轮只巡检，没有新增 overlay；代码实际池仍为 `44` 个。本轮未触发 Path1 evict。最终 rotation focus 为 `signal_quality`，下一轮第一条命令建议回到能修复 2017/2020 的多因子质量信号，而不是继续扩 holding_shape：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_lowvol_industry_signal_cost_guard_reconfirm`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 后再跑增量。
+
 ## 本轮执行计划（2026-06-05 10:22 CST）
 
 - 最终 guard 为 `pass`，`ashare_path1_core_multifactor 44/44 complete`、`ashare_path1_fast_family 102/102 complete`。`winner_only_pass.py` 仍以 exit 2 提示旧 `aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm` 在 `since_2020_only` clear improvement，本轮 `update_weighted_winners.py` 仍未把它改写为 official winner。

@@ -3362,6 +3362,25 @@ HK_PATH4_VARIANTS: List[Dict[str, object]] = [
         "max_holdings": 18,
         "weight_cap": 0.10,
     },
+    {
+        "strategy_id": "hkconnect_path4_quality_momentum_monthly_lowvol_drawdown_v4",
+        "strategy_name": "沪港通Path4 月度质量动量(低波回撤修复v4)",
+        "path": "path4",
+        "candidate_family": "quality_momentum",
+        "rebalance_frequency": "monthly",
+        "base_weight_method": "equal_weight",
+        "base_weight_mode": "signal",
+        "signal_family": "path4_quality_momentum",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.24,
+        "risk_caution_exposure": 0.66,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.20,
+        "sell_exit_percentile": 0.30,
+        "max_holdings": 20,
+        "weight_cap": 0.08,
+    },
 ]
 HK_PATH5_VARIANTS: List[Dict[str, object]] = [
     {

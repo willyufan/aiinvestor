@@ -1,5 +1,12 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-05 22:21 CST）
+
+- 最终 guard 为 `pass`，HK Path2 当前 `79` 个候选完整。本轮没有执行 HK Path2 回测；预算投给 HK Path4/5/6 与 A股 Path1-4。
+- `scripts/update_hkconnect_artifacts.py` 后 Path2 window winner、robust candidate 和 tracked payload 未切换，robust 仍为 `hkconnect_path2_theme_monthly_cost_control`。equal/inverse elastic 与普通 breakout 支线继续按失败支线处理。
+- 本轮候选设计保留上一轮未跑的 `hkconnect_path2_theme_biweekly_cost_guard_v22_breakout_coststress`，但最终 guard 后 rotation focus 推进到 `elasticity_cost_control`。该支线已多轮偏弱，下一轮只允许一次 terminal 复核，第一条命令为：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v18_terminal`；若未注册，先注册。若仍低于 `since_2023_01 >= 30%` 或长窗回撤继续穿 `30%`，停止 elasticity 支线。
+- 下一轮备选池保留 `hkconnect_path2_theme_biweekly_cost_guard_v22_breakout_coststress` 与 `hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v23_2023_restore`，但只有在 elasticity terminal 复核完成后再跑。本轮未触发 HK Path2 evict。
+
 ## 本轮执行计划（2026-06-05 10:22 CST）
 
 - 最终 guard 为 `pass`，HK Path2 当前 `79` 个候选完整。本轮只注册/设计 `hkconnect_path2_theme_biweekly_cost_guard_v22_breakout_coststress`，没有执行 HK Path2 回测；`scripts/update_hkconnect_artifacts.py` 后 Path2 window winner、robust candidate 和 tracked payload 未切换，robust 仍为 `hkconnect_path2_theme_monthly_cost_control`。

@@ -13,6 +13,13 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-05 22:21 CST）
+
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 888/888 complete`；`scripts/path2_candidate_pass.py` 已刷新 comparable universe 到 `888`。本轮 Path2 window winner 与 robust candidate 未被双周成本守门候选替换，robust 仍为既有 liqmom/high-growth 族。
+- 本轮按上一轮 `underrepresented/capacity` 提示五窗口确认 2 个 Path2 `biweekly_rebalance_aggressive` 候选：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard`、`core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard`。命令为：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard`。
+- 80/20 等权版五窗口 CAGR 为 `2.80% / 9.78% / 25.61% / 65.13% / 52.98%`，最大回撤 `-65.30% / -57.27% / -31.01% / -26.92% / -14.00%`，换手 `4.46x / 4.69x / 4.93x / 9.25x / 11.63x`；70/30 等权版为 `3.46% / 10.09% / 22.05% / 64.01% / 53.57%`，最大回撤 `-57.58% / -52.09% / -28.90% / -21.56% / -12.75%`，换手 `4.92x / 5.30x / 6.08x / 11.63x / 12.67x`。结论：该低相关双周线继续不能修复 2017/2020，短窗换手也偏高，只作为失败对照。
+- 本轮未触发 Path2 evict。最终 rotation focus 为 `risk_reconfirm_sensitivity`，下一轮第一条命令建议回到 high-growth v 系列做恢复确认/风险阈值敏感性，而不是继续扩双周弱线：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk28_mom_exit50_reconfirm94_caution58_cap32_cost_guard_v20,core_explore_90_10_total_mv_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk28_mom_exit50_reconfirm94_caution58_cap32_cost_guard_v20`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-05 10:22 CST）
 
 - 最终 guard 为 `pass`，`ashare_path2_candidate_universe 883/883 complete`；`scripts/path2_candidate_pass.py` 更新 comparable universe 到 `883`。本轮 Path2 window winner 与 robust candidate 未被 v19 替换，robust 仍为既有 liqmom/high-growth 族。
