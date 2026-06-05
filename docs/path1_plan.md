@@ -4,6 +4,12 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-06 04:23 CST）
+
+- 最终 guard 为 `pass`，`ashare_path1_core_multifactor 44/44 complete`、`ashare_path1_fast_family 103/103 complete`。上一轮 `share_18_82_hold_2_8_ramp68_cost_guard` 改善短窗但未替换 Path1 winner/robust；本轮 Path1 只完成巡检，没有新增 Path1 回测 id，预算投给 A股 Path2/3/4 与 HK Path4/6/7。
+- `scripts/winner_only_pass.py` 仍以退出码 `2` 提示旧 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm` 在 `since_2020_only` 有 clear improvement；`scripts/update_weighted_winners.py` 后 official Path1 window winner、robust candidate、tracked/live/public payload 均未切换。
+- core_multifactor 子段按代码实际池仍为 `44` 个，本轮没有新增 overlay，也没有 Path1 evict。最终 rotation focus 为 `satellite_risk_cost`，下一轮第一条候选命令建议回到卫星防守成本/风险邻域，而不是继续扩弱多因子：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk12_reconfirm`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["satellite_defense"]` 后再跑增量。
+
 ## 本轮执行计划（2026-06-05 22:21 CST）
 
 - 最终 guard 为 `pass`，`ashare_path1_core_multifactor 44/44 complete`、`ashare_path1_fast_family 103/103 complete`；本轮 `winner_only_pass.py` 仍以 exit 2 提示旧 `aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm` 在 `since_2020_only` clear improvement，但 `scripts/update_weighted_winners.py` 后 official Path1 tracked 仍未切换。

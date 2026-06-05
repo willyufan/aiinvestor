@@ -1,5 +1,13 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-06 04:23 CST 状态
+
+最终 guard 为 `pass`，Path5 仍处于事件入口、冻结候选池和来源审计阶段；`candidate_count=6`、`frozen_candidate_count=6`、`pending_audit_count=6`、`backtest_ready_count=0`。本轮读取 `results/research/a_share/event_theme_registry.json`、`results/research/a_share/event_theme_candidates.jsonl`、`results/research/a_share/event_theme_audit.jsonl`，没有把待审计 seed 当成有效策略结论，也没有注册真实 event backtest entry。
+
+本轮按 `event_backtest_entry/frozen_candidate_audit` 巡检向 `event_theme_audit.jsonl` 追加 6 条 `pending_primary_source_review` 记录，覆盖 `300394.SZ / 688498.SH / 300502.SZ / 300308.SZ / 688195.SH / 300408.SZ`；6 条记录均保持 `frozen=true`、`backtest_ready=false`。最终 rotation focus 显示为 `path4_comparison`，但由于 `backtest_ready_count=0`，仍不能和 Path4 做收益比较。
+
+下一轮第一条动作仍不是回测：先补主来源审计并逐条更新为 `source_audit_passed` 或 `source_audit_failed`。只有至少 1 个候选通过审计后，才执行预留入口：`.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01`。若脚本仍不存在，先实现只读取冻结候选池的最小 runner，再与 Path4 当前 `coverage_penalty_risk15_cap12_exit66` winner 和本轮 `signal28_leader74_coverage_penalty_risk15_cap12_exit64` 失败对照做 T+20D/T+60D/T+120D 比较。
+
 ## 2026-06-05 22:21 CST 状态
 
 最终 guard 为 `pass`，Path5 仍处于事件入口、冻结候选池和来源审计阶段；`candidate_count=6`、`frozen_candidate_count=6`、`pending_audit_count=6`、`backtest_ready_count=0`。本轮读取 `results/research/a_share/event_theme_registry.json`、`results/research/a_share/event_theme_candidates.jsonl`、`results/research/a_share/event_theme_audit.jsonl`，没有把待审计 seed 当成有效策略结论，也没有注册真实 event backtest entry。

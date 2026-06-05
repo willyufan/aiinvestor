@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-06 04:23 CST）
+
+- 最终 guard 为 `pass`，`ashare_path3_weekly_universe 60/60 complete`；本轮继续保持纯 `_weekly` 口径，没有把 Path1 月度选股 + 周度仓位 overlay 计入 Path3。上一轮 `cap60_hold3_turn06_exit92_weekly` 修复 2020 但 2023 不足，本轮按 `risk_downshift/cost_stress` 把单票上限压到 `55%`。
+- 本轮新增并五窗口确认 1 个 Path3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap55_hold3_turn06_exit92_weekly`。命令为：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap55_hold3_turn06_exit92_weekly`。
+- 该候选五窗口 CAGR 为 `12.03% / 22.68% / 19.66% / 81.69% / 72.20%`，最大回撤为 `-23.84% / -26.51% / -22.50% / -13.65% / -11.45%`，换手为 `2.96x / 2.34x / 2.19x / 3.53x / 5.75x`。结论：2020 与 2026 弹性可用，但 2023 仍低于 stable weekly robust，不替换 Path3 winner/robust/tracked。
+- 为把 active pool 压回 cap `60`，本轮归档 3 条旧弱线：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn08_exit92_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit90_weekly`；原因是 2020/2023 弱且已被 hold3/turn06/exit92 新线覆盖。
+- 最终 rotation focus 为 `cost_stress`。下一轮第一条命令建议在本轮 cap55/hold3/turn06 形态上加成本守门或更紧 exit，而不是回到 pullback 弱线：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap55_hold3_turn06_exit90_weekly`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-05 22:21 CST）
 
 - 最终 guard 为 `pass`，`ashare_path3_weekly_universe 62/62 complete`；本轮继续保持纯 `_weekly` 口径，没有把 Path1 月度选股 + 周度仓位 overlay 计入 Path3。
