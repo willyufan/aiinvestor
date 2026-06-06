@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-07 04:26 CST）
+
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 909/909 complete`；`scripts/path2_candidate_pass.py` 重建 comparable universe 到 `909`。上一轮 v22 修复 2023 但 2020/长窗不足，本轮按 `risk_reconfirm_sensitivity` 确认 v23 双底座，并保留非 high-growth 族下一轮设计以避免候选池继续被 `high_growth_theme` 压重。
+- 本轮新增并五窗口确认 2 个 Path2 `high_growth_theme` 候选：`core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution58_cap30_cost_guard_v23_risk_reconfirm`、`core_explore_90_10_total_mv_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution58_cap30_cost_guard_v23_risk_reconfirm`。命令类型为五窗口 `--only-base-ids` 增量确认，实际命令为：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution58_cap30_cost_guard_v23_risk_reconfirm,core_explore_90_10_total_mv_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution58_cap30_cost_guard_v23_risk_reconfirm,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap58_hold4_turn04_exit94_risk25_weekly`。
+- v23 等权版五窗口 CAGR 为 `12.84% / 25.32% / 29.67% / 82.77% / 16.22%`，最大回撤为 `-37.07% / -17.33% / -22.35% / -20.61% / -10.20%`；总市值版为 `12.16% / 22.31% / 29.02% / 85.42% / 23.93%`，最大回撤为 `-36.38% / -22.44% / -20.02% / -20.00% / -8.15%`。结论：2020 有恢复但 2023 未达 `40%`，2017 回撤偏深，不能替换 Path2 window winner 或 robust。
+- `path2_candidate_pass.py` 后 Path2 window winners 与 robust 未切换；robust 仍为 `core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap95`，`meanCAGR=64.36%`、`minCAGR=36.67%`。本轮未触发 Path2 evict。
+- 最终 guard 将下一轮 focus 推到 `underrepresented_families`。下一轮第一条命令应暂停 high-growth v 系列，转向低相关代表：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_signal_cashguard_reconfirm,core_explore_70_30_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_signal_cashguard_reconfirm`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-06 16:17 CST）
 
 - 最终 guard 为 `pass`，`ashare_path2_candidate_universe 904/904 complete`；`scripts/path2_candidate_pass.py` 重建 comparable universe 到 `904`。上一轮 v21 继续牺牲 2020/2023，本轮按 `medium_cycle_growth` 将 high-growth v 系列恢复到 `risk26/mom_exit46/reconfirm96/caution56/cap28`，用等权与总市值双底座确认。

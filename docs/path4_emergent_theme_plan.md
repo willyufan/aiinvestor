@@ -32,6 +32,15 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-06-07 04:26 CST）
+
+- 最终 guard 为 `pass`，`ashare_path4_emergent_theme 60/60 complete`；本轮继续只使用市场结构涌现信号，不使用人工主题标签、不纳入 ETF。上一轮 `signal29/leader76/coverage_penalty/risk18/cap14/exit66_lowturn` 未改 robust，本轮按 `theme_signal_quality` 抬到 `signal30/leader78`，检查更高信号门槛是否牺牲中长窗。
+- 本轮新增并五窗口确认 3 个 Path4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk18_cap14_exit66_lowturn`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk18_cap14_exit66_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk18_cap14_exit66_lowturn`。命令类型为五窗口 `--only-base-ids` 增量确认，实际补覆盖命令见 Path1 本轮记录。
+- 三底座五窗口 CAGR：`80/20 total_mv` 为 `12.07% / 19.52% / 17.21% / 70.81% / 79.72%`，最大回撤 `-29.12% / -26.16% / -9.74% / -8.85% / -8.40%`；`90/10 equal_weight` 为 `10.52% / 18.87% / 19.92% / 75.71% / 79.04%`；`90/10 total_mv` 为 `10.80% / 17.46% / 17.83% / 75.82% / 77.63%`。结论：2020 有一定修复但 2017/2023 明显弱于既有 coverage/robust，且短窗换手最高到 `8.45x`，不能只凭 2025/2026 高 CAGR 晋级。
+- `scripts/update_weighted_winners.py` 后 Path4 window winner 与 robust 未被本轮 signal30 替换；robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50`。持仓仍来自多只强行业/强龙头，不做半导体、AI 等人工主题归因。
+- 为维持 active cap `60`，本轮 evict `aggr_12_88_prom11_emergent_theme_quality_gate_signal24_risk30_cap18_exit72`；原因是旧 signal24/risk30/cap18 已被 signal26-30、leader、coverage_penalty/lowturn 系列覆盖，且近期不改善 2020/2023 或 robust。
+- 最终 rotation focus 为 `theme_capacity_cost`。下一轮第一条命令建议在 signal30 失败后降低门槛并直接测试容量/成本控制：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk16_cap10_exit64_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk16_cap10_exit64_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk16_cap10_exit64_lowturn`；新增前继续先 evict 一条旧弱线。
+
 ## 本轮执行计划（2026-06-06 16:17 CST）
 
 - 最终 guard 为 `pass`，`ashare_path4_emergent_theme 60/60 complete`；本轮继续只使用市场结构涌现信号，不使用人工主题标签、不纳入 ETF。上一轮 `signal29/leader76/coverage_penalty/risk15/cap12/exit64_lowturn` 切换 2020 window winner 但未改 robust，本轮按 `theme_signal_quality` 提高风险与容量阈值到 `risk18/cap14/exit66_lowturn`，观察更稳风险控制是否保持中窗。
