@@ -1,9 +1,9 @@
 {
   "as_of": "2026-06-05",
   "family": "path1_fast_family",
-  "base_candidate_count": 102,
-  "candidate_count": 1122,
-  "overlay_candidate_count": 1020,
+  "base_candidate_count": 103,
+  "candidate_count": 1133,
+  "overlay_candidate_count": 1030,
   "direction_groups": {
     "promotion_ramp": [
       "aggr_10_90_fast_ramp",
@@ -104,6 +104,7 @@
       "share_14_86_hold_2_8_ramp75_cost_guard",
       "share_16_84_hold_2_8_ramp70_cost_guard",
       "share_18_82_hold_2_8_ramp68_cost_guard",
+      "share_20_80_hold_2_8_ramp66_cost_guard",
       "aggr_05_95_prom7"
     ],
     "supporting_variants": [
@@ -127,7 +128,7 @@
     "satellite_defense": 13,
     "signal_variants": 2,
     "core_multifactor": 44,
-    "holding_shape": 27,
+    "holding_shape": 28,
     "supporting_variants": 4,
     "drawdown_guard": 7
   },
@@ -263,21 +264,21 @@
           }
         },
         {
+          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__share_20_80_hold_2_8_ramp66_cost_guard",
+          "metrics": {
+            "cagr": 0.35641211,
+            "sharpe": 1.10682158,
+            "max_drawdown": -0.20250857,
+            "turnover": 2.97188326
+          }
+        },
+        {
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk30_reconfirm",
           "metrics": {
             "cagr": 0.34988522,
             "sharpe": 0.99820018,
             "max_drawdown": -0.29590207,
             "turnover": 3.65845113
-          }
-        },
-        {
-          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__share_18_82_hold_2_8_ramp68_cost_guard",
-          "metrics": {
-            "cagr": 0.34853717,
-            "sharpe": 1.08911266,
-            "max_drawdown": -0.21455401,
-            "turnover": 2.94463194
           }
         }
       ]

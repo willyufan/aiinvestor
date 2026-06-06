@@ -13,6 +13,13 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-06 10:28 CST）
+
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 898/898 complete`；`scripts/path2_candidate_pass.py` 刷新 comparable universe 到 `898`，robust 仍为 `core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap95`，`meanCAGR=64.36%`、`minCAGR=36.67%`。上一轮 v20 继续牺牲 2020/2023；本轮按 `capacity_and_cost_stress` 确认更强恢复确认、更低 cap 的 v21 双底座。
+- 本轮新增并五窗口确认 2 个 Path2 `high_growth_theme` 候选：`core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk22_mom_exit42_reconfirm98_caution52_cap22_cost_guard_v21`、`core_explore_90_10_total_mv_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk22_mom_exit42_reconfirm98_caution52_cap22_cost_guard_v21`。命令类型为五窗口 `--only-base-ids` 增量确认，实际合并命令见 Path1 本轮记录。
+- v21 等权版五窗口 CAGR 为 `16.86% / 14.95% / 22.69% / 65.76% / 23.31%`，最大回撤为 `-23.06% / -17.57% / -11.24% / -9.86% / -8.36%`，换手为 `3.51x / 3.66x / 3.51x / 7.66x / 7.34x`；总市值版为 `12.71% / 15.48% / 29.16% / 86.45% / 25.82%`，最大回撤为 `-25.53% / -21.54% / -9.77% / -6.96% / -6.76%`，换手为 `3.46x / 3.60x / 3.58x / 7.52x / 7.67x`。结论：短窗回撤改善但 2020/2023 收益仍低于当前 winner 和目标线，不替换 winner/robust。
+- 本轮未触发 Path2 evict；`high_growth_theme=359`，候选池继续被该族压重。最终 guard 将下一轮 focus 轮到 `medium_cycle_growth`，下一轮第一条命令建议从 v21 退回中周期收益修复，而不是继续单纯降 risk/cap：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution56_cap28_cost_guard_v22_growth_restore,core_explore_90_10_total_mv_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution56_cap28_cost_guard_v22_growth_restore`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-06 04:23 CST）
 
 - 最终 guard 为 `pass`，`ashare_path2_candidate_universe 893/893 complete`；`scripts/path2_candidate_pass.py` 已刷新 comparable universe 到 `893`。上一轮双周 `cap60` 对照仍无法修复 2017/2020，本轮按 `risk_reconfirm_sensitivity` 的后续设计确认 high-growth v20，但 Path2 window winner 与 robust candidate 均未切换。

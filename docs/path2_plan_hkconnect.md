@@ -1,5 +1,11 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-06 10:28 CST）
+
+- 最终 guard 为 `pass`，HK Path2 当前 `79` 个候选完整；本轮没有执行 HK Path2 回测，预算投给 HK Path4/6/7 与 A股 Path1-4。
+- `scripts/update_hkconnect_artifacts.py` 后 Path2 window winner、robust candidate 和 tracked payload 未切换，robust 仍为 `hkconnect_path2_theme_monthly_cost_control`。普通 breakout、inverse/equal elastic 继续按失败支线处理，本轮无 HK Path2 evict。
+- 最终 rotation focus 为 `biweekly_breakout`，但该 focus 只能映射为一次主题双周成本压力复核，不应重启普通高换手 breakout。下一轮第一条命令为：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v22_breakout_coststress`；若未注册，先注册。若仍低于 `since_2023_01 >= 30%` 或长窗回撤继续穿 `30%`，停止 breakout 支线并转回 high-return monthly 或质量/流动性动量新族。
+
 ## 本轮执行计划（2026-06-06 04:23 CST）
 
 - 最终 guard 为 `pass`，HK Path2 当前 `79` 个候选完整。本轮没有执行 HK Path2 回测；预算投给 HK Path4/6/7 与 A股 Path2/3/4。
