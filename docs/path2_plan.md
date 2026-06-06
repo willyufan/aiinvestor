@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-06 16:17 CST）
+
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 904/904 complete`；`scripts/path2_candidate_pass.py` 重建 comparable universe 到 `904`。上一轮 v21 继续牺牲 2020/2023，本轮按 `medium_cycle_growth` 将 high-growth v 系列恢复到 `risk26/mom_exit46/reconfirm96/caution56/cap28`，用等权与总市值双底座确认。
+- 本轮新增并五窗口确认 2 个 Path2 `high_growth_theme` 候选：`core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution56_cap28_cost_guard_v22_growth_restore`、`core_explore_90_10_total_mv_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution56_cap28_cost_guard_v22_growth_restore`。命令类型为五窗口 `--only-base-ids` 增量确认，A股实际合并命令见 Path1 本轮记录。
+- v22 等权版五窗口 CAGR 为 `14.41% / 21.58% / 44.12% / 88.47% / 24.50%`，最大回撤为 `-28.16% / -20.65% / -23.18% / -15.71% / -8.62%`，Sharpe 为 `0.69 / 0.89 / 1.19 / 1.56 / 1.24`，换手为 `3.69x / 3.89x / 4.09x / 6.56x / 6.86x`；总市值版 CAGR 为 `12.61% / 16.08% / 43.64% / 90.20% / 33.47%`，最大回撤为 `-30.37% / -28.70% / -24.52% / -15.73% / -5.85%`。
+- 结论：2023 重新超过 `40%`，但 2020 与长窗仍低于现有 winner/robust，Path2 robust 仍为 `core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap95`，不改 tracked/live/public。候选池未触发 Path2 evict，`high_growth_theme` 仍显著压重。
+- 最终 guard 将下一轮 focus 推到 `risk_reconfirm_sensitivity`。下一轮第一条命令建议继续在 v22 邻域测试恢复确认和风险阈值敏感性，但不要只扩 high-growth 单一族：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution58_cap30_cost_guard_v23_risk_reconfirm,core_explore_90_10_total_mv_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution58_cap30_cost_guard_v23_risk_reconfirm`；若未注册，先注册，并同步保留一个非 high-growth 低相关候选作为备选。
+
 ## 本轮执行计划（2026-06-06 10:28 CST）
 
 - 最终 guard 为 `pass`，`ashare_path2_candidate_universe 898/898 complete`；`scripts/path2_candidate_pass.py` 刷新 comparable universe 到 `898`，robust 仍为 `core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap95`，`meanCAGR=64.36%`、`minCAGR=36.67%`。上一轮 v20 继续牺牲 2020/2023；本轮按 `capacity_and_cost_stress` 确认更强恢复确认、更低 cap 的 v21 双底座。
