@@ -124,7 +124,7 @@
 
 - 组合ID：`path1_composite_robust_window_blend_v1`
 - 组合逻辑：不再要求单一 winner 覆盖所有行情，按鲁棒候选与窗口赢家合并权重。
-- 组合鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）：`46.70%` / `26.01%` / `1.2423` / `-40.48%` / `6.12`
+- 组合鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）：`47.66%` / `26.19%` / `1.2622` / `-40.48%` / `6.12`
 
 当前组合成分：
 
@@ -135,11 +135,11 @@
 
 组合窗口指标：
 
-- `2017-01-01` → `2026-06-05`: Total Return `783.14%`, CAGR `26.01%`, Max DD `-31.72%`, Sharpe `1.0060`, Turnover `5.95`
-- `2020-01-01` → `2026-06-05`: Total Return `411.05%`, CAGR `28.90%`, Max DD `-40.48%`, Sharpe `0.9354`, Turnover `6.30`
-- `2023-01-01` → `2026-06-05`: Total Return `188.79%`, CAGR `36.29%`, Max DD `-30.78%`, Sharpe `1.0932`, Turnover `5.91`
-- `2025-01-01` → `2026-06-05`: Total Return `159.87%`, CAGR `95.58%`, Max DD `-11.64%`, Sharpe `1.9347`, Turnover `6.31`
-- `2026-01-01` → `2026-06-05`: Total Return `34.42%`, CAGR `100.78%`, Max DD `-11.06%`, Sharpe `1.8972`, Turnover `6.57`
+- `2017-01-01` → `2026-06-05`: Total Return `794.59%`, CAGR `26.19%`, Max DD `-31.72%`, Sharpe `1.0121`, Turnover `5.95`
+- `2020-01-01` → `2026-06-05`: Total Return `421.14%`, CAGR `29.31%`, Max DD `-40.48%`, Sharpe `0.9459`, Turnover `6.30`
+- `2023-01-01` → `2026-06-05`: Total Return `194.57%`, CAGR `37.12%`, Max DD `-30.78%`, Sharpe `1.1134`, Turnover `5.91`
+- `2025-01-01` → `2026-06-05`: Total Return `164.00%`, CAGR `98.02%`, Max DD `-11.64%`, Sharpe `1.9774`, Turnover `6.31`
+- `2026-01-01` → `2026-06-05`: Total Return `35.35%`, CAGR `105.01%`, Max DD `-11.06%`, Sharpe `1.9556`, Turnover `6.57`
 
 ## Path 2：窗口跟踪赢家
 

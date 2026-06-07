@@ -1433,3 +1433,11 @@
 - 巡检结果：最终 guard 显示 HK 全候选 `246/246 complete`，Path 2 stagnation 仍高达 `241`，focus 为 `elasticity_cost_control`。`update_hkconnect_artifacts.py` 后 Path 2 window winner 与 robust candidate 未改变，当前 robust 仍为 `hkconnect_path2_theme_monthly_cost_control`，`since_2025_01` winner 仍由 `hkconnect_path2_breakout_concentrated_monthly` 占据。
 - 本轮候选设计但未回测：`hkconnect_path2_equal_elastic_monthly_cost_guard_v17_repair`，目标是最后一次用更温和 equal-elastic 成本控制复核 elasticity focus，而不是继续 strict inverse-elastic 终端线。未回测原因：本轮 HK 新增执行预算已投给 Path1、Path4、Path6、Path7，共 4 个 strategy ids。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> elasticity_cost_control`。下一轮首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v17_repair`；若仍不能接近 `theme_monthly_cost_control`，停止 elasticity 线，回到主题月频/双周高收益候选。
+
+## 本轮执行计划（2026-06-08 06:05 CST）
+
+- 上一轮候选/结果摘要：上一轮 Path 2 的 elasticity 小修未改善，本轮按 HK 配额给 Path 2 一个低换手质量/流动性/月频动量原型，避免继续只扩主题高收益线。
+- 本轮候选 ID：`hkconnect_path2_quality_liquidity_momentum_monthly_v1`。增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_quality_liquidity_momentum_monthly_v1`。
+- 五窗口结果：CAGR 为 `20.91% / 24.71% / 30.87% / 31.84% / -9.84%`，最大回撤为 `-15.70% / -11.34% / -11.08% / -11.70% / -10.80%`，换手为 `3.04x / 2.93x / 2.87x / 3.67x / 4.19x`。
+- 结论：v1 风险调整和换手优于许多高收益线，但 2025/2026 不足，未改写 HK Path 2 window winner、robust candidate 或 tracked payload。最终 guard 给出 `hkconnect_path2 -> biweekly_breakout`，说明下一轮应回到高收益突破修复池。
+- 下一轮 focus：下一轮第一候选建议 `hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair`。

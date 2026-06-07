@@ -1432,3 +1432,11 @@
 - 五窗口结果：CAGR 为 `18.92% / 23.98% / 22.09% / 34.75% / -7.11%`，最大回撤为 `-27.96% / -12.28% / -12.28% / -12.28% / -9.10%`，换手为 `3.33x / 3.30x / 3.31x / 3.60x / 4.30x`。
 - 结论：v22 比 v20 的 2026 损失收窄，但长中短窗均弱于现有 `soft_exit32`、`lowvol_cost_guard` 和旧短窗 winner；`update_hkconnect_artifacts.py` 后 HK Path 1 window winner 与 robust candidate 未改变，tracked payload 仅随 HK 图表/策略列表同步。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> risk_overlay_cost`。下一轮不要继续月周 overlay 小修，第一候选建议做风险 overlay 成本修复：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff26_exit38_v23_cost_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_riskoff26_exit38_v23_cost_repair`。
+
+## 本轮执行计划（2026-06-08 06:05 CST）
+
+- 上一轮候选/结果摘要：上一轮月周 overlay 小修未修复 2026，本轮按 `biweekly_buffer` 确认双周质量动量等权缓冲线，而不是继续在月频 risk-off 上微调。
+- 本轮候选 ID：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v24`。增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v24`；随后 `tracked_active` 又用同五窗口同步 HK active 集合。
+- 五窗口结果：CAGR 为 `21.90% / 24.63% / 29.40% / 34.63% / -2.03%`，最大回撤为 `-21.30% / -21.30% / -9.70% / -8.31% / -5.78%`，换手为 `5.39x / 5.13x / 5.06x / 6.30x / 5.97x`。
+- 结论：v24 是 2017 窗口表头观察，但 2026 转负且最终 guard 对 `hkconnect_path1` signature 未标记 changed；`update_hkconnect_artifacts.py` 后 Path 1 robust candidate/tracked payload 未发生本轮新切换。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> biweekly_buffer`。下一轮第一候选建议 `hkconnect_path1_biweekly_quality_momentum_equal_buffered_v25_ytd_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v25_ytd_repair`。

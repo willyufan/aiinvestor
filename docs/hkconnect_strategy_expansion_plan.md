@@ -291,3 +291,13 @@
 - 与现有 Path 1/2/3 的持仓重合度低，提供新的组合角色。
 
 如果连续三批候选都没有改善，也没有独特组合价值，就归档该路径，避免长期占用迭代预算。
+
+## 本轮执行计划（2026-06-08 06:05 CST）
+
+- 上一轮候选/结果摘要：上一轮 HK Path4/6/7 扩展线仍有同步空间，Path5 继续处于暂停/重设计；本轮按配额新增或确认 Path4、Path6、Path7 各 1 个候选，Path5 只巡检不追加参数。
+- HK Path4 本轮候选：`hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v10`。命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v10`。五窗口 CAGR `12.56% / 11.92% / 8.49% / 51.63% / 12.75%`，最大回撤最差 `-38.05%`；最终 guard 标记 `hkconnect_path4 changed=true`，robust candidate 切到该 v10，但它仍是高回撤/中等收益的 tracked-only 扩展线。
+- HK Path5 本轮候选：无新增；`hkconnect_path5_breakout_retest_biweekly_volume_confirm_v3` 仍为 robust 观察，`since_2026_01` 为负。未回测原因：guard focus 为 `pause_or_redesign`，Path5 需要重设回踩/突破确认结构，不继续堆参数。下一轮先设计 `hkconnect_path5_pullback_continuation_monthly_quality_retest_v4`，再决定是否执行。
+- HK Path6 本轮候选：`hkconnect_path6_large_liquid_core_monthly_quality_liquidity_lowturn_v10`。五窗口 CAGR `11.41% / 13.06% / 18.43% / 32.09% / 0.98%`，最大回撤 `-21.65% / -12.60% / -6.43% / -4.18% / -4.75%`，换手 `1.28x-2.52x`；最终 guard 标记 `hkconnect_path6 changed=true`，但 robust candidate 仍由低波/流动性双周 smoke 线占据，v10 作为低换手月频对照保留。
+- HK Path7 本轮候选：`hkconnect_path7_barbell_quality_growth_biweekly_core_defensive_lowturn_v10`。五窗口 CAGR `14.18% / 13.02% / 19.99% / 30.80% / 9.57%`，最差回撤 `-21.53%`，换手 `4.78x-6.53x`；最终 guard 标记 `hkconnect_path7 changed=true`，但 robust candidate 仍为 `hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3`，v10 只作为低换手防守杠铃对照。
+- HK 扩展线收尾：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --family-scope tracked_active --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01` 已同步 285 个 HK candidates，最终 guard 为 `pass`，Path4/5/6/7 coverage 分别为 `13/13`、`4/4`、`12/12`、`11/11`。
+- 下一轮 focus：Path4 `quality_momentum` 第一命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_lowvol_drawdown_v11`；Path5 最终 guard 已转为 `pullback_definition`，先重设计 `hkconnect_path5_pullback_continuation_monthly_quality_retest_v4`；Path6 第一命令为 `--only-strategy-ids hkconnect_path6_large_liquid_core_biweekly_quality_liquidity_lowturn_v11`；Path7 第一命令为 `--only-strategy-ids hkconnect_path7_barbell_quality_growth_biweekly_core_defensive_dynamic_v11`。

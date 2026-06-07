@@ -765,3 +765,11 @@
 - 巡检结果：`update_hkconnect_artifacts.py` 后 HK Path 3 winners 仍为 2017 `hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`、2020 `hkconnect_path3_theme_weekly`、2023 `hkconnect_path3_theme_fast_weekly`、2025 `hkconnect_path3_breakout_cashoff_weekly`；robust candidate 仍为 `hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`。本轮未把 Path1/2 月频或双周候选并入 Path 3。
 - 本轮候选设计但未回测：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair`。未回测原因：HK Path3 stagnation 虽长，但本轮预算优先补 HK 扩展线的新增比较信息；Path3 已完整覆盖 `79` 个候选，先保留下一轮首命令。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> weekly_turnover_reduction`。下一轮首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair`；如果 2026 仍负，则停止稳定线小修，回到主题快周频的防守覆盖。
+
+## 本轮执行计划（2026-06-08 06:05 CST）
+
+- 上一轮候选/结果摘要：上一轮建议确认 `turnover6/exit42/coststress`；本轮没有把它作为新增实验单独跑，但 HK `tracked_active` 同步已经覆盖该既有候选的五窗口结果，仍保持纯 weekly Path 3 口径。
+- 本轮候选 ID 与命令：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair` 经 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --family-scope tracked_active --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01` 同步覆盖。
+- 五窗口结果：CAGR 为 `21.43% / 24.12% / 26.02% / 38.04% / -1.01%`，最大回撤为 `-27.92% / -20.09% / -12.02% / -12.40% / -7.25%`，换手为 `7.38x / 7.09x / 7.68x / 9.26x / 9.81x`。
+- 结论：该稳定降换手线比 30x+ 周频快线更可交易，但 2026 仍负，未改写 HK Path 3 window winner、robust candidate 或 tracked payload；最终 guard 给出 `weekly_defensive_overlay / rotate`。
+- 下一轮 focus：下一轮第一候选建议回到主题快周频防守覆盖，而不是继续稳定线小修：`hkconnect_path3_theme_fast_weekly_defensive_turnover6_exit54_v11`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover6_exit54_v11`。

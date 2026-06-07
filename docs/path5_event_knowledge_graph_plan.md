@@ -227,3 +227,11 @@ Path 5 成立需要满足至少一个条件：
 - 本轮候选池：`300394.SZ 天孚通信`、`688498.SH 源杰科技`、`300502.SZ 新易盛`、`300308.SZ 中际旭创`、`688195.SH 腾景科技`、`300408.SZ 三环集团`。本轮仅追加审计记录为 `pending_primary_source_review`，没有把任何候选改为 `backtest_ready=true`。
 - 未回测原因：Path 5 还缺公司公告、交易所披露或权威产业来源审计；在来源未通过前，不运行事件篮子回测，也不与 Path 4 强主题涌现做收益比较。当前命令状态为“不执行回测”，而不是缺口补跑。
 - 下一轮 focus：最终 guard 给出 `ashare_path5 -> path4_comparison`。下一轮第一步仍不是回测，而是完成来源审计；建议先对 6 个冻结候选逐条补来源链接并更新 audit JSONL。若至少 4 个候选通过审计，首条回测入口命令预留为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01`；若脚本仍不存在，则先实现最小 runner，再与 Path 4 `risk15/cap12` 和 coverage_penalty 做横向比较。
+
+## 本轮执行计划（2026-06-08 06:05 CST）
+
+- 上一轮候选/结果摘要：上一轮 Path 5 仍停在最小事件篮子入口阶段，6 个冻结候选均未通过来源审计；本轮继续只维护审计状态，不把 Path 4 强主题观察 seed 当成有效策略结论。
+- 本轮候选 ID 与命令：巡检 `results/research/a_share/event_theme_registry.json`、`results/research/a_share/event_theme_candidates.jsonl` 与 `results/research/a_share/event_theme_audit.jsonl`；为 `mrc_uec_ai_network_20260506_v0` 的 6 个候选追加 audit 记录，状态均为 `pending_primary_source_review / frozen=true / backtest_ready=false`。本轮不运行事件篮子回测命令。
+- 本轮审计候选：`300394.SZ 天孚通信`、`688498.SH 源杰科技`、`300502.SZ 新易盛`、`300308.SZ 中际旭创`、`688195.SH 腾景科技`、`300408.SZ 三环集团`。最终 guard 显示 `candidate_count=6 / frozen_candidate_count=6 / pending_audit_count=6 / backtest_ready_count=0`。
+- 未回测原因：仍缺公司公告、交易所披露或权威产业来源审计；来源未通过前，不做收益比较，不进入 tracked/winner，也不与 Path 4 强主题涌现混同。
+- 下一轮 focus：最终 guard 给出 `ashare_path5 -> event_backtest_entry`。下一轮第一步是实现或补齐最小 `scripts/event_theme_backtest_entry.py` runner，同时给 6 个候选补 primary source 链接并把通过者写入 audit JSONL；若至少 4 个通过，首条命令为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01`。
