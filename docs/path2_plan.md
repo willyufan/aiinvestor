@@ -13,6 +13,13 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-07 16:06 CST）
+
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 915/915 complete`；`scripts/path2_candidate_pass.py` 重建 comparable universe 到 `915`。上一轮 high-growth v23 仍未达 2023 验收线，本轮预算投给 Path1/3/4 与 HK Path3/4/6/7，Path2 不新增回测，只做 universe 巡检和下一轮候选设计。
+- 本轮命令类型为 `scripts/path2_candidate_pass.py` 候选宇宙刷新；没有新增 `--only-base-ids` Path2 回测。刷新后 Path2 window winners 与 robust candidate 未切换，robust 仍为 `core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap95`，`meanCAGR=64.36%`、`minCAGR=36.67%`。
+- 候选池结构仍偏重 `high_growth_theme=363` 与 `high_concentration_breakout=154`，但新增 Path1 core 多因子已进入低相关扫描面；本轮不把该 universe refresh 伪装成新策略实验。没有 Path2 evict。
+- 最终 guard 将下一轮 focus 推到 `medium_cycle_growth`。下一轮第一条命令建议暂停高增长小步降 cap，改测中周期恢复确认与较低集中度双底座：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk30_mom_exit50_reconfirm92_caution60_cap32_cost_guard_v24_medium_cycle,core_explore_90_10_total_mv_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk30_mom_exit50_reconfirm92_caution60_cap32_cost_guard_v24_medium_cycle`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-07 04:26 CST）
 
 - 最终 guard 为 `pass`，`ashare_path2_candidate_universe 909/909 complete`；`scripts/path2_candidate_pass.py` 重建 comparable universe 到 `909`。上一轮 v22 修复 2023 但 2020/长窗不足，本轮按 `risk_reconfirm_sensitivity` 确认 v23 双底座，并保留非 high-growth 族下一轮设计以避免候选池继续被 `high_growth_theme` 压重。

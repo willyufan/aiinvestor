@@ -1,5 +1,12 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-06-07 16:06 CST）
+
+- 最终 guard 为 `pass`，HK 总候选 `278/278 complete`，HK Path1 当前 `77` 个候选完整。本轮没有执行 HK Path1 回测，预算投给 HK Path3/4/6/7 与 A股 Path1/3/4；HK Path1 保持独立研究线，不并入 A股 winner 结论。
+- `scripts/update_hkconnect_artifacts.py` 后 Path1 window winner、robust candidate 和 tracked payload 未切换；robust 仍为 `hkconnect_path1_biweekly_lowvol`，window winners 仍由旧 monthly-weekly overlay 与 biweekly lowvol 分担。本轮没有 HK Path1 evict。
+- 本轮候选池设计：最终 guard focus 为 `monthly_weekly_overlay`，上一轮 `v25_2026_repair` 仍未修复 2026，因此下一条只允许一次 monthly-weekly overlay 的不同风险暴露对照，候选 id 预留 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit32_v26_2026_balance`。
+- 下一轮第一条命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit32_v26_2026_balance`；若未注册，先在 HK Path1 variants 中注册。`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v24` 保留为 backup。
+
 ## 本轮执行计划（2026-06-07 04:26 CST）
 
 - 最终 guard 为 `pass`，HK 总候选 `274/274 complete`，HK Path1 当前 `77` 个候选完整。上一轮未跑的 monthly-weekly overlay 修复线本轮已执行，保持 HK 独立研究线，不并入 A股 winner 结论。

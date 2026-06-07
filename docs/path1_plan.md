@@ -4,6 +4,14 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-07 16:06 CST）
+
+- 最终 guard 为 `pass`，`ashare_path1_core_multifactor 46/46 complete`、`ashare_path1_fast_family 107/107 complete`。上一轮已把下一候选指向 satellite risk/cost，本轮按该方向注册并五窗口确认 `risk12_reconfirm`，同时继续巡检 core_multifactor 实际池。
+- 本轮新增并五窗口确认 1 个 Path1 fast-pass base id：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk12_reconfirm`。命令类型为五窗口 `--only-base-ids` 增量确认，覆盖窗口为 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。
+- `risk12_reconfirm` 五窗口 CAGR 为 `22.53% / 28.17% / 29.70% / 88.55% / 70.92%`，最大回撤为 `-12.74% / -14.73% / -20.68% / -11.07% / -6.83%`，Sharpe 为 `0.99 / 1.04 / 0.96 / 1.69 / 1.65`，换手为 `2.98x / 3.41x / 3.55x / 4.81x / 7.34x`。结论：回撤显著浅，但收益低于旧 `risk20_reconfirm` 和 official Path1 winner，不替换 window winner、robust candidate 或 tracked/live/public payload。
+- `scripts/winner_only_pass.py` 仍提示旧 `risk20_reconfirm` 在 `since_2020_only` 有 fast-pass clear improvement；`scripts/update_weighted_winners.py` 后 official Path1 仍未采纳该 fast-pass，robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__port_weekly_exposure_buffered`。本轮没有 Path1 evict。
+- 最终 guard 将下一轮 focus 推到 `core_multifactor_coverage`。下一轮第一条命令建议注册一个不同于现有 signal/cashguard 的多因子趋势防守对照：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_cashguard_reconfirm`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS` 后再跑。
+
 ## 本轮执行计划（2026-06-07 04:26 CST）
 
 - 最终 guard 为 `pass`，`ashare_path1_core_multifactor 46/46 complete`、`ashare_path1_fast_family 106/106 complete`。上一轮按 `core_multifactor_coverage` 记录 `quality_profitability_value_lowvol_industry_cost_guard_reconfirm`，本轮按 rotation focus `satellite_risk_cost` 与上一轮 next command 补齐新 core_multifactor signal/cashguard 对照，同时巡检 fast-pass。
