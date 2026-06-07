@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-07 23:50 CST）
+
+- 针对“为什么没有不断迭代”做修正：上一轮 HK Path2 只做巡检而未新增回测，原因是当轮预算投给其它 HK 扩展线与 A股路径，不是 Path2 停止研究。本轮把上一轮 `high_return_monthly` 预留 ID 注册并实际五窗口确认。
+- 本轮新增并五窗口确认：`hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v24_2023_2026_balance`。命令类型为五窗口 `--only-strategy-ids` 增量确认，命令与 HK Path1 本轮记录相同：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit32_v26_2026_balance,hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v24_2023_2026_balance`。
+- `v24_2023_2026_balance` 五窗口 CAGR 为 `23.12% / 27.25% / 26.75% / 58.01% / 25.95%`，最大回撤为 `-16.71% / -15.35% / -15.34% / -11.11% / -9.37%`，Sharpe 为 `0.96 / 0.99 / 1.02 / 1.84 / 0.73`，换手为 `5.31x / 5.31x / 5.41x / 6.12x / 6.19x`。结论：2017 回撤更浅且 2026 为正，但 `since_2023_01` 仍低于 `30%` 验收线，不超过 `hkconnect_path2_theme_monthly_cost_control` robust。
+- `scripts/update_hkconnect_artifacts.py` 后 Path2 window winner、robust candidate 和 tracked payload 不变，robust 仍为 `hkconnect_path2_theme_monthly_cost_control`；本轮无 HK Path2 evict。
+- 下一轮 focus：普通 breakout、inverse/equal elastic 继续按失败支线处理；不要继续只做 v25 同形微调，优先注册并测试质量/流动性动量月频新族：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_quality_liquidity_momentum_monthly_v1`。
+
 ## 本轮执行计划（2026-06-07 16:06 CST）
 
 - 最终 guard 为 `pass`，HK Path2 当前 `81` 个候选完整。本轮没有执行 HK Path2 回测，预算投给 HK Path3/4/6/7 与 A股 Path1/3/4；普通 breakout、inverse/equal elastic 继续按失败支线处理。
