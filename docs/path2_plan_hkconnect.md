@@ -1465,3 +1465,11 @@
 - 五窗口结果：CAGR `20.84% / 25.16% / 30.57% / 33.35% / -5.55%`，最大回撤 `-19.39% / -10.34% / -10.34% / -11.10% / -9.88%`，换手 `2.98x / 2.84x / 2.78x / 3.49x / 4.09x`。
 - 结论：v2 风险调整和换手优于很多突破线，但 2026 仍负且未改写 HK Path 2 winner/robust/tracked payload。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> high_return_monthly`。下一轮第一候选建议把 v2 的低回撤结构与高收益月频做组合：`hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard`，首条命令为 `.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard`。
+
+## 本轮执行计划（2026-06-09 04:20 CST）
+
+- 上一轮候选/结果摘要：上一轮 v2 质量/流动性月频风险调整较稳但短窗不足；本轮按 high_return_monthly focus 把高收益月频与质量/流动性信号合并，检查能否保住 2023/2025 且降低回撤。
+- 本轮候选 ID 与命令：`hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard`；实际命令见 HK Path 1 本轮合并命令，使用五窗口 `--only-strategy-ids` 覆盖。
+- 五窗口结果：CAGR `21.28% / 24.26% / 34.65% / 33.97% / -9.21%`，最大回撤 `-13.63% / -11.58% / -11.58% / -11.69% / -9.89%`，换手 `3.14x / 3.02x / 3.00x / 3.96x / 4.17x`。
+- 结论：v27 明显改善回撤和 2023 风险调整，`update_hkconnect_artifacts.py` 与 `tracked_active` 同步后把 HK Path 2 `since_2023_01` window winner 切到本轮 v27；2017/2020 winner、2025/2026 短窗 winner 与 robust candidate 仍未改变。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> high_return_monthly` 且状态为 `continue`。下一轮第一候选建议在 v27 基础上做年内修复：`hkconnect_path2_high_return_monthly_quality_liquidity_v28_ytd_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v28_ytd_repair`。

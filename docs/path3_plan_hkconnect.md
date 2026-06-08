@@ -795,3 +795,11 @@
 - 巡检结论：`update_hkconnect_artifacts.py` 后 HK Path 3 tracked payload 仍保留上一轮 v11 robust；本轮没有把 Path1/2 月频或双周候选并入 Path3。
 - 本轮未新增回测候选：`hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard`。未回测原因：A股 `refresh_active` 全五窗口同步耗时显著超预期，HK `tracked_active` 未额外启动；本轮 HK 策略实验已执行 Path1/2/5 三个新增 ids。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> weekly_defensive_overlay`。下一轮首条命令为 `.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard`，重点验证能否保留 v11 robust 同时压低 20x+ 换手。
+
+## 本轮执行计划（2026-06-09 04:20 CST）
+
+- 上一轮候选/结果摘要：上一轮 v12 待回测；本轮按 weekly defensive/cost focus 确认 `turnover5/exit56`，继续保持 HK Path 3 纯 weekly 口径，不并入 Path 1/2 月频候选。
+- 本轮候选 ID 与命令：`hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard`；实际命令见 HK Path 1 本轮合并命令，使用五窗口 `--only-strategy-ids` 覆盖。
+- 五窗口结果：CAGR `15.40% / 19.57% / 22.40% / 42.15% / 14.75%`，最大回撤 `-36.79% / -27.34% / -22.10% / -17.20% / -7.53%`，换手 `20.16x / 19.57x / 20.54x / 26.04x / 23.89x`。
+- 结论：v12 比 v11 降低部分换手但收益也下降，未保住 v11 robust 优势；HK Path 3 window winner、robust candidate 与 tracked payload 未改变。高换手仍是主题快周频的主要约束。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> cost_stress`。下一轮第一候选建议不要继续微降 turnover，而是做成本压力版本：`hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v13_cost_stress`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v13_cost_stress`。

@@ -989,3 +989,12 @@ Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_we
 - 五窗口结果：CAGR `6.31% / 1.63% / 15.78% / 29.38% / 75.05%`，最大回撤 `-28.21% / -30.13% / -8.85% / -15.47% / -12.79%`，换手 `0.68x / 0.52x / 0.29x / 0.52x / 3.07x`。
 - 结论：换手显著下降，但 2017/2020/2025 太弱，validation 拒绝；Path 3 window winner、robust candidate 与 tracked payload 未改变。
 - 下一轮 focus：最终 guard 给出 `ashare_path3 -> weekly_exit_buffer`。下一轮第一候选建议回到 `hold5`，只微调 exit buffer：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk25_weekly`，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk25_weekly`。
+
+## 本轮执行计划（2026-06-09 04:20 CST）
+
+- 上一轮候选/结果摘要：上一轮 `hold6/turn02/exit96` 换手极低但收益失败；本轮回到 `hold5`，把 exit buffer 收到 `95`、turnover 放到 `04`，继续保持纯 `_weekly` Path 3 口径。
+- 本轮 active pool 处理：将旧活跃 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold6_turn02_exit96_risk25_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`。evict 原因：2017/2020/2025 收益不足，validation 拒绝，继续占用 active weekly 池价值低。
+- 本轮候选 ID 与命令：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk25_weekly`；实际命令与 Path 2 合并为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v27_ids>,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk25_weekly`。
+- 五窗口结果：CAGR `12.96% / 15.80% / 11.94% / 15.11% / 119.82%`，最大回撤 `-20.32% / -25.75% / -14.69% / -18.03% / -7.08%`，换手 `1.50x / 1.37x / 1.18x / 2.13x / 5.76x`。
+- 结论：该线的 2026 弹性强，但 2020/2023 收益不足，`update_weighted_winners.py` validation 拒绝；Path 3 window winner、robust candidate 与 tracked payload 未改变。
+- 下一轮 focus：最终 guard 给出 `ashare_path3 -> risk_downshift`。下一轮第一候选建议在本轮结构上降低风险阈值而非继续拉长持有：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk20_weekly`，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk20_weekly`；新增前继续按 robust 排名归档一个低收益旧 weekly。

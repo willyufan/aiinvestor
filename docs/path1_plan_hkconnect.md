@@ -1464,3 +1464,11 @@
 - 五窗口结果：CAGR `22.48% / 24.76% / 27.75% / 34.34% / -6.60%`，最大回撤 `-21.44% / -21.44% / -10.71% / -7.61% / -5.78%`，换手 `5.32x / 5.14x / 5.08x / 5.98x / 6.22x`。
 - 结论：v27 长窗接近 v25/v26，但 2026 仍负，HK Path 1 winner/robust/tracked payload 未改变；`update_hkconnect_artifacts.py` 已同步 comparison 与图表。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> monthly_weekly_overlay`。下一轮第一候选建议从双周切到月选周控：`hkconnect_path1_monthly_quality_momentum_weekly_overlay_v28_cost_guard`，首条命令为 `.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v28_cost_guard`。
+
+## 本轮执行计划（2026-06-09 04:20 CST）
+
+- 上一轮候选/结果摘要：上一轮双周 v27 仍未修复 2026；本轮按计划切到月选周控的质量/动量 overlay，保持 HK Path 1 独立于 A股结论。
+- 本轮候选 ID 与命令：`hkconnect_path1_monthly_quality_momentum_weekly_overlay_v28_cost_guard`。实际 HK 合并命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v28_cost_guard,hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard,hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard,hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v12_quality_filter,hkconnect_path6_large_liquid_core_monthly_quality_liquidity_lowturn_v12_cost_cap,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_lowturn_v12`。
+- 五窗口结果：CAGR `19.95% / 26.19% / 28.82% / 37.93% / -10.64%`，最大回撤 `-25.22% / -10.76% / -10.76% / -11.07% / -10.75%`，换手 `3.60x / 3.48x / 3.32x / 3.51x / 4.42x`。
+- 结论：v28 风险调整可用，但 2026 仍负且长窗不优于现有 HK Path 1 robust；`update_hkconnect_artifacts.py` 与 `tracked_active` 同步后，Path 1 window winner、robust candidate 与 tracked payload 未改变。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> biweekly_buffer`。下一轮第一候选建议回到双周缓冲但加入恢复确认：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v29_recovery_guard`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v29_recovery_guard`。

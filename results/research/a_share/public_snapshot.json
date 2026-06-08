@@ -3264,122 +3264,137 @@
       "frequency": "monthly"
     },
     {
-      "strategy_id": "hkconnect_path2_theme_monthly_cost_control",
-      "display_name": "沪港通Path2 月度高成长主线(成本约束)",
+      "strategy_id": "hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard",
+      "display_name": "沪港通Path2 月度高收益质量流动性(成本守门v27)",
       "path": "path2",
       "market_scope": "hkconnect",
       "winner_type": "2023-window winner",
       "window_label": "2023 窗口",
       "sample_tag": "since_2023_01",
-      "risk_state": "caution",
-      "target_exposure": 0.9897,
+      "risk_state": "risk_on",
+      "target_exposure": 1.0,
       "updated_at": "2026-05-29",
       "data_as_of": "2026-06-08",
       "signal_effective_date": "2026-05-29",
       "metrics": {
-        "cagr": 0.3106,
-        "sharpe": 1.2246,
-        "max_drawdown": -0.1396,
-        "total_return": 1.4636,
-        "turnover": 5.6971
+        "cagr": 0.3465,
+        "sharpe": 1.6583,
+        "max_drawdown": -0.1158,
+        "total_return": 1.6958,
+        "turnover": 2.9958
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.2324,
+          "cagr": 0.2128,
           "sharpe": 0.0,
-          "max_drawdown": -0.2144,
-          "total_return": 6.0293
+          "max_drawdown": -0.1363,
+          "total_return": 5.0537
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.3029,
+          "cagr": 0.2426,
           "sharpe": 0.0,
-          "max_drawdown": -0.1928,
-          "total_return": 4.3418
+          "max_drawdown": -0.1158,
+          "total_return": 2.9568
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.3106,
+          "cagr": 0.3465,
           "sharpe": 0.0,
-          "max_drawdown": -0.1396,
-          "total_return": 1.4636
+          "max_drawdown": -0.1158,
+          "total_return": 1.6958
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.5697,
+          "cagr": 0.3397,
           "sharpe": 0.0,
-          "max_drawdown": -0.0971,
-          "total_return": 0.8243
+          "max_drawdown": -0.1169,
+          "total_return": 0.4768
         },
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 0.2743,
+          "cagr": -0.0921,
           "sharpe": 0.0,
-          "max_drawdown": -0.0875,
-          "total_return": 0.0842
+          "max_drawdown": -0.0989,
+          "total_return": -0.0317
         }
       ],
       "latest_weights": [
         {
           "ts_code": "02388.HK",
           "name": "中银香港",
-          "weight": 0.118117
-        },
-        {
-          "ts_code": "00883.HK",
-          "name": "中国海洋石油",
-          "weight": 0.110229
+          "weight": 0.091983
         },
         {
           "ts_code": "00857.HK",
           "name": "中国石油股份",
-          "weight": 0.104166
+          "weight": 0.089637
         },
         {
-          "ts_code": "02628.HK",
-          "name": "中国人寿",
-          "weight": 0.100204
-        },
-        {
-          "ts_code": "02338.HK",
-          "name": "潍柴动力",
-          "weight": 0.099363
-        },
-        {
-          "ts_code": "01171.HK",
-          "name": "兖矿能源",
-          "weight": 0.097753
-        },
-        {
-          "ts_code": "00012.HK",
-          "name": "恒基地产",
-          "weight": 0.096904
-        },
-        {
-          "ts_code": "01898.HK",
-          "name": "中煤能源",
-          "weight": 0.093382
+          "ts_code": "00883.HK",
+          "name": "中国海洋石油",
+          "weight": 0.081483
         },
         {
           "ts_code": "00016.HK",
           "name": "新鸿基地产",
-          "weight": 0.091745
+          "weight": 0.078273
         },
         {
-          "ts_code": "02883.HK",
-          "name": "中海油田服务",
-          "weight": 0.077866
+          "ts_code": "01398.HK",
+          "name": "工商银行",
+          "weight": 0.075214
         },
         {
-          "ts_code": "CASH",
-          "name": "现金",
-          "weight": 0.010272
+          "ts_code": "00001.HK",
+          "name": "长和",
+          "weight": 0.073834
+        },
+        {
+          "ts_code": "01088.HK",
+          "name": "中国神华",
+          "weight": 0.069871
+        },
+        {
+          "ts_code": "00005.HK",
+          "name": "汇丰控股",
+          "weight": 0.068508
+        },
+        {
+          "ts_code": "01113.HK",
+          "name": "长实集团",
+          "weight": 0.067347
+        },
+        {
+          "ts_code": "00939.HK",
+          "name": "建设银行",
+          "weight": 0.066992
+        },
+        {
+          "ts_code": "01171.HK",
+          "name": "兖矿能源",
+          "weight": 0.064569
+        },
+        {
+          "ts_code": "00288.HK",
+          "name": "万洲国际",
+          "weight": 0.06424
+        },
+        {
+          "ts_code": "00012.HK",
+          "name": "恒基地产",
+          "weight": 0.063214
+        },
+        {
+          "ts_code": "01898.HK",
+          "name": "中煤能源",
+          "weight": 0.059394
         }
       ],
       "experimental": false,
@@ -7832,6 +7847,17 @@
             },
             {
               "rank": 2,
+              "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk25_weekly",
+              "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(成本压力熊市25%, 单票58%, 持有5周, 换手4%, 出场95%, 单周)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.1296,
+                "weighted_sharpe": 0.8414,
+                "weighted_max_drawdown": -0.2032
+              }
+            },
+            {
+              "rank": 3,
               "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly",
               "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周)",
               "is_official_winner": false,
@@ -7842,7 +7868,7 @@
               }
             },
             {
-              "rank": 3,
+              "rank": 4,
               "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly",
               "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有2周, 换手12%, 出场92%, 单周)",
               "is_official_winner": false,
@@ -7853,7 +7879,7 @@
               }
             },
             {
-              "rank": 4,
+              "rank": 5,
               "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn08_exit92_weekly",
               "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有3周, 换手8%, 出场92%, 单周)",
               "is_official_winner": false,
@@ -7861,17 +7887,6 @@
                 "weighted_cagr": 0.1173,
                 "weighted_sharpe": 0.6173,
                 "weighted_max_drawdown": -0.2519
-              }
-            },
-            {
-              "rank": 5,
-              "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly",
-              "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓, and 规则, 单周)",
-              "is_official_winner": false,
-              "metrics": {
-                "weighted_cagr": 0.1117,
-                "weighted_sharpe": 0.5907,
-                "weighted_max_drawdown": -0.2708
               }
             }
           ]
@@ -7904,6 +7919,17 @@
             },
             {
               "rank": 3,
+              "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk25_weekly",
+              "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(成本压力熊市25%, 单票58%, 持有5周, 换手4%, 出场95%, 单周)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.1194,
+                "weighted_sharpe": 0.77,
+                "weighted_max_drawdown": -0.1469
+              }
+            },
+            {
+              "rank": 4,
               "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly",
               "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(核心6-1动量, 满风险, 单票60%, 单周)",
               "is_official_winner": false,
@@ -7914,7 +7940,7 @@
               }
             },
             {
-              "rank": 4,
+              "rank": 5,
               "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly",
               "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有2周, 换手12%, 出场92%, 单周)",
               "is_official_winner": false,
@@ -7922,17 +7948,6 @@
                 "weighted_cagr": 0.1567,
                 "weighted_sharpe": 0.6816,
                 "weighted_max_drawdown": -0.2674
-              }
-            },
-            {
-              "rank": 5,
-              "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly",
-              "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(核心6-1动量, 满风险, 单票60%, 单周)",
-              "is_official_winner": false,
-              "metrics": {
-                "weighted_cagr": 0.2844,
-                "weighted_sharpe": 0.8188,
-                "weighted_max_drawdown": -0.3886
               }
             }
           ]
@@ -7954,6 +7969,17 @@
             },
             {
               "rank": 2,
+              "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk25_weekly",
+              "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(成本压力熊市25%, 单票58%, 持有5周, 换手4%, 出场95%, 单周)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.158,
+                "weighted_sharpe": 0.8223,
+                "weighted_max_drawdown": -0.2575
+              }
+            },
+            {
+              "rank": 3,
               "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly",
               "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周)",
               "is_official_winner": false,
@@ -7964,7 +7990,7 @@
               }
             },
             {
-              "rank": 3,
+              "rank": 4,
               "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly",
               "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有2周, 换手12%, 出场92%, 单周)",
               "is_official_winner": false,
@@ -7975,7 +8001,7 @@
               }
             },
             {
-              "rank": 4,
+              "rank": 5,
               "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn08_exit92_weekly",
               "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有3周, 换手8%, 出场92%, 单周)",
               "is_official_winner": false,
@@ -7983,17 +8009,6 @@
                 "weighted_cagr": 0.1502,
                 "weighted_sharpe": 0.6821,
                 "weighted_max_drawdown": -0.2906
-              }
-            },
-            {
-              "rank": 5,
-              "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly",
-              "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓, and 规则, 单周)",
-              "is_official_winner": false,
-              "metrics": {
-                "weighted_cagr": 0.1864,
-                "weighted_sharpe": 0.7809,
-                "weighted_max_drawdown": -0.2869
               }
             }
           ]
@@ -8272,6 +8287,17 @@
             },
             {
               "rank": 3,
+              "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn",
+              "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市14%, 单票8%, 出场62%, 低换手)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.1856,
+                "weighted_sharpe": 0.9592,
+                "weighted_max_drawdown": -0.127
+              }
+            },
+            {
+              "rank": 4,
               "strategy_base_id": "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit58_lowturn",
               "strategy_base_name": "核心90_探索10_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市12%, 单票8%, 出场58%, 低换手)",
               "is_official_winner": false,
@@ -8282,25 +8308,14 @@
               }
             },
             {
-              "rank": 4,
-              "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal29_leader76_coverage_penalty_risk15_cap12_exit64_lowturn",
-              "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号29%, 龙头76%, 熊市15%, 单票12%, 出场64%, 低换手)",
-              "is_official_winner": true,
-              "metrics": {
-                "weighted_cagr": 0.1641,
-                "weighted_sharpe": 0.8015,
-                "weighted_max_drawdown": -0.1985
-              }
-            },
-            {
               "rank": 5,
-              "strategy_base_id": "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk15_cap12_exit66",
-              "strategy_base_name": "核心90_探索10_等权底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号26%, 龙头72%, 熊市15%, 单票12%, 出场66%)",
+              "strategy_base_id": "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn",
+              "strategy_base_name": "核心90_探索10_等权底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市14%, 单票8%, 出场62%, 低换手)",
               "is_official_winner": false,
               "metrics": {
-                "weighted_cagr": 0.1525,
-                "weighted_sharpe": 0.7772,
-                "weighted_max_drawdown": -0.1892
+                "weighted_cagr": 0.1509,
+                "weighted_sharpe": 0.8578,
+                "weighted_max_drawdown": -0.1288
               }
             }
           ]
@@ -8664,8 +8679,8 @@
             },
             {
               "rank": 5,
-              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit28_v14_2026_repair",
-              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻成本28v14修复2026)",
+              "strategy_base_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cost_guard_exit32_v16_ytd_balance",
+              "strategy_base_name": "沪港通Path1 月度等权缓冲(周度轻成本32v16年内平衡)",
               "is_official_winner": false,
               "metrics": {
                 "weighted_cagr": 0.3932,
@@ -8714,8 +8729,8 @@
             },
             {
               "rank": 4,
-              "strategy_base_id": "hkconnect_path1_biweekly_equal_buffered_lowvol_soft_exit38",
-              "strategy_base_name": "沪港通Path1 双周等权缓冲(低波轻风控38)",
+              "strategy_base_id": "hkconnect_path1_biweekly_equal_buffered_lowvol_soft_exit42",
+              "strategy_base_name": "沪港通Path1 双周等权缓冲(低波轻风控42)",
               "is_official_winner": false,
               "metrics": {
                 "weighted_cagr": 0.017,
@@ -8725,13 +8740,13 @@
             },
             {
               "rank": 5,
-              "strategy_base_id": "hkconnect_path1_biweekly_equal_buffered_lowvol_soft_exit40",
-              "strategy_base_name": "沪港通Path1 双周等权缓冲(低波轻风控40)",
+              "strategy_base_id": "hkconnect_path1_monthly_lowvol_weekly_overlay",
+              "strategy_base_name": "沪港通Path1 月度低波偏稳(周度风控)",
               "is_official_winner": false,
               "metrics": {
-                "weighted_cagr": 0.017,
-                "weighted_sharpe": 0.2282,
-                "weighted_max_drawdown": -0.0449
+                "weighted_cagr": 0.0106,
+                "weighted_sharpe": 0.1245,
+                "weighted_max_drawdown": -0.0354
               }
             }
           ]
@@ -8866,9 +8881,20 @@
           "entries": [
             {
               "rank": 1,
+              "strategy_base_id": "hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard",
+              "strategy_base_name": "沪港通Path2 月度高收益质量流动性(成本守门v27)",
+              "is_official_winner": true,
+              "metrics": {
+                "weighted_cagr": 0.3465,
+                "weighted_sharpe": 1.6583,
+                "weighted_max_drawdown": -0.1158
+              }
+            },
+            {
+              "rank": 2,
               "strategy_base_id": "hkconnect_path2_theme_monthly_cost_control",
               "strategy_base_name": "沪港通Path2 月度高成长主线(成本约束)",
-              "is_official_winner": true,
+              "is_official_winner": false,
               "metrics": {
                 "weighted_cagr": 0.3106,
                 "weighted_sharpe": 1.2246,
@@ -8876,7 +8902,7 @@
               }
             },
             {
-              "rank": 2,
+              "rank": 3,
               "strategy_base_id": "hkconnect_path2_quality_liquidity_momentum_monthly_v1",
               "strategy_base_name": "沪港通Path2 月度质量流动动量(v1)",
               "is_official_winner": false,
@@ -8887,7 +8913,7 @@
               }
             },
             {
-              "rank": 3,
+              "rank": 4,
               "strategy_base_id": "hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard",
               "strategy_base_name": "沪港通Path2 月度质量流动动量(成本守门v2)",
               "is_official_winner": false,
@@ -8898,7 +8924,7 @@
               }
             },
             {
-              "rank": 4,
+              "rank": 5,
               "strategy_base_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v5",
               "strategy_base_name": "沪港通Path2 月度高成长主线(再确认高收益成本约束v5)",
               "is_official_winner": false,
@@ -8906,17 +8932,6 @@
                 "weighted_cagr": 0.2901,
                 "weighted_sharpe": 1.1477,
                 "weighted_max_drawdown": -0.1451
-              }
-            },
-            {
-              "rank": 5,
-              "strategy_base_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control",
-              "strategy_base_name": "沪港通Path2 月度高成长主线(高收益再确认成本约束)",
-              "is_official_winner": false,
-              "metrics": {
-                "weighted_cagr": 0.2771,
-                "weighted_sharpe": 1.1119,
-                "weighted_max_drawdown": -0.1339
               }
             }
           ]
@@ -8960,19 +8975,19 @@
             },
             {
               "rank": 4,
-              "strategy_base_id": "hkconnect_path2_inverse_elastic_monthly_defensive",
-              "strategy_base_name": "沪港通Path2 月度逆市值高弹性(低成本防守)",
+              "strategy_base_id": "hkconnect_path2_equal_elastic_monthly_defensive",
+              "strategy_base_name": "沪港通Path2 月度等权高弹性(低成本防守)",
               "is_official_winner": false,
               "metrics": {
-                "weighted_cagr": 0.6651,
-                "weighted_sharpe": 2.2547,
+                "weighted_cagr": 0.6649,
+                "weighted_sharpe": 2.2544,
                 "weighted_max_drawdown": -0.1041
               }
             },
             {
               "rank": 5,
-              "strategy_base_id": "hkconnect_path2_equal_elastic_monthly_defensive",
-              "strategy_base_name": "沪港通Path2 月度等权高弹性(低成本防守)",
+              "strategy_base_id": "hkconnect_path2_inverse_elastic_monthly_defensive",
+              "strategy_base_name": "沪港通Path2 月度逆市值高弹性(低成本防守)",
               "is_official_winner": false,
               "metrics": {
                 "weighted_cagr": 0.6649,
@@ -9073,6 +9088,17 @@
             },
             {
               "rank": 3,
+              "strategy_base_id": "hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover5_exit42_coststress_ytd_guard",
+              "strategy_base_name": "沪港通Path3 单周稳健等权缓冲(成本压力低换手5出场42年内守门)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.2105,
+                "weighted_sharpe": 1.0557,
+                "weighted_max_drawdown": -0.2864
+              }
+            },
+            {
+              "rank": 4,
               "strategy_base_id": "hkconnect_path3_stable_weekly_equal_buffered",
               "strategy_base_name": "沪港通Path3 单周稳健等权缓冲",
               "is_official_winner": false,
@@ -9080,17 +9106,6 @@
                 "weighted_cagr": 0.2092,
                 "weighted_sharpe": 0.9619,
                 "weighted_max_drawdown": -0.3404
-              }
-            },
-            {
-              "rank": 4,
-              "strategy_base_id": "hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover5_exit42_coststress_ytd_guard",
-              "strategy_base_name": "沪港通Path3 单周稳健等权缓冲(成本压力低换手5出场42年内守门)",
-              "is_official_winner": false,
-              "metrics": {
-                "weighted_cagr": 0.2089,
-                "weighted_sharpe": 1.049,
-                "weighted_max_drawdown": -0.2864
               }
             },
             {
@@ -9328,19 +9343,19 @@
             },
             {
               "rank": 4,
-              "strategy_base_id": "hkconnect_path3_theme_fast_weekly_defensive_turnover6_exit54",
-              "strategy_base_name": "沪港通Path3 单周快速主线(防守6出场54)",
+              "strategy_base_id": "hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard",
+              "strategy_base_name": "沪港通Path3 单周快速主线(防守5出场56v12成本守门)",
               "is_official_winner": false,
               "metrics": {
-                "weighted_cagr": 0.1481,
-                "weighted_sharpe": 0.7371,
-                "weighted_max_drawdown": -0.0954
+                "weighted_cagr": 0.1475,
+                "weighted_sharpe": 0.7922,
+                "weighted_max_drawdown": -0.0753
               }
             },
             {
               "rank": 5,
-              "strategy_base_id": "hkconnect_path3_theme_fast_weekly_cost_guard_turnover3_exit60",
-              "strategy_base_name": "沪港通Path3 单周快速主线(成本防守3出场60)",
+              "strategy_base_id": "hkconnect_path3_theme_fast_weekly_defensive_turnover3_exit60",
+              "strategy_base_name": "沪港通Path3 单周快速主线(防守3出场60)",
               "is_official_winner": false,
               "metrics": {
                 "weighted_cagr": 0.1445,

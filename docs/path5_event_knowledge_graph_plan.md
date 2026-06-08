@@ -260,3 +260,11 @@ Path 5 成立需要满足至少一个条件：
 - 入口结果：6 个冻结候选全部 eligible；事件后 20 个交易日等权收益 `41.75%`、seed 权重收益 `43.85%`；40/60 日仍因可用交易日不足为 `insufficient_data`。这仍是 entry probe，不写入 winner/tracked。
 - 巡检结论：registry/candidates/audit 入口完整，`pending_audit_count=0`；本轮没有新增第二事件篮子，原因是 A股 active refresh 耗时显著超预期，新增实验预算已投给 Path1/2/3/4 与 HK Path1/2/5。
 - 下一轮 focus：最终 guard 给出 `ashare_path5 -> path4_comparison`。下一轮第一步扩展 `event_theme_backtest_entry.py` 输出与 Path 4 `signal30_leader80` 同期持仓/收益对比；首条命令仍为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60`，随后补第二个事件篮子 registry 草案。
+
+## 本轮执行计划（2026-06-09 04:20 CST）
+
+- 上一轮候选/结果摘要：上一轮 entry probe 仍缺 Path 4 结构化比较；本轮在同一已审计冻结篮子上重跑 20/40/60 日入口结果，并保持 entry probe 不进入 winner/tracked。
+- 本轮候选 ID 与命令：`mrc_uec_ai_network_20260506_v0`；命令为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60`。
+- 入口结果：6 个冻结候选全部 eligible；事件后 20 个交易日等权收益 `41.75%`、seed 权重收益 `43.85%`。个股 20 日收益中 `300408.SZ 三环集团` 为 `59.52%`、`300394.SZ 天孚通信` 为 `57.32%`、`300502.SZ 新易盛` 为 `49.72%`、`300308.SZ 中际旭创` 为 `48.95%`，`688195.SH 腾景科技` 仅 `1.98%`；40/60 日仍因可用交易日不足为 `insufficient_data`。
+- 巡检结论：registry/candidates/audit 入口完整，`pending_audit_count=0 / backtest_ready_count=6`；本轮没有新增第二事件篮子，原因是新增策略预算已投给 A股 Path2/3/4 与 HK Path1/2/3/4/6/7，且 Path5 当前更需要 Path4 对比输出。
+- 下一轮 focus：最终 guard 给出 `ashare_path5 -> event_basket_registry`。下一轮第一步补第二个事件篮子 registry/candidates 草案，同时扩展 `event_theme_backtest_entry.py` 输出与 Path 4 `signal30/leader80` 同期持仓重合度；首条命令仍为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60`。
