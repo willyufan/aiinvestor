@@ -613,3 +613,12 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - 五窗口结果：`80/20 total_mv` CAGR `11.61% / 20.57% / 26.61% / 85.94% / 70.86%`，最大回撤 `-24.43% / -15.81% / -10.51% / -11.06% / -9.53%`；`90/10 equal_weight` CAGR `12.78% / 19.70% / 24.41% / 86.80% / 66.91%`；`90/10 total_mv` CAGR `13.05% / 19.48% / 24.12% / 86.58% / 63.29%`。
 - 结论：risk12 继续改善 2020/2023 回撤，但 2017/robust 分数仍未超过旧 `aggr_08_92_prom6_emergent_theme_risk30_cap50`；`update_weighted_winners.py` 后独立 Path 4 window winner、robust candidate 与 tracked payload 均未改变。持仓仍是多票强势结构，不像单票幸运。
 - 下一轮 focus：`theme_capacity_cost / theme_signal_quality`，首条命令建议对同一 signal28 线做 `risk12_cap08_exit60` 容量压力测试： `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <three_path4_signal28_risk12_cap08_ids>`。
+
+## 本轮执行计划（2026-06-08 17:37 CST）
+
+- 上一轮候选/结果摘要：上一轮 `risk12/cap10/exit60` 改善 2020/2023 回撤但未改写 robust；本轮按 capacity/cost 压力测试把单票上限降到 `8%`。
+- 本轮 active pool 处理：Path 4 active 池维持 `60`；从 `PATH4_THEME_DISCOVERY_VARIANT_IDS` 和 `PATH2_SCAN_VARIANT_IDS` 移除旧弱线 `aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk25_cap16_exit70`。evict 原因：长窗和 robust 排名持续弱于 signal26/28 leader 线。
+- 本轮候选 ID 与命令：三底座 `aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap08_exit60_lowturn`。blocking 补跑命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <three_path4_cap08_ids>`。
+- 五窗口结果：`80/20 total_mv` CAGR `13.05% / 23.72% / 25.66% / 85.92% / 66.11%`，最差回撤 `-23.23%`；`90/10 equal_weight` CAGR `13.97% / 22.32% / 24.19% / 78.63% / 54.72%`；`90/10 total_mv` CAGR `14.18% / 22.68% / 25.03% / 79.08% / 49.57%`。
+- 结论：cap08 保留多票强势结构并进一步控制短窗回撤，但 2017/robust 仍弱于旧 `aggr_08_92_prom6_emergent_theme_risk30_cap50`；Path 4 window winner、robust candidate 与 tracked payload 未改变。
+- 下一轮 focus：最终 guard 给出 `ashare_path4 -> theme_signal_quality`。下一轮第一候选建议不要继续只降 cap，改在同一 cap08 线上提高信号/leader 门槛：`aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk12_cap08_exit60_lowturn` 三底座，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <three_path4_signal30_cap08_ids>`。

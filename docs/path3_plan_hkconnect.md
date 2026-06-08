@@ -781,3 +781,10 @@
 - 五窗口结果：CAGR `16.05% / 21.15% / 25.43% / 47.87% / 25.51%`，最大回撤 `-36.39% / -26.85% / -22.90% / -16.94% / -8.58%`，换手 `21.06x / 20.39x / 21.21x / 27.35x / 25.52x`。
 - 结论：v11 收益显著修复并成为 HK Path 3 robust candidate，但换手仍非常高，不能替代低换手稳定线作为可交易基线；`update_hkconnect_artifacts.py` 已同步 HK Path 3 tracked payload。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> weekly_turnover_reduction`。第一候选建议 `hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard`，目标是保持 v11 收益同时压低 20x+ 换手。
+
+## 本轮执行计划（2026-06-08 17:37 CST）
+
+- 上一轮候选/结果摘要：上一轮 v11 成为 HK Path 3 robust 但换手仍约 `20x+`；本轮预算优先给 HK Path1/2/4，Path3 完成巡检和下一轮设计，不新增回测。
+- 巡检结论：`update_hkconnect_artifacts.py` 后 HK Path 3 tracked payload 仍保留上一轮 v11 robust；本轮没有把 Path1/2 月频或双周候选并入 Path3。
+- 本轮未新增回测候选：`hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard`。未回测原因：本轮新增 HK 执行预算投给 Path1、Path2 和 Path4；HK `tracked_active` 五窗口同步后来完成，覆盖了既有纯 weekly Path3 活跃候选，但不算新增策略实验。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> cost_stress`。下一轮首条命令仍为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard`，重点记录高换手策略在成本压力下是否仍能保留 v11 的收益修复。

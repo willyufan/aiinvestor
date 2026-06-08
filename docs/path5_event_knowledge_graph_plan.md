@@ -244,3 +244,11 @@ Path 5 成立需要满足至少一个条件：
 - 入口结果：事件日 `2026-05-06` 后 20 个交易日，等权 basket 收益 `41.75%`，seed 权重收益 `43.85%`；60/120 日因可用交易日不足仍为 `insufficient_data`。这只是 event entry probe，不进入 winner/tracked，不作为有效策略结论。
 - Path 4 对比提示：Path 5 的最小篮子更像早期事件解释层；下一轮需把该 20 日结果与 Path 4 同期 `emergent_theme` 持仓重合、是否提前捕捉强龙头、以及来源可审计性做横向比较。
 - 下一轮 focus：最终 guard 给出 `ashare_path5 -> event_basket_registry`。首条命令为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60`；若脚本接口未支持 `--horizons`，先扩展 runner，再输出 Path 4 同期重合度与第二个事件篮子 registry 草案。
+
+## 本轮执行计划（2026-06-08 17:37 CST）
+
+- 上一轮候选/结果摘要：上一轮 runner 已可输出 20 日 entry probe，但缺 `--horizons` 参数和 Path 4 同期比较；本轮先补接口并重跑同一事件篮子。
+- 本轮候选 ID 与命令：`mrc_uec_ai_network_20260506_v0`；命令为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60`。
+- 入口结果：6 个已审计冻结候选全部 eligible；事件日后 20 个交易日等权收益 `41.75%`、seed 权重收益 `43.85%`；40/60 日仍因事件距当前样本不足而 `insufficient_data`。这仍是 entry probe，不进入 winner/tracked。
+- 巡检结论：registry/candidates/audit 入口完整，`pending_audit_count=0`；但尚未形成第二个事件篮子，且 Path 4 同期持仓重合度还需要结构化输出。
+- 下一轮 focus：最终 guard 给出 `ashare_path5 -> event_backtest_entry`。下一轮第一步继续扩展 entry runner 输出 Path 4 `signal28/cap08` 同期持仓重合度，并补第二个事件篮子 registry 草案；首条命令为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60`，同时新增一个 registry/candidates JSONL 审计任务。

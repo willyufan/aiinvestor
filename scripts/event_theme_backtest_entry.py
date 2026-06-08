@@ -19,7 +19,7 @@ DEFAULT_OUTPUT = ROOT / "results/research/a_share/event_theme_backtest_entry.jso
 DAILY_DIR = ROOT / "data_cache/daily"
 ADJ_DIR = ROOT / "data_cache/adj_factor"
 AUDITED_STATUSES = {"approved", "source_audited"}
-HORIZONS = (20, 60, 120)
+DEFAULT_HORIZONS = (20, 60, 120)
 
 
 @dataclass
@@ -32,10 +32,18 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--basket-id", required=True)
     parser.add_argument("--sample-tags", default="since_2025_01,since_2026_01")
+    parser.add_argument("--horizons", default=",".join(str(horizon) for horizon in DEFAULT_HORIZONS))
     parser.add_argument("--registry-json", type=Path, default=DEFAULT_REGISTRY)
     parser.add_argument("--candidates-jsonl", type=Path, default=DEFAULT_CANDIDATES)
     parser.add_argument("--output-json", type=Path, default=DEFAULT_OUTPUT)
     return parser.parse_args()
+
+
+def parse_horizons(raw: str) -> tuple[int, ...]:
+    horizons = tuple(int(item) for item in raw.split(",") if item.strip())
+    if not horizons or any(horizon <= 0 for horizon in horizons):
+        raise SystemExit("--horizons must contain positive integer trading-day windows")
+    return horizons
 
 
 def load_jsonl(path: Path) -> list[dict]:
@@ -89,7 +97,7 @@ def first_index_on_or_after(points: Iterable[PricePoint], event_date: str) -> in
     return None
 
 
-def stock_returns(candidate: dict, event_date: str) -> dict:
+def stock_returns(candidate: dict, event_date: str, horizons: tuple[int, ...]) -> dict:
     ts_code = candidate["ts_code"]
     points = load_adjusted_series(ts_code)
     start_idx = first_index_on_or_after(points, event_date)
@@ -105,7 +113,7 @@ def stock_returns(candidate: dict, event_date: str) -> dict:
 
     start_point = points[start_idx]
     returns: dict[str, dict] = {}
-    for horizon in HORIZONS:
+    for horizon in horizons:
         end_idx = start_idx + horizon
         if end_idx >= len(points):
             returns[str(horizon)] = {
@@ -161,6 +169,7 @@ def weighted_return(rows: list[dict], horizon: int, weight_key: str) -> dict:
 
 def main() -> None:
     args = parse_args()
+    horizons = parse_horizons(args.horizons)
     basket = load_registry(args.registry_json, args.basket_id)
     event_date = basket.get("event_time") or basket.get("report_date")
     if not event_date:
@@ -176,13 +185,13 @@ def main() -> None:
     if not candidates:
         raise SystemExit("no audited candidates selected for event basket")
 
-    stock_rows = [stock_returns(candidate, event_date) for candidate in candidates]
+    stock_rows = [stock_returns(candidate, event_date, horizons) for candidate in candidates]
     portfolio = {
         str(horizon): {
             "equal_weight": weighted_return(stock_rows, horizon, "equal_weight"),
             "seed_weight": weighted_return(stock_rows, horizon, "seed_weight"),
         }
-        for horizon in HORIZONS
+        for horizon in horizons
     }
     output = {
         "schema_version": 1,
@@ -192,7 +201,7 @@ def main() -> None:
         "event_date": event_date,
         "sample_tags": [tag for tag in args.sample_tags.split(",") if tag],
         "candidate_count": len(candidates),
-        "horizons_trading_days": list(HORIZONS),
+        "horizons_trading_days": list(horizons),
         "portfolio_returns": portfolio,
         "candidate_returns": stock_rows,
         "notes": "Entry probe only; computes post-event basket returns from audited frozen candidates and does not update official winners.",

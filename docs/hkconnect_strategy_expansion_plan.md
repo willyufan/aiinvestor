@@ -310,3 +310,13 @@
 - HK Path6 本轮候选：`hkconnect_path6_large_liquid_core_biweekly_quality_liquidity_lowturn_v11`，五窗口 CAGR `13.50% / 12.99% / 19.51% / 32.55% / 8.03%`，最大回撤 `-22.52% / -15.90% / -12.38% / -8.01% / -2.60%`，换手 `2.14x / 2.08x / 1.85x / 2.07x / 3.66x`。它改善短窗和低换手属性，但 robust 仍为旧 lowvol/liquid smoke 线。
 - HK Path7 本轮候选：`hkconnect_path7_barbell_quality_growth_biweekly_core_defensive_dynamic_v11`，五窗口 CAGR `13.58% / 12.37% / 18.90% / 29.59% / 6.35%`，最大回撤 `-21.92% / -15.94% / -11.24% / -7.41% / -3.38%`，换手 `4.99x / 4.82x / 4.63x / 6.00x / 6.63x`。未改写 robust，但作为防守杠铃对照保留。
 - HK 扩展线收尾：本轮未跑 HK `tracked_active`，因为 A股 `refresh_active` 同步耗时显著超预期；已运行 `scripts/update_hkconnect_artifacts.py` 同步 comparison 和图表。下一轮第一条同步命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --family-scope tracked_active --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。
+
+## 本轮执行计划（2026-06-08 17:37 CST）
+
+- 上一轮候选/结果摘要：上一轮 HK Path4 留下 `liquidity_momentum_biweekly_quality_lowdraw_v11_turnover_repair`，Path5/6/7 继续要求重设回踩、低波流动核心和双周杠铃结构。
+- HK Path4 本轮候选：`hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v11_turnover_repair`。命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v11_turnover_repair`。五窗口 CAGR `13.15% / 12.81% / 10.19% / 47.28% / 10.64%`，最差回撤 `-37.63%`，换手 `6.44x-8.28x`；未优于 v10 robust。
+- HK Path5 本轮：无新增回测；最终 focus 为 `pause_or_redesign`。下一步先暂停 `pullback_continuation` 小参数堆叠，改设计 `hkconnect_path5_breakout_retest_biweekly_quality_confirm_v5`，要求先重定义突破后回踩确认再回测。
+- HK Path6 本轮：无新增回测；最终 focus 为 `capacity_cost`。下一候选设计 `hkconnect_path6_lowvol_liquid_core_monthly_quality_lowturn_v12_cost_cap`，用于检查低波流动核心在容量/成本约束下是否仍能改善 2026。
+- HK Path7 本轮：无新增回测；最终 focus 为 `turnover_control`。下一候选设计 `hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_lowturn_v12`，目标是压低 v11 防守杠铃换手。
+- HK Path4 下一轮 focus：最终 guard 给出 `quality_momentum` 且状态为 `continue`。下一候选建议 `hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v12_quality_filter`，用于检查 v11 的低回撤修复是否能转为 robust 改善。
+- HK 扩展线收尾：已运行 `scripts/update_hkconnect_artifacts.py`；HK `tracked_active` 五窗口同步虽耗时较长但最终完成，覆盖当前活跃 HK 观察集合。下一轮优先按最终 guard focus 推进 Path4/5/6/7 新候选，若 comparison 再漂移再补 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --family-scope tracked_active --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。

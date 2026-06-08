@@ -1449,3 +1449,11 @@
 - 五窗口结果：CAGR `21.83% / 24.46% / 18.78% / 28.67% / -2.45%`，最大回撤 `-27.88% / -27.88% / -21.57% / -17.39% / -8.65%`，换手 `13.78x / 13.09x / 13.40x / 16.89x / 16.57x`。
 - 结论：v25 双周突破没有修复 2023/2026，且换手显著高于现有月频 robust；HK Path 2 window winner、robust candidate 与 tracked payload 均未改变。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> elasticity_cost_control`。第一候选建议 `hkconnect_path2_equal_elastic_monthly_cost_guard_v18_terminal_check`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v18_terminal_check`；若仍弱，再停止 elasticity 线。
+
+## 本轮执行计划（2026-06-08 17:37 CST）
+
+- 上一轮候选/结果摘要：上一轮要求用 `v18_terminal_check` 终止确认 elasticity 线；本轮按计划执行，验证是否仍弱于主题月频 robust。
+- 本轮候选 ID 与命令：`hkconnect_path2_equal_elastic_monthly_cost_guard_v18_terminal_check`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v18_terminal_check`。
+- 五窗口结果：CAGR `12.55% / 12.58% / 9.82% / 49.26% / 10.65%`，最大回撤 `-37.41% / -37.41% / -33.80% / -10.59% / -8.91%`，换手 `5.01x / 4.93x / 5.52x / 6.30x / 7.28x`。
+- 结论：v18_check 中长窗继续弱，elasticity 线终端确认失败；HK Path 2 window winner、robust candidate 与 tracked payload 未改变。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> biweekly_breakout`。下一轮回到主题双周突破但加换手约束：`hkconnect_path2_theme_biweekly_cost_guard_v26_turnover_cap_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v26_turnover_cap_repair`。
