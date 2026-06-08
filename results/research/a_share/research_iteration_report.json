@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-08T17:57:48+08:00",
-  "as_of": "2026-06-05",
+  "generated_at": "2026-06-08T23:27:30+08:00",
+  "as_of": "2026-06-08",
   "coverage_gate": {
     "status": "pass",
     "blocking_missing_count": 0,
@@ -19,8 +19,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 47,
-        "complete_count": 47,
+        "candidate_count": 48,
+        "complete_count": 48,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -40,8 +40,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 108,
-        "complete_count": 108,
+        "candidate_count": 109,
+        "complete_count": 109,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -61,8 +61,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 926,
-        "complete_count": 926,
+        "candidate_count": 932,
+        "complete_count": 932,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -126,8 +126,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 294,
-        "complete_count": 294,
+        "candidate_count": 297,
+        "complete_count": 297,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -170,8 +170,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 5,
-        "complete_count": 5,
+        "candidate_count": 6,
+        "complete_count": 6,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -228,116 +228,116 @@
   "experiment_log": {
     "path": "results/research/a_share/research_experiments.jsonl",
     "candidate_entries": 119,
-    "appended_entries": 0
+    "appended_entries": 7
   },
   "rotation": {
     "ashare_path1": {
       "signature": "316ee62e27e64a56a538",
       "changed": false,
-      "stagnation_runs": 39,
+      "stagnation_runs": 43,
       "stagnation_threshold": 3,
-      "recommended_focus": "signal_quality",
+      "recommended_focus": "satellite_risk_cost",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-05T22:03:29+08:00"
     },
     "ashare_path2": {
-      "signature": "29f0c05f38629bf17bce",
+      "signature": "6a4e327c0e791c93e6e1",
       "changed": false,
-      "stagnation_runs": 39,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
       "recommended_focus": "risk_reconfirm_sensitivity",
       "rotation_status": "rotate",
-      "last_changed_at": "2026-06-05T22:03:29+08:00"
+      "last_changed_at": "2026-06-08T22:03:20+08:00"
     },
     "ashare_path3": {
-      "signature": "72ae55c3f7d911b01e14",
+      "signature": "4a187242d32135c04a4f",
       "changed": false,
-      "stagnation_runs": 42,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
-      "recommended_focus": "risk_downshift",
+      "recommended_focus": "weekly_exit_buffer",
       "rotation_status": "rotate",
-      "last_changed_at": "2026-06-05T10:22:53+08:00"
+      "last_changed_at": "2026-06-08T22:03:20+08:00"
     },
     "ashare_path4": {
       "signature": "16303af654fed1a7e4fd",
       "changed": false,
-      "stagnation_runs": 28,
+      "stagnation_runs": 32,
       "stagnation_threshold": 3,
-      "recommended_focus": "theme_signal_quality",
+      "recommended_focus": "theme_risk_control",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-06T10:28:08+08:00"
     },
     "ashare_path5": {
       "signature": "9860c9b332c2e0de2d2a",
       "changed": false,
-      "stagnation_runs": 6,
+      "stagnation_runs": 10,
       "stagnation_threshold": 3,
-      "recommended_focus": "event_backtest_entry",
+      "recommended_focus": "path4_comparison",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-08T12:22:32+08:00"
     },
     "hkconnect_path1": {
       "signature": "669f92b1510f0f267a17",
       "changed": false,
-      "stagnation_runs": 50,
+      "stagnation_runs": 54,
       "stagnation_threshold": 3,
-      "recommended_focus": "biweekly_buffer",
+      "recommended_focus": "monthly_weekly_overlay",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-04T22:03:26+08:00"
     },
     "hkconnect_path2": {
       "signature": "ad613ba8f78c9692799d",
       "changed": false,
-      "stagnation_runs": 50,
+      "stagnation_runs": 54,
       "stagnation_threshold": 3,
-      "recommended_focus": "biweekly_breakout",
+      "recommended_focus": "high_return_monthly",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-04T22:03:26+08:00"
     },
     "hkconnect_path3": {
-      "signature": "6ff960286b3d8b054396",
+      "signature": "7c6d4310512c00e3df86",
       "changed": false,
-      "stagnation_runs": 6,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
-      "recommended_focus": "cost_stress",
+      "recommended_focus": "weekly_defensive_overlay",
       "rotation_status": "rotate",
-      "last_changed_at": "2026-06-08T12:22:32+08:00"
+      "last_changed_at": "2026-06-08T22:03:20+08:00"
     },
     "hkconnect_path4": {
-      "signature": "72e62618ae4dde88555a",
+      "signature": "f809f3e03fcba9695b9a",
       "changed": false,
-      "stagnation_runs": 2,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
-      "recommended_focus": "quality_momentum",
-      "rotation_status": "continue",
-      "last_changed_at": "2026-06-08T17:37:50+08:00"
+      "recommended_focus": "liquidity_momentum",
+      "rotation_status": "rotate",
+      "last_changed_at": "2026-06-08T22:03:20+08:00"
     },
     "hkconnect_path5": {
-      "signature": "e320f1fd284d628cb3b6",
-      "changed": false,
-      "stagnation_runs": 6,
+      "signature": "bea8e59f0c1e4a4db428",
+      "changed": true,
+      "stagnation_runs": 0,
       "stagnation_threshold": 3,
-      "recommended_focus": "pause_or_redesign",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-06-08T12:22:32+08:00"
+      "recommended_focus": "pullback_definition",
+      "rotation_status": "continue",
+      "last_changed_at": "2026-06-08T23:27:30+08:00"
     },
     "hkconnect_path6": {
-      "signature": "26cbac65a42be8351b41",
+      "signature": "bc2dc99f1f162c4293e7",
       "changed": false,
-      "stagnation_runs": 6,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
-      "recommended_focus": "capacity_cost",
+      "recommended_focus": "lowvol_liquid_core",
       "rotation_status": "rotate",
-      "last_changed_at": "2026-06-08T12:22:32+08:00"
+      "last_changed_at": "2026-06-08T22:03:20+08:00"
     },
     "hkconnect_path7": {
-      "signature": "2c6eeb23b499138a1625",
+      "signature": "ebeebd8a2fc337adc848",
       "changed": false,
-      "stagnation_runs": 6,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
-      "recommended_focus": "turnover_control",
+      "recommended_focus": "biweekly_barbell",
       "rotation_status": "rotate",
-      "last_changed_at": "2026-06-08T12:22:32+08:00"
+      "last_changed_at": "2026-06-08T22:03:20+08:00"
     }
   },
   "quotas": {
@@ -354,7 +354,7 @@
         "promotion_ramp": 5,
         "satellite_defense": 14,
         "signal_variants": 2,
-        "core_multifactor": 47,
+        "core_multifactor": 48,
         "holding_shape": 28,
         "supporting_variants": 4,
         "drawdown_guard": 7
@@ -367,7 +367,7 @@
           "target_representatives": 6
         },
         "decorrelated_defensive_mix": {
-          "current_count": 34,
+          "current_count": 35,
           "target_representatives": 8
         },
         "emergent_theme_discovery": {
@@ -379,7 +379,7 @@
           "target_representatives": 6
         },
         "high_growth_theme": {
-          "current_count": 367,
+          "current_count": 369,
           "target_representatives": 4
         },
         "momentum_equal_weight_elastic": {
@@ -387,7 +387,7 @@
           "target_representatives": 6
         },
         "weekly_rebalance_aggressive": {
-          "current_count": 93,
+          "current_count": 94,
           "target_representatives": 6
         }
       },
@@ -451,13 +451,13 @@
       }
     },
     "hkconnect": {
-      "candidate_count": 294,
+      "candidate_count": 297,
       "path_counts": {
-        "path1": 81,
-        "path2": 85,
+        "path1": 82,
+        "path2": 86,
         "path3": 84,
         "path4": 14,
-        "path5": 5,
+        "path5": 6,
         "path6": 13,
         "path7": 12
       },

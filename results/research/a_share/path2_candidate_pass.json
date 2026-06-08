@@ -51,6 +51,7 @@
     "aggr_08_92_prom6_core_multifactor_quality_profitability_lowvol_signal_cost_guard_reconfirm",
     "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_cost_guard_reconfirm",
     "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_signal_cashguard_reconfirm",
+    "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_reconfirm",
     "aggr_08_92_prom6_core_multifactor_quality_industry_reconfirm",
     "share_08_92_hold_3_7_ramp90_cost_guard",
     "share_12_88_hold_3_7_ramp85_cost_guard",
@@ -66,7 +67,6 @@
     "aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap60",
     "aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap45",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal24_risk25_cap16_exit70",
-    "aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap16_exit68",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap12_exit68",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk25_cap16_exit70",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk20_cap16_exit68",
@@ -84,6 +84,7 @@
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk16_cap10_exit64_lowturn",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk14_cap10_exit62_lowturn",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap08_exit60_lowturn",
+    "aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit58_lowturn",
     "aggr_08_92_prom6_full_risk",
     "aggr_08_92_prom6_core_3_1_full_risk_cap40",
     "aggr_08_92_prom6_core_6_1_full_risk",
@@ -416,6 +417,7 @@
     "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution58_cap30_cost_guard_v23_risk_reconfirm",
     "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk30_mom_exit50_reconfirm92_caution60_cap32_cost_guard_v24_medium_cycle",
     "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk32_mom_exit52_reconfirm90_caution62_cap28_cost_guard_v25_medium_cycle",
+    "aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk30_mom_exit50_reconfirm95_caution62_cap28_cost_guard_v26_medium_cycle",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cashguard",
     "aggr_08_92_prom6_cash_off_and_cap50_hold2_turn12_exit90_weekly",
     "aggr_08_92_prom6_cash_off_and_cap55_hold2_turn10_exit92_weekly",
@@ -430,7 +432,8 @@
     "aggr_08_92_prom6_cash_off_and_cap58_hold4_turn03_exit96_weekly",
     "aggr_08_92_prom6_cash_off_and_cap58_hold4_turn04_exit94_risk25_weekly",
     "aggr_08_92_prom6_cost_guard_cap58_hold4_turn04_exit92_risk25_weekly",
-    "aggr_08_92_prom6_cost_guard_cap58_hold5_turn03_exit94_risk25_weekly"
+    "aggr_08_92_prom6_cost_guard_cap58_hold5_turn03_exit94_risk25_weekly",
+    "aggr_08_92_prom6_cost_guard_cap58_hold6_turn02_exit96_risk25_weekly"
   ],
   "candidate_families": {
     "emergent_theme_discovery": {
@@ -442,7 +445,6 @@
       "prefix_only_prefixes": [],
       "variant_ids": [
         "aggr_08_92_prom6_emergent_theme_risk30_cap50",
-        "aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap16_exit68",
         "aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap12_exit68",
         "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk25_cap16_exit70",
         "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk20_cap16_exit68",
@@ -460,7 +462,8 @@
         "aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk16_cap10_exit64_lowturn",
         "aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk14_cap10_exit62_lowturn",
         "aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap10_exit60_lowturn",
-        "aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap08_exit60_lowturn"
+        "aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap08_exit60_lowturn",
+        "aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit58_lowturn"
       ],
       "target_candidates": 4
     },
@@ -581,6 +584,7 @@
         "aggr_08_92_prom6_core_multifactor_quality_profitability_lowvol_signal_cost_guard_reconfirm",
         "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_cost_guard_reconfirm",
         "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_signal_cashguard_reconfirm",
+        "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_reconfirm",
         "share_08_92_hold_2_8_ramp85_cost_guard",
         "share_08_92_hold_2_8_ramp80_cost_guard",
         "share_08_92_hold_2_8_ramp75_cost_guard",
@@ -676,6 +680,7 @@
         "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution58_cap30_cost_guard_v23_risk_reconfirm",
         "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk30_mom_exit50_reconfirm92_caution60_cap32_cost_guard_v24_medium_cycle",
         "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk32_mom_exit52_reconfirm90_caution62_cap28_cost_guard_v25_medium_cycle",
+        "aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk30_mom_exit50_reconfirm95_caution62_cap28_cost_guard_v26_medium_cycle",
         "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cashguard",
         "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap80_cashguard",
         "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk45_mom_exit55_reconfirm75_caution85_cap75_cashguard",
@@ -873,6 +878,7 @@
         "aggr_08_92_prom6_cash_off_and_cap58_hold4_turn03_exit96_weekly",
         "aggr_08_92_prom6_cash_off_and_cap58_hold4_turn04_exit94_risk25_weekly",
         "aggr_08_92_prom6_cost_guard_cap58_hold5_turn03_exit94_risk25_weekly",
+        "aggr_08_92_prom6_cost_guard_cap58_hold6_turn02_exit96_risk25_weekly",
         "aggr_08_92_prom6_weekly_alpha_balanced_risk50_cap40_hold2_turn40_weekly",
         "aggr_05_95_prom3_weekly_alpha_balanced_risk50_cap60_hold2_turn30_weekly",
         "aggr_03_97_prom2_weekly_alpha_balanced_cashoff_cap80_hold3_turn25_weekly",
@@ -954,8 +960,8 @@
     "turnover_2023_weight": 0.5,
     "scoring_policy": "promotion_score_v1"
   },
-  "raw_candidate_count": 936,
-  "candidate_count": 926,
+  "raw_candidate_count": 942,
+  "candidate_count": 932,
   "incomplete_candidate_count": 10,
   "incomplete_candidates": [
     {
@@ -1082,11 +1088,11 @@
   "family_candidate_counts": {
     "emergent_theme_discovery": 59,
     "high_concentration_breakout": 154,
-    "decorrelated_defensive_mix": 34,
-    "high_growth_theme": 367,
+    "decorrelated_defensive_mix": 35,
+    "high_growth_theme": 369,
     "momentum_equal_weight_elastic": 30,
     "biweekly_rebalance_aggressive": 27,
-    "weekly_rebalance_aggressive": 93
+    "weekly_rebalance_aggressive": 94
   },
   "candidate_family_membership": {
     "core_explore_60_40_equal_weight_winner_core": [],
@@ -1889,6 +1895,9 @@
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn03_exit94_risk25_weekly": [
       "weekly_rebalance_aggressive"
     ],
+    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold6_turn02_exit96_risk25_weekly": [
+      "weekly_rebalance_aggressive"
+    ],
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_full_risk": [
       "high_growth_theme"
     ],
@@ -2530,6 +2539,9 @@
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_signal_cashguard_reconfirm": [
       "decorrelated_defensive_mix"
     ],
+    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_reconfirm": [
+      "decorrelated_defensive_mix"
+    ],
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_trend_reconfirm": [
       "decorrelated_defensive_mix"
     ],
@@ -2586,9 +2598,6 @@
     "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap12_exit68": [
       "emergent_theme_discovery"
     ],
-    "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap16_exit68": [
-      "emergent_theme_discovery"
-    ],
     "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_risk25_cap16_exit70": [],
     "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk12_cap10_exit64": [
       "emergent_theme_discovery"
@@ -2636,6 +2645,9 @@
       "emergent_theme_discovery"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk18_cap14_exit66_lowturn": [
+      "emergent_theme_discovery"
+    ],
+    "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit58_lowturn": [
       "emergent_theme_discovery"
     ],
     "core_explore_80_20_total_mv_winner_core__share_08_92_hold_2_8_ramp75_cost_guard": [
@@ -2991,6 +3003,9 @@
     "core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom2_emergent_theme_quality_gate_risk30_cap50": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap40": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap45": [],
+    "core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk30_mom_exit50_reconfirm95_caution62_cap28_cost_guard_v26_medium_cycle": [
+      "high_growth_theme"
+    ],
     "core_explore_90_10_equal_weight_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap60": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk35_cap65": [],
@@ -3038,9 +3053,7 @@
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap12_exit68": [
       "emergent_theme_discovery"
     ],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap16_exit68": [
-      "emergent_theme_discovery"
-    ],
+    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap16_exit68": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk25_cap16_exit70": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_risk25_cap16_exit70": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk12_cap10_exit64": [
@@ -3092,6 +3105,9 @@
       "emergent_theme_discovery"
     ],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk18_cap14_exit66_lowturn": [
+      "emergent_theme_discovery"
+    ],
+    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit58_lowturn": [
       "emergent_theme_discovery"
     ],
     "core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top12_risk45_mom_exit55_reconfirm80_caution85_cap70_cashguard": [
@@ -3420,6 +3436,9 @@
     "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom2_emergent_theme_quality_gate_risk30_cap50": [],
     "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap40": [],
     "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap45": [],
+    "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk30_mom_exit50_reconfirm95_caution62_cap28_cost_guard_v26_medium_cycle": [
+      "high_growth_theme"
+    ],
     "core_explore_90_10_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap60": [],
     "core_explore_90_10_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk30_cap65": [],
     "core_explore_90_10_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_quality_gate_risk35_cap65": [],
@@ -3465,9 +3484,7 @@
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap12_exit68": [
       "emergent_theme_discovery"
     ],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap16_exit68": [
-      "emergent_theme_discovery"
-    ],
+    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap16_exit68": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk25_cap16_exit70": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal24_risk25_cap16_exit70": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk12_cap10_exit64": [
@@ -3519,6 +3536,9 @@
       "emergent_theme_discovery"
     ],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk18_cap14_exit66_lowturn": [
+      "emergent_theme_discovery"
+    ],
+    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit58_lowturn": [
       "emergent_theme_discovery"
     ],
     "core_explore_95_05_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk30_or_cap95": [
@@ -3619,27 +3639,27 @@
     "since_2025_01": {
       "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
       "metrics": {
-        "cagr": 2.64387439,
-        "sharpe": 2.02241558,
+        "cagr": 2.49460936,
+        "sharpe": 1.9728846,
         "max_drawdown": -0.38834528,
-        "turnover": 16.4177844,
-        "total_return": 5.29720616
+        "turnover": 16.256177,
+        "total_return": 5.07782278
       },
       "promotion_score": {
         "policy": "promotion_score_v1",
-        "score": 2.2301054978000003,
-        "base_score": 2.4594692336,
+        "score": 2.0820102961818185,
+        "base_score": 2.3091716336,
         "ytd_penalty": 0.030541224,
-        "concentration_penalty": 0.1988225118,
+        "concentration_penalty": 0.19662011341818186,
         "concentration": {
           "sample_tag": "since_2026_01",
-          "avg_top1_weight": 0.8147930761904763,
-          "avg_top3_weight": 0.8893043833333333,
+          "avg_top1_weight": 0.8144894095454546,
+          "avg_top3_weight": 0.8894834072727273,
           "max_top1_weight": 1.0,
           "max_top3_weight": 1.0,
-          "latest_top1_weight": 0.81305879,
-          "latest_top3_weight": 0.8858638900000001,
-          "observations": 21
+          "latest_top1_weight": 0.80275494,
+          "latest_top3_weight": 0.88914205,
+          "observations": 22
         }
       }
     }
@@ -4493,108 +4513,108 @@
       {
         "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
         "metrics": {
-          "cagr": 2.64387439,
-          "sharpe": 2.02241558,
+          "cagr": 2.49460936,
+          "sharpe": 1.9728846,
           "max_drawdown": -0.38834528,
-          "turnover": 16.4177844,
-          "total_return": 5.29720616
+          "turnover": 16.256177,
+          "total_return": 5.07782278
         },
         "promotion_score": {
           "policy": "promotion_score_v1",
-          "score": 2.2301054978000003,
-          "base_score": 2.4594692336,
+          "score": 2.0820102961818185,
+          "base_score": 2.3091716336,
           "ytd_penalty": 0.030541224,
-          "concentration_penalty": 0.1988225118,
+          "concentration_penalty": 0.19662011341818186,
           "concentration": {
             "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.8147930761904763,
-            "avg_top3_weight": 0.8893043833333333,
+            "avg_top1_weight": 0.8144894095454546,
+            "avg_top3_weight": 0.8894834072727273,
             "max_top1_weight": 1.0,
             "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.81305879,
-            "latest_top3_weight": 0.8858638900000001,
-            "observations": 21
+            "latest_top1_weight": 0.80275494,
+            "latest_top3_weight": 0.88914205,
+            "observations": 22
           }
         }
       },
       {
         "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
         "metrics": {
-          "cagr": 2.63419918,
-          "sharpe": 2.01652276,
+          "cagr": 2.48441407,
+          "sharpe": 1.96673268,
           "max_drawdown": -0.40986526,
-          "turnover": 16.46240225,
-          "total_return": 5.27342523
+          "turnover": 16.28837664,
+          "total_return": 5.0522648
         },
         "promotion_score": {
           "policy": "promotion_score_v1",
-          "score": 2.2079539100428573,
-          "base_score": 2.4428794458,
+          "score": 2.05975854142,
+          "base_score": 2.2921952383199997,
           "ytd_penalty": 0.029832183499999994,
-          "concentration_penalty": 0.2050933522571428,
+          "concentration_penalty": 0.2026045134,
           "concentration": {
             "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.815427172857143,
-            "avg_top3_weight": 0.9047291457142856,
+            "avg_top1_weight": 0.8151512163636365,
+            "avg_top3_weight": 0.905170335,
             "max_top1_weight": 1.0,
             "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.81632209,
-            "latest_top3_weight": 0.9136696,
-            "observations": 21
+            "latest_top1_weight": 0.80428724,
+            "latest_top3_weight": 0.9103845799999999,
+            "observations": 22
           }
         }
       },
       {
         "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_weekly",
         "metrics": {
-          "cagr": 2.60590667,
-          "sharpe": 2.01406363,
+          "cagr": 2.45558655,
+          "sharpe": 1.96322944,
           "max_drawdown": -0.40850791,
-          "turnover": 16.67605804,
-          "total_return": 5.20403808
+          "turnover": 16.51038269,
+          "total_return": 4.98017783
         },
         "promotion_score": {
           "policy": "promotion_score_v1",
-          "score": 2.1834457352628567,
-          "base_score": 2.4122555765199998,
+          "score": 2.0343550909199997,
+          "base_score": 2.26087350932,
           "ytd_penalty": 0.030005226999999995,
-          "concentration_penalty": 0.1988046142571429,
+          "concentration_penalty": 0.19651319140000004,
           "concentration": {
             "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.8087430200000001,
-            "avg_top3_weight": 0.8929393257142858,
+            "avg_top1_weight": 0.8084316531818182,
+            "avg_top3_weight": 0.8932147300000001,
             "max_top1_weight": 1.0,
             "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.80702935,
-            "latest_top3_weight": 0.8965676499999999,
-            "observations": 21
+            "latest_top1_weight": 0.79616313,
+            "latest_top3_weight": 0.8941118,
+            "observations": 22
           }
         }
       },
       {
         "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_weekly",
         "metrics": {
-          "cagr": 2.58569877,
-          "sharpe": 2.01005344,
+          "cagr": 2.43965488,
+          "sharpe": 1.96047249,
           "max_drawdown": -0.38998556,
-          "turnover": 16.54585611,
-          "total_return": 5.15461909
+          "turnover": 16.38243312,
+          "total_return": 4.94045244
         },
         "promotion_score": {
           "policy": "promotion_score_v1",
-          "score": 2.1752586218657144,
-          "base_score": 2.39855574628,
+          "score": 2.0301838339690907,
+          "base_score": 2.25149807516,
           "ytd_penalty": 0.030874973500000003,
-          "concentration_penalty": 0.1924221509142857,
+          "concentration_penalty": 0.19043926769090913,
           "concentration": {
             "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.808018261904762,
-            "avg_top3_weight": 0.877108378095238,
+            "avg_top1_weight": 0.8076943136363638,
+            "avg_top3_weight": 0.8772696713636364,
             "max_top1_weight": 1.0,
             "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.80392334,
-            "latest_top3_weight": 0.8715471300000001,
-            "observations": 21
+            "latest_top1_weight": 0.7946463,
+            "latest_top3_weight": 0.8755951000000001,
+            "observations": 22
           }
         }
       },
@@ -4707,33 +4727,6 @@
         }
       },
       {
-        "strategy_base_id": "core_explore_90_10_total_mv_winner_core__aggr_05_95_prom3_emergent_theme_risk40_cap70",
-        "metrics": {
-          "cagr": 1.56779977,
-          "sharpe": 2.25934062,
-          "max_drawdown": -0.1599724,
-          "turnover": 6.53846378,
-          "total_return": 3.11473369
-        },
-        "promotion_score": {
-          "policy": "promotion_score_v1",
-          "score": 1.5028132394399998,
-          "base_score": 1.5801063698399997,
-          "ytd_penalty": 0.0,
-          "concentration_penalty": 0.07729313039999997,
-          "concentration": {
-            "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.5442906,
-            "avg_top3_weight": 0.8347031399999999,
-            "max_top1_weight": 0.71797938,
-            "max_top3_weight": 0.87145527,
-            "latest_top1_weight": 0.30253477,
-            "latest_top3_weight": 0.8695970900000001,
-            "observations": 6
-          }
-        }
-      },
-      {
         "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_04_96_prom2_core_6_1_cash_off_and_cap90",
         "metrics": {
           "cagr": 1.42935512,
@@ -4757,6 +4750,33 @@
             "latest_top1_weight": 0.0,
             "latest_top3_weight": 0.0,
             "observations": 0
+          }
+        }
+      },
+      {
+        "strategy_base_id": "core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk32_mom_exit52_reconfirm90_caution62_cap28_cost_guard_v25_medium_cycle",
+        "metrics": {
+          "cagr": 1.46815396,
+          "sharpe": 2.35205704,
+          "max_drawdown": -0.11962868,
+          "turnover": 6.8720277,
+          "total_return": 2.8775586
+        },
+        "promotion_score": {
+          "policy": "promotion_score_v1",
+          "score": 1.4574911311999998,
+          "base_score": 1.4933170195999999,
+          "ytd_penalty": 0.0,
+          "concentration_penalty": 0.03582588839999997,
+          "concentration": {
+            "sample_tag": "since_2026_01",
+            "avg_top1_weight": 0.39548701,
+            "avg_top3_weight": 0.7195163566666666,
+            "max_top1_weight": 0.96604116,
+            "max_top3_weight": 0.99273293,
+            "latest_top1_weight": 0.30403503,
+            "latest_top3_weight": 0.8567179599999999,
+            "observations": 6
           }
         }
       }
@@ -5301,54 +5321,6 @@
     ],
     "momentum_equal_weight_elastic": [
       {
-        "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off",
-        "score": 0.25327711472,
-        "cagr_2020": 0.23247128,
-        "cagr_2023": 0.31147566,
-        "worst_max_drawdown": -0.15472368,
-        "score_detail": {
-          "policy": "promotion_score_v1",
-          "score": 0.25327711472,
-          "base_score": 0.25429595421999995,
-          "ytd_penalty": 0.0010188394999999996,
-          "concentration_penalty": 0.0,
-          "concentration": {
-            "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.35400366166666664,
-            "avg_top3_weight": 0.5926356716666666,
-            "max_top1_weight": 1.0,
-            "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.15767987,
-            "latest_top3_weight": 0.44444262999999995,
-            "observations": 6
-          }
-        }
-      },
-      {
-        "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and",
-        "score": 0.25327711472,
-        "cagr_2020": 0.23247128,
-        "cagr_2023": 0.31147566,
-        "worst_max_drawdown": -0.15472368,
-        "score_detail": {
-          "policy": "promotion_score_v1",
-          "score": 0.25327711472,
-          "base_score": 0.25429595421999995,
-          "ytd_penalty": 0.0010188394999999996,
-          "concentration_penalty": 0.0,
-          "concentration": {
-            "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.35400366166666664,
-            "avg_top3_weight": 0.5926356716666666,
-            "max_top1_weight": 1.0,
-            "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.15767987,
-            "latest_top3_weight": 0.44444262999999995,
-            "observations": 6
-          }
-        }
-      },
-      {
         "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off",
         "score": 0.25304376249999994,
         "cagr_2020": 0.25312131,
@@ -5397,49 +5369,97 @@
         }
       },
       {
-        "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp_cash_off",
-        "score": 0.24561625521999994,
-        "cagr_2020": 0.22835013,
-        "cagr_2023": 0.29298261,
-        "worst_max_drawdown": -0.16065912,
+        "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off",
+        "score": 0.24441428663999998,
+        "cagr_2020": 0.22700634,
+        "cagr_2023": 0.30028372,
+        "worst_max_drawdown": -0.15472368,
         "score_detail": {
           "policy": "promotion_score_v1",
-          "score": 0.24561625521999994,
-          "base_score": 0.24663509471999995,
+          "score": 0.24441428663999998,
+          "base_score": 0.24543312613999999,
           "ytd_penalty": 0.0010188394999999996,
           "concentration_penalty": 0.0,
           "concentration": {
             "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.3423930783333333,
-            "avg_top3_weight": 0.5608965033333334,
+            "avg_top1_weight": 0.3551286,
+            "avg_top3_weight": 0.5935562366666667,
             "max_top1_weight": 1.0,
             "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.12486995,
-            "latest_top3_weight": 0.35278263,
+            "latest_top1_weight": 0.1644295,
+            "latest_top3_weight": 0.44996601999999997,
             "observations": 6
           }
         }
       },
       {
-        "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6",
-        "score": 0.23895680617999995,
-        "cagr_2020": 0.27446721,
-        "cagr_2023": 0.31859373,
-        "worst_max_drawdown": -0.29466243,
+        "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and",
+        "score": 0.24441428663999998,
+        "cagr_2020": 0.22700634,
+        "cagr_2023": 0.30028372,
+        "worst_max_drawdown": -0.15472368,
         "score_detail": {
           "policy": "promotion_score_v1",
-          "score": 0.23895680617999995,
-          "base_score": 0.23997564567999996,
+          "score": 0.24441428663999998,
+          "base_score": 0.24543312613999999,
           "ytd_penalty": 0.0010188394999999996,
           "concentration_penalty": 0.0,
           "concentration": {
             "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.2589748883333333,
-            "avg_top3_weight": 0.5383864583333333,
-            "max_top1_weight": 0.43735747,
-            "max_top3_weight": 0.69518383,
-            "latest_top1_weight": 0.15410806,
-            "latest_top3_weight": 0.43389739,
+            "avg_top1_weight": 0.3551286,
+            "avg_top3_weight": 0.5935562366666667,
+            "max_top1_weight": 1.0,
+            "max_top3_weight": 1.0,
+            "latest_top1_weight": 0.1644295,
+            "latest_top3_weight": 0.44996601999999997,
+            "observations": 6
+          }
+        }
+      },
+      {
+        "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_10_90_fast_ramp_cash_off",
+        "score": 0.23774369795999994,
+        "cagr_2020": 0.24219231,
+        "cagr_2023": 0.25748941,
+        "worst_max_drawdown": -0.1883984,
+        "score_detail": {
+          "policy": "promotion_score_v1",
+          "score": 0.23774369795999994,
+          "base_score": 0.23774369795999994,
+          "ytd_penalty": 0.0,
+          "concentration_penalty": 0.0,
+          "concentration": {
+            "sample_tag": "",
+            "avg_top1_weight": 0.0,
+            "avg_top3_weight": 0.0,
+            "max_top1_weight": 0.0,
+            "max_top3_weight": 0.0,
+            "latest_top1_weight": 0.0,
+            "latest_top3_weight": 0.0,
+            "observations": 0
+          }
+        }
+      },
+      {
+        "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp_cash_off",
+        "score": 0.2348927701,
+        "cagr_2020": 0.22180071,
+        "cagr_2023": 0.27960712,
+        "worst_max_drawdown": -0.16065912,
+        "score_detail": {
+          "policy": "promotion_score_v1",
+          "score": 0.2348927701,
+          "base_score": 0.23591160960000002,
+          "ytd_penalty": 0.0010188394999999996,
+          "concentration_penalty": 0.0,
+          "concentration": {
+            "sample_tag": "since_2026_01",
+            "avg_top1_weight": 0.3435012133333333,
+            "avg_top3_weight": 0.5622193666666667,
+            "max_top1_weight": 1.0,
+            "max_top3_weight": 1.0,
+            "latest_top1_weight": 0.13151876,
+            "latest_top3_weight": 0.36071981,
             "observations": 6
           }
         }
@@ -5690,49 +5710,49 @@
       },
       {
         "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly",
-        "score": 0.10923168848000002,
-        "cagr_2020": 0.19076199,
-        "cagr_2023": 0.11501371,
+        "score": 0.10032435453636367,
+        "cagr_2020": 0.18478488,
+        "cagr_2023": 0.09770954,
         "worst_max_drawdown": -0.26281172,
         "score_detail": {
           "policy": "promotion_score_v1",
-          "score": 0.10923168848000002,
-          "base_score": 0.13130155567999996,
+          "score": 0.10032435453636367,
+          "base_score": 0.1190311463,
           "ytd_penalty": 0.0,
-          "concentration_penalty": 0.022069867199999944,
+          "concentration_penalty": 0.01870679176363634,
           "concentration": {
             "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.30746817047619046,
-            "avg_top3_weight": 0.6813051866666665,
+            "avg_top1_weight": 0.30220288409090906,
+            "avg_top3_weight": 0.6719633104545454,
             "max_top1_weight": 1.0,
             "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.1795921,
-            "latest_top3_weight": 0.48533930000000003,
-            "observations": 21
+            "latest_top1_weight": 0.18571364,
+            "latest_top3_weight": 0.4785724,
+            "observations": 22
           }
         }
       },
       {
         "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly",
-        "score": 0.10049924225999998,
-        "cagr_2020": 0.17517486,
-        "cagr_2023": 0.17532003,
+        "score": 0.08461597215999997,
+        "cagr_2020": 0.16453192,
+        "cagr_2023": 0.1567263,
         "worst_max_drawdown": -0.29097045,
         "score_detail": {
           "policy": "promotion_score_v1",
-          "score": 0.10049924225999998,
-          "base_score": 0.10049924225999998,
+          "score": 0.08461597215999997,
+          "base_score": 0.08461597215999997,
           "ytd_penalty": 0.0,
           "concentration_penalty": 0.0,
           "concentration": {
             "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.2521476819047618,
-            "avg_top3_weight": 0.5208326390476191,
+            "avg_top1_weight": 0.24796393772727265,
+            "avg_top3_weight": 0.5157292090909091,
             "max_top1_weight": 1.0,
             "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.18326541,
-            "latest_top3_weight": 0.44353834999999997,
-            "observations": 21
+            "latest_top1_weight": 0.16357346,
+            "latest_top3_weight": 0.41543926,
+            "observations": 22
           }
         }
       }

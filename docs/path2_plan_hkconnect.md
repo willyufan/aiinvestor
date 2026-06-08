@@ -1457,3 +1457,11 @@
 - 五窗口结果：CAGR `12.55% / 12.58% / 9.82% / 49.26% / 10.65%`，最大回撤 `-37.41% / -37.41% / -33.80% / -10.59% / -8.91%`，换手 `5.01x / 4.93x / 5.52x / 6.30x / 7.28x`。
 - 结论：v18_check 中长窗继续弱，elasticity 线终端确认失败；HK Path 2 window winner、robust candidate 与 tracked payload 未改变。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> biweekly_breakout`。下一轮回到主题双周突破但加换手约束：`hkconnect_path2_theme_biweekly_cost_guard_v26_turnover_cap_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v26_turnover_cap_repair`。
+
+## 本轮执行计划（2026-06-08 23:27 CST）
+
+- 上一轮候选/结果摘要：上一轮 elasticity 终端确认失败；本轮改用质量/流动性/动量月频 v2，目标是降低换手并改善 2020/2023 风险调整收益。
+- 本轮候选 ID 与命令：`hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard`。
+- 五窗口结果：CAGR `20.84% / 25.16% / 30.57% / 33.35% / -5.55%`，最大回撤 `-19.39% / -10.34% / -10.34% / -11.10% / -9.88%`，换手 `2.98x / 2.84x / 2.78x / 3.49x / 4.09x`。
+- 结论：v2 风险调整和换手优于很多突破线，但 2026 仍负且未改写 HK Path 2 winner/robust/tracked payload。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> high_return_monthly`。下一轮第一候选建议把 v2 的低回撤结构与高收益月频做组合：`hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard`，首条命令为 `.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard`。

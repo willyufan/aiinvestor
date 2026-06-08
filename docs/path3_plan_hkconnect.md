@@ -788,3 +788,10 @@
 - 巡检结论：`update_hkconnect_artifacts.py` 后 HK Path 3 tracked payload 仍保留上一轮 v11 robust；本轮没有把 Path1/2 月频或双周候选并入 Path3。
 - 本轮未新增回测候选：`hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard`。未回测原因：本轮新增 HK 执行预算投给 Path1、Path2 和 Path4；HK `tracked_active` 五窗口同步后来完成，覆盖了既有纯 weekly Path3 活跃候选，但不算新增策略实验。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> cost_stress`。下一轮首条命令仍为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard`，重点记录高换手策略在成本压力下是否仍能保留 v11 的收益修复。
+
+## 本轮执行计划（2026-06-08 23:27 CST）
+
+- 上一轮候选/结果摘要：上一轮 v12 仍待回测；本轮 HK 新增执行预算投给 Path1、Path2 和 Path5，Path3 只巡检并保留纯 weekly 口径。
+- 巡检结论：`update_hkconnect_artifacts.py` 后 HK Path 3 tracked payload 仍保留上一轮 v11 robust；本轮没有把 Path1/2 月频或双周候选并入 Path3。
+- 本轮未新增回测候选：`hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard`。未回测原因：A股 `refresh_active` 全五窗口同步耗时显著超预期，HK `tracked_active` 未额外启动；本轮 HK 策略实验已执行 Path1/2/5 三个新增 ids。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> weekly_defensive_overlay`。下一轮首条命令为 `.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard`，重点验证能否保留 v11 robust 同时压低 20x+ 换手。

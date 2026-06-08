@@ -1908,3 +1908,11 @@
 - `90/10 equal_weight` 五窗口 CAGR `19.37% / 27.88% / 42.87% / 146.82% / 47.23%`，最大回撤 `-40.37% / -26.12% / -16.14% / -11.96% / -8.62%`，换手最高 `6.87x`；`90/10 total_mv` CAGR `17.14% / 23.20% / 41.63% / 153.00% / 57.23%`，最大回撤最差 `-42.48%`。
 - 结论：v25 短窗强，但长窗回撤和集中度仍不合格，`path2_candidate_pass.py` 后 universe 为 `926`，robust 仍是旧 `...risk50_mom_exit60_reconfirm65_cap95`，window winner/tracked payload 未变。
 - 下一轮 focus：最终 guard 给出 `ashare_path2 -> risk_reconfirm_sensitivity`。下一轮不要继续只压 cap，建议注册 `aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk30_mom_exit50_reconfirm95_caution62_cap28_cost_guard_v26_medium_cycle` 双底座，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v26_risk_reconfirm_ids>`。
+
+## 本轮执行计划（2026-06-08 23:27 CST）
+
+- 上一轮候选/结果摘要：上一轮 v25 短窗强但长窗回撤和集中度不合格；本轮按计划注册 v26，把 `prom4/top14/risk30/exit50/reconfirm95/caution62/cap28` 作为中周期修复验证。
+- 本轮候选 ID 与命令：`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk30_mom_exit50_reconfirm95_caution62_cap28_cost_guard_v26_medium_cycle`、`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk30_mom_exit50_reconfirm95_caution62_cap28_cost_guard_v26_medium_cycle`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v26_ids>`。
+- 五窗口结果：`90/10 equal_weight` CAGR `21.32% / 25.43% / 36.56% / 95.54% / 20.45%`，最大回撤 `-30.37% / -21.69% / -20.40% / -16.57% / -8.62%`；`90/10 total_mv` CAGR `19.34% / 20.64% / 36.13% / 102.99% / 29.02%`，最大回撤 `-30.98% / -28.05% / -19.56% / -16.13% / -5.85%`。
+- 结论：v26 降低部分 2020 回撤但中长窗收益仍低于现有 Path 2 winner/robust；`path2_candidate_pass.py` 后 candidates 为 `932`，window winner、robust candidate 与 tracked payload 未改变。
+- 下一轮 focus：最终 guard 给出 `ashare_path2 -> risk_reconfirm_sensitivity`。下一轮第一候选建议在 v26 基础上降低换手和短窗集中度：`aggr_04_96_prom4_core_6_1_promo_liqmom_top13_risk28_mom_exit48_reconfirm96_caution64_cap24_cost_guard_v27_medium_cycle` 双底座，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v27_ids>`。

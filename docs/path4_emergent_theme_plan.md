@@ -622,3 +622,12 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - 五窗口结果：`80/20 total_mv` CAGR `13.05% / 23.72% / 25.66% / 85.92% / 66.11%`，最差回撤 `-23.23%`；`90/10 equal_weight` CAGR `13.97% / 22.32% / 24.19% / 78.63% / 54.72%`；`90/10 total_mv` CAGR `14.18% / 22.68% / 25.03% / 79.08% / 49.57%`。
 - 结论：cap08 保留多票强势结构并进一步控制短窗回撤，但 2017/robust 仍弱于旧 `aggr_08_92_prom6_emergent_theme_risk30_cap50`；Path 4 window winner、robust candidate 与 tracked payload 未改变。
 - 下一轮 focus：最终 guard 给出 `ashare_path4 -> theme_signal_quality`。下一轮第一候选建议不要继续只降 cap，改在同一 cap08 线上提高信号/leader 门槛：`aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk12_cap08_exit60_lowturn` 三底座，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <three_path4_signal30_cap08_ids>`。
+
+## 本轮执行计划（2026-06-08 23:27 CST）
+
+- 上一轮候选/结果摘要：上一轮 cap08 降低集中度但 2017/robust 不足；本轮按 `theme_signal_quality` 提高到 `signal30/leader80`，并继续保持无人工主题标签、ETF 不纳入。
+- 本轮 active pool 处理：Path 4 active 池维持 `60`；从 active lists 移除 `aggr_13_87_prom12_emergent_theme_quality_gate_signal24_leader68_risk20_cap16_exit68`，原因是老 signal24/leader68 线在窗口覆盖和 robust 排名上持续弱于新 coverage_penalty 线。
+- 本轮候选 ID 与命令：三底座 `aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit58_lowturn`；coverage 补齐命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <three_path4_signal30_leader80_ids>`。
+- 五窗口结果：`80/20 total_mv` CAGR `11.60% / 20.23% / 17.60% / 60.10% / 51.40%`，最差回撤 `-19.05%`；`90/10 equal_weight` CAGR `12.91% / 18.22% / 16.69% / 36.65% / 27.46%`，最差回撤 `-13.78%`；`90/10 total_mv` CAGR `12.53% / 16.89% / 16.07% / 38.22% / 32.33%`，最差回撤 `-12.67%`。
+- 结论：新线显著压低回撤，但 2023/2025 收益不够，`update_weighted_winners.py` validation 拒绝；Path 4 window winner、robust candidate 与 tracked payload 未改变。
+- 下一轮 focus：最终 guard 给出 `ashare_path4 -> theme_risk_control`。下一轮第一候选建议在 signal30/leader80 保持不变时只放宽 `exit58 -> exit62` 与 `risk12 -> risk14`，三底座首命令为 `.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <three_path4_signal30_leader80_risk14_exit62_ids>`。
