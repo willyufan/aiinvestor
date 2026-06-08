@@ -1440,3 +1440,11 @@
 - 五窗口结果：CAGR 为 `21.90% / 24.63% / 29.40% / 34.63% / -2.03%`，最大回撤为 `-21.30% / -21.30% / -9.70% / -8.31% / -5.78%`，换手为 `5.39x / 5.13x / 5.06x / 6.30x / 5.97x`。
 - 结论：v24 是 2017 窗口表头观察，但 2026 转负且最终 guard 对 `hkconnect_path1` signature 未标记 changed；`update_hkconnect_artifacts.py` 后 Path 1 robust candidate/tracked payload 未发生本轮新切换。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> biweekly_buffer`。下一轮第一候选建议 `hkconnect_path1_biweekly_quality_momentum_equal_buffered_v25_ytd_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v25_ytd_repair`。
+
+## 本轮执行计划（2026-06-08 12:13 CST）
+
+- 上一轮候选/结果摘要：上一轮 v24 双周缓冲线长窗靠前但 2026 转负；本轮继续按 `biweekly_buffer` 做 YTD repair，保持 HK Path 1 不并入 A股结论。
+- 本轮候选 ID 与命令：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v25_ytd_repair`。命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v25_ytd_repair`。
+- 五窗口结果：CAGR `22.61% / 25.63% / 29.11% / 35.42% / -3.64%`，最大回撤 `-21.05% / -21.05% / -10.13% / -8.30% / -5.77%`，换手 `5.42x / 5.17x / 5.11x / 6.35x / 5.97x`。
+- 结论：v25 改善长窗并成为 `since_2017_01` 表头观察，但 2026 仍负；`update_hkconnect_artifacts.py` 后 HK Path 1 robust candidate 未改写，tracked payload 仅随候选列表和图表同步。
+- 下一轮 focus：继续 `biweekly_buffer / risk_overlay_cost`，第一候选建议 `hkconnect_path1_biweekly_quality_momentum_equal_buffered_v26_ytd_positive_guard`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v26_ytd_positive_guard`。

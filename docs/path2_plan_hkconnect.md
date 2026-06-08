@@ -1441,3 +1441,11 @@
 - 五窗口结果：CAGR 为 `20.91% / 24.71% / 30.87% / 31.84% / -9.84%`，最大回撤为 `-15.70% / -11.34% / -11.08% / -11.70% / -10.80%`，换手为 `3.04x / 2.93x / 2.87x / 3.67x / 4.19x`。
 - 结论：v1 风险调整和换手优于许多高收益线，但 2025/2026 不足，未改写 HK Path 2 window winner、robust candidate 或 tracked payload。最终 guard 给出 `hkconnect_path2 -> biweekly_breakout`，说明下一轮应回到高收益突破修复池。
 - 下一轮 focus：下一轮第一候选建议 `hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair`。
+
+## 本轮执行计划（2026-06-08 12:13 CST）
+
+- 上一轮候选/结果摘要：上一轮质量/流动性月频 v1 风险调整较稳但 2025/2026 不足；本轮回到 `biweekly_breakout`，确认主题双周成本守门修复线。
+- 本轮候选 ID 与命令：`hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair`。命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair`。
+- 五窗口结果：CAGR `21.83% / 24.46% / 18.78% / 28.67% / -2.45%`，最大回撤 `-27.88% / -27.88% / -21.57% / -17.39% / -8.65%`，换手 `13.78x / 13.09x / 13.40x / 16.89x / 16.57x`。
+- 结论：v25 双周突破没有修复 2023/2026，且换手显著高于现有月频 robust；HK Path 2 window winner、robust candidate 与 tracked payload 均未改变。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> elasticity_cost_control`。第一候选建议 `hkconnect_path2_equal_elastic_monthly_cost_guard_v18_terminal_check`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v18_terminal_check`；若仍弱，再停止 elasticity 线。

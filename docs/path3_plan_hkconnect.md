@@ -773,3 +773,11 @@
 - 五窗口结果：CAGR 为 `21.43% / 24.12% / 26.02% / 38.04% / -1.01%`，最大回撤为 `-27.92% / -20.09% / -12.02% / -12.40% / -7.25%`，换手为 `7.38x / 7.09x / 7.68x / 9.26x / 9.81x`。
 - 结论：该稳定降换手线比 30x+ 周频快线更可交易，但 2026 仍负，未改写 HK Path 3 window winner、robust candidate 或 tracked payload；最终 guard 给出 `weekly_defensive_overlay / rotate`。
 - 下一轮 focus：下一轮第一候选建议回到主题快周频防守覆盖，而不是继续稳定线小修：`hkconnect_path3_theme_fast_weekly_defensive_turnover6_exit54_v11`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover6_exit54_v11`。
+
+## 本轮执行计划（2026-06-08 12:13 CST）
+
+- 上一轮候选/结果摘要：上一轮建议回到主题快周频防守覆盖；本轮注册并确认 `turnover6/exit54_v11`，保持 HK Path 3 纯 weekly 口径。
+- 本轮候选 ID 与命令：`hkconnect_path3_theme_fast_weekly_defensive_turnover6_exit54_v11`。命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover6_exit54_v11`。
+- 五窗口结果：CAGR `16.05% / 21.15% / 25.43% / 47.87% / 25.51%`，最大回撤 `-36.39% / -26.85% / -22.90% / -16.94% / -8.58%`，换手 `21.06x / 20.39x / 21.21x / 27.35x / 25.52x`。
+- 结论：v11 收益显著修复并成为 HK Path 3 robust candidate，但换手仍非常高，不能替代低换手稳定线作为可交易基线；`update_hkconnect_artifacts.py` 已同步 HK Path 3 tracked payload。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> weekly_turnover_reduction`。第一候选建议 `hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover5_exit56_v12_cost_guard`，目标是保持 v11 收益同时压低 20x+ 换手。
