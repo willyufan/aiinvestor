@@ -1480,3 +1480,11 @@
 - 五窗口结果：CAGR `20.29% / 22.02% / 23.96% / 30.33% / -10.96%`，最大回撤 `-21.16% / -19.98% / -11.58% / -7.95% / -6.53%`，换手 `5.22x / 5.07x / 5.10x / 6.19x / 6.42x`。
 - 结论：v29 长中窗不优于现有 `monthly_equal_buffered_weekly_overlay_soft_exit32` 与 `biweekly_lowvol` robust，2026 仍为负；`update_hkconnect_artifacts.py` 后 HK Path 1 window winner、robust candidate 与 tracked payload 未改变。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> risk_overlay_cost`。下一轮第一候选建议在双周质量动量线上直接做风险 overlay 成本修复：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v30_risk_overlay_cost_guard`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v30_risk_overlay_cost_guard`。
+
+## 本轮执行计划（2026-06-09 22:26 CST）
+
+- 上一轮候选/结果摘要：上一轮 v29 双周质量动量仍未修复 2026；本轮按 `risk_overlay_cost` 加入更低 risk-off exposure、caution exposure 和单票上限，检查能否降低回撤和成本压力。
+- 本轮候选 ID 与命令：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v30_risk_overlay_cost_guard`；实际 HK 合并命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <three_hk_new_ids>`。
+- 五窗口结果：CAGR `20.23% / 22.01% / 23.84% / 30.33% / -10.96%`，最大回撤 `-20.85% / -19.98% / -11.58% / -7.95% / -6.53%`，换手 `5.22x / 5.06x / 5.09x / 6.19x / 6.42x`。
+- 结论：v30 回撤略低但收益低于现有月周 overlay winner 与 `biweekly_lowvol` robust，2026 仍为负；`update_hkconnect_artifacts.py` 后 HK Path 1 window winner、robust candidate 与 tracked payload 未改变。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> monthly_weekly_overlay`。下一轮停止双周质量动量小修，回到月选周控：`hkconnect_path1_monthly_quality_momentum_weekly_overlay_v31_ytd_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v31_ytd_repair`。

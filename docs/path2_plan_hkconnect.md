@@ -1481,3 +1481,11 @@
 - 五窗口结果：CAGR `20.45% / 23.66% / 32.21% / 33.49% / -8.69%`，最大回撤 `-14.91% / -11.17% / -11.17% / -11.56% / -10.74%`，换手 `3.05x / 2.93x / 2.86x / 3.65x / 4.23x`。
 - 结论：v28 仍有较好的 2023 风险调整，但低于 v27 的 2023 winner，且 2026 仍负；HK Path 2 window winner、robust candidate 与 tracked payload 未改变，`high_return_monthly` focus 继续。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> high_return_monthly`。下一轮第一候选建议 `hkconnect_path2_high_return_monthly_quality_liquidity_v29_ytd_recovery_guard`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v29_ytd_recovery_guard`；若 v29 仍不能修复 2026，应转回主题月频 robust 而不是继续小修。
+
+## 本轮执行计划（2026-06-09 22:26 CST）
+
+- 上一轮候选/结果摘要：上一轮 v28 未修复 2026；本轮最终 guard 开局后 rotation 指向 `biweekly_breakout`，因此改用主题双周突破加换手约束，而不是继续 high-return monthly 小修。
+- 本轮候选 ID 与命令：`hkconnect_path2_theme_biweekly_cost_guard_v29_breakout_turnover_cap`；实际 HK 合并命令使用五窗口 `--only-strategy-ids <three_hk_new_ids>` 覆盖。
+- 五窗口结果：CAGR `19.29% / 20.67% / 16.09% / 31.78% / -8.31%`，最大回撤 `-28.10% / -28.10% / -20.10% / -15.85% / -10.15%`，换手 `12.35x / 11.92x / 12.47x / 15.96x / 15.42x`。
+- 结论：v29 双周突破仍未修复 2023/2026，且换手远高于月频 robust；HK Path 2 window winner、robust candidate 与 tracked payload 未改变。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> biweekly_breakout`。下一轮若继续该 focus，只做一次更硬的低换手/更宽持仓确认：`hkconnect_path2_theme_biweekly_cost_guard_v30_breakout_lowturn_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v30_breakout_lowturn_repair`；若仍弱，转回 `theme_monthly_cost_control` robust。

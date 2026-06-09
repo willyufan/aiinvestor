@@ -276,3 +276,11 @@ Path 5 成立需要满足至少一个条件：
 - 入口结果：6 个冻结候选全部 eligible；事件后 20 个交易日等权收益 `41.75%`、seed 权重收益 `43.85%`。个股 20 日收益中 `300408.SZ 三环集团` 为 `59.52%`、`300394.SZ 天孚通信` 为 `57.32%`、`300502.SZ 新易盛` 为 `49.72%`、`300308.SZ 中际旭创` 为 `48.95%`、`688498.SH 源杰科技` 为 `33.00%`、`688195.SH 腾景科技` 为 `1.98%`；40/60 日仍因可用交易日不足为 `insufficient_data`。
 - 巡检结论：最终 guard 显示 `basket_count=1 / frozen_candidate_count=6 / pending_audit_count=0 / backtest_ready_count=6`。本轮不把 entry probe 当成有效策略结论，也不写入 tracked。
 - 下一轮 focus：最终 guard 给出 `ashare_path5 -> frozen_candidate_audit`，但当前 pending audit 为 `0`，因此该 focus 映射为“第二事件篮子审计池”。下一轮第一步新增第二个事件篮子 registry/candidates 草案并同步 audit JSONL；同时扩展 `event_theme_backtest_entry.py` 输出与 Path 4 `signal30/leader80` 同期持仓重合度。首条复核命令仍为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60`。
+
+## 本轮执行计划（2026-06-09 22:26 CST）
+
+- 上一轮候选/结果摘要：上一轮 Path 5 仍只有一个已审计冻结篮子，缺第二事件篮子与 Path 4 同期重合度；本轮受 10 个新增/确认 ID 预算约束，继续只做入口复核，不进入 winner/tracked。
+- 本轮候选 ID 与命令：`mrc_uec_ai_network_20260506_v0`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60`。
+- 入口结果：6 个冻结候选全部 eligible；事件后 20 个交易日等权收益 `41.75%`、seed 权重收益 `43.85%`。40/60 日仍因可用交易日不足为 `insufficient_data`，不作为有效策略结论。
+- 巡检结论：最终 guard 显示 `basket_count=1 / frozen_candidate_count=6 / pending_audit_count=0 / backtest_ready_count=6`，入口完整但样本数远不足。未新增第二篮子原因：本轮新增策略预算已投给 A股 Path1/2/3/4 与 HK Path1/2/3。
+- 下一轮 focus：最终 guard 给出 `ashare_path5 -> event_backtest_entry`。下一轮第一步扩展 runner 输出 Path 4 `signal30/leader80/prom16` 同期持仓重合度，并新增第二事件篮子 registry/candidates 草案；首条复核命令仍为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60`。

@@ -539,10 +539,23 @@ WEEKLY_ALPHA_SIGNAL_MODES = {
     "weekly_alpha_pullback",
 }
 EMERGENT_THEME_SIGNAL_MODE = "emergent_theme"
+ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED = "core_explore_seed"
+ALPHA_POOL_PROFILE_GROWTH_ELASTIC = "growth_elastic"
+ALPHA_POOL_PROFILE_EMERGENT_THEME = "emergent_theme"
+ALPHA_POOL_PROFILE_EVENT_KG_BASKET = "event_kg_basket"
+ALPHA_POOL_NAMES = {
+    ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED: "Path1/3 核心-探索-种子共用池",
+    ALPHA_POOL_PROFILE_GROWTH_ELASTIC: "Path2 高弹性赢家池",
+    ALPHA_POOL_PROFILE_EMERGENT_THEME: "Path4 新兴主题发现池",
+    ALPHA_POOL_PROFILE_EVENT_KG_BASKET: "Path5 事件知识图谱冻结篮子",
+}
 MARKET_INDEX_CODE = "000300.SH"
 BENCHMARK_INDEX_CODE = "000001.SH"
 CORE_INDEX_CODES = ["000300.SH", "000688.SH"]
 EXPLORE_INDEX_CODES = ["000905.SH", "000698.SH", "000699.SH"]
+FACTOR_MIN_LISTING_MONTHS = 1
+PATH4_CORE_MIN_LISTING_MONTHS = MIN_LISTING_MONTHS
+PATH4_SEED_MIN_LISTING_MONTHS = SEED_MIN_LISTING_MONTHS
 CORE_BUY_ENTRY_PERCENTILE = 0.10
 CORE_SELL_EXIT_PERCENTILE = 0.20
 EXPLORE_BUY_ENTRY_PERCENTILE = 0.12
@@ -1859,6 +1872,23 @@ WINNER_CORE_VARIANTS = [
         "satellite_caution_exposure": 0.43,
         "core_risk_off_exposure": 0.18,
         "satellite_risk_off_exposure": 0.18,
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_risk20_reconfirm",
+        "variant_name": "进攻8/92 晋升6只(多因子质量盈利价值低波趋势信号现金守门风险20再确认)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "multi_factor",
+        "factor_weights": MULTI_FACTOR_PRESETS["quality_profitability_value_lowvol_trend_signal_cashguard_reconfirm"],
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_caution_exposure": 0.62,
+        "satellite_caution_exposure": 0.42,
+        "core_risk_off_exposure": 0.20,
+        "satellite_risk_off_exposure": 0.20,
     },
     {
         "variant_id": "aggr_10_90_prom6_core_6_1",
@@ -4105,6 +4135,34 @@ WINNER_CORE_VARIANTS = [
         "satellite_risk_off_exposure": 0.28,
         "promoted_core_sell_exit_percentile": 0.46,
         "weight_cap": 0.24,
+        "rebalance_frequency": "biweekly",
+    },
+    {
+        "variant_id": "aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk24_exit44_cap20_cost_guard_v29",
+        "variant_name": "进攻3/97 晋升3只(量价弹性双周, 风险24%, 出场44%, 单票20%, 成本防守v29)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.14,
+        "standard_promotion_min_momentum_6_1_rank": 0.93,
+        "standard_promotion_min_momentum_3_1_rank": 0.68,
+        "fast_promotion_percentile": 0.09,
+        "fast_promotion_min_momentum_6_1_rank": 0.96,
+        "fast_promotion_min_momentum_3_1_rank": 0.72,
+        "fast_promotion_min_recent_1m_return": 0.01,
+        "fast_promotion_min_amount_surge_ratio": 1.20,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_caution_exposure": 0.64,
+        "satellite_caution_exposure": 0.46,
+        "core_risk_off_exposure": 0.24,
+        "satellite_risk_off_exposure": 0.24,
+        "promoted_core_sell_exit_percentile": 0.44,
+        "weight_cap": 0.20,
         "rebalance_frequency": "biweekly",
     },
     {
@@ -7071,6 +7129,24 @@ WINNER_CORE_VARIANTS = [
         "rebalance_frequency": "weekly",
         "weekly_min_hold_periods": 5,
         "weekly_turnover_cap": 0.04,
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_cost_guard_cap56_hold6_turn03_exit96_risk20_weekly",
+        "variant_name": "进攻8/92 晋升6只(成本压力熊市20%, 单票56%, 持有6周, 换手3%, 出场96%, 单周)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.20,
+        "satellite_risk_off_exposure": 0.20,
+        "promoted_core_sell_exit_percentile": 0.96,
+        "weight_cap": 0.56,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 6,
+        "weekly_turnover_cap": 0.03,
     },
     {
         "variant_id": "aggr_08_92_prom6_weekly_alpha_balanced_risk50_cap40_hold2_turn40_weekly",
@@ -10503,6 +10579,34 @@ WINNER_CORE_VARIANTS = [
         "promoted_core_sell_exit_percentile": 0.62,
         "weight_cap": 0.08,
     },
+    {
+        "variant_id": "aggr_13_87_prom16_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn",
+        "variant_name": "进攻13/87 晋升16只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市14%, 单票8%, 出场62%, 低换手)",
+        "winner_core_stable_share": 0.13,
+        "winner_core_promoted_share": 0.87,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 22,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "promotion_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+        "standard_promotion_percentile": 0.30,
+        "standard_promotion_min_industry_leader": 0.80,
+        "standard_promotion_min_momentum_3_1_rank": 0.66,
+        "fast_promotion_percentile": 0.045,
+        "fast_promotion_min_industry_leader": 0.92,
+        "fast_promotion_min_momentum_3_1_rank": 0.76,
+        "fast_promotion_min_amount_surge_ratio": 1.38,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.14,
+        "satellite_risk_off_exposure": 0.14,
+        "core_quality_quantile": 0.72,
+        "promoted_core_quality_quantile": 0.56,
+        "explore_quality_quantile": 0.66,
+        "seed_quality_quantile": 0.50,
+        "promoted_core_sell_exit_percentile": 0.62,
+        "weight_cap": 0.08,
+    },
 ]
 
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
@@ -10582,6 +10686,7 @@ PATH1_FAST_PASS_DIRECTION_GROUPS = {
         "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_cost_guard_reconfirm",
         "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_signal_cashguard_reconfirm",
         "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_reconfirm",
+        "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_risk20_reconfirm",
     ],
     "holding_shape": [
         "share_15_85_hold_4_6",
@@ -10705,6 +10810,7 @@ PATH1_FAST_PASS_VARIANT_IDS = [
     "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_cost_guard_reconfirm",
     "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_signal_cashguard_reconfirm",
     "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_reconfirm",
+    "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_risk20_reconfirm",
     "aggr_09_91_prom7",
     "share_12_88_hold_4_6",
     "aggr_08_92_hold_3_6",
@@ -10748,7 +10854,6 @@ PATH4_THEME_DISCOVERY_BASE_IDS = [
 
 PATH4_THEME_DISCOVERY_VARIANT_IDS = [
     "aggr_08_92_prom6_emergent_theme_risk30_cap50",
-    "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk20_cap16_exit68",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk20_cap12_exit68",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk20_cap12_exit68",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk15_cap12_exit66",
@@ -10767,6 +10872,7 @@ PATH4_THEME_DISCOVERY_VARIANT_IDS = [
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit58_lowturn",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn",
     "aggr_13_87_prom14_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn",
+    "aggr_13_87_prom16_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn",
 ]
 
 PATH2_SCAN_BASE_PREFIXES = [
@@ -11158,6 +11264,7 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_03_97_prom2_core_6_1_cash_off_and_cap65_biweekly_cost_guard",
             "aggr_03_97_prom2_core_6_1_cash_off_and_cap60_biweekly_cost_guard",
             "aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk28_exit46_cap24_cost_guard_v28",
+            "aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk24_exit44_cap20_cost_guard_v29",
         ],
         "target_candidates": 6,
     },
@@ -11310,6 +11417,7 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_cost_guard_reconfirm",
     "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_signal_cashguard_reconfirm",
     "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_reconfirm",
+    "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_risk20_reconfirm",
     "aggr_08_92_prom6_core_multifactor_quality_industry_reconfirm",
     "share_08_92_hold_3_7_ramp90_cost_guard",
     "share_12_88_hold_3_7_ramp85_cost_guard",
@@ -11325,7 +11433,6 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_03_97_prom2_emergent_theme_quality_gate_risk30_cap60",
     "aggr_04_96_prom2_emergent_theme_quality_gate_risk35_cap45",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal24_risk25_cap16_exit70",
-    "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk20_cap16_exit68",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_risk20_cap12_exit68",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk20_cap12_exit68",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal26_leader72_coverage_penalty_risk15_cap12_exit66",
@@ -11343,6 +11450,7 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit58_lowturn",
     "aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn",
     "aggr_13_87_prom14_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn",
+    "aggr_13_87_prom16_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn",
     "aggr_08_92_prom6_full_risk",
     "aggr_08_92_prom6_core_3_1_full_risk_cap40",
     "aggr_08_92_prom6_core_6_1_full_risk",
@@ -11678,6 +11786,7 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk30_mom_exit50_reconfirm95_caution62_cap28_cost_guard_v26_medium_cycle",
     "aggr_04_96_prom4_core_6_1_promo_liqmom_top13_risk28_mom_exit48_reconfirm96_caution64_cap24_cost_guard_v27_medium_cycle",
     "aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk28_exit46_cap24_cost_guard_v28",
+    "aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk24_exit44_cap20_cost_guard_v29",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cashguard",
     "aggr_08_92_prom6_cash_off_and_cap50_hold2_turn12_exit90_weekly",
     "aggr_08_92_prom6_cash_off_and_cap55_hold2_turn10_exit92_weekly",
@@ -11696,9 +11805,11 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_08_92_prom6_cost_guard_cap58_hold6_turn02_exit96_risk25_weekly",
     "aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk25_weekly",
     "aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk20_weekly",
+    "aggr_08_92_prom6_cost_guard_cap56_hold6_turn03_exit96_risk20_weekly",
 ]
 
 PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS = [
+    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk20_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk25_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold6_turn02_exit96_risk25_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold4_turn04_exit92_risk25_weekly",
@@ -11767,7 +11878,7 @@ PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS = [
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn03_exit94_risk25_weekly",
 ]
 
-FACTOR_CACHE_VERSION = "v2"
+FACTOR_CACHE_VERSION = "v3"
 WINNER_ONLY_STRATEGY_ID = "core_explore_80_20_total_mv_winner_core"
 INDEX_CORE_BASE_ID = "core_explore_80_20_total_mv_index_core"
 ACTIVE_FAMILY_BASE_PREFIXES = [
@@ -11833,6 +11944,155 @@ CORE_SOURCE_MODES = [
     {"core_source_mode": "winner_core", "core_source_name": "胜出者核心"},
     {"core_source_mode": "pure_core_growth", "core_source_name": "纯核心成长"},
 ]
+
+
+def strip_weekly_overlay_suffix(strategy_base_id: str) -> str:
+    base_id = str(strategy_base_id or "")
+    for suffix in WEEKLY_OVERLAY_SUFFIXES:
+        if base_id.endswith(suffix):
+            return base_id[: -len(suffix)]
+    return base_id
+
+
+def extract_winner_variant_id(strategy_base_id: str) -> str | None:
+    base_id = strip_weekly_overlay_suffix(strategy_base_id)
+    if "__" not in base_id:
+        return None
+    return base_id.rsplit("__", 1)[1]
+
+
+def get_strategy_alpha_pool_profile(strategy_config: Dict[str, object]) -> str:
+    explicit = str(strategy_config.get("alpha_pool_profile", "") or "").strip()
+    if explicit:
+        return explicit
+    strategy_kind = str(strategy_config.get("strategy_kind", "core_explore") or "core_explore")
+    if strategy_kind == "pure_core_growth":
+        return ALPHA_POOL_PROFILE_GROWTH_ELASTIC
+    core_signal_mode = str(strategy_config.get("core_signal_mode", "") or "").strip()
+    promotion_signal_mode = str(strategy_config.get("promotion_signal_mode", "") or "").strip()
+    variant_id = extract_winner_variant_id(str(strategy_config.get("strategy_base_id", "") or ""))
+    if (
+        core_signal_mode == EMERGENT_THEME_SIGNAL_MODE
+        or promotion_signal_mode == EMERGENT_THEME_SIGNAL_MODE
+        or (variant_id is not None and variant_id in PATH4_THEME_DISCOVERY_VARIANT_IDS)
+    ):
+        return ALPHA_POOL_PROFILE_EMERGENT_THEME
+    base_id = strip_weekly_overlay_suffix(str(strategy_config.get("strategy_base_id", "") or ""))
+    if (
+        promotion_signal_mode == "liquidity_momentum"
+        or (
+            base_id.startswith("core_explore_90_10_equal_weight_winner_core")
+            and variant_id is not None
+            and variant_id in PATH2_SCAN_VARIANT_IDS
+        )
+    ):
+        return ALPHA_POOL_PROFILE_GROWTH_ELASTIC
+    return ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED
+
+
+def get_strategy_listing_months(strategy_config: Dict[str, object]) -> Tuple[int, int]:
+    profile = get_strategy_alpha_pool_profile(strategy_config)
+    default_core_months = PATH4_CORE_MIN_LISTING_MONTHS if profile == ALPHA_POOL_PROFILE_EMERGENT_THEME else MIN_LISTING_MONTHS
+    default_seed_months = PATH4_SEED_MIN_LISTING_MONTHS if profile == ALPHA_POOL_PROFILE_EMERGENT_THEME else SEED_MIN_LISTING_MONTHS
+    core_months = int(float(strategy_config.get("core_min_listing_months", default_core_months) or default_core_months))
+    seed_months = int(float(strategy_config.get("seed_min_listing_months", default_seed_months) or default_seed_months))
+    return max(0, core_months), max(0, seed_months)
+
+
+def filter_codes_by_listing_months(
+    *,
+    prepared: PreparedData,
+    signal_date: pd.Timestamp,
+    available_codes: Iterable[str],
+    min_listing_months: int,
+) -> List[str]:
+    cutoff = signal_date - pd.DateOffset(months=max(0, int(min_listing_months)))
+    eligible: List[str] = []
+    for code in available_codes:
+        list_date = prepared.code_to_list_date.get(str(code), pd.NaT)
+        if pd.notna(list_date) and list_date <= cutoff:
+            eligible.append(str(code))
+    return sorted(set(eligible))
+
+
+def resolve_strategy_listing_eligible_codes(
+    *,
+    prepared: PreparedData,
+    signal_date: pd.Timestamp,
+    strategy_config: Dict[str, object],
+    default_standard_eligible_codes: Iterable[str],
+    default_seed_eligible_codes: Iterable[str],
+    available_codes: Iterable[str],
+) -> Tuple[List[str], List[str]]:
+    core_months, seed_months = get_strategy_listing_months(strategy_config)
+    if core_months == MIN_LISTING_MONTHS and seed_months == SEED_MIN_LISTING_MONTHS:
+        return list(default_standard_eligible_codes), list(default_seed_eligible_codes)
+    available = set(map(str, available_codes))
+    return (
+        filter_codes_by_listing_months(
+            prepared=prepared,
+            signal_date=signal_date,
+            available_codes=available,
+            min_listing_months=core_months,
+        ),
+        filter_codes_by_listing_months(
+            prepared=prepared,
+            signal_date=signal_date,
+            available_codes=available,
+            min_listing_months=seed_months,
+        ),
+    )
+
+
+def filter_alpha_pool_by_signal(
+    codes: Set[str],
+    signal_scores: pd.Series,
+    percentile: float,
+) -> Set[str]:
+    if not codes or signal_scores.empty or percentile >= 1.0:
+        return set(codes)
+    percentile = min(1.0, max(0.0001, float(percentile)))
+    aligned = signal_scores.reindex(sorted(codes)).dropna()
+    if aligned.empty:
+        return set()
+    threshold = aligned.quantile(1.0 - percentile)
+    return set(aligned[aligned >= threshold].index)
+
+
+def resolve_alpha_pool_universes(
+    *,
+    prepared: PreparedData,
+    signal_date: pd.Timestamp,
+    strategy_config: Dict[str, object],
+    standard_eligible_codes: Iterable[str],
+    seed_eligible_codes: Iterable[str],
+    pool_signal_scores: pd.Series,
+) -> Tuple[Set[str], Set[str], str]:
+    profile = get_strategy_alpha_pool_profile(strategy_config)
+    if profile == ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED:
+        return (
+            set(prepared.core_members_by_date.get(signal_date, set())),
+            set(prepared.explore_members_by_date.get(signal_date, set())),
+            profile,
+        )
+
+    standard_pool = set(map(str, standard_eligible_codes))
+    seed_pool = set(map(str, seed_eligible_codes))
+    raw_percentile = strategy_config.get("alpha_pool_signal_percentile", 1.0)
+    try:
+        signal_percentile = float(raw_percentile)
+    except (TypeError, ValueError):
+        signal_percentile = 1.0
+    standard_pool = filter_alpha_pool_by_signal(standard_pool, pool_signal_scores, signal_percentile)
+    seed_pool = filter_alpha_pool_by_signal(seed_pool, pool_signal_scores, signal_percentile)
+    return standard_pool, seed_pool, profile
+
+
+def apply_alpha_pool_summary(summary: Dict[str, object], strategy_config: Dict[str, object]) -> None:
+    profile = get_strategy_alpha_pool_profile(strategy_config)
+    summary["pool_id"] = profile
+    summary["pool_name"] = ALPHA_POOL_NAMES.get(profile, profile)
+    summary["alpha_pool_profile"] = profile
 
 PURE_CORE_AMOUNT_THRESHOLD = 50000.0
 PURE_CORE_BUY_BUFFER_MULTIPLIER = 1.0
@@ -13372,6 +13632,7 @@ def build_monthly_factor_cache(prepared: PreparedData) -> MonthlyFactorCache:
 
         standard_eligible_codes: List[str] = []
         seed_eligible_codes: List[str] = []
+        factor_eligible_codes: List[str] = []
         for ts_code in prepared.code_to_name:
             list_date = prepared.code_to_list_date[ts_code]
             if pd.isna(list_date):
@@ -13380,12 +13641,14 @@ def build_monthly_factor_cache(prepared: PreparedData) -> MonthlyFactorCache:
                 continue
             if ts_code not in signal_mvs.index or pd.isna(signal_mvs.get(ts_code)):
                 continue
+            if list_date <= signal_date - pd.DateOffset(months=FACTOR_MIN_LISTING_MONTHS):
+                factor_eligible_codes.append(ts_code)
             if list_date <= signal_date - pd.DateOffset(months=SEED_MIN_LISTING_MONTHS):
                 seed_eligible_codes.append(ts_code)
             if list_date <= signal_date - pd.DateOffset(months=MIN_LISTING_MONTHS):
                 standard_eligible_codes.append(ts_code)
 
-        eligible_codes = seed_eligible_codes
+        eligible_codes = factor_eligible_codes
         standard_eligible_codes_by_date[signal_date] = standard_eligible_codes
         seed_eligible_codes_by_date[signal_date] = seed_eligible_codes
         signal_mvs_by_date[signal_date] = signal_mvs.reindex(eligible_codes).dropna().astype(float)
@@ -15553,19 +15816,23 @@ def build_month_end_preview_payload(
     factor_cache = prepared.monthly_factor_cache
     if factor_cache is None:
         return None
-    standard_eligible_codes = factor_cache.standard_eligible_codes_by_date.get(signal_date, [])
-    seed_eligible_codes = factor_cache.seed_eligible_codes_by_date.get(signal_date, [])
+    default_standard_eligible_codes = factor_cache.standard_eligible_codes_by_date.get(signal_date, [])
+    default_seed_eligible_codes = factor_cache.seed_eligible_codes_by_date.get(signal_date, [])
+    raw_weights = factor_cache.signal_mvs_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+    standard_eligible_codes, seed_eligible_codes = resolve_strategy_listing_eligible_codes(
+        prepared=prepared,
+        signal_date=signal_date,
+        strategy_config=strategy_config,
+        default_standard_eligible_codes=default_standard_eligible_codes,
+        default_seed_eligible_codes=default_seed_eligible_codes,
+        available_codes=raw_weights.index,
+    )
     if not standard_eligible_codes and not seed_eligible_codes:
         return None
 
     eligible_codes = seed_eligible_codes
-    raw_weights = factor_cache.signal_mvs_by_date.get(signal_date, pd.Series(dtype=float)).copy()
     avg_daily_amount = factor_cache.avg_daily_amount_by_date.get(signal_date, pd.Series(dtype=float)).copy()
     amount_surge_ratio = factor_cache.amount_surge_ratio_by_date.get(signal_date, pd.Series(dtype=float)).copy()
-    actual_core_members = prepared.core_members_by_date.get(signal_date, set())
-    actual_explore_members = prepared.explore_members_by_date.get(signal_date, set())
-    core_universe_codes = set(actual_core_members) | set(promoted_core_codes)
-    explore_universe_codes = set(actual_explore_members) - set(promoted_core_codes)
 
     core_signal_scores = factor_cache.core_signal_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
     momentum_6_1 = factor_cache.momentum_6_1_by_date.get(signal_date, pd.Series(dtype=float)).copy()
@@ -15612,6 +15879,16 @@ def build_month_end_preview_payload(
             (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.05),
         ]
     )
+    actual_core_members, actual_explore_members, _alpha_pool_profile = resolve_alpha_pool_universes(
+        prepared=prepared,
+        signal_date=signal_date,
+        strategy_config=strategy_config,
+        standard_eligible_codes=standard_eligible_codes,
+        seed_eligible_codes=seed_eligible_codes,
+        pool_signal_scores=core_signal_scores,
+    )
+    core_universe_codes = set(actual_core_members) | set(promoted_core_codes)
+    explore_universe_codes = set(actual_explore_members) - set(promoted_core_codes)
 
     strategy_kind = str(strategy_config.get("strategy_kind", "core_explore"))
     market_close_series = prepared.market_monthly_close.copy()
@@ -15907,16 +16184,20 @@ def run_backtest(
         factor_cache = prepared.monthly_factor_cache
         if factor_cache is None:
             raise RuntimeError("PreparedData 缺少 monthly_factor_cache，无法运行回测。")
-        standard_eligible_codes = factor_cache.standard_eligible_codes_by_date.get(signal_date, [])
-        seed_eligible_codes = factor_cache.seed_eligible_codes_by_date.get(signal_date, [])
-        eligible_codes = seed_eligible_codes
+        default_standard_eligible_codes = factor_cache.standard_eligible_codes_by_date.get(signal_date, [])
+        default_seed_eligible_codes = factor_cache.seed_eligible_codes_by_date.get(signal_date, [])
         raw_weights = factor_cache.signal_mvs_by_date.get(signal_date, pd.Series(dtype=float)).copy()
+        standard_eligible_codes, seed_eligible_codes = resolve_strategy_listing_eligible_codes(
+            prepared=prepared,
+            signal_date=signal_date,
+            strategy_config=strategy_config,
+            default_standard_eligible_codes=default_standard_eligible_codes,
+            default_seed_eligible_codes=default_seed_eligible_codes,
+            available_codes=raw_weights.index,
+        )
+        eligible_codes = seed_eligible_codes
         avg_daily_amount = factor_cache.avg_daily_amount_by_date.get(signal_date, pd.Series(dtype=float)).copy()
         amount_surge_ratio = factor_cache.amount_surge_ratio_by_date.get(signal_date, pd.Series(dtype=float)).copy()
-        actual_core_members = prepared.core_members_by_date.get(signal_date, set())
-        actual_explore_members = prepared.explore_members_by_date.get(signal_date, set())
-        core_universe_codes = set(actual_core_members) | set(promoted_core_codes)
-        explore_universe_codes = set(actual_explore_members) - set(promoted_core_codes)
         core_signal_scores = factor_cache.core_signal_scores_by_date.get(signal_date, pd.Series(dtype=float)).copy()
         momentum_6_1 = factor_cache.momentum_6_1_by_date.get(signal_date, pd.Series(dtype=float)).copy()
         momentum_3_1 = factor_cache.momentum_3_1_by_date.get(signal_date, pd.Series(dtype=float)).copy()
@@ -15997,6 +16278,17 @@ def run_backtest(
                 (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.05),
             ]
         )
+        pool_signal_scores = promotion_signal_scores if not promotion_signal_scores.empty else core_signal_scores
+        actual_core_members, actual_explore_members, alpha_pool_profile = resolve_alpha_pool_universes(
+            prepared=prepared,
+            signal_date=signal_date,
+            strategy_config=strategy_config,
+            standard_eligible_codes=standard_eligible_codes,
+            seed_eligible_codes=seed_eligible_codes,
+            pool_signal_scores=pool_signal_scores,
+        )
+        core_universe_codes = set(actual_core_members) | set(promoted_core_codes)
+        explore_universe_codes = set(actual_explore_members) - set(promoted_core_codes)
         strategy_kind = str(strategy_config.get("strategy_kind", "core_explore"))
         market_risk_off_rule = str(strategy_config.get("market_risk_off_rule", "or") or "or").strip().lower()
         core_risk_off_exposure = float(strategy_config.get("core_risk_off_exposure", CORE_RISK_OFF_EXPOSURE))
@@ -16550,6 +16842,8 @@ def run_backtest(
         latest_weights = latest_weights[["ts_code", "name", "weight", *[col for col in extra_cols if col in latest_weights.columns]]]
 
     strategy_kind = str(strategy_config.get("strategy_kind", "core_explore"))
+    alpha_pool_profile = get_strategy_alpha_pool_profile(strategy_config)
+    core_min_listing_months, seed_min_listing_months = get_strategy_listing_months(strategy_config)
     if strategy_kind == "pure_core_growth":
         selection_overlay = (
             "纯核心成长模式：关闭市场风控与探索/种子层，直接在动态发现池内做核心股优选；"
@@ -16558,13 +16852,27 @@ def run_backtest(
         )
         listing_filter = "上市满 6 个月"
         momentum_lookback_rule = "使用业绩加速、行业相对强度、行业内龙头、6-1/3-1 动量与持续放量突破的复合信号"
+    elif alpha_pool_profile == ALPHA_POOL_PROFILE_GROWTH_ELASTIC:
+        selection_overlay = (
+            "Path2 高弹性赢家池：不再沿用 Path1/3 的指数核心-探索池，改在可交易 A 股范围内按上市与流动性过滤后，"
+            "用 6-1/3-1 动量、放量、突破、行业强度与龙头分筛选高弹性赢家；探索/种子胜出者再通过晋升状态机进入核心仓。"
+        )
+        listing_filter = f"核心/探索层上市满 {core_min_listing_months} 个月；种子层上市满 {seed_min_listing_months} 个月"
+        momentum_lookback_rule = "高弹性池优先使用 6-1、3-1、近 1 月收益、放量和突破信号，晋升核心侧重流动性动量确认"
+    elif alpha_pool_profile == ALPHA_POOL_PROFILE_EMERGENT_THEME:
+        selection_overlay = (
+            "Path4 新兴主题发现池：不再受 Path1/3 的核心/探索指数成员限制，先在可交易 A 股中用行业强度、主题内龙头、"
+            "3-1 动量、近 1 月收益、放量和突破构造主题涌现信号，再分配到稳定核心、探索、种子与晋升核心。"
+        )
+        listing_filter = f"核心/探索层上市满 {core_min_listing_months} 个月；种子层上市满 {seed_min_listing_months} 个月"
+        momentum_lookback_rule = "主题池优先使用行业强度、行业内龙头、3-1 动量、近 1 月收益、放量与突破的 emergent_theme 信号"
     else:
         selection_overlay = (
             "核心池=沪深300+科创50，探索池=中证500+科创100+科创200；在探索层内再切出种子层做更早期发现。"
             "核心层用 12-1 动量，探索/种子层加入行业强度、行业内龙头、6-1 + 3-1 与突破信号，种子层允许 6 个月以上上市且质量缺口按中性处理；"
             "探索/种子胜出者通过普通晋升和快速晋升双轨进入 winner_core，晋升后按阶段逐步加仓；核心仓再拆成稳定核心和晋升核心。"
         )
-        listing_filter = "核心/探索层上市满 12 个月；种子层上市满 6 个月"
+        listing_filter = f"核心/探索层上市满 {core_min_listing_months} 个月；种子层上市满 {seed_min_listing_months} 个月"
         momentum_lookback_rule = "核心层优先使用 12-1 动量；探索/种子层使用 6-1、3-1 与 20 日突破的组合信号"
 
     summary = {
@@ -16584,6 +16892,7 @@ def run_backtest(
         "strategy_base_name": str(strategy_config.get("strategy_base_name", strategy_config["strategy_name"])),
         "strategy_base_id": str(strategy_config.get("strategy_base_id", strategy_config["strategy_id"])),
         "strategy_kind": strategy_kind,
+        "alpha_pool_profile": alpha_pool_profile,
         "base_weight_method": str(strategy_config["base_weight_method"]),
         "base_weight_name": str(strategy_config["base_weight_name"]),
         "core_source_mode": str(strategy_config["core_source_mode"]),
@@ -16605,6 +16914,8 @@ def run_backtest(
         "selection_overlay": selection_overlay,
         "price_rule": "前复权收盘价 = close * adj_factor / latest_adj_factor",
         "listing_filter": listing_filter,
+        "core_min_listing_months": core_min_listing_months,
+        "seed_min_listing_months": seed_min_listing_months,
         "weight_cap": float(strategy_config.get("weight_cap", WEIGHT_CAP)),
         "enhancement_bucket_pct": ENHANCEMENT_BUCKET_PCT,
         "momentum_lookback_rule": momentum_lookback_rule,
@@ -17095,8 +17406,7 @@ def main(argv: list[str] | None = None) -> None:
                     }
                     if not selected_base_ids or strategy_base_id in selected_base_ids:
                         equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary = run_backtest(prepared, strategy_config)
-                        summary["pool_id"] = "dynamic_index_core_explore_universe"
-                        summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
+                        apply_alpha_pool_summary(summary, strategy_config)
                         output_dir = build_pool_output_dir(strategy_base_id, str(sample_window["sample_tag"]))
                         save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary, output_dir)
                         print_summary(summary, latest_weights)
@@ -17111,8 +17421,7 @@ def main(argv: list[str] | None = None) -> None:
                             "strategy_name": f"{overlay_config['strategy_base_name']} ({sample_window['sample_label']})",
                         }
                         equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary = run_backtest(prepared, overlay_run_config)
-                        summary["pool_id"] = "dynamic_index_core_explore_universe"
-                        summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
+                        apply_alpha_pool_summary(summary, overlay_run_config)
                         output_dir = build_pool_output_dir(overlay_base_id, str(sample_window["sample_tag"]))
                         save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary, output_dir)
                         print_summary(summary, latest_weights)
@@ -17158,8 +17467,7 @@ def main(argv: list[str] | None = None) -> None:
                                 "strategy_name": f"{variant_base_name} ({sample_window['sample_label']})",
                             }
                             equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary = run_backtest(prepared, variant_config)
-                            summary["pool_id"] = "dynamic_index_core_explore_universe"
-                            summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
+                            apply_alpha_pool_summary(summary, variant_config)
                             output_dir = build_pool_output_dir(variant_base_id, str(sample_window["sample_tag"]))
                             save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary, output_dir)
                             print_summary(summary, latest_weights)
@@ -17174,8 +17482,7 @@ def main(argv: list[str] | None = None) -> None:
                                     "strategy_name": f"{overlay_config['strategy_base_name']} ({sample_window['sample_label']})",
                                 }
                                 equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary = run_backtest(prepared, overlay_run_config)
-                                summary["pool_id"] = "dynamic_index_core_explore_universe"
-                                summary["pool_name"] = "动态指数池(核心:沪深300+科创50, 探索:中证500+科创100+科创200)"
+                                apply_alpha_pool_summary(summary, overlay_run_config)
                                 output_dir = build_pool_output_dir(overlay_base_id, str(sample_window["sample_tag"]))
                                 save_outputs(equity_curve, monthly_returns, annual_returns, latest_weights, weights_history, turnover, summary, output_dir)
                                 print_summary(summary, latest_weights)
