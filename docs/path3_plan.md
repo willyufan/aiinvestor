@@ -998,3 +998,12 @@ Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_we
 - 五窗口结果：CAGR `12.96% / 15.80% / 11.94% / 15.11% / 119.82%`，最大回撤 `-20.32% / -25.75% / -14.69% / -18.03% / -7.08%`，换手 `1.50x / 1.37x / 1.18x / 2.13x / 5.76x`。
 - 结论：该线的 2026 弹性强，但 2020/2023 收益不足，`update_weighted_winners.py` validation 拒绝；Path 3 window winner、robust candidate 与 tracked payload 未改变。
 - 下一轮 focus：最终 guard 给出 `ashare_path3 -> risk_downshift`。下一轮第一候选建议在本轮结构上降低风险阈值而非继续拉长持有：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk20_weekly`，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk20_weekly`；新增前继续按 robust 排名归档一个低收益旧 weekly。
+
+## 本轮执行计划（2026-06-09 20:05 CST）
+
+- 上一轮候选/结果摘要：上一轮 `risk25_weekly` 的 2026 弹性强但 2020/2023 不足，本轮按 `risk_downshift` 把风险阈值降到 `risk20`，继续保持纯 `_weekly` Path 3 口径。
+- 本轮 active pool 处理：将旧活跃 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk25_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`。evict 原因：旧 risk25 线 2020/2023 收益不足且 validation 拒绝，继续占用 active weekly 池价值低。
+- 本轮候选 ID 与命令：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk20_weekly`；实际 A股合并命令使用五窗口 `--only-base-ids` 覆盖。
+- 五窗口结果：CAGR `15.02% / 18.88% / 12.88% / 15.11% / 119.82%`，最大回撤 `-18.56% / -25.87% / -12.88% / -18.03% / -7.08%`，换手 `1.37x / 1.17x / 0.91x / 2.13x / 5.76x`。
+- 结论：risk20 成为 Path 3 `since_2017_01` window winner，tracked payload 随 `update_weighted_winners.py` 更新；但 2020/2023 validation 仍未通过，robust candidate 未改变。
+- 下一轮 focus：最终 guard 给出 `ashare_path3 -> turnover_reduction` 且本路径 `changed=true / stagnation_runs=0`。下一轮第一候选建议在 risk20 基础上继续压 2026 换手：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold6_turn03_exit96_risk20_weekly`，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold6_turn03_exit96_risk20_weekly`；新增前继续按 robust 排名归档一个低收益旧 weekly。
