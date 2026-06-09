@@ -16,10 +16,15 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / "results/research/a_share/event_theme_registry.json"
 DEFAULT_CANDIDATES = ROOT / "results/research/a_share/event_theme_candidates.jsonl"
 DEFAULT_OUTPUT = ROOT / "results/research/a_share/event_theme_backtest_entry.json"
+DEFAULT_PATH4_STRATEGY_DIR = ROOT / "results/research/a_share/strategies"
+DEFAULT_PATH4_REFERENCE_STRATEGY_ID = (
+    "core_explore_80_20_total_mv_winner_core__"
+    "aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn"
+)
 DAILY_DIR = ROOT / "data_cache/daily"
 ADJ_DIR = ROOT / "data_cache/adj_factor"
 AUDITED_STATUSES = {"approved", "source_audited"}
-DEFAULT_HORIZONS = (20, 60, 120)
+DEFAULT_HORIZONS = (20, 40, 60)
 
 
 @dataclass
@@ -36,6 +41,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--registry-json", type=Path, default=DEFAULT_REGISTRY)
     parser.add_argument("--candidates-jsonl", type=Path, default=DEFAULT_CANDIDATES)
     parser.add_argument("--output-json", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--path4-reference-strategy-id", default=DEFAULT_PATH4_REFERENCE_STRATEGY_ID)
+    parser.add_argument("--path4-sample-tag", default="since_2026_01")
     return parser.parse_args()
 
 
@@ -167,6 +174,79 @@ def weighted_return(rows: list[dict], horizon: int, weight_key: str) -> dict:
     }
 
 
+def load_path4_latest_weights(strategy_id: str, sample_tag: str) -> dict:
+    path = DEFAULT_PATH4_STRATEGY_DIR / f"{strategy_id}.json"
+    if not path.exists():
+        return {
+            "status": "missing_reference_strategy",
+            "strategy_id": strategy_id,
+            "sample_tag": sample_tag,
+            "path": str(path.relative_to(ROOT)),
+            "latest_weights": [],
+        }
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    sample_view = payload.get("sample_views", {}).get(sample_tag, {})
+    latest_weights = [
+        row
+        for row in sample_view.get("latest_weights", [])
+        if row.get("ts_code") and row.get("ts_code") != "CASH"
+    ]
+    if not latest_weights:
+        return {
+            "status": "missing_latest_weights",
+            "strategy_id": strategy_id,
+            "sample_tag": sample_tag,
+            "path": str(path.relative_to(ROOT)),
+            "latest_weights": [],
+        }
+    return {
+        "status": "ok",
+        "strategy_id": strategy_id,
+        "sample_tag": sample_tag,
+        "path": str(path.relative_to(ROOT)),
+        "latest_weights": latest_weights,
+    }
+
+
+def path4_reference_overlap(candidates: list[dict], strategy_id: str, sample_tag: str) -> dict:
+    reference = load_path4_latest_weights(strategy_id, sample_tag)
+    if reference["status"] != "ok":
+        return reference
+
+    candidate_by_code = {row["ts_code"]: row for row in candidates}
+    path4_by_code = {row["ts_code"]: row for row in reference["latest_weights"]}
+    overlap_codes = sorted(set(candidate_by_code) & set(path4_by_code))
+    seed_total = sum(float(row.get("weight_seed", 0.0)) for row in candidates)
+    path4_overlap_weight = sum(float(path4_by_code[code].get("weight", 0.0)) for code in overlap_codes)
+    seed_overlap_weight = (
+        sum(float(candidate_by_code[code].get("weight_seed", 0.0)) for code in overlap_codes) / seed_total
+        if seed_total > 0
+        else None
+    )
+    return {
+        "status": "ok",
+        "strategy_id": strategy_id,
+        "sample_tag": sample_tag,
+        "candidate_count": len(candidates),
+        "path4_holding_count": len(path4_by_code),
+        "overlap_count": len(overlap_codes),
+        "overlap_ratio_of_basket": len(overlap_codes) / len(candidates) if candidates else 0.0,
+        "overlap_ratio_of_path4": len(overlap_codes) / len(path4_by_code) if path4_by_code else 0.0,
+        "path4_overlap_weight": path4_overlap_weight,
+        "seed_overlap_weight": seed_overlap_weight,
+        "overlap_holdings": [
+            {
+                "ts_code": code,
+                "name": candidate_by_code[code].get("name") or path4_by_code[code].get("name"),
+                "role": candidate_by_code[code].get("role"),
+                "seed_weight": candidate_by_code[code].get("weight_seed"),
+                "path4_weight": path4_by_code[code].get("weight"),
+            }
+            for code in overlap_codes
+        ],
+    }
+
+
 def main() -> None:
     args = parse_args()
     horizons = parse_horizons(args.horizons)
@@ -197,6 +277,9 @@ def main() -> None:
         "schema_version": 1,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "basket_id": args.basket_id,
+        "alpha_pool_profile": "event_kg_basket",
+        "pool_id": "path5_event_kg_basket",
+        "pool_name": "Path5 事件知识图谱冻结篮子",
         "theme_name": basket.get("theme_name"),
         "event_date": event_date,
         "sample_tags": [tag for tag in args.sample_tags.split(",") if tag],
@@ -204,6 +287,11 @@ def main() -> None:
         "horizons_trading_days": list(horizons),
         "portfolio_returns": portfolio,
         "candidate_returns": stock_rows,
+        "path4_reference_overlap": path4_reference_overlap(
+            candidates,
+            args.path4_reference_strategy_id,
+            args.path4_sample_tag,
+        ),
         "notes": "Entry probe only; computes post-event basket returns from audited frozen candidates and does not update official winners.",
     }
     args.output_json.parent.mkdir(parents=True, exist_ok=True)

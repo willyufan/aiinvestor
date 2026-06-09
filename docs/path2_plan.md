@@ -1940,3 +1940,11 @@
 - 五窗口结果：`80/20 equal_weight` CAGR `4.87% / 11.83% / 16.12% / 64.17% / 272.19%`，最大回撤 `-38.62% / -43.71% / -23.85% / -21.04% / -7.90%`，换手 `6.89x / 8.02x / 7.32x / 14.09x / 14.37x`；`70/30 equal_weight` CAGR `5.14% / 11.73% / 15.28% / 58.18% / 289.85%`，最大回撤最差 `-46.32%`。
 - 结论：v29 相比 v28 略改善部分短窗，但 2017/2020 回撤仍太深且换手极高；`scripts/path2_candidate_pass.py` 后候选池为 `948`，`biweekly_rebalance_aggressive=31`，Path 2 window winner、robust candidate 与 tracked payload 均未改变。
 - 下一轮 focus：最终 guard 给出 `ashare_path2 -> medium_cycle_growth`。下一轮不要继续只压双周 cap，建议回到中周期低集中度月频线：`aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle` 双底座，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v30_medium_cycle_ids>`。
+
+## 本轮执行计划（2026-06-10 04:41 CST）
+
+- 上一轮候选/结果摘要：上一轮 v29 双周弹性线长窗回撤和换手仍高；本轮按 `medium_cycle_growth` 回到月频中周期、低集中度 `liqmom_top12`，确认是否能降低 2017/2020 损伤。
+- 本轮候选 ID 与命令：`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle`、`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle`；实际 A股合并命令使用五窗口 `--only-base-ids` 覆盖。
+- 五窗口结果：`90/10 equal_weight` CAGR `9.77% / 11.04% / 7.92% / 24.68% / 27.93%`，最大回撤 `-20.25% / -13.94% / -14.76% / -10.75% / -10.74%`，换手 `4.75x / 4.06x / 3.65x / 10.33x / 9.24x`；`90/10 total_mv` CAGR `13.06% / 12.95% / 8.27% / 40.99% / 11.43%`，最大回撤 `-15.80% / -14.98% / -13.35% / -15.03% / -13.10%`。
+- 结论：v30 相比双周线显著降回撤和换手，但 2020/2023 收益不足，未改变 Path 2 window winner、robust candidate 或 tracked payload；`scripts/path2_candidate_pass.py` 后候选池为 `929`，说明移除 Path 4 emergent theme 后 Path 2 池已重新分离。
+- 下一轮 focus：最终 guard 给出 `ashare_path2 -> risk_reconfirm_sensitivity`。下一轮第一候选建议只微调确认强度和 cap：`aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v31_medium_cycle` 双底座，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v31_medium_cycle_ids>`。

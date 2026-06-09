@@ -1016,3 +1016,12 @@ Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_we
 - 五窗口结果：CAGR `6.98% / 9.33% / 12.99% / 33.96% / 98.31%`，最大回撤 `-18.11% / -27.27% / -9.30% / -14.50% / -12.93%`，换手 `0.97x / 0.71x / 0.69x / 0.61x / 3.36x`。
 - 结论：新线换手明显降低但收益不足，`update_weighted_winners.py` validation 拒绝；Path 3 window winner、robust candidate 与 tracked payload 未改变。最终 guard 显示 `ashare_path3_weekly_universe 60/60 complete`。
 - 下一轮 focus：最终 guard 给出 `ashare_path3 -> turnover_reduction`。下一轮不应继续只拉长持有，建议做同一低换手结构的收益修复：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold5_turn04_exit94_risk20_weekly`，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold5_turn04_exit94_risk20_weekly`。
+
+## 本轮执行计划（2026-06-10 04:41 CST）
+
+- 上一轮候选/结果摘要：上一轮 `hold6/turn03/exit96` 换手低但收益不足；本轮按收益修复思路回到 `hold5/turn04/exit94`，仍保持纯 `_weekly` 口径，不混入 Path 1 周度仓位 overlay。
+- 本轮 active pool 处理：将旧低收益 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold6_turn03_exit96_risk20_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`。evict 原因：换手低但五窗口收益不改善 robust，继续占用 `60` 个 weekly active 池价值低。
+- 本轮候选 ID 与命令：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold5_turn04_exit94_risk20_weekly`；实际 A股合并命令使用五窗口 `--only-base-ids` 覆盖。
+- 五窗口结果：CAGR `10.84% / 17.26% / 14.41% / 20.89% / 100.45%`，最大回撤 `-20.55% / -26.20% / -12.44% / -18.30% / -13.00%`，换手 `1.35x / 1.07x / 0.86x / 2.12x / 1.83x`。
+- 结论：新线相对上一轮收益修复有效、换手仍低，但 2020 回撤和 2025 收益不足，未改变 Path 3 window winner、robust candidate 或 tracked payload。
+- 下一轮 focus：最终 guard 给出 `ashare_path3 -> weekly_exit_buffer`。下一轮第一候选建议只放宽出场并观察 2023/2026：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold5_turn05_exit96_risk20_weekly`，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold5_turn05_exit96_risk20_weekly`；新增前继续归档一个低收益旧 weekly。

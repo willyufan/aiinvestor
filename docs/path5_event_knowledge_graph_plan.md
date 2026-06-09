@@ -284,3 +284,11 @@ Path 5 成立需要满足至少一个条件：
 - 入口结果：6 个冻结候选全部 eligible；事件后 20 个交易日等权收益 `41.75%`、seed 权重收益 `43.85%`。40/60 日仍因可用交易日不足为 `insufficient_data`，不作为有效策略结论。
 - 巡检结论：最终 guard 显示 `basket_count=1 / frozen_candidate_count=6 / pending_audit_count=0 / backtest_ready_count=6`，入口完整但样本数远不足。未新增第二篮子原因：本轮新增策略预算已投给 A股 Path1/2/3/4 与 HK Path1/2/3。
 - 下一轮 focus：最终 guard 给出 `ashare_path5 -> event_backtest_entry`。下一轮第一步扩展 runner 输出 Path 4 `signal30/leader80/prom16` 同期持仓重合度，并新增第二事件篮子 registry/candidates 草案；首条复核命令仍为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60`。
+
+## 本轮执行计划（2026-06-10 04:41 CST）
+
+- 上一轮候选/结果摘要：上一轮要求 entry runner 输出 Path 4 同期持仓重合度；本轮扩展 `scripts/event_theme_backtest_entry.py`，新增 `path4_reference_overlap`、`--path4-reference-strategy-id` 和 `--path4-sample-tag`，默认参考改为公开快照中实际存在的 Path 4 `signal30/leader80` strategy detail。
+- 本轮候选 ID 与命令：`mrc_uec_ai_network_20260506_v0`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60`。
+- 入口结果：6 个冻结候选全部 eligible；20 个交易日等权收益 `41.75%`、seed 权重收益 `43.85%`；40/60 日仍为 `insufficient_data`。Path 4 reference overlap 为 `0/6`、Path 4 最新持仓数 `18`、重合权重 `0.00%`，说明该事件篮子不是 Path 4 当前持仓的简单复述。
+- 巡检结论：registry/candidates 仍为 `basket_count=1 / frozen_candidate_count=6 / pending_audit_count=0 / backtest_ready_count=6`。本轮不把入口 probe 写入 winner/tracked，也未新增第二篮子，原因是新增策略预算优先给 A股 Path1/2/3/4 与 HK Path1-7。
+- 下一轮 focus：最终 guard 给出 `ashare_path5 -> path4_comparison`。下一轮第一步应保持 Path 4 overlap 输出并补第二事件篮子 registry/candidates 草案；首条命令仍为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn`，随后新增第二篮子审计记录。
