@@ -1504,3 +1504,11 @@
 - 五窗口结果：CAGR `20.00% / 22.29% / 24.07% / 35.53% / -11.28%`，最大回撤 `-21.43% / -19.59% / -11.98% / -6.68% / -6.45%`，换手 `4.97x / 4.81x / 4.81x / 5.72x / 6.27x`。
 - 结论：v31 buffer 长中窗可用，但 2026 仍显著为负；`update_hkconnect_artifacts.py` 后 HK Path 1 window winner、robust candidate 与 tracked payload 未改变。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> monthly_weekly_overlay`。下一轮第一候选建议回到月选周控而不是继续双周小修：`hkconnect_path1_monthly_quality_momentum_weekly_overlay_v32_ytd_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v32_ytd_repair`。
+
+## 本轮执行计划（2026-06-10 16:31 CST）
+
+- 上一轮候选/结果摘要：上一轮 v31 月周 overlay 未修复 2026；本轮执行 v32，把 `risk_off=0.16 / caution=0.68 / exit38 / max_holdings24 / cap7%` 作为 YTD 修复对照。
+- 本轮候选 ID 与命令：`hkconnect_path1_monthly_quality_momentum_weekly_overlay_v32_ytd_repair`；路径首命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v32_ytd_repair`。
+- 五窗口结果：CAGR `18.13% / 23.25% / 24.19% / 33.25% / -7.55%`，最大回撤 `-28.16% / -10.94% / -10.94% / -10.67% / -10.14%`，换手 `3.45x / 3.36x / 3.23x / 3.39x / 4.19x`。
+- 结论：v32 仍未修复 2026，且长中窗低于现有 Path1 winner/robust；`update_hkconnect_artifacts.py` 后 HK Path1 window winner、robust candidate 与 tracked payload 未改变。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> biweekly_buffer`。下一轮第一候选建议回到双周质量动量缓冲，并只做一次 YTD repair：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v32_ytd_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v32_ytd_repair`。

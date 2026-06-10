@@ -301,3 +301,12 @@ Path 5 成立需要满足至少一个条件：
 - Path 4 对比：默认参考 `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn` 的 `since_2026_01` 持仓，overlap 为 `0/6`、Path 4 持仓数 `18`、重合权重 `0.00%`。该事件篮子继续显示为可审计事件解释层，而不是 Path 4 当前强主题持仓的复述。
 - 巡检结论：最终 guard 显示 `basket_count=1 / frozen_candidate_count=6 / pending_audit_count=0 / backtest_ready_count=6`。本轮没有新增第二篮子，原因是新增策略预算已投给 A股 Path1/2/3/4 与 HK Path1-7；Path 5 仅保留入口 probe 和下一篮子设计。
 - 下一轮 focus：最终 guard 给出 `ashare_path5 -> frozen_candidate_audit`。由于当前 pending audit 为 `0`，该 focus 映射为“第二事件篮子审计池”；下一轮第一步新增第二个 `event_theme_registry`/`event_theme_candidates` 草案并同步 audit JSONL，随后复跑 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn`。
+
+## 本轮执行计划（2026-06-10 16:31 CST）
+
+- 上一轮候选/结果摘要：上一轮要求新增第二事件篮子审计池；本轮新增 `ai_power_liquid_cooling_20260528_v0`，主题为 `AI 电力与液冷基础设施`，只作为冻结审计草案，不作为有效策略结论。
+- 本轮候选 ID 与审计状态：第二篮子包含 `002837.SZ 英维克`、`002335.SZ 科华数据`、`002518.SZ 科士达`、`300442.SZ 润泽科技`、`300274.SZ 阳光电源`、`603063.SH 禾望电气`。已追加到 `event_theme_candidates.jsonl` 与 `event_theme_audit.jsonl`，全部为 `pending_primary_source_review / frozen=true / include_in_backtest=false / backtest_ready=false`。
+- 本轮 entry probe 命令：已审计篮子 `mrc_uec_ai_network_20260506_v0` 复跑 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,60,120`。
+- 入口结果：6 个已审计候选全部 eligible；事件后 20 个交易日等权收益 `41.75%`、seed 权重收益 `43.85%`，60/120 日因可用交易日不足仍为 `insufficient_data`。该结果继续保持 entry probe，不写入 winner/tracked。
+- 巡检结论：registry 现有 `2` 个 baskets；第二篮子有 `6` 个 pending audit 候选，未进入回测。最终 guard 给出 `ashare_path5 -> event_basket_registry`，说明下一轮先补 registry/source audit，而不是把第二篮子直接回测。
+- 下一轮 focus：下一轮第一步为第二篮子补主来源链接并把通过者写入 audit JSONL；只有至少 4 个候选 `source_audited` 后才允许回测。复核命令保留为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,60,120 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk14_cap08_exit62_lowturn`。
