@@ -1513,3 +1513,11 @@
 - 五窗口结果：CAGR `10.41% / 9.92% / 8.38% / 43.65% / 0.75%`，最大回撤 `-37.81% / -37.81% / -31.74% / -11.68% / -11.60%`，换手 `4.58x / 4.50x / 5.19x / 6.04x / 6.97x`。
 - 结论：v20 仍只有短窗弹性，2017/2020/2023 回撤过深；HK Path2 window winner、robust candidate 与 tracked payload 未改变。该结果支持停止 equal-elastic 小修。
 - 下一轮 focus：最终 guard 仍给出 `hkconnect_path2 -> elasticity_cost_control`，这里映射为“停止扩弹性、回到月频质量/流动性修复”。下一轮第一候选建议 `hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard`。
+
+## 本轮执行计划（2026-06-11 05:45 CST）
+
+- 上一轮候选/结果摘要：上一轮 equal-elastic terminal check 失败；本轮回到 high-return monthly + 质量/流动性 YTD recovery guard，目标是保住 2023 风险调整并尝试修复 2026。
+- 本轮候选 ID 与命令：`hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard`；实际 HK 合并命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <seven_hk_incremental_ids>`。
+- 五窗口结果：CAGR `19.15% / 23.28% / 29.49% / 30.95% / -7.55%`，最大回撤 `-21.93% / -10.61% / -10.61% / -10.84% / -9.51%`，换手 `2.87x / 2.75x / 2.74x / 3.41x / 4.00x`。
+- 结论：v31 低回撤属性仍在，但 2023 低于既有 v27 winner，2026 仍负；HK Path2 window winner、robust candidate 与 tracked payload 未改变。最终 guard 给出 `hkconnect_path2 -> biweekly_breakout / rotate`。
+- 下一轮 focus：下一轮第一候选建议只做一次低换手主题双周突破复核：`hkconnect_path2_theme_biweekly_cost_guard_v31_breakout_lowturn_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v31_breakout_lowturn_repair`；若仍高换手且 2026 为负，回到月频 robust。
