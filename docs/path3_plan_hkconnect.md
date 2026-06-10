@@ -827,3 +827,11 @@
 - 五窗口结果：CAGR `14.11% / 17.29% / 16.76% / 30.62% / 1.46%`，最大回撤 `-37.11% / -26.90% / -24.06% / -17.10% / -7.65%`，换手 `18.68x / 18.09x / 19.35x / 24.82x / 23.43x`。
 - 结论：stable blend 略改善 2026 为正但换手仍高，且长中窗弱于现有 robust；HK Path 3 winner、robust candidate 与 tracked payload 未改变。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> cost_stress`。下一轮应停止 theme-fast 小修，回到 stable weekly 防守低换手候选并做成本压力：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover3_exit40_v6`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover3_exit40_v6`。
+
+## 本轮执行计划（2026-06-10 10:40 CST）
+
+- 上一轮候选/结果摘要：上一轮 stable blend 仍高换手且收益不足；本轮回到 stable weekly 防守低换手候选，测试 `turnover3/exit40` 是否能降低成本压力，仍保持 HK Path 3 纯 weekly 口径。
+- 本轮候选 ID 与命令：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover3_exit40_v6`；实际 HK 合并命令使用五窗口 `--only-strategy-ids` 覆盖。
+- 五窗口结果：CAGR `17.54% / 19.28% / 20.80% / 36.04% / -0.28%`，最大回撤 `-30.13% / -19.96% / -12.41% / -12.78% / -8.95%`，换手 `6.57x / 6.48x / 7.09x / 8.00x / 9.04x`。
+- 结论：v6 明显低于 theme-fast 周频的换手，但 2026 未转正，且长中窗不改写 HK Path 3 winner 或 robust candidate；`update_hkconnect_artifacts.py` 后 tracked payload 未改变。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> weekly_defensive_overlay`。下一轮第一候选建议停止只压 stable weekly 换手，改测稳定 weekly 与主题快线混合防守：`hkconnect_path3_theme_fast_weekly_defensive_turnover3_exit58_v16_stable_blend`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover3_exit58_v16_stable_blend`。

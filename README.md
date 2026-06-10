@@ -248,8 +248,8 @@
 
 - 鲁棒赢家：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly`（核心80_探索20_等权底座_胜出者核心__进攻3/97 晋升2只(周频Alpha回踩, 熊市空仓, 单票80%, 持有3周, 换手25%, 单周)）
 - 加权指标（CAGR / Sharpe / Max DD / Turnover）：`17.67%` / `0.6935` / `-25.90%` / `4.89`
-- 单窗口最高收益（被鲁棒检验过滤）：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly`（核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有3周, 换手5%, 出场94%, 单周)）
-  - 该窗口指标（CAGR / Sharpe / Max DD / Turnover）：`19.26%` / `0.9011` / `-26.28%` / `1.92`
+- 单窗口最高收益（被鲁棒检验过滤）：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold5_turn05_exit96_risk20_weekly`（核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(成本压力熊市20%, 单票56%, 持有5周, 换手5%, 出场96%, 单周)）
+  - 该窗口指标（CAGR / Sharpe / Max DD / Turnover）：`22.13%` / `0.9747` / `-23.89%` / `1.63`
 
 窗口指标（截至 `2026-06-09`，权重：2020-01=100%）：
 

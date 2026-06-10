@@ -1948,3 +1948,11 @@
 - 五窗口结果：`90/10 equal_weight` CAGR `9.77% / 11.04% / 7.92% / 24.68% / 27.93%`，最大回撤 `-20.25% / -13.94% / -14.76% / -10.75% / -10.74%`，换手 `4.75x / 4.06x / 3.65x / 10.33x / 9.24x`；`90/10 total_mv` CAGR `13.06% / 12.95% / 8.27% / 40.99% / 11.43%`，最大回撤 `-15.80% / -14.98% / -13.35% / -15.03% / -13.10%`。
 - 结论：v30 相比双周线显著降回撤和换手，但 2020/2023 收益不足，未改变 Path 2 window winner、robust candidate 或 tracked payload；`scripts/path2_candidate_pass.py` 后候选池为 `929`，说明移除 Path 4 emergent theme 后 Path 2 池已重新分离。
 - 下一轮 focus：最终 guard 给出 `ashare_path2 -> risk_reconfirm_sensitivity`。下一轮第一候选建议只微调确认强度和 cap：`aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v31_medium_cycle` 双底座，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v31_medium_cycle_ids>`。
+
+## 本轮执行计划（2026-06-10 10:40 CST）
+
+- 上一轮候选/结果摘要：上一轮 v30 降低回撤但 2020/2023 收益不足；本轮按计划微调到 v31，把 `risk24/exit44/reconfirm97/caution56/cap20` 作为中周期低集中度确认。
+- 本轮候选 ID 与命令：`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v31_medium_cycle`、`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v31_medium_cycle`；实际命令与 Path 1/3 合并五窗口执行。
+- 五窗口结果：`90/10 equal_weight` CAGR `8.94% / 9.87% / 10.07% / 27.99% / 39.02%`，最大回撤 `-20.26% / -12.98% / -15.18% / -10.34% / -10.34%`，换手 `4.62x / 3.90x / 5.42x / 10.35x / 9.26x`；`90/10 total_mv` CAGR `11.06% / 10.27% / 13.95% / 43.64% / 21.53%`，最大回撤 `-16.05% / -15.49% / -14.94% / -14.94% / -12.99%`。
+- 结论：v31 相比高换手双周线更稳，但 2020/2023 仍低于现有 Path 2 winner/robust；`scripts/path2_candidate_pass.py` 后候选池为 `934`，Path 2 window winner、robust candidate 与 tracked payload 均未改变。
+- 下一轮 focus：最终 guard 给出 `ashare_path2 -> capacity_and_cost_stress`。下一轮第一候选建议继续压容量/成本而不是回到高集中突破：`aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk22_mom_exit42_reconfirm98_caution54_cap18_cost_guard_v32_capacity_stress` 双底座，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v32_capacity_ids>`；若 v32 仍弱，再停止该月频小修。
