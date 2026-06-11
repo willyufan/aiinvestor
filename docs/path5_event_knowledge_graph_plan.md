@@ -1,5 +1,15 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-12 05:28 CST 状态
+
+最终 guard 为 `pass`，Path5 入口已补齐为 `basket_count=2`、`active_basket_count=2`、`frozen_candidate_count=12`、`backtest_ready_count=12`、`pending_audit_count=0`。本轮读取 `results/research/a_share/event_theme_registry.json`、`results/research/a_share/event_theme_candidates.jsonl` 与已有 entry probe，未把事件篮子结果写入 A股 winner/tracked。
+
+本轮执行第二事件篮子 entry probe：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_power_liquid_cooling_20260528_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_power_liquid_cooling_20260528_v0.json`。该篮子 6 个候选中 5 个具备事件后价格数据，5 日等权 `-7.60%`、seed weight `-7.31%`，10 日等权 `-16.04%`、seed weight `-15.50%`，20 日仍 `insufficient_data`；与 Path4 参考持仓 overlap `0/6`。
+
+结论：第二篮子短期表现弱且与 Path4 强主题涌现无持仓重合，只作为可审计入口负样本；第一篮子 `mrc_uec_ai_network_20260506_v0` 仍是后续 Path4 同期比较主样本。本轮不新增 event winner、不改 tracked/live/public。最终 guard focus 为 `path4_comparison`。
+
+下一轮第一条命令建议先把第一篮子与当前 Path4 robust 做同口径复核，再补第二篮子 20D：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_mrc_uec_ai_network_20260506_v0.json`。
+
 ## 2026-06-07 16:06 CST 状态
 
 最终 guard 为 `pass`，Path5 仍处于事件入口、冻结候选池和来源审计阶段；`candidate_count=6`、`frozen_candidate_count=6`、`pending_audit_count=6`、`backtest_ready_count=0`。本轮读取 `results/research/a_share/event_theme_registry.json`、`results/research/a_share/event_theme_candidates.jsonl` 与 `results/research/a_share/event_theme_audit.jsonl`，没有把待审计 seed 当成有效策略结论，也没有注册真实 event backtest entry。

@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-12 05:28 CST）
+
+- 最终 guard 为 `pass`，`ashare_path3_weekly_universe 60/60 complete`；本轮继续只比较纯 `_weekly` 候选，没有把 Path1 月度选股 + 周度仓位 overlay 并入 Path3。上一轮 `cap52_hold5_turn05_exit98_risk18_weekly` 未晋级，本轮按 `risk_downshift` 做 `cap50/risk16` 低风险对照。
+- 本轮新增并五窗口确认 1 个 Path3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit98_risk16_weekly`。命令类型为五窗口 `--only-base-ids` 增量确认，覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。
+- 该候选五窗口 CAGR 为 `11.38% / 22.13% / 17.00% / 68.67% / 85.01%`，最大回撤为 `-28.03% / -25.33% / -14.58% / -14.92% / -12.88%`，Sharpe 为 `0.66 / 0.98 / 0.95 / 1.67 / 1.92`，换手为 `2.06x / 1.49x / 1.31x / 2.93x / 2.09x`。结论：收益不够成为 robust，但相对上一轮修复 `since_2020_01`，`scripts/update_weighted_winners.py` 后切换为 Path3 `since_2020_01` window winner。
+- Path3 robust candidate 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly`，`meanCAGR=29.78%`、`minCAGR=13.15%`；tracked composite 只同步 window winner 变化。为维持 active cap，本轮归档旧弱线 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold5_turn05_exit98_risk18_weekly`，原因是新 `cap50/risk16` 已覆盖同一 exit98 成本守门邻域且改善 2020。
+- 最终 guard focus 为 `turnover_reduction`。下一轮第一条命令建议只在新 2020 winner 上降换手并保留 2020/2023，不回到高换手弹性线：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold6_turn04_exit98_risk16_weekly`；若未注册，先加入 Path3 weekly scan 后再跑。
+
 ## 本轮执行计划（2026-06-07 16:06 CST）
 
 - 最终 guard 为 `pass`，`ashare_path3_weekly_universe 60/60 complete`；本轮继续只比较纯 `_weekly` 候选，没有把 Path1 月度选股 + 周度仓位 overlay 并入 Path3。上一轮 `cash_off_and_cap58_hold4_turn04_exit94_risk25_weekly` 降回撤但中窗收益不足，本轮按 `cost_stress` 加入成本守门并收紧出场到 `exit92`。

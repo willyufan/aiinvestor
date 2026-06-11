@@ -1,9 +1,9 @@
 {
-  "as_of": "2026-06-10",
+  "as_of": "2026-06-11",
   "family": "path1_fast_family",
-  "base_candidate_count": 113,
-  "candidate_count": 1243,
-  "overlay_candidate_count": 1130,
+  "base_candidate_count": 115,
+  "candidate_count": 1265,
+  "overlay_candidate_count": 1150,
   "direction_groups": {
     "promotion_ramp": [
       "aggr_10_90_fast_ramp",
@@ -27,6 +27,7 @@
       "aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm",
       "aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk16_reconfirm",
       "aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk15_reconfirm",
+      "aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk14_reconfirm",
       "aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk12_reconfirm"
     ],
     "signal_variants": [
@@ -85,7 +86,8 @@
       "aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_risk20_reconfirm",
       "aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk18_reconfirm",
       "aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk16_reconfirm",
-      "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk16_reconfirm"
+      "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk16_reconfirm",
+      "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk16_reconfirm"
     ],
     "holding_shape": [
       "share_15_85_hold_4_6",
@@ -135,9 +137,9 @@
   },
   "direction_candidate_counts": {
     "promotion_ramp": 5,
-    "satellite_defense": 15,
+    "satellite_defense": 16,
     "signal_variants": 2,
-    "core_multifactor": 52,
+    "core_multifactor": 53,
     "holding_shape": 28,
     "supporting_variants": 4,
     "drawdown_guard": 7
@@ -160,8 +162,8 @@
       "current": {
         "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered",
         "metrics": {
-          "cagr": 0.27230619,
-          "sharpe": 1.06904795,
+          "cagr": 0.27338199,
+          "sharpe": 1.07326249,
           "max_drawdown": -0.28349459,
           "turnover": 3.60124229
         }
@@ -224,8 +226,8 @@
         {
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered",
           "metrics": {
-            "cagr": 0.27230619,
-            "sharpe": 1.06904795,
+            "cagr": 0.27338199,
+            "sharpe": 1.07326249,
             "max_drawdown": -0.28349459,
             "turnover": 3.60124229
           }
@@ -237,8 +239,8 @@
       "current": {
         "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95_dd_guard50",
         "metrics": {
-          "cagr": 0.32326145,
-          "sharpe": 1.05975568,
+          "cagr": 0.32755342,
+          "sharpe": 1.07188489,
           "max_drawdown": -0.19014343,
           "turnover": 8.4938568
         }
@@ -292,8 +294,8 @@
         {
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__port_weekly_exposure_buffered",
           "metrics": {
-            "cagr": 0.36089327,
-            "sharpe": 1.00367673,
+            "cagr": 0.36186347,
+            "sharpe": 1.00586335,
             "max_drawdown": -0.30686676,
             "turnover": 4.05892581
           }
@@ -301,8 +303,8 @@
         {
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered",
           "metrics": {
-            "cagr": 0.35703461,
-            "sharpe": 0.9976514,
+            "cagr": 0.35823807,
+            "sharpe": 1.00037685,
             "max_drawdown": -0.31032703,
             "turnover": 4.07061146
           }
@@ -314,8 +316,8 @@
       "current": {
         "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm",
         "metrics": {
-          "cagr": 0.28815648,
-          "sharpe": 1.05089083,
+          "cagr": 0.2903742,
+          "sharpe": 1.05865749,
           "max_drawdown": -0.12042302,
           "turnover": 3.35560056
         }
@@ -383,8 +385,8 @@
       "current": {
         "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6",
         "metrics": {
-          "cagr": 0.95299113,
-          "sharpe": 2.03712652,
+          "cagr": 0.96393422,
+          "sharpe": 2.0590473,
           "max_drawdown": -0.1016771,
           "turnover": 4.36945861
         }

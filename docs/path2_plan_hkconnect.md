@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-12 05:28 CST）
+
+- 最终 guard 为 `pass`，HK Path2 coverage 完整；普通 breakout、inverse/equal elastic 继续按失败支线处理。上一轮 Path2 v31 ytd recovery guard 未改 robust，本轮只给 equal-elastic 月频终端确认一次机会。
+- 本轮新增并五窗口确认：`hkconnect_path2_equal_elastic_monthly_cost_guard_v21_terminal_check`。命令类型为五窗口 `--only-strategy-ids` 增量确认，覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。
+- `v21_terminal_check` 五窗口 CAGR 为 `10.63% / 10.31% / 9.18% / 45.42% / 9.53%`，最大回撤为 `-36.75% / -36.75% / -30.40% / -11.92% / -11.92%`，Sharpe 为 `0.60 / 0.55 / 0.50 / 1.68 / 0.39`，换手为 `4.38x / 4.30x / 4.98x / 5.89x / 6.84x`。结论：2023 仍远低于 `30%` 验收线，长窗回撤穿 `30%`，equal-elastic 终端确认失败，不替换 winner/robust/tracked。
+- `scripts/update_hkconnect_artifacts.py` 后 robust 仍为 `hkconnect_path2_theme_monthly_cost_control`；本轮无 HK Path2 evict。最终 guard focus 为 `high_return_monthly`。
+- 最终 guard focus 轮到 `biweekly_breakout`。下一轮第一条命令只允许一次主题双周 breakout 成本复核，而不是继续 elastic 支线：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v32_breakout_repair`；若未注册，先注册；若仍低于 `since_2023_01 >= 30%` 或长窗回撤继续穿 `30%`，停止 biweekly breakout 支线并转回 high-return monthly。
+
 ## 本轮执行计划（2026-06-07 23:50 CST）
 
 - 针对“为什么没有不断迭代”做修正：上一轮 HK Path2 只做巡检而未新增回测，原因是当轮预算投给其它 HK 扩展线与 A股路径，不是 Path2 停止研究。本轮把上一轮 `high_return_monthly` 预留 ID 注册并实际五窗口确认。

@@ -4,6 +4,14 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-12 05:28 CST）
+
+- 最终 guard 为 `pass`，`ashare_path1_core_multifactor 53/53 complete`、`ashare_path1_fast_family 116/116 complete`。上一轮 Path1 core `quality_profitability_growth_trend_signal_cashguard_risk16_reconfirm` 未改 winner/robust；本轮 rotation 指向 `satellite_risk_cost`，因此只注册并确认 1 个 satellite defense 风险下调候选，同时继续按代码实际池巡检 core_multifactor。
+- 本轮新增并五窗口确认 1 个 Path1 fast-pass base id：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk14_reconfirm`。命令类型为五窗口 `--only-base-ids` 增量确认，合并命令覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，并显式锁定 `--end-date 2026-06-11`。
+- `risk14_reconfirm` 五窗口 CAGR 为 `23.50% / 28.87% / 24.51% / 94.09% / 87.03%`，最大回撤为 `-12.84% / -12.02% / -18.28% / -10.91% / -6.61%`，Sharpe 为 `1.00 / 1.05 / 0.88 / 1.80 / 1.98`，换手为 `2.99x / 3.33x / 3.47x / 4.62x / 7.35x`。结论：回撤质量优于上一轮 risk16/risk20 邻域，`scripts/update_weighted_winners.py` 将 Path1 composite robust component 切到本轮 `risk14_reconfirm`，target weight `45%`；但 Path1 window winners 未切换。
+- core_multifactor 子段本轮只巡检，按代码实际池为 `53` 个，没有新增 overlay；`scripts/winner_only_pass.py` 仍以 exit `2` 提示旧候选在部分窗口有 clear improvement，本轮不把旧提示记作新实验。本轮没有 Path1 evict。
+- 最终 guard 将下一轮 focus 推到 `core_multifactor_coverage`。下一轮第一条命令建议注册并确认一个更强调质量/盈利/价值/低波/趋势信号的多因子防守对照：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_risk18_reconfirm`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS` 后再跑。
+
 ## 本轮执行计划（2026-06-07 16:06 CST）
 
 - 最终 guard 为 `pass`，`ashare_path1_core_multifactor 46/46 complete`、`ashare_path1_fast_family 107/107 complete`。上一轮已把下一候选指向 satellite risk/cost，本轮按该方向注册并五窗口确认 `risk12_reconfirm`，同时继续巡检 core_multifactor 实际池。

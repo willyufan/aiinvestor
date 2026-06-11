@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-12 05:28 CST）
+
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 954/954 complete`；`scripts/path2_candidate_pass.py` 重建 comparable universe 到 `954`。上一轮 v34 双底座未改 winner/robust，本轮按 `medium_cycle_growth` 增加双周弹性低换手 v35 对照，仍保持 Path2 独立于 Path4 emergent_theme。
+- 本轮新增并五窗口确认 2 个 Path2 `biweekly_rebalance_aggressive` 候选：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk22_exit42_cap18_cost_guard_v35_lowturn`、`core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk22_exit42_cap18_cost_guard_v35_lowturn`。命令类型为五窗口 `--only-base-ids` 增量确认，覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。
+- v35 `80/20 equal` 五窗口 CAGR 为 `-0.59% / 4.07% / -0.45% / 12.89% / 14.90%`，最大回撤为 `-56.05% / -29.05% / -23.17% / -17.64% / -17.82%`，2026 换手 `20.59x`；`70/30 equal` 为 `1.47% / 5.78% / 3.26% / 20.16% / 31.81%`，最大回撤 `-50.41% / -26.40% / -23.27% / -16.91% / -17.45%`，2026 换手 `19.68x`。结论：低 cap 没有修复 2017/2020/2023，短窗也被高换手侵蚀，不替换 Path2 window winner、robust candidate 或 tracked payload。
+- `path2_candidate_pass.py` 后 robust 仍为 `core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap95`，`meanCAGR=64.36%`、`minCAGR=36.67%`。本轮没有 Path2 evict；v35 只保留为“低 cap 双周弹性失败对照”。
+- 最终 guard focus 轮到 `risk_reconfirm_sensitivity`。下一轮第一条命令建议停止继续压 cap，回到 liqmom/promo 的风险确认邻域做双底座复核：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm98_caution54_cap24_cost_guard_v36_risk_reconfirm,core_explore_90_10_total_mv_winner_core__aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm98_caution54_cap24_cost_guard_v36_risk_reconfirm`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-07 16:06 CST）
 
 - 最终 guard 为 `pass`，`ashare_path2_candidate_universe 915/915 complete`；`scripts/path2_candidate_pass.py` 重建 comparable universe 到 `915`。上一轮 high-growth v23 仍未达 2023 验收线，本轮预算投给 Path1/3/4 与 HK Path3/4/6/7，Path2 不新增回测，只做 universe 巡检和下一轮候选设计。
