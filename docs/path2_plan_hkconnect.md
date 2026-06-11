@@ -1521,3 +1521,11 @@
 - 五窗口结果：CAGR `19.15% / 23.28% / 29.49% / 30.95% / -7.55%`，最大回撤 `-21.93% / -10.61% / -10.61% / -10.84% / -9.51%`，换手 `2.87x / 2.75x / 2.74x / 3.41x / 4.00x`。
 - 结论：v31 低回撤属性仍在，但 2023 低于既有 v27 winner，2026 仍负；HK Path2 window winner、robust candidate 与 tracked payload 未改变。最终 guard 给出 `hkconnect_path2 -> biweekly_breakout / rotate`。
 - 下一轮 focus：下一轮第一候选建议只做一次低换手主题双周突破复核：`hkconnect_path2_theme_biweekly_cost_guard_v31_breakout_lowturn_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v31_breakout_lowturn_repair`；若仍高换手且 2026 为负，回到月频 robust。
+
+## 本轮执行计划（2026-06-11 16:10 CST）
+
+- 上一轮候选/结果摘要：上一轮留下低换手主题双周突破 `v31_breakout_lowturn_repair`；本轮按 HK Path 2 独立候选执行，不与 A股 Path 2 或 Path 4 共用结论。
+- 本轮候选 ID 与命令：`hkconnect_path2_theme_biweekly_cost_guard_v31_breakout_lowturn_repair`；实际命令与 HK Path1/3 合并为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <three_hk_path1_2_3_ids>`。
+- 五窗口结果：CAGR `18.04% / 19.31% / 15.39% / 34.23% / -6.09%`，最大回撤 `-24.51% / -24.51% / -21.82% / -16.43% / -9.25%`，换手 `11.66x / 11.31x / 11.95x / 15.36x / 15.03x`。
+- 结论：v31 仍是高换手且 2023/2026 不足，未改变 HK Path 2 window winner、robust candidate 或 tracked payload；`update_hkconnect_artifacts.py` 已同步 comparison。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> elasticity_cost_control`。由于 equal-elastic 族前几轮 terminal check 失败，下一轮只允许一次更硬成本终端确认：`hkconnect_path2_equal_elastic_monthly_cost_guard_v21_terminal_check`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v21_terminal_check`；若仍弱，停止扩 elastic 并回到月频 robust。

@@ -1520,3 +1520,11 @@
 - 五窗口结果：CAGR `19.22% / 21.03% / 21.77% / 32.48% / -11.95%`，最大回撤 `-21.24% / -19.43% / -11.56% / -8.50% / -6.37%`，换手 `4.70x / 4.57x / 4.60x / 5.36x / 5.73x`。
 - 结论：v32 双周线长中窗低于现有 HK Path1 winner/robust，且 2026 更弱；`update_hkconnect_artifacts.py` 后 window winner、robust candidate 与 tracked payload 未改变。最终 guard 显示 `hkconnect_path1 -> risk_overlay_cost / rotate`，停滞计数仍高。
 - 下一轮 focus：下一轮第一候选建议在双周质量动量线上只做一次风险 overlay 成本修复：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v33_risk_overlay_cost_guard`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v33_risk_overlay_cost_guard`；若 2026 仍显著为负，回到低波 robust 而不是继续质量动量小修。
+
+## 本轮执行计划（2026-06-11 16:10 CST）
+
+- 上一轮候选/结果摘要：上一轮留下双周质量动量 `v33_risk_overlay_cost_guard`；本轮按 HK Path 1 独立口径执行五窗口增量，不并入 A股 winner 结论。
+- 本轮候选 ID 与命令：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v33_risk_overlay_cost_guard`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v33_risk_overlay_cost_guard,hkconnect_path2_theme_biweekly_cost_guard_v31_breakout_lowturn_repair,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover2_exit40_v8_lowturn_repair`。
+- 五窗口结果：CAGR `18.22% / 20.40% / 20.43% / 31.30% / -12.70%`，最大回撤 `-22.63% / -19.88% / -11.42% / -9.19% / -6.70%`，换手 `4.60x / 4.43x / 4.52x / 5.32x / 5.72x`。
+- 结论：v33 长中窗继续低于现有 HK Path 1 winner/robust，2026 仍明显为负；`scripts/update_hkconnect_artifacts.py` 后 window winner、robust candidate 与 tracked payload 未改变。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> biweekly_buffer`。下一轮第一候选建议回到双周缓冲但加入低波/YTD 修复：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v34_lowvol_ytd_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v34_lowvol_ytd_repair`；若未注册，先只增加这一条。
