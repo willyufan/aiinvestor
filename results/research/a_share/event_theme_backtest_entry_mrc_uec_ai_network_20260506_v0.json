@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-10T21:42:49.115440+00:00",
+  "generated_at": "2026-06-12T21:08:25.005748+00:00",
   "basket_id": "mrc_uec_ai_network_20260506_v0",
   "alpha_pool_profile": "event_kg_basket",
   "pool_id": "path5_event_kg_basket",
@@ -14,8 +14,8 @@
   "candidate_count": 6,
   "horizons_trading_days": [
     20,
-    60,
-    120
+    40,
+    60
   ],
   "portfolio_returns": {
     "20": {
@@ -46,7 +46,7 @@
         }
       }
     },
-    "60": {
+    "40": {
       "equal_weight": {
         "status": "insufficient_data",
         "eligible_count": 0
@@ -56,7 +56,7 @@
         "eligible_count": 0
       }
     },
-    "120": {
+    "60": {
       "equal_weight": {
         "status": "insufficient_data",
         "eligible_count": 0
@@ -82,13 +82,13 @@
           "end_date": "2026-06-03",
           "return": 0.5731907894736843
         },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 27
+        },
         "60": {
           "status": "insufficient_data",
-          "available_trading_days": 25
-        },
-        "120": {
-          "status": "insufficient_data",
-          "available_trading_days": 25
+          "available_trading_days": 27
         }
       }
     },
@@ -106,13 +106,13 @@
           "end_date": "2026-06-03",
           "return": 0.329999156640433
         },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 27
+        },
         "60": {
           "status": "insufficient_data",
-          "available_trading_days": 25
-        },
-        "120": {
-          "status": "insufficient_data",
-          "available_trading_days": 25
+          "available_trading_days": 27
         }
       }
     },
@@ -130,13 +130,13 @@
           "end_date": "2026-06-03",
           "return": 0.49718649517684876
         },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 27
+        },
         "60": {
           "status": "insufficient_data",
-          "available_trading_days": 25
-        },
-        "120": {
-          "status": "insufficient_data",
-          "available_trading_days": 25
+          "available_trading_days": 27
         }
       }
     },
@@ -154,13 +154,13 @@
           "end_date": "2026-06-03",
           "return": 0.48948598130841114
         },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 27
+        },
         "60": {
           "status": "insufficient_data",
-          "available_trading_days": 25
-        },
-        "120": {
-          "status": "insufficient_data",
-          "available_trading_days": 25
+          "available_trading_days": 27
         }
       }
     },
@@ -178,13 +178,13 @@
           "end_date": "2026-06-03",
           "return": 0.01977516148712022
         },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 27
+        },
         "60": {
           "status": "insufficient_data",
-          "available_trading_days": 25
-        },
-        "120": {
-          "status": "insufficient_data",
-          "available_trading_days": 25
+          "available_trading_days": 27
         }
       }
     },
@@ -202,13 +202,13 @@
           "end_date": "2026-06-03",
           "return": 0.5952452714034009
         },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 27
+        },
         "60": {
           "status": "insufficient_data",
-          "available_trading_days": 25
-        },
-        "120": {
-          "status": "insufficient_data",
-          "available_trading_days": 25
+          "available_trading_days": 27
         }
       }
     }
@@ -217,41 +217,22 @@
     "status": "ok",
     "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn",
     "sample_tag": "since_2026_01",
+    "event_date": "2026-05-06",
+    "reference_as_of": "2026-04-30",
     "candidate_count": 6,
-    "path4_holding_count": 18,
-    "overlap_count": 4,
-    "overlap_ratio_of_basket": 0.6666666666666666,
-    "overlap_ratio_of_path4": 0.2222222222222222,
-    "path4_overlap_weight": 0.244481,
-    "seed_overlap_weight": 0.7506596514512331,
+    "path4_holding_count": 13,
+    "overlap_count": 1,
+    "overlap_ratio_of_basket": 0.16666666666666666,
+    "overlap_ratio_of_path4": 0.07692307692307693,
+    "path4_overlap_weight": 0.055951,
+    "seed_overlap_weight": 0.21066713013435295,
     "overlap_holdings": [
       {
         "ts_code": "300394.SZ",
         "name": "天孚通信",
         "role": "光器件/高速互连",
         "seed_weight": 0.12,
-        "path4_weight": 0.046068
-      },
-      {
-        "ts_code": "300408.SZ",
-        "name": "三环集团",
-        "role": "电子陶瓷/高速连接材料",
-        "seed_weight": 0.06759,
-        "path4_weight": 0.115738
-      },
-      {
-        "ts_code": "300502.SZ",
-        "name": "新易盛",
-        "role": "高速光模块",
-        "seed_weight": 0.12,
-        "path4_weight": 0.05436
-      },
-      {
-        "ts_code": "688498.SH",
-        "name": "源杰科技",
-        "role": "光芯片/激光器",
-        "seed_weight": 0.12,
-        "path4_weight": 0.028315
+        "path4_weight": 0.055951
       }
     ]
   },

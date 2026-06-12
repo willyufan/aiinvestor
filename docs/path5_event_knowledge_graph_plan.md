@@ -1,5 +1,15 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-13 05:09 CST 状态
+
+最终 guard 为 `pass`，Path5 入口维持 `basket_count=2`、`active_basket_count=2`、`frozen_candidate_count=12`、`backtest_ready_count=12`、`pending_audit_count=0`。本轮读取 registry/candidates，并执行第一篮子与 Path4 同期持仓的事件 entry probe；未把事件篮子写入 A股 winner/tracked。
+
+本轮命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_mrc_uec_ai_network_20260506_v0.json`。
+
+结果：事件日 `2026-05-06` 后 20 个交易日，6 个候选全部具备数据，等权收益 `41.75%`、seed weight 收益 `43.85%`；40/60 日因当前只有 27 个可用交易日仍为 `insufficient_data`。Path4 参考快照按事件日前 `2026-04-30` 取数，overlap 为 `1/6`，重合标的是 `300394.SZ 天孚通信`，Path4 重合权重 `5.60%`、seed 重合权重 `21.07%`。
+
+结论：第一篮子继续显示强 20D 事件后收益，且与 Path4 事前持仓低重合，说明 Path5 的可审计事件篮子有增量信息；但样本仍只有 2 个篮子且 40/60D 不足，不进入 winner/tracked。下一轮 focus 为 `event_basket_registry`，第一条命令建议补第二篮子 20/40/60D 并登记第三个候选事件草案：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_power_liquid_cooling_20260528_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_power_liquid_cooling_20260528_v0.json`。
+
 ## 2026-06-12 05:28 CST 状态
 
 最终 guard 为 `pass`，Path5 入口已补齐为 `basket_count=2`、`active_basket_count=2`、`frozen_candidate_count=12`、`backtest_ready_count=12`、`pending_audit_count=0`。本轮读取 `results/research/a_share/event_theme_registry.json`、`results/research/a_share/event_theme_candidates.jsonl` 与已有 entry probe，未把事件篮子结果写入 A股 winner/tracked。

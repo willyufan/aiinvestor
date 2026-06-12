@@ -174,47 +174,79 @@ def weighted_return(rows: list[dict], horizon: int, weight_key: str) -> dict:
     }
 
 
-def load_path4_latest_weights(strategy_id: str, sample_tag: str) -> dict:
+def normalize_date(raw_date: object) -> str:
+    return str(raw_date or "").strip()[:10]
+
+
+def load_path4_weights_as_of(strategy_id: str, sample_tag: str, event_date: str) -> dict:
     path = DEFAULT_PATH4_STRATEGY_DIR / f"{strategy_id}.json"
     if not path.exists():
         return {
             "status": "missing_reference_strategy",
             "strategy_id": strategy_id,
             "sample_tag": sample_tag,
+            "event_date": event_date,
+            "reference_as_of": None,
             "path": str(path.relative_to(ROOT)),
-            "latest_weights": [],
+            "weights": [],
         }
     payload = json.loads(path.read_text(encoding="utf-8"))
     sample_view = payload.get("sample_views", {}).get(sample_tag, {})
-    latest_weights = [
-        row
-        for row in sample_view.get("latest_weights", [])
-        if row.get("ts_code") and row.get("ts_code") != "CASH"
+    event_day = normalize_date(event_date)
+    snapshots = [
+        snapshot
+        for snapshot in sample_view.get("snapshots", [])
+        if normalize_date(snapshot.get("date"))
+        and normalize_date(snapshot.get("date")) <= event_day
+        and snapshot.get("holdings")
     ]
-    if not latest_weights:
+    if not snapshots:
         return {
-            "status": "missing_latest_weights",
+            "status": "missing_reference_snapshot",
             "strategy_id": strategy_id,
             "sample_tag": sample_tag,
+            "event_date": event_date,
+            "reference_as_of": None,
             "path": str(path.relative_to(ROOT)),
-            "latest_weights": [],
+            "weights": [],
+        }
+    reference_snapshot = max(snapshots, key=lambda snapshot: normalize_date(snapshot.get("date")))
+    reference_as_of = normalize_date(reference_snapshot.get("date"))
+    if reference_as_of > event_day:
+        raise SystemExit(f"Path4 reference snapshot {reference_as_of} is after event date {event_day}")
+    weights = [
+        row
+        for row in reference_snapshot.get("holdings", [])
+        if row.get("ts_code") and row.get("ts_code") != "CASH"
+    ]
+    if not weights:
+        return {
+            "status": "missing_reference_weights",
+            "strategy_id": strategy_id,
+            "sample_tag": sample_tag,
+            "event_date": event_date,
+            "reference_as_of": reference_as_of,
+            "path": str(path.relative_to(ROOT)),
+            "weights": [],
         }
     return {
         "status": "ok",
         "strategy_id": strategy_id,
         "sample_tag": sample_tag,
+        "event_date": event_date,
+        "reference_as_of": reference_as_of,
         "path": str(path.relative_to(ROOT)),
-        "latest_weights": latest_weights,
+        "weights": weights,
     }
 
 
-def path4_reference_overlap(candidates: list[dict], strategy_id: str, sample_tag: str) -> dict:
-    reference = load_path4_latest_weights(strategy_id, sample_tag)
+def path4_reference_overlap(candidates: list[dict], strategy_id: str, sample_tag: str, event_date: str) -> dict:
+    reference = load_path4_weights_as_of(strategy_id, sample_tag, event_date)
     if reference["status"] != "ok":
         return reference
 
     candidate_by_code = {row["ts_code"]: row for row in candidates}
-    path4_by_code = {row["ts_code"]: row for row in reference["latest_weights"]}
+    path4_by_code = {row["ts_code"]: row for row in reference["weights"]}
     overlap_codes = sorted(set(candidate_by_code) & set(path4_by_code))
     seed_total = sum(float(row.get("weight_seed", 0.0)) for row in candidates)
     path4_overlap_weight = sum(float(path4_by_code[code].get("weight", 0.0)) for code in overlap_codes)
@@ -227,6 +259,8 @@ def path4_reference_overlap(candidates: list[dict], strategy_id: str, sample_tag
         "status": "ok",
         "strategy_id": strategy_id,
         "sample_tag": sample_tag,
+        "event_date": event_date,
+        "reference_as_of": reference["reference_as_of"],
         "candidate_count": len(candidates),
         "path4_holding_count": len(path4_by_code),
         "overlap_count": len(overlap_codes),
@@ -291,6 +325,7 @@ def main() -> None:
             candidates,
             args.path4_reference_strategy_id,
             args.path4_sample_tag,
+            event_date,
         ),
         "notes": "Entry probe only; computes post-event basket returns from audited frozen candidates and does not update official winners.",
     }

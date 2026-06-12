@@ -32,6 +32,13 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-06-13 05:09 CST）
+
+- 最终 guard 为 `pass`，`ashare_path4_emergent_theme 60/60 complete`；本轮继续只使用市场结构涌现信号，不使用人工主题标签、不纳入 ETF。上一轮 prom20/signal28 未改善 robust；本轮未新增 Path4 回测，预算投给 HK 与 Path5 事件篮子，但重新同步 weighted winners 后 Path4 robust/tracked 口径发生有效变化。
+- 本轮候选/结果摘要：`scripts/update_weighted_winners.py` 将 Path4 robust candidate 切到 `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn`，四窗口 robust 指标为 `meanCAGR=21.54%`、`minCAGR=10.87%`、最差回撤 `-17.45%`、平均换手 `4.49x`；它不是短窗单票幸运，`since_2026_01` 最新 top3 权重约 `28.47%`，但 2020/2023 稳定性仍弱于完全晋级要求。
+- 本轮命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/update_weighted_winners.py`；没有新增 Path4 `--only-base-ids`，也没有新增 evict。Path5 新事件篮子复核与该 Path4 参考持仓在事件日前快照 `2026-04-30` 仅重合 `1/6`，说明 Path5 能提供独立候选层。
+- 下一轮 focus 继续为 `emergent_theme_coverage`。新增前先 evict 一条旧弱线，然后注册更宽 promotion 但不继续降低 signal 质量的对照：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk14_cap08_exit62_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk14_cap08_exit62_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk14_cap08_exit62_lowturn`；若未注册，先加入 `PATH4_THEME_DISCOVERY_VARIANT_IDS`。
+
 ## 本轮执行计划（2026-06-12 05:28 CST）
 
 - 最终 guard 为 `pass`，`ashare_path4_emergent_theme 60/60 complete`；本轮继续只使用市场结构涌现信号，不使用人工主题标签、不纳入 ETF。上一轮 prom20/signal30/leader80 未改 robust，本轮按 `emergent_theme_coverage` 降到 `signal28/leader78`，保持 `prom20/risk14/cap08/exit62/lowturn`，检查更宽覆盖是否改善中窗。

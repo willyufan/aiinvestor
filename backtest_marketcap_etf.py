@@ -4115,6 +4115,33 @@ WINNER_CORE_VARIANTS = [
         "weight_cap": 0.30,
     },
     {
+        "variant_id": "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm98_caution54_cap24_cost_guard_v36_risk_reconfirm",
+        "variant_name": "进攻3/97 晋升3只(量价前12%, 动量三档24%, 出场44%, 恢复98, 谨慎54%, 单票24%, 成本防守v36风险确认)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "6_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.12,
+        "standard_promotion_min_momentum_6_1_rank": 0.98,
+        "standard_promotion_min_momentum_3_1_rank": 0.74,
+        "fast_promotion_percentile": 0.075,
+        "fast_promotion_min_momentum_6_1_rank": 0.985,
+        "fast_promotion_min_momentum_3_1_rank": 0.78,
+        "fast_promotion_min_recent_1m_return": 0.02,
+        "fast_promotion_min_amount_surge_ratio": 1.28,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_caution_exposure": 0.54,
+        "satellite_caution_exposure": 0.36,
+        "core_risk_off_exposure": 0.24,
+        "satellite_risk_off_exposure": 0.24,
+        "promoted_core_sell_exit_percentile": 0.44,
+        "weight_cap": 0.24,
+    },
+    {
         "variant_id": "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk30_mom_exit50_reconfirm92_caution60_cap32_cost_guard_v24_medium_cycle",
         "variant_name": "进攻3/97 晋升3只(量价前12%, 动量三档30%, 出场50%, 恢复92, 谨慎60%, 单票32%, 成本防守v24中周期)",
         "winner_core_stable_share": 0.03,
@@ -7531,6 +7558,24 @@ WINNER_CORE_VARIANTS = [
         "rebalance_frequency": "weekly",
         "weekly_min_hold_periods": 5,
         "weekly_turnover_cap": 0.05,
+    },
+    {
+        "variant_id": "aggr_08_92_prom6_cost_guard_cap50_hold6_turn04_exit98_risk16_weekly",
+        "variant_name": "进攻8/92 晋升6只(成本压力熊市16%, 单票50%, 持有6周, 换手4%, 出场98%, 单周)",
+        "winner_core_stable_share": 0.08,
+        "winner_core_promoted_share": 0.92,
+        "stable_core_max_holdings": 2,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.16,
+        "satellite_risk_off_exposure": 0.16,
+        "promoted_core_sell_exit_percentile": 0.98,
+        "weight_cap": 0.50,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 6,
+        "weekly_turnover_cap": 0.04,
     },
     {
         "variant_id": "aggr_08_92_prom6_weekly_alpha_balanced_risk50_cap40_hold2_turn40_weekly",
@@ -11662,6 +11707,7 @@ PATH2_SCAN_FAMILY_RULES = {
             "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk22_mom_exit42_reconfirm98_caution52_cap22_cost_guard_v21",
             "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution56_cap28_cost_guard_v22_growth_restore",
             "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution58_cap30_cost_guard_v23_risk_reconfirm",
+            "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm98_caution54_cap24_cost_guard_v36_risk_reconfirm",
             "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk30_mom_exit50_reconfirm92_caution60_cap32_cost_guard_v24_medium_cycle",
             "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk32_mom_exit52_reconfirm90_caution62_cap28_cost_guard_v25_medium_cycle",
             "aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk30_mom_exit50_reconfirm95_caution62_cap28_cost_guard_v26_medium_cycle",
@@ -12322,6 +12368,7 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk22_mom_exit42_reconfirm98_caution52_cap22_cost_guard_v21",
     "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution56_cap28_cost_guard_v22_growth_restore",
     "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution58_cap30_cost_guard_v23_risk_reconfirm",
+    "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm98_caution54_cap24_cost_guard_v36_risk_reconfirm",
     "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk30_mom_exit50_reconfirm92_caution60_cap32_cost_guard_v24_medium_cycle",
     "aggr_03_97_prom3_core_6_1_promo_liqmom_top12_risk32_mom_exit52_reconfirm90_caution62_cap28_cost_guard_v25_medium_cycle",
     "aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk30_mom_exit50_reconfirm95_caution62_cap28_cost_guard_v26_medium_cycle",
@@ -12358,9 +12405,11 @@ PATH2_SCAN_VARIANT_IDS = [
     "aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit96_risk18_weekly",
     "aggr_08_92_prom6_cost_guard_cap52_hold5_turn05_exit98_risk18_weekly",
     "aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit98_risk16_weekly",
+    "aggr_08_92_prom6_cost_guard_cap50_hold6_turn04_exit98_risk16_weekly",
 ]
 
 PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS = [
+    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn03_exit94_risk25_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold5_turn05_exit98_risk18_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit96_risk18_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit96_risk18_weekly",
@@ -12519,6 +12568,25 @@ def extract_winner_variant_id(strategy_base_id: str) -> str | None:
     return base_id.rsplit("__", 1)[1]
 
 
+def is_path2_scan_strategy_base_id(strategy_base_id: str) -> bool:
+    base_id = strip_weekly_overlay_suffix(strategy_base_id)
+    variant_id = extract_winner_variant_id(base_id)
+    if any(base_id.startswith(str(prefix)) for prefix in PATH2_SCAN_BASE_PREFIXES):
+        return True
+    if variant_id is not None and variant_id in PATH2_SCAN_VARIANT_IDS:
+        return True
+    for family_meta in PATH2_SCAN_FAMILY_RULES.values():
+        prefixes = family_meta.get("prefixes") or []
+        prefix_only_prefixes = family_meta.get("prefix_only_prefixes") or []
+        variant_ids = family_meta.get("variant_ids") or []
+        prefix_ok = not prefixes or any(base_id.startswith(str(prefix)) for prefix in prefixes)
+        variant_match = bool(variant_id and variant_id in variant_ids and prefix_ok)
+        prefix_only_match = any(base_id.startswith(str(prefix)) for prefix in prefix_only_prefixes)
+        if variant_match or prefix_only_match:
+            return True
+    return False
+
+
 def get_strategy_alpha_pool_profile(strategy_config: Dict[str, object]) -> str:
     explicit = str(strategy_config.get("alpha_pool_profile", "") or "").strip()
     if explicit:
@@ -12535,14 +12603,9 @@ def get_strategy_alpha_pool_profile(strategy_config: Dict[str, object]) -> str:
         or (variant_id is not None and variant_id in PATH4_THEME_DISCOVERY_VARIANT_IDS)
     ):
         return ALPHA_POOL_PROFILE_EMERGENT_THEME
-    base_id = strip_weekly_overlay_suffix(str(strategy_config.get("strategy_base_id", "") or ""))
     if (
         promotion_signal_mode == "liquidity_momentum"
-        or (
-            base_id.startswith("core_explore_90_10_equal_weight_winner_core")
-            and variant_id is not None
-            and variant_id in PATH2_SCAN_VARIANT_IDS
-        )
+        or is_path2_scan_strategy_base_id(str(strategy_config.get("strategy_base_id", "") or ""))
     ):
         return ALPHA_POOL_PROFILE_GROWTH_ELASTIC
     return ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED
