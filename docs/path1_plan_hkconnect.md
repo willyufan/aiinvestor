@@ -1,5 +1,12 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-06-14 05:29 CST）
+
+- 最终 guard 为 `pass`，HK 总候选 `363/363 complete`；本轮按上一轮计划注册并确认 lowvol + risk overlay 的 monthly-weekly 2026 修复候选，保持 HK Path1 独立研究线，不并入 A股 winner 结论。
+- 本轮新增并五窗口确认：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_risk_overlay_cost_v37_2026_repair`。命令类型为五窗口 `--only-strategy-ids` 增量确认，实际命令与 HK Path5/6/7 合并：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_risk_overlay_cost_v37_2026_repair,hkconnect_path5_breakout_retest_biweekly_quality_confirm_v13_ytd_guard,hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v19,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_ytd_guard_v19`。
+- `v37_2026_repair` 五窗口 CAGR 为 `18.18% / 21.35% / 23.91% / 31.09% / -9.94%`，最大回撤为 `-19.47% / -10.94% / -9.89% / -9.69% / -7.94%`，换手为 `3.39x / 3.31x / 3.07x / 3.32x / 4.05x`。结论：2020-2025 有可比性且回撤浅于部分旧 monthly-weekly 线，但 2026 更弱为负，不替换 Path1 window winner、robust candidate 或 tracked payload。
+- `scripts/update_hkconnect_artifacts.py` 后 Path1 robust 仍为 `hkconnect_path1_biweekly_lowvol`，本轮无 HK Path1 evict。最终 focus 为 `monthly_weekly_overlay`，下一轮第一条命令建议停止继续单纯 lowvol/risk overlay，转向质量 + 低波混合月周 overlay：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_quality_lowvol_mix_v38_monthly_overlay`；若未注册，先在 HK Path1 variants 中注册。
+
 ## 本轮执行计划（2026-06-13 17:30 CST）
 
 - 最终 guard 为 `pass`，HK 总候选 `359/359 complete`；本轮按上一轮计划注册并确认 monthly-weekly overlay 的 2026 修复候选，保持 HK Path1 独立研究线，不并入 A股 winner 结论。

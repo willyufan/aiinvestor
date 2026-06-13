@@ -1,5 +1,15 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-14 05:29 CST 状态
+
+最终 guard 为 `pass`，Path5 入口维持 `basket_count=2`、`active_basket_count=2`、`frozen_candidate_count=12`、`backtest_ready_count=12`、`pending_audit_count=0`。本轮读取 registry/candidates，并对第二篮子 `ai_power_liquid_cooling_20260528_v0` 执行 5/10/20/40/60D event entry probe；未把事件篮子写入 A股 winner/tracked。
+
+本轮命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_power_liquid_cooling_20260528_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_power_liquid_cooling_20260528_v0.json`。
+
+结果：该篮子 6 个冻结候选中 5 个有事件后价格数据；5D 等权 `-7.60%`、seed weight `-7.31%`，10D 等权 `-16.04%`、seed weight `-15.50%`，20/40/60D 因当前只有 `11` 个可用交易日仍为 `insufficient_data`；`603063.SH 禾望电气` 暂无事件后价格。Path4 参考快照按事件日前 `2026-04-30` 取数，overlap 为 `0/6`，Path4 重合权重为 `0`。
+
+结论：第二篮子短期为负样本，且与 Path4 强主题涌现没有持仓重合，说明它提供的是独立事件层候选而非行情涌现的同形复述。本轮不新增 event winner、不改 tracked/live/public。最终 focus 为 `path4_comparison`，下一轮第一条动作应先把第一篮子和第二篮子用同一 Path4 参考重新并列表，再等待第二篮子 20D 数据成熟：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_mrc_uec_ai_network_20260506_v0.json`。
+
 ## 2026-06-13 17:30 CST 状态
 
 最终 guard 为 `pass`，Path5 入口维持 `basket_count=2`、`active_basket_count=2`、`frozen_candidate_count=12`、`backtest_ready_count=12`、`pending_audit_count=0`。本轮读取 registry/candidates，并执行第二篮子 `ai_power_liquid_cooling_20260528_v0` 的 20/40/60D event entry probe；未把事件篮子写入 A股 winner/tracked。

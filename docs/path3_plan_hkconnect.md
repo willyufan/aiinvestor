@@ -1,5 +1,12 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-14 05:29 CST）
+
+- 最终 guard 为 `pass`，HK Path3 coverage 完整；本轮保持纯周频口径，没有把 HK Path1/2 的月频或双周候选并入本路径。由于本轮 HK 新增预算投给 Path1/5/6/7，HK Path3 只做巡检和下一轮候选设计，没有新增回测。
+- `scripts/update_hkconnect_artifacts.py` 后 Path3 robust 仍为 `hkconnect_path3_equal_elastic_weekly`，window winner、robust candidate、tracked/live/public payload 未切换。本轮无 HK Path3 evict。
+- 本轮候选池设计响应最终 focus `weekly_defensive_overlay`：继续在 stable weekly 低换手形态上加防守覆盖，而不是回到 theme fast weekly 高换手。下一轮第一条命令为：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover0_exit44_v12_turnover_reduction`；若未注册，先注册后再跑。
+- 验收重点是换手继续压低但 `since_2020_01/since_2023_01` 不低于 stable weekly robust 主要对照，且 2026 不能重新转负。
+
 ## 本轮执行计划（2026-06-13 17:30 CST）
 
 - 最终 guard 为 `pass`，HK Path3 coverage 完整；本轮保持纯周频口径，没有把 HK Path1/2 的月频或双周候选并入本路径。上一轮 v10 只是小幅转正，本轮按 `weekly_defensive_overlay` 确认 soft risk-off 34、turnover1、exit44 的防守修复。

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-13T09:21:31.865008+00:00",
+  "generated_at": "2026-06-13T21:20:58.606465+00:00",
   "basket_id": "ai_power_liquid_cooling_20260528_v0",
   "alpha_pool_profile": "event_kg_basket",
   "pool_id": "path5_event_kg_basket",
@@ -13,11 +13,65 @@
   ],
   "candidate_count": 6,
   "horizons_trading_days": [
+    5,
+    10,
     20,
     40,
     60
   ],
   "portfolio_returns": {
+    "5": {
+      "equal_weight": {
+        "status": "ok",
+        "eligible_count": 5,
+        "return": -0.07602861278643093,
+        "weights": {
+          "002837.SZ": 0.2,
+          "002335.SZ": 0.2,
+          "002518.SZ": 0.2,
+          "300442.SZ": 0.2,
+          "300274.SZ": 0.2
+        }
+      },
+      "seed_weight": {
+        "status": "ok",
+        "eligible_count": 5,
+        "return": -0.07307532763720005,
+        "weights": {
+          "002837.SZ": 0.24242424242424243,
+          "002335.SZ": 0.21212121212121213,
+          "002518.SZ": 0.21212121212121213,
+          "300442.SZ": 0.1818181818181818,
+          "300274.SZ": 0.15151515151515152
+        }
+      }
+    },
+    "10": {
+      "equal_weight": {
+        "status": "ok",
+        "eligible_count": 5,
+        "return": -0.16037064931580386,
+        "weights": {
+          "002837.SZ": 0.2,
+          "002335.SZ": 0.2,
+          "002518.SZ": 0.2,
+          "300442.SZ": 0.2,
+          "300274.SZ": 0.2
+        }
+      },
+      "seed_weight": {
+        "status": "ok",
+        "eligible_count": 5,
+        "return": -0.15503996033486248,
+        "weights": {
+          "002837.SZ": 0.24242424242424243,
+          "002335.SZ": 0.21212121212121213,
+          "002518.SZ": 0.21212121212121213,
+          "300442.SZ": 0.1818181818181818,
+          "300274.SZ": 0.15151515151515152
+        }
+      }
+    },
     "20": {
       "equal_weight": {
         "status": "insufficient_data",
@@ -58,6 +112,18 @@
       "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-21/1225131813.PDF",
       "status": "ok",
       "returns": {
+        "5": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-04",
+          "return": -0.07554191440600833
+        },
+        "10": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-11",
+          "return": -0.10332106520108919
+        },
         "20": {
           "status": "insufficient_data",
           "available_trading_days": 11
@@ -80,6 +146,18 @@
       "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-27/1225194937.PDF",
       "status": "ok",
       "returns": {
+        "5": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-04",
+          "return": -0.03552816493259703
+        },
+        "10": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-11",
+          "return": -0.14524257563683174
+        },
         "20": {
           "status": "insufficient_data",
           "available_trading_days": 11
@@ -102,6 +180,18 @@
       "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-27/1225189515.PDF",
       "status": "ok",
       "returns": {
+        "5": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-04",
+          "return": -0.07942497753818523
+        },
+        "10": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-11",
+          "return": -0.18131176999101517
+        },
         "20": {
           "status": "insufficient_data",
           "available_trading_days": 11
@@ -124,6 +214,18 @@
       "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-10/1225090821.PDF",
       "status": "ok",
       "returns": {
+        "5": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-04",
+          "return": -0.054238464207239434
+        },
+        "10": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-11",
+          "return": -0.1439805712964034
+        },
         "20": {
           "status": "insufficient_data",
           "available_trading_days": 11
@@ -146,6 +248,18 @@
       "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-01/1225066678.PDF",
       "status": "ok",
       "returns": {
+        "5": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-04",
+          "return": -0.13540954284812456
+        },
+        "10": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-11",
+          "return": -0.22799726445367985
+        },
         "20": {
           "status": "insufficient_data",
           "available_trading_days": 11

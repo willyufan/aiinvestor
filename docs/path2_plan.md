@@ -13,6 +13,13 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-14 05:29 CST）
+
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 967/967 complete`；本轮执行 `scripts/path2_candidate_pass.py` 后 comparable universe 刷到 `967`，`momentum_equal_weight_elastic` 扩到 `33` 个候选，继续保持 Path2 `growth_elastic` 独立池，不把 Path4 emergent_theme 结果并入 Path2 结论。
+- 本轮新增并五窗口确认 3 个 Path2 v38 underrepresented/capacity 对照：`core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk30_exit50_cap35_cost_guard_v38_underrep`、`core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk30_exit50_cap35_cost_guard_v38_underrep`、`core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk30_exit50_cap35_cost_guard_v38_underrep`。合并增量命令覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，命令类型为 `--only-base-ids`，没有改跑全量。
+- v38 `80/20 equal` 五窗口 CAGR 为 `3.25% / 1.13% / 15.04% / 29.41% / -2.65%`，`70/30 equal` 为 `5.29% / 2.96% / 13.56% / 25.89% / -5.82%`，`80/20 total_mv` 为 `4.12% / -0.54% / 21.49% / 60.74% / 23.87%`。结论：总市值版短窗较强，但 2020 转负且长窗弱，两个等权版也低于 Path2 目标线；不替换 Path2 window winner、robust candidate 或 tracked payload。
+- `path2_candidate_pass.py` 后 family robust 仍为旧 high-growth/liquidity momentum 族，`scripts/update_weighted_winners.py` 未采纳 v38。本轮没有 Path2 evict。最终 focus 为 `capacity_and_cost_stress`，下一轮第一条命令建议在 v38 的 `80/20 total_mv` 上继续压 cap/成本并观察 2020 能否转正：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk28_exit48_cap28_cost_guard_v39_capacity_stress,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk28_exit48_cap28_cost_guard_v39_capacity_stress`；若未注册，先注册到 Path2 scan 池，且不要引入 Path4 emergent_theme 变体。
+
 ## 本轮执行计划（2026-06-13 17:30 CST）
 
 - 最终 guard 为 `pass`，`ashare_path2_candidate_universe 962/962 complete`；本轮执行 `scripts/path2_candidate_pass.py` 后 comparable universe 刷到 `962`，继续保持 Path2 `growth_elastic` 独立池，不把 Path4 emergent_theme 结果并入 Path2 结论。
