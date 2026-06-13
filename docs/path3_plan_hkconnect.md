@@ -1,5 +1,12 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-13 17:30 CST）
+
+- 最终 guard 为 `pass`，HK Path3 coverage 完整；本轮保持纯周频口径，没有把 HK Path1/2 的月频或双周候选并入本路径。上一轮 v10 只是小幅转正，本轮按 `weekly_defensive_overlay` 确认 soft risk-off 34、turnover1、exit44 的防守修复。
+- 本轮新增并五窗口确认：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover1_exit44_v11_defensive_repair`。命令类型为五窗口 `--only-strategy-ids` 增量确认，实际命令与 HK Path1/2/4 合并执行。
+- `v11_defensive_repair` 五窗口 CAGR 为 `17.52% / 17.46% / 18.54% / 35.27% / 1.25%`，最大回撤为 `-27.80% / -19.22% / -13.40% / -10.85% / -8.76%`，换手为 `6.01x / 6.00x / 6.61x / 7.54x / 8.69x`。结论：换手维持较低且 2026 小幅正，但 2020/2023 仍低于 stable weekly robust，不替换 HK Path3 window winner、robust candidate 或 tracked payload。
+- `scripts/update_hkconnect_artifacts.py` 后 Path3 robust 仍为 `hkconnect_path3_equal_elastic_weekly`，本轮无 HK Path3 evict。最终 focus 为 `weekly_turnover_reduction`，下一轮第一条命令建议在 v11 上继续压换手但保持 exit44 防守：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover0_exit44_v12_turnover_reduction`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-13 05:09 CST）
 
 - 最终 guard 开局为 `pass`，HK Path3 coverage 完整；本轮保持纯周频口径，没有把 HK Path1/2 的月频或双周候选并入本路径。上一轮 v9 降换手但 2026 转负，本轮按 `weekly_turnover_reduction` 确认 turnover1/exit42 v10。

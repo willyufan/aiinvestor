@@ -3,6 +3,13 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-13 17:30 CST）
+
+- 最终 guard 为 `pass`，`ashare_path3_weekly_universe 61/61 complete`；本轮继续只比较纯 `_weekly` 候选，没有把 Path1 月度 overlay 纳入 Path3。新增前已把旧 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold6_turn04_exit98_risk16_weekly` 归档，理由是同一低换手 exit98 邻域被本轮 `cap48/turn03/risk14` 覆盖且不改善 robust。
+- 本轮新增并五窗口确认 1 个 Path3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap48_hold6_turn03_exit98_risk14_weekly`。命令与 Path2 v37 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk27_mom_exit47_reconfirm95_caution58_cap22_cost_guard_v37_medium_cycle_repair,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk27_mom_exit47_reconfirm95_caution58_cap22_cost_guard_v37_medium_cycle_repair,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap48_hold6_turn03_exit98_risk14_weekly`。
+- `cap48_hold6_turn03_exit98_risk14_weekly` 五窗口 CAGR 为 `15.84% / 16.81% / 10.85% / 64.14% / 64.97%`，最大回撤为 `-21.64% / -21.64% / -10.99% / -13.07% / -13.18%`，换手为 `2.07x / 1.61x / 1.15x / 2.51x / 3.78x`。结论：低换手有效但 2020/2023 仍弱，且最新持仓存在单票/少数票集中风险，不替换 Path3 window winner、robust candidate 或 tracked payload。
+- 最终 focus 为 `risk_downshift`。下一轮第一条命令建议在该低换手形态上继续降 risk 并压集中度，而不是回到高频弹性线：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn03_exit98_risk12_weekly`；若未注册，先加入 Path3 weekly scan，并在新增前继续归档一条 2020/2023 弱线。
+
 ## 本轮执行计划（2026-06-13 05:09 CST）
 
 - 最终 guard 为 `pass`，`ashare_path3_weekly_universe 61/61 complete`；本轮保持纯 `_weekly` 口径，没有把 Path1 月度选股 + 周度仓位 overlay 并入 Path3。上一轮预留的 `hold6/turn04/risk16` 已有五窗口结果，本轮只做结果判读和 weighted 同步，没有新增 A股 Path3 回测命令。

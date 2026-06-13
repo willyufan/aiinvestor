@@ -1,5 +1,12 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-13 17:30 CST）
+
+- 最终 guard 为 `pass`，HK Path2 coverage 完整；本轮按 `elasticity_cost_control` 只给 equal-elastic 月频成本支线一次修复确认，不重启普通高换手 breakout。
+- 本轮新增并五窗口确认：`hkconnect_path2_equal_elastic_monthly_cost_guard_v33_elasticity_cost_repair`。命令类型为五窗口 `--only-strategy-ids` 增量确认，实际命令与 HK Path1/3/4 合并执行。
+- `v33_elasticity_cost_repair` 五窗口 CAGR 为 `10.55% / 10.07% / 8.46% / 43.65% / 0.75%`，最大回撤为 `-37.82% / -37.82% / -31.74% / -11.68% / -11.60%`，换手为 `4.59x / 4.50x / 5.20x / 6.04x / 6.97x`。结论：2023 远低于 `30%` 验收线，长窗回撤继续穿 `30%`，equal-elastic 支线仍失败，不替换 Path2 window winner、robust candidate 或 tracked payload。
+- `scripts/update_hkconnect_artifacts.py` 后 robust 仍为 `hkconnect_path2_theme_monthly_cost_control`，本轮无 HK Path2 evict。最终 focus 为 `high_return_monthly`，下一轮第一条命令建议停止 elastic 支线，回到主题月频高收益修复：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v34_2023_repair`；若未注册，先注册，验收线仍是 `since_2023_01 >= 30%` 且 2017 MaxDD 不劣于 `-20%~-25%`。
+
 ## 本轮执行计划（2026-06-13 05:09 CST）
 
 - 最终 guard 开局为 `pass`，HK Path2 coverage 完整；本轮按上一轮 `biweekly_breakout` 只执行一次主题双周 breakout 成本复核，不重启普通高换手 breakout 或 elastic 失败支线。

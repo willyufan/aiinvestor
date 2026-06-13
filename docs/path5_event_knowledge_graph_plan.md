@@ -1,5 +1,15 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-13 17:30 CST 状态
+
+最终 guard 为 `pass`，Path5 入口维持 `basket_count=2`、`active_basket_count=2`、`frozen_candidate_count=12`、`backtest_ready_count=12`、`pending_audit_count=0`。本轮读取 registry/candidates，并执行第二篮子 `ai_power_liquid_cooling_20260528_v0` 的 20/40/60D event entry probe；未把事件篮子写入 A股 winner/tracked。
+
+本轮命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_power_liquid_cooling_20260528_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_power_liquid_cooling_20260528_v0.json`。
+
+结果：该篮子 6 个冻结候选中 5 个有事件后价格数据，但事件日 `2026-05-28` 后截至本轮只有 `11` 个可用交易日，因此 20/40/60D 等权与 seed weight 组合收益全部为 `insufficient_data`；`603063.SH 禾望电气` 暂无事件后价格。Path4 参考快照按事件日前 `2026-04-30` 取数，overlap 为 `0/6`，Path4 重合权重为 `0`。
+
+结论：第二篮子目前只能作为冻结候选和来源审计完整性样本，尚不能判定收益；但它与 Path4 强主题涌现没有持仓重合，后续能提供独立事件层对照。本轮不新增 event winner、不改 tracked/live/public。下一轮 focus 为 `event_backtest_entry`，第一条动作建议回补第二篮子 20D/40D/60D 并同时登记第三个候选事件草案：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_power_liquid_cooling_20260528_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_power_liquid_cooling_20260528_v0.json`。
+
 ## 2026-06-13 05:09 CST 状态
 
 最终 guard 为 `pass`，Path5 入口维持 `basket_count=2`、`active_basket_count=2`、`frozen_candidate_count=12`、`backtest_ready_count=12`、`pending_audit_count=0`。本轮读取 registry/candidates，并执行第一篮子与 Path4 同期持仓的事件 entry probe；未把事件篮子写入 A股 winner/tracked。
