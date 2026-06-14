@@ -3,6 +3,13 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-15 05:39 CST）
+
+- 最终 guard 为 `pass`，`ashare_path3_weekly_universe 61/61 complete`；本轮继续只比较纯 `_weekly` 候选，没有把 Path1 月度 overlay 纳入 Path3。新增前归档 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit98_risk10_weekly`，理由是同一 exit98/低换手邻域已被本轮 `cap42/hold7/turn02/risk10` 覆盖，且旧线未改善 robust。
+- 本轮新增并五窗口确认 1 个 Path3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`。命令类型为五窗口 `--only-base-ids` 增量确认，覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。
+- `cap42_hold7_turn02_exit98_risk10_weekly` 五窗口 CAGR 为 `12.07% / 15.06% / 6.63% / 32.03% / 55.64%`，最大回撤 `-28.17% / -17.22% / -11.36% / -13.07% / -13.27%`。结论：换手和短窗弹性有可比性，但 2023 明显弱，且最新持仓存在单票/少数票集中风险，不替换 Path3 window winner、robust candidate 或 tracked payload。
+- 最终 focus 为 `risk_downshift`。下一轮第一条命令建议继续降低风险与集中度，但新增前仍先归档一条 2020/2023 弱线：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly`；若未注册，先加入 Path3 weekly scan。
+
 ## 本轮执行计划（2026-06-14 17:25 CST）
 
 - 开局 guard 为 `pass`；本轮继续只比较纯 `_weekly` 候选，没有把 Path1 月度 overlay 纳入 Path3。新增前归档 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn03_exit98_risk12_weekly`，理由是同一 exit98/hold6/turn03 邻域被本轮 `cap44/risk10` 覆盖，且 cap46 未改善 robust。

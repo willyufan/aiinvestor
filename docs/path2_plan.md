@@ -13,6 +13,13 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-15 05:39 CST）
+
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 979/979 complete`；本轮执行 `scripts/path2_candidate_pass.py` 后 comparable universe 刷到 `979`。Path2 继续保持 `growth_elastic` 独立池，没有把 Path4 emergent_theme 变体并入扫描池或结论。
+- 本轮新增并五窗口确认 2 个 Path2 v40 中周期质量修复候选：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v40_medium_cycle_quality`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v40_medium_cycle_quality`。命令类型为五窗口 `--only-base-ids` 增量确认，覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，并与 Path3 新周频候选合并执行。
+- v40 总市值版五窗口 CAGR 为 `11.17% / 10.42% / 13.37% / 41.93% / 17.23%`，最大回撤 `-16.05% / -15.49% / -14.94% / -14.94% / -12.99%`；等权版为 `9.08% / 10.08% / 10.24% / 28.45% / 40.53%`，最大回撤 `-20.26% / -12.98% / -15.18% / -10.34% / -10.34%`。结论：短窗有弹性但 2020/2023 远低于 Path2 目标线，不替换 window winner、robust candidate 或 tracked payload。
+- 本轮没有 Path2 evict。最终 focus 为 `underrepresented_families`，下一轮第一条命令应暂停 high-growth 同形扩参，转向低相关 `momentum_equal_weight_elastic` 代表：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk26_exit46_cap24_cost_guard_v41_underrep_quality,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk26_exit46_cap24_cost_guard_v41_underrep_quality`；若未注册，先注册到 Path2 scan 池。
+
 ## 本轮执行计划（2026-06-14 17:25 CST）
 
 - 开局 guard 为 `pass`，本轮注册并五窗口确认 3 个 Path2 v39 capacity stress 候选；`scripts/path2_candidate_pass.py` 后 comparable universe 刷到 `974`，`momentum_equal_weight_elastic` 扩到 `37` 个候选。Path2 仍保持 `growth_elastic` 独立池，没有把 Path4 emergent_theme 变体并入扫描池或结论。

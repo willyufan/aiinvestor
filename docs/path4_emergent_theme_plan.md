@@ -28,9 +28,17 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 
 ## 迭代规则
 
-- `research_iteration_guard.py` 会把 12 个强主题候选作为独立 coverage scope 检查，要求覆盖 `since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01 / since_2026_01`。
-- `path2_candidate_pass.py` 会把这些候选归入独立 family `emergent_theme_discovery`，用于和 Path 2 其他探索族横向比较。
+- `research_iteration_guard.py` 会按代码中的 `PATH4_THEME_DISCOVERY_BASE_IDS` 与 `PATH4_THEME_DISCOVERY_VARIANT_IDS` 实际集合做独立 coverage scope 检查，要求覆盖 `since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01 / since_2026_01`。
+- Path 4 不通过 `path2_candidate_pass.py` 的扫描族评价，也不把 emergent_theme 变体并入 Path 2；横向比较只读取独立 Path4 结果、weighted robust payload 与持仓明细。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
+
+## 本轮执行计划（2026-06-15 05:39 CST）
+
+- 开局 guard 在注册本轮新变体后报告 `ashare_path4_emergent_theme 3/60 missing`；已按 blocking scope 的 `--only-base-ids` 命令补齐三底座五窗口，最终 guard 恢复 `pass`、`ashare_path4_emergent_theme 60/60 complete`。有效补缺口命令使用 `AIINVESTOR_FORCE_OFFLINE=1` 与 `--end-date 2026-06-12`，没有替换成全量回测。
+- 本轮为维持 active cap `60`，从 `PATH4_THEME_DISCOVERY_VARIANT_IDS` evict 旧弱线 `aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk14_cap08_exit62_lowturn`；原因是它已被 signal30/leader80/prom20/cap06 线覆盖，且不改善 2020/2023 或 robust。
+- 本轮新增并五窗口确认 3 个 Path4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap06_exit60_lowturn`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap06_exit60_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap06_exit60_lowturn`。
+- 三底座五窗口 CAGR：`80/20 total_mv` 为 `10.90% / 11.28% / 7.86% / 40.25% / 31.80%`，最大回撤 `-17.69% / -17.69% / -8.48% / -10.41% / -9.73%`；`90/10 equal_weight` 为 `2.46% / 5.05% / 6.28% / 16.71% / 12.16%`；`90/10 total_mv` 为 `5.09% / 5.83% / 4.00% / 15.21% / 11.16%`。结论：能捕捉强行业/强龙头，但 2020/2023 稳定性仍弱，`scripts/update_weighted_winners.py` validation 拒绝，不替换 Path4 winner、robust 或 tracked payload。
+- 最终 focus 为 `theme_signal_quality`。下一轮第一条命令建议先 evict 一条旧弱线，再测试更高信号质量而不是继续降 cap：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk12_cap08_exit60_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk12_cap08_exit60_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk12_cap08_exit60_lowturn`；若未注册，先加入 `PATH4_THEME_DISCOVERY_VARIANT_IDS`。
 
 ## 本轮执行计划（2026-06-14 17:25 CST）
 
