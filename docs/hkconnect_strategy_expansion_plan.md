@@ -1,5 +1,14 @@
 # 沪港通策略空间扩展计划
 
+## 2026-06-14 17:25 CST 扩展复核结果
+
+本轮 HK 新增预算用于 Path1/2/3 的五窗口确认；HK Path4-7 扩展线完成 guard 巡检、tracked 同步和下一轮候选设计，但没有新增 Path4-7 `--only-strategy-ids` 回测。`scripts/update_hkconnect_artifacts.py` 已刷新 HK tracked 与 Path1-3 图表；扩展线无 evict，也没有 robust/tracked 切换。
+
+- Path4 多因子质量/流动性动量：本轮未新增回测，coverage 仍 complete，tracked robust 未切换。最终 guard focus 为 `ytd_guard`，下一轮第一条命令建议先跑质量动量 + 2026 ytd 正收益修复：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_ytd_positive_v20_signal_repair`；若未注册，先注册。
+- Path5 回踩续涨：本轮未新增回测，上一轮 `v13_ytd_guard` 仍未修复 2023/2026。最终 guard focus 为 `pause_or_redesign`，下一轮第一条动作应暂停同形 retest 复跑，先重写回踩定义并压换手：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_pullback_continuation_monthly_quality_retest_v14_definition_lowturn`；若未注册，先注册。
+- Path6 大市值高流动核心：本轮未新增回测，低换手核心线仍弱于 robust。最终 guard focus 为 `capacity_cost`，下一轮第一条命令建议转向月频大市值核心容量成本修复：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_monthly_capacity_cost_v20_ytd_repair`；若未注册，先注册。
+- Path7 杠铃组合：本轮未新增回测，`core_sleeve_v3` robust 未被替换。最终 guard focus 为 `turnover_control`，下一轮第一条命令建议降低杠铃袖换手并保留成长袖：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v20_ytd_guard`；若未注册，先注册。
+
 ## 2026-06-14 05:29 CST 扩展复核结果
 
 本轮扩展线执行 HK Path5 `hkconnect_path5_breakout_retest_biweekly_quality_confirm_v13_ytd_guard`、HK Path6 `hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v19`、HK Path7 `hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_ytd_guard_v19` 的五窗口确认；HK Path4 只做巡检和下一轮第一条命令记录。实际 HK 命令与 Path1 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_risk_overlay_cost_v37_2026_repair,hkconnect_path5_breakout_retest_biweekly_quality_confirm_v13_ytd_guard,hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v19,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_ytd_guard_v19`。命令执行时港股 trade calendar 更新失败并回退本地缓存，但退出码为 0，结果已写入 comparison。

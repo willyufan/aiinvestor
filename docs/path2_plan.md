@@ -13,6 +13,13 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-14 17:25 CST）
+
+- 开局 guard 为 `pass`，本轮注册并五窗口确认 3 个 Path2 v39 capacity stress 候选；`scripts/path2_candidate_pass.py` 后 comparable universe 刷到 `974`，`momentum_equal_weight_elastic` 扩到 `37` 个候选。Path2 仍保持 `growth_elastic` 独立池，没有把 Path4 emergent_theme 变体并入扫描池或结论。
+- 本轮新增 ID：`core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk28_exit48_cap28_cost_guard_v39_capacity_stress`、`core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk28_exit48_cap28_cost_guard_v39_capacity_stress`、`core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk28_exit48_cap28_cost_guard_v39_capacity_stress`。命令类型为五窗口 `--only-base-ids` 增量确认，覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。
+- v39 `80/20 total_mv` 五窗口 CAGR 为 `6.08% / 2.12% / 17.16% / 60.31% / 28.37%`，最大回撤 `-21.30% / -21.30% / -10.63% / -9.15% / -6.39%`，换手 `3.81x / 3.45x / 4.33x / 7.74x / 6.96x`；`70/30 equal` 为 `6.68% / 3.91% / 14.99% / 32.85% / 7.08%`；`80/20 equal` 为 `5.76% / 4.33% / 17.43% / 36.94% / 11.45%`。结论：短窗弹性尚可，但 2020/2023 远低于 Path2 目标线，不替换 window winner、robust candidate 或 tracked payload。
+- 本轮没有 Path2 evict。中段 guard focus 转向 `medium_cycle_growth`，下一轮第一条命令建议停止 v39 容量压缩，注册并确认中周期质量修复双底座：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v40_medium_cycle_quality,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v40_medium_cycle_quality`；若未注册，先注册到 Path2 scan 池。
+
 ## 本轮执行计划（2026-06-14 05:29 CST）
 
 - 最终 guard 为 `pass`，`ashare_path2_candidate_universe 967/967 complete`；本轮执行 `scripts/path2_candidate_pass.py` 后 comparable universe 刷到 `967`，`momentum_equal_weight_elastic` 扩到 `33` 个候选，继续保持 Path2 `growth_elastic` 独立池，不把 Path4 emergent_theme 结果并入 Path2 结论。

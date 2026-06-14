@@ -1,5 +1,12 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-06-14 17:25 CST）
+
+- 开局 guard 为 `pass`，HK Path1 coverage 完整；本轮注册并五窗口确认 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_quality_lowvol_mix_v38_monthly_overlay`，保持 HK Path1 独立研究线，不并入 A股 winner 结论。
+- 本轮命令类型为五窗口 `--only-strategy-ids` 增量确认，实际与 HK Path2/3 合并执行。v38 五窗口 CAGR 为 `17.98% / 23.29% / 24.22% / 33.16% / -8.02%`，最大回撤 `-29.05% / -10.96% / -10.91% / -10.65% / -10.15%`，换手 `3.48x / 3.37x / 3.22x / 3.39x / 4.06x`。
+- 结论：v38 的 2020-2025 有可比性，但 2017 回撤偏深且 2026 仍为负，不替换 Path1 window winner、robust candidate 或 tracked payload；`scripts/update_hkconnect_artifacts.py` 后 robust 仍为 `hkconnect_path1_biweekly_lowvol`。本轮无 HK Path1 evict。
+- 中段 guard focus 为 `biweekly_buffer`。下一轮第一条命令建议转回双周质量动量缓冲，而不是继续 monthly overlay 同形：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v39_biweekly_buffer`；若未注册，先在 HK Path1 variants 中注册。
+
 ## 本轮执行计划（2026-06-14 05:29 CST）
 
 - 最终 guard 为 `pass`，HK 总候选 `363/363 complete`；本轮按上一轮计划注册并确认 lowvol + risk overlay 的 monthly-weekly 2026 修复候选，保持 HK Path1 独立研究线，不并入 A股 winner 结论。
