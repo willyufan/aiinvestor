@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-15T05:32:07+08:00",
+  "generated_at": "2026-06-15T17:21:35+08:00",
   "as_of": "2026-06-12",
   "coverage_gate": {
     "status": "pass",
@@ -40,8 +40,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 116,
-        "complete_count": 116,
+        "candidate_count": 117,
+        "complete_count": 117,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -61,8 +61,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 979,
-        "complete_count": 979,
+        "candidate_count": 982,
+        "complete_count": 982,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -126,8 +126,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 370,
-        "complete_count": 370,
+        "candidate_count": 373,
+        "complete_count": 373,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -227,116 +227,116 @@
   },
   "experiment_log": {
     "path": "results/research/a_share/research_experiments.jsonl",
-    "candidate_entries": 112,
-    "appended_entries": 5
+    "candidate_entries": 113,
+    "appended_entries": 0
   },
   "rotation": {
     "ashare_path1": {
       "signature": "d1a396e39c072f96115b",
       "changed": false,
-      "stagnation_runs": 18,
+      "stagnation_runs": 22,
       "stagnation_threshold": 3,
-      "recommended_focus": "satellite_risk_cost",
+      "recommended_focus": "holding_shape",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-13T05:03:52+08:00"
     },
     "ashare_path2": {
-      "signature": "f682999fa2a793e14adb",
+      "signature": "e59fd541158964e1fac6",
       "changed": false,
-      "stagnation_runs": 18,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
-      "recommended_focus": "underrepresented_families",
+      "recommended_focus": "risk_reconfirm_sensitivity",
       "rotation_status": "rotate",
-      "last_changed_at": "2026-06-13T05:03:52+08:00"
+      "last_changed_at": "2026-06-15T17:04:01+08:00"
     },
     "ashare_path3": {
       "signature": "52f282390d7b1694be77",
       "changed": false,
-      "stagnation_runs": 18,
+      "stagnation_runs": 22,
       "stagnation_threshold": 3,
-      "recommended_focus": "risk_downshift",
+      "recommended_focus": "cost_stress",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-13T05:03:52+08:00"
     },
     "ashare_path4": {
-      "signature": "f012925770d24d452d95",
+      "signature": "ee9d318d9cdd4a38d72d",
       "changed": false,
-      "stagnation_runs": 5,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
       "recommended_focus": "theme_signal_quality",
       "rotation_status": "rotate",
-      "last_changed_at": "2026-06-14T17:34:03+08:00"
+      "last_changed_at": "2026-06-15T17:04:01+08:00"
     },
     "ashare_path5": {
       "signature": "ef15406b58cf7424dbad",
       "changed": false,
-      "stagnation_runs": 30,
+      "stagnation_runs": 34,
       "stagnation_threshold": 3,
-      "recommended_focus": "event_backtest_entry",
+      "recommended_focus": "path4_comparison",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-11T05:14:39+08:00"
     },
     "hkconnect_path1": {
       "signature": "669f92b1510f0f267a17",
       "changed": false,
-      "stagnation_runs": 108,
+      "stagnation_runs": 112,
       "stagnation_threshold": 3,
-      "recommended_focus": "monthly_weekly_overlay",
+      "recommended_focus": "biweekly_buffer",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-04T22:03:26+08:00"
     },
     "hkconnect_path2": {
       "signature": "262b343dc04e75136c89",
       "changed": false,
-      "stagnation_runs": 50,
+      "stagnation_runs": 54,
       "stagnation_threshold": 3,
-      "recommended_focus": "biweekly_breakout",
+      "recommended_focus": "high_return_monthly",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-09T04:52:47+08:00"
     },
     "hkconnect_path3": {
       "signature": "7c6d4310512c00e3df86",
       "changed": false,
-      "stagnation_runs": 57,
+      "stagnation_runs": 61,
       "stagnation_threshold": 3,
-      "recommended_focus": "weekly_defensive_overlay",
+      "recommended_focus": "cost_stress",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-08T22:03:20+08:00"
     },
     "hkconnect_path4": {
       "signature": "e65a862551e4d39ab86c",
-      "changed": true,
-      "stagnation_runs": 0,
+      "changed": false,
+      "stagnation_runs": 4,
       "stagnation_threshold": 3,
-      "recommended_focus": "quality_momentum",
-      "rotation_status": "continue",
+      "recommended_focus": "liquidity_momentum",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-06-15T05:32:07+08:00"
     },
     "hkconnect_path5": {
       "signature": "6838c545a33a719c08fc",
-      "changed": true,
-      "stagnation_runs": 0,
+      "changed": false,
+      "stagnation_runs": 4,
       "stagnation_threshold": 3,
-      "recommended_focus": "pullback_definition",
-      "rotation_status": "continue",
+      "recommended_focus": "retest_confirmation",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-06-15T05:32:07+08:00"
     },
     "hkconnect_path6": {
       "signature": "401ba53ecfe41f6fa9c7",
-      "changed": true,
-      "stagnation_runs": 0,
+      "changed": false,
+      "stagnation_runs": 4,
       "stagnation_threshold": 3,
-      "recommended_focus": "large_liquid_core",
-      "rotation_status": "continue",
+      "recommended_focus": "lowvol_liquid_core",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-06-15T05:32:07+08:00"
     },
     "hkconnect_path7": {
       "signature": "f61493242bea7885c9d0",
-      "changed": true,
-      "stagnation_runs": 0,
+      "changed": false,
+      "stagnation_runs": 4,
       "stagnation_threshold": 3,
-      "recommended_focus": "barbell_sleeve_structure",
-      "rotation_status": "continue",
+      "recommended_focus": "biweekly_barbell",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-06-15T05:32:07+08:00"
     }
   },
@@ -379,11 +379,11 @@
           "target_representatives": 4
         },
         "momentum_equal_weight_elastic": {
-          "current_count": 37,
+          "current_count": 39,
           "target_representatives": 6
         },
         "weekly_rebalance_aggressive": {
-          "current_count": 96,
+          "current_count": 97,
           "target_representatives": 6
         }
       },
@@ -448,11 +448,11 @@
       }
     },
     "hkconnect": {
-      "candidate_count": 370,
+      "candidate_count": 373,
       "path_counts": {
-        "path1": 95,
-        "path2": 98,
-        "path3": 96,
+        "path1": 96,
+        "path2": 99,
+        "path3": 97,
         "path4": 23,
         "path5": 15,
         "path6": 22,

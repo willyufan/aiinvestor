@@ -1,5 +1,12 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-15 17:18 CST）
+
+- 最终 guard 为 `pass`，HK 总候选 `373/373 complete`；本轮新增并五窗口确认 HK Path2 `hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v35_ytd_repair`，只给质量/流动性约束 breakout 一次复核，不并入 A股结论。
+- 本轮命令类型为五窗口 `--only-strategy-ids` 增量确认，实际与 HK Path1/3 合并执行。v35 五窗口 CAGR 为 `15.92% / 15.01% / 9.18% / 53.25% / 23.87%`，最大回撤 `-32.28% / -32.28% / -29.20% / -14.05% / -6.43%`，换手 `8.10x / 7.90x / 8.28x / 9.71x / 9.12x`。
+- 结论：短窗转正且 2025 较强，但 2017/2020 回撤穿 `30%`、`since_2023_01` 远低于 `30%` 验收线，不替换 HK Path2 window winner、robust candidate 或 tracked payload；`scripts/update_hkconnect_artifacts.py` 后 robust 仍为 `hkconnect_path2_theme_monthly_cost_control`。本轮无 HK Path2 evict。
+- 最终 focus 为 `high_return_monthly`。下一轮第一条命令建议停止 biweekly breakout 支线，回到主题月频高收益修复：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v35_2023_2026_repair`；若未注册，先注册；验收线仍是 `since_2023_01 >= 30%` 且 2017 MaxDD 不劣于 `-20%~-25%`。
+
 ## 本轮执行计划（2026-06-15 05:39 CST）
 
 - 最终 guard 为 `pass`，HK 总候选 `370/370 complete`；本轮没有新增 HK Path2 回测，预算投给 HK Path4-7。普通 breakout、inverse/equal elastic 继续按失败支线处理，HK Path2 不并入 A股结论。

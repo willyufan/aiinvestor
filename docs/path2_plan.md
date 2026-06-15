@@ -13,6 +13,13 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-15 17:18 CST）
+
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 982/982 complete`；`scripts/path2_candidate_pass.py` 后 comparable universe 刷到 `982`，其中 `momentum_equal_weight_elastic` 扩到 `39`。Path2 继续保持 `growth_elastic` 独立池，没有把 Path4 emergent_theme 变体并入扫描池或结论。
+- 本轮新增并五窗口确认 2 个 Path2 v41 underrepresented quality 候选：`core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk26_exit46_cap24_cost_guard_v41_underrep_quality`、`core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk26_exit46_cap24_cost_guard_v41_underrep_quality`。命令类型为五窗口 `--only-base-ids` 增量确认，覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。
+- v41 `80/20 total_mv` 五窗口 CAGR 为 `9.05% / 6.55% / 7.58% / 60.12% / 30.87%`，最大回撤 `-14.55% / -15.64% / -10.21% / -8.63% / -7.02%`；`70/30 equal` CAGR 为 `9.13% / 8.09% / 9.87% / 36.98% / 15.14%`，最大回撤 `-21.72% / -21.72% / -13.34% / -17.40% / -17.51%`。结论：短窗尚有弹性但 2020/2023 远低于 Path2 目标线，不替换 window winner、robust candidate 或 tracked payload。
+- 本轮没有 Path2 evict。最终 focus 为 `risk_reconfirm_sensitivity`。下一轮第一条命令建议停止 underrepresented v41 同形，回到 high-growth/liqmom 的风险确认敏感性双底座：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm`；若未注册，先注册到 Path2 scan 池。
+
 ## 本轮执行计划（2026-06-15 05:39 CST）
 
 - 最终 guard 为 `pass`，`ashare_path2_candidate_universe 979/979 complete`；本轮执行 `scripts/path2_candidate_pass.py` 后 comparable universe 刷到 `979`。Path2 继续保持 `growth_elastic` 独立池，没有把 Path4 emergent_theme 变体并入扫描池或结论。

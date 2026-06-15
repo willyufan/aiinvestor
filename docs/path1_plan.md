@@ -4,6 +4,13 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-15 17:18 CST）
+
+- 最终 guard 为 `pass`，`ashare_path1_core_multifactor 53/53 complete`、`ashare_path1_fast_family 117/117 complete`。上一轮预留的 satellite defense `risk10_reconfirm` 本轮已注册并五窗口确认；core_multifactor 子段只按代码实际池巡检，没有新增 overlay，也没有 evict。
+- 本轮新增并五窗口确认 1 个 Path1 fast-pass base id：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk10_reconfirm`。实际命令与 A股 Path2/3 合并执行，命令类型为 `--only-base-ids` 增量确认，覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。
+- `risk10_reconfirm` 五窗口 CAGR 为 `23.21% / 27.32% / 25.99% / 94.42% / 87.30%`，最大回撤为 `-12.13% / -13.26% / -18.26% / -10.91% / -6.61%`，Sharpe 为 `0.99 / 1.00 / 0.91 / 1.80 / 1.98`，换手为 `2.96x / 3.32x / 3.49x / 4.63x / 7.35x`。结论：它进入 Path1 robust leaderboard 第 2，但 promotion score 仍略低于 `risk14_reconfirm`；不替换 window winner、robust candidate 或 tracked/live/public payload。
+- 最终 rotation focus 为 `holding_shape`。下一轮第一条命令建议回到持仓形态修复，而不是继续 satellite risk 邻域：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp64_cost_guard`；若下一轮 rotation 转回 `core_multifactor`，再注册新的多因子 overlay 并单独计入 Path1 预算。
+
 ## 本轮执行计划（2026-06-15 05:39 CST）
 
 - 最终 guard 为 `pass`，`ashare_path1_core_multifactor 53/53 complete`、`ashare_path1_fast_family 116/116 complete`；本轮没有新增 Path1 `--only-base-ids` 回测，预算投给 A股 Path2/3/4、Path5 事件入口与 HK Path4-7。core_multifactor 子段按代码实际池巡检为 `53` 个，没有新增 overlay，也没有 Path1 evict。

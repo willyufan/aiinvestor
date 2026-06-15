@@ -1,5 +1,15 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-15 17:18 CST 状态
+
+最终 guard 入口仍为 `pass`，Path5 维持 `basket_count=2`、`active_basket_count=2`、`frozen_candidate_count=12`、`backtest_ready_count=12`、`pending_audit_count=0`。本轮读取 registry/candidates，并对第一篮子 `mrc_uec_ai_network_20260506_v0` 用当前 Path4 robust 参考做 20/40/60D event entry probe；没有把事件篮子写入 A股 winner/tracked。
+
+本轮命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_mrc_uec_ai_network_20260506_v0.json`。
+
+结果：事件日 `2026-05-06` 后 20 个交易日，6 个冻结候选全部具备数据，等权收益 `41.75%`、seed weight 收益 `43.85%`；40/60D 仍为 `insufficient_data`。Path4 参考快照按事件日前 `2026-04-30` 取数，overlap 为 `1/6`，重合标的是 `300394.SZ 天孚通信`，Path4 重合权重 `5.60%`，seed 重合权重 `21.07%`。
+
+结论：第一篮子继续是强 20D 正样本，且与 Path4 强主题涌现只有低重合，说明事件层有增量信息；但样本仍只有 2 个篮子且 40/60D 不足，不进入 winner/tracked。最终 focus 为 `path4_comparison`，下一轮第一条命令建议补第二篮子 20D 成熟度并与第一篮子并列表：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_power_liquid_cooling_20260528_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_power_liquid_cooling_20260528_v0.json`。
+
 ## 2026-06-15 05:39 CST 状态
 
 最终 guard 入口仍为 `pass`，Path5 维持 `basket_count=2`、`active_basket_count=2`、`frozen_candidate_count=12`、`backtest_ready_count=12`、`pending_audit_count=0`。本轮读取 registry/candidates，并对第二篮子 `ai_power_liquid_cooling_20260528_v0` 用当前 Path4 robust 参考做 20/40/60D event entry probe；没有把事件篮子写入 A股 winner/tracked。

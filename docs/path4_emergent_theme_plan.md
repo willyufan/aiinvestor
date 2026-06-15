@@ -32,6 +32,13 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - Path 4 不通过 `path2_candidate_pass.py` 的扫描族评价，也不把 emergent_theme 变体并入 Path 2；横向比较只读取独立 Path4 结果、weighted robust payload 与持仓明细。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-06-15 17:18 CST）
+
+- 最终 guard 为 `pass`，`ashare_path4_emergent_theme 60/60 complete`；本轮 Path4 只完成独立池巡检、weighted robust 判读和下一轮候选设计，没有新增 Path4 `--only-base-ids` 回测，也没有把 emergent_theme 结果并入 Path2。
+- 上一轮候选 `prom20/signal30/leader80/risk12/cap06/exit60_lowturn` 已被 validation 拒绝；当前 Path4 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn`，robust 指标约 `meanCAGR=21.54%`、`minCAGR=10.87%`、最差回撤 `-17.45%`、平均换手 `4.49x`。
+- 本轮未触发 Path4 evict；原因是新增实验预算优先给 Path1 risk10、Path2 v41、Path3 cap40、Path5 事件篮子和 HK Path1/2/3，且 Path4 coverage 没有 blocking 缺口。候选池仍处于 cap `60`，下一轮新增前必须先淘汰一条旧弱线。
+- 最终 focus 为 `theme_signal_quality`。下一轮第一条命令沿上一轮未跑的更高信号质量三底座推进：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk12_cap08_exit60_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk12_cap08_exit60_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk12_cap08_exit60_lowturn`；若未注册，先 evict 旧弱线后加入 `PATH4_THEME_DISCOVERY_VARIANT_IDS`。
+
 ## 本轮执行计划（2026-06-15 05:39 CST）
 
 - 开局 guard 在注册本轮新变体后报告 `ashare_path4_emergent_theme 3/60 missing`；已按 blocking scope 的 `--only-base-ids` 命令补齐三底座五窗口，最终 guard 恢复 `pass`、`ashare_path4_emergent_theme 60/60 complete`。有效补缺口命令使用 `AIINVESTOR_FORCE_OFFLINE=1` 与 `--end-date 2026-06-12`，没有替换成全量回测。
