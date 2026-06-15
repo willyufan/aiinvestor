@@ -1,5 +1,11 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-16 05:21 CST）
+
+- 最终 guard 为 `pass`，HK 总候选 `377/377 complete`；本轮 HK Path2 完成巡检、tracked 同步和下一轮候选设计，没有新增回测。普通 breakout、inverse/equal elastic 继续按失败支线处理，HK Path2 不并入 A股结论。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path2 robust 仍为 `hkconnect_path2_theme_monthly_cost_control`，window winner、robust candidate、tracked/live/public payload 均未切换。本轮无 HK Path2 evict。
+- 最终 guard 将 focus 推到 `biweekly_breakout`。上一轮 `v35_ytd_repair` 已显示 2023 不足和长窗回撤偏深，下一轮只允许一次更严格 terminal breakout 复核，不重启普通高换手 breakout：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v36_terminal_check`；若未注册，先注册；若仍低于 `since_2023_01 >= 30%` 或长窗回撤继续穿 `30%`，停止 biweekly breakout 支线并转回 high-return monthly 或质量/流动性动量新族。
+
 ## 本轮执行计划（2026-06-15 17:18 CST）
 
 - 最终 guard 为 `pass`，HK 总候选 `373/373 complete`；本轮新增并五窗口确认 HK Path2 `hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v35_ytd_repair`，只给质量/流动性约束 breakout 一次复核，不并入 A股结论。

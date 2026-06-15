@@ -13,6 +13,13 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-16 05:17 CST）
+
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 986/986 complete`；`scripts/path2_candidate_pass.py` 后 comparable universe 刷到 `986`。Path2 继续保持 `growth_elastic` 独立池，没有把 Path4 emergent_theme 变体并入扫描池或结论。
+- 本轮新增并五窗口确认 2 个 Path2 v42 风险确认候选：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm`。命令类型为五窗口 `--only-base-ids` 增量确认，覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。
+- v42 总市值版五窗口 CAGR 为 `12.88% / 13.15% / 7.96% / 44.15% / 15.54%`，最大回撤 `-18.69% / -15.14% / -13.36% / -15.12% / -13.20%`；等权版 CAGR 为 `9.51% / 11.19% / 7.63% / 26.66% / 33.56%`，最大回撤 `-23.09% / -14.92% / -15.32% / -11.16% / -11.15%`。结论：短窗有一定弹性但 2020/2023 远低于 Path2 目标线，不替换 window winner、robust candidate 或 tracked payload。
+- 本轮没有 Path2 evict。最终 guard 将 focus 推到 `underrepresented_families`，v42 risk-reconfirm 同形确认失败后，下一轮第一条命令应暂停 high-growth/liqmom 风险确认，转向低相关 `momentum_equal_weight_elastic` 代表：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality`；若未注册，先注册到 Path2 scan 池。
+
 ## 本轮执行计划（2026-06-15 17:18 CST）
 
 - 最终 guard 为 `pass`，`ashare_path2_candidate_universe 982/982 complete`；`scripts/path2_candidate_pass.py` 后 comparable universe 刷到 `982`，其中 `momentum_equal_weight_elastic` 扩到 `39`。Path2 继续保持 `growth_elastic` 独立池，没有把 Path4 emergent_theme 变体并入扫描池或结论。

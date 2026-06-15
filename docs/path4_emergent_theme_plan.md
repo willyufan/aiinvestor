@@ -32,6 +32,14 @@ Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工�
 - Path 4 不通过 `path2_candidate_pass.py` 的扫描族评价，也不把 emergent_theme 变体并入 Path 2；横向比较只读取独立 Path4 结果、weighted robust payload 与持仓明细。
 - 第一阶段不直接改写 official winner；等五窗口完整后，再决定是否独立展示为 Path 4 winner 或并入现有 winner 体系。
 
+## 本轮执行计划（2026-06-16 05:17 CST）
+
+- 最终 guard 为 `pass`，`ashare_path4_emergent_theme 60/60 complete`；本轮仍只使用市场结构涌现信号，不使用人工主题标签、不纳入 ETF，也没有把 emergent_theme 结果并入 Path2。
+- 本轮为维持 active cap `60`，从 `PATH4_THEME_DISCOVERY_VARIANT_IDS` evict 旧弱线 `aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap10_exit60_lowturn`；原因是该 signal28/leader76/cap10 形态已被 signal30-32、leader80-82 与 cap08 低换手系列覆盖，近期不改善 2020/2023 或 robust。
+- 本轮新增并五窗口确认 3 个 Path4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk12_cap08_exit60_lowturn`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk12_cap08_exit60_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk12_cap08_exit60_lowturn`。命令类型为五窗口 `--only-base-ids` 增量确认。
+- 三底座五窗口 CAGR：`80/20 total_mv` 为 `8.68% / 8.76% / 6.85% / 44.53% / 23.75%`，最大回撤 `-21.13% / -21.13% / -8.67% / -10.53% / -10.52%`；`90/10 equal_weight` 为 `3.40% / 6.77% / 8.00% / 20.71% / 13.45%`；`90/10 total_mv` 为 `5.41% / 6.20% / 4.27% / 17.78% / 3.65%`。结论：高信号质量仍能捕捉强龙头组合，但中长窗收益不足，不能只凭 2025/2026 短窗晋级，不替换 Path4 window winner、robust candidate 或 tracked payload。
+- 最终 guard 将 focus 推到 `theme_risk_control`。下一轮第一条命令建议降低一点信号质量、提高 leader 要求，并把 risk trigger 收到 `risk10`，测试 `signal32/leader84/risk10` 是否比 signal34 更稳：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal32_leader84_coverage_penalty_risk10_cap08_exit60_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal32_leader84_coverage_penalty_risk10_cap08_exit60_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal32_leader84_coverage_penalty_risk10_cap08_exit60_lowturn`；若未注册，先 evict 一条旧弱线后加入 `PATH4_THEME_DISCOVERY_VARIANT_IDS`。
+
 ## 本轮执行计划（2026-06-15 17:18 CST）
 
 - 最终 guard 为 `pass`，`ashare_path4_emergent_theme 60/60 complete`；本轮 Path4 只完成独立池巡检、weighted robust 判读和下一轮候选设计，没有新增 Path4 `--only-base-ids` 回测，也没有把 emergent_theme 结果并入 Path2。

@@ -3,6 +3,13 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-16 05:17 CST）
+
+- 最终 guard 为 `pass`，`ashare_path3_weekly_universe 61/61 complete`；本轮没有新增 Path3 `--only-base-ids` 回测，预算投给 A股 Path2/4、Path5 事件入口和 HK Path4-7。Path3 继续只比较纯 `_weekly` 候选，没有把 Path1 月度 overlay 纳入 Path3。
+- 本轮执行的 Path3 动作为巡检与 weighted 同步；`scripts/update_weighted_winners.py` 后 Path3 window winner、robust candidate、tracked/live/public payload 均未切换。本轮没有 Path3 evict。
+- 候选设计：最终 focus 转为 `turnover_reduction`，下一轮仍应在 `cap40/hold8/exit98/risk08` 低换手形态上继续压换手，同时避免 2023 进一步塌陷。新增前建议归档一条旧弱线：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly`，理由是下一候选覆盖同一 exit98/risk08 邻域。
+- 下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn01_exit98_risk08_weekly`；若未注册，先加入 Path3 weekly scan 并同步归档上述旧线。
+
 ## 本轮执行计划（2026-06-15 17:18 CST）
 
 - 最终 guard 为 `pass`，`ashare_path3_weekly_universe 61/61 complete`；本轮继续只比较纯 `_weekly` 候选，没有把 Path1 月度 overlay 纳入 Path3。新增前归档 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`，理由是本轮 `cap40/hold8/turn02/risk08` 覆盖同一低换手 exit98 邻域且旧线未改善 robust。

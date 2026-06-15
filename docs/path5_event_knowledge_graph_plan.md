@@ -1,5 +1,15 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-16 05:17 CST 状态
+
+最终 guard 入口仍为 `pass`，Path5 维持 `basket_count=2`、`active_basket_count=2`、`frozen_candidate_count=12`、`backtest_ready_count=12`、`pending_audit_count=0`。本轮读取 registry/candidates，并对第二篮子 `ai_power_liquid_cooling_20260528_v0` 用当前 Path4 robust 参考做 5/10/20/40/60D event entry probe；没有把事件篮子写入 A股 winner/tracked。
+
+本轮命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_power_liquid_cooling_20260528_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_power_liquid_cooling_20260528_v0.json`。
+
+结果：事件日 `2026-05-28` 后当前只有 `12` 个可用交易日，5D 等权 `-7.60%`、seed weight `-7.31%`；10D 等权 `-16.04%`、seed weight `-15.50%`；20/40/60D 仍为 `insufficient_data`。6 个冻结候选中 5 个有事件后价格，`603063.SH 禾望电气` 暂无事件后价格。Path4 参考快照按事件日前 `2026-04-30` 取数，overlap 为 `0/6`，Path4 重合权重为 `0`。
+
+结论：第二篮子仍是独立于 Path4 的事件层负样本，不能进入 winner/tracked；但它提供了与第一篮子强 20D 正样本相反的可审计对照。最终 focus 转为 `event_basket_registry`，下一轮候选池映射为 `third_event_basket_draft_20260616_v0`：先补第三个事件篮子的 registry/candidates 草案并完成来源审计，再跑 entry probe。若下一轮仍未补第三篮子，第一条保底复核命令为：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_mrc_uec_ai_network_20260506_v0.json`。
+
 ## 2026-06-15 17:18 CST 状态
 
 最终 guard 入口仍为 `pass`，Path5 维持 `basket_count=2`、`active_basket_count=2`、`frozen_candidate_count=12`、`backtest_ready_count=12`、`pending_audit_count=0`。本轮读取 registry/candidates，并对第一篮子 `mrc_uec_ai_network_20260506_v0` 用当前 Path4 robust 参考做 20/40/60D event entry probe；没有把事件篮子写入 A股 winner/tracked。
