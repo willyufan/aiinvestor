@@ -1,5 +1,12 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-17 05:20 CST）
+
+- 最终 guard 为 `pass`，HK 总候选 `384/384 complete`；本轮 HK Path2 完成巡检、tracked 同步和下一轮候选设计，没有新增 Path2 `--only-strategy-ids` 回测。普通 breakout 与 terminal breakout 仍按失败支线处理，HK Path2 不并入 A股结论。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path2 window winner、robust candidate、tracked/live/public payload 均未切换；robust 仍为 `hkconnect_path2_theme_monthly_cost_control`。本轮无 HK Path2 evict。
+- 本轮未回测原因：HK 新增预算优先投给 Path4-7 扩展四条 v22；Path2 只做 focus 映射和候选命令记录。
+- 最终 focus 为 `high_return_monthly`。下一轮第一条命令建议停止 biweekly breakout 支线，回到主题月频高收益修复并控制回撤：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v37_high_return_monthly`；若未注册，先注册。验收仍看 `since_2023_01 >= 30%` 且 2017 MaxDD 不劣于 `-20%~-25%`。
+
 ## 本轮执行计划（2026-06-16 17:36 CST）
 
 - 最终 guard 为 `pass`，HK 总候选 `380/380 complete`；上一轮预留的 terminal breakout `hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v36_terminal_check` 本轮已五窗口确认，HK Path2 不并入 A股结论。

@@ -13,6 +13,13 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-17 05:20 CST）
+
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 994/994 complete`；本轮 Path2 只运行 `scripts/path2_candidate_pass.py` 巡检与 weighted 同步，没有新增 Path2 `--only-base-ids` 回测，继续保持 `growth_elastic` 独立池，没有把 Path4 emergent_theme 变体并入 Path2 scan。
+- `scripts/path2_candidate_pass.py` 后四窗口 winner 仍由既有高弹性家族占优，robust 仍为 `core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm75_caution80_cap95`；`scripts/update_weighted_winners.py` 的 official Path2 candidate 仍为旧低换手周频形态，window winner、robust candidate、tracked/live/public payload 未因本轮改变。本轮无 Path2 evict。
+- 本轮未回测原因：新增策略预算优先给 `ashare_path4_emergent_theme` 的 capacity/cost 三底座和 HK Path4-7 四条扩展候选；Path2 完成候选设计但不消耗新增实验名额。
+- 最终 focus 为 `medium_cycle_growth`。下一轮第一条命令建议把上一轮 v43 低相关弹性失败后转回中周期增长修复：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v45_medium_cycle_growth,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v45_medium_cycle_growth`；若未注册，先注册到 Path2 `high_growth_theme`/medium-cycle 候选池。
+
 ## 本轮执行计划（2026-06-16 17:36 CST）
 
 - 最终 guard 为 `pass`，`ashare_path2_candidate_universe 986/986 complete`；上一轮预留的 underrepresented `momentum_equal_weight_elastic` v43 本轮已注册并五窗口确认，Path2 仍使用 `growth_elastic` 独立池，没有吸收 Path4 emergent_theme 结果。

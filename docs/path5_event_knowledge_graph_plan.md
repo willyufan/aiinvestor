@@ -1,5 +1,15 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-17 05:20 CST 状态
+
+最终 guard 入口为 `pass`，Path5 维持 `basket_count=3`、`active_basket_count=3`、`frozen_candidate_count=18`、`backtest_ready_count=18`、`pending_audit_count=0`。本轮读取 registry/candidates 后，没有新增事件篮子或 seed；按上一轮要求对第三篮子 `ai_glasses_edge_terminal_20260424_v0` 使用既有 Path4 robust 做 overlap 对照补探针。
+
+本轮命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4robust.json`。
+
+结果：事件日 `2026-04-24` 后 6 个候选 20D 等权收益 `21.80%`、seed weight 收益 `21.99%`；40D 仍为 `insufficient_data`，当前可用交易日 `34`。Path4 robust 参考在事件日前取 `2026-03-31` 快照，持仓数 `18`，与 6 个冻结候选 overlap 为 `0/6`、Path4 overlap weight 为 `0`。
+
+结论：AI 眼镜事件篮子是独立于 Path4 robust 的正收益事件线索，但还不满 40D，不能进入 winner/robust/tracked。最终 focus 为 `frozen_candidate_audit`，当前无 pending audit，下一轮第一条命令建议等 40D 补齐后复跑同一探针并记录 `available_trading_days`：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4robust.json`。
+
 ## 2026-06-16 17:36 CST 状态
 
 最终 guard 入口为 `pass`，Path5 现在为 `basket_count=3`、`active_basket_count=3`、`frozen_candidate_count=18`、`backtest_ready_count=18`、`pending_audit_count=0`。上一轮要求补第三篮子，本轮已新增并审计冻结 `ai_glasses_edge_terminal_20260424_v0`（AI 眼镜与端侧 AI 终端硬件），6 个候选全部 `source_audited` 且 `include_in_backtest=true`；没有把事件篮子写入 A股 winner/tracked。
