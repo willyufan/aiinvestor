@@ -9,6 +9,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险25成本再确认) |  | 787.44% | 25.84% | -12.67% | 1.0770 | 3.02 |
 | 2026-06-15 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk14_reconfirm` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险14成本再确认) | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk10_reconfirm` | 697.80% | 24.43% | -12.84% | 1.0389 | 2.99 |
 | 2026-06-12 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk14_reconfirm` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险14成本再确认) | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk10_reconfirm` | 634.61% | 23.36% | -12.84% | 0.9973 | 2.99 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered` | 核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓)__月度选股_周度仓位调整(双周确认) | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__port_weekly_exposure` | 893.36% | 27.34% | -28.35% | 1.0733 | 3.60 |
@@ -36,6 +37,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险20成本再确认) |  | 545.42% | 33.23% | -12.03% | 1.1749 | 3.36 |
 | 2026-06-15 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险18成本再确认) |  | 462.69% | 30.44% | -12.04% | 1.1042 | 3.36 |
 | 2026-06-12 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险18成本再确认) |  | 420.57% | 28.89% | -12.04% | 1.0536 | 3.36 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险18成本再确认) |  | 424.39% | 29.04% | -12.04% | 1.0587 | 3.36 |
@@ -63,6 +65,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险20成本再确认) | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered` | 180.90% | 34.33% | -17.94% | 1.1126 | 3.39 |
 | 2026-06-15 | `core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95_dd_guard50` | 核心80_探索20_总市值底座_胜出者核心__进攻1/99 晋升2只(量价前15%, 动量三档40%, 恢复70, 日级回撤防守50%) | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered` | 173.78% | 33.34% | -19.01% | 1.0881 | 8.49 |
 | 2026-06-12 | `core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95_dd_guard50` | 核心80_探索20_总市值底座_胜出者核心__进攻1/99 晋升2只(量价前15%, 动量三档40%, 恢复70, 日级回撤防守50%) | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered` | 166.76% | 32.36% | -19.01% | 1.0607 | 8.49 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95_dd_guard50` | 核心80_探索20_总市值底座_胜出者核心__进攻1/99 晋升2只(量价前15%, 动量三档40%, 恢复70, 日级回撤防守50%) | `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__port_weekly_exposure_buffered` | 169.58% | 32.76% | -19.01% | 1.0719 | 8.49 |
@@ -90,6 +93,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` | 核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard` | 131.76% | 75.13% | -6.66% | 1.7935 | 4.82 |
 | 2026-06-15 | `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` | 核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard` | 128.50% | 73.48% | -6.66% | 1.7611 | 4.82 |
 | 2026-06-12 | `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` | 核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard` | 120.38% | 69.35% | -6.66% | 1.6730 | 4.82 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` | 核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard` | 175.23% | 96.39% | -10.17% | 2.0590 | 4.37 |
@@ -117,6 +121,7 @@
 
 | 日期 | 策略ID | 策略名称 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险25成本再确认) | 517.23% | 32.31% | -13.04% | 1.1460 | 3.37 |
 | 2026-06-15 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk14_reconfirm` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险14成本再确认) | 458.02% | 30.28% | -12.02% | 1.0981 | 3.33 |
 | 2026-06-12 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk14_reconfirm` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险14成本再确认) | 416.26% | 28.73% | -12.02% | 1.0476 | 3.33 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk14_reconfirm` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险14成本再确认) | 420.04% | 28.87% | -12.02% | 1.0527 | 3.33 |
@@ -145,6 +150,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有3周, 换手5%, 出场94%, 单周) |  | 467.29% | 20.50% | -24.44% | 0.9433 | 2.08 |
 | 2026-06-15 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有3周, 换手5%, 出场94%, 单周) |  | 467.07% | 20.50% | -24.44% | 0.9431 | 2.08 |
 | 2026-06-12 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有3周, 换手5%, 出场94%, 单周) | `core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle` | 443.63% | 20.00% | -24.44% | 0.9249 | 2.08 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只 |  | 521.93% | 21.21% | -25.70% | 0.8886 | 2.51 |
@@ -172,6 +178,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) |  | 315.91% | 25.10% | -24.67% | 1.0691 | 1.99 |
 | 2026-06-15 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) |  | 315.11% | 25.06% | -24.67% | 1.0680 | 1.99 |
 | 2026-06-12 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) |  | 297.36% | 24.28% | -24.67% | 1.0420 | 1.99 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off` | 244.57% | 20.96% | -26.64% | 0.8237 | 2.84 |
@@ -199,6 +206,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap70` | 核心80_探索20_总市值底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 熊市保留50%, or, 单票70%) |  | 254.67% | 43.58% | -14.63% | 1.2543 | 2.62 |
 | 2026-06-15 | `core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap70` | 核心80_探索20_总市值底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 熊市保留50%, or, 单票70%) |  | 253.32% | 43.42% | -14.63% | 1.2506 | 2.62 |
 | 2026-06-12 | `core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_or_cap70` | 核心80_探索20_总市值底座_胜出者核心__进攻1/99 晋升2只(核心6-1动量, 量价晋升前15%, 熊市保留50%, or, 单票70%) |  | 238.32% | 41.66% | -14.63% | 1.2069 | 2.62 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` | 核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只 |  | 171.94% | 33.09% | -29.80% | 0.9886 | 2.96 |
@@ -226,6 +234,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 124.37% | 71.39% | -8.16% | 1.8990 | 4.19 |
 | 2026-06-15 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 121.46% | 69.90% | -8.16% | 1.8642 | 4.19 |
 | 2026-06-12 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升3只(核心6-1动量, 关闭熊市降仓, 单票60%) | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 120.10% | 69.21% | -8.16% | 1.8472 | 4.19 |
 | 2026-06-11 | `core_explore_70_30_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly` | 核心70_探索30_等权底座_胜出者核心__进攻1/99 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 单周) | `core_explore_80_20_total_mv_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly` | 347.92% | 182.81% | -34.01% | 1.7408 | 18.15 |
@@ -253,6 +262,7 @@
 
 | 日期 | 策略ID | 策略名称 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) | 315.91% | 25.10% | -24.67% | 1.0691 | 1.99 |
 | 2026-06-15 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) | 315.11% | 25.06% | -24.67% | 1.0680 | 1.99 |
 | 2026-06-12 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) | 297.36% | 24.28% | -24.67% | 1.0420 | 1.99 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7` | 核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只 | 244.57% | 20.96% | -26.64% | 0.8237 | 2.84 |
@@ -282,6 +292,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有3周, 换手5%, 出场94%, 单周) |  | 467.29% | 20.50% | -24.44% | 0.9433 | 2.08 |
 | 2026-06-15 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有3周, 换手5%, 出场94%, 单周) |  | 467.07% | 20.50% | -24.44% | 0.9431 | 2.08 |
 | 2026-06-12 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有3周, 换手5%, 出场94%, 单周) |  | 443.63% | 20.00% | -24.44% | 0.9249 | 2.08 |
 | 2026-06-11 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有3周, 换手5%, 出场94%, 单周) |  | 227.33% | 13.62% | -25.00% | 0.8133 | 2.19 |
@@ -309,6 +320,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) |  | 315.91% | 25.10% | -24.67% | 1.0691 | 1.99 |
 | 2026-06-15 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) |  | 315.11% | 25.06% | -24.67% | 1.0680 | 1.99 |
 | 2026-06-12 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) |  | 297.36% | 24.28% | -24.67% | 1.0420 | 1.99 |
 | 2026-06-11 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit98_risk16_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(成本压力熊市16%, 单票50%, 持有5周, 换手5%, 出场98%, 单周) |  | 255.66% | 22.13% | -25.33% | 0.9803 | 1.49 |
@@ -336,6 +348,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold5_turn05_exit96_risk20_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(成本压力熊市20%, 单票56%, 持有5周, 换手5%, 出场96%, 单周) |  | 71.16% | 17.10% | -17.90% | 0.9266 | 1.75 |
 | 2026-06-15 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold5_turn05_exit96_risk20_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(成本压力熊市20%, 单票56%, 持有5周, 换手5%, 出场96%, 单周) |  | 72.81% | 17.43% | -17.90% | 0.9401 | 1.75 |
 | 2026-06-12 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold5_turn05_exit96_risk20_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(成本压力熊市20%, 单票56%, 持有5周, 换手5%, 出场96%, 单周) |  | 67.82% | 16.53% | -17.90% | 0.8993 | 1.76 |
 | 2026-06-11 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有2周, 换手12%, 出场92%, 单周) | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly` | 83.72% | 19.69% | -23.16% | 0.8044 | 3.40 |
@@ -363,6 +376,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) |  | 195.78% | 110.01% | -13.07% | 2.4161 | 5.07 |
 | 2026-06-15 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) |  | 181.00% | 102.77% | -13.07% | 2.3675 | 5.07 |
 | 2026-06-12 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) |  | 163.63% | 95.83% | -13.07% | 2.2622 | 5.12 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly` | 核心80_探索20_总市值底座_胜出者核心__进攻1/99 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 单周) |  | 633.13% | 297.98% | -38.85% | 2.1138 | 15.14 |
@@ -390,6 +404,7 @@
 
 | 日期 | 策略ID | 策略名称 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) | 315.91% | 25.10% | -24.67% | 1.0691 | 1.99 |
 | 2026-06-15 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) | 315.11% | 25.06% | -24.67% | 1.0680 | 1.99 |
 | 2026-06-12 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周) | 297.36% | 24.28% | -24.67% | 1.0420 | 1.99 |
 | 2026-06-11 | `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly` | 核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有2周, 换手12%, 出场92%, 单周) | 189.21% | 18.22% | -28.10% | 0.7958 | 3.52 |
@@ -419,6 +434,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn` | 核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市14%, 单票8%, 出场62%, 低换手) |  | 197.59% | 12.16% | -17.45% | 0.7644 | 3.95 |
 | 2026-06-15 | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn` | 核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市14%, 单票8%, 出场62%, 低换手) |  | 193.32% | 11.99% | -17.45% | 0.7589 | 3.95 |
 | 2026-06-12 | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn` | 核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市14%, 单票8%, 出场62%, 低换手) |  | 180.42% | 11.46% | -17.45% | 0.7377 | 3.95 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit58_lowturn` | 核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市12%, 单票8%, 出场58%, 低换手) |  | 222.23% | 13.11% | -16.86% | 0.8213 | 3.91 |
@@ -444,6 +460,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn` | 核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市14%, 单票8%, 出场62%, 低换手) | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap06_exit60_lowturn` | 117.03% | 12.66% | -17.45% | 0.7277 | 3.90 |
 | 2026-06-15 | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn` | 核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市14%, 单票8%, 出场62%, 低换手) | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap06_exit60_lowturn` | 113.91% | 12.41% | -17.45% | 0.7196 | 3.90 |
 | 2026-06-12 | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn` | 核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市14%, 单票8%, 出场62%, 低换手) |  | 104.51% | 11.64% | -17.45% | 0.6897 | 3.90 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit58_lowturn` | 核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市12%, 单票8%, 出场58%, 低换手) |  | 138.55% | 14.31% | -15.22% | 0.8140 | 3.83 |
@@ -469,6 +486,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50` | 核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(强主题涌现, 熊市30%, 单票50%) |  | 191.79% | 35.79% | -12.63% | 1.1805 | 3.13 |
 | 2026-06-15 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50` | 核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(强主题涌现, 熊市30%, 单票50%) |  | 190.59% | 35.63% | -12.63% | 1.1763 | 3.13 |
 | 2026-06-12 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50` | 核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(强主题涌现, 熊市30%, 单票50%) |  | 181.48% | 34.40% | -12.63% | 1.1425 | 3.13 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50` | 核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(强主题涌现, 熊市30%, 单票50%) |  | 182.37% | 34.53% | -12.63% | 1.1460 | 3.13 |
@@ -494,6 +512,7 @@
 
 | 日期 | 策略ID | 策略名称 | Raw过滤 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50` | 核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(强主题涌现, 熊市30%, 单票50%) | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn` | 54.86% | 33.85% | -6.23% | 1.9043 | 4.89 |
 | 2026-06-15 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50` | 核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(强主题涌现, 熊市30%, 单票50%) | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn` | 53.32% | 32.96% | -6.23% | 1.8585 | 4.89 |
 | 2026-06-12 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50` | 核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(强主题涌现, 熊市30%, 单票50%) | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn` | 51.57% | 31.95% | -6.23% | 1.8013 | 4.89 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit58_lowturn` | 核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市12%, 单票8%, 出场58%, 低换手) |  | 90.70% | 53.78% | -6.58% | 1.8130 | 6.77 |
@@ -519,6 +538,7 @@
 
 | 日期 | 策略ID | 策略名称 | 整体收益率 | CAGR | MaxDD | Sharpe | Turnover |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-06-16 | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn` | 核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市14%, 单票8%, 出场62%, 低换手) | 117.03% | 12.66% | -17.45% | 0.7277 | 3.90 |
 | 2026-06-15 | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn` | 核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市14%, 单票8%, 出场62%, 低换手) | 113.91% | 12.41% | -17.45% | 0.7196 | 3.90 |
 | 2026-06-12 | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn` | 核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市14%, 单票8%, 出场62%, 低换手) | 104.51% | 11.64% | -17.45% | 0.6897 | 3.90 |
 | 2026-06-11 | `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn` | 核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升12只(强主题涌现, 覆盖惩罚, 信号30%, 龙头80%, 熊市14%, 单票8%, 出场62%, 低换手) | 107.80% | 11.91% | -17.45% | 0.7011 | 3.90 |
