@@ -1,5 +1,12 @@
 # Path 4 强主题涌现路径
 
+## 本轮执行计划（2026-06-16 17:36 CST）
+
+- 最终 guard 为 `pass`，`ashare_path4_emergent_theme 60/60 complete`；上一轮预留的 `theme_risk_control` 新 variant 已在 3 个 Path4 base ids 上五窗口确认。为保持 active 池 cap，本轮从 `PATH4_THEME_DISCOVERY_VARIANT_IDS` 移出旧弱项 `aggr_13_87_prom18_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk12_cap08_exit60_lowturn`，evict 理由是 active 内均值最低（约 `12.15%`）且最差回撤约 `-25.71%`，不属于 winner/robust。
+- 本轮新增并五窗口确认 3 个 Path4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader82_coverage_penalty_risk10_cap06_exit58_lowturn`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader82_coverage_penalty_risk10_cap06_exit58_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader82_coverage_penalty_risk10_cap06_exit58_lowturn`。实际命令为五窗口 `--only-base-ids` 增量确认，覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。
+- 80/20 总市值版 CAGR `11.60% / 12.31% / 8.46% / 45.87% / 49.89%`，最大回撤 `-17.69% / -17.69% / -8.48% / -10.41% / -9.73%`；90/10 等权版 CAGR `2.64% / 5.31% / 6.41% / 18.11% / 16.45%`；90/10 总市值版 CAGR `5.39% / 6.27% / 4.18% / 17.44% / 17.95%`。结论：新 variant 相比旧 robust 更偏短窗风险控制，但 2023 稳定性不足，不替换 Path4 window winner 或 tracked-only robust。
+- `scripts/update_weighted_winners.py` 后 Path4 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn`。最终 focus 为 `theme_capacity_cost`，下一轮第一条命令建议在本轮胜出的 80/20 形态上继续压单票容量和换手成本：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-15 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader82_coverage_penalty_risk10_cap04_exit58_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader82_coverage_penalty_risk10_cap04_exit58_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader82_coverage_penalty_risk10_cap04_exit58_lowturn`；若未注册，先新增 variant 并同步 evict 一条旧弱项。
+
 ## 定位
 
 Path 4 用来捕捉从市场结构中自动涌现的强主题，不使用人工主题名单，也不把“半导体、存储”等事后标签写进策略。ETF 先不纳入，本阶段只在现有 A 股股票动态池内探索。

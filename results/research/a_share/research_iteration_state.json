@@ -1,113 +1,113 @@
 {
-  "updated_at": "2026-06-16T05:28:18+08:00",
+  "updated_at": "2026-06-16T17:38:19+08:00",
   "as_of": "2026-06-15",
   "paths": {
     "ashare_path1": {
       "signature": "d1a396e39c072f96115b",
       "changed": false,
-      "stagnation_runs": 25,
+      "stagnation_runs": 28,
       "stagnation_threshold": 3,
-      "recommended_focus": "core_multifactor_coverage",
+      "recommended_focus": "signal_quality",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-13T05:03:52+08:00"
     },
     "ashare_path2": {
       "signature": "e59fd541158964e1fac6",
       "changed": false,
-      "stagnation_runs": 6,
+      "stagnation_runs": 9,
       "stagnation_threshold": 3,
-      "recommended_focus": "underrepresented_families",
+      "recommended_focus": "capacity_and_cost_stress",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-15T17:04:01+08:00"
     },
     "ashare_path3": {
       "signature": "52f282390d7b1694be77",
       "changed": false,
-      "stagnation_runs": 25,
+      "stagnation_runs": 28,
       "stagnation_threshold": 3,
-      "recommended_focus": "turnover_reduction",
+      "recommended_focus": "weekly_exit_buffer",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-13T05:03:52+08:00"
     },
     "ashare_path4": {
       "signature": "ee9d318d9cdd4a38d72d",
       "changed": false,
-      "stagnation_runs": 6,
+      "stagnation_runs": 9,
       "stagnation_threshold": 3,
-      "recommended_focus": "theme_risk_control",
+      "recommended_focus": "theme_capacity_cost",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-15T17:04:01+08:00"
     },
     "ashare_path5": {
-      "signature": "ef15406b58cf7424dbad",
+      "signature": "f59a72e43410b4b60116",
       "changed": false,
-      "stagnation_runs": 37,
+      "stagnation_runs": 1,
       "stagnation_threshold": 3,
       "recommended_focus": "event_basket_registry",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-06-11T05:14:39+08:00"
+      "rotation_status": "continue",
+      "last_changed_at": "2026-06-16T17:33:38+08:00"
     },
     "hkconnect_path1": {
       "signature": "669f92b1510f0f267a17",
       "changed": false,
-      "stagnation_runs": 115,
+      "stagnation_runs": 118,
       "stagnation_threshold": 3,
-      "recommended_focus": "risk_overlay_cost",
+      "recommended_focus": "monthly_weekly_overlay",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-04T22:03:26+08:00"
     },
     "hkconnect_path2": {
       "signature": "262b343dc04e75136c89",
       "changed": false,
-      "stagnation_runs": 57,
+      "stagnation_runs": 60,
       "stagnation_threshold": 3,
-      "recommended_focus": "biweekly_breakout",
+      "recommended_focus": "elasticity_cost_control",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-09T04:52:47+08:00"
     },
     "hkconnect_path3": {
       "signature": "7c6d4310512c00e3df86",
       "changed": false,
-      "stagnation_runs": 64,
+      "stagnation_runs": 67,
       "stagnation_threshold": 3,
-      "recommended_focus": "weekly_turnover_reduction",
+      "recommended_focus": "weekly_defensive_overlay",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-08T22:03:20+08:00"
     },
     "hkconnect_path4": {
       "signature": "1ce57b1a3c2c5b15d1a7",
       "changed": false,
-      "stagnation_runs": 1,
+      "stagnation_runs": 4,
       "stagnation_threshold": 3,
-      "recommended_focus": "quality_momentum",
-      "rotation_status": "continue",
+      "recommended_focus": "liquidity_momentum",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-06-16T05:16:59+08:00"
     },
     "hkconnect_path5": {
       "signature": "ca74ef0ddf48b580f92f",
       "changed": false,
-      "stagnation_runs": 1,
+      "stagnation_runs": 4,
       "stagnation_threshold": 3,
-      "recommended_focus": "pullback_definition",
-      "rotation_status": "continue",
+      "recommended_focus": "retest_confirmation",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-06-16T05:16:59+08:00"
     },
     "hkconnect_path6": {
       "signature": "7bb5a3e0f1f21fc95f59",
       "changed": false,
-      "stagnation_runs": 1,
+      "stagnation_runs": 4,
       "stagnation_threshold": 3,
-      "recommended_focus": "large_liquid_core",
-      "rotation_status": "continue",
+      "recommended_focus": "lowvol_liquid_core",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-06-16T05:16:59+08:00"
     },
     "hkconnect_path7": {
       "signature": "2db7c1dcb6baa0bfb6e5",
       "changed": false,
-      "stagnation_runs": 1,
+      "stagnation_runs": 4,
       "stagnation_threshold": 3,
-      "recommended_focus": "barbell_sleeve_structure",
-      "rotation_status": "continue",
+      "recommended_focus": "biweekly_barbell",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-06-16T05:16:59+08:00"
     }
   },
@@ -191,16 +191,17 @@
         "candidates_path": "results/research/a_share/event_theme_candidates.jsonl",
         "registry_exists": true,
         "candidates_exists": true,
-        "basket_count": 2,
-        "active_basket_count": 2,
+        "basket_count": 3,
+        "active_basket_count": 3,
         "basket_ids": [
           "mrc_uec_ai_network_20260506_v0",
-          "ai_power_liquid_cooling_20260528_v0"
+          "ai_power_liquid_cooling_20260528_v0",
+          "ai_glasses_edge_terminal_20260424_v0"
         ],
-        "candidate_count": 12,
-        "frozen_candidate_count": 12,
+        "candidate_count": 18,
+        "frozen_candidate_count": 18,
         "pending_audit_count": 0,
-        "backtest_ready_count": 12,
+        "backtest_ready_count": 18,
         "minimum_event_basket_entry": {
           "ready": true,
           "next_step": "source_audit_then_event_backtest_entry",
@@ -219,11 +220,11 @@
       }
     },
     "hkconnect": {
-      "candidate_count": 377,
+      "candidate_count": 380,
       "path_counts": {
-        "path1": 96,
-        "path2": 99,
-        "path3": 97,
+        "path1": 97,
+        "path2": 100,
+        "path3": 98,
         "path4": 24,
         "path5": 16,
         "path6": 23,

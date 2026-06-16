@@ -4,6 +4,13 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-16 17:36 CST）
+
+- 最终 guard 为 `pass`，`ashare_path1_core_multifactor 54/54 complete`、`ashare_path1_fast_family 118/118 complete`；上一轮预留的 core_multifactor `quality_profitability_value_lowvol_trend_signal_cashguard_risk18_reconfirm` 本轮已注册并五窗口确认，同时继续用 `scripts/winner_only_pass.py` 巡检旧 fast-pass clear-improvement。
+- 本轮新增并五窗口确认 1 个 Path1/core_multifactor base id：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_risk18_reconfirm`。实际命令与 A股 Path2/3/4 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-15 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_risk18_reconfirm,...`。
+- 该候选五窗口 CAGR 为 `4.83% / -2.38% / 20.03% / 40.60% / 27.54%`，最大回撤 `-31.18% / -30.01% / -12.19% / -8.65% / -2.55%`，换手 `2.76x / 2.45x / 2.62x / 4.88x / 5.67x`。结论：短窗风险可控但 2017/2020 失效，不替换 Path1 window winner、composite robust、tracked/live/public payload；本轮无 Path1 evict。
+- `scripts/winner_only_pass.py` 仍提示旧 `risk25_reconfirm` 与 `share_22_78_hold_2_8_ramp64_cost_guard` 有分窗 clear-improvement；这些不是本轮新增实验。最终 focus 为 `signal_quality`，下一轮第一条命令建议改测更窄的质量/盈利信号而非继续堆叠 value/lowvol/trend：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-15 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk14_reconfirm`；若未注册，先加入 `WINNER_CORE_VARIANTS`、`PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`。
+
 ## 本轮执行计划（2026-06-16 05:17 CST）
 
 - 最终 guard 为 `pass`，`ashare_path1_core_multifactor 53/53 complete`、`ashare_path1_fast_family 117/117 complete`；本轮 Path1 只做 `scripts/winner_only_pass.py` 巡检和 weighted 同步，没有新增 Path1 `--only-base-ids` 回测，也没有 core_multifactor overlay 或 evict。

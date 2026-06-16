@@ -1,5 +1,15 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-16 17:36 CST 状态
+
+最终 guard 入口为 `pass`，Path5 现在为 `basket_count=3`、`active_basket_count=3`、`frozen_candidate_count=18`、`backtest_ready_count=18`、`pending_audit_count=0`。上一轮要求补第三篮子，本轮已新增并审计冻结 `ai_glasses_edge_terminal_20260424_v0`（AI 眼镜与端侧 AI 终端硬件），6 个候选全部 `source_audited` 且 `include_in_backtest=true`；没有把事件篮子写入 A股 winner/tracked。
+
+本轮 registry/candidates/audit 增量：`002241.SZ`、`002475.SZ`、`300433.SZ`、`002273.SZ`、`002600.SZ`、`603501.SH`。本轮命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20,40 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader82_coverage_penalty_risk10_cap06_exit58_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0.json`。
+
+结果：事件日 `2026-04-24` 后 6 个候选全部具备 5/10/20D 数据，等权收益 `2.67% / 15.79% / 21.80%`，seed weight 收益 `2.63% / 15.94% / 21.99%`；40D 仍为 `insufficient_data`。Path4 对照为 `missing_reference_strategy`，原因是本轮新 Path4 variant 没有对应 public strategy detail 文件；这不影响事件篮子收益探针，但下一轮需要先用既有 Path4 robust 对照补 overlap。
+
+结论：第三篮子是正收益但尚未满 40D 的可审计样本，作为 Path5 入口有效推进；Path5 rotation signature 已因篮子扩容变化，但不进入 winner/robust。下一轮第一条命令先补对照而不是新增第四篮子：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4robust.json`；若 40D 仍不足，再记录 `available_trading_days` 并等待下一轮数据。
+
 ## 2026-06-16 05:17 CST 状态
 
 最终 guard 入口仍为 `pass`，Path5 维持 `basket_count=2`、`active_basket_count=2`、`frozen_candidate_count=12`、`backtest_ready_count=12`、`pending_audit_count=0`。本轮读取 registry/candidates，并对第二篮子 `ai_power_liquid_cooling_20260528_v0` 用当前 Path4 robust 参考做 5/10/20/40/60D event entry probe；没有把事件篮子写入 A股 winner/tracked。
