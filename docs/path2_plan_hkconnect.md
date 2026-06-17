@@ -1,5 +1,12 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-17 18:02 CST）
+
+- 最终 guard 为 `pass`，HK 总候选 `387/387 complete`；本轮新增并五窗口确认 HK Path2 `hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v37_high_return_monthly`，不并入 A股结论。
+- 本轮命令类型为五窗口 `--only-strategy-ids` 增量确认，实际与 HK Path1/3 合并执行。v37 五窗口 CAGR `19.51% / 23.33% / 24.09% / 47.57% / 10.96%`，最大回撤 `-21.65% / -10.36% / -10.19% / -10.41% / -9.91%`，换手 `4.56x / 4.33x / 4.76x / 5.51x / 4.89x`。
+- 结论：v37 明显优于近期 biweekly breakout 支线，且 2026 转正，但 `since_2023_01` 仍低于 `30%` 验收线，长窗也未超过既有 monthly robust；不替换 HK Path2 window winner、robust candidate 或 tracked payload。本轮无 HK Path2 evict。
+- 最终 focus 为 `biweekly_breakout`，但该 focus 需要限制为一次低回撤 terminal check，不能重启普通高换手 breakout。下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v38_terminal_lowdraw`；若未注册，先注册；若仍低于 `since_2023_01 >= 30%` 或长窗回撤穿 `25%`，下一轮后停止 biweekly breakout 支线并回到 high-return monthly。
+
 ## 本轮执行计划（2026-06-17 05:20 CST）
 
 - 最终 guard 为 `pass`，HK 总候选 `384/384 complete`；本轮 HK Path2 完成巡检、tracked 同步和下一轮候选设计，没有新增 Path2 `--only-strategy-ids` 回测。普通 breakout 与 terminal breakout 仍按失败支线处理，HK Path2 不并入 A股结论。

@@ -1,5 +1,13 @@
 # Path 4 强主题涌现路径
 
+## 本轮执行计划（2026-06-17 18:02 CST）
+
+- 最终 guard 为 `pass`，`ashare_path4_emergent_theme 60/60 complete`；开局新增 `signal28/leader76/prom18/cap06` 变体后 guard 报 3 个阻塞缺口，已按 rerun command 只用 `--only-base-ids` 补齐三底座五窗口，没有替换成全量回测。
+- 本轮新增并五窗口确认 3 个 Path4 base ids：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn`。命令覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。
+- 80/20 总市值版五窗口 CAGR `13.46% / 12.16% / 12.31% / 59.54% / 77.38%`，最大回撤 `-17.80% / -14.88% / -5.32% / -7.61% / -11.05%`，换手 `3.58x / 3.59x / 3.19x / 6.23x / 6.30x`；它成为 Path4 `since_2017_01` window winner，并使 Path4 rotation 重置为 `continue`。90/10 总市值版更稳但收益低，五窗口 CAGR `7.18% / 7.96% / 5.28% / 23.98% / 38.42%`；90/10 等权版长窗仅 `4.04% / 4.86%`。
+- `scripts/update_weighted_winners.py` 的验证层仍拒绝把新 80/20 变体作为 2020/2025 替代，原因是 `since_2023_01` 校验 CAGR `12.31%` 低于 incumbent 要求；因此它只改 Path4 2017 window winner，不改 robust/tracked。为维持 active cap，本轮从 `PATH4_THEME_DISCOVERY_VARIANT_IDS` 移出旧弱项 `aggr_13_87_prom12_emergent_theme_quality_gate_signal29_leader76_coverage_penalty_risk18_cap14_exit66_lowturn`，evict 理由是旧高风险/高 cap 邻域且不属于 winner/robust。
+- 最终 focus 为 `emergent_theme_coverage`。下一轮第一条命令建议沿本轮胜出的 coverage 放宽方向提高晋升宽度，同时观察是否改善 2023 稳定性：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn`；若未注册，先新增 variant 并同步 evict 一条非 winner/robust 弱项。
+
 ## 本轮执行计划（2026-06-17 05:20 CST）
 
 - 最终 guard 为 `pass`，`ashare_path4_emergent_theme 60/60 complete`；开局注册 `aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader82_coverage_penalty_risk10_cap04_exit58_lowturn` 后 guard 先报 3 个缺口，按 rerun command 用 `--only-base-ids` 补齐三底座五窗口。首次未锁 `--end-date` 时因本地 A股缓存未覆盖 `2026-06-17` 失败，随后显式 `--end-date 2026-06-16` 成功。

@@ -1,5 +1,12 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-06-17 18:02 CST）
+
+- 最终 guard 为 `pass`，HK 总候选 `387/387 complete`；本轮新增并五窗口确认 HK Path1 `hkconnect_path1_biweekly_quality_momentum_equal_buffered_v41_biweekly_buffer`，保持沪港通研究线独立，不并入 A股 winner 结论。
+- 本轮命令类型为五窗口 `--only-strategy-ids` 增量确认，实际与 HK Path2/3 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v41_biweekly_buffer,hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v37_high_return_monthly,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff30_turnover0_exit50_v15_turnover_reduction`。
+- v41 五窗口 CAGR `17.14% / 18.66% / 18.49% / 31.34% / -6.41%`，最大回撤 `-20.26% / -18.57% / -11.67% / -9.65% / -5.47%`，换手 `4.08x / 3.99x / 4.11x / 4.94x / 5.04x`。结论：双周缓冲没有修复 2026 负收益，也弱于既有 Path1 robust，不替换 window winner、robust candidate 或 tracked payload。本轮无 HK Path1 evict。
+- 最终 focus 为 `monthly_weekly_overlay`。下一轮第一条命令建议转回月周 overlay 的质量/低波组合：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_quality_lowvol_v42_overlay_repair`；若未注册，先在 HK Path1 variants 中注册。
+
 ## 本轮执行计划（2026-06-17 05:20 CST）
 
 - 最终 guard 为 `pass`，HK 总候选 `384/384 complete`；本轮 HK Path1 完成巡检、tracked 同步和下一轮候选设计，没有新增 Path1 `--only-strategy-ids` 回测，继续独立于 A股 winner 结论。

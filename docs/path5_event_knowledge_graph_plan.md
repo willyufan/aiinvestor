@@ -1,5 +1,15 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-17 18:02 CST 状态
+
+最终 guard 入口为 `pass`，Path5 维持 `basket_count=3`、`active_basket_count=3`、`frozen_candidate_count=18`、`backtest_ready_count=18`、`pending_audit_count=0`。本轮没有新增事件篮子或 seed，按 guard focus `event_backtest_entry`/最终 `path4_comparison` 继续复核第三篮子 `ai_glasses_edge_terminal_20260424_v0`。
+
+本轮命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4robust.json`。
+
+结果：事件日 `2026-04-24` 后 6 个候选 20D 等权收益 `21.80%`、seed weight 收益 `21.99%`；40D/60D 仍为 `insufficient_data`，当前可用交易日 `34`。Path4 robust 参考在事件日前取 `2026-03-31` 快照，持仓数 `18`，与 6 个冻结候选 overlap 为 `0/6`、Path4 overlap weight 为 `0`。
+
+结论：AI 眼镜事件篮子继续是独立于 Path4 robust 的正收益事件线索，但 40D/60D 未成熟，不能进入 winner/robust/tracked。本轮未达成更多 Path5 回测预算的原因是事件窗口客观不足。下一轮第一条命令仍应等 40D 成熟后复跑同一探针并与本轮 Path4 新 2017 winner 同口径比较：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4newwinner.json`。
+
 ## 2026-06-17 05:20 CST 状态
 
 最终 guard 入口为 `pass`，Path5 维持 `basket_count=3`、`active_basket_count=3`、`frozen_candidate_count=18`、`backtest_ready_count=18`、`pending_audit_count=0`。本轮读取 registry/candidates 后，没有新增事件篮子或 seed；按上一轮要求对第三篮子 `ai_glasses_edge_terminal_20260424_v0` 使用既有 Path4 robust 做 overlap 对照补探针。

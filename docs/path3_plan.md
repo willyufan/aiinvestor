@@ -3,6 +3,13 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-17 18:02 CST）
+
+- 最终 guard 为 `pass`，`ashare_path3_weekly_universe 61/61 complete`；本轮继续只比较纯 `_weekly` 候选，没有把 Path1 月度选股 + weekly exposure overlay 纳入 Path3。
+- 本轮新增并五窗口确认 1 个 Path3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn03_exit99_risk08_weekly`。命令类型为五窗口 `--only-base-ids` 增量确认，覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。
+- 该周频候选五窗口 CAGR `14.99% / 17.92% / 10.29% / 75.38% / 93.08%`，最大回撤 `-28.67% / -20.48% / -10.43% / -13.07% / -13.18%`，换手 `1.91x / 1.36x / 0.86x / 2.50x / 3.70x`。结论：收益显著优于上一轮 `turn01` 负样本，但最新持仓出现 `源杰科技`/`拓荆科技` 40%+ 单票，容量与单票幸运风险太高，不替换 Path3 window winner、robust candidate 或 tracked payload。
+- 新增前归档 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn01_exit98_risk08_weekly`，理由是上一轮确认其 2017-2025 收益近乎失效，且本轮候选覆盖同一低风险/低换手邻域。本轮最终 focus 为 `turnover_reduction`，下一轮第一条命令建议在保留 `exit99/hold7` 的同时压单票集中：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold7_turn03_exit99_risk08_weekly`；若未注册，先加入 Path3 weekly scan，并再归档一条同形弱线以维持 active cap。
+
 ## 本轮执行计划（2026-06-17 05:20 CST）
 
 - 最终 guard 为 `pass`，`ashare_path3_weekly_universe 61/61 complete`；本轮 Path3 只做 weighted 同步和纯 `_weekly` 候选巡检，没有新增 Path3 `--only-base-ids` 回测，也没有把 Path1 月度选股 + weekly exposure overlay 计入 Path3。

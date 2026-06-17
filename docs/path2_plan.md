@@ -13,6 +13,13 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-17 18:02 CST）
+
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 999/999 complete`；本轮 Path2 仍使用 `growth_elastic` 独立池，没有把 Path4 emergent_theme 变体并入 Path2 scan。`scripts/path2_candidate_pass.py` 后四窗口 winner 与 robust 仍为旧高弹性组合，本轮 v45 未改变 winner/robust/tracked。
+- 本轮新增并五窗口确认 2 个 Path2 base ids：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v45_medium_cycle_growth`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v45_medium_cycle_growth`。命令类型为五窗口 `--only-base-ids` 增量确认，覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。
+- v45 总市值版五窗口 CAGR `8.00% / 7.87% / 16.54% / 53.07% / 47.82%`，最大回撤 `-21.15% / -16.30% / -16.07% / -16.82% / -10.73%`，换手 `4.46x / 3.75x / 5.46x / 10.03x / 9.01x`；等权版 CAGR `5.31% / 5.39% / 9.63% / 33.79% / 90.81%`，最大回撤 `-27.87% / -17.46% / -21.40% / -21.40% / -10.72%`。结论：中周期成长核心能给短窗弹性，但 2020/2023 远低于 Path2 目标线且 2025/2026 换手过高，不晋级。
+- 本轮无 Path2 evict。最终 focus 为 `risk_reconfirm_sensitivity`。下一轮第一条命令建议在 v45 的中周期成长核心上压风险/单票/再确认，而不是复跑 v45：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm98_caution54_cap18_cost_guard_v46_risk_reconfirm_growth,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm98_caution54_cap18_cost_guard_v46_risk_reconfirm_growth`；若未注册，先加入 Path2 `high_growth_theme`/medium-cycle 候选池。
+
 ## 本轮执行计划（2026-06-17 05:20 CST）
 
 - 最终 guard 为 `pass`，`ashare_path2_candidate_universe 994/994 complete`；本轮 Path2 只运行 `scripts/path2_candidate_pass.py` 巡检与 weighted 同步，没有新增 Path2 `--only-base-ids` 回测，继续保持 `growth_elastic` 独立池，没有把 Path4 emergent_theme 变体并入 Path2 scan。
