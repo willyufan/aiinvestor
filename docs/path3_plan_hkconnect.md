@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-19 05:26 CST）
+
+- 上一轮 HK Path3 只记录 cost_stress 候选；本轮保持纯周频口径，新增并五窗口确认 `hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v17_cost_guard`，没有把 HK Path1/2 的月频或双周候选并入本路径。
+- 本轮命令类型为五窗口 `--only-strategy-ids` 增量确认，实际与 HK Path1/2 合并执行，覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。港股 trade calendar 更新失败后回退本地缓存，退出码为 `0`。
+- v17 五窗口 CAGR `17.57% / 19.46% / 20.68% / 31.78% / -7.60%`，最大回撤 `-31.02% / -18.79% / -12.36% / -12.69% / -11.21%`，换手 `7.04x / 6.85x / 7.34x / 8.29x / 9.00x`。结论：中长窗比近期 stable weekly 低换手线更可比，但 2017 回撤偏深且 2026 转负，不替换 HK Path3 window winner、robust candidate 或 tracked payload。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path3 tracked/live/public 未切换，Path3 候选数 `100`，本轮无 evict。最终 focus 为 `weekly_defensive_overlay`，下一轮第一条命令建议在 v17 成本压力形态上加防守覆盖而不是继续追换手：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit52_v18_defensive_overlay`；若未注册，先注册后再跑。
+
+## 本轮执行计划（2026-06-18 17:16 CST）
+
+- 上一轮 HK Path3 未新增，下一步为 weekly defensive overlay；本轮 Path3 继续保持纯周频口径，只做巡检、artifact 同步和候选设计，没有新增 `--only-strategy-ids` 回测。
+- HK Path3 window winner、robust candidate、tracked/live/public payload 未切换；Path3 候选数仍为 `99`，无 evict。最终 focus 变为 `cost_stress`，提示下一轮应先验证周频成本压力，而不是继续增加防守 overlay。
+- 下一轮第一条命令建议：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v17_cost_guard`；若未注册，先注册后再跑。
+
+## 本轮执行计划（2026-06-18 05:21 CST）
+
+- 最终 guard 为 `pass`，HK 总候选 `391/391 complete`；本轮 HK Path3 保持纯周频口径，没有把 HK Path1/2 的月频或双周候选并入本路径，也没有新增 Path3 `--only-strategy-ids` 回测。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path3 window winner、robust candidate、tracked/live/public payload 均未切换；robust 仍为既有 theme/equal-elastic weekly 线。本轮无 HK Path3 evict。
+- 本轮未回测原因：HK 新增预算优先投给 Path4-7 扩展四条 v23/v17；Path3 只做 focus 映射和下一轮候选记录。上一轮 v15 已说明继续单纯降换手会牺牲 2020/2023 收益。
+- 最终 focus 为 `weekly_defensive_overlay`。下一轮第一条命令建议在 stable weekly 低换手形态上加防守覆盖，而不是继续单纯降换手：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover0_exit52_v16_defensive_overlay`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-17 18:02 CST）
 
 - 最终 guard 为 `pass`，HK 总候选 `387/387 complete`；本轮新增并五窗口确认 HK Path3 纯周频 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff30_turnover0_exit50_v15_turnover_reduction`，没有把 HK Path1/2 的月频或双周候选并入本路径。

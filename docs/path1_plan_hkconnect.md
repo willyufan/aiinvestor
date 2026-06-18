@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-06-19 05:26 CST）
+
+- 上一轮 HK Path1 只做巡检并把下一步指向 monthly-weekly overlay 成本复核；本轮新增并五窗口确认 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_v33_cost_repair`，保持 HK Path1 独立于 A股结论。
+- 本轮命令类型为五窗口 `--only-strategy-ids` 增量确认，实际与 HK Path2/3 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_v33_cost_repair,hkconnect_path2_theme_biweekly_breakout_cost_guard_v39_biweekly_repair,hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v17_cost_guard`。执行时港股 trade calendar 更新失败并回退本地缓存，退出码为 `0`。
+- v33 五窗口 CAGR `18.84% / 23.55% / 24.31% / 34.70% / -10.08%`，最大回撤 `-29.26% / -11.49% / -10.47% / -10.94% / -10.77%`，换手 `3.31x / 3.26x / 3.20x / 3.40x / 3.99x`。结论：2020-2025 可比但 2017 回撤偏深、2026 仍为负，不替换 HK Path1 window winner、robust candidate 或 tracked payload。
+- `scripts/update_hkconnect_artifacts.py` 已刷新 HK tracked 与 Path1-3 图表；最终 guard 为 `pass`，HK Path1 候选数 `99`，无 evict。最终 focus 为 `risk_overlay_cost`，下一轮第一条命令建议回到双周质量动量的风险/成本修复：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v42_risk_overlay_cost`；若未注册，先在 HK Path1 variants 中注册。
+
+## 本轮执行计划（2026-06-18 17:16 CST）
+
+- 上一轮 HK Path1 未新增，下一步候选为双周质量动量缓冲；本轮 HK 新增预算优先投给 Path4-7 扩展线，Path1 只完成巡检、artifact 同步和候选设计，没有新增 `--only-strategy-ids` 回测。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path1 window winner、robust candidate、tracked/live/public payload 未切换；HK 总 coverage 为 `395/395 complete`，Path1 仍为 `98` 个候选，本轮无 evict。
+- 最终 focus 为 `monthly_weekly_overlay`。下一轮第一条命令建议回到月频选股 + 周度风险 overlay 的成本复核：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_v33_cost_repair`；若未注册，先在 HK Path1 variants 中注册。
+
+## 本轮执行计划（2026-06-18 05:21 CST）
+
+- 最终 guard 为 `pass`，HK 总候选 `391/391 complete`；本轮 HK Path1 完成巡检、tracked/artifact 同步和下一轮候选设计，没有新增 Path1 `--only-strategy-ids` 回测，继续独立于 A股 winner 结论。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path1 window winner、robust candidate、tracked/live/public payload 均未切换；robust 仍由既有双周低波/质量动量线维持。本轮无 HK Path1 evict。
+- 本轮未回测原因：HK 新增预算优先投给 Path4-7 扩展四条 v23/v17；Path1 只记录 focus 映射和下一轮命令。
+- 最终 focus 为 `biweekly_buffer`。下一轮第一条命令建议回到双周质量/动量缓冲，而不是继续 monthly-weekly overlay 同形：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v42_biweekly_buffer`；若未注册，先在 HK Path1 variants 中注册。
+
 ## 本轮执行计划（2026-06-17 18:02 CST）
 
 - 最终 guard 为 `pass`，HK 总候选 `387/387 complete`；本轮新增并五窗口确认 HK Path1 `hkconnect_path1_biweekly_quality_momentum_equal_buffered_v41_biweekly_buffer`，保持沪港通研究线独立，不并入 A股 winner 结论。

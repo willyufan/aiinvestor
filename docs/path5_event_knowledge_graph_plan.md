@@ -1,5 +1,35 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-19 05:26 CST 状态
+
+最终 guard 入口为 `pass`，Path5 维持 `basket_count=3`、`active_basket_count=3`、`frozen_candidate_count=18`、`backtest_ready_count=18`、`pending_audit_count=0`。本轮没有新增事件 seed 或第四篮子，重点是把 `ai_glasses_edge_terminal_20260424_v0` 与本轮 Path4 prom22 以及当前 Path4 prom20/signal29 tracked-only 主体做对照。
+
+本轮先执行 prom22 对照：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4prom22signal29.json`。结果仍为 20D 等权 `21.80%`、seed weight `21.99%`，40D/60D `insufficient_data`；在 public snapshot 导出 prom22 detail 后重跑 overlap，事件日前参考快照为 `2026-03-31`，Path4 持仓数 `18`，与 6 个冻结候选 overlap 为 `0/6`、Path4 overlap weight 为 `0`。
+
+同时用当前 Path4 tracked-only 主体复跑：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4prom20signal29.json`。该对照同样成功，事件日前参考快照为 `2026-03-31`，Path4 持仓数 `18`，与 6 个冻结候选 overlap 为 `0/6`、Path4 overlap weight 为 `0`。
+
+结论：AI 眼镜事件篮子继续提供独立于 Path4 强主题涌现的正 20D 事件线索，但 40D/60D 未成熟，不能进入 winner/robust/tracked。最终 focus 为 `event_basket_registry`，下一轮第一动作应先巡检 registry/candidates 是否需要第四篮子或补充事件来源；若仍无新增篮子，第一条保底命令继续用 `prom20/signal29` 做同篮子 40D/60D 成熟度复核：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4prom20signal29.json`。
+
+## 2026-06-18 17:16 CST 状态
+
+上一轮 Path5 使用 Path4 `prom20/signal28` reference 复核 `ai_glasses_edge_terminal_20260424_v0`，20D 等权约 `21.80%`、seed weight 约 `21.99%`，40D/60D 数据不足且与 Path4 overlap 为 `0/6`。本轮 registry/candidates 巡检维持 `basket_count=3`、`active_basket_count=3`、`frozen_candidate_count=18`、`backtest_ready_count=18`、`pending_audit_count=0`，没有新增事件 seed 或第四篮子。
+
+本轮命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4prom20signal29.json`。
+
+结果：事件日 `2026-04-24` 后 6 个冻结候选 20D 等权收益 `21.80%`、seed weight 收益 `21.99%`；40D/60D 仍为 `insufficient_data`。本轮 Path4 新 `signal29/leader78` reference 的事件日前快照为 `2026-03-31`、持仓数 `18`，与 6 个冻结候选 overlap 为 `0/6`、Path4 overlap weight 为 `0`。
+
+结论：AI 眼镜事件篮子继续提供独立于 Path4 强主题涌现的正 20D 事件线索，但仍缺 40D/60D 完整验证，不能进入 winner/robust/tracked。最终 focus 为 `event_backtest_entry`，下一轮第一条命令建议等交易日成熟后继续复跑同一篮子的 40D/60D，并保留 Path4 `signal29/leader78` reference：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4prom20signal29.json`。
+
+## 2026-06-18 05:21 CST 状态
+
+最终 guard 入口为 `pass`，Path5 维持 `basket_count=3`、`active_basket_count=3`、`frozen_candidate_count=18`、`backtest_ready_count=18`、`pending_audit_count=0`。本轮没有新增事件篮子或 seed，按 focus `event_basket_registry` 完成 registry/candidates 巡检，并对第三篮子 `ai_glasses_edge_terminal_20260424_v0` 尝试使用本轮 Path4 新 `prom20/signal28` 候选做 overlap 对照。
+
+本轮命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4prom20signal28.json`。
+
+结果：事件日 `2026-04-24` 后 6 个候选 20D 等权收益 `21.80%`、seed weight 收益 `21.99%`；40D/60D 仍为 `insufficient_data`。`generate_public_snapshot.py` 补出本轮 Path4 `prom20/signal28` 策略明细后，重跑探针得到 Path4 参考快照 `2026-03-31`、持仓数 `18`，与 6 个冻结候选 overlap 为 `0/6`、Path4 overlap weight 为 `0`。
+
+结论：AI 眼镜事件篮子继续提供独立于 Path4 强主题涌现的正 20D 事件线索，但样本仍未满 40D/60D，不能进入 winner/robust/tracked。下一轮第一条命令建议继续用同一 Path4 `prom20/signal28` reference 复跑 40D/60D 成熟度，而不是新增第四篮子：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4prom20signal28.json`。
+
 ## 2026-06-17 18:02 CST 状态
 
 最终 guard 入口为 `pass`，Path5 维持 `basket_count=3`、`active_basket_count=3`、`frozen_candidate_count=18`、`backtest_ready_count=18`、`pending_audit_count=0`。本轮没有新增事件篮子或 seed，按 guard focus `event_backtest_entry`/最终 `path4_comparison` 继续复核第三篮子 `ai_glasses_edge_terminal_20260424_v0`。
