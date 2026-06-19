@@ -4,6 +4,13 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-19 17:29 CST）
+
+- 上一轮 core_multifactor 新线只改善短窗，最终 focus 转为 `holding_shape`；本轮按候选池注册并五窗口确认 `core_explore_80_20_total_mv_winner_core__share_20_80_hold_2_8_ramp62_cost_guard_reconfirm`，命令为：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_20_80_hold_2_8_ramp62_cost_guard_reconfirm`。
+- `share_20_80_hold_2_8_ramp62_cost_guard_reconfirm` 五窗口 CAGR `20.24% / 27.47% / 33.82% / 106.59% / 131.84%`，最大回撤 `-20.66% / -17.93% / -23.14% / -10.74% / -11.72%`，换手 `2.65x / 2.97x / 2.94x / 4.44x / 5.60x`。结论：短窗很强，但 2017/2020 仍低于 Path1 robust，2023 回撤也偏深，不替换 Path1 window winner、robust candidate 或 tracked/live/public payload。
+- core_multifactor 子段本轮只巡检，不新增；最终覆盖 `ashare_path1_core_multifactor 56/56 complete`，fast family `121/121 complete`。`scripts/update_weighted_winners.py` 后 Path1 candidate 仍为 `aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm`，无 Path1 evict。
+- 最终 guard focus 为 `signal_quality`。下一轮第一条命令建议补质量/盈利/成长/趋势信号质量修复，而不是复跑 holding_shape：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk14_reconfirm`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`。
+
 ## 本轮执行计划（2026-06-19 05:26 CST）
 
 - 上一轮 core_multifactor `quality_profitability_signal_cashguard_risk14_reconfirm` 改善短窗但没有改写 Path1 winner/robust；本轮按上一轮候选池注册并确认 `aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk14_reconfirm`，只新增 1 个 Path1/core_multifactor base id：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk14_reconfirm`。

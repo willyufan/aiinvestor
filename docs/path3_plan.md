@@ -3,6 +3,13 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-19 17:29 CST）
+
+- 上一轮 `cap38_hold7_turn02_exit99_risk08_weekly` 降低换手但 2023 仍弱；本轮继续保持纯 `_weekly` 口径，新增并五窗口确认 1 个 Path3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap36_hold8_turn02_exit99_risk08_weekly`。
+- 本轮命令类型为五窗口 `--only-base-ids` 增量确认，实际与 Path1/2/4 合并执行，覆盖 `since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`。新增前归档 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold7_turn03_exit99_risk08_weekly`，理由是同一 exit99/risk08 邻域旧线不是 winner/robust，且本轮 cap36/hold8/turn02 覆盖更低单票和更低换手方向。
+- `cap36_hold8_turn02_exit99_risk08_weekly` 五窗口 CAGR `12.44% / 16.82% / 5.85% / 36.81% / 64.42%`，最大回撤 `-26.84% / -15.75% / -9.67% / -13.37% / -12.04%`，换手 `1.46x / 1.00x / 0.59x / 2.05x / 3.54x`。结论：换手继续下降，但 2023 CAGR 低于上一轮 cap38，最新持仓仍有 `源杰科技`、`拓荆科技` 等集中风险，不晋级。
+- `scripts/update_weighted_winners.py` 后 Path3 window winner、robust candidate、tracked/live/public payload 未切换；最终 coverage 为 `ashare_path3_weekly_universe 62/62 complete`。最终 focus 为 `risk_downshift`，下一轮第一条命令建议继续压风险而不是只降换手：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap34_hold8_turn02_exit99_risk06_weekly`；若未注册，先加入 Path3 weekly scan，并再归档一条同形非 winner/robust 弱线。
+
 ## 本轮执行计划（2026-06-19 05:26 CST）
 
 - 上一轮 `cap40_hold7_turn03_exit99_risk08_weekly` 短窗强但单票集中度仍高；本轮继续保持纯 `_weekly` 口径，新增并五窗口确认 1 个 Path3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap38_hold7_turn02_exit99_risk08_weekly`。
