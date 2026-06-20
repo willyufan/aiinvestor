@@ -1,5 +1,16 @@
 # 沪港通策略空间扩展计划
 
+## 2026-06-21 05:27 CST 扩展复核结果
+
+本轮 HK 新增预算投给 Path6/7 各一条五窗口确认；命令为：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_monthly_capacity_cost_v26_ytd_repair,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v26_structure_repair`。执行时港股 trade calendar 更新失败并回退本地缓存，退出码为 `0`。最终 guard 为 `pass`，HK 总候选 `409/409 complete`，扩展覆盖为 Path4 `29/29`、Path5 `21/21`、Path6 `28/28`、Path7 `27/27`。
+
+- Path4 多因子质量/流动性动量：本轮未新增回测，原因是新增 HK 扩展预算投给 Path6/7；coverage 仍 complete，无 evict，不改变 robust/tracked。最终 focus `liquidity_momentum`，下一轮第一条命令建议回到短窗流动性动量但加低回撤约束：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v27_liquidity_momentum_repair`；若未注册，先注册。
+- Path5 回踩续涨/突破回踩：本轮未新增回测，原因同上；coverage 仍 complete，无 evict，不改变 robust/tracked。最终 focus `retest_confirmation`，下一轮只允许一次更严格 retest 复核，若仍不达标应回到 pullback definition 重写：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_breakout_retest_biweekly_quality_confirm_v21_retest_confirmation`；若未注册，先注册。
+- Path6 大市值高流动核心：新增 `hkconnect_path6_large_liquid_core_monthly_capacity_cost_v26_ytd_repair`，五窗口 CAGR 全为 `0.00%`、最大回撤 `0.00%`、Sharpe 为空、换手 `0.00x`，说明参数过度防守导致无有效持仓/无交易；不替换 Path6 robust/tracked。该候选使 Path6 rotation 重置为 `continue`。下一轮 focus `large_liquid_core`，第一条命令应放松入场并保留容量成本控制：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_monthly_capacity_cost_v27_activity_repair`；若未注册，先注册。
+- Path7 杠铃组合：新增 `hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v26_structure_repair`，五窗口 CAGR `8.80% / 7.47% / 11.73% / 21.58% / 2.04%`，最大回撤 `-15.08% / -12.38% / -12.14% / -5.35% / -3.90%`，换手 `3.42x / 3.34x / 3.66x / 5.11x / 4.75x`。结论：保住 2026 正收益且回撤浅，但中长窗仍弱于既有 `core_sleeve_v3` robust，不替换 tracked；Path7 rotation 重置为 `continue`。下一轮 focus `barbell_sleeve_structure`，第一条命令建议继续修核心袖/成长袖结构并提高中长窗收益：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v27_structure_repair`；若未注册，先注册。
+
+`scripts/update_hkconnect_artifacts.py` 已刷新 tracked 与 Path1-3 图表；本轮扩展线没有 evict，也没有 HK 主 window winner、robust candidate 或 live/public 主 tracks 切换。
+
 ## 2026-06-20 17:27 CST 扩展复核结果
 
 本轮 HK 新增预算投给 Path4/5 各一条五窗口确认；命令为：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_ytd_positive_v26_ytd_guard,hkconnect_path5_pullback_continuation_monthly_quality_retest_v20_definition_repair`。执行时港股 trade calendar 更新失败并回退本地缓存，退出码为 `0`。最终 guard 为 `pass`，HK 总候选 `407/407 complete`，扩展覆盖为 Path4 `29/29`、Path5 `21/21`、Path6 `27/27`、Path7 `26/26`。

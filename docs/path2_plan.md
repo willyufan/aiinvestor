@@ -13,6 +13,13 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-21 05:23 CST）
+
+- 上一轮预留 `v52_medium_cycle_repair`；本轮注册并五窗口确认两个 Path2 growth_elastic base ids：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit42_reconfirm97_caution54_cap16_cost_guard_v52_medium_cycle_repair`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit42_reconfirm97_caution54_cap16_cost_guard_v52_medium_cycle_repair`。
+- 命令类型为五窗口 `--only-base-ids` 增量确认。total_mv 版 CAGR `8.97% / 9.32% / 16.91% / 53.93% / 54.98%`，最大回撤 `-20.58% / -16.05% / -16.04% / -16.60% / -10.98%`，换手 `4.48x / 3.80x / 5.47x / 10.16x / 9.17x`；equal_weight 版 CAGR `6.39% / 6.58% / 10.11% / 34.53% / 87.38%`，回撤 `-25.13% / -17.77% / -20.79% / -20.79% / -9.84%`。
+- `scripts/path2_candidate_pass.py` 后候选池为 `1033`；`scripts/update_weighted_winners.py` 的验证层拒绝本轮相关候选，Path2 window winner、robust candidate、tracked/live/public payload 未切换。本轮无 Path2 evict。
+- 最终 focus 为 `risk_reconfirm_sensitivity`。下一轮第一条命令建议在 v52 的 2025/2026 弹性基础上降低风险确认敏感度与换手：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit40_reconfirm98_caution52_cap14_cost_guard_v53_risk_sensitivity,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit40_reconfirm98_caution52_cap14_cost_guard_v53_risk_sensitivity`；若未注册，先加入 Path2 scan 规则。
+
 ## 本轮执行计划（2026-06-20 17:27 CST）
 
 - 上一轮 v50 capacity stress 没有修复 2020/2023；本轮继续使用 `growth_elastic` 独立池，没有把 Path4 emergent_theme 变体并入 Path2 scan。新增并五窗口确认 2 个 v51 base ids：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit39_reconfirm99_caution51_cap12_cost_guard_v51_risk_reconfirm`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit39_reconfirm99_caution51_cap12_cost_guard_v51_risk_reconfirm`。

@@ -4,6 +4,13 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-21 05:23 CST）
+
+- 上一轮预留 `core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk12_reconfirm`；本轮先注册到 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`，再与其它 A股目标合并做五窗口 `--only-base-ids` 增量确认。
+- 本轮 Path1/core_multifactor base id：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk12_reconfirm`。五窗口 CAGR `16.42% / 14.71% / 30.56% / 83.42% / 109.11%`，最大回撤 `-23.43% / -21.36% / -15.30% / -15.10% / -4.25%`，换手 `2.52x / 2.81x / 3.03x / 5.03x / 5.40x`。
+- 结论：risk12 延续短窗弹性，但 2017/2020 仍明显弱于 Path1 satellite robust；`scripts/update_weighted_winners.py` 后 Path1 window winner、robust candidate、tracked/live/public payload 未切换。本轮无 Path1 evict，最终 guard `ashare_path1_core_multifactor 58/58 complete`、`ashare_path1_fast_family 123/123 complete`。
+- 最终 focus 为 `signal_quality`。下一轮第一条命令建议先注册更偏信号质量门槛的多因子变体，而不是继续单纯下调风险：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk12_reconfirm`；若未注册，先加入 core_multifactor group/list。
+
 ## 本轮执行计划（2026-06-20 17:27 CST）
 
 - 上一轮 core_multifactor `quality_profitability_growth_trend_signal_cashguard_risk14_reconfirm` 改善 2023/短窗但 2017/2020 仍弱，开局 focus 为 `holding_shape`；本轮预算优先投给 A股 Path2/3/4 与 HK Path4/5，Path1 只完成 coverage/weighted/live/public 巡检，没有新增 Path1 `--only-base-ids` 回测。

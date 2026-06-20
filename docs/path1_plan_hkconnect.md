@@ -1,5 +1,12 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-06-21 05:27 CST）
+
+- 上一轮预留 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_v35_ytd_repair`，但本轮新增 HK 预算投给 Path6/7 扩展线；HK Path1 完成巡检、artifact 同步和下一轮候选设计，没有新增 `--only-strategy-ids` 回测。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path1 window winner、robust candidate、tracked/live/public payload 未切换；最终 guard 为 `pass`，HK 总候选 `409/409 complete`，Path1 候选数 `100`，本轮无 evict。
+- 本轮候选设计映射最终 focus `risk_overlay_cost`：下一轮应回到双周质量/动量缓冲的风险和成本修复，目标是修复 2026 负收益，同时不牺牲 2020-2025 的月周 overlay 优势。候选 ID：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v42_risk_overlay_cost`。
+- 下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v42_risk_overlay_cost`；若未注册，先在 HK Path1 variants 中注册。
+
 ## 本轮执行计划（2026-06-20 17:27 CST）
 
 - 上一轮 v34 月周 overlay 仍未修复 2026 负收益；本轮 HK 新增预算优先投给 Path4/5 扩展线，HK Path1 完成巡检、artifact 同步和下一轮候选设计，没有新增 `--only-strategy-ids` 回测。
