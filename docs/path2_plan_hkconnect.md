@@ -1,5 +1,12 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-20 17:27 CST）
+
+- 上一轮 v40 月频高收益线让 2026 转正但 `since_2023_01` 仍低于 `30%` 验收线；本轮 HK 新增预算优先投给 Path4/5 扩展线，HK Path2 完成巡检、artifact 同步和下一轮候选设计，没有新增 `--only-strategy-ids` 回测。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path2 window winner、robust candidate、tracked/live/public payload 未切换；最终 guard 为 `pass`，HK Path2 候选数 `103`，本轮无 evict。
+- 本轮候选设计映射最终 focus `elasticity_cost_control`：下一轮应暂停普通 biweekly breakout，转向 equal elastic/月频成本控制，验收仍看 `since_2023_01 >= 30%` 且 2017 MaxDD 不劣于 `-20%~-25%`。候选 ID：`hkconnect_path2_equal_elastic_monthly_cost_guard_v41_elasticity_cost_control`。
+- 下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v41_elasticity_cost_control`；若未注册，先在 HK Path2 variants 中注册。
+
 ## 本轮执行计划（2026-06-20 05:28 CST）
 
 - 上一轮候选设计从 biweekly breakout 转回主题月频高收益线；本轮新增并五窗口确认 `hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v40_elasticity_cost_control`，不并入 A股结论。

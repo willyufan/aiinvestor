@@ -1,5 +1,12 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-20 17:27 CST）
+
+- 上一轮 v18 低换手线只保住 2026 小幅正收益，但 2020/2023/2025 收益继续弱化；本轮 HK 新增预算优先投给 Path4/5 扩展线，HK Path3 保持纯周频口径，只做巡检、artifact 同步和下一轮候选设计，没有新增 `--only-strategy-ids` 回测。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path3 window winner、robust candidate、tracked/live/public payload 未切换；最终 guard 为 `pass`，HK Path3 候选数 `101`，本轮无 evict。
+- 本轮候选设计映射最终 focus `cost_stress`：下一轮应在 stable weekly 低换手形态上加成本压力，而不是回到 HK Path1/2 的月频或双周候选。候选 ID：`hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v19_cost_guard`。
+- 下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v19_cost_guard`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-20 05:28 CST）
 
 - 上一轮候选设计为 `weekly_turnover_reduction`；本轮保持纯周频口径，新增并五窗口确认 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit52_v18_turnover_reduction`，没有把 HK Path1/2 的月频或双周候选并入本路径。
