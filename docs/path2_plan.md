@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-21 17:29 CST）
+
+- 上一轮 v52 中周期修复仍未改善 2020/2023，且没有改写 Path2 window winner/robust；本轮沿 `risk_reconfirm_sensitivity` 注册并确认两个 v53 风险敏感候选，仍使用 `growth_elastic` 独立池，没有把 Path4 emergent_theme 结果并入 Path2。
+- 本轮 Path2 base ids：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit40_reconfirm98_caution52_cap14_cost_guard_v53_risk_sensitivity`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit40_reconfirm98_caution52_cap14_cost_guard_v53_risk_sensitivity`。命令类型为五窗口 `--only-base-ids` 增量确认，实际与 A股 Path1/3/4 合并执行。
+- total_mv 版五窗口 CAGR `6.86% / 5.98% / 16.53% / 52.14% / 58.40%`，最大回撤 `-22.18% / -22.18% / -15.88% / -16.37% / -10.79%`，换手 `4.34x / 3.70x / 5.35x / 10.01x / 9.03x`；equal_weight 版 CAGR `4.82% / 3.83% / 10.35% / 34.44% / 85.26%`。结论：短窗有弹性但 2020/2023 远低于 Path2 目标线，且换手偏高，不晋级。
+- `scripts/path2_candidate_pass.py` 后候选池为 `1038`；`scripts/update_weighted_winners.py` 后 Path2 window winner、robust candidate、tracked/live/public payload 未切换。本轮无 Path2 evict。
+- 最终 focus 转为 `underrepresented_families`；映射到下一轮候选池为 `momentum_equal_weight_elastic` 与 `biweekly_rebalance_aggressive` 的欠代表形态。下一轮第一条命令建议先注册并确认一条 underrep 质量/成本修复线：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair,core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair`；若未注册，先加入 Path2 scan family。
+
 ## 本轮执行计划（2026-06-21 05:23 CST）
 
 - 上一轮预留 `v52_medium_cycle_repair`；本轮注册并五窗口确认两个 Path2 growth_elastic base ids：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit42_reconfirm97_caution54_cap16_cost_guard_v52_medium_cycle_repair`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit42_reconfirm97_caution54_cap16_cost_guard_v52_medium_cycle_repair`。

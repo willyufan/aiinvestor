@@ -1,5 +1,13 @@
 # Path 4 强主题涌现路径
 
+## 本轮执行计划（2026-06-21 17:29 CST）
+
+- 上一轮 `prom24/signal32/leader82/risk08/cap04` 只在 80/20 总市值底座保留低回撤短窗弹性，未改写 Path4 tracked-only 主体；本轮沿 `emergent_theme_coverage` 扩晋升覆盖到 `prom26`，仍不做人工主题归类，也不纳入 ETF。
+- 本轮新增并五窗口确认三底座：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom26_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom26_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom26_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn`。命令类型为五窗口 `--only-base-ids` 增量确认。
+- 80/20 总市值版五窗口 CAGR `7.14% / 7.58% / 6.49% / 38.55% / 40.90%`，最大回撤 `-14.41% / -14.41% / -6.39% / -7.53% / -7.40%`，换手 `2.41x / 2.43x / 2.25x / 4.29x / 4.62x`；90/10 等权版 CAGR `2.21% / 4.01% / 3.55% / 11.81% / 10.00%`；90/10 总市值版 CAGR `3.33% / 3.93% / 1.40% / 11.01% / 9.21%`。结论：扩覆盖后仍主要是低波动防守型主题捕捉，收益不及现有 `prom20/signal29`，不改变 Path4 winner/robust/tracked。
+- 为维持 active cap `60`，本轮从 `PATH4_THEME_DISCOVERY_VARIANT_IDS` 移出 `aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk14_cap10_exit62_lowturn`；理由是旧 prom12/signal28/risk14/cap10 线非 winner/robust，且被本轮更高信号质量和覆盖扩展形态覆盖。最终 guard 为 `pass`，`ashare_path4_emergent_theme 60/60 complete`。
+- 最终 focus 转为 `theme_signal_quality`。下一轮第一条命令建议提高信号质量和 leader 门槛，而不是继续单纯扩 prom：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom26_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk08_cap04_exit56_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom26_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk08_cap04_exit56_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom26_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk08_cap04_exit56_lowturn`；若未注册，先新增 variant 并同步 evict 一条非 winner/robust 弱项。
+
 ## 本轮执行计划（2026-06-21 05:27 CST）
 
 - 上一轮 focus 指向 `theme_capacity_cost`，本轮按预留命令新增并五窗口确认三底座：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn`。命令严格使用五窗口 `--only-base-ids`，没有跑 A 股全量。
