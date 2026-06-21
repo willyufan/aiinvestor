@@ -422,6 +422,7 @@
     "aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk28_exit48_cap28_cost_guard_v39_capacity_stress",
     "aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk26_exit46_cap24_cost_guard_v41_underrep_quality",
     "aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality",
+    "aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair",
     "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cashguard",
     "aggr_08_92_prom6_cash_off_and_cap50_hold2_turn12_exit90_weekly",
     "aggr_08_92_prom6_cash_off_and_cap55_hold2_turn10_exit92_weekly",
@@ -460,7 +461,8 @@
     "aggr_08_92_prom6_cost_guard_cap34_hold8_turn02_exit99_risk06_weekly",
     "aggr_08_92_prom6_cost_guard_cap34_hold9_turn01_exit99_risk06_weekly",
     "aggr_08_92_prom6_cost_guard_cap34_hold9_turn02_exit98_risk06_weekly",
-    "aggr_08_92_prom6_cost_guard_cap32_hold10_turn02_exit98_risk06_weekly"
+    "aggr_08_92_prom6_cost_guard_cap32_hold10_turn02_exit98_risk06_weekly",
+    "aggr_08_92_prom6_cost_guard_cap30_hold11_turn02_exit98_risk06_weekly"
   ],
   "candidate_families": {
     "high_concentration_breakout": {
@@ -823,7 +825,8 @@
         "aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk30_exit50_cap35_cost_guard_v38_underrep",
         "aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk28_exit48_cap28_cost_guard_v39_capacity_stress",
         "aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk26_exit46_cap24_cost_guard_v41_underrep_quality",
-        "aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality"
+        "aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality",
+        "aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair"
       ],
       "target_candidates": 6
     },
@@ -987,8 +990,8 @@
     "turnover_2023_weight": 0.5,
     "scoring_policy": "promotion_score_v1"
   },
-  "raw_candidate_count": 1048,
-  "candidate_count": 1038,
+  "raw_candidate_count": 1053,
+  "candidate_count": 1043,
   "incomplete_candidate_count": 10,
   "incomplete_candidates": [
     {
@@ -1116,7 +1119,7 @@
     "high_concentration_breakout": 154,
     "decorrelated_defensive_mix": 35,
     "high_growth_theme": 407,
-    "momentum_equal_weight_elastic": 41,
+    "momentum_equal_weight_elastic": 43,
     "biweekly_rebalance_aggressive": 33,
     "weekly_rebalance_aggressive": 98
   },
@@ -1855,6 +1858,9 @@
     "core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk30_exit50_cap35_cost_guard_v38_underrep": [
       "momentum_equal_weight_elastic"
     ],
+    "core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair": [
+      "momentum_equal_weight_elastic"
+    ],
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off": [
       "momentum_equal_weight_elastic"
     ],
@@ -1955,6 +1961,7 @@
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_trend_industry_momentum": [
       "momentum_equal_weight_elastic"
     ],
+    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn02_exit98_risk06_weekly": [],
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap32_hold10_turn02_exit98_risk06_weekly": [],
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap34_hold8_turn02_exit99_risk06_weekly": [],
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap34_hold9_turn01_exit99_risk06_weekly": [],
@@ -2543,6 +2550,9 @@
       "momentum_equal_weight_elastic"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk30_exit50_cap35_cost_guard_v38_underrep": [
+      "momentum_equal_weight_elastic"
+    ],
+    "core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair": [
       "momentum_equal_weight_elastic"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk26_exit46_cap24_cost_guard_v41_underrep_quality": [
@@ -3200,6 +3210,7 @@
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap06_exit56_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom26_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn": [],
+    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom26_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk08_cap04_exit56_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top12_risk45_mom_exit55_reconfirm80_caution85_cap70_cashguard": [
       "high_growth_theme"
     ],
@@ -3673,6 +3684,7 @@
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap06_exit56_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom26_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn": [],
+    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom26_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk08_cap04_exit56_lowturn": [],
     "core_explore_95_05_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk30_or_cap95": [
       "high_growth_theme"
     ],

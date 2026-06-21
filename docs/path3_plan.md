@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-22 05:23 CST）
+
+- 上一轮预留 `cap30_hold11_turn02_exit98_risk06_weekly`，本轮保持纯 `_weekly` 口径，先归档旧弱线再五窗口确认新低单票/长持有候选；所有 A股回测显式锁定 `--end-date 2026-06-18`。
+- 本轮新增并五窗口确认 1 个 Path3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn02_exit98_risk06_weekly`。实际命令与 Path1/2 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn02_exit98_risk06_weekly,...`。
+- 五窗口 CAGR `11.27% / 13.86% / 7.79% / 27.70% / 45.76%`，最大回撤 `-11.67% / -11.28% / -6.87% / -12.52% / -10.33%`，换手 `0.69x / 0.79x / 0.33x / 1.82x / 3.43x`。结论：相对上一轮继续压低换手和回撤，2017/2020 风险收益尚可，但 2023 CAGR 仍只有 `7.79%`，validation 低于 Path3 incumbent 要求，不晋级。
+- 为维持 Path3 active 池，本轮在代码中归档 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap34_hold9_turn02_exit98_risk06_weekly`；理由是同一 low-turn/exit98/risk06 邻域旧线不是 winner/robust，且被本轮 `cap30/hold11` 覆盖。`scripts/update_weighted_winners.py` 明确拒绝该候选替换 Path3 `since_2017_01`/`since_2020_01`。
+- 最终 guard 为 `pass`，`ashare_path3_weekly_universe 62/62 complete`，Path3 window winner、robust candidate、tracked/live/public payload 未切换。最终 focus 转为 `weekly_exit_buffer`；下一轮第一条命令建议回补一点退出缓冲和允许换手，若 2023 仍弱则暂停该低 cap/长持有支线：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn03_exit96_risk06_weekly`；若未注册，先加入 Path3 weekly scan，并再归档一条同形非 winner/robust 弱线。
+
 ## 本轮执行计划（2026-06-21 17:29 CST）
 
 - 上一轮 `cap34_hold9_turn02_exit98_risk06_weekly` 恢复收益但 2023 仍弱；本轮继续按 `cost_stress` 做更低单票、更长持有的纯 `_weekly` 变体。

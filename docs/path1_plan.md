@@ -4,6 +4,14 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-22 05:23 CST）
+
+- 上一轮预留 `satellite_risk_cost` 的风险 8% 再确认，本轮先按 guard 补齐 Path4 block，再与 Path2/3 合并五窗口确认 Path1 fast-family 候选；因本地 A股原始行情缓存只到 `2026-06-18`，所有 A股回测均显式使用 `--end-date 2026-06-18`。
+- 本轮 Path1 新增 base id：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk08_reconfirm`。实际命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk08_reconfirm,...`。
+- 五窗口 CAGR `25.70% / 29.78% / 28.87% / 113.06% / 153.23%`，最大回撤 `-12.13% / -13.29% / -23.27% / -11.13% / -6.61%`，换手 `2.97x / 3.32x / 3.49x / 4.65x / 7.35x`。结论：risk08 明显增强 2025/2026 暴露，但 2017/2020 仍弱于现有 Path1 robust，2023 回撤也偏深，不替换 window winner 或 tracked。
+- `scripts/winner_only_pass.py` 退出码 `0`，未发现相对 tracked winners 的 clear improvement；`scripts/update_weighted_winners.py` 后 Path1 window winner 仍为 `risk25_reconfirm`/`risk20_reconfirm`/`aggr_10_90_prom6` 组合，Path1 candidate 仍为 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm`。core_multifactor 子段本轮只巡检，代码实际覆盖 `59/59`，没有新增 overlay。
+- 最终 guard 为 `pass`，`ashare_path1_fast_family 125/125 complete`，本轮无 Path1 evict。最终 focus 转为 `holding_shape`；下一轮第一条命令建议先注册并确认更温和持仓形态，而不是继续下调卫星风险暴露：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp62_cost_guard_reconfirm`；若未注册，先加入 `WINNER_CORE_VARIANTS`、`PATH1_FAST_PASS_DIRECTION_GROUPS["holding_shape"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`。
+
 ## 本轮执行计划（2026-06-21 17:29 CST）
 
 - 上一轮 `core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk12_reconfirm` 只增强短窗，2017/2020 仍弱于 Path1 satellite robust，未改变 window winner/robust/tracked；本轮按最终 focus `signal_quality` 注册更偏质量门槛的 core_multifactor 变体。

@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-22 05:23 CST）
+
+- 上一轮预留 `underrepresented_families` 的 `momentum_equal_weight_elastic` v44；本轮仍使用 Path2 `growth_elastic` 独立池，没有把 Path4 emergent_theme 结果并入 Path2。因本地 A股缓存最新日为 `2026-06-18`，实际回测命令显式锁定 `--end-date 2026-06-18`。
+- 本轮新增并五窗口确认 2 个 Path2 base ids：`core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair`、`core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair`。实际命令与 Path1/3 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair,core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair,...`。
+- equal_weight 版五窗口 CAGR `10.49% / 9.84% / 8.97% / 54.07% / 52.14%`，最大回撤 `-17.79% / -16.76% / -11.75% / -15.59% / -15.73%`，换手 `4.08x / 3.78x / 3.47x / 8.82x / 8.14x`；total_mv 版 CAGR `10.26% / 8.44% / 8.57% / 66.22% / 51.26%`，最大回撤 `-14.91% / -15.08% / -10.00% / -8.45% / -7.65%`，换手 `3.77x / 3.50x / 3.38x / 7.79x / 6.91x`。结论：total_mv 版更稳且短窗更强，但 2020/2023 远低于 Path2 目标线，短窗换手仍过高，不晋级。
+- `scripts/path2_candidate_pass.py` 后候选池输出 `1043`；`scripts/update_weighted_winners.py` validation 未接受本轮候选，Path2 window winner、robust candidate、tracked/live/public payload 未切换。本轮无 Path2 evict。
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 1038/1038 complete`，最终 focus 转为 `capacity_and_cost_stress`。下一轮第一条命令建议在 v44 的 total_mv 短窗优势上继续压单票和交易强度：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk24_exit44_cap18_cost_guard_v45_capacity_stress,core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk24_exit44_cap18_cost_guard_v45_capacity_stress`；若未注册，先加入 Path2 scan family/list。
+
 ## 本轮执行计划（2026-06-21 17:29 CST）
 
 - 上一轮 v52 中周期修复仍未改善 2020/2023，且没有改写 Path2 window winner/robust；本轮沿 `risk_reconfirm_sensitivity` 注册并确认两个 v53 风险敏感候选，仍使用 `growth_elastic` 独立池，没有把 Path4 emergent_theme 结果并入 Path2。
