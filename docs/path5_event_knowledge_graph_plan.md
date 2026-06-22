@@ -1,5 +1,15 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-23 05:27 CST 状态
+
+最终 guard 入口为 `pass`，Path5 维持 `basket_count=3`、`active_basket_count=3`、`frozen_candidate_count=18`、`backtest_ready_count=18`、`pending_audit_count=0`。上一轮 AI 眼镜篮子 20D 为正但 40D/60D 仍未成熟；本轮没有新增事件 seed 或第四篮子，继续用当前 Path4 tracked-only 主体做事件入口对照。
+
+本轮命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4winner_prom20signal29.json`。
+
+结果：事件日 `2026-04-24` 后 6 个冻结候选 20D 等权收益 `21.80%`、seed weight 收益 `21.99%`；40D/60D 仍为 `insufficient_data`。Path4 reference 事件日前快照为 `2026-03-31`，Path4 持仓数 `18`，与 6 个冻结候选 overlap 为 `0/6`、Path4 overlap weight 为 `0`。
+
+结论：AI 眼镜事件篮子继续提供独立于 Path4 强主题涌现的正 20D 线索，但缺少成熟 40D/60D 证据，不能进入 winner/robust/tracked。本轮输出文件为 `results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4winner_prom20signal29.json`；本轮开始前已有未跟踪的 `...path4prom20signal28.json` 仍不纳入提交。最终 focus 为 `event_backtest_entry`；下一轮第一动作继续复跑同一篮子成熟度，若 40D/60D 仍不足，再只更新 `available_trading_days` 与 source audit 状态。
+
 ## 2026-06-22 17:34 CST 状态
 
 最终 guard 入口为 `pass`，Path5 维持 `basket_count=3`、`active_basket_count=3`、`frozen_candidate_count=18`、`backtest_ready_count=18`、`pending_audit_count=0`。上一轮同一 AI 眼镜篮子 20D 仍为正、40D/60D 未成熟；本轮没有新增事件 seed 或第四篮子，继续用当前 Path4 tracked-only 主体做事件入口对照。

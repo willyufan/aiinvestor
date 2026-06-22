@@ -1,5 +1,12 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-23 05:27 CST）
+
+- 上一轮 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit54_v19_turnover_reduction` 只保住 2026 小幅正收益，未超过既有 weekly robust；本轮 HK 新增预算转投 Path4/5 扩展线，HK Path3 保持纯周频口径，只做巡检、artifact 同步和下一轮候选设计，没有新增 `--only-strategy-ids` 回测。
+- `scripts/update_hkconnect_artifacts.py` 已刷新 HK tracked 与 Path1-3 图表；最终 guard 为 `pass`，HK 总候选 `420/420 complete`，Path3 window winner、robust candidate、tracked/live/public payload 均未切换，本轮无 evict。
+- 本轮候选设计映射最终 focus `cost_stress`：下一轮应在 stable weekly 低换手形态上做成本压力复核，不能把 HK Path1/2 的月频或双周候选并入本路径。候选 ID：`hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v20_cost_guard`。
+- 下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v20_cost_guard`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-22 17:34 CST）
 
 - 上一轮只记录 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit54_v19_turnover_reduction`；本轮保持 HK Path3 纯周频口径，实际五窗口确认该低换手候选，没有把 HK Path1/2 的月频或双周候选并入本路径。

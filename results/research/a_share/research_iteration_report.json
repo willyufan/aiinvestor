@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-22T17:38:40+08:00",
-  "as_of": "2026-06-18",
+  "generated_at": "2026-06-23T05:24:43+08:00",
+  "as_of": "2026-06-22",
   "coverage_gate": {
     "status": "pass",
     "blocking_missing_count": 0,
@@ -19,8 +19,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 60,
-        "complete_count": 60,
+        "candidate_count": 61,
+        "complete_count": 61,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -40,8 +40,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 126,
-        "complete_count": 126,
+        "candidate_count": 127,
+        "complete_count": 127,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -61,8 +61,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 1043,
-        "complete_count": 1043,
+        "candidate_count": 1048,
+        "complete_count": 1048,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -126,8 +126,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 418,
-        "complete_count": 418,
+        "candidate_count": 420,
+        "complete_count": 420,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -148,8 +148,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 31,
-        "complete_count": 31,
+        "candidate_count": 32,
+        "complete_count": 32,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -170,8 +170,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 23,
-        "complete_count": 23,
+        "candidate_count": 24,
+        "complete_count": 24,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -228,116 +228,116 @@
   "experiment_log": {
     "path": "results/research/a_share/research_experiments.jsonl",
     "candidate_entries": 115,
-    "appended_entries": 0
+    "appended_entries": 1
   },
   "rotation": {
     "ashare_path1": {
       "signature": "9c89607d6f9a73f6f100",
       "changed": false,
-      "stagnation_runs": 50,
+      "stagnation_runs": 53,
       "stagnation_threshold": 3,
-      "recommended_focus": "core_multifactor_coverage",
+      "recommended_focus": "signal_quality",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-17T05:02:44+08:00"
     },
     "ashare_path2": {
-      "signature": "92936dcbb767db1af8d1",
+      "signature": "9b35554f4415fcbe3dab",
       "changed": false,
-      "stagnation_runs": 14,
+      "stagnation_runs": 2,
       "stagnation_threshold": 3,
       "recommended_focus": "medium_cycle_growth",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-06-20T17:24:59+08:00"
+      "rotation_status": "continue",
+      "last_changed_at": "2026-06-23T05:02:46+08:00"
     },
     "ashare_path3": {
       "signature": "52f282390d7b1694be77",
       "changed": false,
-      "stagnation_runs": 79,
+      "stagnation_runs": 82,
       "stagnation_threshold": 3,
-      "recommended_focus": "risk_downshift",
+      "recommended_focus": "cost_stress",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-13T05:03:52+08:00"
     },
     "ashare_path4": {
       "signature": "bb16c8f9d9659d4b0783",
       "changed": false,
-      "stagnation_runs": 35,
+      "stagnation_runs": 38,
       "stagnation_threshold": 3,
-      "recommended_focus": "theme_capacity_cost",
+      "recommended_focus": "emergent_theme_coverage",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-18T17:16:43+08:00"
     },
     "ashare_path5": {
       "signature": "f59a72e43410b4b60116",
       "changed": false,
-      "stagnation_runs": 52,
+      "stagnation_runs": 55,
       "stagnation_threshold": 3,
-      "recommended_focus": "frozen_candidate_audit",
+      "recommended_focus": "event_backtest_entry",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-16T17:33:38+08:00"
     },
     "hkconnect_path1": {
       "signature": "669f92b1510f0f267a17",
       "changed": false,
-      "stagnation_runs": 169,
+      "stagnation_runs": 172,
       "stagnation_threshold": 3,
-      "recommended_focus": "risk_overlay_cost",
+      "recommended_focus": "monthly_weekly_overlay",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-04T22:03:26+08:00"
     },
     "hkconnect_path2": {
       "signature": "262b343dc04e75136c89",
       "changed": false,
-      "stagnation_runs": 111,
+      "stagnation_runs": 114,
       "stagnation_threshold": 3,
-      "recommended_focus": "biweekly_breakout",
+      "recommended_focus": "elasticity_cost_control",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-09T04:52:47+08:00"
     },
     "hkconnect_path3": {
       "signature": "48fb0014214367d9174d",
       "changed": false,
-      "stagnation_runs": 13,
+      "stagnation_runs": 16,
       "stagnation_threshold": 3,
-      "recommended_focus": "weekly_defensive_overlay",
+      "recommended_focus": "cost_stress",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-21T05:02:36+08:00"
     },
     "hkconnect_path4": {
-      "signature": "c62a0eb3190dfce011c3",
-      "changed": false,
-      "stagnation_runs": 3,
+      "signature": "d9a06e33bd2e4979a768",
+      "changed": true,
+      "stagnation_runs": 0,
       "stagnation_threshold": 3,
-      "recommended_focus": "liquidity_momentum",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-06-22T05:32:54+08:00"
+      "recommended_focus": "quality_momentum",
+      "rotation_status": "continue",
+      "last_changed_at": "2026-06-23T05:24:43+08:00"
     },
     "hkconnect_path5": {
-      "signature": "e47a1f3a3fc5c25bd14b",
-      "changed": false,
-      "stagnation_runs": 3,
+      "signature": "ad0f4e67aae5b684eb92",
+      "changed": true,
+      "stagnation_runs": 0,
       "stagnation_threshold": 3,
-      "recommended_focus": "retest_confirmation",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-06-22T05:32:54+08:00"
+      "recommended_focus": "pullback_definition",
+      "rotation_status": "continue",
+      "last_changed_at": "2026-06-23T05:24:43+08:00"
     },
     "hkconnect_path6": {
-      "signature": "c68aec540414203800f9",
+      "signature": "1e7b13f371639592a790",
       "changed": false,
-      "stagnation_runs": 3,
+      "stagnation_runs": 2,
       "stagnation_threshold": 3,
-      "recommended_focus": "lowvol_liquid_core",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-06-22T05:32:54+08:00"
+      "recommended_focus": "large_liquid_core",
+      "rotation_status": "continue",
+      "last_changed_at": "2026-06-23T05:02:46+08:00"
     },
     "hkconnect_path7": {
-      "signature": "203b92652f5eab984067",
+      "signature": "823bfb699a8890ea15c7",
       "changed": false,
-      "stagnation_runs": 3,
+      "stagnation_runs": 2,
       "stagnation_threshold": 3,
-      "recommended_focus": "biweekly_barbell",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-06-22T05:32:54+08:00"
+      "recommended_focus": "barbell_sleeve_structure",
+      "rotation_status": "continue",
+      "last_changed_at": "2026-06-23T05:02:46+08:00"
     }
   },
   "quotas": {
@@ -375,7 +375,7 @@
           "target_representatives": 6
         },
         "high_growth_theme": {
-          "current_count": 405,
+          "current_count": 407,
           "target_representatives": 4
         },
         "momentum_equal_weight_elastic": {
@@ -449,13 +449,13 @@
       }
     },
     "hkconnect": {
-      "candidate_count": 418,
+      "candidate_count": 420,
       "path_counts": {
         "path1": 101,
         "path2": 104,
         "path3": 102,
-        "path4": 31,
-        "path5": 23,
+        "path4": 32,
+        "path5": 24,
         "path6": 29,
         "path7": 28
       },

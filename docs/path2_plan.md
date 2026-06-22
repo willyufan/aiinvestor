@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-23 05:27 CST）
+
+- 上一轮 v54 2020/2023 仍偏弱；本轮按 `medium_cycle_growth` 在 Path2 `growth_elastic` 独立池中注册 v55 双底座，没有把 Path4 强主题涌现或 Path3 weekly 结论混入 Path2。
+- 本轮新增并五窗口确认 2 个 Path2 base ids：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit46_reconfirm94_caution58_cap20_cost_guard_v55_medium_cycle_quality`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit46_reconfirm94_caution58_cap20_cost_guard_v55_medium_cycle_quality`。命令类型为五窗口 `--only-base-ids` 增量确认，实际与 A股其它路径合并执行。
+- total_mv 版五窗口 CAGR `8.70% / 8.90% / 6.84% / 54.03% / 51.06%`，最大回撤 `-21.13% / -14.38% / -13.18% / -16.94% / -10.73%`，换手 `4.82x / 4.18x / 3.72x / 10.05x / 9.04x`；equal_weight 版 CAGR `4.13% / 3.55% / 8.12% / 31.82% / 82.81%`。结论：2025/2026 有弹性但 2020/2023 远低于 Path2 目标线，且短窗换手偏高，不晋级。
+- `scripts/path2_candidate_pass.py` 后候选池为 `1048`，最终 guard 为 `ashare_path2_candidate_universe 1048/1048 complete`；`scripts/update_weighted_winners.py` 后 Path2 window winner、robust candidate、tracked/live/public payload 未切换。本轮无 Path2 evict。
+- 最终 focus 仍为 `medium_cycle_growth`。下一轮第一条命令建议停止 v55 同形微调，改测更高确认/更低 cap 的中周期质量修复：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk30_mom_exit48_reconfirm92_caution60_cap22_cost_guard_v56_medium_cycle_quality_repair,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk30_mom_exit48_reconfirm92_caution60_cap22_cost_guard_v56_medium_cycle_quality_repair`；若未注册，先加入 Path2 scan family/list。
+
 ## 本轮执行计划（2026-06-22 17:34 CST）
 
 - 上一轮 `momentum_equal_weight_elastic` v44 的 2020/2023 仍远低于 Path2 目标线；本轮按 rotation 的 `medium_cycle_growth` 回到 `growth_elastic` 独立池，没有把 Path4 emergent_theme 或 Path3 weekly 变体纳入 Path2 扫描结论。

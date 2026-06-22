@@ -4,6 +4,14 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-23 05:27 CST）
+
+- 上一轮 `core_multifactor` 的 `risk10_reconfirm` 仍未改善 2017/2020；本轮按最终 focus 继续做 `signal_quality`，只新增 1 个 core_multifactor 风险下探确认，不把独立 Path4 emergent_theme 结果并入 Path1。
+- 本轮新增并五窗口确认 base id：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm`。实际 A股合并命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <one_path1_id>,<two_path2_ids>,<one_path3_id>,<three_path4_ids>`。
+- 五窗口结果：CAGR `14.67% / 12.59% / 23.69% / 78.61% / 97.44%`，最大回撤 `-18.62% / -20.00% / -12.80% / -15.21% / -4.25%`，Sharpe `0.8190 / 0.6628 / 0.9367 / 1.6900 / 2.9294`，换手 `2.51x / 2.68x / 2.98x / 5.21x / 5.35x`。结论：短窗和 2023 回撤可比，但 2017/2020 CAGR 仍弱于 Path1 satellite robust，未改变 window winner、robust candidate、tracked/live/public payload。
+- core_multifactor 子段按代码实际集合扩到 `61` 个 base candidates；最终 guard 为 `pass`，`ashare_path1_core_multifactor 61/61 complete`、`ashare_path1_fast_family 127/127 complete`。本轮无 Path1 evict。
+- 最终 focus 仍为 `signal_quality`。下一轮第一条命令建议不要复跑 risk08，而是注册一个更偏低波/质量的 signal-quality 对照：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk08_reconfirm`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`。
+
 ## 本轮执行计划（2026-06-22 17:34 CST）
 
 - 上一轮 `satellite_defense` 的 `risk08_reconfirm` 只增强 2025/2026，2017/2020 和 2023 回撤仍不足以替换 Path1 robust；本轮按 guard rotation 回到 `core_multifactor_coverage`，只新增 1 个 core_multifactor 确认，不把 Path4 emergent_theme 并入 Path1。
