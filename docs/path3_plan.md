@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-22 17:34 CST）
+
+- 上一轮 `cap30_hold11_turn02_exit98_risk06_weekly` 继续压低换手但 2023/2025 不足；本轮保持纯 `_weekly` 口径，按 focus `weekly_exit_buffer` 回补一点出场缓冲与允许换手，并显式指定 `ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED`，避免因策略名前缀误入 Path2 `growth_elastic` 池。
+- 本轮新增并五窗口确认 1 个 Path3 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn03_exit96_risk06_weekly`。首次合并回测后发现池归属不对，已修正后单独重跑：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn03_exit96_risk06_weekly`。
+- 修正后五窗口 CAGR `6.36% / 8.04% / 0.82% / -7.51% / 14.76%`，最大回撤 `-13.46% / -27.00% / -9.19% / -24.80% / -15.78%`，换手 `0.66x / 0.49x / 0.19x / 1.74x / 4.20x`。结论：退出缓冲没有修复 2023/2025，且 2020 回撤恶化，不替换 Path3 window winner、robust candidate 或 tracked/live/public payload。
+- 为维持 Path3 active 池，本轮归档 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap32_hold10_turn02_exit98_risk06_weekly`；理由是同一 low-turn/exit98/risk06 邻域旧线非 winner/robust，且本轮 turn03/exit96 复核已经给出负样本。`scripts/update_weighted_winners.py` validation 继续拒绝本轮候选。
+- 最终 guard 为 `pass`，`ashare_path3_weekly_universe 62/62 complete`，最终 focus 转为 `risk_downshift`。下一轮第一条命令建议只做一条更低风险周频确认，若 2023/2025 仍弱则暂停该 low-turn 支线：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap28_hold12_turn03_exit96_risk04_weekly`；若未注册，先加入 Path3 weekly scan，并同步归档一条非 winner/robust 弱线。
+
 ## 本轮执行计划（2026-06-22 05:23 CST）
 
 - 上一轮预留 `cap30_hold11_turn02_exit98_risk06_weekly`，本轮保持纯 `_weekly` 口径，先归档旧弱线再五窗口确认新低单票/长持有候选；所有 A股回测显式锁定 `--end-date 2026-06-18`。

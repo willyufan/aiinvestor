@@ -96,13 +96,19 @@ def _parse_python_constants(path: Path, names: Iterable[str]) -> dict[str, Any]:
     return result
 
 
-def load_path2_scan_rules(backtest_path: Path) -> tuple[list[str], list[str], dict[str, dict[str, Any]]]:
+def load_path2_scan_rules(backtest_path: Path) -> tuple[list[str], list[str], dict[str, dict[str, Any]], set[str]]:
     consts = _parse_python_constants(
         backtest_path,
-        ["PATH2_SCAN_BASE_PREFIXES", "PATH2_SCAN_VARIANT_IDS", "PATH2_SCAN_FAMILY_RULES"],
+        [
+            "PATH2_ARCHIVED_STRATEGY_BASE_IDS",
+            "PATH2_SCAN_BASE_PREFIXES",
+            "PATH2_SCAN_VARIANT_IDS",
+            "PATH2_SCAN_FAMILY_RULES",
+        ],
     )
     prefixes = [str(item) for item in consts.get("PATH2_SCAN_BASE_PREFIXES") or []]
     variant_ids = [str(item) for item in consts.get("PATH2_SCAN_VARIANT_IDS") or []]
+    archived_ids = {str(item) for item in consts.get("PATH2_ARCHIVED_STRATEGY_BASE_IDS") or []}
     family_rules_raw = consts.get("PATH2_SCAN_FAMILY_RULES") or {}
     family_rules: dict[str, dict[str, Any]] = {}
     for family_name, family_meta in family_rules_raw.items():
@@ -112,7 +118,7 @@ def load_path2_scan_rules(backtest_path: Path) -> tuple[list[str], list[str], di
             "variant_ids": [str(item) for item in family_meta.get("variant_ids") or []],
             "target_candidates": int(family_meta.get("target_candidates") or 0),
         }
-    return prefixes, variant_ids, family_rules
+    return prefixes, variant_ids, family_rules, archived_ids
 
 
 def _latest_per_strategy_window(frame: pd.DataFrame) -> pd.DataFrame:
@@ -213,7 +219,7 @@ def main() -> None:
     parser.add_argument("--write-json", type=Path, default=DEFAULT_WRITE_JSON)
     args = parser.parse_args()
 
-    prefixes, variant_ids, family_rules = load_path2_scan_rules(args.backtest_script)
+    prefixes, variant_ids, family_rules, archived_ids = load_path2_scan_rules(args.backtest_script)
     frame = pd.read_csv(args.comparison_csv)
     latest = _filter_to_current_as_of(_augment_with_synthetic_windows(_latest_per_strategy_window(frame)))
     latest["strategy_base_id"] = latest["strategy_base_id"].astype(str)
@@ -224,6 +230,7 @@ def main() -> None:
             base_id
             for base_id in latest["strategy_base_id"].unique()
             if _matches_path2(str(base_id), prefixes, variant_ids)
+            and str(base_id) not in archived_ids
         }
     )
     by_id = {str(base_id): group for base_id, group in latest.groupby("strategy_base_id")}

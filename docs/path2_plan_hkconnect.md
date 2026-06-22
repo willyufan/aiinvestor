@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-22 17:34 CST）
+
+- 上一轮只记录 `hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v41_high_return_monthly`；本轮按 HK Path2 rotation 实际五窗口确认该高收益月频修复线，仍不并入 A股结论。
+- 本轮新增 strategy id：`hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v41_high_return_monthly`。命令与 HK Path1/3 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v42_biweekly_buffer,hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v41_high_return_monthly,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit54_v19_turnover_reduction`；执行时港股 trade calendar 更新失败并回退本地缓存，退出码为 `0`。
+- v41 五窗口 CAGR `20.17% / 23.84% / 24.46% / 46.69% / 9.23%`，最大回撤 `-21.70% / -11.69% / -11.12% / -11.35% / -11.48%`，换手 `4.71x / 4.42x / 4.88x / 5.63x / 5.16x`。结论：本轮 HK 三条里相对最强，2026 保持正收益，但 `since_2023_01` 仍低于 `30%` 验收线，且未超过既有 Path2 robust，不替换 window winner/robust/tracked。
+- `scripts/update_hkconnect_artifacts.py` 已刷新 HK tracked 与 Path1-3 图表；最终 guard 为 `pass`，HK Path2 候选数 `104`，本轮无 evict。
+- 最终 focus 转为 `biweekly_breakout`。下一轮第一条命令建议只做一次低回撤 breakout terminal check，若仍低于 `since_2023_01 >= 30%` 或长窗回撤穿 `25%`，再回到 high-return monthly：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v42_lowdraw_retest`；若未注册，先在 HK Path2 variants 中注册。
+
 ## 本轮执行计划（2026-06-22 05:23 CST）
 
 - 上一轮预留 `hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v42_lowdraw_retest`；本轮 HK 新增预算投给 Path4-7 扩展四条，HK Path2 完成巡检、artifact 同步和下一轮候选设计，没有新增 `--only-strategy-ids` 回测。

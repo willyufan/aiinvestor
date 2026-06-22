@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-22 17:34 CST）
+
+- 上一轮 `momentum_equal_weight_elastic` v44 的 2020/2023 仍远低于 Path2 目标线；本轮按 rotation 的 `medium_cycle_growth` 回到 `growth_elastic` 独立池，没有把 Path4 emergent_theme 或 Path3 weekly 变体纳入 Path2 扫描结论。
+- 本轮新增并五窗口确认 2 个 Path2 base ids：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit44_reconfirm96_caution56_cap18_cost_guard_v54_medium_cycle_rebound`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit44_reconfirm96_caution56_cap18_cost_guard_v54_medium_cycle_rebound`。实际命令与 A股其它路径合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit44_reconfirm96_caution56_cap18_cost_guard_v54_medium_cycle_rebound,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit44_reconfirm96_caution56_cap18_cost_guard_v54_medium_cycle_rebound,...`。
+- total_mv 版五窗口 CAGR `8.39% / 8.50% / 16.93% / 53.89% / 52.84%`，最大回撤 `-21.08% / -16.14% / -16.11% / -16.78% / -10.86%`，换手 `4.50x / 3.80x / 5.48x / 10.11x / 9.11x`；equal_weight 版 CAGR `5.82% / 6.04% / 9.42% / 33.10% / 85.05%`。结论：2025/2026 弹性仍在，但 2020/2023 低于 Path2 中周期目标线，且短窗换手偏高，不晋级。
+- 为保持候选池可读性，本轮把 v50/v51 capacity/risk_reconfirm 四个旧 base ids 加入 `PATH2_ARCHIVED_STRATEGY_BASE_IDS`，并在 `scripts/path2_candidate_pass.py` 中排除 archived ids；同时把本轮 Path3 纯周频 base id 排除出 Path2 pass，避免跨路径污染。最终 `path2_candidate_pass` 候选数回到 `1043`，robust 仍为 `core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap95`，Path2 window winner/robust/tracked 未切换。
+- 最终 guard 为 `pass`，`ashare_path2_candidate_universe 1043/1043 complete`，最终 focus 仍为 `medium_cycle_growth`。下一轮第一条命令建议在 v54 基础上增加质量确认但降低短窗交易强度：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit46_reconfirm94_caution58_cap20_cost_guard_v55_medium_cycle_quality,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit46_reconfirm94_caution58_cap20_cost_guard_v55_medium_cycle_quality`；若未注册，先加入 Path2 scan family/list。
+
 ## 本轮执行计划（2026-06-22 05:23 CST）
 
 - 上一轮预留 `underrepresented_families` 的 `momentum_equal_weight_elastic` v44；本轮仍使用 Path2 `growth_elastic` 独立池，没有把 Path4 emergent_theme 结果并入 Path2。因本地 A股缓存最新日为 `2026-06-18`，实际回测命令显式锁定 `--end-date 2026-06-18`。

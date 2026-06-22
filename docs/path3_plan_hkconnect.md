@@ -1,5 +1,13 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-22 17:34 CST）
+
+- 上一轮只记录 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit54_v19_turnover_reduction`；本轮保持 HK Path3 纯周频口径，实际五窗口确认该低换手候选，没有把 HK Path1/2 的月频或双周候选并入本路径。
+- 本轮新增 strategy id：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit54_v19_turnover_reduction`。命令与 HK Path1/2 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v42_biweekly_buffer,hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v41_high_return_monthly,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit54_v19_turnover_reduction`；执行时港股 trade calendar 更新失败并回退本地缓存，退出码为 `0`。
+- v19 五窗口 CAGR `13.85% / 13.03% / 13.78% / 26.55% / 2.23%`，最大回撤 `-20.42% / -17.77% / -12.40% / -10.64% / -7.83%`，换手 `4.50x / 4.59x / 5.07x / 6.39x / 6.80x`。结论：2026 保持小幅正收益，但中长窗收益弱于既有 weekly robust，换手改善有限，不替换 HK Path3 window winner、robust candidate 或 tracked/live/public payload。
+- `scripts/update_hkconnect_artifacts.py` 已刷新 HK tracked 与 Path1-3 图表；最终 guard 为 `pass`，HK Path3 候选数 `102`，本轮无 evict。
+- 最终 focus 转为 `weekly_defensive_overlay`。下一轮第一条命令建议在 v19 低换手形态上补防守 overlay，而不是继续单纯降换手：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v20_defensive_overlay`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-22 05:23 CST）
 
 - 上一轮预留 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit54_v19_defensive_overlay`；本轮 HK 新增预算投给 Path4-7 扩展四条，HK Path3 保持纯周频口径，只做巡检、artifact 同步和下一轮候选设计，没有新增 `--only-strategy-ids` 回测。
