@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-23 17:21 CST）
+
+- 上一轮 v55 只保留短窗弹性，2020/2023 仍远低于 Path2 目标线；本轮按最终 focus `risk_reconfirm_sensitivity` 在 Path2 `growth_elastic` 独立池注册 v56 双底座，没有把 Path4 emergent_theme 或 Path3 weekly 结论混入 Path2。
+- 本轮新增并五窗口确认 2 个 Path2 base ids：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk30_mom_exit48_reconfirm92_caution60_cap22_cost_guard_v56_risk_reconfirm_sensitivity`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk30_mom_exit48_reconfirm92_caution60_cap22_cost_guard_v56_risk_reconfirm_sensitivity`。命令类型为五窗口 `--only-base-ids` 增量确认，实际与 A股其它路径合并执行。
+- total_mv 版五窗口 CAGR `8.80% / 9.77% / 6.50% / 54.13% / 49.27%`，最大回撤 `-24.70% / -17.51% / -15.75% / -17.10% / -10.61%`，换手 `5.16x / 4.55x / 4.20x / 9.99x / 8.97x`；equal_weight 版 CAGR `4.45% / 4.88% / 6.77% / 30.53% / 80.54%`。结论：短窗仍可动，但 2020/2023 太弱且 2025/2026 换手接近或超过 `9x`，不晋级。
+- `scripts/path2_candidate_pass.py` 后候选池为 `1052`，最终 guard 为 `ashare_path2_candidate_universe 1052/1052 complete`；`scripts/update_weighted_winners.py` 后 Path2 window winner、robust candidate、tracked/live/public payload 未切换。本轮只把上一轮 Path3 低换手弱周频线同步归档出 active/scan 池，避免 Path2/Path3 口径污染；无 Path2 growth_elastic evict。
+- 最终 focus 仍为 `risk_reconfirm_sensitivity`。下一轮第一条命令建议测试更宽确认/更高恢复阈值能否修复 2020/2023，而不是复跑 v56：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk32_mom_exit50_reconfirm90_caution62_cap24_cost_guard_v57_risk_reconfirm_sensitivity,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk32_mom_exit50_reconfirm90_caution62_cap24_cost_guard_v57_risk_reconfirm_sensitivity`；若未注册，先加入 Path2 scan family/list。
+
 ## 本轮执行计划（2026-06-23 05:27 CST）
 
 - 上一轮 v54 2020/2023 仍偏弱；本轮按 `medium_cycle_growth` 在 Path2 `growth_elastic` 独立池中注册 v55 双底座，没有把 Path4 强主题涌现或 Path3 weekly 结论混入 Path2。
