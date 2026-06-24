@@ -3,6 +3,15 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-25 06:56 CST）
+
+- 上一轮 `cap34/hold8/turn02/exit96/risk08` 证明过度降换手失效，本轮保持纯 `_weekly` 口径，注册并确认 `cap54/hold5/turn05/exit96/risk16`；没有把 Path1 月度选股 + weekly overlay 计入 Path3。
+- 本轮 active pool 处理：将上一轮弱线 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap34_hold8_turn02_exit96_risk08_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`。执行中发现 `cap50_hold5_turn05_exit98_risk16_weekly` 仍是 Path3 2020 window winner，已恢复其 active 资格，避免误归档 winner。
+- 本轮新增并五窗口确认 base id：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit96_risk16_weekly`。命令类型为五窗口 `--only-base-ids` 增量确认，实际与 Path2 合并执行。
+- 新候选五窗口 CAGR `12.86% / 24.14% / 20.50% / 82.59% / 105.38%`，最大回撤 `-28.03% / -25.33% / -14.52% / -14.92% / -12.88%`，换手 `2.04x / 1.49x / 1.30x / 2.89x / 1.98x`。结论：比极低换手线更有可比信息，但 2017/2020 回撤偏深，且 official 2020 winner 仍是 `cap50_hold5_turn05_exit98_risk16_weekly`；不替换 Path3 robust/tracked。
+- `scripts/update_weighted_winners.py` 后 Path3 official winners 为 2017 `cash_off_and_cap60_hold3_turn05_exit94_weekly`、2020 `cap50_hold5_turn05_exit98_risk16_weekly`、2023 `cash_off_and_cap50_hold2_turn12_exit90_weekly`、2025 `core_6_1_cash_off_and_cap100_weekly`；Path3 candidate 仍为 `cash_off_and_cap60_hold2_turn12_exit92_weekly`。最终 focus 为 `weekly_exit_buffer`。
+- 下一轮第一条命令建议在本轮 `hold5/turn05` 形态上测试 exit buffer，而不是回到 `hold8/turn02` 极端低换手：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`；若未注册，先加入 Path3 weekly scan，并只归档非 winner/robust 弱线。
+
 ## 本轮执行计划（2026-06-24 19:22 CST）
 
 - 上一轮 `cap32/hold8/turn03/exit96/risk06` 证明低换手但收益不足，本轮保持纯 `_weekly` 口径，注册并确认 `cap34/hold8/turn02/exit96/risk08`，仍使用 `core_explore_seed` 池。

@@ -1,5 +1,13 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-25 06:56 CST 状态
+
+开局 guard 显示 Path5 有 `pending_audit_count=6`，本轮读取 `results/research/a_share/event_theme_registry.json` 与 `results/research/a_share/event_theme_candidates.jsonl`，确认事件篮子为 4 个、候选 24 个，其中 18 个 `source_audited/include_in_backtest=true`，新增 `high_speed_pcb_copper_clad_server_20260624_v0` 的 6 个候选仍为 `pending_primary_source_review/include_in_backtest=false`。
+
+本轮没有执行 `scripts/event_theme_backtest_entry.py`，原因是 `high_speed_pcb_copper_clad_server_20260624_v0` 尚未完成一手来源审计；不能把 `002463.SZ 沪电股份`、`300476.SZ 胜宏科技`、`002916.SZ 深南电路`、`603228.SH 景旺电子`、`600183.SH 生益科技`、`688183.SH 生益电子` 当作有效事件策略结论。
+
+最终 guard focus 转为 `event_backtest_entry`，但下一轮第一动作仍必须先完成该篮子的公告/交易所/公司披露来源审计；审计通过后再运行最小事件入口并与 Path4 强主题比较。保底命令草案：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4winner_prom20signal29.json`；仅在 6 个 seed 审计通过后执行。
+
 ## 2026-06-24 19:22 CST 状态
 
 开局 guard focus 为 `event_basket_registry`，本轮优先补第四个冻结事件篮子草案，而不是继续只复跑 AI 眼镜篮子。已读取 `results/research/a_share/event_theme_registry.json`、`results/research/a_share/event_theme_candidates.jsonl` 与 `results/research/a_share/event_theme_audit.jsonl`，并把本轮新增 seed 全部标记为待审计，不进入有效策略结论。

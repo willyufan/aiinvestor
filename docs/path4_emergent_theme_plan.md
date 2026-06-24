@@ -1,5 +1,14 @@
 # Path 4 强主题涌现路径
 
+## 本轮执行计划（2026-06-25 06:56 CST）
+
+- 上一轮建议扩 `prom22` 覆盖宽度，本轮严格保持独立 Path4 强主题涌现路径，不做人工主题归类、不纳入 ETF、不并入 Path2 扫描池。
+- 本轮 active pool 处理：从 `PATH4_THEME_DISCOVERY_VARIANT_IDS` 移出 `aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk12_cap06_exit60_lowturn`，加入 `aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap06_exit62_lowturn`，保持 Path4 active cap。evict 理由：旧 signal30/risk12 中间信号质量线非 winner/robust，且被本轮 prom22/risk10 覆盖。
+- 本轮新增并五窗口确认三底座：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap06_exit62_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap06_exit62_lowturn`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap06_exit62_lowturn`。成功命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <three_prom22_risk10_ids>`。
+- 80/20 总市值版五窗口 CAGR `13.74% / 15.66% / 12.59% / 68.03% / 103.46%`，最大回撤 `-14.97% / -14.74% / -5.74% / -7.24% / -10.82%`，换手 `3.54x / 3.59x / 3.16x / 6.15x / 6.21x`；90/10 总市值版 CAGR `6.64% / 8.27% / 6.34% / 28.40% / 48.64%`；90/10 等权版 CAGR `3.35% / 5.57% / 7.83% / 21.44% / 9.98%`。
+- 结论：80/20 底座继续能捕捉中际旭创、新易盛、生益科技、联瑞新材、海光信息等强势簇，不是单票幸运；但跨底座仍弱，official Path4 2025 winner 仍由 `prom20/signal29/risk10/cap06/exit62` 维持，robust/tracked 仍为 `prom20/signal29/risk12/cap06/exit60`。本轮不并入 A股 Path1/2/3 official winner。
+- 最终 focus 为 `theme_risk_control`。下一轮第一条命令建议在 prom22/signal29 主体上做更低风险/更宽退出对照，观察能否保留 2025/2026 同时改善 2020/2023 稳定性：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap06_exit64_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap06_exit64_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap06_exit64_lowturn`；若未注册，先 evict 一条非 winner/robust 弱项后加入。
+
 ## 本轮执行计划（2026-06-24 19:22 CST）
 
 - 上一轮建议在 `signal29/risk12/cap06` 主体上做风险控制，本轮严格保持独立 Path4 强主题涌现路径，不使用人工主题归类、不纳入 ETF、不并入 Path2 扫描池。

@@ -1,5 +1,12 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-25 06:56 CST）
+
+- 上一轮 Path3 只做同步并把下一步指向成本压力；本轮 HK 新增确认预算投给扩展线，HK Path3 保持纯周频口径，只完成巡检、`tracked_active` 同步和下一轮候选设计，没有新增主线 `--only-strategy-ids` 回测。
+- 本轮同步命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --family-scope tracked_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`、`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/update_hkconnect_artifacts.py`。没有把 HK Path1/2 的月频或双周候选并入本路径。
+- HK Path3 window winner、robust candidate、tracked/live/public payload 未切换，本轮无 evict。未回测原因：本轮 HK 扩展线需要产生新增比较信息，同时 Path3 应先从单纯防守 overlay 回到周频换手控制。
+- 最终 guard focus 为 `weekly_defensive_overlay`。下一轮第一条命令建议在 stable weekly 低换手形态上补防守 overlay，同时保持 2026 不转负：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v21_defensive_overlay`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-24 19:22 CST）
 
 - 上一轮 v20 低换手 stable weekly 只保住 2026 小幅正收益，中长窗弱于既有 weekly robust；开局 focus 为 `weekly_defensive_overlay`。本轮 HK 新增确认预算投给 Path4/6/7 扩展线，HK Path3 保持纯周频口径，只完成巡检、artifact 同步和下一轮候选设计，没有新增主线 `--only-strategy-ids` 回测。

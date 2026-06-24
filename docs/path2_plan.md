@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-25 06:56 CST）
+
+- 上一轮 v58 未修复 2020/2023，本轮按最终 `underrepresented_families`/本轮 `capacity_and_cost_stress` 交集，在 Path2 `growth_elastic` 独立池注册 `momentum_equal_weight_elastic` v45 双底座；没有把 Path4 emergent_theme 或 Path3 `_weekly` 变体并入 Path2。
+- 本轮新增并五窗口确认 2 个 Path2 base ids：`core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk24_exit44_cap18_cost_guard_v45_capacity_stress`、`core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk24_exit44_cap18_cost_guard_v45_capacity_stress`。命令类型为五窗口 `--only-base-ids` 增量确认，实际与 Path3/Path4 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v45_ids>,<one_path3_weekly_id>`。
+- v45 total_mv 五窗口 CAGR `8.50% / 5.98% / 19.52% / 68.57% / 60.55%`，最大回撤 `-15.35% / -15.07% / -9.39% / -8.40% / -7.97%`；equal_weight 版 CAGR `10.38% / 9.50% / 22.17% / 57.89% / 62.02%`，最大回撤 `-17.53% / -15.69% / -15.29% / -15.29% / -15.43%`。结论：容量下降后回撤可控，但 2020/2023 远低于 Path2 目标线，不晋级。
+- `scripts/path2_candidate_pass.py` 已重跑，候选池 `875`，其中 `momentum_equal_weight_elastic=45`、`biweekly_rebalance_aggressive=33`、`weekly_rebalance_aggressive=0`。`scripts/update_weighted_winners.py` validation 明确拒绝 v45 equal_weight 替换 `since_2020_01`，原因是 2023 校验 `22.17%` 低于 required `32.52%`；Path2 window winner、robust、tracked/live/public 未切换。本轮无 Path2 evict。
+- 最终 focus 为 `capacity_and_cost_stress`。下一轮第一条命令应继续沿 v45 压容量/交易强度，但不能牺牲 2020/2023 到个位数：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top8_risk22_exit42_cap16_cost_guard_v46_capacity_cost,core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top8_risk22_exit42_cap16_cost_guard_v46_capacity_cost`；若未注册，先加入 Path2 scan family/list。
+
 ## 本轮执行计划（2026-06-24 19:22 CST）
 
 - 上一轮 v57 未修复 2020/2023，本轮按 `medium_cycle_growth` 在 Path2 `growth_elastic` 独立池注册 v58 双底座；未把 Path4 强主题涌现变体或 Path3 `_weekly` 候选并入 Path2 扫描池。

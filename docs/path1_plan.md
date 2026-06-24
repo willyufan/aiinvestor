@@ -4,6 +4,13 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-25 06:56 CST）
+
+- 上一轮 core_multifactor risk10 未改变 official，本轮开局 guard 为 `satellite_risk_cost`，实际只做 Path1 巡检、`winner_only_pass.py`、`refresh_active` 与 weighted/live/public 同步，没有新增 Path1/base id；独立 Path4 强主题仍未并入 Path1。
+- `scripts/winner_only_pass.py` 提示既有 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk08_reconfirm` 在 `since_2017_only` 有 clear improvement，但 `scripts/update_weighted_winners.py` 后 official 2017/2020/2023/2025 winners 仍为 `risk10/risk20/risk20/aggr_10_90_prom6`，Path1 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm`，`meanCAGR=51.16%`、`minCAGR=26.42%`。
+- 本轮同步命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`、`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-24 --family-scope refresh_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`、`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/update_weighted_winners.py`。本轮无 Path1 evict。
+- core_multifactor 子段只巡检代码实际集合，没有新增 overlay 或确认回测；最终 guard 仍为 coverage pass，focus 转为 `holding_shape`。下一轮第一条命令建议注册并确认持仓形态修复，而不是复跑本轮 clear 但未官方晋级的 risk08：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp62_cost_guard_reconfirm`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["holding_shape"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`。
+
 ## 本轮执行计划（2026-06-24 19:22 CST）
 
 - 上一轮候选池把下一步明确指向 `core_multifactor_coverage`，本轮按代码实际集合注册并确认低波质量成长信号组合，不把独立 Path4 强主题变体并入 Path1。
