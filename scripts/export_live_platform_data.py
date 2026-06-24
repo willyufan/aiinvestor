@@ -881,13 +881,34 @@ def _metrics_from_row(row: pd.Series) -> dict[str, float]:
     }
 
 
+def _is_ashare_path2_leaderboard_excluded(strategy_id: str, path4_theme_ids: set[str]) -> bool:
+    return strategy_id in path4_theme_ids or "emergent_theme" in strategy_id
+
+
 def _build_ashare_leaderboards(payload: dict[str, Any]) -> dict[str, Any]:
     out: dict[str, Any] = {"path1": {}, "path2": {}, "path3": {}, "path4": {}}
+    try:
+        from scripts.update_weighted_winners import load_path4_theme_ids
+
+        path4_theme_ids = load_path4_theme_ids()
+    except Exception:
+        path4_theme_ids = set()
 
     def add_window(path_name: str, track_key: str, track_meta: dict[str, Any]) -> None:
         entries = track_meta.get("leaderboard") if isinstance(track_meta, dict) else None
         if not isinstance(entries, list) or not entries:
             return
+        if path_name == "path2":
+            entries = [
+                entry
+                for entry in entries
+                if not _is_ashare_path2_leaderboard_excluded(
+                    str(entry.get("strategy_base_id") or entry.get("strategy_id") or ""),
+                    path4_theme_ids,
+                )
+            ]
+            if not entries:
+                return
         out.setdefault(path_name, {})[track_key] = {
             "track_key": track_key,
             "label": SAMPLE_LABELS.get(track_key, track_key),
@@ -937,6 +958,12 @@ def _build_ashare_2026_leaderboards() -> dict[str, Any]:
             return {}
         all_base_ids = set(latest_all["strategy_base_id"].astype(str).unique())
         path2_prefixes, path2_variant_ids = load_path2_scan_rules()
+        path4_allowed_ids = (load_path4_theme_ids() & all_base_ids) - STATIC_BASE_IDS
+        path2_excluded_ids = {
+            str(base_id)
+            for base_id in all_base_ids
+            if _is_ashare_path2_leaderboard_excluded(str(base_id), path4_allowed_ids)
+        }
         path_ids: dict[str, set[str]] = {
             "path1": (load_path1_family_ids() & load_active_family_ids() & all_base_ids) - STATIC_BASE_IDS,
             "path2": {
@@ -944,9 +971,10 @@ def _build_ashare_2026_leaderboards() -> dict[str, Any]:
                 for base_id in all_base_ids
                 if _matches_path2(str(base_id), path2_prefixes, path2_variant_ids)
             }
-            - STATIC_BASE_IDS,
+            - STATIC_BASE_IDS
+            - path2_excluded_ids,
             "path3": {str(base_id) for base_id in all_base_ids if _matches_path3(str(base_id))} - STATIC_BASE_IDS,
-            "path4": (load_path4_theme_ids() & all_base_ids) - STATIC_BASE_IDS,
+            "path4": path4_allowed_ids,
         }
         strategies = _build_strategy_map(latest_all)
         out: dict[str, Any] = {}
