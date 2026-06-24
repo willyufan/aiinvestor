@@ -1,5 +1,20 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-24 19:22 CST）
+
+- 上一轮 v42 high-return monthly 仍未达到 `since_2023_01 >= 30%` 验收线，开局 guard focus 转为 `biweekly_breakout`。本轮 HK 新增确认预算投给 Path4/6/7 扩展线，HK Path2 完成巡检、artifact 同步和下一轮候选设计，没有新增主线 `--only-strategy-ids` 回测。
+- 本轮同步命令覆盖 HK tracked/top5/live active：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --family-scope tracked_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`；退出码为 `0`。`scripts/update_hkconnect_artifacts.py` 已刷新 tracked 与 Path1-3 图表。
+- HK Path2 window winner、robust candidate、tracked/live/public payload 未切换，本轮无 evict。未回测原因：普通 biweekly breakout 近期多次高换手且 2023 不足，本轮预算更适合先给 HK 扩展线产出新增比较信息。
+- 最终 guard 为 `pass`，下一轮 focus 转为 `elasticity_cost_control`。第一条命令应暂停普通 biweekly breakout，转向 equal elastic/月频成本控制，验收仍看 `since_2023_01 >= 30%` 且 2017 MaxDD 不劣于 `-20%~-25%`：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v43_elasticity_cost_control`；若未注册，先在 HK Path2 variants 中注册。
+
+## 本轮执行计划（2026-06-24 06:57 CST）
+
+- 上一轮只完成 `elasticity_cost_control` 候选设计，但最终 rotation 转回 `high_return_monthly`；本轮实际五窗口确认高收益月频 v42，仍不并入 A股结论。
+- 本轮新增 strategy id：`hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v42_high_return_monthly`。命令与 HK Path1/3 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v43_biweekly_buffer_repair,hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v42_high_return_monthly,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v20_turnover_reduction`；退出码为 `0`。
+- v42 五窗口 CAGR `19.48% / 22.44% / 23.74% / 45.34% / 7.44%`，最大回撤 `-21.11% / -12.08% / -12.08% / -12.19% / -12.28%`。结论：2026 仍为正，但 `since_2023_01` 低于 `30%` 验收线，也未超过现有 Path2 robust；不替换 window winner、robust candidate、tracked/live/public。
+- `scripts/update_hkconnect_artifacts.py` 已刷新 HK tracked 与 Path1-3 图表；最终 guard 为 `pass`，HK 总候选 `425/425 complete`，Path2 无 evict。
+- 下一轮 focus 为 `high_return_monthly`。第一条命令建议不要切到 equal-elastic，继续在月频高收益上修 2023：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v43_2023_repair`；若未注册，先在 HK Path2 variants 中注册。
+
 ## 本轮执行计划（2026-06-23 17:21 CST）
 
 - 上一轮 HK Path2 只完成巡检和 `elasticity_cost_control` 候选设计；本轮 HK 新增预算投给 Path6/7 扩展线，HK Path2 完成巡检、artifact 同步和下一轮候选设计，没有新增 `--only-strategy-ids` 回测。

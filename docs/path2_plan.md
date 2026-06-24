@@ -13,6 +13,22 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-24 19:22 CST）
+
+- 上一轮 v57 未修复 2020/2023，本轮按 `medium_cycle_growth` 在 Path2 `growth_elastic` 独立池注册 v58 双底座；未把 Path4 强主题涌现变体或 Path3 `_weekly` 候选并入 Path2 扫描池。
+- 本轮新增并五窗口确认 2 个 Path2 base ids：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk34_mom_exit52_reconfirm88_caution64_cap22_cost_guard_v58_medium_cycle_restore`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk34_mom_exit52_reconfirm88_caution64_cap22_cost_guard_v58_medium_cycle_restore`。命令类型为五窗口 `--only-base-ids` 增量确认，实际与 A股其它路径合并执行。
+- v58 total_mv 五窗口 CAGR `5.29% / 3.65% / 17.73% / 42.13% / 42.52%`，最大回撤 `-34.77% / -34.77% / -24.85% / -17.34% / -10.61%`，换手 `5.49x / 4.93x / 4.30x / 8.23x / 9.03x`；equal_weight 版 CAGR `0.27% / -1.53% / 9.22% / 13.17% / 75.86%`，最大回撤 `-38.48% / -37.09% / -26.62% / -21.70% / -11.15%`。结论：单一 2026 弹性不足以弥补 2020/2023 与长窗回撤，不晋级。
+- `scripts/path2_candidate_pass.py` 候选数更新为 `871`；`scripts/update_weighted_winners.py` validation 继续拒绝近期 v57/v58 邻域，官方 Path2 window winner/robust/tracked/live/public 未因 v58 切换。本轮无 Path2 evict。
+- 最终 guard 为 `pass`，下一轮 focus 转为 `risk_reconfirm_sensitivity`。第一条命令应停止 v58 同形中周期恢复，转向风险/再确认敏感性修复：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top8_risk32_mom_exit50_reconfirm92_caution62_cap20_cost_guard_v59_risk_reconfirm_sensitivity,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top8_risk32_mom_exit50_reconfirm92_caution62_cap20_cost_guard_v59_risk_reconfirm_sensitivity`；若未注册，先加入 Path2 scan family/list。
+
+## 本轮执行计划（2026-06-24 06:57 CST）
+
+- 上一轮 v56 仍未修复 2020/2023，本轮按预留 `risk_reconfirm_sensitivity` 注册并确认 v57 双底座；执行中同步修复 Path2 pass/weighted 过滤，明确排除 Path3 `_weekly` 和 `PATH4_THEME_DISCOVERY_VARIANT_IDS`，避免 Path2/3/4 口径污染。
+- 本轮新增并五窗口确认 2 个 Path2 base ids：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk32_mom_exit50_reconfirm90_caution62_cap24_cost_guard_v57_risk_reconfirm_sensitivity`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk32_mom_exit50_reconfirm90_caution62_cap24_cost_guard_v57_risk_reconfirm_sensitivity`。命令类型为五窗口 `--only-base-ids` 增量确认，实际与 A股其它路径合并执行。
+- v57 total_mv 五窗口 CAGR `7.70% / 6.99% / 12.49% / 42.87% / 39.90%`，最大回撤 `-30.25% / -30.25% / -15.73% / -17.27% / -10.49%`；equal_weight 版 CAGR `1.39% / -0.28% / 9.90% / 12.66% / 73.97%`，最大回撤 `-38.64% / -37.18% / -20.98% / -22.01% / -11.58%`。结论：单一 2026 弹性不足以抵消 2020/2023 弱势，`update_weighted_winners.py` validation 明确拒绝 v57。
+- `scripts/path2_candidate_pass.py` 后 comparable candidate_count 从污染状态收敛为 `867`，`weekly_rebalance_aggressive=0`；窗口 winner 仍为旧高弹性族，robust 仍为 `core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_reconfirm65_cap95`，`meanCAGR=64.13%`、`minCAGR=35.34%`。本轮没有 Path2 evict，tracked/live/public 未切换。
+- 下一轮 focus 为 `medium_cycle_growth`。第一条命令建议停止 v57 同形确认，注册一个更明确的中周期恢复/低拥挤对照：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk34_mom_exit52_reconfirm88_caution64_cap22_cost_guard_v58_medium_cycle_restore,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk34_mom_exit52_reconfirm88_caution64_cap22_cost_guard_v58_medium_cycle_restore`；若未注册，先加入 Path2 scan family/list。
+
 ## 本轮执行计划（2026-06-23 17:21 CST）
 
 - 上一轮 v55 只保留短窗弹性，2020/2023 仍远低于 Path2 目标线；本轮按最终 focus `risk_reconfirm_sensitivity` 在 Path2 `growth_elastic` 独立池注册 v56 双底座，没有把 Path4 emergent_theme 或 Path3 weekly 结论混入 Path2。

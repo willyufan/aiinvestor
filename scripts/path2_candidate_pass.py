@@ -96,7 +96,7 @@ def _parse_python_constants(path: Path, names: Iterable[str]) -> dict[str, Any]:
     return result
 
 
-def load_path2_scan_rules(backtest_path: Path) -> tuple[list[str], list[str], dict[str, dict[str, Any]], set[str]]:
+def load_path2_scan_rules(backtest_path: Path) -> tuple[list[str], list[str], dict[str, dict[str, Any]], set[str], set[str]]:
     consts = _parse_python_constants(
         backtest_path,
         [
@@ -104,11 +104,13 @@ def load_path2_scan_rules(backtest_path: Path) -> tuple[list[str], list[str], di
             "PATH2_SCAN_BASE_PREFIXES",
             "PATH2_SCAN_VARIANT_IDS",
             "PATH2_SCAN_FAMILY_RULES",
+            "PATH4_THEME_DISCOVERY_VARIANT_IDS",
         ],
     )
     prefixes = [str(item) for item in consts.get("PATH2_SCAN_BASE_PREFIXES") or []]
     variant_ids = [str(item) for item in consts.get("PATH2_SCAN_VARIANT_IDS") or []]
     archived_ids = {str(item) for item in consts.get("PATH2_ARCHIVED_STRATEGY_BASE_IDS") or []}
+    excluded_variant_ids = {str(item) for item in consts.get("PATH4_THEME_DISCOVERY_VARIANT_IDS") or []}
     family_rules_raw = consts.get("PATH2_SCAN_FAMILY_RULES") or {}
     family_rules: dict[str, dict[str, Any]] = {}
     for family_name, family_meta in family_rules_raw.items():
@@ -118,7 +120,7 @@ def load_path2_scan_rules(backtest_path: Path) -> tuple[list[str], list[str], di
             "variant_ids": [str(item) for item in family_meta.get("variant_ids") or []],
             "target_candidates": int(family_meta.get("target_candidates") or 0),
         }
-    return prefixes, variant_ids, family_rules, archived_ids
+    return prefixes, variant_ids, family_rules, archived_ids, excluded_variant_ids
 
 
 def _latest_per_strategy_window(frame: pd.DataFrame) -> pd.DataFrame:
@@ -148,7 +150,15 @@ def _robust_sort_key(metrics: dict[str, Any]) -> tuple[float, float, float, floa
     )
 
 
-def _matches_path2(base_id: str, prefixes: list[str], variant_ids: list[str]) -> bool:
+def _matches_path2(
+    base_id: str,
+    prefixes: list[str],
+    variant_ids: list[str],
+    excluded_variant_ids: set[str],
+) -> bool:
+    variant_id = base_id.rsplit("__", 1)[1] if "__" in base_id else None
+    if variant_id and (variant_id.endswith("_weekly") or variant_id in excluded_variant_ids):
+        return False
     if any(base_id.startswith(prefix) for prefix in prefixes):
         return True
     return any(base_id.endswith(f"__{variant_id}") for variant_id in variant_ids)
@@ -219,7 +229,7 @@ def main() -> None:
     parser.add_argument("--write-json", type=Path, default=DEFAULT_WRITE_JSON)
     args = parser.parse_args()
 
-    prefixes, variant_ids, family_rules, archived_ids = load_path2_scan_rules(args.backtest_script)
+    prefixes, variant_ids, family_rules, archived_ids, excluded_variant_ids = load_path2_scan_rules(args.backtest_script)
     frame = pd.read_csv(args.comparison_csv)
     latest = _filter_to_current_as_of(_augment_with_synthetic_windows(_latest_per_strategy_window(frame)))
     latest["strategy_base_id"] = latest["strategy_base_id"].astype(str)
@@ -229,7 +239,7 @@ def main() -> None:
         {
             base_id
             for base_id in latest["strategy_base_id"].unique()
-            if _matches_path2(str(base_id), prefixes, variant_ids)
+            if _matches_path2(str(base_id), prefixes, variant_ids, excluded_variant_ids)
             and str(base_id) not in archived_ids
         }
     )

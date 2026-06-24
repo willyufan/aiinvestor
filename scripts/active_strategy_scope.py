@@ -12,7 +12,27 @@ from scripts.results_layout import (
 from scripts.winner_id_utils import collect_csv_topn, collect_ids, load_json
 
 
-def _collect_live_registry_ids(market_scope: str, target: set[str]) -> None:
+def _collect_leaderboard_topn(obj: Any, target: set[str], top_n: int) -> None:
+    if top_n <= 0:
+        return
+    if isinstance(obj, dict):
+        entries = obj.get("entries")
+        if isinstance(entries, list):
+            for item in entries[:top_n]:
+                if not isinstance(item, dict):
+                    continue
+                strategy_id = str(item.get("strategy_id") or item.get("strategy_base_id") or "")
+                if strategy_id:
+                    target.add(strategy_id)
+            return
+        for value in obj.values():
+            _collect_leaderboard_topn(value, target, top_n)
+    elif isinstance(obj, list):
+        for item in obj:
+            _collect_leaderboard_topn(item, target, top_n)
+
+
+def _collect_live_registry_ids(market_scope: str, target: set[str], *, leaderboard_top_n: int = 1) -> None:
     payload = load_json(RESULTS_LIVE_DIR / "strategy_registry.json")
     if not isinstance(payload, dict):
         return
@@ -34,7 +54,7 @@ def _collect_live_registry_ids(market_scope: str, target: set[str]) -> None:
     add_items(payload.get("core_active_strategies"))
     leaderboards = payload.get("winner_leaderboards") or {}
     if isinstance(leaderboards, dict):
-        collect_ids(leaderboards.get(market_scope) or {}, target)
+        _collect_leaderboard_topn(leaderboards.get(market_scope) or {}, target, leaderboard_top_n)
 
 
 def _collect_core_active_ids(target: set[str]) -> None:
@@ -49,11 +69,11 @@ def _collect_core_active_ids(target: set[str]) -> None:
     collect_ids(payload.get("refresh_only_strategies") or [], target)
 
 
-def collect_ashare_refresh_active_ids(*, include_top_n: int = 5) -> set[str]:
+def collect_ashare_refresh_active_ids(*, include_top_n: int = 1) -> set[str]:
     strategy_ids: set[str] = set()
     collect_ids(load_json(existing_research_file("weighted_track_winners.json")), strategy_ids)
     _collect_core_active_ids(strategy_ids)
-    _collect_live_registry_ids(A_SHARE_SCOPE, strategy_ids)
+    _collect_live_registry_ids(A_SHARE_SCOPE, strategy_ids, leaderboard_top_n=include_top_n)
     collect_csv_topn(
         existing_research_file("strategy_comparison_base_method.csv"),
         id_col="strategy_base_id",
@@ -63,13 +83,13 @@ def collect_ashare_refresh_active_ids(*, include_top_n: int = 5) -> set[str]:
     return {strategy_id for strategy_id in strategy_ids if strategy_id}
 
 
-def collect_hkconnect_refresh_active_ids(*, include_top_n: int = 5) -> set[str]:
+def collect_hkconnect_refresh_active_ids(*, include_top_n: int = 1) -> set[str]:
     strategy_ids: set[str] = set()
     collect_ids(
         load_json(existing_research_file("tracked_winners_hkconnect.json", market_scope=HKCONNECT_SCOPE)),
         strategy_ids,
     )
-    _collect_live_registry_ids(HKCONNECT_SCOPE, strategy_ids)
+    _collect_live_registry_ids(HKCONNECT_SCOPE, strategy_ids, leaderboard_top_n=include_top_n)
     collect_csv_topn(
         existing_research_file("strategy_comparison_hkconnect.csv", market_scope=HKCONNECT_SCOPE),
         id_col="strategy_id",

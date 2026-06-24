@@ -421,6 +421,8 @@
     "aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit44_reconfirm96_caution56_cap18_cost_guard_v54_medium_cycle_rebound",
     "aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit46_reconfirm94_caution58_cap20_cost_guard_v55_medium_cycle_quality",
     "aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk30_mom_exit48_reconfirm92_caution60_cap22_cost_guard_v56_risk_reconfirm_sensitivity",
+    "aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk32_mom_exit50_reconfirm90_caution62_cap24_cost_guard_v57_risk_reconfirm_sensitivity",
+    "aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk34_mom_exit52_reconfirm88_caution64_cap22_cost_guard_v58_medium_cycle_restore",
     "aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk30_exit50_cap35_cost_guard_v38_underrep",
     "aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk28_exit48_cap28_cost_guard_v39_capacity_stress",
     "aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk26_exit46_cap24_cost_guard_v41_underrep_quality",
@@ -706,6 +708,8 @@
         "aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit44_reconfirm96_caution56_cap18_cost_guard_v54_medium_cycle_rebound",
         "aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit46_reconfirm94_caution58_cap20_cost_guard_v55_medium_cycle_quality",
         "aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk30_mom_exit48_reconfirm92_caution60_cap22_cost_guard_v56_risk_reconfirm_sensitivity",
+        "aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk32_mom_exit50_reconfirm90_caution62_cap24_cost_guard_v57_risk_reconfirm_sensitivity",
+        "aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk34_mom_exit52_reconfirm88_caution64_cap22_cost_guard_v58_medium_cycle_restore",
         "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm75_cap80_cashguard",
         "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap80_cashguard",
         "aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk45_mom_exit55_reconfirm75_caution85_cap75_cashguard",
@@ -998,8 +1002,8 @@
     "turnover_2023_weight": 0.5,
     "scoring_policy": "promotion_score_v1"
   },
-  "raw_candidate_count": 1062,
-  "candidate_count": 1052,
+  "raw_candidate_count": 881,
+  "candidate_count": 871,
   "incomplete_candidate_count": 10,
   "incomplete_candidates": [
     {
@@ -1126,10 +1130,10 @@
   "family_candidate_counts": {
     "high_concentration_breakout": 154,
     "decorrelated_defensive_mix": 35,
-    "high_growth_theme": 409,
+    "high_growth_theme": 413,
     "momentum_equal_weight_elastic": 43,
     "biweekly_rebalance_aggressive": 33,
-    "weekly_rebalance_aggressive": 98
+    "weekly_rebalance_aggressive": 0
   },
   "candidate_family_membership": {
     "core_explore_60_40_equal_weight_winner_core": [],
@@ -1168,17 +1172,11 @@
     "core_explore_70_30_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_biweekly": [
       "biweekly_rebalance_aggressive"
     ],
-    "core_explore_70_30_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
     "core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100": [
       "high_concentration_breakout"
     ],
     "core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_biweekly": [
       "biweekly_rebalance_aggressive"
-    ],
-    "core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_weekly": [
-      "weekly_rebalance_aggressive"
     ],
     "core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom1_core_6_1_cash_off_and_cap100": [
       "high_concentration_breakout"
@@ -1254,9 +1252,6 @@
     "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_ramp85": [
       "high_concentration_breakout"
     ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
     "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_risk50_cap100": [
       "high_concentration_breakout"
     ],
@@ -1296,17 +1291,11 @@
     "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap90_biweekly": [
       "biweekly_rebalance_aggressive"
     ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
     "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95": [
       "high_concentration_breakout"
     ],
     "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95_biweekly": [
       "biweekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly": [
-      "weekly_rebalance_aggressive"
     ],
     "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_risk30_cap95": [
       "high_concentration_breakout"
@@ -1403,9 +1392,6 @@
     ],
     "core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_ramp85": [
       "high_concentration_breakout"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_weekly": [
-      "weekly_rebalance_aggressive"
     ],
     "core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_risk50_cap100": [
       "high_concentration_breakout"
@@ -1542,9 +1528,6 @@
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80_biweekly": [
       "biweekly_rebalance_aggressive"
     ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap90": [
       "high_concentration_breakout"
     ],
@@ -1557,9 +1540,6 @@
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80_biweekly": [
       "biweekly_rebalance_aggressive"
     ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap90": [
       "high_concentration_breakout"
     ],
@@ -1568,180 +1548,6 @@
     ],
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_full_risk_cap80_biweekly": [
       "biweekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_full_risk_cap80_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_balanced_cashoff_cap80_hold3_turn25_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_breakout_cashoff_cap80_hold3_turn25_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap45_hold9_turn06_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap50_hold10_turn06_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap50_hold8_turn08_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold10_turn03_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold7_turn10_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold8_turn04_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold8_turn05_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold9_turn08_exit90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap58_hold10_turn02_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap58_hold6_turn04_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap58_hold6_turn06_exit88_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap58_hold7_turn05_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold10_turn03_exit92_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold6_turn12_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold7_turn06_exit90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold7_turn06_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold7_turn08_exit85_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold8_turn04_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold8_turn10_exit90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold9_turn03_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap62_hold6_turn10_exit88_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap62_hold9_turn02_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap64_hold8_turn03_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold5_turn10_exit85_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold5_turn15_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold6_turn08_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap66_hold7_turn04_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap66_hold7_turn04_exit96_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap68_hold5_turn10_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn14_exit90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap70_hold4_turn20_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap75_hold4_turn16_exit85_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap75_hold5_turn12_exit88_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap55_hold10_turn03_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap55_hold6_turn10_exit88_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap58_hold6_turn04_exit90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap58_hold6_turn06_exit88_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold6_turn12_exit85_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold7_turn06_exit90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold8_turn04_exit90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold9_turn02_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap60_hold9_turn03_exit90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap64_hold8_turn03_exit90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap65_hold6_turn08_exit90_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap66_hold7_turn04_exit90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap68_hold5_turn10_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cost_guard_cap68_hold6_turn08_exit90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk20_cap66_hold7_turn04_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk25_cap58_hold10_turn02_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk25_cap62_hold9_turn02_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk25_cap64_hold8_turn03_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold8_turn04_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold8_turn10_exit90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap60_hold9_turn03_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk30_cap65_hold6_turn08_exit90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_risk35_cap70_hold5_turn10_exit88_weekly": [
-      "weekly_rebalance_aggressive"
     ],
     "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk22_exit42_cap18_cost_guard_v35_lowturn": [
       "biweekly_rebalance_aggressive"
@@ -1785,9 +1591,6 @@
     "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60_biweekly": [
       "biweekly_rebalance_aggressive"
     ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
     "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap80": [
       "high_concentration_breakout"
     ],
@@ -1800,9 +1603,6 @@
     "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_biweekly": [
       "biweekly_rebalance_aggressive"
     ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
     "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk": [
       "high_concentration_breakout"
     ],
@@ -1812,38 +1612,11 @@
     "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60_biweekly": [
       "biweekly_rebalance_aggressive"
     ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
     "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80": [
       "high_concentration_breakout"
     ],
     "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80_biweekly": [
       "biweekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_weekly_alpha_balanced_risk50_cap60_hold2_turn30_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_weekly_alpha_breakout_risk50_cap60_hold2_turn30_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_weekly_alpha_pullback_cost_guard_cap45_hold5_turn12_exit90_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_weekly_alpha_pullback_cost_guard_cap50_hold5_turn14_exit85_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_weekly_alpha_pullback_risk40_cap50_hold4_turn18_exit85_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_weekly_alpha_pullback_risk40_cap55_hold4_turn18_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_weekly_alpha_pullback_risk50_cap60_hold2_turn30_weekly": [
-      "weekly_rebalance_aggressive"
     ],
     "core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom7_core_3_1_full_risk_cap40": [
       "high_concentration_breakout"
@@ -1878,39 +1651,6 @@
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_biweekly": [
       "biweekly_rebalance_aggressive"
     ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap55_hold2_turn10_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap55_hold3_turn04_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap55_hold3_turn06_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap58_hold4_turn03_exit96_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap58_hold4_turn04_exit94_risk25_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn06_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn08_exit92_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_3_1_full_risk_cap40": [
       "high_growth_theme"
     ],
@@ -1926,17 +1666,11 @@
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap40_biweekly": [
       "biweekly_rebalance_aggressive"
     ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60": [
       "high_growth_theme"
     ],
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_biweekly": [
       "biweekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly": [
-      "weekly_rebalance_aggressive"
     ],
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_balanced": [
       "momentum_equal_weight_elastic"
@@ -1969,58 +1703,8 @@
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_trend_industry_momentum": [
       "momentum_equal_weight_elastic"
     ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap28_hold10_turn04_exit94_risk04_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn02_exit98_risk06_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap32_hold10_turn02_exit98_risk06_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap34_hold8_turn02_exit99_risk06_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap34_hold9_turn01_exit99_risk06_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap34_hold9_turn02_exit98_risk06_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap36_hold8_turn02_exit99_risk08_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap38_hold7_turn02_exit99_risk08_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold7_turn03_exit99_risk08_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn01_exit98_risk08_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit98_risk10_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn03_exit99_risk08_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn03_exit98_risk12_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap48_hold6_turn03_exit98_risk14_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit98_risk16_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold6_turn04_exit98_risk16_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold5_turn05_exit98_risk18_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit96_risk18_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit96_risk18_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold5_turn04_exit94_risk20_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold5_turn05_exit96_risk20_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold6_turn03_exit96_risk20_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold4_turn04_exit92_risk25_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn03_exit94_risk25_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk20_weekly": [],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold5_turn04_exit95_risk25_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap58_hold6_turn02_exit96_risk25_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_full_risk": [
       "high_growth_theme"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_weekly_alpha_balanced_risk50_cap40_hold2_turn40_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_weekly_alpha_breakout_risk50_cap40_hold2_turn40_weekly": [
-      "weekly_rebalance_aggressive"
-    ],
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_weekly_alpha_pullback_risk50_cap40_hold2_turn40_weekly": [
-      "weekly_rebalance_aggressive"
     ],
     "core_explore_80_20_equal_weight_winner_core__aggr_10_90_fast_ramp_cash_off": [
       "high_growth_theme",
@@ -2054,7 +1738,6 @@
     "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_ramp85": [
       "high_concentration_breakout"
     ],
-    "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_risk50_cap100": [
       "high_concentration_breakout"
     ],
@@ -2092,12 +1775,10 @@
       "high_concentration_breakout"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap90_biweekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap90_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95": [
       "high_concentration_breakout"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95_biweekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap95_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_risk30_cap95": [
       "high_concentration_breakout"
     ],
@@ -2270,7 +1951,6 @@
     "core_explore_80_20_total_mv_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_ramp85": [
       "high_concentration_breakout"
     ],
-    "core_explore_80_20_total_mv_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_risk50_cap100": [
       "high_concentration_breakout"
     ],
@@ -2455,7 +2135,6 @@
       "high_concentration_breakout"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80_biweekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap80_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap90": [
       "high_concentration_breakout"
     ],
@@ -2466,7 +2145,6 @@
       "high_concentration_breakout"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80_biweekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap80_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_risk50_cap90": [
       "high_concentration_breakout"
     ],
@@ -2474,10 +2152,6 @@
       "high_concentration_breakout"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_full_risk_cap80_biweekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_core_6_1_full_risk_cap80_weekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_weekly_alpha_balanced_cashoff_cap80_hold3_turn25_weekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_weekly_alpha_breakout_cashoff_cap80_hold3_turn25_weekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap80_hold3_turn25_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_04_96_prom1_core_6_1_cash_off_and_cap100": [
       "high_concentration_breakout"
     ],
@@ -2506,7 +2180,6 @@
       "high_concentration_breakout"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60_biweekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap80": [
       "high_concentration_breakout"
     ],
@@ -2517,7 +2190,6 @@
       "high_concentration_breakout"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_biweekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk": [
       "high_concentration_breakout"
     ],
@@ -2525,15 +2197,10 @@
       "high_concentration_breakout"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60_biweekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap60_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80": [
       "high_concentration_breakout"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80_biweekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_full_risk_cap80_weekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_weekly_alpha_balanced_risk50_cap60_hold2_turn30_weekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_weekly_alpha_breakout_risk50_cap60_hold2_turn30_weekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_weekly_alpha_pullback_risk50_cap60_hold2_turn30_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7": [
       "high_concentration_breakout"
     ],
@@ -2583,9 +2250,6 @@
       "momentum_equal_weight_elastic"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_biweekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_cap50_hold2_turn12_exit90_weekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit90_weekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_3_1_full_risk_cap40": [
       "high_growth_theme"
     ],
@@ -2599,12 +2263,10 @@
       "high_growth_theme"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap40_biweekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap40_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60": [
       "high_growth_theme"
     ],
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_biweekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1_full_risk_cap60_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_balanced": [
       "momentum_equal_weight_elastic"
     ],
@@ -2694,9 +2356,6 @@
     "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_full_risk": [
       "high_growth_theme"
     ],
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_weekly_alpha_balanced_risk50_cap40_hold2_turn40_weekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_weekly_alpha_breakout_risk50_cap40_hold2_turn40_weekly": [],
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_weekly_alpha_pullback_risk50_cap40_hold2_turn40_weekly": [],
     "core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp_cash_off": [
       "high_growth_theme",
       "momentum_equal_weight_elastic"
@@ -3106,6 +2765,9 @@
     "core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit46_reconfirm96_caution58_cap18_cost_guard_v34_reconfirm_balance": [
       "high_growth_theme"
     ],
+    "core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk34_mom_exit52_reconfirm88_caution64_cap22_cost_guard_v58_medium_cycle_restore": [
+      "high_growth_theme"
+    ],
     "core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk22_mom_exit42_reconfirm98_caution54_cap18_cost_guard_v32_capacity_stress": [
       "high_growth_theme"
     ],
@@ -3125,6 +2787,9 @@
       "high_growth_theme"
     ],
     "core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk30_mom_exit48_reconfirm92_caution60_cap22_cost_guard_v56_risk_reconfirm_sensitivity": [
+      "high_growth_theme"
+    ],
+    "core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk32_mom_exit50_reconfirm90_caution62_cap24_cost_guard_v57_risk_reconfirm_sensitivity": [
       "high_growth_theme"
     ],
     "core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top13_risk28_mom_exit48_reconfirm96_caution64_cap24_cost_guard_v27_medium_cycle": [
@@ -3189,7 +2854,6 @@
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal27_leader72_coverage_penalty_risk15_cap12_exit64_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader72_risk15_cap12_exit64": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader74_coverage_penalty_risk15_cap12_exit64": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap08_exit60_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap10_exit60_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk14_cap10_exit62_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk16_cap10_exit64_lowturn": [],
@@ -3197,34 +2861,17 @@
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal29_leader76_coverage_penalty_risk18_cap14_exit66_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk18_cap14_exit66_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit58_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom14_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom16_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom16_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk12_cap08_exit60_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom16_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk14_cap08_exit62_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap06_exit60_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit60_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk14_cap08_exit62_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk12_cap08_exit60_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk14_cap08_exit62_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap04_exit58_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap05_exit58_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap06_exit60_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader82_coverage_penalty_risk10_cap04_exit58_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader82_coverage_penalty_risk10_cap06_exit58_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal31_leader80_coverage_penalty_risk10_cap05_exit58_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk10_cap06_exit58_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk14_cap08_exit62_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk10_cap06_exit58_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap06_exit56_lowturn": [],
-    "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom26_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn": [],
     "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom26_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk08_cap04_exit56_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top12_risk45_mom_exit55_reconfirm80_caution85_cap70_cashguard": [
       "high_growth_theme"
@@ -3588,6 +3235,9 @@
     "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit46_reconfirm96_caution58_cap18_cost_guard_v34_reconfirm_balance": [
       "high_growth_theme"
     ],
+    "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk34_mom_exit52_reconfirm88_caution64_cap22_cost_guard_v58_medium_cycle_restore": [
+      "high_growth_theme"
+    ],
     "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk22_mom_exit42_reconfirm98_caution54_cap18_cost_guard_v32_capacity_stress": [
       "high_growth_theme"
     ],
@@ -3607,6 +3257,9 @@
       "high_growth_theme"
     ],
     "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk30_mom_exit48_reconfirm92_caution60_cap22_cost_guard_v56_risk_reconfirm_sensitivity": [
+      "high_growth_theme"
+    ],
+    "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk32_mom_exit50_reconfirm90_caution62_cap24_cost_guard_v57_risk_reconfirm_sensitivity": [
       "high_growth_theme"
     ],
     "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top13_risk28_mom_exit48_reconfirm96_caution64_cap24_cost_guard_v27_medium_cycle": [
@@ -3669,7 +3322,6 @@
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal27_leader72_coverage_penalty_risk15_cap12_exit64_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader72_risk15_cap12_exit64": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader74_coverage_penalty_risk15_cap12_exit64": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap08_exit60_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap10_exit60_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk14_cap10_exit62_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk16_cap10_exit64_lowturn": [],
@@ -3677,34 +3329,17 @@
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal29_leader76_coverage_penalty_risk18_cap14_exit66_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk18_cap14_exit66_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit58_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom12_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom14_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom16_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom16_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk12_cap08_exit60_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom16_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk14_cap08_exit62_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap06_exit60_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap08_exit60_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk14_cap08_exit62_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom18_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk12_cap08_exit60_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk14_cap08_exit62_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap04_exit58_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap05_exit58_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk12_cap06_exit60_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader82_coverage_penalty_risk10_cap04_exit58_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader82_coverage_penalty_risk10_cap06_exit58_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal31_leader80_coverage_penalty_risk10_cap05_exit58_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk10_cap06_exit58_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk14_cap08_exit62_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk10_cap06_exit58_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap06_exit56_lowturn": [],
-    "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom26_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn": [],
     "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom26_emergent_theme_quality_gate_signal34_leader84_coverage_penalty_risk08_cap04_exit56_lowturn": [],
     "core_explore_95_05_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk30_or_cap95": [
       "high_growth_theme"
@@ -4865,33 +4500,6 @@
         }
       },
       {
-        "strategy_base_id": "core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top12_risk34_mom_exit52_reconfirm86_caution64_cap48_cost_guard_v12",
-        "metrics": {
-          "cagr": 1.48688606,
-          "sharpe": 1.96892059,
-          "max_drawdown": -0.15915186,
-          "turnover": 7.59738982,
-          "total_return": 2.63506773
-        },
-        "promotion_score": {
-          "policy": "promotion_score_v1",
-          "score": 1.40867037824,
-          "base_score": 1.46929009676,
-          "ytd_penalty": 0.0,
-          "concentration_penalty": 0.060619718520000004,
-          "concentration": {
-            "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.44157945600000004,
-            "avg_top3_weight": 0.727839212,
-            "max_top1_weight": 0.50067957,
-            "max_top3_weight": 0.90182,
-            "latest_top1_weight": 0.44908001,
-            "latest_top3_weight": 0.90182,
-            "observations": 5
-          }
-        }
-      },
-      {
         "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom3_core_6_1_cap60",
         "metrics": {
           "cagr": 1.36647249,
@@ -4942,6 +4550,33 @@
             "latest_top1_weight": 0.31204796,
             "latest_top3_weight": 0.8604527500000001,
             "observations": 5
+          }
+        }
+      },
+      {
+        "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_full_risk_cap95",
+        "metrics": {
+          "cagr": 1.39980776,
+          "sharpe": 1.96305576,
+          "max_drawdown": -0.16930504,
+          "turnover": 6.24033902,
+          "total_return": 2.4560762
+        },
+        "promotion_score": {
+          "policy": "promotion_score_v1",
+          "score": 1.39530162616,
+          "base_score": 1.39530162616,
+          "ytd_penalty": 0.0,
+          "concentration_penalty": 0.0,
+          "concentration": {
+            "sample_tag": "",
+            "avg_top1_weight": 0.0,
+            "avg_top3_weight": 0.0,
+            "max_top1_weight": 0.0,
+            "max_top3_weight": 0.0,
+            "latest_top1_weight": 0.0,
+            "latest_top3_weight": 0.0,
+            "observations": 0
           }
         }
       }
@@ -5678,151 +5313,6 @@
         }
       }
     ],
-    "weekly_rebalance_aggressive": [
-      {
-        "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap55_hold3_turn06_exit92_weekly",
-        "score": 0.16645157265142854,
-        "cagr_2020": 0.22679059,
-        "cagr_2023": 0.19661192,
-        "worst_max_drawdown": -0.26506476,
-        "score_detail": {
-          "policy": "promotion_score_v1",
-          "score": 0.16645157265142854,
-          "base_score": 0.17891825968,
-          "ytd_penalty": 0.0,
-          "concentration_penalty": 0.012466687028571446,
-          "concentration": {
-            "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.29751061523809524,
-            "avg_top3_weight": 0.6546296861904762,
-            "max_top1_weight": 1.0,
-            "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.20565632,
-            "latest_top3_weight": 0.4754664,
-            "observations": 21
-          }
-        }
-      },
-      {
-        "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn06_exit92_weekly",
-        "score": 0.16645157265142854,
-        "cagr_2020": 0.22679059,
-        "cagr_2023": 0.19661192,
-        "worst_max_drawdown": -0.26506476,
-        "score_detail": {
-          "policy": "promotion_score_v1",
-          "score": 0.16645157265142854,
-          "base_score": 0.17891825968,
-          "ytd_penalty": 0.0,
-          "concentration_penalty": 0.012466687028571446,
-          "concentration": {
-            "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.29751061523809524,
-            "avg_top3_weight": 0.6546296861904762,
-            "max_top1_weight": 1.0,
-            "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.20565632,
-            "latest_top3_weight": 0.4754664,
-            "observations": 21
-          }
-        }
-      },
-      {
-        "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap55_hold2_turn10_exit92_weekly",
-        "score": 0.14221125091999998,
-        "cagr_2020": 0.20231496,
-        "cagr_2023": 0.20757592,
-        "worst_max_drawdown": -0.26383819,
-        "score_detail": {
-          "policy": "promotion_score_v1",
-          "score": 0.14221125091999998,
-          "base_score": 0.14221125091999998,
-          "ytd_penalty": 0.0,
-          "concentration_penalty": 0.0,
-          "concentration": {
-            "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.26363217149999996,
-            "avg_top3_weight": 0.543674288,
-            "max_top1_weight": 1.0,
-            "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.15629391,
-            "latest_top3_weight": 0.44578039,
-            "observations": 20
-          }
-        }
-      },
-      {
-        "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly",
-        "score": 0.13735075255999996,
-        "cagr_2020": 0.27142592,
-        "cagr_2023": 0.19657798,
-        "worst_max_drawdown": -0.25560711,
-        "score_detail": {
-          "policy": "promotion_score_v1",
-          "score": 0.13735075255999996,
-          "base_score": 0.22115089796,
-          "ytd_penalty": 0.004045849499999997,
-          "concentration_penalty": 0.07975429590000005,
-          "concentration": {
-            "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.4165741954166667,
-            "avg_top3_weight": 0.8032741941666668,
-            "max_top1_weight": 1.0,
-            "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.4126163,
-            "latest_top3_weight": 0.7780417599999999,
-            "observations": 24
-          }
-        }
-      },
-      {
-        "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly",
-        "score": 0.13509567841999992,
-        "cagr_2020": 0.27292042,
-        "cagr_2023": 0.19826968,
-        "worst_max_drawdown": -0.27081378,
-        "score_detail": {
-          "policy": "promotion_score_v1",
-          "score": 0.13509567841999992,
-          "base_score": 0.21809614911999994,
-          "ytd_penalty": 0.0030741480000000014,
-          "concentration_penalty": 0.07992632270000001,
-          "concentration": {
-            "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.41485153625,
-            "avg_top3_weight": 0.8078909125,
-            "max_top1_weight": 1.0,
-            "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.40584361,
-            "latest_top3_weight": 0.77220402,
-            "observations": 24
-          }
-        }
-      },
-      {
-        "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn08_exit92_weekly",
-        "score": 0.12012643268999999,
-        "cagr_2020": 0.26158354,
-        "cagr_2023": 0.20168665,
-        "worst_max_drawdown": -0.27896012,
-        "score_detail": {
-          "policy": "promotion_score_v1",
-          "score": 0.12012643268999999,
-          "base_score": 0.19825546644000003,
-          "ytd_penalty": 0.004306574999999998,
-          "concentration_penalty": 0.07382245875000003,
-          "concentration": {
-            "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.4129437991666666,
-            "avg_top3_weight": 0.7833537954166667,
-            "max_top1_weight": 1.0,
-            "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.41825042,
-            "latest_top3_weight": 0.76108716,
-            "observations": 24
-          }
-        }
-      }
-    ]
+    "weekly_rebalance_aggressive": []
   }
 }

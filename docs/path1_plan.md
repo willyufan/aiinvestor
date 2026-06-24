@@ -4,6 +4,22 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-24 19:22 CST）
+
+- 上一轮候选池把下一步明确指向 `core_multifactor_coverage`，本轮按代码实际集合注册并确认低波质量成长信号组合，不把独立 Path4 强主题变体并入 Path1。
+- 本轮新增并五窗口确认 base id：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk10_reconfirm`。命令类型为五窗口 `--only-base-ids` 增量确认，实际与 A股 Path2/3/4 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk10_reconfirm,<two_path2_v58_ids>,<one_path3_weekly_id>,<three_path4_risk10_cap06_exit62_ids>`。
+- 新 core_multifactor 五窗口 CAGR `15.33% / 12.63% / 25.28% / 75.09% / 99.77%`，最大回撤 `-21.93% / -21.26% / -13.35% / -15.71% / -4.25%`，换手 `2.53x / 2.73x / 2.89x / 5.02x / 5.35x`。结论：2023 和短窗可比，但 2017/2020 仍弱于当前 satellite robust，不替换 Path1 window winner、robust candidate 或 tracked/live/public payload。
+- `scripts/winner_only_pass.py` 给出 raw clear candidate `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk08_reconfirm`，但 `scripts/update_weighted_winners.py` 后官方 Path1 2017/2020/2023/2025 window winners 与 robust 仍分别维持 `risk10/risk20/risk20/prom6` 与 `risk25_reconfirm`。本轮 core_multifactor 覆盖从 `61/61` 扩到待 guard 确认的 `62/62`，无 Path1 evict。
+- 最终 guard 为 `pass`，下一轮 focus 转为 `signal_quality`。不要复跑本轮 core_multifactor risk10；第一条命令建议回到 signal-quality 修复池，先注册并确认更强调信号质量/低波过滤的对照：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk08_reconfirm`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`。
+
+## 本轮执行计划（2026-06-24 06:57 CST）
+
+- 上一轮 `risk06_reconfirm` 仍是短窗强、中长窗弱，本轮按预留命令实际注册并五窗口确认 `exit50` 对照；最终 guard 转为 `core_multifactor_coverage`，所以下一轮 focus 不再继续复跑 risk06 支线。
+- 本轮新增并确认 base id：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk06_exit50_reconfirm`。命令类型为五窗口 `--only-base-ids` 增量确认，实际与 A股 Path2/3/4 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk06_exit50_reconfirm,<two_path2_v57_ids>,<one_path3_weekly_id>,<three_path4_signal30_ids>`。
+- `exit50` 五窗口 CAGR `23.61% / 29.75% / 29.54% / 110.86% / 158.13%`，最大回撤 `-12.10% / -13.22% / -16.97% / -10.91% / -6.61%`。结论：短窗比上一轮更强，但 2017/2020/2023 仍未超过当前 Path1 official window winners；`scripts/update_weighted_winners.py` 后 Path1 robust candidate 仍为 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm`，`meanCAGR=49.89%`、`minCAGR=26.01%`。
+- core_multifactor 子段本轮完成巡检和 `refresh_active` 同步，代码实际覆盖 `61/61`；fast family 覆盖 `129/129`。`scripts/winner_only_pass.py` 无 clear improvement，本轮没有 Path1 evict，也没有改变 tracked/live/public official payload。
+- 下一轮第一条命令应映射最终 focus `core_multifactor_coverage`，先注册一个未在当前 61 个池内的低波质量成长信号组合，再补五窗口：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk10_reconfirm`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`。
+
 ## 本轮执行计划（2026-06-23 17:21 CST）
 
 - 上一轮 core_multifactor `risk08_reconfirm` 仍未改善 2017/2020；本轮按最终 rotation `satellite_risk_cost` 回到 satellite defense 风险/成本邻域，只新增 1 个 Path1 fast-pass base candidate，不把独立 Path4 emergent_theme 结果并入 Path1。

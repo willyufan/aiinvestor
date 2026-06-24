@@ -6,7 +6,7 @@ import json
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Callable, Iterable
 
 import numpy as np
 import pandas as pd
@@ -106,6 +106,12 @@ ADJACENT_VALIDATION_THRESHOLDS = {
 # must at least break even in the validation window, regardless of how the percentage
 # threshold scales.
 ADJACENT_VALIDATION_ABSOLUTE_FLOOR = 0.0
+
+# Official winners must clear a minimal target-window viability floor before
+# adjacent-window validation can promote them.
+TARGET_WINDOW_MIN_CAGR = ADJACENT_VALIDATION_ABSOLUTE_FLOOR
+TARGET_WINDOW_MIN_SHARPE = 0.0
+TARGET_WINDOW_MAX_DRAWDOWN_FLOOR = -0.50
 
 # Cap on the incumbent CAGR used for the threshold computation, keyed by validation
 # window. Without this cap, an outlier incumbent (e.g., a 2025 winner with 181% CAGR)
@@ -537,6 +543,8 @@ def load_path4_theme_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[str]
 
 
 def _matches_path2(base_id: str, prefixes: list[str], variant_ids: list[str]) -> bool:
+    if _matches_path3(base_id):
+        return False
     if any(base_id.startswith(prefix) for prefix in prefixes):
         return True
     return any(base_id.endswith(f"__{variant_id}") for variant_id in variant_ids)
@@ -656,6 +664,7 @@ def _build_strategy_map(latest: pd.DataFrame) -> dict[str, dict]:
                     "max_drawdown": float(group.loc[group["sample_tag"] == tag, "max_drawdown"].iloc[0]),
                     "turnover": float(group.loc[group["sample_tag"] == tag, "average_annual_turnover"].iloc[0]),
                     "total_return": float(group.loc[group["sample_tag"] == tag, "total_return"].iloc[0]),
+                    "sample_end": str(pd.Timestamp(group.loc[group["sample_tag"] == tag, "sample_end"].iloc[0]).date()),
                 }
                 for tag in SAMPLE_TAG_STARTS
                 if tag in set(group["sample_tag"].astype(str))
@@ -690,6 +699,13 @@ def _window_sort_key(item: tuple[str, TrackMetrics]) -> tuple[float, float, floa
     return (metrics.cagr, metrics.sharpe, metrics.max_drawdown, -metrics.turnover)
 
 
+def _required_tags_for_single_window(latest: pd.DataFrame, sample_tag: str) -> set[str]:
+    available_tags = set(latest["sample_tag"].astype(str)) if "sample_tag" in latest.columns else set()
+    if sample_tag == "since_2025_01" or "since_2017_01" not in available_tags:
+        return {sample_tag}
+    return set(WEIGHTED_WINDOW_TAGS)
+
+
 def _rank_single_window_candidates(
     latest: pd.DataFrame,
     sample_tag: str,
@@ -697,11 +713,12 @@ def _rank_single_window_candidates(
     allowed_base_ids: set[str] | None = None,
 ) -> list[tuple[str, TrackMetrics]]:
     candidates: list[tuple[str, TrackMetrics, float]] = []
+    required_tags = _required_tags_for_single_window(latest, sample_tag)
     for base_id, group in latest.groupby("strategy_base_id"):
         if allowed_base_ids is not None and str(base_id) not in allowed_base_ids:
             continue
         tags = set(group["sample_tag"].astype(str))
-        if sample_tag != "since_2025_01" and not set(WEIGHTED_WINDOW_TAGS).issubset(tags):
+        if not required_tags.issubset(tags):
             continue
         if sample_tag not in tags:
             continue
@@ -852,6 +869,21 @@ def _fmt_validation_detail(detail: dict[str, Any]) -> str:
     return ", ".join(parts)
 
 
+def _target_window_viability_rejection_reason(metrics: TrackMetrics) -> str:
+    if _is_nan_metrics(metrics):
+        return "metrics unavailable"
+    if float(metrics.cagr) < TARGET_WINDOW_MIN_CAGR:
+        return f"CAGR {_fmt_pct(metrics.cagr)} below target floor {_fmt_pct(TARGET_WINDOW_MIN_CAGR)}"
+    if float(metrics.sharpe) < TARGET_WINDOW_MIN_SHARPE:
+        return f"Sharpe {metrics.sharpe:.4f} below target floor {TARGET_WINDOW_MIN_SHARPE:.4f}"
+    if float(metrics.max_drawdown) < TARGET_WINDOW_MAX_DRAWDOWN_FLOOR:
+        return (
+            f"MaxDD {_fmt_pct(metrics.max_drawdown)} below target floor "
+            f"{_fmt_pct(TARGET_WINDOW_MAX_DRAWDOWN_FLOOR)}"
+        )
+    return ""
+
+
 def _pick_single_window_winner_with_validation(
     latest: pd.DataFrame,
     sample_tag: str,
@@ -866,10 +898,9 @@ def _pick_single_window_winner_with_validation(
     adjacent-window check against ``incumbent_winners``.
 
     When validation is enabled and at least one candidate passes, return the
-    top-ranked passing candidate. When all candidates fail validation, fall
-    back to the existing incumbent (if any) to preserve stability — this is
-    the safe choice during transient overfit incumbent situations.
-    Otherwise fall back to the absolute top-ranked candidate.
+    top-ranked passing candidate. When all candidates fail adjacent-window
+    validation, fall back only to a candidate or incumbent that still clears the
+    target-window floor.
     """
     candidates = _rank_single_window_candidates(latest, sample_tag, allowed_base_ids=allowed_base_ids)
     if not candidates:
@@ -879,7 +910,19 @@ def _pick_single_window_winner_with_validation(
         return candidates[0]
 
     rejected_count = 0
+    first_target_viable: tuple[str, TrackMetrics] | None = None
     for candidate_id, candidate_metrics in candidates:
+        target_rejection = _target_window_viability_rejection_reason(candidate_metrics)
+        if target_rejection:
+            rejected_count += 1
+            if rejected_count <= 3:
+                print(
+                    f"[validation]{log_prefix} rejected {candidate_id} for {sample_tag}: "
+                    f"{target_rejection}"
+                )
+            continue
+        if first_target_viable is None:
+            first_target_viable = (candidate_id, candidate_metrics)
         passes, detail = _passes_adjacent_window_check(
             candidate_id=candidate_id,
             target_window=sample_tag,
@@ -892,23 +935,33 @@ def _pick_single_window_winner_with_validation(
         if rejected_count <= 3:
             print(f"[validation]{log_prefix} rejected {candidate_id} for {sample_tag}: {_fmt_validation_detail(detail)}")
 
-    # All candidates rejected — fall back to incumbent if available, else top-ranked.
+    # All candidates rejected — fall back to a target-viable incumbent or candidate.
     incumbent_track_key = WINDOW_TAG_TO_TRACK_KEY.get(sample_tag)
     incumbent_id = incumbent_winners.get(incumbent_track_key) if incumbent_track_key else None
     if incumbent_id and incumbent_id in by_id:
         incumbent_metrics = _compute_single_window_metrics(by_id[incumbent_id], sample_tag)
-        if not _is_nan_metrics(incumbent_metrics):
+        fallback_rejection = _target_window_viability_rejection_reason(incumbent_metrics)
+        if not fallback_rejection:
             print(
                 f"[validation]{log_prefix} no candidate passed for {sample_tag}; "
                 f"keeping incumbent {incumbent_id}"
             )
             return incumbent_id, incumbent_metrics
+        print(
+            f"[validation]{log_prefix} no candidate passed for {sample_tag}; "
+            f"rejecting incumbent {incumbent_id}: {fallback_rejection}"
+        )
 
-    print(
-        f"[validation]{log_prefix} no candidate passed for {sample_tag} and no incumbent fallback; "
-        f"using top-ranked {candidates[0][0]}"
+    if first_target_viable is not None:
+        print(
+            f"[validation]{log_prefix} no candidate passed for {sample_tag} and no incumbent fallback; "
+            f"using top-ranked target-viable {first_target_viable[0]}"
+        )
+        return first_target_viable
+
+    raise RuntimeError(
+        f"No target-viable strategies have {sample_tag} window to compute the single-window winner."
     )
-    return candidates[0]
 
 
 def _resolve_path_window_winners_with_convergence(
@@ -919,6 +972,7 @@ def _resolve_path_window_winners_with_convergence(
     initial_incumbents: dict[str, str],
     enable_validation: bool,
     log_prefix: str,
+    fallback_winners: dict[str, tuple[str, TrackMetrics]] | None = None,
     max_iterations: int = 3,
 ) -> dict[str, tuple[str, TrackMetrics]]:
     """Pick the four window winners for a single path with iterative convergence.
@@ -937,15 +991,26 @@ def _resolve_path_window_winners_with_convergence(
         iter_log_prefix = f"{log_prefix}[iter{iteration + 1}]" if enable_validation else log_prefix
         winners: dict[str, tuple[str, TrackMetrics]] = {}
         for tag in target_windows:
-            winners[tag] = _pick_single_window_winner_with_validation(
-                latest,
-                tag,
-                allowed_base_ids=allowed_base_ids,
-                by_id=by_id,
-                incumbent_winners=incumbents,
-                enable_validation=enable_validation,
-                log_prefix=iter_log_prefix,
-            )
+            try:
+                winners[tag] = _pick_single_window_winner_with_validation(
+                    latest,
+                    tag,
+                    allowed_base_ids=allowed_base_ids,
+                    by_id=by_id,
+                    incumbent_winners=incumbents,
+                    enable_validation=enable_validation,
+                    log_prefix=iter_log_prefix,
+                )
+            except RuntimeError as exc:
+                if fallback_winners and tag in fallback_winners:
+                    fallback_id, fallback_metrics = fallback_winners[tag]
+                    print(
+                        f"{iter_log_prefix} no current candidates for {tag}; "
+                        f"preserving existing winner {fallback_id}: {exc}"
+                    )
+                    winners[tag] = (fallback_id, fallback_metrics)
+                    continue
+                raise
         if not enable_validation:
             return winners
         new_id_map = {tag: winner[0] for tag, winner in winners.items()}
@@ -1075,6 +1140,12 @@ def _window_metrics_for_strategy(strategies: dict[str, dict], winner_id: str, sa
         "sharpe": float(window.get("sharpe", float("nan"))),
         "turnover": float(window.get("turnover", float("nan"))),
     }
+
+
+def _window_sample_end_for_strategy(strategies: dict[str, dict], winner_id: str, sample_tag: str) -> str:
+    info = strategies.get(winner_id, {})
+    window = (info.get("windows") or {}).get(sample_tag, {}) if isinstance(info, dict) else {}
+    return str(window.get("sample_end") or info.get("sample_end") or "")
 
 
 def _build_history_entry(
@@ -1259,6 +1330,11 @@ def update_history(
             winner_id = winners.get(track_key, "")
             if not winner_id or winner_id not in strategies:
                 continue
+            entries = _dedupe_entries_by_as_of(list(path_bucket.get(track_key, [])))
+            window_as_of = _window_sample_end_for_strategy(strategies, winner_id, sample_tag)
+            if window_as_of and str(window_as_of) < str(as_of):
+                path_bucket[track_key] = [entry for entry in entries if str(entry.get("as_of", "")) != str(as_of)]
+                continue
             strategy_name = str(strategies[winner_id]["strategy_base_name"])
             metrics = _window_metrics_for_strategy(strategies, winner_id, sample_tag)
             raw_winner_id = None
@@ -1281,7 +1357,6 @@ def update_history(
                 raw_strategy_name=raw_strategy_name,
                 raw_metrics=raw_metrics,
             )
-            entries = _dedupe_entries_by_as_of(list(path_bucket.get(track_key, [])))
             last_entry = entries[-1] if entries else {}
             if entries and str(last_entry.get("as_of", "")) == str(as_of):
                 if _history_entry_changed(last_entry, new_entry):
@@ -1399,6 +1474,8 @@ def _build_core_active_winner_entries(payload: dict[str, Any], strategies: dict[
         if not strategy_id:
             return
         sid = str(strategy_id)
+        if sid not in strategies:
+            return
         strategy_info = strategies.get(sid, {})
         entries.append(
             {
@@ -1491,6 +1568,7 @@ def _build_core_active_history_entry_groups(
     history_path: Path,
     as_of: str,
     stale_trading_days: int,
+    known_strategy_ids: set[str] | None = None,
     calendar_path: Path = TRADE_CALENDAR_PATH,
 ) -> list[tuple[str, list[dict[str, Any]]]]:
     history = _load_history(history_path)
@@ -1512,24 +1590,31 @@ def _build_core_active_history_entry_groups(
                     continue
                 entry_as_of = str(entry.get("as_of") or "")
                 strategy_id = str(entry.get("winner") or "").strip()
-                if not entry_as_of or not strategy_id:
+                raw_strategy_id = str(entry.get("raw_winner") or "").strip()
+                if not entry_as_of:
                     continue
                 if _trading_days_since(entry_as_of, as_of, open_trade_dates) >= stale_trading_days:
                     continue
-                kind = "robust" if track_key == ROBUST_TRACK_KEY else "validated"
-                grouped.setdefault(entry_as_of, []).append(
-                    {
-                        "strategy_id": strategy_id,
-                        "strategy_name": str(entry.get("strategy_base_name") or strategy_id),
-                        "path": path_key,
-                        "track": track_key,
-                        "sample_tag": str(entry.get("sample_tag") or default_sample_tag),
-                        "metrics": _core_active_metrics_from_history(entry),
-                        "kind": kind,
-                        "refresh_only": False,
-                    }
-                )
-                raw_strategy_id = str(entry.get("raw_winner") or "").strip()
+                if known_strategy_ids is not None and strategy_id and strategy_id not in known_strategy_ids:
+                    strategy_id = ""
+                if known_strategy_ids is not None and raw_strategy_id and raw_strategy_id not in known_strategy_ids:
+                    raw_strategy_id = ""
+                if not strategy_id and not raw_strategy_id:
+                    continue
+                if strategy_id:
+                    kind = "robust" if track_key == ROBUST_TRACK_KEY else "validated"
+                    grouped.setdefault(entry_as_of, []).append(
+                        {
+                            "strategy_id": strategy_id,
+                            "strategy_name": str(entry.get("strategy_base_name") or strategy_id),
+                            "path": path_key,
+                            "track": track_key,
+                            "sample_tag": str(entry.get("sample_tag") or default_sample_tag),
+                            "metrics": _core_active_metrics_from_history(entry),
+                            "kind": kind,
+                            "refresh_only": False,
+                        }
+                    )
                 if raw_strategy_id:
                     grouped.setdefault(entry_as_of, []).append(
                         {
@@ -1553,6 +1638,7 @@ def backfill_core_active_registry_from_history(
     as_of: str,
     max_size: int,
     stale_trading_days: int,
+    known_strategy_ids: set[str] | None = None,
     calendar_path: Path = TRADE_CALENDAR_PATH,
 ) -> dict[str, int]:
     as_of_ts = _parse_date(as_of)
@@ -1560,6 +1646,7 @@ def backfill_core_active_registry_from_history(
         history_path=history_path,
         as_of=as_of,
         stale_trading_days=stale_trading_days,
+        known_strategy_ids=known_strategy_ids,
         calendar_path=calendar_path,
     )
     if groups:
@@ -1620,16 +1707,21 @@ def update_core_active_registry(
     winner_entries: list[dict[str, Any]],
     max_size: int,
     stale_trading_days: int,
+    known_strategy_ids: set[str] | None = None,
     calendar_path: Path = TRADE_CALENDAR_PATH,
 ) -> dict[str, Any]:
     as_of_str = str(pd.Timestamp(as_of).date())
     max_size = max(1, int(max_size))
     stale_trading_days = max(1, int(stale_trading_days))
     registry = _load_core_active_registry(path)
+    if known_strategy_ids is not None:
+        registry = {strategy_id: item for strategy_id, item in registry.items() if strategy_id in known_strategy_ids}
     current_by_id: dict[str, list[dict[str, Any]]] = {}
     for entry in winner_entries:
         strategy_id = str(entry.get("strategy_id") or "").strip()
         if not strategy_id:
+            continue
+        if known_strategy_ids is not None and strategy_id not in known_strategy_ids:
             continue
         current_by_id.setdefault(strategy_id, []).append(entry)
 
@@ -2213,8 +2305,9 @@ def _render_block(
         def render_window(tag: str) -> str:
             if tag not in windows:
                 return f"- `{SAMPLE_TAG_STARTS[tag].date()}` 窗口：n/a"
+            window_end = str(windows[tag].get("sample_end") or sample_end)
             return (
-                f"- `{SAMPLE_TAG_STARTS[tag].date()}` → `{sample_end}`: "
+                f"- `{SAMPLE_TAG_STARTS[tag].date()}` → `{window_end}`: "
                 f"Total Return `{_fmt_pct(windows[tag]['total_return'])}`, "
                 f"CAGR `{_fmt_pct(windows[tag]['cagr'])}`, "
                 f"Max DD `{_fmt_pct(windows[tag]['max_drawdown'])}`, "
@@ -2244,7 +2337,7 @@ def _render_block(
 
         lines.extend([
             "",
-            f"窗口指标（截至 `{sample_end}`，权重：{weight_str}）：",
+            f"窗口指标（权重：{weight_str}）：",
             "",
             render_window("since_2017_01"),
             render_window("since_2020_01"),
@@ -2261,8 +2354,9 @@ def _render_block(
         def render_window(tag: str) -> str:
             if tag not in windows:
                 return f"- `{SAMPLE_TAG_STARTS[tag].date()}` 窗口：n/a"
+            window_end = str(windows[tag].get("sample_end") or sample_end)
             return (
-                f"- `{SAMPLE_TAG_STARTS[tag].date()}` → `{sample_end}`: "
+                f"- `{SAMPLE_TAG_STARTS[tag].date()}` → `{window_end}`: "
                 f"Total Return `{_fmt_pct(windows[tag]['total_return'])}`, "
                 f"CAGR `{_fmt_pct(windows[tag]['cagr'])}`, "
                 f"Max DD `{_fmt_pct(windows[tag]['max_drawdown'])}`, "
@@ -2306,8 +2400,9 @@ def _render_block(
             metrics = windows.get(tag)
             if not isinstance(metrics, dict):
                 return f"- `{SAMPLE_TAG_STARTS[tag].date()}` 窗口：n/a"
+            window_end = str(metrics.get("sample_end") or sample_end)
             return (
-                f"- `{SAMPLE_TAG_STARTS[tag].date()}` → `{sample_end}`: "
+                f"- `{SAMPLE_TAG_STARTS[tag].date()}` → `{window_end}`: "
                 f"Total Return `{_fmt_pct(float(metrics.get('total_return', float('nan'))))}`, "
                 f"CAGR `{_fmt_pct(float(metrics.get('cagr', float('nan'))))}`, "
                 f"Max DD `{_fmt_pct(float(metrics.get('max_drawdown', float('nan'))))}`, "
@@ -2451,11 +2546,13 @@ def main() -> None:
     path1_allowed_ids = path1_family_ids & active_family_ids
 
     path2_prefixes, path2_variant_ids = load_path2_scan_rules()
+    comparison_ids = set(latest_all["strategy_base_id"].astype(str).unique())
+    path4_allowed_ids = load_path4_theme_ids() & comparison_ids - STATIC_BASE_IDS
     path2_allowed_ids = {
         str(base_id)
-        for base_id in set(latest_all["strategy_base_id"].astype(str).unique())
+        for base_id in comparison_ids
         if _matches_path2(str(base_id), path2_prefixes, path2_variant_ids)
-    } - STATIC_BASE_IDS
+    } - STATIC_BASE_IDS - path4_allowed_ids
     if not path2_allowed_ids:
         raise RuntimeError(
             "Path 2 candidate universe is empty. "
@@ -2470,7 +2567,6 @@ def main() -> None:
     path3_available = bool(path3_allowed_ids)
     if not path3_available:
         print("[path3] no pure weekly candidates in comparison CSV; preserving existing Path 3 winners.")
-    path4_allowed_ids = load_path4_theme_ids() & set(latest_all["strategy_base_id"].astype(str).unique()) - STATIC_BASE_IDS
     path4_available = bool(path4_allowed_ids)
     if not path4_available:
         print("[path4] no emergent-theme candidates in comparison CSV; preserving existing Path 4 winners.")
@@ -2495,11 +2591,25 @@ def main() -> None:
         keep="last",
     )
     strategies = _build_strategy_map(latest)
+    all_strategy_windows = _build_strategy_map(latest_all)
+    for strategy_id, info in all_strategy_windows.items():
+        if strategy_id not in strategies:
+            strategies[strategy_id] = info
+            continue
+        current_windows = strategies[strategy_id].setdefault("windows", {})
+        for tag, metrics in (info.get("windows") or {}).items():
+            current_windows.setdefault(tag, metrics)
     for strategy_id, info in (existing_payload.get("strategies") or {}).items():
         if isinstance(info, dict):
             copied = dict(info)
             copied.setdefault("sample_end", existing_payload.get("as_of", ""))
-            strategies.setdefault(str(strategy_id), copied)
+            sid = str(strategy_id)
+            if sid not in strategies:
+                strategies[sid] = copied
+                continue
+            current_windows = strategies[sid].setdefault("windows", {})
+            for tag, metrics in (copied.get("windows") or {}).items():
+                current_windows.setdefault(tag, metrics)
     if not strategies:
         raise RuntimeError("No strategies with complete 2017/2020/2023 windows found in comparison CSV.")
 
@@ -2561,6 +2671,44 @@ def main() -> None:
         leaderboard = robust.get("leaderboard") if path_key == "path1" else robust.get("robust_leaderboard")
         return leaderboard if isinstance(leaderboard, list) else []
 
+    def _existing_window_entry(path_key: str, sample_tag: str, *, raw: bool = False) -> tuple[str, TrackMetrics] | None:
+        try:
+            return existing_path_window_map(path_key, raw=raw).get(sample_tag)
+        except RuntimeError:
+            return None
+
+    def pick_single_window_or_existing(
+        path_key: str,
+        latest_for_path: pd.DataFrame,
+        sample_tag: str,
+        allowed_base_ids: set[str],
+        *,
+        raw: bool = False,
+    ) -> tuple[str, TrackMetrics]:
+        try:
+            return _pick_single_window_winner(latest_for_path, sample_tag, allowed_base_ids=allowed_base_ids)
+        except RuntimeError as exc:
+            fallback = _existing_window_entry(path_key, sample_tag, raw=raw)
+            if fallback is None:
+                raise
+            fallback_id, fallback_metrics = fallback
+            print(
+                f"[{path_key}] no current candidates for {sample_tag}; "
+                f"preserving existing {'raw ' if raw else ''}winner {fallback_id}: {exc}"
+            )
+            return fallback_id, fallback_metrics
+
+    def pick_robust_or_existing(path_key: str, picker: Callable[[], tuple[str, dict[str, float]]]) -> tuple[str, dict[str, float]]:
+        try:
+            return picker()
+        except RuntimeError as exc:
+            fallback_id, fallback_summary = existing_path_robust(path_key)
+            print(
+                f"[{path_key}] no current robust candidates; "
+                f"preserving existing robust candidate {fallback_id}: {exc}"
+            )
+            return fallback_id, fallback_summary
+
     def resolve_path1_winner(
         track_key: str,
         sample_tag: str,
@@ -2572,12 +2720,13 @@ def main() -> None:
 
         def build_ranked_candidates() -> list[tuple[str, TrackMetrics]]:
             candidates: list[tuple[str, TrackMetrics, float]] = []
+            required_tags = _required_tags_for_single_window(path1_latest, sample_tag)
             for base_id, group in path1_latest.groupby("strategy_base_id"):
                 base_id_str = str(base_id)
                 if base_id_str not in path1_family_ids or base_id_str not in active_family_ids:
                     continue
                 tags = set(group["sample_tag"].astype(str))
-                if sample_tag != "since_2025_01" and not set(WEIGHTED_WINDOW_TAGS).issubset(tags):
+                if not required_tags.issubset(tags):
                     continue
                 if sample_tag not in tags:
                     continue
@@ -2594,6 +2743,14 @@ def main() -> None:
 
         ranked = build_ranked_candidates()
         if not ranked:
+            fallback = _existing_window_entry("path1", sample_tag)
+            if fallback is not None:
+                fallback_id, fallback_metrics = fallback
+                print(
+                    f"{log_prefix} no current winner-core candidates for {sample_tag}; "
+                    f"preserving existing winner {fallback_id}"
+                )
+                return fallback_id, fallback_metrics
             raise RuntimeError(f"No winner-core strategies found for sample_tag={sample_tag!r}")
 
         def candidate_passes_validation(candidate_id: str) -> bool:
@@ -2680,11 +2837,12 @@ def main() -> None:
     if path1_available:
         path1_winners = resolve_path1_winners_with_convergence()
         path1_raw_winners = {
-            tag: _pick_single_window_winner(path1_latest, tag, allowed_base_ids=path1_allowed_ids)
+            tag: pick_single_window_or_existing("path1", path1_latest, tag, path1_allowed_ids, raw=True)
             for tag in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
         }
-        path1_robust_id, path1_summary = _pick_robust_candidate(
-            path1_latest[path1_latest["strategy_base_id"].astype(str).isin(path1_allowed_ids)]
+        path1_robust_id, path1_summary = pick_robust_or_existing(
+            "path1",
+            lambda: _pick_robust_candidate(path1_latest[path1_latest["strategy_base_id"].astype(str).isin(path1_allowed_ids)]),
         )
     else:
         path1_winners = existing_path_window_map("path1")
@@ -2708,13 +2866,15 @@ def main() -> None:
             initial_incumbents=existing_winners_all_paths.get("path2", {}),
             enable_validation=enable_adjacent_validation,
             log_prefix="[path2]",
+            fallback_winners=existing_path_window_map("path2"),
         )
         path2_raw_winners = {
-            tag: _pick_single_window_winner(path2_latest, tag, allowed_base_ids=path2_allowed_ids)
+            tag: pick_single_window_or_existing("path2", path2_latest, tag, path2_allowed_ids, raw=True)
             for tag in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
         }
-        path2_id, path2_summary = _pick_path2_candidate(
-            path2_latest[path2_latest["strategy_base_id"].astype(str).isin(path2_allowed_ids)]
+        path2_id, path2_summary = pick_robust_or_existing(
+            "path2",
+            lambda: _pick_path2_candidate(path2_latest[path2_latest["strategy_base_id"].astype(str).isin(path2_allowed_ids)]),
         )
     else:
         path2_winners = existing_path_window_map("path2")
@@ -2732,12 +2892,16 @@ def main() -> None:
             initial_incumbents=existing_winners_all_paths.get("path3", {}),
             enable_validation=enable_adjacent_validation,
             log_prefix="[path3]",
+            fallback_winners=existing_path_window_map("path3"),
         )
         path3_raw_winners = {
-            tag: _pick_single_window_winner(path3_latest, tag, allowed_base_ids=path3_allowed_ids)
+            tag: pick_single_window_or_existing("path3", path3_latest, tag, path3_allowed_ids, raw=True)
             for tag in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
         }
-        path3_id, path3_summary = _pick_robust_candidate(path3_latest, allowed_base_ids=path3_allowed_ids)
+        path3_id, path3_summary = pick_robust_or_existing(
+            "path3",
+            lambda: _pick_robust_candidate(path3_latest, allowed_base_ids=path3_allowed_ids),
+        )
     else:
         path3_winners = existing_path_window_map("path3")
         path3_raw_winners = existing_path_window_map("path3", raw=True)
@@ -2754,12 +2918,16 @@ def main() -> None:
             initial_incumbents=existing_winners_all_paths.get("path4", {}),
             enable_validation=enable_adjacent_validation,
             log_prefix="[path4]",
+            fallback_winners=existing_path_window_map("path4"),
         )
         path4_raw_winners = {
-            tag: _pick_single_window_winner(path4_latest, tag, allowed_base_ids=path4_allowed_ids)
+            tag: pick_single_window_or_existing("path4", path4_latest, tag, path4_allowed_ids, raw=True)
             for tag in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
         }
-        path4_id, path4_summary = _pick_robust_candidate(path4_latest, allowed_base_ids=path4_allowed_ids)
+        path4_id, path4_summary = pick_robust_or_existing(
+            "path4",
+            lambda: _pick_robust_candidate(path4_latest, allowed_base_ids=path4_allowed_ids),
+        )
     else:
         path4_winners = existing_path_window_map("path4")
         path4_raw_winners = existing_path_window_map("path4", raw=True)
@@ -2784,6 +2952,7 @@ def main() -> None:
 
     def _window_leaderboards_for(
         *,
+        path_key: str,
         latest_for_path: pd.DataFrame,
         by_id_for_path: dict[str, pd.DataFrame],
         path_winners_map: dict[str, tuple[str, TrackMetrics]],
@@ -2791,8 +2960,10 @@ def main() -> None:
         allowed_base_ids: set[str],
     ) -> dict[str, list[dict[str, Any]]]:
         incumbents = _final_incumbents(path_winners_map)
-        return {
-            tag: _build_single_window_leaderboard(
+        fallback_leaderboards = existing_path_leaderboards(path_key)
+        result: dict[str, list[dict[str, Any]]] = {}
+        for tag in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01"):
+            rows = _build_single_window_leaderboard(
                 latest_for_path,
                 tag,
                 allowed_base_ids=allowed_base_ids,
@@ -2803,11 +2974,20 @@ def main() -> None:
                 raw_winner_id=raw_map[tag][0],
                 strategies=strategies,
             )
-            for tag in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
-        }
+            if not rows and tag in fallback_leaderboards:
+                print(f"[{path_key}] no current leaderboard rows for {tag}; preserving existing leaderboard")
+                rows = fallback_leaderboards[tag]
+            result[tag] = rows
+        return result
 
-    def _robust_leaderboard_for(latest_for_path: pd.DataFrame, allowed_base_ids: set[str], official_id: str) -> list[dict[str, Any]]:
-        return [
+    def _robust_leaderboard_for(
+        latest_for_path: pd.DataFrame,
+        allowed_base_ids: set[str],
+        official_id: str,
+        *,
+        path_key: str,
+    ) -> list[dict[str, Any]]:
+        rows = [
             _leaderboard_entry(
                 rank=rank,
                 strategy_id=strategy_id,
@@ -2821,10 +3001,17 @@ def main() -> None:
                 start=1,
             )
         ]
+        if not rows:
+            fallback = existing_robust_leaderboard(path_key)
+            if fallback:
+                print(f"[{path_key}] no current robust leaderboard rows; preserving existing leaderboard")
+                return fallback
+        return rows
 
     leaderboards_by_path = {
         "path1": (
             _window_leaderboards_for(
+                path_key="path1",
                 latest_for_path=path1_latest,
                 by_id_for_path=path1_by_id,
                 path_winners_map=path1_winners,
@@ -2835,6 +3022,7 @@ def main() -> None:
             else existing_path_leaderboards("path1")
         ),
         "path2": _window_leaderboards_for(
+            path_key="path2",
             latest_for_path=path2_latest,
             by_id_for_path=path2_by_id,
             path_winners_map=path2_winners,
@@ -2843,6 +3031,7 @@ def main() -> None:
         ),
         "path3": (
             _window_leaderboards_for(
+                path_key="path3",
                 latest_for_path=path3_latest,
                 by_id_for_path=path3_by_id,
                 path_winners_map=path3_winners,
@@ -2854,6 +3043,7 @@ def main() -> None:
         ),
         "path4": (
             _window_leaderboards_for(
+                path_key="path4",
                 latest_for_path=path4_latest,
                 by_id_for_path=path4_by_id,
                 path_winners_map=path4_winners,
@@ -2866,18 +3056,18 @@ def main() -> None:
     }
     robust_leaderboards_by_path = {
         "path1": (
-            _robust_leaderboard_for(path1_latest, path1_allowed_ids, path1_robust_id)
+            _robust_leaderboard_for(path1_latest, path1_allowed_ids, path1_robust_id, path_key="path1")
             if path1_available
             else existing_robust_leaderboard("path1")
         ),
-        "path2": _robust_leaderboard_for(path2_latest, path2_allowed_ids, path2_id),
+        "path2": _robust_leaderboard_for(path2_latest, path2_allowed_ids, path2_id, path_key="path2"),
         "path3": (
-            _robust_leaderboard_for(path3_latest, path3_allowed_ids, path3_id)
+            _robust_leaderboard_for(path3_latest, path3_allowed_ids, path3_id, path_key="path3")
             if path3_available
             else existing_robust_leaderboard("path3")
         ),
         "path4": (
-            _robust_leaderboard_for(path4_latest, path4_allowed_ids, path4_id)
+            _robust_leaderboard_for(path4_latest, path4_allowed_ids, path4_id, path_key="path4")
             if path4_available
             else existing_robust_leaderboard("path4")
         ),
@@ -3089,6 +3279,7 @@ def main() -> None:
         as_of=sample_end,
         max_size=args.core_active_max_size,
         stale_trading_days=args.core_active_stale_trading_days,
+        known_strategy_ids=set(strategies),
     )
     core_active_payload = update_core_active_registry(
         path=args.core_active_json,
@@ -3096,6 +3287,7 @@ def main() -> None:
         winner_entries=_build_core_active_winner_entries(payload, strategies),
         max_size=args.core_active_max_size,
         stale_trading_days=args.core_active_stale_trading_days,
+        known_strategy_ids=set(strategies),
     )
 
     print(f"[OK] Updated {args.readme}")
