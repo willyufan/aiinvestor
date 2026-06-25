@@ -43,6 +43,7 @@ HK_TRACKED_WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "si
 HK_LEADERBOARD_WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01")
 HK_TRACKED_PATH_NAMES = ("path1", "path2", "path3", "path4", "path5", "path6", "path7")
 HK_EXPERIMENTAL_PATH_NAMES = ("path4", "path5", "path6", "path7")
+NIGHTLY_REFRESH_SAMPLE_TAGS = {"since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"}
 SAMPLE_TAG_LABELS = {
     "since_2017_01": "2017窗口",
     "since_2020_01": "2020窗口",
@@ -701,6 +702,37 @@ def find_latest_price(ts_code: str) -> float | None:
         return None
 
 
+def _parse_date_text(value: object) -> pd.Timestamp | None:
+    parsed = pd.to_datetime(value, errors="coerce")
+    if pd.isna(parsed):
+        return None
+    return pd.Timestamp(parsed).normalize()
+
+
+def _validate_monthly_preview_freshness(
+    *,
+    base_id: str,
+    sample_tag: str,
+    market_scope: str,
+    market_data_as_of: str | None,
+    month_end_preview: dict[str, Any],
+) -> None:
+    if sample_tag not in NIGHTLY_REFRESH_SAMPLE_TAGS or not market_data_as_of or not month_end_preview:
+        return
+    if str(month_end_preview.get("status") or "available") != "available":
+        return
+    preview_date = _parse_date_text(month_end_preview.get("preview_as_of"))
+    market_date = _parse_date_text(market_data_as_of)
+    if preview_date is None or market_date is None:
+        return
+    if preview_date < market_date:
+        raise RuntimeError(
+            f"{market_scope} {base_id}/{sample_tag} month_end_preview.preview_as_of="
+            f"{preview_date.date()} 早于 raw data_as_of={market_date.date()}；"
+            "请先用最新 raw cache 重跑对应策略回测，拒绝导出 stale preview。"
+        )
+
+
 def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_share") -> dict[str, Any] | None:
     path_builder = build_hk_result_path if market_scope == "hkconnect" else build_result_path
     summary_path = path_builder(base_id, sample_tag, "summary.json")
@@ -755,6 +787,9 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
         sample_end=str(summary.get("sample_end") or ""),
         market_scope=market_scope,
     )
+    market_data_as_of = latest_market_data_as_of(market_scope)
+    if market_data_as_of:
+        formal_schedule = {**formal_schedule, "data_as_of": market_data_as_of}
     schedule_kind = str(formal_schedule.get("schedule_kind") or "")
     latest_price_map = {str(row["ts_code"]): row.get("latest_price") for row in latest_weights}
     official_history_snapshot_map = history_snapshot_map
@@ -766,6 +801,13 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
                 **month_end_preview,
                 "holdings": attach_latest_prices(preview_rows, latest_price_map),
             }
+    _validate_monthly_preview_freshness(
+        base_id=base_id,
+        sample_tag=sample_tag,
+        market_scope=market_scope,
+        market_data_as_of=market_data_as_of,
+        month_end_preview=month_end_preview,
+    )
     split_view: dict[str, Any] = {}
     weekly_overlay_history: list[dict[str, Any]] = []
 

@@ -7545,7 +7545,7 @@ def prepare_hkconnect_data(
         fresh_codes=sorted(set(fresh_codes)),
         pending_codes=sorted(set(pending_codes)),
         last_attempted=last_attempted,
-        end_date=end_date,
+        end_date=cache_target_date,
     )
 
     if warm_cache_only:
@@ -7580,6 +7580,14 @@ def prepare_hkconnect_data(
 
     price_exact = pd.concat(price_frames, axis=1).sort_index()
     price_exact = price_exact.reindex(full_calendar_index)
+    target_exact_count = 0
+    if cache_target_date in price_exact.index:
+        target_exact_count = int(price_exact.loc[cache_target_date].notna().sum())
+    if target_exact_count == 0:
+        raise RuntimeError(
+            f"港股 prepared 面板未包含目标交易日 {cache_target_date.date()} 的有效价格，"
+            "拒绝使用 stale 面板继续回测。"
+        )
     price_ffill = price_exact.ffill()
     total_mv = pd.concat(mv_frames, axis=1).sort_index().reindex(full_calendar_index).ffill() if mv_frames else pd.DataFrame(index=full_calendar_index)
     daily_amount = pd.concat(amount_frames, axis=1).sort_index().reindex(full_calendar_index).ffill() if amount_frames else pd.DataFrame(index=full_calendar_index)
@@ -7611,6 +7619,10 @@ def prepare_hkconnect_data(
         factor_cache=None,  # type: ignore[arg-type]
     )
     prepared.factor_cache = compute_hk_factor_cache(prepared)
+    print(
+        f"[HK Data] prepared panel covers {pd.Timestamp(price_ffill.index.max()).date()} "
+        f"(cache target {cache_target_date.date()}, exact prices {target_exact_count}/{len(price_exact.columns)})"
+    )
     return prepared
 
 

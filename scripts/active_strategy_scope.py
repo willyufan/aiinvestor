@@ -83,7 +83,7 @@ def collect_ashare_refresh_active_ids(*, include_top_n: int = 1) -> set[str]:
     return {strategy_id for strategy_id in strategy_ids if strategy_id}
 
 
-def collect_hkconnect_refresh_active_ids(*, include_top_n: int = 1) -> set[str]:
+def collect_hkconnect_refresh_active_ids(*, include_top_n: int = 5) -> set[str]:
     strategy_ids: set[str] = set()
     collect_ids(
         load_json(existing_research_file("tracked_winners_hkconnect.json", market_scope=HKCONNECT_SCOPE)),
