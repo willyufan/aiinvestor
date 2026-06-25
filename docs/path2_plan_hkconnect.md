@@ -1711,3 +1711,11 @@
 - 五窗口结果：CAGR `18.04% / 19.31% / 15.39% / 34.23% / -6.09%`，最大回撤 `-24.51% / -24.51% / -21.82% / -16.43% / -9.25%`，换手 `11.66x / 11.31x / 11.95x / 15.36x / 15.03x`。
 - 结论：v31 仍是高换手且 2023/2026 不足，未改变 HK Path 2 window winner、robust candidate 或 tracked payload；`update_hkconnect_artifacts.py` 已同步 comparison。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> elasticity_cost_control`。由于 equal-elastic 族前几轮 terminal check 失败，下一轮只允许一次更硬成本终端确认：`hkconnect_path2_equal_elastic_monthly_cost_guard_v21_terminal_check`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v21_terminal_check`；若仍弱，停止扩 elastic 并回到月频 robust。
+
+## 本轮执行计划（2026-06-25 21:16 CST）
+
+- 上一轮候选/结果摘要：本轮 HK Path 2 独立新增双周质量/流动性突破回踩 `v43_lowdraw_retest`，目标是修复 2025 弹性后观察 2026 与回撤，不与 A股 Path 2 或 Path 4 共用结论。
+- 本轮候选 ID 与命令：`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v43_lowdraw_retest`；实际命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v43_lowdraw_retest,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v31_ytd_repair`。
+- 五窗口结果：CAGR `12.85% / 12.37% / 9.48% / 50.41% / 11.38%`，最大回撤 `-34.79% / -34.79% / -26.55% / -13.82% / -7.33%`，换手 `7.33x / 7.12x / 7.48x / 9.09x / 8.53x`。
+- 结论：v43 2025 弹性足够，但长中窗回撤过深、2023 不足，未改变 HK Path 2 window winner、robust candidate 或 tracked payload。最终 guard 给出 `hkconnect_path2 -> rotate / biweekly_breakout`。
+- 下一轮 focus：下一候选应继续 biweekly breakout 但降低换手和回撤：`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v44_lowturn_confirmation`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v44_lowturn_confirmation`。

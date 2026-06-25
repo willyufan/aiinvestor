@@ -361,6 +361,55 @@ def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def live_spec(
+    *,
+    market_scope: str,
+    path_name: str,
+    winner_type: str,
+    strategy_id: str,
+    sample_tag: str,
+    winner_tag: str,
+    experimental: bool = False,
+    tracked_only: bool = False,
+    frequency: str = "",
+    core_active: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    return {
+        "market_scope": market_scope,
+        "path": path_name,
+        "winner_type": winner_type,
+        "strategy_id": strategy_id,
+        "sample_tag": sample_tag,
+        "winner_tags": [winner_tag],
+        "experimental": experimental,
+        "tracked_only": tracked_only,
+        "frequency": frequency,
+        "core_active": core_active,
+    }
+
+
+def _summary_metrics_for_spec(spec: dict[str, Any]) -> dict[str, Any]:
+    market_scope = str(spec.get("market_scope") or "a_share")
+    path_builder = build_hk_result_path if market_scope == "hkconnect" else build_result_path
+    summary_path = path_builder(str(spec["strategy_id"]), str(spec["sample_tag"]), "summary.json")
+    try:
+        summary = load_json(summary_path)
+    except Exception:
+        return {}
+    metrics = summary.get("metrics")
+    return metrics if isinstance(metrics, dict) else {}
+
+
+def _spec_sort_key(spec: dict[str, Any]) -> tuple[str, str, str, float]:
+    metrics = _summary_metrics_for_spec(spec)
+    return (
+        str(spec.get("market_scope") or "a_share"),
+        str(spec.get("path") or ""),
+        str(spec.get("winner_type") or ""),
+        -float(metrics.get("cagr", 0.0) or 0.0),
+    )
+
+
 def load_core_active_registry_entries() -> list[dict[str, Any]]:
     if not CORE_ACTIVE_REGISTRY_JSON.exists():
         return []
@@ -846,6 +895,24 @@ def load_strategy_snapshot(base_id: str, sample_tag: str, *, market_scope: str =
     return build_strategy_detail_payload(base_id, sample_tag, market_scope=market_scope)
 
 
+def build_snapshot_from_live_spec(spec: dict[str, Any]) -> dict[str, Any]:
+    market_scope = str(spec.get("market_scope") or "a_share")
+    strategy_id = str(spec["strategy_id"])
+    sample_tag = str(spec["sample_tag"])
+    snapshot = load_strategy_snapshot(strategy_id, sample_tag, market_scope=market_scope)
+    snapshot["path"] = str(spec.get("path") or "")
+    snapshot["winner_type"] = str(spec.get("winner_type") or "")
+    snapshot["winner_tags"] = list(spec.get("winner_tags") or [])
+    snapshot["market_scope"] = market_scope
+    snapshot["experimental"] = bool(spec.get("experimental", False))
+    snapshot["tracked_only"] = bool(spec.get("tracked_only", False))
+    if spec.get("frequency"):
+        snapshot["frequency"] = str(spec.get("frequency") or "")
+    if spec.get("core_active"):
+        snapshot["core_active"] = spec["core_active"]
+    return snapshot
+
+
 def _pick_hk_robust_candidate(df: pd.DataFrame, path_name: str) -> str | None:
     subset = df[(df["path"] == path_name) & (df["sample_tag"].isin(HK_TRACKED_WINDOW_TAGS))].copy()
     if subset.empty:
@@ -1075,17 +1142,21 @@ def load_hkconnect_registry() -> list[dict[str, Any]]:
                 bool(dedup[strategy_id].get("tracked_only")) or path_name in HK_EXPERIMENTAL_PATH_NAMES
             )
             return
-        snapshot = load_strategy_snapshot(strategy_id, sample_tag, market_scope="hkconnect")
-        snapshot["path"] = path_name
-        snapshot["winner_type"] = winner_type
-        snapshot["winner_tags"] = [f"hkconnect:{path_name}:{winner_type}"]
-        snapshot["market_scope"] = "hkconnect"
-        snapshot["experimental"] = path_name in HK_EXPERIMENTAL_PATH_NAMES
-        snapshot["tracked_only"] = path_name in HK_EXPERIMENTAL_PATH_NAMES
         meta_rows = df[df["strategy_id"].astype(str) == strategy_id].copy()
+        frequency = ""
         if not meta_rows.empty and "rebalance_frequency" in meta_rows.columns:
-            snapshot["frequency"] = str(meta_rows.iloc[-1].get("rebalance_frequency") or "")
-        dedup[strategy_id] = snapshot
+            frequency = str(meta_rows.iloc[-1].get("rebalance_frequency") or "")
+        dedup[strategy_id] = live_spec(
+            market_scope="hkconnect",
+            path_name=path_name,
+            winner_type=winner_type,
+            strategy_id=strategy_id,
+            sample_tag=sample_tag,
+            winner_tag=f"hkconnect:{path_name}:{winner_type}",
+            experimental=path_name in HK_EXPERIMENTAL_PATH_NAMES,
+            tracked_only=path_name in HK_EXPERIMENTAL_PATH_NAMES,
+            frequency=frequency,
+        )
 
     for sample_tag, winner_type in [
         ("since_2017_01", "2017-window winner"),
@@ -1185,7 +1256,6 @@ def export_live_data() -> dict[str, Any]:
         except Exception:
             pass
 
-    registry: list[dict[str, Any]] = []
     dedup: dict[str, dict[str, Any]] = {}
 
     def add_entry(
@@ -1205,17 +1275,17 @@ def export_live_data() -> dict[str, Any]:
             if frequency and not dedup[strategy_id].get("frequency"):
                 dedup[strategy_id]["frequency"] = frequency
             return
-        tracked_info = strategies_map.get(strategy_id, {})
-        snapshot = load_strategy_snapshot(strategy_id, sample_tag, market_scope="a_share")
-        snapshot["path"] = path_name
-        snapshot["winner_type"] = winner_type
-        snapshot["winner_tags"] = [f"{path_name}:{winner_type}"]
-        snapshot["windows"] = {**tracked_info.get("windows", {}), **snapshot.get("windows", {})}
-        snapshot["market_scope"] = "a_share"
-        snapshot["experimental"] = experimental
-        snapshot["tracked_only"] = tracked_only
-        snapshot["frequency"] = frequency
-        dedup[strategy_id] = snapshot
+        dedup[strategy_id] = live_spec(
+            market_scope="a_share",
+            path_name=path_name,
+            winner_type=winner_type,
+            strategy_id=strategy_id,
+            sample_tag=sample_tag,
+            winner_tag=f"{path_name}:{winner_type}",
+            experimental=experimental,
+            tracked_only=tracked_only,
+            frequency=frequency,
+        )
 
     for track_key, track_meta in payload["tracks"].items():
         if track_key == "robust_candidate":
@@ -1325,17 +1395,9 @@ def export_live_data() -> dict[str, Any]:
         except (FileNotFoundError, KeyError):
             continue
 
-    registry = list(dedup.values())
-    registry.extend(load_hkconnect_registry())
-    registry = sorted(
-        registry,
-        key=lambda item: (
-            item.get("market_scope", "a_share"),
-            item["path"],
-            item["winner_type"],
-            -float(item["summary_metrics"].get("cagr", 0.0)),
-        ),
-    )
+    registry_specs = list(dedup.values())
+    registry_specs.extend(load_hkconnect_registry())
+    registry_specs = sorted(registry_specs, key=_spec_sort_key)
 
     path2_known_ids = {
         str(meta["winner"]) for meta in payload["path2"]["tracks"].values()
@@ -1353,7 +1415,7 @@ def export_live_data() -> dict[str, Any]:
     if (payload.get("path4") or {}).get("strategy_base_id"):
         path4_known_ids.add(str((payload.get("path4") or {})["strategy_base_id"]))
 
-    core_active_registry: list[dict[str, Any]] = []
+    core_active_specs: list[dict[str, Any]] = []
     core_active_entries = load_core_active_registry_entries()
     for registry_entry in core_active_entries:
         strategy_id = str(registry_entry["strategy_id"])
@@ -1361,49 +1423,81 @@ def export_live_data() -> dict[str, Any]:
             continue
         try:
             sample_tag = pick_preferred_sample_tag(strategy_id, market_scope="a_share")
-            snapshot = load_strategy_snapshot(strategy_id, sample_tag, market_scope="a_share")
         except Exception:
             continue
         registry_path = str(registry_entry.get("last_path") or "")
         if registry_path:
-            snapshot["path"] = registry_path
+            path_name = registry_path
         elif strategy_id in path4_known_ids:
-            snapshot["path"] = "path4"
+            path_name = "path4"
         elif strategy_id in path3_known_ids or is_path3_weekly_strategy(strategy_id):
-            snapshot["path"] = "path3"
+            path_name = "path3"
         elif strategy_id in path2_known_ids or "equal_weight_winner_core" in strategy_id:
-            snapshot["path"] = "path2"
+            path_name = "path2"
         else:
-            snapshot["path"] = "path1"
-        snapshot["winner_type"] = "core active"
-        snapshot["winner_tags"] = [
+            path_name = "path1"
+        winner_tags = [
             f"{role.get('path', '')}:{role.get('track', '')}".strip(":")
             for role in registry_entry.get("current_winner_roles", [])
             if isinstance(role, dict)
         ]
-        snapshot["market_scope"] = "a_share"
-        snapshot["core_active"] = {
-            "first_win_date": registry_entry.get("first_win_date"),
-            "last_win_date": registry_entry.get("last_win_date"),
-            "win_count": registry_entry.get("win_count"),
-            "days_since_last_win": registry_entry.get("days_since_last_win"),
-        }
-        core_active_registry.append(snapshot)
+        spec = live_spec(
+            market_scope="a_share",
+            path_name=path_name,
+            winner_type="core active",
+            strategy_id=strategy_id,
+            sample_tag=sample_tag,
+            winner_tag=winner_tags[0] if winner_tags else f"{path_name}:core_active",
+            core_active={
+                "first_win_date": registry_entry.get("first_win_date"),
+                "last_win_date": registry_entry.get("last_win_date"),
+                "win_count": registry_entry.get("win_count"),
+                "days_since_last_win": registry_entry.get("days_since_last_win"),
+            },
+        )
+        spec["winner_tags"] = winner_tags
+        core_active_specs.append(spec)
 
-    core_active_registry = sorted(
-        core_active_registry,
+    core_active_specs = sorted(
+        core_active_specs,
         key=lambda item: (
             item["path"],
-            -float(item["summary_metrics"].get("cagr", 0.0)),
+            _spec_sort_key(item)[3],
             item["strategy_id"],
         ),
     )
 
     LIVE_DIR.mkdir(parents=True, exist_ok=True)
     (LIVE_DIR / "strategies").mkdir(parents=True, exist_ok=True)
-    snapshot_items: dict[str, dict[str, Any]] = {item["strategy_id"]: item for item in registry}
-    for item in core_active_registry:
-        snapshot_items.setdefault(item["strategy_id"], item)
+    written_strategy_ids: set[str] = set()
+
+    def write_strategy_snapshot(item: dict[str, Any]) -> None:
+        strategy_id = str(item["strategy_id"])
+        if strategy_id in written_strategy_ids:
+            return
+        strategy_path = LIVE_DIR / "strategies" / f"{strategy_id}.json"
+        strategy_path.write_text(json.dumps(item, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        written_strategy_ids.add(strategy_id)
+
+    registry_items: list[dict[str, Any]] = []
+    for spec in registry_specs:
+        try:
+            snapshot = build_snapshot_from_live_spec(spec)
+        except Exception:
+            continue
+        write_strategy_snapshot(snapshot)
+        registry_items.append(_registry_item(snapshot))
+        del snapshot
+
+    core_active_items: list[dict[str, Any]] = []
+    for spec in core_active_specs:
+        try:
+            snapshot = build_snapshot_from_live_spec(spec)
+        except Exception:
+            continue
+        write_strategy_snapshot(snapshot)
+        core_active_items.append(_registry_item(snapshot))
+        del snapshot
     for market_scope, path_payload in winner_leaderboards.items():
         if not isinstance(path_payload, dict):
             continue
@@ -1415,7 +1509,7 @@ def export_live_data() -> dict[str, Any]:
                 sample_tag = str((leaderboard or {}).get("sample_tag") or guess_sample_tag(str(track_key)))
                 for entry in entries or []:
                     strategy_id = str(entry.get("strategy_base_id") or entry.get("strategy_id") or "")
-                    if not strategy_id or strategy_id in snapshot_items:
+                    if not strategy_id or strategy_id in written_strategy_ids:
                         continue
                     try:
                         snapshot = load_strategy_snapshot(strategy_id, sample_tag, market_scope=str(market_scope))
@@ -1432,15 +1526,12 @@ def export_live_data() -> dict[str, Any]:
                     if str(market_scope) == "hkconnect" and str(path_name) in HK_EXPERIMENTAL_PATH_NAMES:
                         snapshot["experimental"] = True
                         snapshot["tracked_only"] = True
-                    snapshot_items[strategy_id] = snapshot
-    for item in snapshot_items.values():
-        strategy_path = LIVE_DIR / "strategies" / f"{item['strategy_id']}.json"
-        strategy_path.write_text(json.dumps(item, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+                    write_strategy_snapshot(snapshot)
 
     registry_payload = {
         "as_of": payload["as_of"],
-        "strategies": [_registry_item(item) for item in registry],
-        "core_active_strategies": [_registry_item(item) for item in core_active_registry],
+        "strategies": registry_items,
+        "core_active_strategies": core_active_items,
         "winner_leaderboards": winner_leaderboards,
     }
     (LIVE_DIR / "strategy_registry.json").write_text(

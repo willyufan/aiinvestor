@@ -1710,3 +1710,10 @@
 - 五窗口结果：CAGR `18.22% / 20.40% / 20.43% / 31.30% / -12.70%`，最大回撤 `-22.63% / -19.88% / -11.42% / -9.19% / -6.70%`，换手 `4.60x / 4.43x / 4.52x / 5.32x / 5.72x`。
 - 结论：v33 长中窗继续低于现有 HK Path 1 winner/robust，2026 仍明显为负；`scripts/update_hkconnect_artifacts.py` 后 window winner、robust candidate 与 tracked payload 未改变。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path1 -> biweekly_buffer`。下一轮第一候选建议回到双周缓冲但加入低波/YTD 修复：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v34_lowvol_ytd_repair`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v34_lowvol_ytd_repair`；若未注册，先只增加这一条。
+
+## 本轮执行计划（2026-06-25 21:16 CST）
+
+- 上一轮候选/结果摘要：本轮 HK Path 1 没有新增 strategy id，按沪港通独立研究线完成 tracked_active 刷新与 artifact 同步，不并入 A股 winner 结论。
+- 本轮命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --family-scope tracked_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01` 与 `.venv/bin/python scripts/update_hkconnect_artifacts.py`。增量 budget 让给 HK Path 2 与 Path 7。
+- 结论：HK Path 1 window winner、robust candidate、tracked payload 未改变；最终 guard 给出 `hkconnect_path1 -> rotate / risk_overlay_cost`，长期停滞仍需风险/成本 overlay 方向，而不是扩月频旧线。
+- 下一轮 focus：第一候选建议从上一轮 v34 低波修复改成更直接的 risk overlay/cost guard：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v34_risk_overlay_cost_guard`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v34_risk_overlay_cost_guard`。
