@@ -1236,11 +1236,20 @@ def load_hkconnect_registry() -> list[dict[str, Any]]:
 
 @functools.lru_cache(maxsize=4)
 def latest_market_data_as_of(market_scope: str) -> str | None:
+    cache_dir = HK_DAILY_CACHE_DIR if market_scope == "hkconnect" else DAILY_CACHE_DIR
+    daily_as_of = latest_daily_cache_as_of(str(cache_dir))
+    if daily_as_of:
+        return daily_as_of
     if market_scope != "hkconnect":
         prepared_as_of = latest_prepared_panel_as_of()
         if prepared_as_of:
             return prepared_as_of
-    cache_dir = HK_DAILY_CACHE_DIR if market_scope == "hkconnect" else DAILY_CACHE_DIR
+    return None
+
+
+@functools.lru_cache(maxsize=4)
+def latest_daily_cache_as_of(cache_dir_text: str) -> str | None:
+    cache_dir = Path(cache_dir_text)
     if not cache_dir.exists():
         return None
     latest: pd.Timestamp | None = None

@@ -1282,3 +1282,12 @@ Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_we
 - 五窗口结果：CAGR `5.41% / 10.04% / 10.08% / 41.30% / 173.21%`，最大回撤 `-22.69% / -27.54% / -7.39% / -14.78% / -12.89%`，换手 `0.84x / 0.66x / 0.48x / 0.60x / 3.12x`。
 - 结论：新线 2026 弹性极强且长窗换手低，但 2017/2020 收益和回撤不足，未改变 Path 3 window winner、robust candidate 或 tracked payload。
 - 下一轮 focus：最终 guard 给出 `ashare_path3 -> turnover_reduction`。下一轮第一候选建议在本线基础上继续压换手和单票上限：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap48_hold8_turn02_exit98_risk14_weekly`；首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap48_hold8_turn02_exit98_risk14_weekly`，新增前先归档一条弱 weekly。
+
+## 本轮执行计划（2026-06-27 07:44 CST）
+
+- 上一轮候选/结果摘要：上一轮留下 `cap48/hold8/turn02/exit98/risk14_weekly`，本轮保持 Path 3 纯 `_weekly` 口径执行，不把月频选股 + 周度仓位 overlay 混作 Path 3。
+- 本轮 active pool 处理：归档 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold7_turn03_exit98_risk14_weekly`。evict 原因：上一轮长中窗收益不足且未改善 robust，继续占用 weekly active 池价值低。
+- 本轮候选 ID 与命令：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap48_hold8_turn02_exit98_risk14_weekly`；实际命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v61_ids>,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap48_hold8_turn02_exit98_risk14_weekly`。
+- 五窗口结果：CAGR `3.52% / 5.81% / 0.40% / 35.19% / 108.52%`，最大回撤 `-15.53% / -28.01% / -5.02% / -15.25% / -12.74%`，Sharpe `0.5439 / 0.4948 / 0.1271 / 1.2100 / 2.1406`。
+- 结论：新线压换手后长中窗收益明显塌陷，只有 2026 弹性保留；`update_weighted_winners.py` 后 Path 3 window winner、robust candidate 与 tracked payload 均未改变。
+- 下一轮 focus：最终 guard 给出 `ashare_path3 -> risk_downshift`。下一轮第一候选建议不要继续单纯压换手，先下调风险阈值并保持 exit98 对照：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap48_hold7_turn03_exit98_risk12_weekly`；首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap48_hold7_turn03_exit98_risk12_weekly`，新增前继续归档一条弱 weekly。

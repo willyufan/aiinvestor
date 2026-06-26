@@ -1064,3 +1064,10 @@
 - 五窗口结果：CAGR `11.16% / 9.87% / 10.71% / 23.34% / 0.99%`，最大回撤 `-20.36% / -18.06% / -11.33% / -9.27% / -6.92%`，换手 `3.50x / 3.56x / 4.11x / 5.46x / 5.72x`。
 - 结论：v22 比 theme-fast 周频更可交易，2026 小幅为正，但收益低于 HK Path 3 robust `hkconnect_path3_equal_elastic_weekly`，未改变 window winner、robust candidate 或 tracked payload。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> weekly_turnover_reduction`。下一轮第一候选建议继续 stable weekly 低换手修复：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit54_v23_lowturn_repair`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit54_v23_lowturn_repair`。
+
+## 本轮执行计划（2026-06-27 07:44 CST）
+
+- 上一轮候选/结果摘要：上一轮留下 stable weekly 低换手 v23；本轮未新增 HK Path 3 strategy id，保持 HK Path 3 纯 weekly 口径，并通过 tracked_active/public snapshot 同步当前观察集合。
+- 本轮候选 ID 与命令：本轮没有新增 HK Path 3 id；执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --family-scope tracked_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01` 与 `.venv/bin/python scripts/update_hkconnect_artifacts.py`。
+- 结论：HK Path 3 window winner、robust candidate 与 tracked payload 未改变；本轮没有 HK Path3 evict。同步过程中 comparison/public detail 有更新，但这不是新增策略实验。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> cost_stress`。下一轮第一候选建议在 v23 低换手线基础上做成本压力确认：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit52_v23_cost_stress`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit52_v23_cost_stress`。若未注册，先只加入该一个 HK Path3 weekly variant。
