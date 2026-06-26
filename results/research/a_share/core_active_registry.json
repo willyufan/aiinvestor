@@ -4,7 +4,6 @@
   "stale_trading_days": 30,
   "current_winner_ids": [
     "core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top8_risk22_exit42_cap16_cost_guard_v46_capacity_cost",
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap56_hold5_turn05_exit96_risk20_weekly",
     "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
@@ -169,8 +168,8 @@
       "last_track": "since_2017_only",
       "last_sample_tag": "since_2017_01",
       "last_metrics": {
-        "weighted_cagr": 0.1534533,
-        "weighted_sharpe": 0.88056892,
+        "weighted_cagr": 0.14905132,
+        "weighted_sharpe": 0.86316617,
         "weighted_max_drawdown": -0.24996717,
         "weighted_turnover": 2.18248731
       },
@@ -180,67 +179,6 @@
           "track": "since_2017_only",
           "sample_tag": "since_2017_01",
           "kind": "validated",
-          "refresh_only": false
-        }
-      ],
-      "refresh_only": false,
-      "active": true,
-      "days_since_last_win": 0
-    },
-    {
-      "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly",
-      "strategy_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有2周, 换手12%, 出场92%, 单周)",
-      "first_win_date": "2026-06-02",
-      "last_win_date": "2026-06-26",
-      "win_dates": [
-        "2026-06-02",
-        "2026-06-03",
-        "2026-06-04",
-        "2026-06-05",
-        "2026-06-08",
-        "2026-06-09",
-        "2026-06-10",
-        "2026-06-11",
-        "2026-06-23",
-        "2026-06-24",
-        "2026-06-25",
-        "2026-06-26"
-      ],
-      "win_count": 12,
-      "last_path": "path3",
-      "last_track": "robust_candidate",
-      "last_sample_tag": "since_2020_01",
-      "last_metrics": {
-        "cagr_mean": 0.3809091475,
-        "cagr_min": 0.15323656,
-        "sharpe_mean": 1.1229368874999999,
-        "max_drawdown_worst": -0.28098283,
-        "turnover_mean": 4.265535075,
-        "promotion_score": 0.32819026002499996,
-        "score_detail": {
-          "policy": "robust_score_v1",
-          "score": 0.32819026002499996,
-          "base_score": 0.32819026002499996,
-          "ytd_penalty": 0.0,
-          "concentration_penalty": 0.0,
-          "concentration": {
-            "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.24086231,
-            "avg_top3_weight": 0.5108877425,
-            "max_top1_weight": 1.0,
-            "max_top3_weight": 1.0,
-            "latest_top1_weight": 0.16019306,
-            "latest_top3_weight": 0.43706345999999996,
-            "observations": 24
-          }
-        }
-      },
-      "current_winner_roles": [
-        {
-          "path": "path3",
-          "track": "robust_candidate",
-          "sample_tag": "since_2020_01",
-          "kind": "robust",
           "refresh_only": false
         }
       ],
@@ -280,6 +218,13 @@
           "track": "since_2025_only",
           "sample_tag": "since_2025_01",
           "kind": "validated",
+          "refresh_only": false
+        },
+        {
+          "path": "path3",
+          "track": "robust_candidate",
+          "sample_tag": "since_2020_01",
+          "kind": "robust",
           "refresh_only": false
         }
       ],
@@ -346,26 +291,26 @@
       "last_track": "robust_candidate",
       "last_sample_tag": "since_2020_01",
       "last_metrics": {
-        "cagr_mean": 0.5360783825,
-        "cagr_min": 0.27207271,
-        "sharpe_mean": 1.3658215425,
+        "cagr_mean": 0.5266570125000001,
+        "cagr_min": 0.27105813,
+        "sharpe_mean": 1.3580246125,
         "max_drawdown_worst": -0.20122089,
         "turnover_mean": 3.649872685,
-        "promotion_score": 0.592127008075,
+        "promotion_score": 0.5851958741750001,
         "score_detail": {
           "policy": "robust_score_v1",
-          "score": 0.592127008075,
-          "base_score": 0.602390243275,
+          "score": 0.5851958741750001,
+          "base_score": 0.5955231779750001,
           "ytd_penalty": 0.0,
-          "concentration_penalty": 0.010263235200000005,
+          "concentration_penalty": 0.010327303800000024,
           "concentration": {
             "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.37122098666666664,
-            "avg_top3_weight": 0.6485089866666667,
+            "avg_top1_weight": 0.3734970983333333,
+            "avg_top3_weight": 0.6486869550000001,
             "max_top1_weight": 0.56441883,
             "max_top3_weight": 0.83741893,
-            "latest_top1_weight": 0.16452185,
-            "latest_top3_weight": 0.44571384000000003,
+            "latest_top1_weight": 0.17817852,
+            "latest_top3_weight": 0.44678165000000003,
             "observations": 6
           }
         }
@@ -453,8 +398,8 @@
       "last_track": "since_2017_only",
       "last_sample_tag": "since_2017_01",
       "last_metrics": {
-        "weighted_cagr": 0.2622744,
-        "weighted_sharpe": 1.0733074,
+        "weighted_cagr": 0.2612742,
+        "weighted_sharpe": 1.07222268,
         "weighted_max_drawdown": -0.1213419,
         "weighted_turnover": 2.96134522
       },
@@ -488,8 +433,8 @@
       "last_track": "since_2017_only",
       "last_sample_tag": "since_2017_01",
       "last_metrics": {
-        "weighted_cagr": 0.13362288,
-        "weighted_sharpe": 0.84685259,
+        "weighted_cagr": 0.1328537,
+        "weighted_sharpe": 0.84222874,
         "weighted_max_drawdown": -0.1579988,
         "weighted_turnover": 4.4438542
       },
@@ -528,26 +473,26 @@
       "last_track": "robust_candidate",
       "last_sample_tag": "since_2020_01",
       "last_metrics": {
-        "cagr_mean": 0.268763335,
-        "cagr_min": 0.09351273,
-        "sharpe_mean": 1.097676145,
+        "cagr_mean": 0.259578525,
+        "cagr_min": 0.09233626,
+        "sharpe_mean": 1.0791153975,
         "max_drawdown_worst": -0.16671529,
         "turnover_mean": 5.204515797499999,
-        "promotion_score": 0.20955061467500008,
+        "promotion_score": 0.20197356032500008,
         "score_detail": {
           "policy": "robust_score_v1",
-          "score": 0.20955061467500008,
-          "base_score": 0.22050162817500008,
+          "score": 0.20197356032500008,
+          "base_score": 0.21292457382500007,
           "ytd_penalty": 0.010951013499999997,
           "concentration_penalty": 0.0,
           "concentration": {
             "sample_tag": "since_2026_01",
-            "avg_top1_weight": 0.19993905,
-            "avg_top3_weight": 0.37668220166666666,
+            "avg_top1_weight": 0.19854895333333333,
+            "avg_top3_weight": 0.375080805,
             "max_top1_weight": 0.52055781,
             "max_top3_weight": 0.6722815500000001,
-            "latest_top1_weight": 0.11451227,
-            "latest_top3_weight": 0.30671349000000003,
+            "latest_top1_weight": 0.10617169,
+            "latest_top3_weight": 0.29710511,
             "observations": 6
           }
         }
@@ -597,6 +542,40 @@
       "refresh_only": false,
       "active": true,
       "days_since_last_win": 0
+    },
+    {
+      "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly",
+      "strategy_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有2周, 换手12%, 出场92%, 单周)",
+      "first_win_date": "2026-06-02",
+      "last_win_date": "2026-06-25",
+      "win_dates": [
+        "2026-06-02",
+        "2026-06-03",
+        "2026-06-04",
+        "2026-06-05",
+        "2026-06-08",
+        "2026-06-09",
+        "2026-06-10",
+        "2026-06-11",
+        "2026-06-23",
+        "2026-06-24",
+        "2026-06-25"
+      ],
+      "win_count": 11,
+      "last_path": "path3",
+      "last_track": "robust_candidate",
+      "last_sample_tag": "since_2020_01",
+      "last_metrics": {
+        "total_return": 2.43092867,
+        "cagr": 0.21299682,
+        "max_drawdown": -0.28098283,
+        "sharpe": 0.88637095,
+        "turnover": 3.5155456
+      },
+      "current_winner_roles": [],
+      "refresh_only": false,
+      "active": true,
+      "days_since_last_win": 1
     },
     {
       "strategy_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit98_risk16_weekly",

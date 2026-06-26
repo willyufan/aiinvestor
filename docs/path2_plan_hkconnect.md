@@ -1727,3 +1727,11 @@
 - 五窗口结果：CAGR `12.29% / 11.64% / 7.91% / 49.18% / 10.06%`，最大回撤 `-38.49% / -38.49% / -29.20% / -14.90% / -7.84%`，换手 `7.06x / 6.91x / 7.33x / 8.64x / 8.32x`。
 - 结论：v44 相对 v43 保留短窗正收益，但 2017/2020/2023 回撤仍过深，未改变 HK Path 2 window winner、robust candidate 或 tracked payload；robust 仍为 `hkconnect_path2_theme_monthly_cost_control`。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> elasticity_cost_control`。由于 equal-elastic 族历史 terminal check 多次失败，下一轮只允许一次更硬成本终端确认或转回月频 robust；第一候选设计为 `hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control`。
+
+## 本轮执行计划（2026-06-26 20:46 CST）
+
+- 上一轮候选/结果摘要：上一轮留下 equal-elastic terminal check，本轮执行 `v45_elasticity_cost_control`，继续保持 HK Path 2 独立于 A股 Path 2 与 A股 Path 4。
+- 本轮候选 ID 与命令：`hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control`；实际命令与 HK Path1/3 合并为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v45_monthly_weekly_repair,hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v22_cost_stress`。
+- 五窗口结果：CAGR `7.95% / 7.62% / 6.50% / 39.76% / 7.81%`，最大回撤 `-38.74% / -38.74% / -31.20% / -12.50% / -12.16%`，换手 `4.00x / 3.98x / 4.69x / 5.41x / 6.14x`。
+- 结论：v45 保留 2025/2026 正收益，但长中窗回撤过深，未改变 HK Path 2 window winner、robust candidate 或 tracked payload；robust 仍为 `hkconnect_path2_theme_monthly_cost_control`。equal-elastic 族继续不适合作为下一轮主线。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> biweekly_breakout`。下一轮第一候选建议不要继续 equal-elastic terminal check，改回双周突破但用更硬低换手确认：`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v46_lowturn_confirmation`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v46_lowturn_confirmation`。

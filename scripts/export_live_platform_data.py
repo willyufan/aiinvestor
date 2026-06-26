@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import functools
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -23,6 +24,7 @@ TRACKED_WINNERS_JSON = existing_research_file("weighted_track_winners.json")
 CORE_ACTIVE_REGISTRY_JSON = existing_research_file("core_active_registry.json")
 DAILY_CACHE_DIR = ROOT / "data_cache" / "daily"
 HK_DAILY_CACHE_DIR = ROOT / "data_cache" / "hkconnect" / "daily_adj"
+PREPARED_PANEL_CACHE_DIR = ROOT / "data_cache" / "prepared_panel_cache"
 A_SHARE_TRADE_CALENDAR_PATH = ROOT / "data_cache" / "trade_calendar.csv"
 HK_TRADE_CALENDAR_PATH = ROOT / "data_cache" / "hkconnect" / "basic" / "trade_calendar_hk.csv"
 
@@ -1234,6 +1236,10 @@ def load_hkconnect_registry() -> list[dict[str, Any]]:
 
 @functools.lru_cache(maxsize=4)
 def latest_market_data_as_of(market_scope: str) -> str | None:
+    if market_scope != "hkconnect":
+        prepared_as_of = latest_prepared_panel_as_of()
+        if prepared_as_of:
+            return prepared_as_of
     cache_dir = HK_DAILY_CACHE_DIR if market_scope == "hkconnect" else DAILY_CACHE_DIR
     if not cache_dir.exists():
         return None
@@ -1249,6 +1255,22 @@ def latest_market_data_as_of(market_scope: str) -> str | None:
             latest = pd.Timestamp(parsed) if latest is None else max(latest, pd.Timestamp(parsed))
         except (OSError, ValueError, pd.errors.EmptyDataError):
             continue
+    return latest.strftime("%Y-%m-%d") if latest is not None else None
+
+
+@functools.lru_cache(maxsize=1)
+def latest_prepared_panel_as_of() -> str | None:
+    if not PREPARED_PANEL_CACHE_DIR.exists():
+        return None
+    latest: pd.Timestamp | None = None
+    for path in PREPARED_PANEL_CACHE_DIR.glob("v*_*.pkl"):
+        match = re.search(r"_([0-9]{8})_([0-9]{8})_", path.name)
+        if not match:
+            continue
+        parsed = pd.to_datetime(match.group(2), format="%Y%m%d", errors="coerce")
+        if pd.isna(parsed):
+            continue
+        latest = pd.Timestamp(parsed) if latest is None else max(latest, pd.Timestamp(parsed))
     return latest.strftime("%Y-%m-%d") if latest is not None else None
 
 

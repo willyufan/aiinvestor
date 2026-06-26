@@ -1056,3 +1056,11 @@
 - 五窗口结果：CAGR `11.92% / 10.89% / 11.50% / 24.63% / 0.44%`，最大回撤 `-20.97% / -18.79% / -11.22% / -9.25% / -6.98%`，换手 `3.69x / 3.72x / 4.27x / 5.67x / 6.07x`。
 - 结论：v21 可交易性强于 theme-fast 周频，但收益低于现有 HK Path 3 robust `hkconnect_path3_equal_elastic_weekly`，未改变 window winner、robust candidate 或 tracked payload。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> cost_stress`。下一轮第一候选建议在 v21 上进一步降低风险/出场并观察成本压力：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v22_cost_stress`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v22_cost_stress`。
+
+## 本轮执行计划（2026-06-26 20:46 CST）
+
+- 上一轮候选/结果摘要：上一轮留下 stable weekly cost stress v22，本轮保持 HK Path 3 纯 weekly 口径，不并入 HK Path1/2 月频或双周候选。
+- 本轮候选 ID 与命令：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v22_cost_stress`；实际命令与 HK Path1/2 合并为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v45_monthly_weekly_repair,hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v22_cost_stress`。
+- 五窗口结果：CAGR `11.16% / 9.87% / 10.71% / 23.34% / 0.99%`，最大回撤 `-20.36% / -18.06% / -11.33% / -9.27% / -6.92%`，换手 `3.50x / 3.56x / 4.11x / 5.46x / 5.72x`。
+- 结论：v22 比 theme-fast 周频更可交易，2026 小幅为正，但收益低于 HK Path 3 robust `hkconnect_path3_equal_elastic_weekly`，未改变 window winner、robust candidate 或 tracked payload。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> weekly_turnover_reduction`。下一轮第一候选建议继续 stable weekly 低换手修复：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit54_v23_lowturn_repair`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit54_v23_lowturn_repair`。
