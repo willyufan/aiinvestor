@@ -1719,3 +1719,11 @@
 - 五窗口结果：CAGR `12.85% / 12.37% / 9.48% / 50.41% / 11.38%`，最大回撤 `-34.79% / -34.79% / -26.55% / -13.82% / -7.33%`，换手 `7.33x / 7.12x / 7.48x / 9.09x / 8.53x`。
 - 结论：v43 2025 弹性足够，但长中窗回撤过深、2023 不足，未改变 HK Path 2 window winner、robust candidate 或 tracked payload。最终 guard 给出 `hkconnect_path2 -> rotate / biweekly_breakout`。
 - 下一轮 focus：下一候选应继续 biweekly breakout 但降低换手和回撤：`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v44_lowturn_confirmation`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v44_lowturn_confirmation`。
+
+## 本轮执行计划（2026-06-26 09:46 CST）
+
+- 上一轮候选/结果摘要：上一轮 HK Path 2 v43 有 2025 弹性但长中窗回撤太深；本轮新增 `v44_lowturn_confirmation`，继续保持 HK Path 2 独立研究线，不与 A股 Path 2 或 A股 Path 4 共用结论。
+- 本轮候选 ID 与命令：`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v44_lowturn_confirmation`；增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_v44>,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v44_lowturn_confirmation,<hk_path3_v21>`。
+- 五窗口结果：CAGR `12.29% / 11.64% / 7.91% / 49.18% / 10.06%`，最大回撤 `-38.49% / -38.49% / -29.20% / -14.90% / -7.84%`，换手 `7.06x / 6.91x / 7.33x / 8.64x / 8.32x`。
+- 结论：v44 相对 v43 保留短窗正收益，但 2017/2020/2023 回撤仍过深，未改变 HK Path 2 window winner、robust candidate 或 tracked payload；robust 仍为 `hkconnect_path2_theme_monthly_cost_control`。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> elasticity_cost_control`。由于 equal-elastic 族历史 terminal check 多次失败，下一轮只允许一次更硬成本终端确认或转回月频 robust；第一候选设计为 `hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control`。

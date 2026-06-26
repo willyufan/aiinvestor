@@ -1048,3 +1048,11 @@
 - 本轮命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --family-scope tracked_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01` 与 `.venv/bin/python scripts/update_hkconnect_artifacts.py`。
 - 结论：HK Path 3 window winner、robust candidate、tracked payload 未改变；最终 guard 给出 `hkconnect_path3 -> rotate / weekly_defensive_overlay`，说明下一轮应继续 stable weekly 防守 overlay，而不是扩高弹 theme-fast。
 - 下一轮 focus：第一候选 `hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover2_exit42_v10_defensive_overlay`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover2_exit42_v10_defensive_overlay`。
+
+## 本轮执行计划（2026-06-26 09:46 CST）
+
+- 上一轮候选/结果摘要：上一轮 HK Path 3 留下 stable weekly defensive overlay；本轮新增 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v21_defensive_overlay`，继续保持 HK Path 3 纯 weekly 口径。
+- 本轮候选 ID 与命令：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v21_defensive_overlay`；增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_v44>,<hk_path2_v44>,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v21_defensive_overlay`。
+- 五窗口结果：CAGR `11.92% / 10.89% / 11.50% / 24.63% / 0.44%`，最大回撤 `-20.97% / -18.79% / -11.22% / -9.25% / -6.98%`，换手 `3.69x / 3.72x / 4.27x / 5.67x / 6.07x`。
+- 结论：v21 可交易性强于 theme-fast 周频，但收益低于现有 HK Path 3 robust `hkconnect_path3_equal_elastic_weekly`，未改变 window winner、robust candidate 或 tracked payload。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> cost_stress`。下一轮第一候选建议在 v21 上进一步降低风险/出场并观察成本压力：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v22_cost_stress`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v22_cost_stress`。

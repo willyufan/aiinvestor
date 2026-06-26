@@ -1264,3 +1264,12 @@ Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_we
 - 五窗口结果：CAGR `12.86% / 24.69% / 21.69% / 85.57% / 117.55%`，最大回撤 `-28.03% / -25.33% / -14.52% / -14.92% / -12.88%`，换手 `2.04x / 1.49x / 1.30x / 2.89x / 1.98x`。
 - 结论：新 weekly 线明显改善 2020/2025/2026，但 2017/2020 回撤仍大，`update_weighted_winners.py` 后 Path 3 window winner、robust candidate 与 tracked payload 未改变。最终 guard 显示 Path 3 `continue / turnover_reduction`。
 - 下一轮 focus：下一轮第一候选应在本线基础上继续降换手和单票上限，而不是追短窗 CAGR：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`；首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`，新增前继续归档一条弱 weekly。
+
+## 本轮执行计划（2026-06-26 09:46 CST）
+
+- 上一轮候选/结果摘要：上一轮要求在 `cap54/hold5/turn05/exit98/risk16_weekly` 基础上继续降换手和单票上限；本轮新增纯 `_weekly` 的 `cap52/hold6/turn04/exit98/risk16`，没有把 Path 1 月频选股 + 周度仓位 overlay 混入 Path 3。
+- 本轮 active pool 处理：归档 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit98_risk16_weekly`。evict 原因：旧线未改善 robust，继续占用 Path 3 active weekly 池价值低。
+- 本轮候选 ID 与命令：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`；实际命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v59_ids>,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+- 五窗口结果：CAGR `11.40% / 16.02% / 19.71% / 33.91% / 82.29%`，最大回撤 `-20.22% / -26.51% / -10.68% / -18.39% / -13.22%`，换手 `1.29x / 1.06x / 0.71x / 2.08x / 3.26x`。
+- 结论：新线改善 2023 结构且换手相对温和，但 2020/2025 回撤仍不够，`update_weighted_winners.py` 后 Path 3 window winner、robust candidate 与 tracked payload 未改变。
+- 下一轮 focus：最终 guard 给出 `ashare_path3 -> weekly_exit_buffer`。下一轮第一候选建议继续压单票并拉长持有，同时观察 exit buffer：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold7_turn03_exit98_risk14_weekly`；首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold7_turn03_exit98_risk14_weekly`。

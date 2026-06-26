@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-25T21:13:09+08:00",
+  "generated_at": "2026-06-26T09:44:31+08:00",
   "as_of": "2026-06-25",
   "coverage_gate": {
     "status": "pass",
@@ -61,8 +61,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 879,
-        "complete_count": 879,
+        "candidate_count": 883,
+        "complete_count": 883,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -126,8 +126,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 433,
-        "complete_count": 433,
+        "candidate_count": 436,
+        "complete_count": 436,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -228,115 +228,115 @@
   "experiment_log": {
     "path": "results/research/a_share/research_experiments.jsonl",
     "candidate_entries": 108,
-    "appended_entries": 108
+    "appended_entries": 1
   },
   "rotation": {
     "ashare_path1": {
       "signature": "f89d17ae0cae4c2ea656",
       "changed": false,
-      "stagnation_runs": 12,
+      "stagnation_runs": 15,
       "stagnation_threshold": 3,
-      "recommended_focus": "core_multifactor_coverage",
+      "recommended_focus": "signal_quality",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-24T06:53:57+08:00"
     },
     "ashare_path2": {
       "signature": "4fd03aa59e54c34c4c4c",
-      "changed": true,
-      "stagnation_runs": 0,
+      "changed": false,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
-      "recommended_focus": "medium_cycle_growth",
-      "rotation_status": "continue",
+      "recommended_focus": "risk_reconfirm_sensitivity",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-06-25T21:13:09+08:00"
     },
     "ashare_path3": {
       "signature": "69e1d477591e2ab457a3",
-      "changed": true,
-      "stagnation_runs": 0,
+      "changed": false,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
-      "recommended_focus": "turnover_reduction",
-      "rotation_status": "continue",
+      "recommended_focus": "weekly_exit_buffer",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-06-25T21:13:09+08:00"
     },
     "ashare_path4": {
       "signature": "75a9c7700e94360a1ee8",
       "changed": false,
-      "stagnation_runs": 8,
+      "stagnation_runs": 11,
       "stagnation_threshold": 3,
-      "recommended_focus": "theme_risk_control",
+      "recommended_focus": "theme_capacity_cost",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-24T19:32:29+08:00"
     },
     "ashare_path5": {
       "signature": "4f515062c02710af49a6",
-      "changed": true,
-      "stagnation_runs": 0,
+      "changed": false,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
-      "recommended_focus": "event_basket_registry",
-      "rotation_status": "continue",
+      "recommended_focus": "frozen_candidate_audit",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-06-25T21:13:09+08:00"
     },
     "hkconnect_path1": {
       "signature": "669f92b1510f0f267a17",
       "changed": false,
-      "stagnation_runs": 188,
+      "stagnation_runs": 191,
       "stagnation_threshold": 3,
-      "recommended_focus": "risk_overlay_cost",
+      "recommended_focus": "monthly_weekly_overlay",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-04T22:03:26+08:00"
     },
     "hkconnect_path2": {
       "signature": "262b343dc04e75136c89",
       "changed": false,
-      "stagnation_runs": 130,
+      "stagnation_runs": 133,
       "stagnation_threshold": 3,
-      "recommended_focus": "biweekly_breakout",
+      "recommended_focus": "elasticity_cost_control",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-09T04:52:47+08:00"
     },
     "hkconnect_path3": {
       "signature": "48fb0014214367d9174d",
       "changed": false,
-      "stagnation_runs": 32,
+      "stagnation_runs": 35,
       "stagnation_threshold": 3,
-      "recommended_focus": "weekly_defensive_overlay",
+      "recommended_focus": "cost_stress",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-21T05:02:36+08:00"
     },
     "hkconnect_path4": {
       "signature": "2608a203e20b07deeb11",
       "changed": false,
-      "stagnation_runs": 3,
+      "stagnation_runs": 6,
       "stagnation_threshold": 3,
-      "recommended_focus": "liquidity_momentum",
+      "recommended_focus": "ytd_guard",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-25T06:52:42+08:00"
     },
     "hkconnect_path5": {
       "signature": "660bee144c51be56ec83",
       "changed": false,
-      "stagnation_runs": 3,
+      "stagnation_runs": 6,
       "stagnation_threshold": 3,
-      "recommended_focus": "retest_confirmation",
+      "recommended_focus": "pause_or_redesign",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-25T06:52:42+08:00"
     },
     "hkconnect_path6": {
       "signature": "63c0fa8a8692bcfaa062",
       "changed": false,
-      "stagnation_runs": 3,
+      "stagnation_runs": 6,
       "stagnation_threshold": 3,
-      "recommended_focus": "lowvol_liquid_core",
+      "recommended_focus": "capacity_cost",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-25T06:52:42+08:00"
     },
     "hkconnect_path7": {
       "signature": "06a85fe1a585272a8eb3",
-      "changed": true,
-      "stagnation_runs": 0,
+      "changed": false,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
-      "recommended_focus": "barbell_sleeve_structure",
-      "rotation_status": "continue",
+      "recommended_focus": "biweekly_barbell",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-06-25T21:13:09+08:00"
     }
   },
@@ -375,7 +375,7 @@
           "target_representatives": 6
         },
         "high_growth_theme": {
-          "current_count": 413,
+          "current_count": 415,
           "target_representatives": 4
         },
         "momentum_equal_weight_elastic": {
@@ -450,11 +450,11 @@
       }
     },
     "hkconnect": {
-      "candidate_count": 433,
+      "candidate_count": 436,
       "path_counts": {
-        "path1": 102,
-        "path2": 106,
-        "path3": 103,
+        "path1": 103,
+        "path2": 107,
+        "path3": 104,
         "path4": 34,
         "path5": 25,
         "path6": 32,
