@@ -1,5 +1,12 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-06-27 19:24 CST）
+
+- 上一轮 HK Path1 只做同步并把候选指向 `risk_overlay_cost`；本轮 HK 新增确认预算投给 Path4/5/6 扩展线，HK Path1 完成巡检、`tracked_active` 同步到 `2026-06-26`、artifact/public 同步和下一轮候选设计，没有新增 Path1 `--only-strategy-ids` 回测。
+- 本轮同步命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --family-scope tracked_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`、`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/update_hkconnect_artifacts.py`。该同步修复了 public snapshot 对 HK preview as-of 过旧的拦截。
+- HK Path1 window winner 维持：2017/2020 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit32`，2023 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32`，2025 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cashguard_exit34_v9_repair`，2026 `hkconnect_path1_monthly_lowvol_weekly_overlay`；robust 仍为 `hkconnect_path1_monthly_lowvol_weekly_overlay_soft`。本轮无 HK Path1 evict，tracked/live/public 只有日期和 artifact 同步刷新。
+- 最终 guard focus 为 `risk_overlay_cost`。下一轮第一条命令建议继续注册/确认双周质量动量风险成本修复：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v44_risk_overlay_cost`；若未注册，先在 HK Path1 variants 中注册。
+
 ## 本轮执行计划（2026-06-25 06:56 CST）
 
 - 上一轮 Path1 只做同步并把候选指向 monthly-weekly overlay，本轮 HK 新增确认预算投给 Path4/5/6 扩展线；HK Path1 完成巡检、`tracked_active` 同步和下一轮候选设计，没有新增 `--only-strategy-ids` 回测。

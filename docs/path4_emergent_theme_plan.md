@@ -1,5 +1,13 @@
 # Path 4 强主题涌现路径
 
+## 本轮执行计划（2026-06-27 19:24 CST）
+
+- 上一轮 `prom22/signal29/risk10/cap06/exit62` 只能在 80/20 总市值底座延续强势，本轮按最终 focus `theme_capacity_cost` 做更低单票 cap 与更宽出场的容量成本实验；仍严格保持独立 Path4 强主题涌现路径，不做人工主题归类、不纳入 ETF、不并入 Path2。
+- 本轮 active pool 处理：从 `PATH4_THEME_DISCOVERY_VARIANT_IDS` 移出 `aggr_13_87_prom14_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk14_cap08_exit62_lowturn`，加入 `aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap04_exit70_lowturn`。evict 理由：旧 prom14/risk14/cap08 高风险高 cap 线非 winner/robust，且被本轮低风险低 cap 容量成本实验覆盖。
+- 本轮新增并五窗口确认三底座：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap04_exit70_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap04_exit70_lowturn`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap04_exit70_lowturn`。命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <three_cap04_exit70_ids>`。
+- 80/20 总市值版五窗口 CAGR `9.00% / 9.77% / 8.31% / 35.67% / 48.25%`，最大回撤 `-12.86% / -12.86% / -7.30% / -7.33% / -7.40%`；90/10 总市值版 CAGR `4.00% / 4.79% / 2.22% / 11.26% / 13.69%`；90/10 等权版 CAGR `2.19% / 4.13% / 3.31% / 11.51% / 9.44%`。结论：能捕捉 PCB/服务器/光模块/AI 芯片强势簇，但长窗与跨底座收益明显弱于既有 `prom20/signal29/risk12/cap06` 主体，不改变 Path4 window winner、robust candidate 或 tracked-only 状态。
+- 最终 guard focus 仍为 `theme_capacity_cost`。下一轮第一条命令建议在本轮 low-cap 负样本基础上只做一次 `cap03/exit72` 压力测试，若 2020/2023 继续弱则回到 `cap06` 主体：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap03_exit72_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap03_exit72_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap03_exit72_lowturn`；若未注册，先 evict 一条非 winner/robust 弱项后加入。
+
 ## 本轮执行计划（2026-06-25 06:56 CST）
 
 - 上一轮建议扩 `prom22` 覆盖宽度，本轮严格保持独立 Path4 强主题涌现路径，不做人工主题归类、不纳入 ETF、不并入 Path2 扫描池。

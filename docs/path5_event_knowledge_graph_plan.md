@@ -1,5 +1,15 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-27 19:24 CST 状态
+
+最终 guard 入口为 `pass`，Path5 当前 `basket_count=4`、`frozen_candidate_count=24`、`pending_audit_count=0`，说明 `high_speed_pcb_copper_clad_server_20260624_v0` 已从待审计队列进入可审计/可入口状态；本轮没有新增事件 seed 或第五篮子。
+
+本轮执行最小事件入口：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_prom20_signal29_risk12.json`。
+
+结果：6 个候选均有 source URL 并返回 `status=ok`，但事件日 `2026-06-24` 距 A股本轮行情 as-of `2026-06-26` 只有约 2 个可用交易日，20D/40D/60D 组合收益均为 `insufficient_data`；Path4 reference 事件日前快照为 `2026-05-29`，Path4 持仓数 `18`，与该 PCB/覆铜板篮子 overlap 为 `0/6`、Path4 overlap weight 为 `0`。
+
+结论：该篮子目前只能证明事件入口和来源审计链路可跑，不能作为有效收益结论，也不能进入 winner/robust/tracked。最终 focus 为 `frozen_candidate_audit`；下一轮第一动作应复核 24 个 frozen candidates 的来源仍有效，并在交易日成熟后重跑同一篮子成熟度：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_prom20_signal29_risk12_next.json`。
+
 ## 2026-06-25 06:56 CST 状态
 
 开局 guard 显示 Path5 有 `pending_audit_count=6`，本轮读取 `results/research/a_share/event_theme_registry.json` 与 `results/research/a_share/event_theme_candidates.jsonl`，确认事件篮子为 4 个、候选 24 个，其中 18 个 `source_audited/include_in_backtest=true`，新增 `high_speed_pcb_copper_clad_server_20260624_v0` 的 6 个候选仍为 `pending_primary_source_review/include_in_backtest=false`。

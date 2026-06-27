@@ -157,7 +157,11 @@ def _matches_path2(
     excluded_variant_ids: set[str],
 ) -> bool:
     variant_id = base_id.rsplit("__", 1)[1] if "__" in base_id else None
-    if variant_id and (variant_id.endswith("_weekly") or variant_id in excluded_variant_ids):
+    if variant_id and (
+        variant_id.endswith("_weekly")
+        or variant_id in excluded_variant_ids
+        or "emergent_theme_quality_gate_signal" in variant_id
+    ):
         return False
     if any(base_id.startswith(prefix) for prefix in prefixes):
         return True

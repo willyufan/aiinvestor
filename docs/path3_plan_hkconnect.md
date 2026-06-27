@@ -1,5 +1,12 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-27 19:24 CST）
+
+- 上一轮 HK Path3 只做同步并把下一步指向 `weekly_defensive_overlay`；本轮 HK 新增确认预算投给 Path4/5/6 扩展线，HK Path3 保持纯周频口径，只完成巡检、`tracked_active` 同步到 `2026-06-26`、artifact/public 同步和下一轮候选设计，没有新增主线 `--only-strategy-ids` 回测。
+- 本轮同步命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --family-scope tracked_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`、`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/update_hkconnect_artifacts.py`。没有把 HK Path1/2 的月频或双周候选并入本路径。
+- HK Path3 window winner 维持：2017 `hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`，2020 `hkconnect_path3_theme_weekly`，2023 `hkconnect_path3_theme_fast_weekly`，2025 `hkconnect_path3_breakout_cashoff_weekly`，2026 `hkconnect_path3_equal_elastic_cashoff_weekly`；robust 仍为 `hkconnect_path3_equal_elastic_weekly`。本轮无 HK Path3 evict，tracked/live/public 只有同步刷新。
+- 最终 guard focus 为 `cost_stress`。下一轮第一条命令应在 stable weekly 低换手形态上加成本压力，而不是继续单纯加防守 overlay：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v21_cost_guard`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-25 06:56 CST）
 
 - 上一轮 Path3 只做同步并把下一步指向成本压力；本轮 HK 新增确认预算投给扩展线，HK Path3 保持纯周频口径，只完成巡检、`tracked_active` 同步和下一轮候选设计，没有新增主线 `--only-strategy-ids` 回测。
