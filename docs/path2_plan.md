@@ -13,6 +13,13 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-29 05:25 CST）
+
+- 上一轮 v60 medium-cycle 只保留 2026 弹性，本轮按 `medium_cycle_growth` 注册并确认 v62 双底座，继续保持 Path2 `growth_elastic` 独立池，不把 Path4 emergent_theme 或 Path3 `_weekly` 变体当作 Path2 结论。实际命令与 Path3 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit46_reconfirm96_caution58_cap18_cost_guard_v62_medium_cycle_growth,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit46_reconfirm96_caution58_cap18_cost_guard_v62_medium_cycle_growth,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`。
+- v62 total_mv 五窗口 CAGR `8.38% / 8.54% / 16.57% / 52.72% / 49.77%`，最大回撤 `-21.25% / -16.19% / -16.22% / -16.90% / -10.86%`，换手 `4.52x / 3.81x / 5.50x / 10.13x / 9.13x`；equal_weight 版 CAGR `5.81% / 6.12% / 8.88% / 31.36% / 78.17%`，最大回撤 `-27.25% / -17.67% / -21.10% / -21.10% / -10.28%`，换手 `4.87x / 4.00x / 5.83x / 10.81x / 9.85x`。结论：2025/2026 仍有弹性，但 2020/2023 没修到 Path2 验收线，且短窗换手偏高，不晋级。
+- `scripts/path2_candidate_pass.py` 重跑后 universe 为 `793`，raw leaders/robust 未实质切换；`scripts/update_weighted_winners.py` 后 official Path2 robust 仍为 `...v34_reconfirm_balance`，`meanCAGR=23.50% / minCAGR=12.60%`。本轮没有 Path2 evict；代码中预留的 `v62_underrepresented_lowturn` 属于设计-only，未做五窗口确认，不计新增回测实验。
+- 最终 focus 为 `risk_reconfirm_sensitivity`。下一轮第一条命令建议停止 v62 同形中周期修复，注册并确认更低风险/更高再确认的敏感性对照：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm98_caution56_cap16_cost_guard_v63_risk_reconfirm_sensitivity,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm98_caution56_cap16_cost_guard_v63_risk_reconfirm_sensitivity`；若未注册，先加入 Path2 scan family/list。
+
 ## 本轮执行计划（2026-06-28 17:40 CST）
 
 - 上一轮预留 v60 medium-cycle 双底座，本轮接续启动前已注册候选，保持 Path2 独立 `growth_elastic` 池，不把独立 Path4 的 `PATH4_THEME_DISCOVERY_*` 变体加入 Path2 扫描池。`scripts/path2_candidate_pass.py` 重跑后 universe 为 `791`，raw robust 转向 `core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_caution80_cap95`，但 official robust 仍以后续 weighted 校验为准。

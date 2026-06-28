@@ -1,5 +1,11 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-29 05:25 CST）
+
+- 上一轮 HK Path2 `v32_high_return_monthly_guard` 改善 2023 但 2026 转负；本轮新增 HK 预算投给 Path4-7 扩展线，HK Path2 只做 guard 巡检、`scripts/update_hkconnect_artifacts.py` 与 public/live 同步，没有新增主线 `--only-strategy-ids` 回测，仍独立于 A股 Path2 与 HK 扩展线。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path2 window winner、robust candidate、tracked/live/public payload 未切换；本轮无 HK Path2 evict。最终 guard coverage 为 HK 全候选 `452/452`，Path2 候选数 `110`。
+- 最终 focus 为 `biweekly_breakout`，但普通 breakout 近几轮长期停滞且 2023 未达 `30%` 验收线。下一轮第一条命令建议只做一次低回撤 breakout terminal check：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v44_lowdraw_retest`；若未注册，先在 HK Path2 variants 中注册，若仍低于验收线则回到 high-return monthly。
+
 ## 本轮执行计划（2026-06-28 17:40 CST）
 
 - 上一轮 HK Path2 下一步指向 `high_return_monthly`；本轮检查已注册/已落盘的 `hkconnect_path2_high_return_monthly_quality_liquidity_v32_high_return_monthly_guard`，并执行 `scripts/update_hkconnect_artifacts.py`、live/public 导出同步。HK Path2 仍独立于 A股 Path2，不把 HK Path4-7 扩展候选并入主线结论。

@@ -1,5 +1,15 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-29 05:25 CST 状态
+
+最终 guard 入口为 `pass`，Path5 当前 `basket_count=4`、`frozen_candidate_count=24`、`pending_audit_count=0`、`backtest_ready_count=24`。本轮没有新增第五篮子，也没有把事件 seed 当成 winner/robust/tracked 策略结论。
+
+本轮复跑最小事件入口：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4winner_prom20signal29.json`。
+
+结果：`high_speed_pcb_copper_clad_server_20260624_v0` 仍为 6 个候选，`002463.SZ 沪电股份`、`300476.SZ 胜宏科技`、`002916.SZ 深南电路`、`603228.SH 景旺电子`、`600183.SH 生益科技`、`688183.SH 生益电子` 均为 `status=ok` 且有 source URL；但事件日 `2026-06-24` 到本地行情 `2026-06-26` 只有 `2` 个可用交易日，5D/10D/20D 组合收益仍为 `insufficient_data`。Path4 reference 为 `2026-05-29` 快照，Path4 持仓数 `18`，overlap 为 `0/6`、Path4 overlap weight `0`。
+
+结论：该篮子继续只证明事件入口、来源审计和 Path4 overlap 对比链路可跑，不能作为成熟收益结论，也不能与 Path4 强主题涌现做 winner 级比较。最终 focus 为 `frozen_candidate_audit`；下一轮第一动作应复核 24 个 frozen candidates 的 source URL 与 `include_in_backtest` 状态，确认 `pending_audit_count` 仍为 `0` 后再复跑同一篮子的 5D/10D/20D：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4winner_prom20signal29_next.json`。
+
 ## 2026-06-28 17:40 CST 状态
 
 最终 guard 入口为 `pass`，Path5 当前 `basket_count=4`、`frozen_candidate_count=24`、`pending_audit_count=0`、`backtest_ready_count=24`。本轮没有新增第五篮子，也没有把待审计 seed 当成策略结论。

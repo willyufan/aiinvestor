@@ -1,5 +1,11 @@
 # 沪港通 Path 1 研究计划
 
+## 本轮执行计划（2026-06-29 05:25 CST）
+
+- 上一轮 HK Path1 的 `v46_ytd_guard` 已确认但 2026 仍为负；本轮新增 HK 预算投给 Path4-7 扩展线，HK Path1 完成 guard 巡检、`scripts/update_hkconnect_artifacts.py` 与 public/live 同步，没有新增 Path1 `--only-strategy-ids` 回测，也没有把 HK 扩展线并入 Path1 结论。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path1 window winner、robust candidate、tracked/live/public payload 未切换；本轮无 HK Path1 evict。最终 guard coverage 为 HK 全候选 `452/452`，Path1 候选数 `105`。
+- 最终 focus 为 `monthly_weekly_overlay`。下一轮第一条命令建议从双周/普通风险成本线转回月频选股 + 周度 overlay，优先修复 2026 负收益并控制 2017 回撤：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v48_monthly_weekly_overlay`；若未注册，先在 HK Path1 variants 中注册。
+
 ## 本轮执行计划（2026-06-28 17:40 CST）
 
 - 上一轮 HK Path1 下一步指向 `risk_overlay_cost`；本轮接续检查已注册/已落盘的五窗口候选 `hkconnect_path1_monthly_quality_momentum_weekly_overlay_v46_ytd_guard`，并执行 `scripts/update_hkconnect_artifacts.py`、live/public 导出同步。没有额外裸跑 HK 全量或 `research_active`。

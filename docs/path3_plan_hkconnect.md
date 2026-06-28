@@ -1,5 +1,11 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-29 05:25 CST）
+
+- 上一轮 HK Path3 `v23_lowturn_repair` 仍未保住 2026 正收益；本轮新增 HK 预算投给 Path4-7 扩展线，HK Path3 保持纯周频口径，只做 guard 巡检、`scripts/update_hkconnect_artifacts.py` 与 public/live 同步，没有新增主线 `--only-strategy-ids` 回测，也没有把 HK Path1/2 月频或双周候选并入本路径。
+- `scripts/update_hkconnect_artifacts.py` 后 HK Path3 window winner、robust candidate、tracked/live/public payload 未切换；本轮无 HK Path3 evict。最终 guard coverage 为 HK 全候选 `452/452`，Path3 候选数 `106`。
+- 最终 focus 为 `weekly_turnover_reduction`。下一轮第一条命令建议在 stable weekly 低换手形态上继续压交易强度，但用 2026 是否转负作为硬门槛：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit50_v25_turnover_reduction`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-28 17:40 CST）
 
 - 上一轮 HK Path3 下一步指向 `cost_stress`；本轮保持纯周频口径，检查已注册/已落盘的 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit54_v23_lowturn_repair`，并执行 `scripts/update_hkconnect_artifacts.py`、live/public 导出同步。没有把 HK Path1/2 的月频或双周候选并入本路径。

@@ -4,6 +4,12 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-29 05:25 CST）
+
+- 上一轮 `core_multifactor risk06_reconfirm` 未改变 Path1 official/robust，本轮保持 Path1 fast-pass 口径，只执行巡检与同步：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py` 覆盖 `130` 个 base candidates / `1430` 条组合，实际评估 `273` 条，没有 clear improvement；没有把独立 Path4 强主题变体并入 Path1，也没有新增 Path1 `--only-base-ids` 回测。
+- `scripts/update_weighted_winners.py` 后 Path1 official 仍为 2017 `risk10_reconfirm`、2020/2023 `risk20_reconfirm`、2025 `aggr_10_90_prom6`，robust 仍为 `risk25_reconfirm`。最终 guard 为 `pass`，`ashare_path1_core_multifactor 63/63`、`ashare_path1_fast_family 131/131`；本轮无 Path1 evict，tracked/live/public 只有同步刷新。
+- core_multifactor 子段本轮只按代码实际集合巡检，没有新增 overlay 或确认形态；最终 focus 转为 `signal_quality`。下一轮第一条命令建议从多因子信号质量池新增一个更低风险/更窄确认的对照，而不是复跑本轮巡检：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk04_reconfirm`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`。
+
 ## 本轮执行计划（2026-06-28 17:40 CST）
 
 - 上一轮建议确认 core_multifactor `risk06_reconfirm`；本轮接续启动前已注册的候选并完成巡检，保持 Path1/core_multifactor 属于 Path1 fast-pass，不把独立 Path4 强主题涌现并入 Path1。最终 guard 仍为 `pass`，`ashare_path1_core_multifactor 63/63`、`ashare_path1_fast_family 131/131`。

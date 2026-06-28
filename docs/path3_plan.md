@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-29 05:25 CST）
+
+- 上一轮 `cap46/hold7/turn02/exit99/risk12` 提供低换手信息但收益不足，本轮沿 `weekly_exit_buffer` 注册并确认纯 `_weekly` 候选 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`；没有把 Path1 月度选股 + weekly overlay 纳入 Path3。
+- 本轮命令与 Path2 合并执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit46_reconfirm96_caution58_cap18_cost_guard_v62_medium_cycle_growth,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit46_reconfirm96_caution58_cap18_cost_guard_v62_medium_cycle_growth,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`。
+- 新候选五窗口 CAGR `3.87% / 4.12% / 4.29% / -1.48% / 19.21%`，最大回撤 `-11.71% / -25.71% / -6.04% / -16.05% / -13.27%`，换手 `0.97x / 0.87x / 0.65x / 0.80x / 2.26x`。结论：换手可控但收益断层，2020 回撤偏深，不能替换 Path3 official window winner 或 robust。
+- `scripts/update_weighted_winners.py` 后 Path3 official 仍为 2017 `cash_off_and_cap60_hold3_turn05_exit94_weekly`、2020 `cap56_hold5_turn05_exit96_risk20_weekly`、2023 `cash_off_and_cap50_hold2_turn12_exit90_weekly`、2025/robust `core_6_1_cash_off_and_cap100_weekly`；本轮无新增 evict，最终 coverage `ashare_path3_weekly_universe 64/64`。
+- 最终 focus 为 `risk_downshift`。下一轮第一条命令建议回到风险下移但避免再牺牲 2023/2025 收益：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn02_exit98_risk10_weekly_risk_downshift_weekly`；若未注册，先加入 Path3 weekly scan，并保证 ID 以 `_weekly` 结尾。
+
 ## 本轮执行计划（2026-06-28 17:40 CST）
 
 - 上一轮 focus 指向 risk/exit 邻域，本轮接续启动前已注册的纯 `_weekly` 候选并完成五窗口结果巡检；没有把 Path1 月度选股 + weekly overlay 纳入 Path3。最终 guard 仍为 `ashare_path3_weekly_universe 63/63`。
