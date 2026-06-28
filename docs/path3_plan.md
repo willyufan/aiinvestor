@@ -3,6 +3,14 @@
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 
+## 本轮执行计划（2026-06-28 17:40 CST）
+
+- 上一轮 focus 指向 risk/exit 邻域，本轮接续启动前已注册的纯 `_weekly` 候选并完成五窗口结果巡检；没有把 Path1 月度选股 + weekly overlay 纳入 Path3。最终 guard 仍为 `ashare_path3_weekly_universe 63/63`。
+- 本轮候选 ID：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn02_exit99_risk12_weekly`。五窗口 CAGR `2.86% / 5.08% / 4.75% / 34.54% / 107.24%`，最大回撤 `-16.75% / -27.53% / -5.02% / -15.11% / -12.74%`，换手 `0.50x / 0.40x / 0.20x / 0.51x / 2.85x`；低换手信息有价值，但长中窗收益不足，不替换 official window winner 或 robust。
+- 本轮 active pool 处理：启动前代码已归档 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap48_hold8_turn02_exit98_risk14_weekly`，理由是低换手相邻弱线非 winner/robust，且被本轮 `cap46/hold7/exit99/risk12` 覆盖。本轮未新增其它 evict。
+- `scripts/update_weighted_winners.py` 后 Path3 official 仍为 2017 `cash_off_and_cap60_hold3_turn05_exit94_weekly`、2020 `cap56_hold5_turn05_exit96_risk20_weekly`、2023 `cash_off_and_cap50_hold2_turn12_exit90_weekly`、2025/robust `core_6_1_cash_off_and_cap100_weekly`。最终 focus 为 `weekly_exit_buffer`。
+- 下一轮第一条命令建议沿 exit buffer 方向测试而不是继续压到极低换手：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`；若未注册，先加入 Path3 weekly scan，并保证 ID 以 `_weekly` 结尾。
+
 ## 本轮执行计划（2026-06-27 19:24 CST）
 
 - 上一轮 `cap54/hold5/turn05/exit96/risk16_weekly` 未替换 official，本轮没有新增 Path3 `_weekly` 五窗口确认；保持纯周频口径，只做 `refresh_active`、weighted 同步和下一轮候选设计，没有把 Path1 月度选股 + weekly overlay 纳入 Path3。

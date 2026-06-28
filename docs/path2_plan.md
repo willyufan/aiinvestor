@@ -13,6 +13,14 @@
 
 当前已把 `Path 2` 的单轮探索预算提升到 **`24-36` 个显式原型 / `5` 条独立候选族**，并把 family-ranked 候选宇宙扩到 **`100+`** 规模；每条候选族固定保留 `4-6` 个代表候选。
 
+## 本轮执行计划（2026-06-28 17:40 CST）
+
+- 上一轮预留 v60 medium-cycle 双底座，本轮接续启动前已注册候选，保持 Path2 独立 `growth_elastic` 池，不把独立 Path4 的 `PATH4_THEME_DISCOVERY_*` 变体加入 Path2 扫描池。`scripts/path2_candidate_pass.py` 重跑后 universe 为 `791`，raw robust 转向 `core_explore_90_10_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk50_mom_exit60_caution80_cap95`，但 official robust 仍以后续 weighted 校验为准。
+- 本轮候选 ID：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top8_risk34_mom_exit54_reconfirm88_caution66_cap20_cost_guard_v60_medium_cycle_repair` 与 `core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top8_risk34_mom_exit54_reconfirm88_caution66_cap20_cost_guard_v60_medium_cycle_repair`。总市值五窗口 CAGR `6.03% / 4.88% / 13.72% / 41.48% / 48.64%`，等权五窗口 CAGR `0.23% / -1.67% / 0.08% / 12.28% / 74.90%`；2026 有弹性但 2017/2020/2023 不足，未晋级。
+- `scripts/update_weighted_winners.py` 后 Path2 official 2017 winner 为 `...v30_medium_cycle`，2025 winner 为 `...mom_confirm80_amt110_cap95`，robust candidate 为 `...v34_reconfirm_balance`，`meanCAGR=23.50% / minCAGR=12.60%`；Path2 rotation 因 signature 变化重置为 `continue`，最终 focus 为 `medium_cycle_growth`。本轮无 Path2 evict。
+- `refresh_active` 曾按 `collect_ashare_refresh_active_ids()` 展开到 `99` 个 base ids，运行过久后中断；该中断只影响完整 active refresh，不影响 guard 覆盖，最终 coverage 仍 `ashare_path2_candidate_universe 791/791`。
+- 下一轮第一条命令建议围绕 medium-cycle growth 只确认一个更温和的中周期增长修复双底座：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit46_reconfirm96_caution58_cap18_cost_guard_v62_medium_cycle_growth,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit46_reconfirm96_caution58_cap18_cost_guard_v62_medium_cycle_growth`；若未注册，先加入 Path2 scan family/list。
+
 ## 本轮执行计划（2026-06-27 19:24 CST）
 
 - 上一轮 v45 capacity stress 未修复 2020/2023，本轮没有新增 Path2 `--only-base-ids`；实际工作是重跑 `scripts/path2_candidate_pass.py`、修正 Path2 pass 口径、执行 `refresh_active` 与 weighted 同步。继续保持 Path2 `growth_elastic` 独立池，没有把独立 Path4 的 `emergent_theme_quality_gate_signal*` 变体并入 Path2 扫描池。

@@ -1,5 +1,12 @@
 # 沪港通 Path 2 研究计划
 
+## 本轮执行计划（2026-06-28 17:40 CST）
+
+- 上一轮 HK Path2 下一步指向 `high_return_monthly`；本轮检查已注册/已落盘的 `hkconnect_path2_high_return_monthly_quality_liquidity_v32_high_return_monthly_guard`，并执行 `scripts/update_hkconnect_artifacts.py`、live/public 导出同步。HK Path2 仍独立于 A股 Path2，不把 HK Path4-7 扩展候选并入主线结论。
+- v32 五窗口 CAGR `18.20% / 21.41% / 27.21% / 31.27% / -10.15%`，最大回撤 `-22.19% / -11.11% / -11.11% / -11.30% / -10.46%`，换手 `2.74x / 2.65x / 2.70x / 3.46x / 4.20x`。结论：2023 改善但仍低于 `30%` 验收线，2026 重新转负，不替换 HK Path2 window winner、robust candidate、tracked/live/public payload。
+- 本轮无 HK Path2 evict。未新增主线 `--only-strategy-ids` 回测的原因是 A股 `refresh_active` 尝试展开过宽并消耗预算；本轮只把已有比较结果、artifact 和 public/live 同步落盘。
+- 最终 guard focus 为 `elasticity_cost_control`。下一轮第一条命令应从高收益月频转向弹性/成本控制复核：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v33_elasticity_cost_control`；若未注册，先在 HK Path2 variants 中注册。
+
 ## 本轮执行计划（2026-06-27 19:24 CST）
 
 - 上一轮 HK Path2 只做同步并把候选指向 `high_return_monthly`；本轮 HK 新增确认预算投给 Path4/5/6 扩展线，HK Path2 完成巡检、`tracked_active` 同步到 `2026-06-26`、artifact/public 同步和下一轮候选设计，没有新增主线 `--only-strategy-ids` 回测。

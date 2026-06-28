@@ -1,5 +1,15 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-28 17:40 CST 状态
+
+最终 guard 入口为 `pass`，Path5 当前 `basket_count=4`、`frozen_candidate_count=24`、`pending_audit_count=0`、`backtest_ready_count=24`。本轮没有新增第五篮子，也没有把待审计 seed 当成策略结论。
+
+本轮复跑最小事件入口：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4winner_prom20signal29.json`。
+
+结果：6 个候选均为 `status=ok` 且有 source URL，但事件日 `2026-06-24` 距本地行情 `2026-06-26` 仍只有约 2 个可用交易日，5D/10D/20D 的 equal_weight 与 seed_weight 组合收益均为 `insufficient_data`。Path4 reference 为 `2026-05-29` 快照，Path4 持仓数 `18`，与该 PCB/覆铜板篮子 overlap 为 `0/6`、Path4 overlap weight `0`。
+
+结论：该篮子继续只证明入口、来源与 Path4 overlap 对比链路可跑，不能进入 winner/robust/tracked，也不能与 Path4 强主题收益做成熟比较。最终 focus 为 `path4_comparison`；下一轮第一条命令应等交易日成熟后复跑同一短窗，并同时准备第五事件篮子草案：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4winner_prom20signal29.json`。
+
 ## 2026-06-27 19:24 CST 状态
 
 最终 guard 入口为 `pass`，Path5 当前 `basket_count=4`、`frozen_candidate_count=24`、`pending_audit_count=0`，说明 `high_speed_pcb_copper_clad_server_20260624_v0` 已从待审计队列进入可审计/可入口状态；本轮没有新增事件 seed 或第五篮子。

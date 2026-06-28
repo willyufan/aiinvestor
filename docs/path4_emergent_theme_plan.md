@@ -1,5 +1,13 @@
 # Path 4 强主题涌现路径
 
+## 本轮执行计划（2026-06-28 17:40 CST）
+
+- 上一轮 low-cap 容量成本线较弱，本轮接续启动前已注册的 `prom24/signal29/leader78/risk12/cap08/exit62` 主题风险控制候选，继续保持独立 Path4 强主题涌现路径：不做人工/后视主题归类、不纳入 ETF、不并入 Path2 扫描池。最终 guard 为 `ashare_path4_emergent_theme 60/60`。
+- 本轮新增/复核三底座：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap08_exit62_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap08_exit62_lowturn`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap08_exit62_lowturn`。80/20 总市值五窗口 CAGR `13.17% / 14.41% / 11.17% / 63.73% / 103.56%`，最大回撤 `-16.86% / -15.22% / -6.64% / -6.58% / -10.66%`；90/10 总市值 2020/2026 为 `10.80% / 67.23%`，等权 2020/2026 为 `7.15% / 12.29%`。
+- 结论：80/20 能继续捕捉强行业/强龙头，但跨底座稳定性弱于现有 `prom20/signal29/risk12/cap06/exit60` robust；不改变 Path4 window winner、robust candidate、tracked-only 或 public/live 展示逻辑。
+- 本轮 active pool 处理：启动前已从 Path4 active 组移出两条旧 `prom16`/中间信号弱线，保留 active cap `60`；本轮无新增 evict。`generate_public_snapshot.py` 同步了 Path4 detail，并清理旧 public detail 文件。
+- 最终 focus 为 `theme_risk_control`。下一轮第一条命令建议不要继续加宽 `prom24`，而是在现有 robust 主体上测试更低风险/更窄退出：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap06_exit58_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap06_exit58_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap06_exit58_lowturn`；若未注册，先 evict 一条非 winner/robust 弱项后加入。
+
 ## 本轮执行计划（2026-06-27 19:24 CST）
 
 - 上一轮 `prom22/signal29/risk10/cap06/exit62` 只能在 80/20 总市值底座延续强势，本轮按最终 focus `theme_capacity_cost` 做更低单票 cap 与更宽出场的容量成本实验；仍严格保持独立 Path4 强主题涌现路径，不做人工主题归类、不纳入 ETF、不并入 Path2。

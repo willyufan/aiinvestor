@@ -4,6 +4,14 @@
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。
 
+## 本轮执行计划（2026-06-28 17:40 CST）
+
+- 上一轮建议确认 core_multifactor `risk06_reconfirm`；本轮接续启动前已注册的候选并完成巡检，保持 Path1/core_multifactor 属于 Path1 fast-pass，不把独立 Path4 强主题涌现并入 Path1。最终 guard 仍为 `pass`，`ashare_path1_core_multifactor 63/63`、`ashare_path1_fast_family 131/131`。
+- 本轮候选 ID：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk06_reconfirm`。五窗口 CAGR `15.68% / 13.94% / 21.07% / 76.14% / 113.46%`，最大回撤 `-16.28% / -16.01% / -13.83% / -15.71% / -4.25%`，换手 `2.47x / 2.69x / 2.82x / 5.04x / 5.33x`；短窗强但 2017/2020 不足，未改变 Path1 window winner、robust candidate 或 tracked payload。
+- 本轮命令类型：`scripts/winner_only_pass.py`、`scripts/update_weighted_winners.py`、`scripts/export_live_platform_data.py`、`scripts/generate_public_snapshot.py` 与最终 guard。尝试执行 `backtest_marketcap_etf.py --family-scope refresh_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，但实际集合为 `99` 个 base ids，约 `495` 次回测，运行约 25 分钟后按预算中断；不把这次中断视为完整 active refresh。
+- `scripts/update_weighted_winners.py` 后 Path1 official 仍为 2017 `risk10_reconfirm`、2020/2023 `risk20_reconfirm`、2025 `aggr_10_90_prom6`，robust 仍为 `risk25_reconfirm`。本轮无 Path1 evict；public/live 只做同步导出。
+- 最终 focus 为 `holding_shape`。下一轮第一条命令建议回到持仓形态修复，而不是继续堆 core_multifactor：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp62_cost_guard_reconfirm`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["holding_shape"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`。
+
 ## 本轮执行计划（2026-06-27 19:24 CST）
 
 - 上一轮 Path1 没有新增且下一步仍需回到 signal/core_multifactor 质量线；本轮实际只做 Path1 巡检、`winner_only_pass.py`、`refresh_active` 与 weighted/live/public 同步，没有新增 Path1/base id，也没有把独立 Path4 强主题涌现并入 Path1。

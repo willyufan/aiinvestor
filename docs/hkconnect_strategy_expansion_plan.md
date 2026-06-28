@@ -1,5 +1,14 @@
 # 沪港通策略空间扩展计划
 
+## 2026-06-28 17:40 CST 扩展复核结果
+
+本轮 HK Path4-7 扩展线完成 guard 巡检、候选设计、`scripts/update_hkconnect_artifacts.py` 与 live/public 同步，没有新增扩展 `--only-strategy-ids` 回测。原因是 A股 `refresh_active` 尝试展开为 99 个 base ids 后占用长时预算并被预算控制中断；本轮优先保证 HK 扩展覆盖、下一轮命令和同步产物完整。最终 guard 为 `pass`，HK 总候选 `448/448 complete`，扩展覆盖为 Path4 `36/36`、Path5 `26/26`、Path6 `33/33`、Path7 `32/32`；本轮无 HK Path4-7 evict，也没有 HK window winner、robust candidate、tracked/live/public 主 tracks 切换。
+
+- Path4 多因子质量/流动性动量：coverage 完整，最终 focus `ytd_guard`。下一轮第一条命令应检查质量动量月频的年内正收益守门，而不是复跑普通流动性动量：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_ytd_positive_v34_ytd_guard`；若未注册，先注册。
+- Path5 回踩续涨/突破回踩：coverage 完整，最终 focus `pause_or_redesign`。下一轮第一动作应先重写候选定义并在 plan 中记录设计差异；若完成注册，再执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_pullback_continuation_monthly_quality_retest_v28_redesign_probe`。
+- Path6 大市值高流动核心：coverage 完整，最终 focus `capacity_cost`。下一轮第一条命令应给大市值高流动核心加容量/成本约束：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_monthly_capacity_cost_v35_capacity_cost`；若未注册，先注册。
+- Path7 杠铃组合：coverage 完整，最终 focus `turnover_control`。下一轮第一条命令应继续修核心袖/成长袖结构并压换手：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v34_turnover_control`；若未注册，先注册。
+
 ## 2026-06-27 19:24 CST 扩展复核结果
 
 本轮 HK 新增策略预算投给 Path4/5/6 三条五窗口确认；命令为：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_ytd_positive_v31_quality_momentum_ytd_repair,hkconnect_path5_pullback_continuation_monthly_quality_retest_v25_pullback_definition_lowturn,hkconnect_path6_large_liquid_core_monthly_ytd_positive_v32_large_liquid_ytd_repair`。随后执行 `tracked_active` 到 `2026-06-26`、`scripts/update_hkconnect_artifacts.py`、live/public 导出；没有 HK 主 window winner、robust candidate 或 live/public 主 tracks 切换。

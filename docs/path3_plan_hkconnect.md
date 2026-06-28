@@ -1,5 +1,12 @@
 # 沪港通 Path 3 周度高频路径
 
+## 本轮执行计划（2026-06-28 17:40 CST）
+
+- 上一轮 HK Path3 下一步指向 `cost_stress`；本轮保持纯周频口径，检查已注册/已落盘的 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit54_v23_lowturn_repair`，并执行 `scripts/update_hkconnect_artifacts.py`、live/public 导出同步。没有把 HK Path1/2 的月频或双周候选并入本路径。
+- v23 五窗口 CAGR `10.91% / 9.78% / 10.96% / 21.52% / -3.56%`，最大回撤 `-20.10% / -18.20% / -10.74% / -9.20% / -7.34%`，换手 `3.27x / 3.34x / 3.85x / 5.11x / 5.26x`。结论：低换手修复仍未保住 2026 正收益，中长窗也弱于既有 weekly robust，不替换 HK Path3 window winner、robust candidate、tracked/live/public payload。
+- 本轮无 HK Path3 evict。未新增主线 `--only-strategy-ids` 回测的原因是 A股 `refresh_active` 尝试展开过宽并消耗预算；本轮 HK Path3 完成巡检、候选设计和 artifact/public 同步。
+- 最终 guard focus 为 `cost_stress`。下一轮第一条命令应在 stable weekly 低换手形态上做成本压力复核：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit52_v24_cost_stress`；若未注册，先注册后再跑。
+
 ## 本轮执行计划（2026-06-27 19:24 CST）
 
 - 上一轮 HK Path3 只做同步并把下一步指向 `weekly_defensive_overlay`；本轮 HK 新增确认预算投给 Path4/5/6 扩展线，HK Path3 保持纯周频口径，只完成巡检、`tracked_active` 同步到 `2026-06-26`、artifact/public 同步和下一轮候选设计，没有新增主线 `--only-strategy-ids` 回测。
