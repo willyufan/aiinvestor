@@ -1,5 +1,13 @@
 # Path 2 研究计划
 
+## 2026-06-30 06:12 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 v63 underrepresented 双周低换手只保留短窗弹性；本轮继续在独立 `growth_elastic` 池压风险、出场和单票 cap，没有引入 Path4 `emergent_theme`，也没有把 Path3 `_weekly` 当作 Path2 结论。
+- 本轮候选 ID 与命令：新增并五窗口确认 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk18_exit38_cap12_cost_guard_v64_underrepresented_lowturn`、`core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk18_exit38_cap12_cost_guard_v64_underrepresented_lowturn`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v64_ids>,<one_path3_id>,<three_path4_ids>`。
+- 五窗口结果：`80/20 equal_weight` CAGR `5.49% / 6.52% / -4.96% / 49.04% / 61.15%`，最大回撤最差 `-31.90%`，年均换手最高 `20.15x`；`70/30 equal_weight` CAGR `7.37% / 8.87% / 0.62% / 56.35% / 99.45%`，最大回撤最差 `-26.27%`，年均换手最高 `19.44x`。
+- 结论：v64 仍只提供 2025/2026 短窗弹性，2020/2023 不达 Path2 验收线且换手过高；`scripts/path2_candidate_pass.py` universe 更新为 `797`，`scripts/update_weighted_winners.py` 后 Path2 window winner、robust candidate 与 tracked payload 未改变。本轮无 Path2 evict。
+- 下一轮 focus：最终 guard 给出 `medium_cycle_growth`。下一轮第一候选建议回到中周期增长修复双底座：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm98_caution56_cap16_cost_guard_v65_medium_cycle_growth_repair`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm98_caution56_cap16_cost_guard_v65_medium_cycle_growth_repair`；首条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v65_medium_cycle_ids>`；若未注册，先加入 Path2 scan family/list。
+
 ## 2026-06-29 17:30 CST 状态
 
 - 上一轮候选/结果摘要：上一轮留下 underrepresented 双周低换手 v62，本轮在独立 `growth_elastic` 池继续压风险、出场与单票 cap，未引入 Path4 emergent_theme。

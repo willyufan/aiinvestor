@@ -1,5 +1,13 @@
 # Path 1 研究计划
 
+## 2026-06-30 06:12 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 Path1 只做 fast-pass 巡检并把下一轮 focus 指向 `satellite_risk_cost`；本轮开局/收尾 guard 均显示 Path1 coverage 完整，最终 focus 转为 `holding_shape`。
+- 本轮候选 ID 与命令：本轮没有新增 Path1 base id；执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`，`base_candidates=130 / total_candidates=1430 / evaluated=273`，无 clear improvement。同步命令包括 `.venv/bin/python scripts/update_weighted_winners.py`、`.venv/bin/python scripts/export_live_platform_data.py`、`.venv/bin/python scripts/generate_public_snapshot.py`。
+- core_multifactor 子段巡检：最终 guard 显示 `ashare_path1_core_multifactor 63/63`、`ashare_path1_fast_family 131/131`；本轮没有新增 core_multifactor overlay，也没有把独立 Path4 `emergent_theme` 变体并入 Path1。
+- 结论：Path1 window winner、robust candidate、tracked/live/public payload 未改变；本轮无 Path1 evict/归档。
+- 下一轮 focus：按最终 guard 的 `holding_shape`，下一轮第一候选建议注册/确认 `core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp62_cost_guard_reconfirm`，首条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp62_cost_guard_reconfirm`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["holding_shape"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`。
+
 ## 2026-06-29 17:30 CST 状态
 
 - 上一轮候选/结果摘要：上一轮留下 Path1 fast-pass 与 core_multifactor 信号质量候选；本轮执行 `scripts/winner_only_pass.py` 巡检，`base_candidates=130 / total_candidates=1430 / evaluated=273`，未发现可同时改善 CAGR、Sharpe 与回撤的 clear improvement。

@@ -1,5 +1,15 @@
 # Path 4 强主题涌现路径
 
+## 2026-06-30 06:12 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 prom24/signal30 低风险低 cap 线弱于既有 robust；本轮按 `theme_signal_quality/theme_risk_control` 交界，把 active 组替换为 `prom20/signal28/leader76/risk10/cap05/exit64`，仍保持独立 `emergent_theme` 池，不并入 Path2。
+- 本轮候选 ID 与命令：新增三底座 `aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk10_cap05_exit64_lowturn`；最终成功命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk10_cap05_exit64_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk10_cap05_exit64_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk10_cap05_exit64_lowturn`。
+- 执行修正：开局 guard 报 `ashare_path4_emergent_theme` 缺 `3/60`；首次按 rerun 不带 `--end-date` 因本地行情缓存未覆盖 `2026-06-30` 被拒绝，随后补 `--end-date 2026-06-26`；还补齐该 variant 的完整配置块后复跑成功，最终 guard `pass`。
+- 五窗口结果：`80/20 total_mv` CAGR `13.07% / 11.75% / 11.42% / 56.04% / 83.26%`，最大回撤最差 `-14.90%`，换手最高 `5.60x`；`90/10 total_mv` CAGR `6.74% / 7.02% / 4.58% / 21.84% / 38.48%`；`90/10 equal_weight` CAGR `3.62% / 3.82% / 6.49% / 12.09% / 9.19%`。
+- active pool 处理：移出 `aggr_13_87_prom24_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn`；evict 原因是旧高信号/低 cap 线非 winner/robust，且已被本轮更贴近 robust 主体的 `signal28/risk10/cap05/exit64` 覆盖。
+- 强主题捕捉检查：80/20 total_mv 近端持仓覆盖中船特气、源杰科技、宏和科技、芯碁微装、联瑞新材、生益科技、长飞光纤、寒武纪、新易盛、中际旭创等多票强势簇，不是单票幸运；但 90/10 跨底座收益仍弱。
+- 结论与下一轮：Path4 window winner、robust candidate 与 tracked payload 未改变。最终 focus 为 `theme_risk_control`；下一轮第一候选建议测更低 risk/更宽 exit 的三底座 `aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit66_lowturn`，命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <three_path4_prom20_signal28_risk08_cap05_exit66_ids>`；若未注册，先 evict 一条非 winner/robust 弱项后加入。
+
 ## 2026-06-29 17:30 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 prom22/signal30/cap04 作为容量成本候选已覆盖；本轮在独立 `emergent_theme` 池新增 prom24/signal30/leader80/risk06/cap04/exit70，继续不并入 Path2。

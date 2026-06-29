@@ -1,5 +1,14 @@
 # 沪港通策略空间扩展计划
 
+## 2026-06-30 06:12 CST 扩展复核结果
+
+- 上一轮候选/结果摘要：上一轮 HK Path4 已回测，Path5/6/7 留下已注册候选；本轮实际新增回测 HK Path5/6/7，同时 HK Path4 完成巡检、同步和下一轮候选设计。所有 HK 结果均不并入 A股 winner 结论。
+- HK Path4 本轮：未新增 `--only-strategy-ids`，原因是本轮 HK 新增预算给 Path2 与 Path5/6/7；最终 focus 为 `ytd_guard`。下一轮第一条命令建议 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_ytd_positive_v38_ytd_guard`；若未注册，先注册。
+- HK Path5 本轮：运行 `hkconnect_path5_pullback_continuation_monthly_quality_retest_v28_redesign_probe`，五窗口 CAGR `6.86% / 6.08% / 6.69% / 16.97% / -12.04%`，最大回撤最差 `-23.16%`，2026 仍为负；不替换 robust/tracked。下一轮 focus `pullback_definition`，第一命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_pullback_continuation_monthly_quality_retest_v29_pullback_definition_rewrite`；若未注册，先注册。
+- HK Path6 本轮：运行 `hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v30_lowvol_liquid_core`，五窗口 CAGR `7.62% / 6.07% / 9.11% / 15.39% / -23.26%`，最大回撤最差 `-23.35%`，2026 明显为负；不替换 robust/tracked。下一轮 focus `large_liquid_core`，第一命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_monthly_ytd_positive_v36_large_liquid_core_repair`；若未注册，先注册。
+- HK Path7 本轮：运行 `hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v30_biweekly_barbell`，五窗口 CAGR `8.01% / 6.76% / 10.37% / 17.32% / -17.67%`，最大回撤最差 `-21.02%`，2026 为负；不替换 robust/tracked。下一轮 focus `barbell_sleeve_structure`，第一命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v35_barbell_sleeve_structure`；若未注册，先注册。
+- 扩展线收尾：已运行 `scripts/update_hkconnect_artifacts.py`、`scripts/export_live_platform_data.py`、`scripts/generate_public_snapshot.py`；最终 guard 为 `pass`，HK Path4-7 无 blocking/warning 缺口。本轮没有 HK Path4-7 evict。
+
 ## 2026-06-29 17:30 CST 扩展复核结果
 
 - 上一轮候选/结果摘要：上一轮 HK Path4-7 扩展仍未替换 tracked；本轮预算只回测 HK Path4，Path5/6/7 完成巡检与下一轮候选设计。

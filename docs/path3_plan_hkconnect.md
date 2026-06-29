@@ -1,5 +1,12 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-06-30 06:12 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 HK Path3 v24 成本压力周频线 2026 为负；本轮新增 HK 回测预算投给 HK Path2 与 HK Path5/6/7 扩展线，Path3 只做纯 weekly 巡检、artifact/public/live 同步和下一轮候选设计。
+- 本轮候选 ID 与命令：本轮没有新增 HK Path3 `--only-strategy-ids`；执行 `.venv/bin/python scripts/update_hkconnect_artifacts.py`、`.venv/bin/python scripts/export_live_platform_data.py`、`.venv/bin/python scripts/generate_public_snapshot.py`，没有把 HK Path1/2 月频或双周候选并入本路径。
+- 结论：HK Path3 window winner、robust candidate、tracked payload 未改变；本轮没有 HK Path3 evict。最终 guard focus 为 `weekly_turnover_reduction`。
+- 下一轮 focus：候选 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit50_v25_turnover_reduction`，首条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit50_v25_turnover_reduction`；若未注册，先注册后再跑，并用 2026 是否转负作为硬门槛。
+
 ## 2026-06-29 17:30 CST 状态
 
 - 上一轮候选/结果摘要：上一轮留下 HK Path3 v23 低换手修复；本轮注册并确认 v24 成本压力周频线，保持纯 weekly 口径。
