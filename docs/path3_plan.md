@@ -1,5 +1,14 @@
 # Path 3 研究计划
 
+## 2026-06-29 17:30 CST 状态
+
+- 上一轮候选/结果摘要：上一轮周频 exit-buffer 线未晋级；本轮继续只使用 `_weekly` 结尾的纯周度策略，不把 Path1 的月选周控 overlay 计入 Path3。
+- 本轮候选 ID 与命令：新增并运行 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit99_risk10_weekly`；命令同本轮 A股受限回测 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v63_ids>,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit99_risk10_weekly,<three_path4_ids>`。
+- 五窗口结果：CAGR `5.08% / 7.71% / 11.23% / 38.39% / 169.23%`，最大回撤 `-21.05% / -27.59% / -8.45% / -14.78% / -12.89%`，年均换手 `0.74 / 0.58 / 0.41 / 0.60 / 3.12`。
+- active pool 处理：新增前归档上一轮失败的 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`；evict 原因是 2020/2023 收益不足且未改善 robust。
+- 结论：新候选 2026 弹性强，但 2017/2020 中长窗不及当前 Path3 robust；window winner、robust candidate 与 tracked payload 未改变。
+- 下一轮 focus：最终 guard 给出 `ashare_path3 -> cost_stress`。下一轮第一候选建议保留 exit99，但降低单票与风险暴露验证成本压力：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn02_exit99_risk08_weekly`；首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn02_exit99_risk08_weekly`。
+
 本文档用于约束和记录 `Path 3`（周度高频调仓路径）。
 Path 3 只跟踪纯周度换股候选，候选 `strategy_base_id` 必须以 `_weekly` 结尾；月度选股叠加周度仓位 overlay（例如 `__port_weekly_exposure`、`__sat_weekly_risk`、`__sat_three_stage`）不纳入本路径。
 

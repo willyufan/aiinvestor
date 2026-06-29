@@ -1,5 +1,13 @@
 # Path 2 研究计划
 
+## 2026-06-29 17:30 CST 状态
+
+- 上一轮候选/结果摘要：上一轮留下 underrepresented 双周低换手 v62，本轮在独立 `growth_elastic` 池继续压风险、出场与单票 cap，未引入 Path4 emergent_theme。
+- 本轮候选 ID 与命令：新增并运行 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn` 与 `core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn`；命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v63_ids>,<one_path3_id>,<three_path4_ids>`。
+- 五窗口结果：`80/20 equal_weight` CAGR `4.74% / 6.78% / 4.57% / 25.62% / 62.16%`，最大回撤最差 `-33.72%`，年均换手最高 `20.38`；`70/30 equal_weight` CAGR `6.88% / 9.26% / 9.75% / 37.42% / 101.62%`，最大回撤最差 `-29.01%`，年均换手最高 `19.51`。
+- 结论：v63 只保留短窗弹性，2017/2020/2023 中长窗弱且换手仍高；`update_weighted_winners.py` 后 Path2 window winner、robust candidate 与 tracked payload 未改变。本轮没有 Path2 evict。
+- 下一轮 focus：最终 guard 给出 `ashare_path2 -> underrepresented_families`。下一轮第一候选建议不要继续单纯降 cap，改做低换手双周的确认/恢复门槛：`core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk18_exit38_cap12_cost_guard_v64_underrepresented_lowturn`；首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v64_underrepresented_ids>`。
+
 本文档用于约束和记录 `Path 2`（无约束上限探索）的研究方向。  
 `Path 2` 的目标不是延续 `Path 1` 的稳健改良逻辑，而是作为**独立路线**去追求更高收益上限，优先冲击：
 

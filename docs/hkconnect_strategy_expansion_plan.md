@@ -1,5 +1,14 @@
 # 沪港通策略空间扩展计划
 
+## 2026-06-29 17:30 CST 扩展复核结果
+
+- 上一轮候选/结果摘要：上一轮 HK Path4-7 扩展仍未替换 tracked；本轮预算只回测 HK Path4，Path5/6/7 完成巡检与下一轮候选设计。
+- HK Path4 本轮：新增并运行 `hkconnect_path4_quality_momentum_monthly_lowdraw_v37_quality_momentum_ytd_guard`；五窗口 CAGR `13.22% / 13.68% / 14.34% / 27.19% / -4.50%`，最大回撤最差 `-20.74%`。guard 对 HK Path4 显示 `changed=true` 后再次计为 `continue`，但 tracked winner payload 未替换，2026 仍为负。
+- HK Path5 本轮：未回测，原因是本轮新增实验预算给 A股 Path2/3/4 与 HK Path1-4；已巡检代码实际候选，下一轮 focus 为 `retest_confirmation`。下一轮第一条命令建议使用已注册 `hkconnect_path5_pullback_continuation_monthly_quality_retest_v28_redesign_probe` 做 retest 对照：`.venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_pullback_continuation_monthly_quality_retest_v28_redesign_probe`。
+- HK Path6 本轮：未回测，下一轮 focus 为 `lowvol_liquid_core`；候选使用已注册 `hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v30_lowvol_liquid_core`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v30_lowvol_liquid_core`。
+- HK Path7 本轮：未回测，下一轮 focus 为 `biweekly_barbell`；候选使用已注册 `hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v30_biweekly_barbell`，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v30_biweekly_barbell`。
+- 扩展线收尾：已运行 `scripts/update_hkconnect_artifacts.py`、`scripts/export_live_platform_data.py`、`scripts/generate_public_snapshot.py`；最终 guard 为 pass，HK Path4-7 无 blocking/warning 缺口。本轮没有 HK Path4-7 evict。
+
 ## 2026-06-29 05:25 CST 扩展复核结果
 
 本轮 HK Path4-7 扩展线按上一轮 plan 全部执行五窗口确认，命令为：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_ytd_positive_v34_ytd_guard,hkconnect_path5_pullback_continuation_monthly_quality_retest_v28_redesign_probe,hkconnect_path6_large_liquid_core_monthly_capacity_cost_v35_capacity_cost,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v34_turnover_control`。执行时使用本地缓存/交易日历回退，退出码为 `0`；随后执行 `scripts/update_hkconnect_artifacts.py`、live/public 同步。没有 HK 主 Path1/2/3 window winner、robust candidate 或 tracked/live/public 主 tracks 切换。

@@ -1,5 +1,13 @@
 # Path 1 研究计划
 
+## 2026-06-29 17:30 CST 状态
+
+- 上一轮候选/结果摘要：上一轮留下 Path1 fast-pass 与 core_multifactor 信号质量候选；本轮执行 `scripts/winner_only_pass.py` 巡检，`base_candidates=130 / total_candidates=1430 / evaluated=273`，未发现可同时改善 CAGR、Sharpe 与回撤的 clear improvement。
+- 本轮候选 ID 与命令：本轮没有新增 Path1 base id；执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/winner_only_pass.py`，并在收尾通过 `.venv/bin/python scripts/update_weighted_winners.py`、`.venv/bin/python scripts/export_live_platform_data.py`、`.venv/bin/python scripts/generate_public_snapshot.py` 同步 tracked/live/public。
+- core_multifactor 子段巡检：最终 guard 显示 `ashare_path1_core_multifactor` 为 `63/63` 完整覆盖；本轮没有新增 overlay，也没有把独立 Path4 emergent_theme 计入 Path1。
+- 结论：Path1 window winner、robust candidate 与 tracked payload 未被本轮改写；本轮没有 Path1 evict/归档。
+- 下一轮 focus：最终 guard 给出 `ashare_path1 -> satellite_risk_cost`。下一轮第一候选建议只注册一条更低风险卫星成本线 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk04_reconfirm`，首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk04_reconfirm`。
+
 本文档用于约束和记录 `Path 1`（胜出者核心主线）的研究方向。  
 目标不是无约束追求收益上限，而是在保持框架可交易、可复用、可解释的前提下，把当前常见的 `20%~26% CAGR` 推向 `25%~30%+ CAGR`。  
 当前已把 `Path 1` 的单轮探索预算提升到 **`24-28` 个 base candidates / `5` 个固定方向**，并要求候选按方向分组生成，而不是只做参数邻域微调。

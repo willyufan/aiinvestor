@@ -1,5 +1,15 @@
 # Path 4 强主题涌现路径
 
+## 2026-06-29 17:30 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 prom22/signal30/cap04 作为容量成本候选已覆盖；本轮在独立 `emergent_theme` 池新增 prom24/signal30/leader80/risk06/cap04/exit70，继续不并入 Path2。
+- 本轮候选 ID 与命令：新增三底座 `aggr_13_87_prom24_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap04_exit70_lowturn`；命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap04_exit70_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap04_exit70_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap04_exit70_lowturn`。
+- 五窗口结果：`80/20 total_mv` CAGR `9.00% / 9.77% / 8.31% / 35.67% / 48.25%`，最大回撤最差 `-12.86%`；`90/10 total_mv` CAGR `4.00% / 4.79% / 2.22% / 11.26% / 13.69%`；`90/10 equal_weight` CAGR `2.19% / 4.13% / 3.31% / 11.51% / 9.44%`。
+- active pool 处理：为维持 Path4 active variants cap，移出旧 `aggr_13_87_prom16_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk12_cap08_exit60_lowturn`；evict 原因是旧高信号/高 cap 原型在稳健性与容量成本方向上弱于现有 prom20/prom22 线。
+- 强主题捕捉检查：`80/20 total_mv` 近端持仓仍覆盖源杰科技、宏和科技、芯碁微装、联瑞新材、寒武纪、新易盛、中际旭创等多票强势簇，不是单票幸运；但两个 90/10 底座和 2020/2023 稳定性不足。
+- 结论：Path4 window winner、robust candidate 与 tracked payload 未改变；robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn`。
+- 下一轮 focus：最终 guard 给出 `ashare_path4 -> emergent_theme_coverage`。下一轮第一候选建议回到覆盖面而不是继续提高 prom 数：`aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk10_cap05_exit64_lowturn` 三底座；首条命令为 `.venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <three_path4_prom20_signal28_risk10_cap05_exit64_ids>`。
+
 ## 本轮执行计划（2026-06-29 05:25 CST）
 
 - 开局 guard 曾因新 Path4 变体缺三底座五窗口覆盖而 block，本轮按 `ashare_path4_emergent_theme` rerun command 优先补齐，没有改成 A股全量。首次不带 `--end-date` 因本地 A股原始行情缓存未覆盖 `2026-06-29` 失败；随后显式 `--end-date 2026-06-26` 成功。

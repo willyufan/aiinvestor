@@ -1,5 +1,13 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-29 17:30 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 `high_speed_pcb_copper_clad_server_20260624_v0` 因事件日至本地行情太短仍为 `insufficient_data`；本轮继续只验证入口，不把事件 seed 写入 winner/tracked。
+- 本轮候选 ID 与命令：复跑 `high_speed_pcb_copper_clad_server_20260624_v0`；命令为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4winner_prom20signal29.json`。
+- 入口结果：候选数 `6`，5/10/20 日等权与 seed 权重组合均为 `insufficient_data / eligible_count=0`；Path4 reference overlap 为 `0/6`，`overlap_ratio_of_basket=0.0`。
+- 巡检结论：最终 guard 为 pass，Path5 focus 转为 `event_backtest_entry`；本轮没有 pending audit，也没有新增有效策略结论。
+- 下一轮 focus：优先等行情窗口补足后继续 event backtest entry；首条命令仍为上述 `event_theme_backtest_entry.py` 复跑。若需要新增信息而非等待行情，先登记第五个事件篮子草案并完成来源审计。
+
 ## 2026-06-29 05:25 CST 状态
 
 最终 guard 入口为 `pass`，Path5 当前 `basket_count=4`、`frozen_candidate_count=24`、`pending_audit_count=0`、`backtest_ready_count=24`。本轮没有新增第五篮子，也没有把事件 seed 当成 winner/robust/tracked 策略结论。

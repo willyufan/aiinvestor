@@ -1,5 +1,13 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-06-29 17:30 CST 状态
+
+- 上一轮候选/结果摘要：上一轮留下 HK Path3 v23 低换手修复；本轮注册并确认 v24 成本压力周频线，保持纯 weekly 口径。
+- 本轮候选 ID 与命令：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit52_v24_cost_stress`；命令同本轮 HK 受限回测 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_v46>,<hk_path2_v47>,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit52_v24_cost_stress,<hk_path4_v37>`。
+- 五窗口结果：CAGR `10.06% / 9.11% / 9.78% / 18.84% / -3.64%`，最大回撤最差 `-19.28%`，2026 观察窗为负。
+- 结论：v24 不能替换 HK Path3 winner/robust/tracked；本轮没有 HK Path3 evict。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path3 -> weekly_defensive_overlay`。下一轮第一候选建议把 v24 的 riskoff38 与更硬防守 overlay 结合：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit50_v25_weekly_defensive_overlay`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit50_v25_weekly_defensive_overlay`。
+
 ## 本轮执行计划（2026-06-29 05:25 CST）
 
 - 上一轮 HK Path3 `v23_lowturn_repair` 仍未保住 2026 正收益；本轮新增 HK 预算投给 Path4-7 扩展线，HK Path3 保持纯周频口径，只做 guard 巡检、`scripts/update_hkconnect_artifacts.py` 与 public/live 同步，没有新增主线 `--only-strategy-ids` 回测，也没有把 HK Path1/2 月频或双周候选并入本路径。
