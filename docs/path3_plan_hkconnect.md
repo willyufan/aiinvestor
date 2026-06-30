@@ -1,5 +1,13 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-06-30 17:26 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 HK Path3 v24 成本压力周频线 2026 为负；本轮按 `weekly_turnover_reduction` 确认 v25，保持纯 weekly 口径，不把 HK Path1/2 月频或双周候选并入本路径。
+- 本轮候选 ID 与命令：新增并运行 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit50_v25_turnover_reduction`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_v48>,<hk_path2_v48>,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit50_v25_turnover_reduction,<hk_path4_v38>`。
+- 五窗口结果：CAGR `9.61% / 9.14% / 9.59% / 18.22% / -3.04%`，最大回撤最差 `-20.05%`，年均换手最高 `4.69x`。
+- 结论：v25 仍未保住 2026 正收益，中长窗弱于既有 weekly robust；HK Path3 window winner、robust candidate、tracked payload 未改变。本轮无 HK Path3 evict。
+- 下一轮 focus：最终 guard 给出 `weekly_defensive_overlay`。下一轮第一候选建议注册 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover0_exit48_v26_weekly_defensive_overlay`，命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover0_exit48_v26_weekly_defensive_overlay`；若未注册，先在 HK Path3 variants 中注册。
+
 ## 2026-06-30 06:12 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 HK Path3 v24 成本压力周频线 2026 为负；本轮新增 HK 回测预算投给 HK Path2 与 HK Path5/6/7 扩展线，Path3 只做纯 weekly 巡检、artifact/public/live 同步和下一轮候选设计。

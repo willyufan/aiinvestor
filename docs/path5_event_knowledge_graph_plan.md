@@ -1,5 +1,13 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-06-30 17:26 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 `high_speed_pcb_copper_clad_server_20260624_v0` 仍因事件后交易日不足无法形成 5D/10D/20D 组合收益；本轮继续复核入口与 Path4 overlap，不把事件 seed 写入 winner/tracked。
+- 本轮候选 ID 与命令：复跑 `high_speed_pcb_copper_clad_server_20260624_v0` 两次。第一次用本轮 Path4 risk10 对照，输出 `...path4_prom20_signal28_risk10_cap05_exit64.json`，但 reference strategy detail 缺失；第二次改用当前 Path4 robust `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn`，命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_robust_prom20_signal29_risk12.json`。
+- 入口结果：候选数 `6`，5/10/20 日 equal_weight 与 seed_weight 均为 `insufficient_data / eligible_count=0`；单票可用交易日仍只有 `3`。有效 Path4 robust overlap 状态为 `ok`，Path4 持仓数 `18`，overlap `0/6`、Path4 overlap weight `0`。
+- 巡检结论：最终 guard 为 pass，Path5 当前 `basket_count=4`、`frozen_candidate_count=24`、`pending_audit_count=0`、`backtest_ready_count=24`；本轮没有新增有效策略结论。
+- 下一轮 focus：最终 guard 给出 `frozen_candidate_audit`。下一轮第一动作应先复核 `results/research/a_share/event_theme_registry.json` 与 `results/research/a_share/event_theme_candidates.jsonl` 中 24 个 frozen candidates 的 `source_url/audit_status/include_in_backtest`，确认 `pending_audit_count=0` 后再复跑本篮子成熟度；复跑命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_robust_prom20_signal29_risk12_next.json`。
+
 ## 2026-06-30 06:12 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 `high_speed_pcb_copper_clad_server_20260624_v0` 仍因事件后交易日不足而无法形成 5D/10D/20D 组合收益；本轮继续验证入口，不把事件 seed 写入 winner/tracked。

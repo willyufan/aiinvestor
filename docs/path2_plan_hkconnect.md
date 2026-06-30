@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-06-30 17:26 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 HK Path2 equal-elastic terminal 未修复深回撤；本轮按 `biweekly_breakout` 确认低回撤 breakout terminal，仍不并入 A股 Path2/Path4。
+- 本轮候选 ID 与命令：新增并运行 `hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v48_lowdraw_terminal`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_v48>,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v48_lowdraw_terminal,<hk_path3_v25>,<hk_path4_v38>`。
+- 五窗口结果：CAGR `12.00% / 11.53% / 7.71% / 39.08% / 3.16%`，最大回撤 `-37.15% / -37.15% / -29.43% / -14.71% / -8.33%`，年均换手最高 `8.10x`。
+- 结论：v48 虽让 2026 转正，但 2017/2020/2023 回撤仍过深且 2023 收益不足；HK Path2 window winner、robust candidate、tracked payload 未改变。本轮无 HK Path2 evict。
+- 下一轮 focus：最终 guard 给出 `elasticity_cost_control`。下一轮第一候选建议回到 equal-elastic 成本控制修复 `hkconnect_path2_equal_elastic_monthly_cost_guard_v49_elasticity_cost_control_repair`，命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v49_elasticity_cost_control_repair`；若未注册，先在 HK Path2 variants 中注册。
+
 ## 2026-06-30 06:12 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 HK Path2 v47 双周突破仍有深回撤；本轮按 `elasticity_cost_control` 注册并确认 equal-elastic 月频成本终端线，保持独立于 A股 Path2/Path4。

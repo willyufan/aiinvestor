@@ -1,5 +1,13 @@
 # Path 2 研究计划
 
+## 2026-06-30 17:26 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 v64 underrepresented 双周低换手仍只保留短窗弹性；本轮按 `medium_cycle_growth` 在独立 `growth_elastic` 池确认 v65 双底座，没有引入 Path4 `emergent_theme` 或 Path3 `_weekly` 结论。
+- 本轮候选 ID 与命令：新增并五窗口确认 `core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm98_caution56_cap16_cost_guard_v65_medium_cycle_growth_repair`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm98_caution56_cap16_cost_guard_v65_medium_cycle_growth_repair`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v65_ids>,<one_path3_id>,<three_path4_ids>`。
+- 五窗口结果：`90/10 total_mv` CAGR `6.71% / 6.10% / 16.63% / 52.97% / 52.50%`，最大回撤最差 `-22.70%`，年均换手最高 `10.19x`；`90/10 equal_weight` CAGR `4.21% / 3.52% / 9.64% / 32.98% / 81.25%`，最大回撤最差 `-25.65%`，年均换手最高 `10.78x`。
+- 结论：v65 仅在 2025/2026 保留弹性，2020/2023 不达 Path2 目标线且短窗换手高；`scripts/path2_candidate_pass.py` universe 为 `799`，`scripts/update_weighted_winners.py` 后 Path2 window winner、robust candidate、tracked payload 未改变。本轮无 Path2 evict。
+- 下一轮 focus：最终 guard 给出 `risk_reconfirm_sensitivity`。下一轮第一候选建议注册/确认更低风险、更高再确认的 `core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm99_caution54_cap14_cost_guard_v66_risk_reconfirm_sensitivity` 与 `core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm99_caution54_cap14_cost_guard_v66_risk_reconfirm_sensitivity`；首条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v66_ids>`；若未注册，先加入 Path2 scan family/list。
+
 ## 2026-06-30 06:12 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 v63 underrepresented 双周低换手只保留短窗弹性；本轮继续在独立 `growth_elastic` 池压风险、出场和单票 cap，没有引入 Path4 `emergent_theme`，也没有把 Path3 `_weekly` 当作 Path2 结论。

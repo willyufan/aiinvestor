@@ -1,5 +1,14 @@
 # 沪港通策略空间扩展计划
 
+## 2026-06-30 17:26 CST 扩展复核结果
+
+- 上一轮候选/结果摘要：上一轮 HK Path4 只留下 `v38_ytd_guard` 候选；本轮新增回测预算覆盖 HK Path1/2/3 与 HK Path4，Path5/6/7 完成巡检和下一轮候选设计。所有 HK 结果均不并入 A股 winner 结论。
+- HK Path4 本轮：新增并五窗口确认 `hkconnect_path4_quality_momentum_monthly_ytd_positive_v38_ytd_guard`，命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_v48>,<hk_path2_v48>,<hk_path3_v25>,hkconnect_path4_quality_momentum_monthly_ytd_positive_v38_ytd_guard`。五窗口 CAGR `13.26% / 13.75% / 13.86% / 28.80% / -2.64%`，最大回撤最差 `-21.13%`；Path4 coverage `39/39`，guard `changed=true` 后最终 `continue`，但 tracked/robust 未替换。下一轮 focus `quality_momentum`，第一命令建议 `hkconnect_path4_quality_momentum_monthly_ytd_positive_v39_quality_momentum_repair`。
+- HK Path5 本轮：未回测，原因是本轮 10 个新增/确认 ID 已用于 A股 6 个与 HK Path1-4 4 个；已巡检 coverage `27/27`，tracked/robust 未变。最终 focus `retest_confirmation`，下一轮第一候选建议 `hkconnect_path5_breakout_retest_biweekly_quality_confirm_v30_retest_confirmation_ytd_guard`，命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_breakout_retest_biweekly_quality_confirm_v30_retest_confirmation_ytd_guard`；若未注册，先注册。
+- HK Path6 本轮：未回测，原因同上；coverage `34/34`，tracked/robust 未变。最终 focus `lowvol_liquid_core`，下一轮第一候选建议 `hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v37_lowvol_liquid_core_repair`，命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v37_lowvol_liquid_core_repair`；若未注册，先注册。
+- HK Path7 本轮：未回测，原因同上；coverage `33/33`，tracked/robust 未变。最终 focus `biweekly_barbell`，下一轮第一候选建议 `hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v36_biweekly_barbell`，命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v36_biweekly_barbell`；若未注册，先注册。
+- 扩展线收尾：已运行 `scripts/update_hkconnect_artifacts.py`、`scripts/export_live_platform_data.py`、`scripts/generate_public_snapshot.py`；最终 guard 为 `pass`，HK all `461/461`，HK Path4-7 无 blocking/warning 缺口。本轮没有 HK Path4-7 evict。
+
 ## 2026-06-30 06:12 CST 扩展复核结果
 
 - 上一轮候选/结果摘要：上一轮 HK Path4 已回测，Path5/6/7 留下已注册候选；本轮实际新增回测 HK Path5/6/7，同时 HK Path4 完成巡检、同步和下一轮候选设计。所有 HK 结果均不并入 A股 winner 结论。

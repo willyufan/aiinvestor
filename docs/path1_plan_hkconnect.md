@@ -1,5 +1,13 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-06-30 17:26 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 HK Path1 只做同步并把下一步指向月频质量动量周控；本轮实际注册并五窗口确认 v48，保持 HK 研究线独立于 A股 winner。
+- 本轮候选 ID 与命令：新增并运行 `hkconnect_path1_monthly_quality_momentum_weekly_overlay_v48_monthly_weekly_overlay`；命令并入 HK 受限回测 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v48_monthly_weekly_overlay,<hk_path2_v48>,<hk_path3_v25>,<hk_path4_v38>`。
+- 五窗口结果：CAGR `16.12% / 19.88% / 19.01% / 30.32% / -10.38%`，最大回撤最差 `-26.95%`，Sharpe `1.0357 / 1.1680 / 1.1029 / 1.4183 / -0.2830`。
+- 结论：v48 仍未修复 2026 负收益，且 2017 回撤偏深；HK Path1 window winner、robust candidate、tracked payload 未改变。本轮无 HK Path1 evict。
+- 下一轮 focus：最终 guard 给出 `biweekly_buffer`。下一轮第一候选建议回到双周质量动量缓冲 `hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair`，命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair`；若未注册，先在 HK Path1 variants 中注册。
+
 ## 2026-06-30 06:12 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 HK Path1 v46 风险覆盖线 2026 仍为负；本轮新增 HK 回测预算投给 HK Path2 与 HK Path5/6/7 扩展线，Path1 完成 guard 巡检、artifact/public/live 同步与下一轮候选设计。
