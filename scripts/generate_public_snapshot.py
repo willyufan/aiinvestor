@@ -13,6 +13,7 @@ generate_public_snapshot.py
 from __future__ import annotations
 
 import json
+import math
 import sys
 from pathlib import Path
 from typing import Any
@@ -66,13 +67,27 @@ SAMPLE_TAG_DISPLAY = {
 }
 
 
+def _safe_round(v: Any, ndigits: int = 4) -> float:
+    """Round a float, replacing NaN/Inf with 0.0 so JSON stays valid."""
+    try:
+        f = float(v)
+        if math.isnan(f) or math.isinf(f):
+            return 0.0
+        return round(f, ndigits)
+    except (TypeError, ValueError):
+        return 0.0
+
+
 def _float_metric(metrics: dict[str, Any], keys: tuple[str, ...]) -> float:
     for key in keys:
         value = metrics.get(key)
         if value is None:
             continue
         try:
-            return float(value)
+            f = float(value)
+            if math.isnan(f) or math.isinf(f):
+                return 0.0
+            return f
         except (TypeError, ValueError):
             continue
     return 0.0
@@ -129,10 +144,10 @@ def build_window_metrics(strategy_id: str, strategies_map: dict[str, Any]) -> li
         result.append({
             "tag":          tag,
             "label":        label,
-            "cagr":         round(float(w.get("cagr", 0)), 4),
-            "sharpe":       round(float(w.get("sharpe", 0)), 4),
-            "max_drawdown": round(float(w.get("max_drawdown", 0)), 4),
-            "total_return": round(float(w.get("total_return", 0)), 4),
+            "cagr":         _safe_round(w.get("cagr", 0)),
+            "sharpe":       _safe_round(w.get("sharpe", 0)),
+            "max_drawdown": _safe_round(w.get("max_drawdown", 0)),
+            "total_return": _safe_round(w.get("total_return", 0)),
         })
     return result
 
@@ -155,11 +170,11 @@ def build_strategy_entry(
     if view:
         m = view.get("summary_metrics", {})
         metrics = {
-            "cagr":         round(m.get("cagr", 0.0), 4),
-            "sharpe":       round(m.get("sharpe_ratio", 0.0), 4),
-            "max_drawdown": round(m.get("max_drawdown", 0.0), 4),
-            "total_return": round(m.get("total_return", 0.0), 4),
-            "turnover":     round(m.get("average_annual_turnover", 0.0), 4),
+            "cagr":         _safe_round(m.get("cagr", 0.0)),
+            "sharpe":       _safe_round(m.get("sharpe_ratio", 0.0)),
+            "max_drawdown": _safe_round(m.get("max_drawdown", 0.0)),
+            "total_return": _safe_round(m.get("total_return", 0.0)),
+            "turnover":     _safe_round(m.get("average_annual_turnover", 0.0)),
         }
 
     latest_weights: list[dict] = []
@@ -221,19 +236,19 @@ def build_hk_entries(hk_payload: dict[str, Any]) -> list[dict]:
             if view:
                 m = view.get("summary_metrics", {})
                 metrics = {
-                    "cagr":         round(m.get("cagr", 0.0), 4),
-                    "sharpe":       round(m.get("sharpe_ratio", 0.0), 4),
-                    "max_drawdown": round(m.get("max_drawdown", 0.0), 4),
-                    "total_return": round(m.get("total_return", 0.0), 4),
-                    "turnover":     round(m.get("average_annual_turnover", 0.0), 4),
+                    "cagr":         _safe_round(m.get("cagr", 0.0)),
+                    "sharpe":       _safe_round(m.get("sharpe_ratio", 0.0)),
+                    "max_drawdown": _safe_round(m.get("max_drawdown", 0.0)),
+                    "total_return": _safe_round(m.get("total_return", 0.0)),
+                    "turnover":     _safe_round(m.get("average_annual_turnover", 0.0)),
                 }
             elif raw_metrics:
                 metrics = {
-                    "cagr":         round(float(raw_metrics.get("cagr", 0)), 4),
-                    "sharpe":       round(float(raw_metrics.get("sharpe_ratio", 0)), 4),
-                    "max_drawdown": round(float(raw_metrics.get("max_drawdown", 0)), 4),
-                    "total_return": round(float(raw_metrics.get("total_return", 0)), 4),
-                    "turnover":     round(float(raw_metrics.get("average_annual_turnover", 0)), 4),
+                    "cagr":         _safe_round(raw_metrics.get("cagr", 0)),
+                    "sharpe":       _safe_round(raw_metrics.get("sharpe_ratio", 0)),
+                    "max_drawdown": _safe_round(raw_metrics.get("max_drawdown", 0)),
+                    "total_return": _safe_round(raw_metrics.get("total_return", 0)),
+                    "turnover":     _safe_round(raw_metrics.get("average_annual_turnover", 0)),
                 }
             latest_weights: list[dict] = []
             if view:
