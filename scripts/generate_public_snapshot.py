@@ -133,6 +133,40 @@ def build_leaderboards() -> dict[str, Any]:
     return result
 
 
+def _strategies_map_entry_from_detail(strategy_id: str) -> dict[str, Any]:
+    """Build a strategies_map-compatible entry from the per-strategy detail JSON."""
+    path = STRATEGIES_DIR / f"{strategy_id}.json"
+    if not path.exists():
+        return {}
+    detail = load_json(path)
+    windows: dict[str, Any] = {}
+    for tag, view in (detail.get("sample_views") or {}).items():
+        m = view.get("summary_metrics") or {}
+        windows[tag] = {
+            "cagr": _safe_round(m.get("cagr", 0)),
+            "sharpe": _safe_round(m.get("sharpe_ratio", 0)),
+            "max_drawdown": _safe_round(m.get("max_drawdown", 0)),
+            "turnover": _safe_round(m.get("average_annual_turnover", 0)),
+            "total_return": _safe_round(m.get("total_return", 0)),
+        }
+    return {"strategy_base_name": detail.get("display_name", strategy_id), "windows": windows}
+
+
+def _leaderboard_2026_winners() -> dict[str, str]:
+    """Returns {path_name: strategy_base_id} for since_2026_only official winners."""
+    if not STRATEGY_REGISTRY_JSON.exists():
+        return {}
+    reg = load_json(STRATEGY_REGISTRY_JSON)
+    lb = reg.get("winner_leaderboards", {}).get("a_share", {})
+    result: dict[str, str] = {}
+    for path_name, tracks in lb.items():
+        track = tracks.get("since_2026_only", {})
+        winner = next((e for e in (track.get("entries") or []) if e.get("is_official_winner")), None)
+        if winner:
+            result[path_name] = str(winner["strategy_base_id"])
+    return result
+
+
 def build_window_metrics(strategy_id: str, strategies_map: dict[str, Any]) -> list[dict]:
     """Multi-window CAGR/Sharpe/MaxDD for chart display."""
     windows = strategies_map.get(strategy_id, {}).get("windows", {})
@@ -472,6 +506,21 @@ def main() -> None:
     strategies_map: dict[str, Any] = payload.get("strategies", {})
     as_of: str = payload.get("as_of", "")
 
+    # Supplement strategies_map with 2026 leaderboard winners not in weighted_track_winners
+    winners_2026 = _leaderboard_2026_winners()
+    for sid in winners_2026.values():
+        if sid not in strategies_map:
+            meta = _strategies_map_entry_from_detail(sid)
+            if meta:
+                strategies_map[sid] = meta
+
+    def _append_2026_if_missing(entries: list[dict], path_name: str, **kwargs: Any) -> None:
+        if any(e.get("window_label") == "2026 窗口" for e in entries):
+            return
+        sid = winners_2026.get(path_name)
+        if sid:
+            entries.append(build_strategy_entry(sid, "since_2026_only", path_name, strategies_map, **kwargs))
+
     # ── A股 Path 1 ──
     path1_entries: list[dict] = []
     for track_key in WINDOW_TRACK_KEYS:
@@ -480,6 +529,7 @@ def main() -> None:
             continue
         entry = build_strategy_entry(track["winner"], track_key, "path1", strategies_map)
         path1_entries.append(entry)
+    _append_2026_if_missing(path1_entries, "path1")
 
     # ── A股 Path 2 ──
     path2_entries: list[dict] = []
@@ -489,6 +539,7 @@ def main() -> None:
             continue
         entry = build_strategy_entry(track["winner"], track_key, "path2", strategies_map)
         path2_entries.append(entry)
+    _append_2026_if_missing(path2_entries, "path2")
 
     # ── A股 Path 3 ──
     path3_entries: list[dict] = []
@@ -499,6 +550,7 @@ def main() -> None:
             continue
         entry = build_strategy_entry(track["winner"], track_key, "path3", strategies_map)
         path3_entries.append(entry)
+    _append_2026_if_missing(path3_entries, "path3")
 
     # ── A股 Path 4：强主题涌现观察路径 ──
     path4_entries: list[dict] = []
@@ -520,6 +572,7 @@ def main() -> None:
             frequency=path4_frequency,
         )
         path4_entries.append(entry)
+    _append_2026_if_missing(path4_entries, "path4", experimental=path4_experimental, tracked_only=path4_tracked_only, frequency=path4_frequency)
 
     # ── 沪港通 ──
     hk_entries: list[dict] = []
