@@ -1,6 +1,6 @@
 # Path 5 事件知识图谱研究计划
 
-## 2026-07-01 05:40 CST 状态
+## 2026-07-01 05:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 `high_speed_pcb_copper_clad_server_20260624_v0` 仍因事件后交易日不足无法形成 5D/10D/20D 组合收益；本轮继续复核入口与 Path4 overlap，不把事件 seed 写入 winner/tracked。
 - 本轮候选 ID 与命令：复跑 `high_speed_pcb_copper_clad_server_20260624_v0`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_robust_prom20_signal29_risk12_next.json`。

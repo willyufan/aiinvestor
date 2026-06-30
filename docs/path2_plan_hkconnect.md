@@ -1,6 +1,6 @@
 # 沪港通 Path 2 研究计划
 
-## 2026-07-01 05:40 CST 状态
+## 2026-07-01 05:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 HK Path2 v48 让 2026 转正但中长窗回撤仍深；本轮 HK 新增预算投给 Path5/6/7 扩展线，Path2 只做 guard 巡检、artifact/live/public 同步与下一轮候选设计，仍独立于 A股 Path2 与 HK 扩展线。
 - 本轮候选 ID 与命令：本轮没有新增 HK Path2 `--only-strategy-ids`；执行 `.venv/bin/python scripts/update_hkconnect_artifacts.py`、`.venv/bin/python scripts/export_live_platform_data.py`、`.venv/bin/python scripts/generate_public_snapshot.py`。

@@ -1,6 +1,6 @@
 # Path 3 研究计划
 
-## 2026-07-01 05:40 CST 状态
+## 2026-07-01 05:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 `exit97/risk08` 低换手周频线收益仍弱；本轮按 `risk_downshift` 注册并五窗口确认 `risk06` 版本，保持纯 `_weekly` 口径，不使用 Path1 月选周控 overlay。
 - 本轮候选 ID 与命令：新增 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v66_ids>,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly`。

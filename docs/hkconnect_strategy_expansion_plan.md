@@ -1,6 +1,6 @@
 # 沪港通策略空间扩展计划
 
-## 2026-07-01 05:40 CST 扩展复核结果
+## 2026-07-01 05:26 CST 扩展复核结果
 
 - 上一轮候选/结果摘要：上一轮 HK Path5/6/7 只完成设计；本轮新增回测预算覆盖 HK Path5/6/7，HK Path4 完成巡检、同步和下一轮候选设计。所有 HK 扩展结果均不并入 A股 winner 结论。
 - HK Path4 本轮：未新增 `--only-strategy-ids`，原因是本轮 HK 新增预算给 Path5/6/7；coverage 完整，tracked/robust 未变。最终 focus `liquidity_momentum`，下一轮第一候选建议 `hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v40_liquidity_momentum_repair`，命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v40_liquidity_momentum_repair`；若未注册，先注册。

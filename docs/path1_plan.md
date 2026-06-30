@@ -1,6 +1,6 @@
 # Path 1 研究计划
 
-## 2026-07-01 05:40 CST 状态
+## 2026-07-01 05:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮只记录 `core_multifactor risk04` 候选；本轮已注册并五窗口确认，保持 Path1/core_multifactor 属于 Path1 fast-pass，不把独立 Path4 强主题涌现并入 Path1。
 - 本轮候选 ID 与命令：新增 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk04_reconfirm`；命令并入本轮 A股增量回测 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <path1_risk04>,<three_path4_cap04_ids>`。

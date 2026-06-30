@@ -1,6 +1,6 @@
 # 沪港通 Path 3 周度高频路径
 
-## 2026-07-01 05:40 CST 状态
+## 2026-07-01 05:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 HK Path3 v25 仍未保住 2026 正收益；本轮 HK 新增预算投给 Path5/6/7 扩展线，Path3 保持纯 weekly 口径，只做 guard 巡检、artifact/live/public 同步和下一轮候选设计。
 - 本轮候选 ID 与命令：本轮没有新增 HK Path3 `--only-strategy-ids`；执行 `.venv/bin/python scripts/update_hkconnect_artifacts.py`、`.venv/bin/python scripts/export_live_platform_data.py`、`.venv/bin/python scripts/generate_public_snapshot.py`，没有把 HK Path1/2 月频或双周候选并入本路径。

@@ -1,6 +1,6 @@
 # Path 4 强主题涌现路径
 
-## 2026-07-01 05:40 CST 状态
+## 2026-07-01 05:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 `prom20/signal28/risk08/cap05/exit66` 能捕捉 80/20 强势簇但跨底座弱；本轮按 `theme_capacity_cost` 进一步压单票到 `cap04`、放宽 exit 到 `68`，仍保持独立 `emergent_theme` 池，不并入 Path2。
 - 本轮候选 ID 与命令：新增三底座 `aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap04_exit68_lowturn`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap04_exit68_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap04_exit68_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap04_exit68_lowturn`。
