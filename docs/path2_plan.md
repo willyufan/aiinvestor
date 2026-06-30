@@ -1,5 +1,14 @@
 # Path 2 研究计划
 
+## 2026-07-01 05:40 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 v65 中周期增长修复仍只保留短窗弹性；本轮按 `risk_reconfirm_sensitivity` 在独立 `growth_elastic` 池确认 v66 双底座，没有引入 Path4 `emergent_theme`，也没有把 Path3 `_weekly` 当作 Path2 结论。
+- 本轮候选 ID 与命令：新增并五窗口确认 `core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm99_caution54_cap14_cost_guard_v66_risk_reconfirm_sensitivity`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm99_caution54_cap14_cost_guard_v66_risk_reconfirm_sensitivity`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v66_ids>,<one_path3_id>`。
+- 五窗口结果：`90/10 total_mv` CAGR `6.73% / 6.05% / 16.39% / 51.63% / 57.21%`，最大回撤最差 `-22.11%`；`90/10 equal_weight` CAGR `4.61% / 3.87% / 9.12% / 30.76% / 70.67%`，最大回撤最差 `-23.85%`。
+- 结论：v66 总市值版因 candidate universe 口径成为 Path2 2017/2020/2023 window winner 与 robust payload，但绝对 2020/2023 收益仍低、2025/2026 换手压力高，不能视为高弹性目标达成。`scripts/path2_candidate_pass.py` universe 为 `799`，raw 四窗口赢家与 robust 仍由既有高弹性族主导。
+- evict/归档：将 v65 双底座加入 `PATH2_ARCHIVED_STRATEGY_BASE_IDS`；evict 原因是 v65 2020/2023 不达标且被本轮更低风险/更高再确认 v66 覆盖。
+- 下一轮 focus：最终 guard 给出 `medium_cycle_growth`。下一轮第一候选应回到中周期收益修复，而不是继续单纯降风险；首条命令草案为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm96_caution56_cap18_cost_guard_v67_medium_cycle_growth_repair,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm96_caution56_cap18_cost_guard_v67_medium_cycle_growth_repair`；若未注册，先加入 Path2 scan family/list。
+
 ## 2026-06-30 17:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 v64 underrepresented 双周低换手仍只保留短窗弹性；本轮按 `medium_cycle_growth` 在独立 `growth_elastic` 池确认 v65 双底座，没有引入 Path4 `emergent_theme` 或 Path3 `_weekly` 结论。

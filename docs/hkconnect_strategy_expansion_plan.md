@@ -1,5 +1,14 @@
 # 沪港通策略空间扩展计划
 
+## 2026-07-01 05:40 CST 扩展复核结果
+
+- 上一轮候选/结果摘要：上一轮 HK Path5/6/7 只完成设计；本轮新增回测预算覆盖 HK Path5/6/7，HK Path4 完成巡检、同步和下一轮候选设计。所有 HK 扩展结果均不并入 A股 winner 结论。
+- HK Path4 本轮：未新增 `--only-strategy-ids`，原因是本轮 HK 新增预算给 Path5/6/7；coverage 完整，tracked/robust 未变。最终 focus `liquidity_momentum`，下一轮第一候选建议 `hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v40_liquidity_momentum_repair`，命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v40_liquidity_momentum_repair`；若未注册，先注册。
+- HK Path5 本轮：新增并五窗口确认 `hkconnect_path5_breakout_retest_biweekly_quality_confirm_v30_retest_confirmation_ytd_guard`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_breakout_retest_biweekly_quality_confirm_v30_retest_confirmation_ytd_guard,hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v37_lowvol_liquid_core_repair,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v36_biweekly_barbell`。五窗口 CAGR `8.96% / 6.90% / 8.82% / 28.59% / -16.76%`，最大回撤最差 `-27.61%`；2026 失败且换手偏高，不替换 robust/tracked。下一轮 focus `pullback_definition`，第一命令建议回到 pullback definition 重写。
+- HK Path6 本轮：新增并五窗口确认 `hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v37_lowvol_liquid_core_repair`；五窗口 CAGR `7.77% / 6.48% / 9.31% / 16.14% / -19.25%`，最大回撤最差 `-21.74%`；低换手信息可用但 2026 明显为负，不替换 robust/tracked。下一轮 focus `large_liquid_core`，第一命令建议测试更大市值核心且保留 YTD 守门。
+- HK Path7 本轮：新增并五窗口确认 `hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v36_biweekly_barbell`；五窗口 CAGR 全为 `0.00%`、最大回撤 `0.00%`、换手 `0.00x`，说明该参数无有效交易，不替换 robust/tracked。下一轮 focus `barbell_sleeve_structure`，第一命令必须先修复 core/sleeve 触发条件，避免继续产生零交易线。
+- 扩展线收尾：已运行 `scripts/update_hkconnect_artifacts.py`、`scripts/export_live_platform_data.py`、`scripts/generate_public_snapshot.py`；最终 guard 为 `pass`，HK all complete，HK Path4-7 无 blocking/warning 缺口。本轮没有 HK Path4-7 evict。
+
 ## 2026-06-30 17:26 CST 扩展复核结果
 
 - 上一轮候选/结果摘要：上一轮 HK Path4 只留下 `v38_ytd_guard` 候选；本轮新增回测预算覆盖 HK Path1/2/3 与 HK Path4，Path5/6/7 完成巡检和下一轮候选设计。所有 HK 结果均不并入 A股 winner 结论。

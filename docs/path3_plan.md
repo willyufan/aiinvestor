@@ -1,5 +1,14 @@
 # Path 3 研究计划
 
+## 2026-07-01 05:40 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 `exit97/risk08` 低换手周频线收益仍弱；本轮按 `risk_downshift` 注册并五窗口确认 `risk06` 版本，保持纯 `_weekly` 口径，不使用 Path1 月选周控 overlay。
+- 本轮候选 ID 与命令：新增 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v66_ids>,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly`。
+- 五窗口结果：CAGR `2.76% / 1.58% / 0.43% / 36.96% / 118.51%`，最大回撤 `-16.63% / -28.05% / -7.07% / -15.51% / -12.74%`。结论：2026 弹性强，但 2017/2020/2023 过弱，说明该低风险长持有形态过度防守。
+- payload 变化：`scripts/update_weighted_winners.py` 后 Path3 robust candidate 与 2017-window tracked payload 暂切到本轮 risk06；同时 validation 明确拒绝其替换 2017/2020/2023 incumbent，后续需用更强收益候选复核该 payload 切换。
+- evict/归档：将上一轮弱线 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn02_exit97_risk08_weekly_exit_buffer_weekly` 加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`；evict 原因是同邻域 2020/2023 收益不足且被本轮更低风险形态覆盖。
+- 下一轮 focus：最终 guard 仍为 `turnover_reduction`。下一轮第一候选应回到略高收益/低换手折中，而不是继续下调 risk；首条命令草案为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly`；若未注册，先加入 Path3 weekly scan，并保证 ID 以 `_weekly` 结尾。
+
 ## 2026-06-30 17:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 `cap44_hold8_turn02_exit99_risk08_weekly` 长窗收益弱；本轮按 `weekly_exit_buffer` 注册并五窗口确认同邻域 exit97 版本，仍保持纯 `_weekly` 路径，不使用 Path1 月选周控 overlay。

@@ -1,5 +1,12 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-07-01 05:40 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 HK Path1 v48 未修复 2026 负收益；本轮 HK 新增预算投给 Path5/6/7 扩展线，Path1 完成 guard 巡检、artifact/live/public 同步与下一轮候选设计，保持 HK 研究线独立于 A股 winner。
+- 本轮候选 ID 与命令：本轮没有新增 HK Path1 `--only-strategy-ids`；执行 `.venv/bin/python scripts/update_hkconnect_artifacts.py`、`.venv/bin/python scripts/export_live_platform_data.py`、`.venv/bin/python scripts/generate_public_snapshot.py` 同步 HK tracked/live/public。
+- 结论：HK Path1 window winner、robust candidate、tracked payload 未改变；本轮没有 HK Path1 evict。最终 guard coverage 为 HK 全候选 complete，Path1 focus 为 `biweekly_buffer`。
+- 下一轮 focus：候选 `hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair`，首条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair`；若未注册，先在 HK Path1 variants 中注册。
+
 ## 2026-06-30 17:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 HK Path1 只做同步并把下一步指向月频质量动量周控；本轮实际注册并五窗口确认 v48，保持 HK 研究线独立于 A股 winner。

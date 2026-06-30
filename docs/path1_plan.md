@@ -1,5 +1,14 @@
 # Path 1 研究计划
 
+## 2026-07-01 05:40 CST 状态
+
+- 上一轮候选/结果摘要：上一轮只记录 `core_multifactor risk04` 候选；本轮已注册并五窗口确认，保持 Path1/core_multifactor 属于 Path1 fast-pass，不把独立 Path4 强主题涌现并入 Path1。
+- 本轮候选 ID 与命令：新增 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk04_reconfirm`；命令并入本轮 A股增量回测 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <path1_risk04>,<three_path4_cap04_ids>`。
+- 五窗口结果：CAGR `16.23% / 16.51% / 22.06% / 78.20% / 111.77%`，最大回撤 `-18.16% / -18.41% / -12.87% / -15.71% / -4.25%`；短窗和 2026 回撤较好，但 2017/2020 不及既有 satellite robust。
+- core_multifactor 子段同步：`scripts/winner_only_pass.py` 覆盖 `base_candidates=130 / total_candidates=1430 / evaluated=273`，无 clear improvement；`scripts/update_weighted_winners.py` 后 Path1 robust candidate 与 2017-window tracked payload 暂切到本轮 risk04，README/HISTORY/live/public 已同步。
+- evict/归档：从 active core_multifactor 组移出旧 `aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk10_reconfirm`；evict 原因是旧 risk10 非当前 robust/tracked 主体，且本轮 risk04 已覆盖更低风险信号质量形态。
+- 下一轮 focus：最终 guard 给出 `core_multifactor_coverage`。下一轮第一候选建议不要复跑 risk04，改做同一 lowvol/quality/profitability/growth 线的中等风险恢复对照；首条命令草案为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk06_reconfirm_v2`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`，并同步 evict 一条非 winner/robust 旧多因子线。
+
 ## 2026-06-30 17:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 Path1 仅做 fast-pass 巡检，本轮继续按代码实际集合巡检 Path1 与 core_multifactor；最终 guard 显示 `ashare_path1_core_multifactor 63/63`、`ashare_path1_fast_family 131/131`，coverage 仍完整。
