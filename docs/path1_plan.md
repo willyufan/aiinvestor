@@ -1,5 +1,14 @@
 # Path 1 研究计划
 
+## 2026-07-01 20:58 CST 状态
+
+- 上一轮候选/结果摘要：上一轮把下一步指向 `core_multifactor risk06_reconfirm_v2`；本轮已注册并五窗口确认，继续只作为 Path1/core_multifactor fast-pass 候选，不与独立 Path4 强主题涌现混用。
+- 本轮候选 ID 与命令：新增 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk06_reconfirm_v2`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <path1_risk06_v2>,<two_path2_v67>,<one_path3_turnover>,<three_path4_prom22_signal28>`。
+- 五窗口结果：CAGR `16.20% / 13.99% / 20.66% / 61.31% / 80.26%`，最大回撤 `-16.36% / -16.21% / -13.92% / -15.42% / -4.26%`，年均换手最高 `5.29x`。结论：未替换 Path1 official/robust；当前 robust 与 2017-window 仍为 risk04，2020/2023 仍为 risk20，2025 仍为 `aggr_10_90_prom6`。
+- core_multifactor 子段同步：`scripts/winner_only_pass.py` 退出码 `2` 仅代表发现 fast-pass clear improvement，信号集中在 `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_cash_off` 的 2017-only 快筛，不足以直接改 official winner；`scripts/update_weighted_winners.py`、`refresh_active`、live/public 已同步。
+- evict/归档：从 core_multifactor active 组移出旧 `aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm`；evict 原因是旧 trend risk08 非 winner/robust，且本轮 risk06_v2 覆盖同一风险恢复对照槽位。
+- 下一轮 focus：最终 guard 给出 `signal_quality`；下一轮不要复跑 risk06_v2，先把 `signal_quality` 映射到 core_multifactor 低波质量门槛的中间风险对照。候选池占位 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk05_reconfirm_v3`，首条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk05_reconfirm_v3`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`。
+
 ## 2026-07-01 05:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮只记录 `core_multifactor risk04` 候选；本轮已注册并五窗口确认，保持 Path1/core_multifactor 属于 Path1 fast-pass，不把独立 Path4 强主题涌现并入 Path1。

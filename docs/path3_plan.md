@@ -1,5 +1,14 @@
 # Path 3 研究计划
 
+## 2026-07-01 20:58 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 risk06 过度防守；本轮按 `turnover_reduction` 注册并五窗口确认 `turn03/exit96/risk10` 版本，保持纯 `_weekly` 口径，不使用 Path1 月选周控 overlay。
+- 本轮候选 ID 与命令：新增 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <path3_turnover_repair>,<path1>,<two_path2>,<three_path4>`。
+- 五窗口结果：CAGR `4.95% / 9.01% / 6.42% / 38.79% / 149.41%`，最大回撤 `-21.00% / -28.50% / -6.87% / -14.76% / -12.89%`，年均换手 `0.73x / 0.58x / 0.35x / 0.59x / 2.99x`。
+- 结论：本轮候选成为 Path3 robust candidate，但 official window winner 未变；它提供低换手证据和 2026 弹性，代价是 2020 回撤仍深、2017/2023 绝对收益不够。
+- evict/归档：本轮无新增 Path3 archive；上一轮 risk06 仍需作为低风险边界保留观察，但下一轮应优先复核收益侧而不是继续下调 risk。
+- 下一轮 focus：若 guard 仍给 `turnover_reduction`，下一候选应测试略高收益/低换手折中 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn04_exit94_risk12_weekly_turnover_repair_v2_weekly`，首条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn04_exit94_risk12_weekly_turnover_repair_v2_weekly`；若未注册，先加入 Path3 weekly scan，且 ID 必须以 `_weekly` 结尾。
+
 ## 2026-07-01 05:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 `exit97/risk08` 低换手周频线收益仍弱；本轮按 `risk_downshift` 注册并五窗口确认 `risk06` 版本，保持纯 `_weekly` 口径，不使用 Path1 月选周控 overlay。

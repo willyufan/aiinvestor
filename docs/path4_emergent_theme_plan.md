@@ -1,5 +1,14 @@
 # Path 4 强主题涌现路径
 
+## 2026-07-01 20:58 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 `prom20/signal28/risk08/cap04/exit68` 降 cap 后跨底座仍弱；本轮按 `emergent_theme_coverage` 测试覆盖面恢复到 `prom22/cap05`，仍保持独立 `emergent_theme` 池，不并入 Path2 或 Path1-lite。
+- 本轮候选 ID 与命令：新增三底座 `aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn`。
+- 五窗口结果：`80/20 total_mv` CAGR `13.85% / 10.26% / 13.09% / 48.41% / 57.31%`，最大回撤最差 `-14.89%`，换手最高 `5.70x`；`90/10 total_mv` CAGR `6.76% / 6.03% / 6.08% / 19.24% / 27.21%`；`90/10 equal_weight` CAGR `3.25% / 3.28% / 5.83% / 12.01% / 6.99%`。
+- 强主题捕捉检查：`80/20 total_mv` 成为 Path4 robust candidate 与 2017-window winner，但 2020/2023 仍弱于既有 `prom20/signal29/risk12/cap06/exit60`，2025 仍弱于既有 `prom20/signal29/risk10/cap06/exit62`；持仓集中度 `avg_top1 15.2% / avg_top3 28.7% / max_top1 41.6% / max_top3 52.7%`，不是纯单票幸运，但仍需压缩极端 top1 风险。
+- evict/归档：从 `PATH4_THEME_DISCOVERY_VARIANT_IDS` 移出旧 `aggr_13_87_prom24_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap08_exit62_lowturn`；evict 原因是旧高 prom、高 cap 线非当前 winner/robust，且被本轮更低 cap、较宽覆盖的 prom22/cap05 对照覆盖。
+- 下一轮 focus：若 guard 继续指 `emergent_theme_coverage`，下一候选池应测试 signal29/leader78 与本轮低风险 cap05 的交叉，而不是继续扩 cap；候选 `aggr_13_87_prom21_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`，首条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom21_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap05_exit66_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom21_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap05_exit66_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom21_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`；若未注册，先 evict 一条非 winner/robust 弱项后加入。
+
 ## 2026-07-01 05:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 `prom20/signal28/risk08/cap05/exit66` 能捕捉 80/20 强势簇但跨底座弱；本轮按 `theme_capacity_cost` 进一步压单票到 `cap04`、放宽 exit 到 `68`，仍保持独立 `emergent_theme` 池，不并入 Path2。

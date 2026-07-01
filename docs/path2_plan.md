@@ -1,5 +1,14 @@
 # Path 2 研究计划
 
+## 2026-07-01 20:58 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 v66 仍未真正修复 2020/2023 中周期收益；本轮按 `medium_cycle_growth` 在独立 `growth_elastic` 池确认 v67 双底座，没有引入 Path4 `emergent_theme`，也没有把 Path3 `_weekly` 结论并入 Path2。
+- 本轮候选 ID 与命令：新增并五窗口确认 `core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm96_caution56_cap18_cost_guard_v67_medium_cycle_growth_repair`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm96_caution56_cap18_cost_guard_v67_medium_cycle_growth_repair`；命令并入本轮 A股受限回测 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v67>,<path1>,<path3>,<three_path4>`。
+- 五窗口结果：`90/10 total_mv` CAGR `8.82% / 8.57% / 5.76% / 47.72% / 30.88%`，最大回撤最差 `-21.20%`，换手最高 `10.16x`；`90/10 equal_weight` CAGR `4.42% / 3.93% / 9.79% / 28.28% / 53.32%`，最大回撤最差 `-26.86%`。
+- 结论：v67 总市值版切成 Path2 2017-window winner 与 robust candidate，但仍未修复 2020/2023，equal_weight 只在 2026 弹性较强；`scripts/path2_candidate_pass.py` universe 为 `801`，Path2 2020/2023/2025 window winner 仍由既有候选保持。
+- evict/归档：本轮未新增 Path2 archive；v67 只是接替 v66 的 active 研究槽，后续若 2020/2023 继续弱，应淘汰 v66 或更早 v65/v64 的非 winner 线。
+- 下一轮 focus：继续映射 `medium_cycle_growth` 到中周期收益修复，而不是只降风险；下一候选 `core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk22_mom_exit42_reconfirm98_caution54_cap16_cost_guard_v68_medium_cycle_2023_repair` 与 equal_weight 对照，首条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v68_medium_cycle_2023_repair_ids>`；若未注册，先加入 Path2 scan family/list 并按 cap 归档一条旧弱线。
+
 ## 2026-07-01 05:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 v65 中周期增长修复仍只保留短窗弹性；本轮按 `risk_reconfirm_sensitivity` 在独立 `growth_elastic` 池确认 v66 双底座，没有引入 Path4 `emergent_theme`，也没有把 Path3 `_weekly` 当作 Path2 结论。

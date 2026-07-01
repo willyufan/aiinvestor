@@ -1,5 +1,14 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-01 20:58 CST 状态
+
+- 上一轮候选/结果摘要：上一轮只设计 HK Path3 v26；本轮按 `weekly_defensive_overlay` 注册并五窗口确认，保持纯 weekly 口径，不把 HK Path1/2 月频或双周候选并入本路径。
+- 本轮候选 ID 与命令：新增 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover0_exit48_v26_weekly_defensive_overlay`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_v49>,<hk_path2_v50>,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover0_exit48_v26_weekly_defensive_overlay`。
+- 五窗口结果：CAGR 全为 `0.00%`，最大回撤全为 `0.00%`，年均换手全为 `0.00x`，Sharpe 缺失。
+- 结论：v26 参数没有产生有效交易，不替换 HK Path3 window winner、robust candidate 或 tracked payload；当前 robust 仍为 `hkconnect_path3_equal_elastic_weekly`，但该 robust 换手均值仍高，需要另找有效低换手防守线。
+- evict/归档：本轮无 HK Path3 evict；v26 应列为零交易失败样本，避免继续沿相同 riskoff/exit 组合微调。
+- 下一轮 focus：最终 guard 给出 `cost_stress`；下一候选应放宽触发避免零交易，同时保留成本压力观察：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit50_v27_cost_stress`，首条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit50_v27_cost_stress`；若未注册，先在 HK Path3 variants 中注册。
+
 ## 2026-07-01 05:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 HK Path3 v25 仍未保住 2026 正收益；本轮 HK 新增预算投给 Path5/6/7 扩展线，Path3 保持纯 weekly 口径，只做 guard 巡检、artifact/live/public 同步和下一轮候选设计。

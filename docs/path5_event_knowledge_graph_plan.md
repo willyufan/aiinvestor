@@ -1,5 +1,13 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-01 20:58 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 `high_speed_pcb_copper_clad_server_20260624_v0` 已有 4 个可用交易日但不足 5D；本轮继续验证事件回测入口与 Path4 robust 对照，不把事件 seed 写入 winner/tracked。
+- 本轮候选 ID 与命令：复跑 `high_speed_pcb_copper_clad_server_20260624_v0`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_robust_prom20_signal29_risk12_next2.json`。
+- 入口结果：候选数 `6`，5/10/20 日 equal_weight 与 seed_weight 仍全部为 `insufficient_data / eligible_count=0`；单票可用交易日仍为 `4`，不足 5D。该结果只证明入口、冻结篮子与输出链路可用，不构成有效事件策略结论。
+- 巡检结论：本轮无 pending audit、无新增事件篮子、无 tracked/winner 变化；Path5 与 Path4 比较仍需等事件后交易日成熟，不能用未成熟 seed 解释 Path4 强主题结果。
+- 下一轮 focus：最终 guard 给出 `path4_comparison`；下一轮第一动作继续复跑同一篮子成熟度，并与 Path4 当前 robust 对照，输出避免覆盖本轮文件：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_robust_prom22_signal28_risk08_next3.json`。
+
 ## 2026-07-01 05:26 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 `high_speed_pcb_copper_clad_server_20260624_v0` 仍因事件后交易日不足无法形成 5D/10D/20D 组合收益；本轮继续复核入口与 Path4 overlap，不把事件 seed 写入 winner/tracked。

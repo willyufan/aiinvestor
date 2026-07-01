@@ -13,10 +13,10 @@
       "sample_tag_label": "2017窗口",
       "summary_meta": {
         "sample_start": "2017-01-01",
-        "sample_end": "2026-06-26",
-        "latest_valuation_date": "2026-06-26",
-        "latest_formal_signal_date": "2026-05-29",
-        "is_provisional_period_end": true,
+        "sample_end": "2026-06-30",
+        "latest_valuation_date": "2026-06-30",
+        "latest_formal_signal_date": "2026-06-30",
+        "is_provisional_period_end": false,
         "sample_label": "2017-01 起",
         "sample_short_label": "2017-01",
         "strategy_name": "核心90_探索10_总市值底座_胜出者核心__进攻4/96 晋升4只(量价前12%, 动量三档28%, 出场48%, 恢复94, 谨慎60%, 单票24%, 成本防守v42风险确认) (2017-01 起)",
@@ -27,56 +27,56 @@
         "core_source_mode": "winner_core",
         "rebalance_frequency": "monthly"
       },
-      "risk_state": "risk_on",
-      "target_total_exposure": 1.0,
+      "risk_state": "caution",
+      "target_total_exposure": 0.1467,
       "latest_weights": [
         {
-          "ts_code": "601869.SH",
-          "name": "长飞光纤",
-          "weight": 0.216157
+          "ts_code": "CASH",
+          "name": "现金",
+          "weight": 0.85331
         },
         {
-          "ts_code": "688399.SH",
-          "name": "硕世生物",
-          "weight": 0.203771
+          "ts_code": "300308.SZ",
+          "name": "中际旭创",
+          "weight": 0.03623
         },
         {
-          "ts_code": "300408.SZ",
-          "name": "三环集团",
-          "weight": 0.134813
+          "ts_code": "688630.SH",
+          "name": "芯碁微装",
+          "weight": 0.028094
         },
         {
-          "ts_code": "688025.SH",
-          "name": "杰普特",
-          "weight": 0.099038
-        },
-        {
-          "ts_code": "688127.SH",
-          "name": "蓝特光学",
-          "weight": 0.097606
-        },
-        {
-          "ts_code": "300054.SZ",
-          "name": "鼎龙股份",
-          "weight": 0.093741
+          "ts_code": "688300.SH",
+          "name": "联瑞新材",
+          "weight": 0.022389
         },
         {
           "ts_code": "600674.SH",
           "name": "川投能源",
-          "weight": 0.088131
+          "weight": 0.01616
         },
         {
-          "ts_code": "002192.SZ",
-          "name": "融捷股份",
-          "weight": 0.066743
+          "ts_code": "688508.SH",
+          "name": "芯朋微",
+          "weight": 0.01565
+        },
+        {
+          "ts_code": "002957.SZ",
+          "name": "科瑞技术",
+          "weight": 0.015513
+        },
+        {
+          "ts_code": "688677.SH",
+          "name": "海泰新光",
+          "weight": 0.012655
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-06-30",
+        "data_as_of": "2026-07-01",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-05-29",
-        "basket_effective_date": "2026-05-29",
-        "exposure_effective_date": "2026-05-29"
+        "suggestion_effective_date": "2026-06-30",
+        "basket_effective_date": "2026-06-30",
+        "exposure_effective_date": "2026-06-30"
       },
       "equity_curve_points": [
         {
@@ -536,8 +536,8 @@
           "nav": 3.265857
         },
         {
-          "date": "2026-06-26",
-          "nav": 3.210923
+          "date": "2026-06-30",
+          "nav": 3.213326
         }
       ],
       "snapshots": [
@@ -4738,63 +4738,66 @@
               "weight": 0.066743
             }
           ]
+        },
+        {
+          "date": "2026-06-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.85331
+            },
+            {
+              "ts_code": "300308.SZ",
+              "name": "中际旭创",
+              "weight": 0.03623
+            },
+            {
+              "ts_code": "688630.SH",
+              "name": "芯碁微装",
+              "weight": 0.028094
+            },
+            {
+              "ts_code": "688300.SH",
+              "name": "联瑞新材",
+              "weight": 0.022389
+            },
+            {
+              "ts_code": "600674.SH",
+              "name": "川投能源",
+              "weight": 0.01616
+            },
+            {
+              "ts_code": "688508.SH",
+              "name": "芯朋微",
+              "weight": 0.01565
+            },
+            {
+              "ts_code": "002957.SZ",
+              "name": "科瑞技术",
+              "weight": 0.015513
+            },
+            {
+              "ts_code": "688677.SH",
+              "name": "海泰新光",
+              "weight": 0.012655
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {
-        "preview_as_of": "2026-06-26",
-        "formal_signal_date": "2026-05-29",
-        "risk_state": "risk_on",
-        "target_total_exposure": 0.136,
-        "market_momentum": 0.2429,
-        "holdings": [
-          {
-            "ts_code": "300308.SZ",
-            "name": "中际旭创",
-            "weight": 0.03264
-          },
-          {
-            "ts_code": "688200.SH",
-            "name": "华峰测控",
-            "weight": 0.018599
-          },
-          {
-            "ts_code": "300285.SZ",
-            "name": "国瓷材料",
-            "weight": 0.017853
-          },
-          {
-            "ts_code": "688127.SH",
-            "name": "蓝特光学",
-            "weight": 0.01702
-          },
-          {
-            "ts_code": "688432.SH",
-            "name": "有研硅",
-            "weight": 0.016828
-          },
-          {
-            "ts_code": "688120.SH",
-            "name": "华海清科",
-            "weight": 0.016658
-          },
-          {
-            "ts_code": "688150.SH",
-            "name": "莱特光电",
-            "weight": 0.016402
-          }
-        ]
-      }
+      "month_end_preview": {}
     },
     "since_2020_01": {
       "sample_tag": "since_2020_01",
       "sample_tag_label": "2020窗口",
       "summary_meta": {
         "sample_start": "2020-01-01",
-        "sample_end": "2026-06-30",
-        "latest_valuation_date": "2026-06-30",
+        "sample_end": "2026-07-01",
+        "latest_valuation_date": "2026-07-01",
         "latest_formal_signal_date": "2026-06-30",
-        "is_provisional_period_end": false,
+        "is_provisional_period_end": true,
         "sample_label": "2020-01 起",
         "sample_short_label": "2020-01",
         "strategy_name": "核心90_探索10_总市值底座_胜出者核心__进攻4/96 晋升4只(量价前12%, 动量三档28%, 出场48%, 恢复94, 谨慎60%, 单票24%, 成本防守v42风险确认) (2020-01 起)",
@@ -4850,7 +4853,7 @@
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-06-30",
+        "data_as_of": "2026-07-01",
         "schedule_kind": "monthly",
         "suggestion_effective_date": "2026-06-30",
         "basket_effective_date": "2026-06-30",
@@ -4863,315 +4866,319 @@
         },
         {
           "date": "2020-01-23",
-          "nav": 1.091556
+          "nav": 1.091584
         },
         {
           "date": "2020-02-28",
-          "nav": 1.012238
+          "nav": 1.012267
         },
         {
           "date": "2020-03-31",
-          "nav": 1.023968
+          "nav": 1.023997
         },
         {
           "date": "2020-04-30",
-          "nav": 1.036564
+          "nav": 1.036594
         },
         {
           "date": "2020-05-29",
-          "nav": 1.041205
+          "nav": 1.041235
         },
         {
           "date": "2020-06-30",
-          "nav": 1.136344
+          "nav": 1.136377
         },
         {
           "date": "2020-07-31",
-          "nav": 1.242119
+          "nav": 1.242292
         },
         {
           "date": "2020-08-31",
-          "nav": 1.163669
+          "nav": 1.163833
         },
         {
           "date": "2020-09-30",
-          "nav": 1.124409
+          "nav": 1.124567
         },
         {
           "date": "2020-10-30",
-          "nav": 1.125869
+          "nav": 1.126027
         },
         {
           "date": "2020-11-30",
-          "nav": 1.112737
+          "nav": 1.112893
         },
         {
           "date": "2020-12-31",
-          "nav": 1.124806
+          "nav": 1.124964
         },
         {
           "date": "2021-01-29",
-          "nav": 1.199145
+          "nav": 1.199319
         },
         {
           "date": "2021-02-26",
-          "nav": 1.137603
+          "nav": 1.137783
         },
         {
           "date": "2021-03-31",
-          "nav": 1.145387
+          "nav": 1.145567
         },
         {
           "date": "2021-04-30",
-          "nav": 1.150289
+          "nav": 1.150471
         },
         {
           "date": "2021-05-31",
-          "nav": 1.277803
+          "nav": 1.278005
         },
         {
           "date": "2021-06-30",
-          "nav": 1.306482
+          "nav": 1.306689
         },
         {
           "date": "2021-07-30",
-          "nav": 1.289027
+          "nav": 1.289248
         },
         {
           "date": "2021-08-31",
-          "nav": 1.361274
+          "nav": 1.361502
         },
         {
           "date": "2021-09-30",
-          "nav": 1.314239
+          "nav": 1.314458
         },
         {
           "date": "2021-10-29",
-          "nav": 1.398654
+          "nav": 1.398888
         },
         {
           "date": "2021-11-30",
-          "nav": 1.400046
+          "nav": 1.40028
         },
         {
           "date": "2021-12-31",
-          "nav": 1.356087
+          "nav": 1.356314
         },
         {
           "date": "2022-01-28",
-          "nav": 1.331287
+          "nav": 1.33151
         },
         {
           "date": "2022-02-28",
-          "nav": 1.332772
+          "nav": 1.332995
         },
         {
           "date": "2022-03-31",
-          "nav": 1.322778
+          "nav": 1.322999
         },
         {
           "date": "2022-04-29",
-          "nav": 1.301903
+          "nav": 1.302121
         },
         {
           "date": "2022-05-31",
-          "nav": 1.348289
+          "nav": 1.348515
         },
         {
           "date": "2022-06-30",
-          "nav": 1.353557
+          "nav": 1.353783
         },
         {
           "date": "2022-07-29",
-          "nav": 1.350127
+          "nav": 1.350353
         },
         {
           "date": "2022-08-31",
-          "nav": 1.318659
+          "nav": 1.31888
         },
         {
           "date": "2022-09-30",
-          "nav": 1.309969
+          "nav": 1.310189
         },
         {
           "date": "2022-10-31",
-          "nav": 1.284978
+          "nav": 1.285193
         },
         {
           "date": "2022-11-30",
-          "nav": 1.289871
+          "nav": 1.290087
         },
         {
           "date": "2022-12-30",
-          "nav": 1.280132
+          "nav": 1.280346
         },
         {
           "date": "2023-01-31",
-          "nav": 1.285435
+          "nav": 1.28565
         },
         {
           "date": "2023-02-28",
-          "nav": 1.289776
+          "nav": 1.289992
         },
         {
           "date": "2023-03-31",
-          "nav": 1.296846
+          "nav": 1.297063
         },
         {
           "date": "2023-04-28",
-          "nav": 1.301245
+          "nav": 1.301463
         },
         {
           "date": "2023-05-31",
-          "nav": 1.280952
+          "nav": 1.281166
         },
         {
           "date": "2023-06-30",
-          "nav": 1.281227
+          "nav": 1.281442
         },
         {
           "date": "2023-07-31",
-          "nav": 1.281424
+          "nav": 1.281639
         },
         {
           "date": "2023-08-31",
-          "nav": 1.281894
+          "nav": 1.282108
         },
         {
           "date": "2023-09-28",
-          "nav": 1.283104
+          "nav": 1.283319
         },
         {
           "date": "2023-10-31",
-          "nav": 1.335303
+          "nav": 1.335527
         },
         {
           "date": "2023-11-30",
-          "nav": 1.349038
+          "nav": 1.349264
         },
         {
           "date": "2023-12-29",
-          "nav": 1.345653
+          "nav": 1.345878
         },
         {
           "date": "2024-01-31",
-          "nav": 1.355877
+          "nav": 1.356104
         },
         {
           "date": "2024-02-29",
-          "nav": 1.378724
+          "nav": 1.378955
         },
         {
           "date": "2024-03-29",
-          "nav": 1.388175
+          "nav": 1.388407
         },
         {
           "date": "2024-04-30",
-          "nav": 1.401867
+          "nav": 1.402102
         },
         {
           "date": "2024-05-31",
-          "nav": 1.404561
+          "nav": 1.404796
         },
         {
           "date": "2024-06-28",
-          "nav": 1.405678
+          "nav": 1.405914
         },
         {
           "date": "2024-07-31",
-          "nav": 1.373326
+          "nav": 1.373556
         },
         {
           "date": "2024-08-30",
-          "nav": 1.360994
+          "nav": 1.361221
         },
         {
           "date": "2024-09-30",
-          "nav": 1.396977
+          "nav": 1.397211
         },
         {
           "date": "2024-10-31",
-          "nav": 1.374194
+          "nav": 1.374424
         },
         {
           "date": "2024-11-29",
-          "nav": 1.385598
+          "nav": 1.38583
         },
         {
           "date": "2024-12-31",
-          "nav": 1.385997
+          "nav": 1.386229
         },
         {
           "date": "2025-01-27",
-          "nav": 1.42141
+          "nav": 1.421648
         },
         {
           "date": "2025-02-28",
-          "nav": 1.651601
+          "nav": 1.630256
         },
         {
           "date": "2025-03-31",
-          "nav": 1.637185
+          "nav": 1.616573
         },
         {
           "date": "2025-04-30",
-          "nav": 1.52344
+          "nav": 1.504223
         },
         {
           "date": "2025-05-30",
-          "nav": 1.466428
+          "nav": 1.447929
         },
         {
           "date": "2025-06-30",
-          "nav": 1.462193
+          "nav": 1.443747
         },
         {
           "date": "2025-07-31",
-          "nav": 1.572595
+          "nav": 1.552757
         },
         {
           "date": "2025-08-29",
-          "nav": 1.856033
+          "nav": 1.832653
         },
         {
           "date": "2025-09-30",
-          "nav": 2.003231
+          "nav": 1.978005
         },
         {
           "date": "2025-10-31",
-          "nav": 1.983389
+          "nav": 1.958376
         },
         {
           "date": "2025-11-28",
-          "nav": 1.962643
+          "nav": 1.937885
         },
         {
           "date": "2025-12-31",
-          "nav": 2.00581
+          "nav": 1.980507
         },
         {
           "date": "2026-01-30",
-          "nav": 2.28446
+          "nav": 2.255642
         },
         {
           "date": "2026-02-27",
-          "nav": 2.348889
+          "nav": 2.319258
         },
         {
           "date": "2026-03-31",
-          "nav": 1.993282
+          "nav": 1.968137
         },
         {
           "date": "2026-04-30",
-          "nav": 2.150549
+          "nav": 2.123419
         },
         {
           "date": "2026-05-29",
-          "nav": 2.307146
+          "nav": 2.278041
         },
         {
           "date": "2026-06-30",
-          "nav": 2.270035
+          "nav": 2.241398
+        },
+        {
+          "date": "2026-07-01",
+          "nav": 2.226111
         }
       ],
       "snapshots": [
@@ -5182,37 +5189,37 @@
             {
               "ts_code": "002475.SZ",
               "name": "立讯精密",
-              "weight": 0.26394
+              "weight": 0.263933
             },
             {
               "ts_code": "603305.SH",
               "name": "旭升集团",
-              "weight": 0.17641
+              "weight": 0.176496
             },
             {
               "ts_code": "002050.SZ",
               "name": "三花智控",
-              "weight": 0.132997
+              "weight": 0.133062
             },
             {
               "ts_code": "603816.SH",
               "name": "顾家家居",
-              "weight": 0.114494
+              "weight": 0.11455
             },
             {
               "ts_code": "601636.SH",
               "name": "旗滨集团",
-              "weight": 0.111277
+              "weight": 0.110977
             },
             {
               "ts_code": "600395.SH",
               "name": "盘江股份",
-              "weight": 0.108564
+              "weight": 0.108617
             },
             {
               "ts_code": "300432.SZ",
               "name": "富临精工",
-              "weight": 0.092318
+              "weight": 0.092364
             }
           ]
         },
@@ -5418,37 +5425,37 @@
             {
               "ts_code": "300760.SZ",
               "name": "迈瑞医疗",
-              "weight": 0.250466
+              "weight": 0.250438
             },
             {
               "ts_code": "688399.SH",
               "name": "硕世生物",
-              "weight": 0.17627
+              "weight": 0.176351
             },
             {
               "ts_code": "300677.SZ",
               "name": "英科医疗",
-              "weight": 0.154335
+              "weight": 0.154406
             },
             {
               "ts_code": "603317.SH",
               "name": "天味食品",
-              "weight": 0.115933
+              "weight": 0.115986
             },
             {
               "ts_code": "300558.SZ",
               "name": "贝达药业",
-              "weight": 0.112384
+              "weight": 0.112436
             },
             {
               "ts_code": "688016.SH",
               "name": "心脉医疗",
-              "weight": 0.099819
+              "weight": 0.099864
             },
             {
               "ts_code": "600867.SH",
               "name": "通化东宝",
-              "weight": 0.090794
+              "weight": 0.090519
             }
           ]
         },
@@ -5459,7 +5466,7 @@
             {
               "ts_code": "300760.SZ",
               "name": "迈瑞医疗",
-              "weight": 0.263853
+              "weight": 0.263823
             },
             {
               "ts_code": "603129.SH",
@@ -5679,42 +5686,42 @@
             {
               "ts_code": "688399.SH",
               "name": "硕世生物",
-              "weight": 0.2348
+              "weight": 0.234799
             },
             {
               "ts_code": "000858.SZ",
               "name": "五粮液",
-              "weight": 0.184249
+              "weight": 0.184248
             },
             {
               "ts_code": "601058.SH",
               "name": "赛轮轮胎",
-              "weight": 0.112671
+              "weight": 0.112638
             },
             {
               "ts_code": "000786.SZ",
               "name": "北新建材",
-              "weight": 0.104241
+              "weight": 0.104212
             },
             {
               "ts_code": "002444.SZ",
               "name": "巨星科技",
-              "weight": 0.10061
+              "weight": 0.100827
             },
             {
               "ts_code": "000799.SZ",
               "name": "酒鬼酒",
-              "weight": 0.094646
+              "weight": 0.094536
             },
             {
               "ts_code": "601799.SH",
               "name": "星宇股份",
-              "weight": 0.09036
+              "weight": 0.090351
             },
             {
               "ts_code": "002497.SZ",
               "name": "雅化集团",
-              "weight": 0.078424
+              "weight": 0.078389
             }
           ]
         },
@@ -5725,7 +5732,7 @@
             {
               "ts_code": "688399.SH",
               "name": "硕世生物",
-              "weight": 0.214208
+              "weight": 0.214204
             },
             {
               "ts_code": "000858.SZ",
@@ -5765,7 +5772,7 @@
             {
               "ts_code": "CASH",
               "name": "现金",
-              "weight": 0.008353
+              "weight": 0.008357
             }
           ]
         },
@@ -5832,32 +5839,32 @@
             {
               "ts_code": "688198.SH",
               "name": "佰仁医疗",
-              "weight": 0.020389
+              "weight": 0.020409
             },
             {
               "ts_code": "300759.SZ",
               "name": "康龙化成",
-              "weight": 0.018594
+              "weight": 0.018613
             },
             {
               "ts_code": "000429.SZ",
               "name": "粤高速Ａ",
-              "weight": 0.018442
+              "weight": 0.01846
             },
             {
               "ts_code": "600085.SH",
               "name": "同仁堂",
-              "weight": 0.01629
+              "weight": 0.016203
             },
             {
               "ts_code": "300408.SZ",
               "name": "三环集团",
-              "weight": 0.015886
+              "weight": 0.015901
             },
             {
               "ts_code": "000069.SZ",
               "name": "华侨城Ａ",
-              "weight": 0.01538
+              "weight": 0.015395
             }
           ]
         },
@@ -5960,7 +5967,7 @@
             {
               "ts_code": "CASH",
               "name": "现金",
-              "weight": 0.868648
+              "weight": 0.868665
             },
             {
               "ts_code": "601919.SH",
@@ -5970,17 +5977,17 @@
             {
               "ts_code": "603026.SH",
               "name": "石大胜华",
-              "weight": 0.021782
+              "weight": 0.021744
             },
             {
               "ts_code": "688093.SH",
               "name": "世华科技",
-              "weight": 0.0208
+              "weight": 0.020874
             },
             {
               "ts_code": "300487.SZ",
               "name": "蓝晓科技",
-              "weight": 0.018471
+              "weight": 0.018439
             },
             {
               "ts_code": "300896.SZ",
@@ -5995,7 +6002,7 @@
             {
               "ts_code": "688016.SH",
               "name": "心脉医疗",
-              "weight": 0.01181
+              "weight": 0.011789
             }
           ]
         },
@@ -7198,47 +7205,47 @@
             {
               "ts_code": "688169.SH",
               "name": "石头科技",
-              "weight": 0.217603
+              "weight": 0.220489
             },
             {
               "ts_code": "688041.SH",
               "name": "海光信息",
-              "weight": 0.19342
+              "weight": 0.195985
             },
             {
               "ts_code": "300251.SZ",
               "name": "光线传媒",
-              "weight": 0.167584
+              "weight": 0.167857
             },
             {
               "ts_code": "603766.SH",
               "name": "隆鑫通用",
-              "weight": 0.089026
+              "weight": 0.088626
             },
             {
               "ts_code": "600563.SH",
               "name": "法拉电子",
-              "weight": 0.08671
-            },
-            {
-              "ts_code": "600398.SH",
-              "name": "海澜之家",
-              "weight": 0.080487
+              "weight": 0.086821
             },
             {
               "ts_code": "600007.SH",
               "name": "中国国贸",
-              "weight": 0.079265
+              "weight": 0.079377
             },
             {
-              "ts_code": "002353.SZ",
-              "name": "杰瑞股份",
-              "weight": 0.071911
+              "ts_code": "600398.SH",
+              "name": "海澜之家",
+              "weight": 0.079112
+            },
+            {
+              "ts_code": "688787.SH",
+              "name": "海天瑞声",
+              "weight": 0.067814
             },
             {
               "ts_code": "CASH",
               "name": "现金",
-              "weight": 0.013994
+              "weight": 0.013919
             }
           ]
         },
@@ -7295,47 +7302,47 @@
             {
               "ts_code": "300896.SZ",
               "name": "爱美客",
-              "weight": 0.257035
+              "weight": 0.257042
             },
             {
               "ts_code": "688169.SH",
               "name": "石头科技",
-              "weight": 0.212302
+              "weight": 0.212307
             },
             {
               "ts_code": "603893.SH",
               "name": "瑞芯微",
-              "weight": 0.150989
+              "weight": 0.150992
             },
             {
               "ts_code": "600988.SH",
               "name": "赤峰黄金",
-              "weight": 0.080295
+              "weight": 0.080225
             },
             {
               "ts_code": "688401.SH",
               "name": "路维光电",
-              "weight": 0.072188
+              "weight": 0.072249
             },
             {
               "ts_code": "002901.SZ",
               "name": "大博医疗",
-              "weight": 0.071654
+              "weight": 0.071557
             },
             {
               "ts_code": "688028.SH",
               "name": "沃尔德",
-              "weight": 0.059655
+              "weight": 0.05965
             },
             {
               "ts_code": "603638.SH",
               "name": "艾迪精密",
-              "weight": 0.055025
+              "weight": 0.055291
             },
             {
               "ts_code": "603317.SH",
               "name": "天味食品",
-              "weight": 0.050008
+              "weight": 0.049838
             }
           ]
         },
@@ -7499,42 +7506,42 @@
             {
               "ts_code": "300476.SZ",
               "name": "胜宏科技",
-              "weight": 0.236698
+              "weight": 0.236694
             },
             {
               "ts_code": "300896.SZ",
               "name": "爱美客",
-              "weight": 0.211302
+              "weight": 0.211298
             },
             {
               "ts_code": "688668.SH",
               "name": "鼎通科技",
-              "weight": 0.116847
+              "weight": 0.116827
             },
             {
               "ts_code": "688025.SH",
               "name": "杰普特",
-              "weight": 0.108297
+              "weight": 0.108379
             },
             {
               "ts_code": "300199.SZ",
               "name": "翰宇药业",
-              "weight": 0.105739
+              "weight": 0.105765
             },
             {
               "ts_code": "688392.SH",
               "name": "骄成超声",
-              "weight": 0.077644
+              "weight": 0.077603
             },
             {
               "ts_code": "002317.SZ",
               "name": "众生药业",
-              "weight": 0.074801
+              "weight": 0.074746
             },
             {
               "ts_code": "002437.SZ",
               "name": "誉衡药业",
-              "weight": 0.06753
+              "weight": 0.067545
             },
             {
               "ts_code": "CASH",
@@ -7601,42 +7608,42 @@
             {
               "ts_code": "300308.SZ",
               "name": "中际旭创",
-              "weight": 0.245683
+              "weight": 0.245687
             },
             {
               "ts_code": "688041.SH",
               "name": "海光信息",
-              "weight": 0.215218
+              "weight": 0.215222
             },
             {
               "ts_code": "688498.SH",
               "name": "源杰科技",
-              "weight": 0.126122
+              "weight": 0.126058
             },
             {
               "ts_code": "688551.SH",
               "name": "科威尔",
-              "weight": 0.090027
+              "weight": 0.090048
             },
             {
               "ts_code": "603979.SH",
               "name": "金诚信",
-              "weight": 0.084064
+              "weight": 0.084061
             },
             {
               "ts_code": "688029.SH",
               "name": "南微医学",
-              "weight": 0.082288
+              "weight": 0.082277
             },
             {
               "ts_code": "688230.SH",
               "name": "芯导科技",
-              "weight": 0.078686
+              "weight": 0.078711
             },
             {
               "ts_code": "688403.SH",
               "name": "汇成股份",
-              "weight": 0.077913
+              "weight": 0.077936
             }
           ]
         },
@@ -7846,32 +7853,32 @@
             {
               "ts_code": "688127.SH",
               "name": "蓝特光学",
-              "weight": 0.082003
+              "weight": 0.082019
             },
             {
               "ts_code": "001389.SZ",
               "name": "广合科技",
-              "weight": 0.074663
+              "weight": 0.074664
             },
             {
               "ts_code": "688372.SH",
               "name": "伟测科技",
-              "weight": 0.064187
+              "weight": 0.064176
             },
             {
               "ts_code": "688548.SH",
               "name": "广钢气体",
-              "weight": 0.060597
+              "weight": 0.060584
             },
             {
               "ts_code": "300442.SZ",
               "name": "润泽科技",
-              "weight": 0.060373
+              "weight": 0.060358
             },
             {
               "ts_code": "688625.SH",
               "name": "呈和科技",
-              "weight": 0.056212
+              "weight": 0.056235
             },
             {
               "ts_code": "CASH",
@@ -8025,7 +8032,50 @@
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-07-01",
+        "formal_signal_date": "2026-06-30",
+        "risk_state": "risk_on",
+        "target_total_exposure": 0.136,
+        "market_momentum": 0.2218,
+        "holdings": [
+          {
+            "ts_code": "300308.SZ",
+            "name": "中际旭创",
+            "weight": 0.03264
+          },
+          {
+            "ts_code": "688233.SH",
+            "name": "神工股份",
+            "weight": 0.018231
+          },
+          {
+            "ts_code": "688432.SH",
+            "name": "有研硅",
+            "weight": 0.018149
+          },
+          {
+            "ts_code": "002409.SZ",
+            "name": "雅克科技",
+            "weight": 0.016936
+          },
+          {
+            "ts_code": "002138.SZ",
+            "name": "顺络电子",
+            "weight": 0.016807
+          },
+          {
+            "ts_code": "688150.SH",
+            "name": "莱特光电",
+            "weight": 0.016677
+          },
+          {
+            "ts_code": "688059.SH",
+            "name": "华锐精密",
+            "weight": 0.016559
+          }
+        ]
+      }
     },
     "since_2023_01": {
       "sample_tag": "since_2023_01",
@@ -8091,7 +8141,7 @@
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-06-30",
+        "data_as_of": "2026-07-01",
         "schedule_kind": "monthly",
         "suggestion_effective_date": "2026-06-30",
         "basket_effective_date": "2026-06-30",
@@ -9672,7 +9722,7 @@
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-06-30",
+        "data_as_of": "2026-07-01",
         "schedule_kind": "monthly",
         "suggestion_effective_date": "2026-06-30",
         "basket_effective_date": "2026-06-30",
@@ -10573,7 +10623,7 @@
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-06-30",
+        "data_as_of": "2026-07-01",
         "schedule_kind": "monthly",
         "suggestion_effective_date": "2026-06-30",
         "basket_effective_date": "2026-06-30",

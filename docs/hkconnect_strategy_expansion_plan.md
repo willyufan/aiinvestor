@@ -1,5 +1,14 @@
 # 沪港通策略空间扩展计划
 
+## 2026-07-01 20:58 CST 扩展复核结果
+
+- 上一轮候选/结果摘要：上一轮 HK Path4-7 已完成巡检且留下下一轮候选；本轮新增回测预算优先给 HK Path1/2/3，扩展线只做 coverage 巡检、public/live stale preview 补跑与下一轮候选设计，所有结果仍不并入 A股 winner。
+- HK Path4 本轮：未新增 `--only-strategy-ids`；同步补跑的 21 条 HK stale preview 中包含 HK Path4 旧月频/双周策略，只用于刷新 public snapshot，不算新增实验。tracked/robust 未改，当前 robust 仍为 `hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v27_liquidity_momentum_repair`。最终 guard focus `quality_momentum`，第一候选 `hkconnect_path4_quality_momentum_monthly_ytd_positive_v39_quality_momentum_repair`。
+- HK Path5 本轮：未新增实验；stale preview 补跑包含 `hkconnect_path5_pullback_continuation_monthly_quality_retest_v24_pullback_definition_repair`、`v25_pullback_definition_lowturn` 等旧策略，仅为同步 public/live。tracked/robust 未改，下一轮 focus `pullback_definition`，第一候选 `hkconnect_path5_pullback_continuation_monthly_quality_retest_v31_pullback_definition_rewrite`。
+- HK Path6 本轮：未新增实验；stale preview 同步未改变 window winner/robust，当前 robust 仍为零交易的 `hkconnect_path6_large_liquid_core_monthly_capacity_cost_v26_ytd_repair`，需要用有效大市值核心候选替代。下一轮 focus `large_liquid_core`，第一候选 `hkconnect_path6_large_liquid_core_monthly_quality_ytd_v38_large_liquid_core_repair`。
+- HK Path7 本轮：未新增实验；stale preview 同步未改变 window winner/robust，当前 robust 仍为零交易的 `hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_defensive_v24_structure_repair`，下一轮必须先修复 sleeve 触发条件。下一轮 focus `barbell_sleeve_structure`，第一候选 `hkconnect_path7_barbell_monthly_quality_sleeve_v37_barbell_trigger_repair`。
+- 下一轮第一条扩展命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_ytd_positive_v39_quality_momentum_repair,hkconnect_path5_pullback_continuation_monthly_quality_retest_v31_pullback_definition_rewrite,hkconnect_path6_large_liquid_core_monthly_quality_ytd_v38_large_liquid_core_repair,hkconnect_path7_barbell_monthly_quality_sleeve_v37_barbell_trigger_repair`；若未注册，先按各 path cap evict 一条非 winner/robust 弱项后注册。
+
 ## 2026-07-01 05:26 CST 扩展复核结果
 
 - 上一轮候选/结果摘要：上一轮 HK Path5/6/7 只完成设计；本轮新增回测预算覆盖 HK Path5/6/7，HK Path4 完成巡检、同步和下一轮候选设计。所有 HK 扩展结果均不并入 A股 winner 结论。
