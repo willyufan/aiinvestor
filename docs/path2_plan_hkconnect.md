@@ -1803,3 +1803,11 @@
 - 五窗口结果：CAGR `11.77% / 10.95% / 6.86% / 47.12% / 13.23%`，最大回撤 `-39.55% / -39.55% / -30.06% / -14.60% / -7.99%`，Sharpe `0.6024 / 0.5416 / 0.3873 / 1.6333 / 0.8610`。
 - 结论：v46 保留短窗正收益，但长中窗回撤继续过深，未改变 HK Path 2 window winner、robust candidate 或 tracked payload；robust 仍为 `hkconnect_path2_theme_monthly_cost_control`。本轮没有 HK Path2 evict。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> elasticity_cost_control`，但 equal-elastic 族历史 terminal check 多次失败；下一轮只允许一次更硬成本终端确认，若仍弱则停止扩 elastic 并回到月频 robust。候选为 `hkconnect_path2_equal_elastic_monthly_cost_guard_v46_elasticity_cost_control_terminal`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v46_elasticity_cost_control_terminal`。
+
+## 本轮执行计划（2026-07-02 07:00 CST）
+
+- 上一轮候选/结果摘要：上一轮要求停止无效 equal-elastic 小修或只做一次硬成本终端确认；本轮最终 focus 转为 `high_return_monthly`，但新增候选选择了双周质量/流动性突破的 `elasticity_cost_control` 版本，目标是复核高弹短窗能否在低风险/更宽持仓下保留收益。
+- 本轮候选 ID 与命令：`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v51_elasticity_cost_control`；成功命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v51_elasticity_cost_control,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit50_v27_cost_stress`。
+- 五窗口结果：CAGR `12.12% / 10.30% / 7.23% / 36.62% / -0.50%`，最大回撤 `-36.51% / -36.51% / -28.03% / -14.02% / -9.40%`，Sharpe `0.6257 / 0.5262 / 0.3996 / 1.3537 / 0.0433`，换手 `5.92x / 5.84x / 6.33x / 7.75x / 6.94x`。
+- 结论：v51 仍是短窗有弹性、长中窗回撤过深，未改变 HK Path2 window winner、robust candidate 或 tracked payload；robust 仍为 `hkconnect_path2_theme_monthly_cost_control`，mean CAGR `40.48%`、min CAGR `24.44%`。本轮没有 HK Path2 evict。
+- 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> high_return_monthly`。下一轮第一候选建议暂停双周突破和 equal-elastic terminal check，回到月频高收益质量/流动性修复：`hkconnect_path2_high_return_monthly_quality_liquidity_v52_high_return_ytd_guard`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v52_high_return_ytd_guard`。
