@@ -1811,3 +1811,11 @@
 - 五窗口结果：CAGR `12.12% / 10.30% / 7.23% / 36.62% / -0.50%`，最大回撤 `-36.51% / -36.51% / -28.03% / -14.02% / -9.40%`，Sharpe `0.6257 / 0.5262 / 0.3996 / 1.3537 / 0.0433`，换手 `5.92x / 5.84x / 6.33x / 7.75x / 6.94x`。
 - 结论：v51 仍是短窗有弹性、长中窗回撤过深，未改变 HK Path2 window winner、robust candidate 或 tracked payload；robust 仍为 `hkconnect_path2_theme_monthly_cost_control`，mean CAGR `40.48%`、min CAGR `24.44%`。本轮没有 HK Path2 evict。
 - 下一轮 focus：最终 guard 给出 `hkconnect_path2 -> high_return_monthly`。下一轮第一候选建议暂停双周突破和 equal-elastic terminal check，回到月频高收益质量/流动性修复：`hkconnect_path2_high_return_monthly_quality_liquidity_v52_high_return_ytd_guard`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-06-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v52_high_return_ytd_guard`。
+
+## 本轮执行计划（2026-07-03 07:23 CST）
+
+- 上一轮候选/结果摘要：上一轮留下 `hkconnect_path2_high_return_monthly_quality_liquidity_v52_high_return_ytd_guard`；本轮没有执行该新增 id，原因是候选未在当前 HK 可执行集合注册。Path2 仍独立于 A股 Path2/Path4，不共用结论。
+- 本轮候选 ID 与命令：本轮无新增 HK Path2 回测；完成 `tracked_active`、HK artifact、live/public 同步。上一轮 `v51_elasticity_cost_control` 仍显示双周突破长中窗回撤过深，不能继续当主线。
+- 巡检结论：HK Path2 window winner、robust candidate 与 tracked payload 未改变；robust 仍应优先参考月频高收益/主题成本控制线，而不是继续扩 equal-elastic 或双周突破 terminal check。本轮没有 HK Path2 evict。
+- 下一轮 focus：先注册 `hkconnect_path2_high_return_monthly_quality_liquidity_v52_high_return_ytd_guard`，再执行 `.venv/bin/python backtest_hkconnect.py --end-date 2026-07-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v52_high_return_ytd_guard`；若仍未注册，选择已注册 high_return_monthly 相邻候选，而不是回到双周突破。
+- Final guard 修正：最终轮换为 `hkconnect_path2 -> biweekly_breakout / rotate / stagnation_runs=3`。下一轮第一条应先注册或选择已注册的低换手双周突破修复，而不是继续 high_return_monthly；建议候选 `hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v52_lowturn_repair`，命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-07-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v52_lowturn_repair`。
