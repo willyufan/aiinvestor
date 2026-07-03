@@ -1,5 +1,13 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-04 07:03 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 `high_speed_pcb_copper_clad_server_20260624_v0` 交易日不足；本轮继续复跑同一冻结事件篮子，并尝试与本轮 Path4 `prom24/signal29/risk10/cap05/exit60` 对照，不把事件 seed 写入 winner/tracked。
+- 本轮候选 ID 与命令：复跑 `high_speed_pcb_copper_clad_server_20260624_v0`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap05_exit60_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_prom24_signal29_risk10_cap05_exit60_20260704_iter.json`。
+- 入口结果：候选数 `6`；5D equal_weight 收益 `-3.78%`、seed_weight 收益 `-3.31%`，10D/20D 仍为 `insufficient_data`，单票可用交易日为 `7`。`path4_reference_overlap.status=missing_reference_strategy`，原因是本轮 `prom24/signal29` 没进入 public strategy detail。
+- 巡检结论：Path5 registry/candidates 完整，`basket_count=4`、`frozen_candidate_count=24`、`pending_audit_count=0`、`backtest_ready_count=24`；本轮没有新增有效策略结论，也没有新增第五事件篮子。
+- 下一轮 focus：最终 guard 给出 `path4_comparison`。下一轮第一动作应改用已存在 detail 的 Path4 tracked-only robust 做有效 overlap：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_robust_prom22_signal29_risk06_20260704_next.json`；若 10D/20D 仍不足，只记录成熟度，不晋级。
+
 ## 2026-07-01 20:58 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 `high_speed_pcb_copper_clad_server_20260624_v0` 已有 4 个可用交易日但不足 5D；本轮继续验证事件回测入口与 Path4 robust 对照，不把事件 seed 写入 winner/tracked。

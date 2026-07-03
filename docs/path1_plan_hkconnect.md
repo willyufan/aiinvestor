@@ -1,5 +1,13 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-07-04 07:03 CST 状态
+
+- 上一轮候选/结果摘要：上一轮留下 HK Path1 v50 月频质量动量周控候选；本轮新增 HK 回测预算投给 Path2/3/4/5，Path1 完成 guard 巡检、`tracked_active`、artifact/live/public 同步和下一轮候选设计，仍独立于 A股 winner。
+- 本轮候选 ID 与命令：本轮没有新增 HK Path1 `--only-strategy-ids`；执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --family-scope tracked_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01` 以及 `scripts/update_hkconnect_artifacts.py`、`scripts/export_live_platform_data.py`、`scripts/generate_public_snapshot.py`。
+- 结论：HK Path1 window winner/robust 未由本轮新实验改变；tracked 当前为 2017/2020 `monthly_equal_buffered_weekly_overlay_soft_exit32`，2023 `monthly_equal_buffered_weekly_overlay_lowvol_soft_exit34`，2025 `v49_biweekly_buffer_ytd_repair`，2026 `hkconnect_path1_biweekly_lowvol`，robust 仍为 `hkconnect_path1_biweekly_lowvol`。
+- evict/归档：本轮无 HK Path1 evict；未回测原因是本轮 HK 新增预算优先给 rotate 更久的 Path2 与扩展线，同时 Path1 coverage 已完整。
+- 下一轮 focus：最终 guard 给出 `monthly_weekly_overlay`。下一轮第一候选仍是 `hkconnect_path1_monthly_quality_momentum_weekly_overlay_v50_ytd_drawdown_repair`，命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v50_ytd_drawdown_repair`；若未注册，先在 HK Path1 variants 中注册。
+
 ## 2026-07-01 20:58 CST 状态
 
 - 上一轮候选/结果摘要：上一轮只设计 HK Path1 v49；本轮已注册并五窗口确认，保持 HK Path1 独立于 A股 winner 与 HK Path2/3/扩展线。

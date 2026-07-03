@@ -1,5 +1,14 @@
 # Path 2 研究计划
 
+## 2026-07-04 07:03 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 v67 只改善 Path2 2017 口径，2020/2023 仍弱；本轮在独立 `growth_elastic` 池新增 v70 underrepresented 低换手双周线，没有引入 Path4 `emergent_theme`，也没有把 Path3 `_weekly` 当作 Path2 结论。
+- 本轮候选 ID 与命令：新增 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn`、`core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v70>,<path1>,<path3>,<three_path4>`。
+- 五窗口结果：`80/20 equal_weight` CAGR `6.49% / 6.07% / 0.98% / 46.24% / 57.33%`，最大回撤最差 `-28.14%`，换手最高 `20.03x`；`70/30 equal_weight` CAGR `7.81% / 7.88% / 5.34% / 56.90% / 102.27%`，最大回撤最差 `-27.75%`，换手最高 `19.26x`。
+- 结论：v70 仍是短窗弹性样本，不能修复 `since_2020_01`/`since_2023_01` 中周期收益；`scripts/path2_candidate_pass.py` universe 更新到 `806`，weighted robust 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top8_risk22_exit42_cap16_cost_guard_v46_capacity_cost`，`meanCAGR=20.70% / minCAGR=9.16%`。
+- evict/归档：本轮无 Path2 evict；v70 只是补 underrepresented 低换手族代表，后续若 cap 紧张，优先淘汰更早的 v63/v64 低换手负样本。
+- 下一轮 focus：最终 guard 仍给 `medium_cycle_growth`。下一轮第一候选应回到中周期增长修复，而不是继续压 cap；候选 `core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk26_mom_exit46_reconfirm96_caution56_cap18_cost_guard_v71_medium_cycle_growth_repair` 与 equal_weight 对照，首条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v71_medium_cycle_growth_repair_ids>`；若未注册，先加入 Path2 scan family/list。
+
 ## 2026-07-01 20:58 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 v66 仍未真正修复 2020/2023 中周期收益；本轮按 `medium_cycle_growth` 在独立 `growth_elastic` 池确认 v67 双底座，没有引入 Path4 `emergent_theme`，也没有把 Path3 `_weekly` 结论并入 Path2。

@@ -1,5 +1,14 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-04 07:03 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 v26 零交易，后续需要放宽触发；本轮注册并五窗口确认 v29 防守覆盖，保持纯 weekly 口径，不把 HK Path1/2 月频或双周候选并入本路径。
+- 本轮候选 ID 与命令：新增 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v29_defensive_overlay`；命令同本轮 HK 受限回测 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path2_v52>,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v29_defensive_overlay,<hk_path4_v41>,<hk_path5_v31>`。
+- 五窗口结果：CAGR `13.35% / 12.35% / 12.26% / 22.51% / -6.51%`，最大回撤 `-21.52% / -17.30% / -12.14% / -10.76% / -9.58%`，年均换手最高 `6.58x`。
+- 结论：v29 恢复了有效交易但 2026 转负，中长窗弱于既有 weekly robust；HK Path3 window winner、robust candidate、tracked payload 未改变，robust 仍为 `hkconnect_path3_equal_elastic_weekly`，但其高换手问题仍需下一轮继续处理。
+- evict/归档：本轮无 HK Path3 evict；v26 继续作为零交易失败样本，v29 作为有效但 2026 失败样本。
+- 下一轮 focus：最终 guard 给出 `weekly_turnover_reduction`。下一轮第一候选建议在 stable weekly 线保留有效交易并压换手：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v30_turnover_reduction`，命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v30_turnover_reduction`；若未注册，先在 HK Path3 variants 中注册。
+
 ## 2026-07-01 20:58 CST 状态
 
 - 上一轮候选/结果摘要：上一轮只设计 HK Path3 v26；本轮按 `weekly_defensive_overlay` 注册并五窗口确认，保持纯 weekly 口径，不把 HK Path1/2 月频或双周候选并入本路径。

@@ -1,5 +1,14 @@
 # Path 1 研究计划
 
+## 2026-07-04 07:03 CST 状态
+
+- 上一轮候选/结果摘要：上一轮把 focus 留给 core_multifactor/signal-quality；本轮按代码实际集合新增并确认 `trend_signal_quality_gate_cashguard_risk06_reconfirm`，仍只作为 Path1/core_multifactor fast-pass，不与独立 Path4 强主题涌现混用。
+- 本轮候选 ID 与命令：新增 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk06_reconfirm`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <path1_trend_risk06>,<two_path2_v70>,<one_path3_turnover>,<three_path4_prom24_signal29>`。
+- 五窗口结果：CAGR `11.32% / 12.89% / 19.05% / 56.60% / 52.66%`，最大回撤 `-15.08% / -20.00% / -12.38% / -15.23% / -11.03%`，年均换手最高 `5.36x`。结论：长中窗弱于 satellite robust，未替换 Path1 official/robust。
+- core_multifactor 子段同步：`scripts/winner_only_pass.py` 退出码 `2` 表示 fast-pass 出现 clear improvement，但 weighted validation 拒绝本轮 risk06 替换 2017 official；`scripts/update_weighted_winners.py` 后 Path1 composite 由 `risk20_reconfirm` 承担 robust/2020/2023，`trend_signal_quality_gate_cashguard_risk10_reconfirm` 承担 2017，`risk10_reconfirm` 卫星承担 2025，composite `meanCAGR=46.39% / minCAGR=22.19% / worstDD=-17.08%`。
+- evict/归档：本轮无 Path1 evict；只是把 core_multifactor 覆盖扩到 guard 口径 `66/66`，不因 risk06 短窗弱而跳过其它窗口。
+- 下一轮 focus：最终 guard 给出 `core_multifactor_coverage`。下一轮第一候选建议在当前 2017 组件 `trend risk10` 与本轮弱 `trend risk06` 中间测试 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk09_reconfirm`；首条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk09_reconfirm`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`。
+
 ## 2026-07-01 20:58 CST 状态
 
 - 上一轮候选/结果摘要：上一轮把下一步指向 `core_multifactor risk06_reconfirm_v2`；本轮已注册并五窗口确认，继续只作为 Path1/core_multifactor fast-pass 候选，不与独立 Path4 强主题涌现混用。

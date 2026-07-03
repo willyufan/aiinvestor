@@ -1,5 +1,15 @@
 # Path 4 强主题涌现路径
 
+## 2026-07-04 07:03 CST 状态
+
+- 上一轮候选/结果摘要：上一轮 `prom22/signal28/risk08/cap05/exit68` 给出 robust 线索但 2020/2023 仍弱；本轮按 `emergent_theme_coverage` 测试 `prom24/signal29/leader78/risk10/cap05/exit60` 三底座，继续保持独立 `emergent_theme` 池，不并入 Path2。
+- 本轮候选 ID 与命令：新增三底座 `aggr_13_87_prom24_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap05_exit60_lowturn`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap05_exit60_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap05_exit60_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap05_exit60_lowturn`。
+- 五窗口结果：`80/20 total_mv` CAGR `10.30% / 10.42% / 7.01% / 37.30% / 27.80%`，最大回撤最差 `-14.83%`，换手最高 `5.82x`；`90/10 total_mv` CAGR `4.37% / 4.81% / 3.14% / 12.12% / 8.21%`；`90/10 equal_weight` CAGR `1.61% / 2.72% / 3.94% / 8.94% / -2.47%`。
+- 强主题捕捉检查：80/20 近端能覆盖生益科技、深南电路、寒武纪、新易盛、中际旭创等电子/AI/PCB 强势簇，不是单票幸运；但 2020/2023 稳定性和跨底座收益弱于现有主体。
+- payload 变化：本轮新增 `prom24/signal29` 未晋级；weighted 同步后 Path4 tracked-only robust 为 `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`，`meanCAGR=18.60% / minCAGR=10.30% / worstDD=-13.57%`。第一阶段仍不并入 A股 Path1/2/3 official winner。
+- evict/归档：从 `PATH4_THEME_DISCOVERY_VARIANT_IDS` 移出旧 `aggr_13_87_prom26_emergent_theme_quality_gate_signal32_leader82_coverage_penalty_risk08_cap04_exit56_lowturn`；evict 原因是旧高信号低 cap 线非 winner/robust，且本轮 `prom24/signal29` 已覆盖同一高门槛槽位。
+- 下一轮 focus：最终 guard 给出 `emergent_theme_coverage`。下一候选应测试 `prom21/signal29/leader78/risk08/cap05/exit66` 是否比本轮 prom24 更稳，首条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom21_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap05_exit66_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom21_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap05_exit66_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom21_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`；若未注册，先 evict 一条非 winner/robust 弱项后加入。
+
 ## 2026-07-01 20:58 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 `prom20/signal28/risk08/cap04/exit68` 降 cap 后跨底座仍弱；本轮按 `emergent_theme_coverage` 测试覆盖面恢复到 `prom22/cap05`，仍保持独立 `emergent_theme` 池，不并入 Path2 或 Path1-lite。
