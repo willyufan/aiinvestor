@@ -1,5 +1,14 @@
 # Path 2 研究计划
 
+## 2026-07-05 迭代状态
+
+- 上一轮候选/结果摘要：上一轮留下 v71 中周期增长修复候选；本轮在独立 `growth_elastic` 池确认 v71 双底座，没有把 Path4 `emergent_theme` 或 Path3 `_weekly` 结论并入 Path2。
+- 本轮候选 ID 与命令：新增 `core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk26_mom_exit46_reconfirm96_caution56_cap18_cost_guard_v71_medium_cycle_growth_repair`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk26_mom_exit46_reconfirm96_caution56_cap18_cost_guard_v71_medium_cycle_growth_repair`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <two_path2_v71>,<path1>,<path3>,<three_path4>`。
+- 五窗口结果：`90/10 total_mv` CAGR `7.80% / 7.07% / 3.07% / 38.85% / 10.62%`，最大回撤最差 `-21.06%`，换手最高 `10.21x`；`90/10 equal_weight` CAGR `3.34% / 1.77% / 6.35% / 19.40% / 26.19%`，最大回撤最差 `-26.41%`。
+- 结论：v71 仍不能修复 `since_2020_01`/`since_2023_01` 中周期收益，且短窗弹性不及既有 robust；`scripts/path2_candidate_pass.py` 后候选宇宙 `808`，weighted robust 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top8_risk22_exit42_cap16_cost_guard_v46_capacity_cost`，`meanCAGR=20.70% / minCAGR=9.16%`。
+- evict/归档：本轮无 Path2 evict；v71 作为 medium-cycle 扩 risk/top14 的负样本，后续若 cap 紧张优先淘汰更早的 v63/v64 低换手短窗负样本。
+- 下一轮 focus：若最终 guard 继续给 `medium_cycle_growth`，下一候选应减少短窗换手并提高 2020/2023 稳定性，首条命令建议 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top16_risk28_mom_exit48_reconfirm94_caution58_cap20_cost_guard_v72_medium_cycle_growth_repair,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top16_risk28_mom_exit48_reconfirm94_caution58_cap20_cost_guard_v72_medium_cycle_growth_repair`；若未注册，先加入 Path2 scan family/list。
+
 ## 2026-07-04 07:03 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 v67 只改善 Path2 2017 口径，2020/2023 仍弱；本轮在独立 `growth_elastic` 池新增 v70 underrepresented 低换手双周线，没有引入 Path4 `emergent_theme`，也没有把 Path3 `_weekly` 当作 Path2 结论。

@@ -1,5 +1,15 @@
 # 沪港通策略空间扩展计划
 
+## 2026-07-05 扩展复核结果
+
+- 上一轮候选/结果摘要：上一轮 HK Path4-7 留下 v42/v32/v38/v37 方向；本轮新增回测预算实际确认 HK Path6 v38 与 HK Path7 v37，Path4/5 完成巡检、tracked_active/public/live 同步和下一轮候选设计，所有 HK 扩展结果仍不并入 A股 winner。
+- HK Path4 本轮：未新增 `--only-strategy-ids`；原因是本轮 HK 新增预算给 Path2/6/7。tracked/robust 未改，当前 robust 仍为 `hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v27_liquidity_momentum_repair`。最终 guard 已轮换到 `liquidity_momentum`；下一轮第一候选改为 `hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v43_liquidity_momentum_ytd_repair`。
+- HK Path5 本轮：未新增 `--only-strategy-ids`；上一轮 v31 收益偏弱且 2026 为负，本轮只完成巡检和下一轮候选设计。tracked/robust 未改。最终 guard 已轮换到 `retest_confirmation`；下一轮第一候选改为 `hkconnect_path5_breakout_retest_biweekly_quality_confirm_v33_retest_confirmation_ytd_guard`。
+- HK Path6 本轮：新增 `hkconnect_path6_large_liquid_core_monthly_quality_ytd_v38_large_liquid_core_repair`，命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path2_v43>,hkconnect_path6_large_liquid_core_monthly_quality_ytd_v38_large_liquid_core_repair,<hk_path7_v37>`。五窗口 CAGR `7.25% / 7.30% / 10.09% / 16.44% / -23.30%`，最大回撤最差 `-25.26%`，2026 明显为负；它恢复有效交易但不能替换 tracked/robust。
+- HK Path7 本轮：新增 `hkconnect_path7_barbell_monthly_quality_sleeve_v37_barbell_trigger_repair`，五窗口 CAGR `6.91% / 7.04% / 10.37% / 15.23% / -15.52%`，最大回撤最差 `-20.15%`，2026 仍为负；说明月频质量袖触发可交易但防守不足，不替换 tracked/robust。
+- evict/归档：本轮 HK Path4-7 无 evict；Path6/7 的新增候选只作为零交易修复后的有效但负收益样本。
+- 下一轮第一条扩展命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v43_liquidity_momentum_ytd_repair,hkconnect_path5_breakout_retest_biweekly_quality_confirm_v33_retest_confirmation_ytd_guard,hkconnect_path6_large_liquid_core_monthly_capacity_cost_v39_capacity_cost_repair,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_defensive_v38_barbell_sleeve_structure`；若未注册，先按各 path cap evict 一条非 winner/robust 弱项后注册。
+
 ## 2026-07-04 07:03 CST 扩展复核结果
 
 - 上一轮候选/结果摘要：上一轮 HK Path4-7 留下 v39/v31/v38/v37 方向；本轮新增预算实际确认 HK Path4 v41 与 HK Path5 v31，Path6/7 完成巡检、tracked_active/public/live 同步和下一轮候选设计，所有 HK 扩展结果仍不并入 A股 winner。

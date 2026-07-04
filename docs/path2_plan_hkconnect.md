@@ -1,5 +1,14 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-05 迭代状态
+
+- 上一轮候选/结果摘要：上一轮 v52 双周低换手 breakout 仍有中长窗深回撤；本轮按 `high_return_monthly` 注册并五窗口确认 v43 月频高收益成本控制线，继续独立于 A股 Path2 与 HK Path4-7 扩展线。
+- 本轮候选 ID 与命令：新增 `hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v43_high_return_monthly`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v43_high_return_monthly,hkconnect_path6_large_liquid_core_monthly_quality_ytd_v38_large_liquid_core_repair,hkconnect_path7_barbell_monthly_quality_sleeve_v37_barbell_trigger_repair`。
+- 五窗口结果：CAGR `15.98% / 19.34% / 22.05% / 39.69% / 27.30%`，最大回撤 `-25.71% / -14.05% / -11.08% / -9.66% / -9.94%`，年均换手最高 `5.31x`。
+- 结论：v43 保持 2026 正收益且 2023 风险可控，但 `since_2023_01` 仍低于 Path2 `30%` 验收线，且未超过现有 robust `hkconnect_path2_theme_monthly_cost_control`；未改变 HK Path2 window winner、robust candidate 或 tracked payload。
+- evict/归档：本轮无 HK Path2 evict；v43 作为 high-return monthly 修复样本保留，下一轮不应回到 v52 同形 breakout 低换手线。
+- 下一轮 focus：若最终 guard 仍给 `high_return_monthly`，下一候选应继续修 2023 收益而不牺牲 2026 正收益，命令建议 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v44_high_return_monthly`；若未注册，先在 HK Path2 variants 中注册。
+
 ## 2026-07-04 07:03 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 v50 仍有长窗深回撤；本轮按 HK Path2 rotate `elasticity_cost_control` 先注册低换手突破修复 v52，仍不并入 A股 Path2 或 HK Path4-7 扩展结论。

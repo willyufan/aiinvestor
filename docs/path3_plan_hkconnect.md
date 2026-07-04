@@ -1,5 +1,13 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-05 迭代状态
+
+- 上一轮候选/结果摘要：上一轮 v29 恢复有效交易但 2026 转负；本轮 HK 新增预算投给 Path2/6/7，Path3 保持纯 weekly 口径，只做 guard 巡检、`tracked_active`、artifact/live/public 同步和下一轮候选设计。
+- 本轮候选 ID 与命令：本轮没有新增 HK Path3 `--only-strategy-ids`；执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --family-scope tracked_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，没有把 HK Path1/2 月频或双周候选并入本路径。
+- 结论：HK Path3 window winner、robust candidate、tracked payload 未改变；robust 仍为 `hkconnect_path3_equal_elastic_weekly`，但该线高换手问题仍需继续处理。
+- evict/归档：本轮无 HK Path3 evict；未回测原因是本轮 HK 新增实验预算优先修复 Path6/7 零交易 robust 与 Path2 高收益月频。
+- 下一轮 focus：若最终 guard 继续给 `weekly_turnover_reduction`，第一候选仍是 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v30_turnover_reduction`，命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v30_turnover_reduction`；若未注册，先在 HK Path3 variants 中注册。
+
 ## 2026-07-04 07:03 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 v26 零交易，后续需要放宽触发；本轮注册并五窗口确认 v29 防守覆盖，保持纯 weekly 口径，不把 HK Path1/2 月频或双周候选并入本路径。

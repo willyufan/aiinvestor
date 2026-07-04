@@ -1,5 +1,13 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-07-05 迭代状态
+
+- 上一轮候选/结果摘要：上一轮 HK Path1 继续留下 v50 月频质量动量周控候选；本轮新增 HK 回测预算投给 Path2/6/7，Path1 完成 guard 巡检、`tracked_active` 同步、artifact/live/public 同步和下一轮候选设计，仍独立于 A股 winner。
+- 本轮候选 ID 与命令：本轮没有新增 HK Path1 `--only-strategy-ids`；执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --family-scope tracked_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`，随后运行 `scripts/update_hkconnect_artifacts.py`、`scripts/export_live_platform_data.py`、`scripts/generate_public_snapshot.py`。
+- 结论：HK Path1 window winner/robust 未由本轮新实验改变；tracked/robust 仍沿用既有低波与双周缓冲主体。本轮只产生同步信息，不并入 A股 winner。
+- evict/归档：本轮无 HK Path1 evict；未回测原因是本轮 HK 新增预算优先给 Path2 的高收益月频修复与 Path6/7 扩展零交易修复。
+- 下一轮 focus：最终 guard 已轮换到 `biweekly_buffer`；第一候选改为 `hkconnect_path1_biweekly_quality_momentum_equal_buffered_v51_biweekly_buffer_ytd_repair`，命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v51_biweekly_buffer_ytd_repair`；若未注册，先在 HK Path1 variants 中注册。
+
 ## 2026-07-04 07:03 CST 状态
 
 - 上一轮候选/结果摘要：上一轮留下 HK Path1 v50 月频质量动量周控候选；本轮新增 HK 回测预算投给 Path2/3/4/5，Path1 完成 guard 巡检、`tracked_active`、artifact/live/public 同步和下一轮候选设计，仍独立于 A股 winner。

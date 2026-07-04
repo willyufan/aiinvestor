@@ -1,5 +1,14 @@
 # Path 3 研究计划
 
+## 2026-07-05 迭代状态
+
+- 上一轮候选/结果摘要：上一轮建议测试 `cap44/hold7/turn04/exit94/risk12` 折中线；本轮已注册并五窗口确认，保持纯 `_weekly` 路径，没有使用 Path1 月选周控 overlay。
+- 本轮候选 ID 与命令：新增 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn04_exit94_risk12_weekly_turnover_repair_v3_weekly`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <path3_v3>,<path1>,<two_path2>,<three_path4>`。
+- 五窗口结果：CAGR `10.43% / 12.91% / 8.79% / 29.20% / 64.96%`，最大回撤 `-20.92% / -27.73% / -11.76% / -18.20% / -13.22%`，年均换手 `1.28x / 1.01x / 0.59x / 2.10x / 3.20x`。
+- 结论：v3 比极低换手线有更高收益，但 2020 回撤仍深、2023 收益不足，未改变 Path3 window winner、robust candidate 或 tracked payload；当前 robust 仍为 `cash_off_and_cap60_hold3_turn05_exit94_weekly`，`meanCAGR=31.98% / minCAGR=12.93%`。
+- evict/归档：本轮无新增 Path3 archive；上一轮已归档的 cap42/cap44 弱线继续作为低换手边界样本。
+- 下一轮 focus：若最终 guard 继续给 `turnover_reduction`，下一候选不要继续压到无收益状态，首条命令建议 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn05_exit92_risk14_weekly_yield_repair_weekly`；若未注册，先加入 Path3 weekly scan，且 ID 必须以 `_weekly` 结尾。
+
 ## 2026-07-04 07:03 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 `cap44/hold8/turn03/exit96/risk10` 提供低换手但 2020 回撤深；本轮按 `turnover_reduction` 继续纯 `_weekly` 路径，注册并确认 `cap42/hold8/turn03/exit96/risk10`，没有使用 Path1 月选周控 overlay。

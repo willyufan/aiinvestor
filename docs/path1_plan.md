@@ -1,5 +1,14 @@
 # Path 1 研究计划
 
+## 2026-07-05 迭代状态
+
+- 上一轮候选/结果摘要：上一轮把下一步指向 `trend_signal_quality_gate_cashguard_risk09_reconfirm`；本轮已注册并五窗口确认，继续只作为 Path1/core_multifactor fast-pass，不与独立 Path4 强主题涌现混用。
+- 本轮候选 ID 与命令：新增 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk09_reconfirm`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <path1_risk09>,<two_path2_v71>,<one_path3_v3>,<three_path4_prom21>`。
+- 五窗口结果：CAGR `9.71% / 10.58% / 20.78% / 57.33% / 52.74%`，最大回撤 `-20.38% / -21.14% / -13.19% / -15.23% / -11.03%`，换手最高 `5.35x`。结论：2017/2020 弱于当前 Path1 主体，未替换 window winner、robust candidate 或 tracked payload。
+- core_multifactor 子段同步：代码实际 core_multifactor 覆盖扩到 `67` 条；`scripts/winner_only_pass.py` 仍只发现既有 fast-pass 方向的 clear improvement，`scripts/update_weighted_winners.py` 后 2017 仍由 `trend_signal_quality_gate_cashguard_risk10_reconfirm` 承担，2020/2023 robust 仍由 `sat_three_stage_buffered_cost_guard_risk20_reconfirm` 承担。
+- evict/归档：本轮无 Path1 evict；`risk09` 作为 risk10/risk06 之间的趋势信号质量插值负样本保留。
+- 下一轮 focus：若最终 guard 继续给 `core_multifactor_coverage`，不要继续单纯插值 trend risk；下一候选池转回低波质量信号线，首条命令建议 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk07_reconfirm_v4`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`。
+
 ## 2026-07-04 07:03 CST 状态
 
 - 上一轮候选/结果摘要：上一轮把 focus 留给 core_multifactor/signal-quality；本轮按代码实际集合新增并确认 `trend_signal_quality_gate_cashguard_risk06_reconfirm`，仍只作为 Path1/core_multifactor fast-pass，不与独立 Path4 强主题涌现混用。

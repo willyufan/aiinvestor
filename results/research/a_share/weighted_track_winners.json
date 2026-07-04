@@ -2486,6 +2486,45 @@
           },
           {
             "rank": 3,
+            "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn04_exit94_risk12_weekly_turnover_repair_v3_weekly",
+            "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(成本压力熊市12%, 单票44%, 持有7周, 换手4%, 出场94%, 单周turnover repair v3)",
+            "metrics": {
+              "weighted_cagr": 0.10427428,
+              "weighted_sharpe": 0.71511092,
+              "weighted_max_drawdown": -0.20924752,
+              "weighted_turnover": 1.28341061
+            },
+            "is_official_winner": false,
+            "is_raw_winner": false,
+            "validation": {
+              "passed": false,
+              "validation_window": "since_2020_01",
+              "required_cagr": 0.148719615,
+              "candidate_cagr": 0.12914494,
+              "incumbent_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly",
+              "reason": "threshold_check"
+            },
+            "promotion_score": 0.06892140928,
+            "score_detail": {
+              "policy": "promotion_score_v1",
+              "score": 0.06892140928,
+              "base_score": 0.07319070227999999,
+              "ytd_penalty": 0.004269292999999999,
+              "concentration_penalty": 0.0,
+              "concentration": {
+                "sample_tag": "since_2026_01",
+                "avg_top1_weight": 0.2738773032,
+                "avg_top3_weight": 0.6019785819999999,
+                "max_top1_weight": 0.41177006,
+                "max_top3_weight": 0.8753139400000001,
+                "latest_top1_weight": 0.17907355,
+                "latest_top3_weight": 0.40011375,
+                "observations": 25
+              }
+            }
+          },
+          {
+            "rank": 4,
             "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly",
             "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有2周, 换手12%, 出场92%, 单周)",
             "metrics": {
@@ -2524,7 +2563,7 @@
             }
           },
           {
-            "rank": 4,
+            "rank": 5,
             "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and_cap50_hold2_turn12_exit90_weekly",
             "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票50%, 持有2周, 换手12%, 出场90%, 单周)",
             "metrics": {
@@ -2558,45 +2597,6 @@
                 "max_top3_weight": 1.0,
                 "latest_top1_weight": 0.14430625,
                 "latest_top3_weight": 0.38982076,
-                "observations": 25
-              }
-            }
-          },
-          {
-            "rank": 5,
-            "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold4_turn06_exit94_weekly",
-            "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(熊市空仓and, 单票60%, 持有4周, 换手6%, 出场94%, 单周)",
-            "metrics": {
-              "weighted_cagr": 0.14365969,
-              "weighted_sharpe": 0.75317259,
-              "weighted_max_drawdown": -0.25491322,
-              "weighted_turnover": 2.82355259
-            },
-            "is_official_winner": false,
-            "is_raw_winner": false,
-            "validation": {
-              "passed": true,
-              "validation_window": "since_2020_01",
-              "required_cagr": 0.148719615,
-              "candidate_cagr": 0.21324484,
-              "incumbent_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold2_turn12_exit92_weekly",
-              "reason": "threshold_check"
-            },
-            "promotion_score": 0.04192910007999998,
-            "score_detail": {
-              "policy": "promotion_score_v1",
-              "score": 0.04192910007999998,
-              "base_score": 0.08359171271999999,
-              "ytd_penalty": 0.000487928000000002,
-              "concentration_penalty": 0.04117468464000001,
-              "concentration": {
-                "sample_tag": "since_2026_01",
-                "avg_top1_weight": 0.43826771600000003,
-                "avg_top3_weight": 0.734374124,
-                "max_top1_weight": 0.99292536,
-                "max_top3_weight": 1.0,
-                "latest_top1_weight": 0.28121277,
-                "latest_top3_weight": 0.53527536,
                 "observations": 25
               }
             }

@@ -1,5 +1,13 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-05 迭代状态
+
+- 上一轮候选/结果摘要：上一轮 `high_speed_pcb_copper_clad_server_20260624_v0` 已给出 5D 负收益，但 Path4 reference 缺 detail；本轮改用已有 detail 的 Path4 robust 做有效 overlap，对事件入口与 Path4 强主题涌现关系进行复核。
+- 本轮候选 ID 与命令：复跑 `high_speed_pcb_copper_clad_server_20260624_v0`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_robust_prom22_signal29_risk06_20260705_iter.json`。
+- 入口结果：候选数 `6`；5D equal_weight 收益 `-3.78%`、seed_weight 收益 `-3.31%`，10D/20D 仍为 `insufficient_data`。有效 Path4 robust reference overlap 为 `0/6`、overlap ratio `0.0`、overlap weight `0`。
+- 巡检结论：Path5 registry/candidates 仍完整，未新增未审计 seed；本轮信息增量是同一 PCB/覆铜板服务器事件篮子与 Path4 robust 近端持仓完全不重叠，说明它仍是独立事件线索，且当前 5D 负样本不能晋级 winner/robust/tracked。
+- 下一轮 focus：若最终 guard 仍给 `path4_comparison`，下一轮第一动作应等待更多交易日后继续同篮子 10D/20D 成熟度；首条命令建议 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_robust_prom22_signal29_risk06_next.json`；若 10D/20D 仍不足，只记录成熟度，不晋级。
+
 ## 2026-07-04 07:03 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 `high_speed_pcb_copper_clad_server_20260624_v0` 交易日不足；本轮继续复跑同一冻结事件篮子，并尝试与本轮 Path4 `prom24/signal29/risk10/cap05/exit60` 对照，不把事件 seed 写入 winner/tracked。

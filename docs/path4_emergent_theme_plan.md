@@ -1,5 +1,15 @@
 # Path 4 强主题涌现路径
 
+## 2026-07-05 迭代状态
+
+- 上一轮候选/结果摘要：上一轮留下 `prom21/signal29/leader78/risk08/cap05/exit66` 三底座；本轮已按独立 `emergent_theme` 池确认，不并入 Path2，也不做人工主题归类。
+- 本轮候选 ID 与命令：新增三底座 `aggr_13_87_prom21_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom21_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap05_exit66_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom21_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap05_exit66_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom21_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`。
+- 五窗口结果：`80/20 total_mv` CAGR `10.99% / 11.76% / 7.66% / 42.85% / 41.03%`，最大回撤最差 `-13.56%`，换手最高 `5.66x`；`90/10 total_mv` CAGR `5.07% / 5.64% / 3.72% / 16.28% / 20.42%`；`90/10 equal_weight` CAGR `2.15% / 3.20% / 5.12% / 14.05% / -0.82%`。
+- 强主题捕捉检查：80/20 近端覆盖生益科技、深南电路、寒武纪、新易盛、中际旭创、海光信息等多票强势簇，不是单票幸运；但 2020/2023 稳定性和跨底座收益仍弱于现有 Path4 robust 主体。
+- payload 变化：`scripts/update_weighted_winners.py` 后 Path4 tracked-only robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`，`meanCAGR=18.60% / minCAGR=10.30%`；第一阶段仍不并入 A股 Path1/2/3 official winner。
+- evict/归档：从 `PATH4_THEME_DISCOVERY_VARIANT_IDS` 移出旧 `aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap06_exit58_lowturn`；evict 原因是旧线非 winner/robust，且本轮 `prom21/signal29/risk08/cap05/exit66` 已覆盖同一信号质量/风险控制槽位。
+- 下一轮 focus：若最终 guard 继续给 `emergent_theme_coverage`，下一候选应在 robust 主体附近测试更高 signal 与中等风险，而不是继续只扩 prom；首条命令建议 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`；若未注册，先 evict 一条非 winner/robust 弱项后加入。
+
 ## 2026-07-04 07:03 CST 状态
 
 - 上一轮候选/结果摘要：上一轮 `prom22/signal28/risk08/cap05/exit68` 给出 robust 线索但 2020/2023 仍弱；本轮按 `emergent_theme_coverage` 测试 `prom24/signal29/leader78/risk10/cap05/exit60` 三底座，继续保持独立 `emergent_theme` 池，不并入 Path2。
