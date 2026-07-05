@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-05T07:07:14+08:00",
+  "generated_at": "2026-07-06T07:13:32+08:00",
   "as_of": "2026-07-03",
   "coverage_gate": {
     "status": "pass",
@@ -82,8 +82,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 61,
-        "complete_count": 61,
+        "candidate_count": 60,
+        "complete_count": 60,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -126,8 +126,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 480,
-        "complete_count": 480,
+        "candidate_count": 487,
+        "complete_count": 487,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -148,8 +148,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 41,
-        "complete_count": 41,
+        "candidate_count": 42,
+        "complete_count": 42,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -170,8 +170,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 29,
-        "complete_count": 29,
+        "candidate_count": 30,
+        "complete_count": 30,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -192,8 +192,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 37,
-        "complete_count": 37,
+        "candidate_count": 38,
+        "complete_count": 38,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -214,8 +214,8 @@
           "since_2025_01",
           "since_2026_01"
         ],
-        "candidate_count": 36,
-        "complete_count": 36,
+        "candidate_count": 37,
+        "complete_count": 37,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -228,58 +228,58 @@
   "experiment_log": {
     "path": "results/research/a_share/research_experiments.jsonl",
     "candidate_entries": 107,
-    "appended_entries": 7
+    "appended_entries": 0
   },
   "rotation": {
     "ashare_path1": {
       "signature": "a4c8196a84ced3acca03",
       "changed": false,
-      "stagnation_runs": 2,
+      "stagnation_runs": 4,
       "stagnation_threshold": 3,
-      "recommended_focus": "core_multifactor_coverage",
-      "rotation_status": "continue",
+      "recommended_focus": "signal_quality",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-07-04T07:01:27+08:00"
     },
     "ashare_path2": {
       "signature": "0c0c579318b0bf0823a4",
       "changed": false,
-      "stagnation_runs": 1,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
-      "recommended_focus": "medium_cycle_growth",
-      "rotation_status": "continue",
+      "recommended_focus": "risk_reconfirm_sensitivity",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-07-05T05:03:25+08:00"
     },
     "ashare_path3": {
       "signature": "317f5d45eafca0e7a309",
       "changed": false,
-      "stagnation_runs": 2,
+      "stagnation_runs": 4,
       "stagnation_threshold": 3,
-      "recommended_focus": "turnover_reduction",
-      "rotation_status": "continue",
+      "recommended_focus": "weekly_exit_buffer",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-07-04T07:01:27+08:00"
     },
     "ashare_path4": {
       "signature": "31be6fd9275754fb3f31",
       "changed": false,
-      "stagnation_runs": 1,
+      "stagnation_runs": 3,
       "stagnation_threshold": 3,
-      "recommended_focus": "emergent_theme_coverage",
-      "rotation_status": "continue",
+      "recommended_focus": "theme_signal_quality",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-07-05T05:03:25+08:00"
     },
     "ashare_path5": {
       "signature": "4f515062c02710af49a6",
       "changed": false,
-      "stagnation_runs": 59,
+      "stagnation_runs": 61,
       "stagnation_threshold": 3,
-      "recommended_focus": "path4_comparison",
+      "recommended_focus": "event_basket_registry",
       "rotation_status": "rotate",
       "last_changed_at": "2026-06-25T21:13:09+08:00"
     },
     "hkconnect_path1": {
       "signature": "de457d4f4533ea6754ef",
       "changed": false,
-      "stagnation_runs": 3,
+      "stagnation_runs": 5,
       "stagnation_threshold": 3,
       "recommended_focus": "biweekly_buffer",
       "rotation_status": "rotate",
@@ -288,56 +288,56 @@
     "hkconnect_path2": {
       "signature": "cd49014219e0b4ce982d",
       "changed": false,
-      "stagnation_runs": 10,
+      "stagnation_runs": 12,
       "stagnation_threshold": 3,
-      "recommended_focus": "high_return_monthly",
+      "recommended_focus": "biweekly_breakout",
       "rotation_status": "rotate",
       "last_changed_at": "2026-07-02T06:57:37+08:00"
     },
     "hkconnect_path3": {
       "signature": "914e2403d5684773c8ba",
       "changed": false,
-      "stagnation_runs": 2,
+      "stagnation_runs": 4,
       "stagnation_threshold": 3,
-      "recommended_focus": "weekly_turnover_reduction",
-      "rotation_status": "continue",
+      "recommended_focus": "weekly_defensive_overlay",
+      "rotation_status": "rotate",
       "last_changed_at": "2026-07-04T07:01:27+08:00"
     },
     "hkconnect_path4": {
-      "signature": "6e8569783e0ee7c38513",
-      "changed": false,
-      "stagnation_runs": 3,
+      "signature": "f067a33a12fa65705e68",
+      "changed": true,
+      "stagnation_runs": 0,
       "stagnation_threshold": 3,
-      "recommended_focus": "liquidity_momentum",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-07-04T05:03:53+08:00"
+      "recommended_focus": "quality_momentum",
+      "rotation_status": "continue",
+      "last_changed_at": "2026-07-06T07:13:32+08:00"
     },
     "hkconnect_path5": {
-      "signature": "6306a78ef02a5670af6f",
-      "changed": false,
-      "stagnation_runs": 3,
+      "signature": "453474c1ee074f4712d7",
+      "changed": true,
+      "stagnation_runs": 0,
       "stagnation_threshold": 3,
-      "recommended_focus": "retest_confirmation",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-07-04T05:03:53+08:00"
+      "recommended_focus": "pullback_definition",
+      "rotation_status": "continue",
+      "last_changed_at": "2026-07-06T07:13:32+08:00"
     },
     "hkconnect_path6": {
-      "signature": "9bcc72842ca769b3ecb9",
+      "signature": "9b9f84d33814b7f0988a",
       "changed": true,
       "stagnation_runs": 0,
       "stagnation_threshold": 3,
       "recommended_focus": "large_liquid_core",
       "rotation_status": "continue",
-      "last_changed_at": "2026-07-05T07:07:14+08:00"
+      "last_changed_at": "2026-07-06T07:13:32+08:00"
     },
     "hkconnect_path7": {
-      "signature": "e9f5b95558a917cd1bde",
+      "signature": "f2723882e09556fabb83",
       "changed": true,
       "stagnation_runs": 0,
       "stagnation_threshold": 3,
       "recommended_focus": "barbell_sleeve_structure",
       "rotation_status": "continue",
-      "last_changed_at": "2026-07-05T07:07:14+08:00"
+      "last_changed_at": "2026-07-06T07:13:32+08:00"
     }
   },
   "quotas": {
@@ -363,7 +363,7 @@
     "path2": {
       "family_counts": {
         "biweekly_rebalance_aggressive": {
-          "current_count": 39,
+          "current_count": 37,
           "target_representatives": 6
         },
         "decorrelated_defensive_mix": {
@@ -375,7 +375,7 @@
           "target_representatives": 6
         },
         "high_growth_theme": {
-          "current_count": 424,
+          "current_count": 426,
           "target_representatives": 4
         },
         "momentum_equal_weight_elastic": {
@@ -397,7 +397,7 @@
       }
     },
     "path3": {
-      "current_weekly_candidate_count": 61,
+      "current_weekly_candidate_count": 60,
       "next_run_new_candidate_quota": {
         "turnover_reduction": 4,
         "weekly_exit_buffer": 3,
@@ -450,15 +450,15 @@
       }
     },
     "hkconnect": {
-      "candidate_count": 480,
+      "candidate_count": 487,
       "path_counts": {
-        "path1": 108,
-        "path2": 117,
-        "path3": 112,
-        "path4": 41,
-        "path5": 29,
-        "path6": 37,
-        "path7": 36
+        "path1": 109,
+        "path2": 118,
+        "path3": 113,
+        "path4": 42,
+        "path5": 30,
+        "path6": 38,
+        "path7": 37
       },
       "next_run_new_candidate_quota": {
         "path1": 2,

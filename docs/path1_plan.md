@@ -1,5 +1,14 @@
 # Path 1 研究计划
 
+## 2026-07-06 迭代状态
+
+- 上一轮候选/结果摘要：上一轮把下一步指向 `lowvol_signal_quality_gate_cashguard_risk07_reconfirm_v4`；本轮已注册并五窗口确认，仍只作为 Path1/core_multifactor fast-pass，不与独立 Path4 强主题涌现混用。
+- 本轮候选 ID 与命令：新增 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk07_reconfirm_v4`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <path1_risk07>,<two_path2_v72>,<one_path3_weekly_yield>,<three_path4_signal30>`。
+- 五窗口结果：CAGR `12.29% / 12.79% / 19.02% / 52.38% / 56.20%`，最大回撤 `-15.47% / -16.29% / -13.92% / -15.42% / -11.16%`。结论：2020/2023 仍弱于当前 Path1 robust 主体，`scripts/update_weighted_winners.py` validation 拒绝替换，window winner、robust candidate 与 tracked payload 未改变。
+- core_multifactor 子段同步：代码实际 core_multifactor 覆盖仍按 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS` 返回集合为准；本轮没有把独立 Path4 `emergent_theme` 变体并入 Path1。
+- evict/归档：从 active core_multifactor 组移出旧 `aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk04_reconfirm`；evict 原因是旧 risk04 非当前 winner/robust，且本轮 risk07 已覆盖同一低波质量信号槽位。
+- 下一轮 focus：若最终 guard 继续指向 `signal_quality` 或 `core_multifactor_coverage`，下一候选不要复跑 risk07，改测低波质量线的中等风险恢复：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk09_reconfirm_v5`；若未注册，先加入 core_multifactor group/list 并再淘汰一条非 winner/robust 旧低波线。
+
 ## 2026-07-05 迭代状态
 
 - 上一轮候选/结果摘要：上一轮把下一步指向 `trend_signal_quality_gate_cashguard_risk09_reconfirm`；本轮已注册并五窗口确认，继续只作为 Path1/core_multifactor fast-pass，不与独立 Path4 强主题涌现混用。

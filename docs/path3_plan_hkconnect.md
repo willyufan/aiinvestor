@@ -1,5 +1,13 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-06 迭代状态
+
+- 上一轮候选/结果摘要：上一轮留下 v30 turnover reduction；本轮已注册并五窗口确认，保持纯 weekly 口径，不把 HK Path1/2 月频或双周候选并入本路径。
+- 本轮候选 ID 与命令：新增 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v30_turnover_reduction`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_v51>,<hk_path2_v44>,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v30_turnover_reduction,<hk_path4_v43>,<hk_path5_v33>,<hk_path6_v39>,<hk_path7_v38>`。
+- 五窗口结果：CAGR `11.35% / 10.01% / 10.01% / 20.57% / -6.38%`，最大回撤最差 `-20.43%`。结论：v30 有效交易但 2026 仍为负，中长窗弱于既有 weekly robust；HK Path3 window winner、robust candidate 与 tracked payload 未改变。
+- evict/归档：本轮无 HK Path3 evict；v30 作为“有效但 YTD 失败”的低换手样本保留。
+- 下一轮 focus：最终 guard 给 `weekly_defensive_overlay`。下一候选应先修 2026，不继续单纯压换手：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff44_turnover0_exit60_v31_ytd_defensive_repair`；若未注册，先在 HK Path3 variants 中注册。
+
 ## 2026-07-05 迭代状态
 
 - 上一轮候选/结果摘要：上一轮 v29 恢复有效交易但 2026 转负；本轮 HK 新增预算投给 Path2/6/7，Path3 保持纯 weekly 口径，只做 guard 巡检、`tracked_active`、artifact/live/public 同步和下一轮候选设计。

@@ -1,5 +1,13 @@
 # Path 3 研究计划
 
+## 2026-07-06 迭代状态
+
+- 上一轮候选/结果摘要：上一轮建议测试 `weekly_yield_repair_weekly`，本轮已注册并五窗口确认；继续保持纯 `_weekly` 路径，没有使用 Path1 月选周控 overlay。
+- 本轮候选 ID 与命令：新增 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn05_exit92_risk14_weekly_yield_repair_weekly`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <path3_weekly_yield>,<path1>,<two_path2>,<three_path4>`。
+- 五窗口结果：CAGR `11.33% / 22.24% / 15.65% / 89.64% / 84.20%`，最大回撤 `-28.17% / -25.38% / -15.47% / -14.09% / -13.15%`。结论：短窗和 2020 改善明显，但 2017/2020 回撤仍深，未改变 Path3 window winner、robust candidate 或 tracked payload。
+- evict/归档：归档旧 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn04_exit94_risk12_weekly_turnover_repair_v3_weekly` 与 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly`；原因是同邻域低换手线 2017/2023 收益不足，且已被本轮收益修复线覆盖。
+- 下一轮 focus：若最终 guard 继续给 `turnover_reduction` 或 `weekly_exit_buffer`，下一候选应在本轮收益修复线基础上下调回撤和换手：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn04_exit94_risk12_weekly_yield_repair_v2_weekly`；若未注册，先加入 Path3 weekly scan，且 ID 必须以 `_weekly` 结尾。
+
 ## 2026-07-05 迭代状态
 
 - 上一轮候选/结果摘要：上一轮建议测试 `cap44/hold7/turn04/exit94/risk12` 折中线；本轮已注册并五窗口确认，保持纯 `_weekly` 路径，没有使用 Path1 月选周控 overlay。

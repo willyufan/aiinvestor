@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-06 迭代状态
+
+- 上一轮候选/结果摘要：上一轮留下 v44 high-return monthly；本轮已注册并五窗口确认，继续独立于 A股 Path2 与 HK Path4-7 扩展线。
+- 本轮候选 ID 与命令：新增 `hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v44_high_return_monthly`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_v51>,hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v44_high_return_monthly,<hk_path3_v30>,<hk_path4_v43>,<hk_path5_v33>,<hk_path6_v39>,<hk_path7_v38>`。
+- 五窗口结果：CAGR `17.51% / 20.81% / 21.77% / 34.57% / 18.32%`，最大回撤最差 `-24.42%`。结论：v44 是本轮 HK 新增候选中相对最强，2026 保持正收益，但 2023 仍低于 `30%` 验收线，且未替换既有 HK Path2 robust。
+- evict/归档：本轮无 HK Path2 evict；v44 作为 high-return monthly 可继续邻域确认，不应退回近期失败的 lowturn breakout 支线。
+- 下一轮 focus：最终 guard 给 `biweekly_breakout`。下一候选不要继续 high-return monthly 小修，改回双周突破但加回撤/确认约束：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v53_drawdown_guard`；若未注册，先在 HK Path2 variants 中注册。
+
 ## 2026-07-05 迭代状态
 
 - 上一轮候选/结果摘要：上一轮 v52 双周低换手 breakout 仍有中长窗深回撤；本轮按 `high_return_monthly` 注册并五窗口确认 v43 月频高收益成本控制线，继续独立于 A股 Path2 与 HK Path4-7 扩展线。
