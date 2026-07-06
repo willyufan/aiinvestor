@@ -3214,6 +3214,31 @@ def strategies_html() -> str:
         if not isinstance(path_payload, dict) or not path_payload:
             return "".join(strategy_card(it) for it in path_items)
         items_by_id = {str(item.get("strategy_id") or ""): item for item in path_items}
+        full_snapshots: dict[str, dict] = {}
+
+        def card_item_for(strategy_id: str, sample_tag: str) -> dict | None:
+            item = items_by_id.get(strategy_id)
+            favorite_state = {
+                key: item[key]
+                for key in ("is_favorite", "is_pinned")
+                if item is not None and key in item
+            }
+            favorite_state.update(favorite_states.get(strategy_id, {}))
+            if item is not None and (not sample_tag or item.get("sample_views")):
+                return item
+            try:
+                if strategy_id not in full_snapshots:
+                    full_snapshots[strategy_id] = load_strategy_snapshot(strategy_id)
+                item = dict(full_snapshots[strategy_id])
+            except Exception:
+                if item is None:
+                    return None
+                item = dict(item)
+            item.update(favorite_state)
+            item["path"] = path_key
+            item["market_scope"] = scope
+            return item
+
         robust_entries = ((path_payload.get("robust_candidate") or {}).get("entries") or [])
         robust_ids = {
             str(entry.get("strategy_base_id") or entry.get("strategy_id") or "")
@@ -3233,16 +3258,10 @@ def strategies_html() -> str:
             strategy_id = str(entry.get("strategy_base_id") or entry.get("strategy_id") or "")
             if not strategy_id:
                 continue
-            item = items_by_id.get(strategy_id)
-            if item is None:
-                try:
-                    item = load_strategy_snapshot(strategy_id)
-                except Exception:
-                    continue
-                item = dict(item)
-                item["path"] = path_key
-                item["market_scope"] = scope
             sample_tag = leaderboard_sample_tag(str(track_key), leaderboard)
+            item = card_item_for(strategy_id, sample_tag)
+            if item is None:
+                continue
             label = leaderboard_short_label(str(track_key))
             robust_suffix = " / 鲁棒" if strategy_id in robust_ids else ""
             leading = (
@@ -3261,20 +3280,15 @@ def strategies_html() -> str:
         for robust_id in sorted(robust_ids):
             if not robust_id or robust_id in window_strategy_ids:
                 continue
-            item = items_by_id.get(robust_id)
+            sample_tag = leaderboard_sample_tag("robust_candidate", path_payload.get("robust_candidate") or {})
+            item = card_item_for(robust_id, sample_tag)
             if item is None:
-                try:
-                    item = load_strategy_snapshot(robust_id)
-                except Exception:
-                    continue
-                item = dict(item)
-                item["path"] = path_key
-                item["market_scope"] = scope
+                continue
             leading = "<span class='badge badge-blue' style='margin-right:4px'>鲁棒</span>"
             cards.append(
                 strategy_card_html(
                     item,
-                    sample_tag=leaderboard_sample_tag("robust_candidate", path_payload.get("robust_candidate") or {}),
+                    sample_tag=sample_tag,
                     leading_badges=leading,
                     show_winner_tags=False,
                 )
