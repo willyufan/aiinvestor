@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import functools
 import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -959,6 +960,7 @@ def build_snapshot_from_live_spec(spec: dict[str, Any]) -> dict[str, Any]:
 
 def _pick_hk_robust_candidate(df: pd.DataFrame, path_name: str) -> str | None:
     subset = df[(df["path"] == path_name) & (df["sample_tag"].isin(HK_TRACKED_WINDOW_TAGS))].copy()
+    subset = _valid_hk_leaderboard_rows(subset)
     if subset.empty:
         return None
     metrics_rows: list[dict[str, Any]] = []
@@ -975,6 +977,8 @@ def _pick_hk_robust_candidate(df: pd.DataFrame, path_name: str) -> str | None:
                 "avg_turn": float(sub["average_annual_turnover"].mean()),
             }
         )
+    if not metrics_rows:
+        return None
     ranked = pd.DataFrame(metrics_rows).sort_values(
         ["min_cagr", "worst_dd", "avg_sharpe", "avg_cagr", "avg_turn"],
         ascending=[False, False, False, False, True],
@@ -990,6 +994,32 @@ def _metrics_from_row(row: pd.Series) -> dict[str, float]:
         "average_annual_turnover": float(row.get("average_annual_turnover", 0.0)),
         "total_return": float(row.get("total_return", 0.0)),
     }
+
+
+def _valid_hk_leaderboard_row(row: pd.Series) -> bool:
+    metrics = [
+        float(row.get("cagr", float("nan"))),
+        float(row.get("sharpe_ratio", float("nan"))),
+        float(row.get("max_drawdown", float("nan"))),
+        float(row.get("average_annual_turnover", float("nan"))),
+        float(row.get("total_return", float("nan"))),
+    ]
+    if not all(math.isfinite(value) for value in metrics):
+        return False
+    cagr, _sharpe, max_drawdown, turnover, total_return = metrics
+    inactive = (
+        abs(cagr) < 1e-12
+        and abs(max_drawdown) < 1e-12
+        and abs(turnover) < 1e-12
+        and abs(total_return) < 1e-12
+    )
+    return not inactive
+
+
+def _valid_hk_leaderboard_rows(frame: pd.DataFrame) -> pd.DataFrame:
+    if frame.empty:
+        return frame.copy()
+    return frame[frame.apply(_valid_hk_leaderboard_row, axis=1)].copy()
 
 
 def _is_ashare_path2_leaderboard_excluded(strategy_id: str, path4_theme_ids: set[str]) -> bool:
@@ -1135,6 +1165,9 @@ def _build_hkconnect_leaderboards(df: pd.DataFrame) -> dict[str, Any]:
             subset = df[(df["path"] == path_name) & (df["sample_tag"] == sample_tag)].copy()
             if subset.empty:
                 continue
+            subset = _valid_hk_leaderboard_rows(subset)
+            if subset.empty:
+                continue
             subset = subset.sort_values(
                 ["cagr", "sharpe_ratio", "max_drawdown", "average_annual_turnover"],
                 ascending=[False, False, False, True],
@@ -1211,7 +1244,11 @@ def load_hkconnect_registry() -> list[dict[str, Any]]:
     ]:
         sample_df = df[df["sample_tag"] == sample_tag]
         for path_name in HK_TRACKED_PATH_NAMES:
-            sub = sample_df[sample_df["path"] == path_name].sort_values(["cagr", "sharpe_ratio"], ascending=[False, False])
+            sub = _valid_hk_leaderboard_rows(sample_df[sample_df["path"] == path_name].copy())
+            sub = sub.sort_values(
+                ["cagr", "sharpe_ratio", "max_drawdown", "average_annual_turnover"],
+                ascending=[False, False, False, True],
+            )
             if sub.empty:
                 continue
             add_entry(

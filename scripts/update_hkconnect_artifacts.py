@@ -96,6 +96,32 @@ def _metric_row(row: pd.Series) -> dict[str, Any]:
     }
 
 
+def _valid_leaderboard_row(row: pd.Series) -> bool:
+    metrics = [
+        float(row.get("cagr", np.nan)),
+        float(row.get("sharpe_ratio", np.nan)),
+        float(row.get("max_drawdown", np.nan)),
+        float(row.get("average_annual_turnover", np.nan)),
+        float(row.get("total_return", np.nan)),
+    ]
+    if not all(np.isfinite(value) for value in metrics):
+        return False
+    cagr, _sharpe, max_drawdown, turnover, total_return = metrics
+    inactive = (
+        abs(cagr) < 1e-12
+        and abs(max_drawdown) < 1e-12
+        and abs(turnover) < 1e-12
+        and abs(total_return) < 1e-12
+    )
+    return not inactive
+
+
+def _valid_leaderboard_rows(frame: pd.DataFrame) -> pd.DataFrame:
+    if frame.empty:
+        return frame.copy()
+    return frame[frame.apply(_valid_leaderboard_row, axis=1)].copy()
+
+
 def _short_label(strategy_id: str) -> str:
     label = strategy_id
     for path_name in TRACK_PATH_NAMES:
@@ -107,6 +133,9 @@ def _short_label(strategy_id: str) -> str:
 
 
 def _pick_winner(subset: pd.DataFrame) -> pd.Series:
+    subset = _valid_leaderboard_rows(subset)
+    if subset.empty:
+        raise ValueError("no valid HK Connect leaderboard candidates")
     ranked = subset.sort_values(
         ["cagr", "sharpe_ratio", "max_drawdown", "average_annual_turnover"],
         ascending=[False, False, False, True],
@@ -127,10 +156,10 @@ def _robust_sort_key(metrics: dict[str, float]) -> tuple[float, float, float, fl
 def _pick_robust(subset: pd.DataFrame) -> tuple[str, dict[str, float]]:
     rows: list[tuple[str, dict[str, float]]] = []
     for strategy_id, group in subset.groupby("strategy_id"):
-        tags = set(group["sample_tag"].astype(str))
+        tracked = _valid_leaderboard_rows(group[group["sample_tag"].isin(WINDOW_TAGS)].copy())
+        tags = set(tracked["sample_tag"].astype(str))
         if not set(WINDOW_TAGS).issubset(tags):
             continue
-        tracked = group[group["sample_tag"].isin(WINDOW_TAGS)].copy()
         rows.append(
             (
                 str(strategy_id),
@@ -179,12 +208,18 @@ def _build_payload(latest: pd.DataFrame) -> dict[str, Any]:
             sample_df = subset[subset["sample_tag"] == sample_tag]
             if sample_df.empty:
                 continue
-            row = _pick_winner(sample_df)
+            try:
+                row = _pick_winner(sample_df)
+            except ValueError:
+                continue
             payload["tracks"][path_name][sample_tag] = {
                 "winner": str(row["strategy_id"]),
                 "metrics": _metric_row(row),
             }
-        robust_id, robust_metrics = _pick_robust(subset)
+        try:
+            robust_id, robust_metrics = _pick_robust(subset)
+        except RuntimeError:
+            continue
         payload["tracks"][path_name]["robust_candidate"] = {
             "strategy_id": robust_id,
             "metrics": robust_metrics,
