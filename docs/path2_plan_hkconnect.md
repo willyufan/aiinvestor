@@ -1845,3 +1845,11 @@
 - 巡检结论：HK Path2 window winner、robust candidate 与 tracked payload 未改变；robust 仍应优先参考月频高收益/主题成本控制线，而不是继续扩 equal-elastic 或双周突破 terminal check。本轮没有 HK Path2 evict。
 - 下一轮 focus：先注册 `hkconnect_path2_high_return_monthly_quality_liquidity_v52_high_return_ytd_guard`，再执行 `.venv/bin/python backtest_hkconnect.py --end-date 2026-07-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v52_high_return_ytd_guard`；若仍未注册，选择已注册 high_return_monthly 相邻候选，而不是回到双周突破。
 - Final guard 修正：最终轮换为 `hkconnect_path2 -> biweekly_breakout / rotate / stagnation_runs=3`。下一轮第一条应先注册或选择已注册的低换手双周突破修复，而不是继续 high_return_monthly；建议候选 `hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v52_lowturn_repair`，命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-07-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v52_lowturn_repair`。
+
+## 本轮执行计划（2026-07-07 05:01 CST）
+
+- 上一轮候选/结果摘要：上一轮指向低换手双周突破，但本轮最终 guard 轮换为 `elasticity_cost_control`。本轮 HK Path2 只做巡检和下一轮命令记录，不与 A股 Path2/Path4 共用结论。
+- 本轮候选 ID 与命令：本轮未跑新增 HK Path2 strategy id；未跑原因同 HK Path1，新增实验预算已给 A股 7 个 base ids 与 Path5 入口，且 HK coverage 无 blocking。
+- 巡检结论：最终 guard 给出 `hkconnect_path2 -> elasticity_cost_control / rotate / stagnation_runs=16`。历史 equal-elastic terminal check 多次显示长中窗回撤过深，但 focus 仍要求再做一次硬成本终端确认；本轮 window winner、robust candidate、tracked payload 未改变。
+- 下一轮 focus：只允许一次更硬成本终端确认，首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v46_elasticity_cost_control_terminal`；若仍弱，停止扩 equal-elastic，回到月频 robust 或低换手双周突破。
+- Final guard 修正：最终 guard 轮换为 `hkconnect_path2 -> high_return_monthly / rotate / stagnation_runs=18`。下一轮第一命令改为月频高收益质量/流动性修复：`.venv/bin/python backtest_hkconnect.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard`；若要新增 v52，先注册后替换该已注册相邻候选。

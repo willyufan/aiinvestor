@@ -1839,3 +1839,10 @@
 - 本轮候选 ID 与命令：本轮未跑新增 HK Path1 strategy id，原因是 `v52_monthly_weekly_ytd_guard` 当前未在可执行候选集合中注册；执行了 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-02 --family-scope tracked_active --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01`、`.venv/bin/python scripts/update_hkconnect_artifacts.py`、`.venv/bin/python scripts/export_live_platform_data.py` 与 `.venv/bin/python scripts/generate_public_snapshot.py`。
 - 巡检结论：HK Path1 window winner、robust candidate 与 tracked payload 未因本轮新增实验改变；comparison/public/live 的更新属于同步，不计作新增策略实验。本轮没有 HK Path1 evict。
 - 下一轮 focus：先注册 `hkconnect_path1_monthly_quality_momentum_weekly_overlay_v52_monthly_weekly_ytd_guard`，再执行首条命令 `.venv/bin/python backtest_hkconnect.py --end-date 2026-07-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v52_monthly_weekly_ytd_guard`；若注册成本高，则改确认一个已注册的月周 overlay YTD/低波相邻候选。
+
+## 本轮执行计划（2026-07-07 05:01 CST）
+
+- 上一轮候选/结果摘要：上一轮留下 `v52_monthly_weekly_ytd_guard` 但未注册。本轮开局 guard pass，新增/确认预算优先投给 A股 Path1/2/3/4 与 Path5 入口；HK Path1 完成巡检和下一轮候选设计，不并入 A股 winner 结论。
+- 本轮候选 ID 与命令：本轮未跑新增 HK Path1 strategy id；未跑原因是本轮已执行 7 个 A股 strategy/base ids 与 1 个 Path5 event entry，且 HK 无 blocking coverage。HK tracked/live/public 同步将在收尾由 artifact/export/snapshot 统一处理。
+- 巡检结论：最终 guard 给出 `hkconnect_path1 -> monthly_weekly_overlay / rotate / stagnation_runs=9`。HK Path1 window winner、robust candidate 与 tracked payload 未因本轮新增实验改变；本轮没有 HK Path1 evict。
+- 下一轮 focus：若 `v52` 仍未注册，先跑已注册的月周 overlay 相邻候选 `hkconnect_path1_monthly_quality_momentum_weekly_overlay_v48_monthly_weekly_overlay`；首条命令为 `.venv/bin/python backtest_hkconnect.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v48_monthly_weekly_overlay`。若下一轮能注册 v52，则用 v52 替换该命令。
