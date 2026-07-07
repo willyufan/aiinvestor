@@ -1,5 +1,14 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-08 迭代状态
+
+- 上一轮候选/结果摘要：上一轮 v31 低换手有效但 2020/2023 CAGR 与 2026 收益不达标，判定 `keep_watch`；本轮 HK Path3 只做 pure weekly 巡检、tracked/live/public 同步与下一轮候选设计，没有把 HK Path1/2 月频或双周策略并入本路径。
+- 本轮候选 ID 与命令：本轮未新增 HK Path3 `--only-strategy-ids`；未跑原因是 HK 新增确认预算投给 Path2 与 Path4-7。下一轮第一条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover1_exit58_v32_ytd_defensive_recovery`。
+- Scorecard 与判定：本轮 Path3 无新增实跑 scorecard；`scripts/update_hkconnect_artifacts.py` 后 robust 仍为 `hkconnect_path3_equal_elastic_weekly`。判定 `keep_watch`；v32 假设是在 v31 的低换手框架上恢复有效收益，若 2026 仍负或 2020/2023 CAGR 低 robust 超过 3pp，则 `reject`。
+- evict/归档：本轮无 HK Path3 evict；v31 继续作为低换手有效交易样本，不能当作 robust 改善。
+- 下一轮 focus：最终 guard 给 `weekly_turnover_reduction`。第一条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest`；若未注册，先在 HK Path3 variants 中注册并保持 pure weekly。
+- Focus 候选池：`weekly_turnover_reduction` -> `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff44_turnover0_exit60_v31_ytd_defensive_repair`；`weekly_defensive_overlay` -> `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover1_exit58_v32_ytd_defensive_recovery`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover1_exit56_v33_defensive_recovery`；`cost_stress` -> `hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v32_cost_guard`、`hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v33_lowturn_guard`。
+
 ## 2026-07-07 迭代状态
 
 - 上一轮候选/结果摘要：上一轮 v30 仍为 2026 负收益；本轮按 `weekly_defensive_overlay` 注册并五窗口确认 v31，保持纯 weekly 口径，不把 HK Path1/2 月频或双周候选并入本路径。

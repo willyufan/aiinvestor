@@ -1,5 +1,14 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-08 迭代状态
+
+- 上一轮候选/结果摘要：上一轮 v53 biweekly breakout 因中长窗 CAGR 与回撤退化判定 `reject`；本轮按 high-return monthly 邻域确认 v45，仍独立于 A股 Path2 与 HK Path4-7。
+- 本轮候选 ID 与命令：新增 `hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v45_2023_repair`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v45_2023_repair,hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v45_quality_momentum_repair,hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair,hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v41_large_liquid_core_repair,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v40_ytd_guard`。
+- Scorecard 与判定：v45 五窗口 CAGR `16.81% / 19.84% / 20.53% / 35.29% / 17.83%`，Sharpe `0.863 / 0.910 / 0.947 / 1.479 / 0.659`，MaxDD 最差 `-23.14%`，turnover `4.19x / 3.97x / 4.51x / 5.12x / 4.54x`。相对 robust `hkconnect_path2_theme_monthly_cost_control`，2020/2023 CAGR 分别低 `12.25pp / 13.09pp`，2023 Sharpe 低 `0.36`，命中稳定性破坏阈值；判定 `reject`，robust/tracked 未改变。
+- evict/归档：本轮无 HK Path2 evict；v45 作为 high-return monthly 的 2023 修复失败样本保留，下一轮不继续同形只降 cap。
+- 下一轮 focus：最终 guard 给 `high_return_monthly`。第一条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v46_ytd_guard`；若未注册，先在 HK Path2 variants 中注册。若切回 `elasticity_cost_control`，改测 `hkconnect_path2_equal_elastic_monthly_cost_guard_v54_elasticity_cost_control_repair`。
+- Focus 候选池：`high_return_monthly` -> `hkconnect_path2_high_return_monthly_quality_liquidity_v46_ytd_guard`、`hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v45_2023_repair`；`elasticity_cost_control` -> `hkconnect_path2_equal_elastic_monthly_cost_guard_v54_elasticity_cost_control_repair`、`hkconnect_path2_equal_elastic_monthly_cost_guard_v55_lowdraw_repair`；`biweekly_breakout` -> `hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v54_drawdown_guard_v2`、`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v55_retest_confirmation_lowturn`。
+
 ## 2026-07-07 迭代状态
 
 - 上一轮候选/结果摘要：上一轮 high-return monthly v44 相对最强但未替换 robust；本轮按 guard `biweekly_breakout` 注册并五窗口确认 v53 drawdown guard，仍独立于 A股 Path2 与 HK Path4-7。

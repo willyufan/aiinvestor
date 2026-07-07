@@ -1,5 +1,14 @@
 # Path 2 研究计划
 
+## 2026-07-08 迭代状态
+
+- 上一轮候选/结果摘要：上一轮 v74 capacity-cost stress 双底座均因 2020/2023 收益不足和短窗换手高判定 `reject`；本轮 Path2 独立 `growth_elastic` 池完成 guard 巡检，未引入 Path4 `emergent_theme`，也未把 Path3 `_weekly` 结论并入 Path2。
+- 本轮候选 ID 与命令：本轮未新增 Path2 `--only-base-ids` 回测，原因是 A股新增确认预算优先给 Path4 `theme_risk_control` 与 Path5 event entry；下一轮第一条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v75_medium_cycle_repair,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v75_medium_cycle_repair`。
+- Scorecard 与判定：本轮 Path2 无新增实跑 scorecard；`scripts/update_weighted_winners.py` 后 Path2 robust 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top8_risk22_exit42_cap16_cost_guard_v46_capacity_cost`，判定 `keep_watch`。v75 假设是比 v74 回升 risk/exit/reconfirm，优先修复 2020/2023 CAGR，若 2023 仍低于 robust 超过 3pp 则直接 `reject`。
+- evict/归档：本轮无 Path2 evict；v74 作为 capacity-cost stress 负样本保留，下一轮不继续同形降 risk/cap。
+- 下一轮 focus：最终 guard 给 `underrepresented_families`。第一条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair`；若未注册，先加入 Path2 scan family/list 并归档一条旧 underrepresented 负样本。
+- Focus 候选池：`underrepresented_families` -> `v78_underrepresented_repair` 双底座、`v79_underrepresented_lowturn_confirm` 双底座；`medium_cycle_growth` -> `v75_medium_cycle_repair` 双底座、`v76_2023_repair` 双底座；`risk_reconfirm_sensitivity` -> `v77_reconfirm100_caution52` 双底座、`v73_risk_reconfirm_sensitivity` 双底座；`capacity_cost_stress` -> v74 负样本、`v80_cap18_cost_guard_retest` 双底座；`momentum_equal_weight_elastic` -> `v46_capacity_cost` 周边、`v81_lowturn_confirm` 双底座。
+
 ## 2026-07-07 迭代状态
 
 - 上一轮候选/结果摘要：上一轮 v72 中周期修复失败后，开局 dirty code 中已注册 v74 capacity-cost stress 双底座；本轮按独立 `growth_elastic` 池五窗口确认，不引入 Path4 `emergent_theme`，也不把 Path3 `_weekly` 当作 Path2。

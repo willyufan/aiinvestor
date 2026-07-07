@@ -1,5 +1,14 @@
 # Path 3 研究计划
 
+## 2026-07-08 迭代状态
+
+- 上一轮候选/结果摘要：上一轮 `cap44/hold7/turn04/exit94/risk12_weekly_yield_repair_v2_weekly` 判定 `keep_watch`，低换手有效但 2020/2023 CAGR 弱于 robust；本轮 Path3 继续按纯 `_weekly` 口径巡检，未使用 Path1 月选周控 overlay。
+- 本轮候选 ID 与命令：本轮未新增 Path3 `--only-base-ids` 回测，原因是 A股实跑预算给 Path4/Path5；下一轮第一条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn05_exit92_risk14_weekly_yield_repair_v3_weekly`。
+- Scorecard 与判定：本轮 Path3 无新增实跑 scorecard；`scripts/update_weighted_winners.py` 后 Path3 robust 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly`。判定 `keep_watch`；v3 假设是在 v2 低换手基础上恢复收益，若 2020 MaxDD 继续深于 robust 或 2023 CAGR 仍低超 3pp，则转 `reject`。
+- evict/归档：本轮无 Path3 archive；未回测原因是 A股新增确认预算已被 Path4/Path5 使用。
+- 下一轮 focus：最终 guard 给 `risk_downshift`。第一条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn04_exit96_risk10_weekly_defensive_repair_v5_weekly`；若未注册，先加入 Path3 weekly scan，且 ID 必须以 `_weekly` 结尾。
+- Focus 候选池：`risk_downshift` -> `...cap44_hold8_turn04_exit96_risk10_weekly_defensive_repair_v5_weekly`、`...cap42_hold9_turn03_exit97_risk08_weekly_defensive_repair_v6_weekly`；`weekly_exit_buffer` -> `...cap46_hold6_turn05_exit92_risk14_weekly_yield_repair_v3_weekly`、`...cap46_hold6_turn04_exit90_risk14_weekly_exit_buffer_v4_weekly`；`turnover_reduction` -> `...cap42_hold8_turn04_exit94_risk12_weekly_lowturn_repair_v4_weekly`、`...cap44_hold7_turn04_exit94_risk12_weekly_yield_repair_v2_weekly`。
+
 ## 2026-07-07 迭代状态
 
 - 上一轮候选/结果摘要：上一轮收益修复线仍未改变 Path3 robust；本轮继续纯 `_weekly` 路径，确认 `cap44/hold7/turn04/exit94/risk12` 的 yield repair v2，不使用 Path1 月选周控 overlay。
