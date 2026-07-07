@@ -1,5 +1,15 @@
 # Path 4 强主题涌现路径
 
+## 2026-07-07 迭代状态
+
+- 上一轮候选/结果摘要：上一轮 `prom22/signal30/risk08/exit66` 未替换 robust；本轮继续独立 `emergent_theme` 池，确认 `prom24/signal30/leader78/risk08/cap05/exit64` 三底座，不并入 Path2，也不做人工主题归类。
+- 本轮候选 ID 与命令：新增/确认三底座 `aggr_13_87_prom24_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit64_lowturn`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <path1_share24>,<two_path2_v74>,<one_path3_yield_v2>,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit64_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit64_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit64_lowturn`。
+- Scorecard 与判定：80/20 total_mv 五窗口 CAGR `10.11% / 10.16% / 6.45% / 35.78% / 23.39%`，MaxDD 最差 `-14.83%`，turnover 最高 `5.82x`；90/10 total_mv CAGR `4.16% / 4.51% / 2.90% / 11.46% / 6.02%`；90/10 equal_weight CAGR `1.40% / 2.40% / 3.65% / 8.32% / -4.44%`。相对 robust `prom22/signal29/risk06/exit68`，80/20 在 2023 CAGR 低 `3.38pp` 且 2025/2026 弹性下降，判定 `keep_watch`，不替换 tracked-only robust。
+- 强主题捕捉检查：80/20 近端仍能捕捉生益科技、深南电路、中际旭创、寒武纪、新易盛等电子/AI/PCB/光通信强势簇，不是单票幸运；但跨底座收益与 2023 稳定性不支持晋级。
+- evict/归档：本轮未新增 Path4 evict；开局 dirty code 中的 active 变化保留，不在本轮扩大。
+- 下一轮 focus：第一条命令建议回到 robust 风险结构、只提高 signal：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`；若未注册，先 evict 一条非 winner/robust 弱项后加入。
+- Focus 候选池：`theme_signal_quality` -> `prom22/signal30/risk06/cap05/exit68` 三底座、`prom20/signal30/risk10/cap06/exit60` 三底座；`theme_risk_control` -> `prom22/signal29/risk04/cap05/exit70` 三底座、`prom20/signal29/risk08/cap06/exit62` 三底座；`theme_capacity_cost` -> `prom22/signal29/risk06/cap04/exit68` 三底座、`prom20/signal28/risk08/cap04/exit68` 三底座。
+
 ## 2026-07-06 迭代状态
 
 - 上一轮候选/结果摘要：上一轮建议在 robust 主体附近测试更高 signal 与中等风险；本轮按独立 `emergent_theme` 池确认 `prom22/signal30/leader78/risk08/cap05/exit66` 三底座，不并入 Path2，也不做人工主题归类。

@@ -1,9 +1,9 @@
 {
-  "as_of": "2026-07-06",
+  "as_of": "2026-07-07",
   "family": "path1_fast_family",
-  "base_candidate_count": 134,
-  "candidate_count": 1474,
-  "overlay_candidate_count": 1340,
+  "base_candidate_count": 135,
+  "candidate_count": 1485,
+  "overlay_candidate_count": 1350,
   "direction_groups": {
     "promotion_ramp": [
       "aggr_10_90_fast_ramp",
@@ -136,6 +136,7 @@
       "share_20_80_hold_2_8_ramp66_cost_guard",
       "share_20_80_hold_2_8_ramp62_cost_guard_reconfirm",
       "share_22_78_hold_2_8_ramp64_cost_guard",
+      "share_24_76_hold_2_8_ramp62_cost_guard",
       "aggr_05_95_prom7"
     ],
     "supporting_variants": [
@@ -159,7 +160,7 @@
     "satellite_defense": 20,
     "signal_variants": 2,
     "core_multifactor": 67,
-    "holding_shape": 29,
+    "holding_shape": 30,
     "supporting_variants": 4,
     "drawdown_guard": 7
   },
@@ -258,8 +259,8 @@
       "current": {
         "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm",
         "metrics": {
-          "cagr": 0.29208139,
-          "sharpe": 0.95277554,
+          "cagr": 0.29219597,
+          "sharpe": 0.95313707,
           "max_drawdown": -0.17934922,
           "turnover": 3.36697535
         }
@@ -293,21 +294,21 @@
           }
         },
         {
-          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95_dd_guard50",
-          "metrics": {
-            "cagr": 0.3582187,
-            "sharpe": 1.10204799,
-            "max_drawdown": -0.19014343,
-            "turnover": 8.44950123
-          }
-        },
-        {
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__share_20_80_hold_2_8_ramp66_cost_guard",
           "metrics": {
             "cagr": 0.35641211,
             "sharpe": 1.10682158,
             "max_drawdown": -0.20250857,
             "turnover": 2.97188326
+          }
+        },
+        {
+          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_01_99_prom2_core_6_1_promo_liqmom_top15_risk40_mom_exit60_reconfirm70_cap95_dd_guard50",
+          "metrics": {
+            "cagr": 0.35221202,
+            "sharpe": 1.08435593,
+            "max_drawdown": -0.19014343,
+            "turnover": 8.44950123
           }
         },
         {
@@ -335,9 +336,9 @@
       "current": {
         "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm",
         "metrics": {
-          "cagr": 0.30473579,
-          "sharpe": 1.0766134,
-          "max_drawdown": -0.14346203,
+          "cagr": 0.30556157,
+          "sharpe": 1.07976076,
+          "max_drawdown": -0.13988682,
           "turnover": 3.36038451
         }
       },
@@ -364,9 +365,9 @@
         {
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm",
           "metrics": {
-            "cagr": 0.30473579,
-            "sharpe": 1.0766134,
-            "max_drawdown": -0.14346203,
+            "cagr": 0.30556157,
+            "sharpe": 1.07976076,
+            "max_drawdown": -0.13988682,
             "turnover": 3.36038451
           }
         },
@@ -391,9 +392,9 @@
         {
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm",
           "metrics": {
-            "cagr": 0.29591176,
-            "sharpe": 1.04941635,
-            "max_drawdown": -0.14347195,
+            "cagr": 0.29673229,
+            "sharpe": 1.05251472,
+            "max_drawdown": -0.13989531,
             "turnover": 3.37208767
           }
         }
@@ -404,9 +405,9 @@
       "current": {
         "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk10_reconfirm",
         "metrics": {
-          "cagr": 0.94179086,
-          "sharpe": 1.70429952,
-          "max_drawdown": -0.11334129,
+          "cagr": 0.95488113,
+          "sharpe": 1.72689129,
+          "max_drawdown": -0.10909608,
           "turnover": 4.68116932
         }
       },

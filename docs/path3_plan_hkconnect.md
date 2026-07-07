@@ -1,5 +1,14 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-07 迭代状态
+
+- 上一轮候选/结果摘要：上一轮 v30 仍为 2026 负收益；本轮按 `weekly_defensive_overlay` 注册并五窗口确认 v31，保持纯 weekly 口径，不把 HK Path1/2 月频或双周候选并入本路径。
+- 本轮候选 ID 与命令：新增 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff44_turnover0_exit60_v31_ytd_defensive_repair`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_v52>,<hk_path2_v53>,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff44_turnover0_exit60_v31_ytd_defensive_repair,<hk_path4_v44>,<hk_path5_v34>,<hk_path6_v40>,<hk_path7_v39>`；最终用最新 raw cache 无 `--end-date` 复跑。
+- Scorecard 与判定：v31 五窗口 CAGR `11.32% / 10.07% / 10.69% / 20.15% / -6.31%`，Sharpe `0.787 / 0.691 / 0.761 / 1.238 / -0.472`，MaxDD 最差 `-20.25%`，turnover `3.50x / 3.56x / 4.12x / 5.44x / 5.42x`。相对 current robust `hkconnect_path3_equal_elastic_weekly`，它大幅降低换手和回撤，但 2020/2023 CAGR 低 `10.99pp / 15.32pp`，2026 仍负；判定 `keep_watch`，不替换 winner/robust/tracked。
+- evict/归档：本轮无 HK Path3 evict；v31 作为低换手有效交易样本保留，不能当作 robust 改善。
+- 下一轮 focus：第一条命令建议只做一次防守 overlay 的收益恢复：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover1_exit58_v32_ytd_defensive_recovery`；若未注册，先在 HK Path3 variants 中注册。
+- Focus 候选池：`weekly_defensive_overlay` -> `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover1_exit58_v32_ytd_defensive_recovery`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover1_exit56_v33_defensive_recovery`；`weekly_turnover_reduction` -> `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v30_turnover_reduction`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff44_turnover0_exit60_v31_ytd_defensive_repair`；`cost_stress` -> `hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v32_cost_guard`、`hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v33_lowturn_guard`。
+
 ## 2026-07-06 迭代状态
 
 - 上一轮候选/结果摘要：上一轮留下 v30 turnover reduction；本轮已注册并五窗口确认，保持纯 weekly 口径，不把 HK Path1/2 月频或双周候选并入本路径。

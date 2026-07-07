@@ -1,5 +1,14 @@
 # Path 3 研究计划
 
+## 2026-07-07 迭代状态
+
+- 上一轮候选/结果摘要：上一轮收益修复线仍未改变 Path3 robust；本轮继续纯 `_weekly` 路径，确认 `cap44/hold7/turn04/exit94/risk12` 的 yield repair v2，不使用 Path1 月选周控 overlay。
+- 本轮候选 ID 与命令：新增/确认 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn04_exit94_risk12_weekly_yield_repair_v2_weekly`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <path1_share24>,<two_path2_v74>,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn04_exit94_risk12_weekly_yield_repair_v2_weekly,<three_path4_prom24_signal30>`。
+- Scorecard 与判定：候选五窗口 CAGR `10.43% / 12.91% / 8.79% / 29.20% / 64.96%`，Sharpe `0.715 / 0.731 / 0.641 / 0.949 / 1.446`，MaxDD `-20.92% / -27.73% / -11.76% / -18.20% / -13.22%`，turnover `1.28x / 1.01x / 0.59x / 2.10x / 3.20x`。相对当前 robust `cash_off_and_cap60_hold3_turn05_exit94_weekly`，2020/2023 CAGR 分别低 `4.54pp / 11.26pp`，但换手显著低，判定 `keep_watch`，不替换 winner/robust/tracked。
+- evict/归档：本轮未新增 Path3 archive；上一轮已归档的低换手弱线继续作为边界样本。
+- 下一轮 focus：第一条命令建议只做一次“提高收益但守住低换手”的 v3：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn05_exit92_risk14_weekly_yield_repair_v3_weekly`；若未注册，先加入 Path3 weekly scan，且 ID 必须以 `_weekly` 结尾。
+- Focus 候选池：`turnover_reduction` -> `...cap44_hold7_turn04_exit94_risk12_weekly_yield_repair_v2_weekly`、`...cap42_hold8_turn04_exit94_risk12_weekly_lowturn_repair_v4_weekly`；`weekly_exit_buffer` -> `...cap46_hold6_turn05_exit92_risk14_weekly_yield_repair_v3_weekly`、`...cap46_hold6_turn04_exit90_risk14_weekly_exit_buffer_v4_weekly`。
+
 ## 2026-07-06 迭代状态
 
 - 上一轮候选/结果摘要：上一轮建议测试 `weekly_yield_repair_weekly`，本轮已注册并五窗口确认；继续保持纯 `_weekly` 路径，没有使用 Path1 月选周控 overlay。

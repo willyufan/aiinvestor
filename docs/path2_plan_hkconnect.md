@@ -1,5 +1,14 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-07 迭代状态
+
+- 上一轮候选/结果摘要：上一轮 high-return monthly v44 相对最强但未替换 robust；本轮按 guard `biweekly_breakout` 注册并五窗口确认 v53 drawdown guard，仍独立于 A股 Path2 与 HK Path4-7。
+- 本轮候选 ID 与命令：新增 `hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v53_drawdown_guard`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_v52>,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v53_drawdown_guard,<hk_path3_v31>,<hk_path4_v44>,<hk_path5_v34>,<hk_path6_v40>,<hk_path7_v39>`；为修复 stale preview，最终用最新 raw cache 无 `--end-date` 复跑。
+- Scorecard 与判定：v53 五窗口 CAGR `12.31% / 11.06% / 9.08% / 40.28% / 3.43%`，Sharpe `0.647 / 0.565 / 0.473 / 1.504 / 0.291`，MaxDD 最差 `-36.04%`，turnover 最高 `7.43x`。相对 current robust `hkconnect_path2_theme_monthly_cost_control`，2020/2023 CAGR 分别低 `21.03pp / 24.54pp`，回撤也明显更深，判定 `reject`；window winner、robust candidate、tracked payload 未改变。
+- evict/归档：本轮无 HK Path2 evict；v53 作为 biweekly breakout drawdown guard 负样本，下一轮不继续同形微调。
+- 下一轮 focus：第一条命令建议回到 high-return monthly，目标是修 2023 且保住 2026 正收益：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v45_2023_repair`；若未注册，先在 HK Path2 variants 中注册。
+- Focus 候选池：`biweekly_breakout` -> `hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v54_drawdown_guard_v2`、`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v55_retest_confirmation_lowturn`；`high_return_monthly` -> `hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v45_2023_repair`、`hkconnect_path2_high_return_monthly_quality_liquidity_v46_ytd_guard`；`elasticity_cost_control` -> `hkconnect_path2_equal_elastic_monthly_cost_guard_v54_elasticity_cost_control_repair`、`hkconnect_path2_equal_elastic_monthly_cost_guard_v55_lowdraw_repair`。
+
 ## 2026-07-06 迭代状态
 
 - 上一轮候选/结果摘要：上一轮留下 v44 high-return monthly；本轮已注册并五窗口确认，继续独立于 A股 Path2 与 HK Path4-7 扩展线。

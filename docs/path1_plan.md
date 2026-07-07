@@ -1,5 +1,15 @@
 # Path 1 研究计划
 
+## 2026-07-07 迭代状态
+
+- 上一轮候选/结果摘要：上一轮留下 `lowvol_signal_quality_gate_cashguard_risk09_reconfirm_v5`；本轮先执行 fast-pass 巡检，再用 A股五窗口增量命令确认 holding-shape 新候选 `core_explore_80_20_equal_weight_winner_core__share_24_76_hold_2_8_ramp62_cost_guard`，并保持 core_multifactor 只作为 Path1 direction group，不并入独立 Path4。
+- 本轮候选 ID 与命令：本轮 A股增量命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__share_24_76_hold_2_8_ramp62_cost_guard,<two_path2_v74>,<one_path3_yield_v2>,<three_path4_prom24_signal30>`；`scripts/winner_only_pass.py` 另发现既有 fast-pass clear candidates：2017 `share_08_92_hold_2_8_ramp75_cost_guard`、2023 core_multifactor `quality_profitability_value_lowvol_trend_cost_guard_reconfirm`、2025 `sat_three_stage_buffered_cost_guard_risk06_reconfirm`。
+- Scorecard 与判定：`share_24_76_hold_2_8_ramp62_cost_guard` 五窗口 CAGR `12.08% / 5.64% / 19.39% / 40.67% / 57.63%`，MaxDD `-43.50% / -41.36% / -24.59% / -12.63% / -12.38%`，turnover 最高 `7.57x`；相对当前 Path1 robust `risk20_reconfirm` 在 2020 CAGR 低 `24.92pp`、MaxDD 恶化 `27.37pp`，判定 `reject`。core_multifactor clear candidate 五窗口 CAGR `14.34% / 14.59% / 30.90% / 58.08% / 63.18%`，2023 Sharpe 改善但 2017/2020 仍弱，判定 `keep_watch`，`update_weighted_winners.py` 后 official winner/robust/tracked payload 未改变。
+- core_multifactor 子段同步：coverage 仍按代码实际 `67/67` 完整；本轮没有新增 overlay，也没有把独立 `emergent_theme` 变体加入 Path1。下一轮若继续 focus `core_multifactor_coverage`，优先补低波质量中风险恢复确认，而不是继续扩大 holding-shape。
+- evict/归档：本轮未新增 Path1 evict；开局已有 dirty code 中的 active/archive 变更保持原样，未在本轮回滚或扩大。
+- 下一轮 focus：第一条确认命令建议 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk09_reconfirm_v5`；若 guard 转到 holding-shape，则先测 `core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp64_cost_guard_reconfirm`。
+- Focus 候选池：`signal_quality` -> `aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk09_reconfirm_v5`、`aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_cost_guard_reconfirm`；`core_multifactor_coverage` -> `...risk09_reconfirm_v5`、`...quality_profitability_value_lowvol_trend_cost_guard_reconfirm`；`holding_shape` -> `share_22_78_hold_2_8_ramp64_cost_guard_reconfirm`、`share_20_80_hold_2_8_ramp62_cost_guard_reconfirm`；`weekly_exposure_path` -> `__port_weekly_exposure_buffered_asym13`、`__port_weekly_exposure_buffered`。
+
 ## 2026-07-06 迭代状态
 
 - 上一轮候选/结果摘要：上一轮把下一步指向 `lowvol_signal_quality_gate_cashguard_risk07_reconfirm_v4`；本轮已注册并五窗口确认，仍只作为 Path1/core_multifactor fast-pass，不与独立 Path4 强主题涌现混用。

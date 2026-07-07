@@ -1,5 +1,17 @@
 # 沪港通策略空间扩展计划
 
+## 2026-07-07 扩展复核结果
+
+- 上一轮候选/结果摘要：上一轮 HK Path4-7 留下 v44/v34/v40/v39；本轮四条扩展线全部完成五窗口增量确认，所有 HK 扩展结果仍不并入 A股 winner。
+- 本轮候选 ID 与命令：新增/确认 `hkconnect_path4_quality_momentum_monthly_ytd_positive_v44_quality_momentum_drawdown_guard`、`hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite`、`hkconnect_path6_large_liquid_core_monthly_capacity_cost_v40_ytd_cashguard_repair`、`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_defensive_v39_ytd_repair`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_v52>,<hk_path2_v53>,<hk_path3_v31>,hkconnect_path4_quality_momentum_monthly_ytd_positive_v44_quality_momentum_drawdown_guard,hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite,hkconnect_path6_large_liquid_core_monthly_capacity_cost_v40_ytd_cashguard_repair,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_defensive_v39_ytd_repair`；首次固定 `--end-date 2026-07-03` 后 public snapshot 拒绝 stale preview，已按最新 raw cache 无 `--end-date` 复跑。
+- HK Path4 scorecard：v44 CAGR `8.51% / 7.76% / 8.00% / 16.86% / -11.47%`，MaxDD 最差 `-21.03%`，turnover 最高 `2.51x`；相对 robust `hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v27_liquidity_momentum_repair`，2020/2023 CAGR 分别低 `3.96pp / 4.57pp` 且 2026 转负，判定 `reject`，不替换 robust/tracked。
+- HK Path5 scorecard：v34 CAGR `5.37% / 5.06% / 5.51% / 9.30% / -11.84%`，MaxDD 最差 `-12.23%`，turnover `1.22x / 1.10x / 1.30x / 1.62x / 1.41x`。它相对上一轮 v33 明显降低回撤和换手，`scripts/update_hkconnect_artifacts.py` 后进入 HK Path5 robust candidate；判定 `promote` 到 Path5 robust 观察位，但绝对收益弱且 2026 为负，不能升级为强稳定 winner。
+- HK Path6 scorecard：v40 CAGR `6.42% / 6.11% / 8.35% / 15.03% / -21.05%`，MaxDD 最差 `-20.87%`，turnover 最高 `1.75x`；相对 robust `hkconnect_path6_lowvol_liquid_biweekly_smoke` 在 2020/2023/2026 明显退化，判定 `reject`。
+- HK Path7 scorecard：v39 CAGR `6.83% / 5.77% / 8.38% / 13.01% / -13.38%`，MaxDD 最差 `-14.08%`，turnover 最高 `4.41x`；相对 robust `hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3` 在 2020/2023/2026 退化，判定 `reject`。
+- evict/归档：本轮 HK Path4-7 无 evict；Path5 v34 进入 robust 观察位后，下一轮若 2026 仍负且 10 个交易日内无改善，应把更早 retest 负样本归档。
+- 下一轮 focus：第一条扩展命令建议 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v45_quality_momentum_repair,hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair,hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v41_large_liquid_core_repair,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v40_ytd_guard`；若未注册，先按各 path cap evict 非 winner/robust 弱项后注册。
+- Focus 候选池：Path4 `quality_momentum` -> `v45_quality_momentum_repair`、`v46_lowdraw_ytd_guard`；Path5 `pullback_definition` -> `v35_ytd_repair`、`v36_lowturn_pullback_definition`；Path6 `large_liquid_core` -> `v41_large_liquid_core_repair`、`v42_lowvol_liquid_core_repair`；Path7 `barbell_sleeve_structure` -> `v40_ytd_guard`、`v41_core_sleeve_turnover_control`。
+
 ## 2026-07-06 扩展复核结果
 
 - 上一轮候选/结果摘要：上一轮 HK Path4-7 留下 v43/v33/v39/v38 方向；本轮四条扩展线均完成五窗口确认，所有 HK 扩展结果仍不并入 A股 winner。

@@ -1,5 +1,14 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-07 迭代状态
+
+- 上一轮候选/结果摘要：上一轮 `high_speed_pcb_copper_clad_server_20260624_v0` 5D 仍为负、10D/20D 不足；本轮继续复跑同一冻结事件篮子，与 Path4 robust `prom22/signal29/risk06/cap05/exit68` 做成熟度和 overlap 对照，不把事件 seed 写入 winner/tracked。
+- 本轮候选 ID 与命令：复跑 `high_speed_pcb_copper_clad_server_20260624_v0`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_robust_prom22_signal29_risk06_20260707_iter2.json`。
+- Scorecard 与判定：候选数 `6`；5D equal_weight `-3.78%`、seed_weight `-3.31%`，10D/20D 仍因 `available_trading_days=9` 为 `insufficient_data`；单票 5D 中深南电路 `+3.73%`、沪电股份 `+1.16%`，其余四只为负。Path4 robust overlap 继续为 `0/6`，说明该事件篮子仍是独立事件线索；判定 `keep_watch`，不进入 winner/robust/tracked。
+- 审计状态：registry/candidates 入口完整，当前篮子候选均有 source URL，未新增 pending seed；本轮信息增量是成熟度推进到 5D 有效但 10D/20D 尚不足。
+- 下一轮 focus：第一条命令建议等窗口成熟后补 10/20/40 或 20/40/60 horizon：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 10,20,40 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_robust_prom22_signal29_risk06_next_mature.json`；若交易日仍不足，只记录成熟度，不晋级。
+- Focus 候选池：`path4_comparison` -> `high_speed_pcb_copper_clad_server_20260624_v0`、下一只已审计强主题 overlap 篮子；`event_basket_registry` -> 第五事件篮子草案、既有 24 个 frozen candidate 的 source audit 复核；`event_backtest_entry` -> `5/10/20` 短窗复核、`10/20/40` 成熟窗复核。
+
 ## 2026-07-06 迭代状态
 
 - 上一轮候选/结果摘要：上一轮同一 `high_speed_pcb_copper_clad_server_20260624_v0` 事件篮子已确认 5D 为负且 Path4 robust overlap 为 `0/6`；本轮继续用已有 detail 的 Path4 robust 做成熟度复核，不把事件 seed 写入 winner/tracked。
