@@ -1,5 +1,14 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-08 收尾记录
+
+- 上一轮候选与结果摘要：上一轮同一高速 PCB/服务器覆铜板事件篮子仍在成熟度跟踪；本轮继续使用已审计冻结篮子 `high_speed_pcb_copper_clad_server_20260624_v0`，与 Path4 `prom22/signal29/risk04` 参考持仓做 overlap，不把事件 seed 写入 Path1-4 winner/tracked。
+- 本轮候选 ID 与命令：复跑 `high_speed_pcb_copper_clad_server_20260624_v0`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 10,20,40 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_robust_prom22_signal29_risk04_20260708_iter2_mature.json`。
+- Scorecard 与判定：候选数 `6`；10D equal_weight `-13.64%`、seed_weight `-13.50%`，20D/40D 仍 `insufficient_data`；Path4 reference overlap `0/6`、overlap weight `0`。假设“事件篮子可领先 Path4 强主题持仓”未被支持，判定 `reject`，不进入 winner/robust/tracked。
+- 下一轮 focus 提示：最终 guard 给 `event_backtest_entry`。第一条命令等 20D 成熟后复核同篮子：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_prom23_signal29_risk04_next_mature.json`；若交易日仍不足，只记录成熟度，不晋级。
+- Focus 候选池：`event_backtest_entry` -> `high_speed_pcb_copper_clad_server_20260624_v0` 的 `20/40/60` 成熟窗、同篮子 `5/10/20` 压力复核；`path4_comparison` -> 对 `prom23/signal29/risk04`、对 `prom22/signal29/risk04`；`frozen_candidate_audit` -> 24 个 frozen candidate source 复核、第五事件篮子草案 source audit；`event_basket_registry` -> 既有 4 个 active basket 状态复核、第五事件篮子草案。
+- evict/归档：本轮没有新增事件篮子；旧未跟踪输出 `...path4winner_prom20signal29_20260703_iter2.json` 保持未纳入本次提交。
+
 ## 2026-07-08 迭代状态
 
 - 上一轮候选/结果摘要：上一轮 `high_speed_pcb_copper_clad_server_20260624_v0` 5D 为负、10D/20D 不足；本轮先尝试 10/20/40 成熟窗，仍因交易日不足，再改用 5/10/20 复核，不把事件 seed 写入 A股 Path1-4 winner/tracked。

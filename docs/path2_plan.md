@@ -1,5 +1,14 @@
 # Path 2 研究计划
 
+## 2026-07-08 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 Path2 只留下 `underrepresented_families` 双周量价弹性修复；本轮保持独立 `growth_elastic` 池，未引入 Path4 `emergent_theme`，也未把 Path3 `_weekly` 候选并入 Path2。
+- 本轮候选 ID 与命令：实跑 `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair` 与 `core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <path1_risk18>,<path1_risk16>,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,<path4_prom23_three_ids>`。
+- Scorecard 与判定：相对 `v46_capacity_cost`，70/30 v78 的 2020/2023 CAGR `6.82% / 4.16%`、Sharpe `0.425 / 0.329`、MaxDD `-24.32% / -18.43%`、turnover `8.04x / 6.69x`，2020/2023 收益显著退化且换手过高；artifact 把它写入 Path2 observation，但本质判定 `robust_observation`，进入观察位，不是强稳定 winner。80/20 v78 的 2020/2023 CAGR `5.04% / 0.46%`、MaxDD `-24.94% / -20.14%`、turnover `8.06x / 6.19x`，判定 `reject`，停止同形继续压 risk/exit/cap。
+- 下一轮 focus 提示：最终 guard 给 `medium_cycle_growth`。第一条命令回到中周期修复而不是继续 v78 同形：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair`；若未注册，先加入 Path2 scan family/list，并归档一条连续失败的 underrepresented 旧样本。
+- Focus 候选池：`medium_cycle_growth` -> `v79_medium_cycle_repair` 双底座、`v80_2023_repair` 双底座；`underrepresented_families` -> `v78_underrepresented_repair` 负样本、`v81_underrepresented_lowturn_confirm` 双底座；`risk_reconfirm_sensitivity` -> `v77_reconfirm100_caution52` 双底座、`v82_risk18_exit38_reconfirm` 双底座；`capacity_cost_stress` -> `v74_capacity_cost_stress` 负样本、`v83_cap18_cost_guard_retest` 双底座。
+- evict/归档：本轮无代码 archive，但 v78 80/20 标记 `reject`，70/30 只保留 artifact 观察；`scripts/path2_candidate_pass.py` 与 `scripts/update_weighted_winners.py` 已同步，不能把该 observation 写成 promote。
+
 ## 2026-07-08 迭代状态
 
 - 上一轮候选/结果摘要：上一轮 v74 capacity-cost stress 双底座均因 2020/2023 收益不足和短窗换手高判定 `reject`；本轮 Path2 独立 `growth_elastic` 池完成 guard 巡检，未引入 Path4 `emergent_theme`，也未把 Path3 `_weekly` 结论并入 Path2。

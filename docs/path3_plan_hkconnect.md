@@ -1,5 +1,14 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-08 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 Path3 v31 低换手但收益不足；本轮按 pure weekly 口径实跑 v32 turnover reduction retest，没有把 HK Path1/2 月频或双周策略并入本路径。
+- 本轮候选 ID 与命令：实跑 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_v53>,<hk_path2_v46>,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest,<hk_path4_v46>,<hk_path5_v36>,<hk_path6_v42>,<hk_path7_v41>`。
+- Scorecard 与判定：v32 在 2020/2023 CAGR `9.08% / 9.44%`、Sharpe `0.669 / 0.722`、MaxDD `-18.57% / -10.50%`、turnover `3.39x / 3.89x`；相对 robust `hkconnect_path3_equal_elastic_weekly` 的收益差距过大，虽换手明显低，仍判定 `reject`，不替换 winner/robust/tracked。
+- 下一轮 focus 提示：最终 guard 仍为 `weekly_turnover_reduction`。第一条命令转收益恢复而非继续降触发：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover1_exit58_v33_ytd_defensive_recovery`；若未注册，先加入 HK Path3 variants。
+- Focus 候选池：`weekly_turnover_reduction` -> `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover1_exit58_v33_ytd_defensive_recovery`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff44_turnover0_exit60_v31_ytd_defensive_repair`；`weekly_defensive_overlay` -> `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover1_exit56_v33_defensive_recovery`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover1_exit58_v32_ytd_defensive_recovery`；`cost_stress` -> `hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v32_cost_guard`、`hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v33_lowturn_guard`。
+- evict/归档：本轮无 HK Path3 evict；v32 标记 `reject`，后续不继续同形 turnover0 微调。
+
 ## 2026-07-08 迭代状态
 
 - 上一轮候选/结果摘要：上一轮 v31 低换手有效但 2020/2023 CAGR 与 2026 收益不达标，判定 `keep_watch`；本轮 HK Path3 只做 pure weekly 巡检、tracked/live/public 同步与下一轮候选设计，没有把 HK Path1/2 月频或双周策略并入本路径。

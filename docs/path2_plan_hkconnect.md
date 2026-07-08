@@ -1,5 +1,14 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-08 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 high-return monthly v45 未挑战 robust；本轮继续按 `high_return_monthly` 实跑 v46，仍不并入 A股 Path2 或 HK 扩展线结论。
+- 本轮候选 ID 与命令：实跑 `hkconnect_path2_high_return_monthly_quality_liquidity_v46_ytd_guard`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <hk_path1_v53>,hkconnect_path2_high_return_monthly_quality_liquidity_v46_ytd_guard,<hk_path3_v32>,<hk_path4_v46>,<hk_path5_v36>,<hk_path6_v42>,<hk_path7_v41>`。
+- Scorecard 与判定：v46 在 2020/2023 CAGR `19.29% / 21.68%`、Sharpe `1.132 / 1.205`、MaxDD `-13.62% / -13.62%`、turnover `2.57x / 2.62x`，虽回撤和换手较温和，但相对 robust `hkconnect_path2_theme_monthly_cost_control` 的 2020/2023 CAGR 仍低超过 3pp，判定 `reject`；window winner、robust candidate、tracked payload 未改变。
+- 下一轮 focus 提示：最终 guard 仍为 `high_return_monthly`。第一条命令只允许一次高收益月频收益恢复：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v47_return_restore`；若未注册，先加入 HK Path2 variants；若 2023 CAGR 仍低 robust 超过 3pp，则停止 high-return monthly 同形扩参。
+- Focus 候选池：`high_return_monthly` -> `hkconnect_path2_high_return_monthly_quality_liquidity_v47_return_restore`、`hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v45_2023_repair`；`elasticity_cost_control` -> `hkconnect_path2_equal_elastic_monthly_cost_guard_v54_elasticity_cost_control_repair`、`hkconnect_path2_equal_elastic_monthly_cost_guard_v55_lowdraw_repair`；`biweekly_breakout` -> `hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v54_drawdown_guard_v2`、`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v55_retest_confirmation_lowturn`。
+- evict/归档：本轮无 HK Path2 evict；v46 标记 `reject`，下一轮若 v47 仍未修复 2020/2023，应归档 high-return monthly 最近失败样本。
+
 ## 2026-07-08 迭代状态
 
 - 上一轮候选/结果摘要：上一轮 v53 biweekly breakout 因中长窗 CAGR 与回撤退化判定 `reject`；本轮按 high-return monthly 邻域确认 v45，仍独立于 A股 Path2 与 HK Path4-7。

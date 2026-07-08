@@ -1,5 +1,14 @@
 # Path 1 研究计划
 
+## 2026-07-08 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 Path1 只有候选设计；本轮按 `satellite_risk_cost` 实跑 `risk18_reconfirm` 与 `risk16_reconfirm`，core_multifactor 只做覆盖巡检（guard 口径完整），没有把独立 Path4 `emergent_theme` 或 Path1 月选周控 overlay 误并入 core_multifactor。
+- 本轮候选 ID 与命令：实跑 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk16_reconfirm`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk16_reconfirm,<path2_v78_two_ids>,<path4_prom23_three_ids>`。
+- Scorecard 与判定：相对 `risk20_reconfirm`，`risk16_reconfirm` 在 2020/2023 CAGR `28.51% / 24.02%`、MaxDD `-14.54% / -17.45%`、turnover `3.35x / 3.37x`，稳定性未破坏并成为 Path1 robust candidate，判定 `promote`；`risk18_reconfirm` 在 2020/2023 CAGR `28.54% / 23.86%`、MaxDD `-14.54% / -17.92%`，成为 2017 window winner，判定 `promote` 但不是 robust candidate。core_multifactor 本轮没有新增确认回测，判定 `keep_watch`。
+- 下一轮 focus 提示：最终 guard 给 `core_multifactor_coverage`，下一轮第一条命令转回多因子低波质量线：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk09_reconfirm_v5`；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 并归档一条非 winner/robust 旧低波线。
+- Focus 候选池：`core_multifactor_coverage` -> `aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk09_reconfirm_v5`、`aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_cost_guard_reconfirm`；`satellite_risk_cost` -> `risk14_reconfirm`、`risk12_reconfirm`；`weekly_exposure_path` -> `__port_weekly_exposure_buffered_asym13`、`__port_weekly_exposure_buffered`；`holding_shape` -> `share_22_78_hold_2_8_ramp64_cost_guard_reconfirm`、`share_20_80_hold_2_8_ramp62_cost_guard_reconfirm`。
+- evict/归档：本轮 Path1 无 evict；Path1 official/robust/tracked payload 已由 `scripts/update_weighted_winners.py` 同步，scorecard 详见 `results/research/a_share/research_iteration_20260708_scorecards.json`。
+
 ## 2026-07-08 迭代状态
 
 - 上一轮候选/结果摘要：上一轮 `share_24_76_hold_2_8_ramp62_cost_guard` 判定 `reject`，core_multifactor clear candidate 仍只保留 `keep_watch`；本轮开局 guard 显示 Path1 fast/core_multifactor coverage 完整，主线和 core_multifactor 仅做巡检与候选设计，没有把独立 Path4 `emergent_theme` 并入 Path1。

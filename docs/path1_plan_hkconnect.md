@@ -1,5 +1,14 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-07-08 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 Path1 低波现金保护失败；本轮按 `biweekly_buffer` 实跑 v53，仍保持 HK Path1 独立于 A股与 HK Path2/3/扩展线。
+- 本轮候选 ID 与命令：实跑 `hkconnect_path1_biweekly_quality_momentum_equal_buffered_v53_biweekly_buffer_ytd_repair`；命令并入 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v53_biweekly_buffer_ytd_repair,<hk_path2_v46>,<hk_path3_v32>,<hk_path4_v46>,<hk_path5_v36>,<hk_path6_v42>,<hk_path7_v41>`。
+- Scorecard 与判定：v53 在 2020/2023 CAGR `14.34% / 13.69%`、Sharpe `0.828 / 0.801`、MaxDD `-15.94% / -11.49%`、turnover `3.41x / 3.58x`，仍未超过 robust `hkconnect_path1_biweekly_lowvol`，判定 `keep_watch`；window winner、robust candidate、tracked payload 未改变。
+- 下一轮 focus 提示：最终 guard 仍为 `biweekly_buffer`。第一条命令改测低波质量缓冲：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_lowvol_quality_equal_buffered_v54_cashguard_repair`；若未注册，先加入 HK Path1 variants。
+- Focus 候选池：`biweekly_buffer` -> `hkconnect_path1_biweekly_lowvol_quality_equal_buffered_v54_cashguard_repair`、`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v55_biweekly_buffer_ytd_repair`；`monthly_weekly_overlay` -> `hkconnect_path1_monthly_quality_momentum_weekly_overlay_v53_ytd_drawdown_repair`、`hkconnect_path1_monthly_quality_momentum_weekly_overlay_v54_lowvol_weekly_overlay_repair`；`risk_overlay_cost` -> `hkconnect_path1_biweekly_quality_lowvol_equal_buffered_v53_risk_overlay_cost`、`hkconnect_path1_biweekly_lowvol_quality_equal_buffered_v54_cashguard_repair`。
+- evict/归档：本轮无 HK Path1 evict；v53 若连续三轮无法修复 2026 或超过 robust，应归档为双周 buffer 负样本。
+
 ## 2026-07-08 迭代状态
 
 - 上一轮候选/结果摘要：上一轮 v52 低波/现金保护线判定 `reject`，未修复 2026；本轮 HK Path1 coverage 完整，只做巡检、tracked/live/public 同步和下一轮候选设计，仍独立于 A股 winner 与 HK Path2/3/扩展线。

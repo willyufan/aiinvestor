@@ -1,5 +1,17 @@
 # 沪港通策略空间扩展计划
 
+## 2026-07-08 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 HK Path4-7 均留下下一步候选；本轮四条扩展线全部实跑五窗口，仍独立于 A股 winner，也不并入 HK Path1/2/3 结论。
+- 本轮候选 ID 与命令：实跑 `hkconnect_path4_quality_momentum_monthly_ytd_positive_v46_lowdraw_ytd_guard`、`hkconnect_path5_pullback_continuation_monthly_quality_retest_v36_lowturn_pullback_definition`、`hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v42_lowvol_liquid_core_repair`、`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v41_core_sleeve_turnover_control`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v53_biweekly_buffer_ytd_repair,hkconnect_path2_high_return_monthly_quality_liquidity_v46_ytd_guard,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest,hkconnect_path4_quality_momentum_monthly_ytd_positive_v46_lowdraw_ytd_guard,hkconnect_path5_pullback_continuation_monthly_quality_retest_v36_lowturn_pullback_definition,hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v42_lowvol_liquid_core_repair,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v41_core_sleeve_turnover_control`。
+- HK Path4 scorecard：v46 在 2020/2023 CAGR `7.72% / 8.12%`、Sharpe `0.654 / 0.667`、MaxDD `-14.46% / -9.67%`、turnover `1.41x / 1.58x`，收益仍弱于 robust `v27`，判定 `keep_watch`。
+- HK Path5 scorecard：v36 在 2020/2023 为零交易 `0.00% / 0.00%`，Path5 robust 本身 minCAGR 仍为负；该候选只作 pullback definition 观察，判定 `robust_observation`，进入观察位，不是强稳定 winner。
+- HK Path6 scorecard：v42 在 2020/2023 CAGR `5.32% / 8.59%`、MaxDD `-11.51% / -9.37%`、turnover `1.39x / 1.44x`，仍未解决 2026 负收益，判定 `keep_watch`。
+- HK Path7 scorecard：v41 在 2020/2023 为零交易 `0.00% / 0.00%`，未挑战 robust `v3`，判定 `keep_watch`，但不得写成稳定 winner。
+- 下一轮 focus 提示：最终 guard 分别给 Path4 `quality_momentum`、Path5 `pullback_definition`、Path6 `large_liquid_core`、Path7 `barbell_sleeve_structure`。下一轮第一条扩展命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_ytd_positive_v47_quality_momentum_repair,hkconnect_path5_pullback_continuation_monthly_quality_retest_v37_ytd_positive_pullback_definition,hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v43_large_liquid_core_ytd_guard,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v42_barbell_sleeve_ytd_guard`。
+- Focus 候选池：Path4 `quality_momentum` -> `v47_quality_momentum_repair`、`v48_lowdraw_ytd_guard`；Path5 `pullback_definition` -> `v37_ytd_positive_pullback_definition`、`v38_lowturn_pullback_definition`；Path6 `large_liquid_core` -> `v43_large_liquid_core_ytd_guard`、`v44_lowvol_liquid_core_repair`；Path7 `barbell_sleeve_structure` -> `v42_barbell_sleeve_ytd_guard`、`v43_core_sleeve_turnover_control`。
+- evict/归档：本轮 HK Path4-7 无 evict；Path5/7 的零交易/弱收益观察位若下轮仍无有效交易，应优先归档同槽位旧样本。
+
 ## 2026-07-08 扩展复核结果
 
 - 上一轮候选/结果摘要：上一轮 HK Path5 v34 切入 robust 观察位，Path4/6/7 未晋级；本轮四条扩展线全部按五窗口增量确认，所有 HK 扩展结果仍不并入 A股 winner。
