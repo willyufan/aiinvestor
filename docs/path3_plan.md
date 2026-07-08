@@ -1,5 +1,14 @@
 # Path 3 研究计划
 
+## 2026-07-09 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 Path3 只做巡检；本轮继续按纯 `_weekly` 口径巡检，guard coverage 完整，没有使用 Path1 月选周控 overlay，也没有把 HK weekly 结论并入 A股 Path3。
+- 本轮候选 ID 与命令：本轮未实跑 Path3，原因是 A股新增确认预算给 Path2 `v79`、独立 Path4 `prom24/risk04` 和 Path5 event entry；最终 guard 轮换到 `weekly_exit_buffer`，未跑候选下一条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn05_exit92_risk14_weekly_yield_repair_v3_weekly`。
+- Scorecard 与判定：本轮无新增 Path3 scorecard；`scripts/update_weighted_winners.py` 后 Path3 robust 仍为 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cash_off_and_cap60_hold3_turn05_exit94_weekly`，判定 `keep_watch`。未实跑候选不能用于 promote 或 tracked 改写。
+- 下一轮 focus 提示：最终 guard 给 `weekly_exit_buffer`。下一候选目标是在 exit buffer 里恢复 2020/2023 CAGR，同时守住低换手；若 2020 或 2023 CAGR 低 robust 超过 3pp，或 MaxDD 恶化超过 5pp，则直接 `reject`。
+- Focus 候选池：`turnover_reduction` -> `...cap44_hold8_turn04_exit96_risk10_weekly_defensive_repair_v5_weekly`、`...cap42_hold8_turn04_exit94_risk12_weekly_lowturn_repair_v4_weekly`；`weekly_exit_buffer` -> `...cap46_hold6_turn05_exit92_risk14_weekly_yield_repair_v3_weekly`、`...cap46_hold6_turn04_exit90_risk14_weekly_exit_buffer_v4_weekly`；`risk_downshift` -> `...cap42_hold9_turn03_exit97_risk08_weekly_defensive_repair_v6_weekly`、`...cap40_hold9_turn03_exit98_risk06_weekly_defensive_repair_v7_weekly`。
+- evict/归档：本轮无 Path3 evict；下一轮注册新 `_weekly` 候选前优先归档连续三轮 keep_watch 以下且无改善的低换手旧样本。
+
 ## 2026-07-08 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 Path3 低换手收益修复仍弱于 robust；本轮 Path3 只做纯 `_weekly` 巡检、覆盖确认和下一轮候选设计，没有使用 Path1 月选周控 overlay，也没有新增 Path3 回测。

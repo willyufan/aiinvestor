@@ -1,5 +1,14 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-07-09 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 v53 仍未确认能修复 2026；本轮继续按 `biweekly_buffer` 实跑 `hkconnect_path1_biweekly_quality_momentum_equal_buffered_v53_biweekly_buffer_ytd_repair`，保持 HK Path1 独立于 A股与 HK Path2/3/扩展线。
+- 本轮候选 ID 与命令：实跑 `hkconnect_path1_biweekly_quality_momentum_equal_buffered_v53_biweekly_buffer_ytd_repair`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v53_biweekly_buffer_ytd_repair,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v53_drawdown_guard,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest,hkconnect_path4_quality_momentum_monthly_ytd_positive_v46_lowdraw_ytd_guard,hkconnect_path5_pullback_continuation_monthly_quality_retest_v36_lowturn_pullback_definition,hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v42_lowvol_liquid_core_repair,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v41_core_sleeve_turnover_control`。
+- Scorecard 与判定：v53 五窗口 CAGR `15.28% / 14.34% / 13.69% / 27.48% / -16.01%`、MaxDD 最差 `-19.23%`、turnover 最高 `4.99x`；相对 robust `hkconnect_path1_biweekly_lowvol`，2026 防守明显更差，判定 `reject`。window winner、robust candidate、tracked payload 未改变。
+- 下一轮 focus 提示：最终 guard 轮换到 `risk_overlay_cost`，下一轮从质量动量回到低波/风险覆盖成本线。第一条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_lowvol_equal_buffered_v53_risk_overlay_cost`；若未注册，先加入 HK Path1 variants。
+- Focus 候选池：`biweekly_buffer` -> `hkconnect_path1_biweekly_lowvol_quality_equal_buffered_v54_cashguard_repair`、`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v55_biweekly_buffer_ytd_repair`；`monthly_weekly_overlay` -> `hkconnect_path1_monthly_quality_momentum_weekly_overlay_v53_ytd_drawdown_repair`、`hkconnect_path1_monthly_quality_momentum_weekly_overlay_v54_lowvol_weekly_overlay_repair`；`risk_overlay_cost` -> `hkconnect_path1_biweekly_quality_lowvol_equal_buffered_v53_risk_overlay_cost`、`hkconnect_path1_biweekly_lowvol_quality_equal_buffered_v54_cashguard_repair`。
+- evict/归档：本轮无 HK Path1 evict；v53 标记 `reject`，下一轮不继续同形质量动量 buffer 小修。
+
 ## 2026-07-08 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 Path1 低波现金保护失败；本轮按 `biweekly_buffer` 实跑 v53，仍保持 HK Path1 独立于 A股与 HK Path2/3/扩展线。

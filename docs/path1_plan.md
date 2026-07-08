@@ -1,5 +1,14 @@
 # Path 1 研究计划
 
+## 2026-07-09 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 Path1 `risk16/risk18` 已完成 satellite defense 晋级复核；本轮开局 guard 显示 Path1 fast family `136/136`、core_multifactor `67/67` 完整。Path1 主线与 core_multifactor 本轮只做巡检、winner/tracked 同步和下一轮候选设计，没有新增 `--only-base-ids` 实跑，也没有把独立 Path4 `emergent_theme` 或月选周控 overlay 写成 core_multifactor。
+- 本轮候选 ID 与命令：本轮未实跑 Path1，原因是 A股新增确认预算优先给 Path2 `v79_medium_cycle_repair`、独立 Path4 `prom24/risk04` 三底座和 Path5 event entry；本轮实际 A股命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <path2_v79_two_ids>,<path4_prom24_three_ids>`。Path1 下一条确认命令保留为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk09_reconfirm_v5`。
+- Scorecard 与判定：本轮 Path1 无新增 scorecard；`scripts/update_weighted_winners.py` 后 Path1 robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk16_reconfirm`，Path1 主线判定 `keep_watch`，core_multifactor 子段判定 `keep_watch`。未实跑候选不能用于 promote 或 winner 改写。
+- 下一轮 focus 提示：最终 guard 轮换到 `signal_quality`。下一轮第一条命令仍用 core_multifactor 的 signal-quality gate 低波质量门槛中风险恢复来测试 2020/2023 稳定性；若未注册，先加入 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS`，并归档一条非 winner/robust 旧低波线。
+- Focus 候选池：`core_multifactor_coverage` -> `aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk09_reconfirm_v5`、`aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_cost_guard_reconfirm`；`satellite_risk_cost` -> `risk14_reconfirm`、`risk12_reconfirm`；`weekly_exposure_path` -> `__port_weekly_exposure_buffered_asym13`、`__port_weekly_exposure_buffered`；`holding_shape` -> `share_22_78_hold_2_8_ramp64_cost_guard_reconfirm`、`share_20_80_hold_2_8_ramp62_cost_guard_reconfirm`。
+- evict/归档：本轮 Path1 无 evict；scorecard 总表见 `results/research/a_share/research_iteration_20260709_scorecards.json`。
+
 ## 2026-07-08 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 Path1 只有候选设计；本轮按 `satellite_risk_cost` 实跑 `risk18_reconfirm` 与 `risk16_reconfirm`，core_multifactor 只做覆盖巡检（guard 口径完整），没有把独立 Path4 `emergent_theme` 或 Path1 月选周控 overlay 误并入 core_multifactor。

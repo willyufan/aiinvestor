@@ -1,5 +1,14 @@
 # Path 2 研究计划
 
+## 2026-07-09 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 v78 underrepresented 修复只进入弱观察；本轮按 `medium_cycle_growth` 新增并五窗口确认 `v79_medium_cycle_repair` 双底座，仍保持独立 `growth_elastic` 池，未引入 Path4 `emergent_theme`，也未把 Path3 `_weekly` 结论并入 Path2。
+- 本轮候选 ID 与命令：实跑 `core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair,<path4_prom24_three_ids>`。
+- Scorecard 与判定：v79 total_mv 五窗口 CAGR `7.00% / 5.95% / 12.32% / 38.68% / 10.26%`、MaxDD 最差 `-21.18%`、turnover 最高 `10.21x`；`update_weighted_winners.py` 将其推到 Path2 artifact 观察位，但相对历史 scan robust `caution75_cap95` 的 2020/2023 CAGR 大幅降低，判定 `robust_observation`，进入观察位，不是强稳定 winner。v79 equal_weight 五窗口 CAGR `4.03% / 2.76% / 2.94% / 14.56% / 12.78%`、MaxDD 最差 `-26.42%`、turnover 最高 `10.85x`，判定 `reject`。
+- 下一轮 focus 提示：下一轮继续 `medium_cycle_growth`，但不复跑 v79 等权。第一条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk26_mom_exit48_reconfirm96_caution58_cap20_cost_guard_v80_2023_repair,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk26_mom_exit48_reconfirm96_caution58_cap20_cost_guard_v80_2023_repair`；若未注册，先加入 Path2 scan family/list，并归档一条连续失败的旧 medium-cycle 或 underrepresented 负样本。
+- Focus 候选池：`medium_cycle_growth` -> `v80_2023_repair` 双底座、`v81_midcycle_lowturn_confirm` 双底座；`underrepresented_families` -> `v81_underrepresented_lowturn_confirm` 双底座、`v78_underrepresented_repair` 负样本；`risk_reconfirm_sensitivity` -> `v77_reconfirm100_caution52` 双底座、`v82_risk18_exit38_reconfirm` 双底座；`capacity_cost_stress` -> `v83_cap18_cost_guard_retest` 双底座、`v74_capacity_cost_stress` 负样本。
+- evict/归档：本轮无代码 archive；v79 equal_weight 标记 `reject`，v79 total_mv 仅保留 artifact 观察，不写成 promote。
+
 ## 2026-07-08 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 Path2 只留下 `underrepresented_families` 双周量价弹性修复；本轮保持独立 `growth_elastic` 池，未引入 Path4 `emergent_theme`，也未把 Path3 `_weekly` 候选并入 Path2。

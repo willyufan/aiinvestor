@@ -1,5 +1,14 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-09 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 v32 设计目标是降低 HK Path3 高换手；本轮按 pure weekly 口径实跑 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest`，没有把 HK Path1/2 月频或双周策略并入本路径。
+- 本轮候选 ID 与命令：实跑 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v53_biweekly_buffer_ytd_repair,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v53_drawdown_guard,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest,hkconnect_path4_quality_momentum_monthly_ytd_positive_v46_lowdraw_ytd_guard,hkconnect_path5_pullback_continuation_monthly_quality_retest_v36_lowturn_pullback_definition,hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v42_lowvol_liquid_core_repair,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v41_core_sleeve_turnover_control`。
+- Scorecard 与判定：v32 五窗口 CAGR `10.20% / 9.08% / 9.44% / 18.54% / -4.94%`、MaxDD 最差 `-18.70%`、turnover `3.35x / 3.39x / 3.89x / 5.08x / 5.26x`；相对 robust `hkconnect_path3_equal_elastic_weekly` 大幅降低换手，但 2020/2023 CAGR 与 2026 收益不足，判定 `keep_watch`，只作为低换手观察，不替换 winner/robust/tracked。
+- 下一轮 focus 提示：最终 guard 轮换到 `weekly_defensive_overlay`，下一轮应做收益恢复而不是继续压到 turnover0。第一条命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover1_exit56_v33_defensive_recovery`；若未注册，先加入 HK Path3 variants，并保持 pure weekly。
+- Focus 候选池：`weekly_turnover_reduction` -> `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover1_exit58_v33_ytd_defensive_recovery`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff44_turnover0_exit60_v31_ytd_defensive_repair`；`weekly_defensive_overlay` -> `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover1_exit56_v33_defensive_recovery`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover1_exit58_v32_ytd_defensive_recovery`；`cost_stress` -> `hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v32_cost_guard`、`hkconnect_path3_stable_weekly_equal_buffered_cost_stress_v33_lowturn_guard`。
+- evict/归档：本轮无 HK Path3 evict；v32 仅保留低换手观察，若连续三轮不能恢复 2020/2023 CAGR 应归档。
+
 ## 2026-07-08 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 Path3 v31 低换手但收益不足；本轮按 pure weekly 口径实跑 v32 turnover reduction retest，没有把 HK Path1/2 月频或双周策略并入本路径。
