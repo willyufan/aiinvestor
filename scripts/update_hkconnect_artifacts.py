@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 from matplotlib.patches import Rectangle
 
+from backtest_hkconnect import HK_ARCHIVED_STRATEGY_IDS
 from scripts.results_layout import existing_research_file, research_file
 
 DOCS_DIR = ROOT / "docs"
@@ -33,6 +34,7 @@ OUTPUT_PATHS = {
 }
 CHART_PATH_NAMES = ("path1", "path2", "path3")
 TRACK_PATH_NAMES = ("path1", "path2", "path3", "path4", "path5", "path6", "path7")
+MAX_SAMPLE_END_STALENESS_DAYS = 21
 
 WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01")
 WINDOW_LABELS = {
@@ -178,7 +180,8 @@ def _pick_robust(subset: pd.DataFrame) -> tuple[str, dict[str, float]]:
     return rows[0]
 
 
-def _build_payload(latest: pd.DataFrame) -> dict[str, Any]:
+def _build_payload(latest: pd.DataFrame, *, ranking_latest: pd.DataFrame | None = None) -> dict[str, Any]:
+    ranking_latest = latest if ranking_latest is None else ranking_latest
     payload: dict[str, Any] = {
         "as_of": _date_text(latest["sample_end"].max()),
         "window_tags": list(WINDOW_TAGS),
@@ -201,7 +204,7 @@ def _build_payload(latest: pd.DataFrame) -> dict[str, Any]:
         }
 
     for path_name in TRACK_PATH_NAMES:
-        subset = latest[latest["path"] == path_name].copy()
+        subset = ranking_latest[ranking_latest["path"] == path_name].copy()
         if subset.empty:
             continue
         for sample_tag in WINDOW_TAGS:
@@ -333,12 +336,21 @@ def main() -> None:
     latest["sample_tag"] = latest["sample_tag"].astype(str)
     latest["strategy_id"] = latest["strategy_id"].astype(str)
     latest["path"] = latest["path"].astype(str)
+    latest = latest[~latest["strategy_id"].isin(HK_ARCHIVED_STRATEGY_IDS)].copy()
+    newest_sample_end = latest["sample_end"].max()
+    freshness_cutoff = newest_sample_end - pd.Timedelta(days=MAX_SAMPLE_END_STALENESS_DAYS)
+    stale_row_count = int((latest["sample_end"] < freshness_cutoff).sum())
+    ranking_latest = latest[latest["sample_end"] >= freshness_cutoff].copy()
 
-    payload = _build_payload(latest)
+    payload = _build_payload(latest, ranking_latest=ranking_latest)
     TRACKED_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     for path_name in CHART_PATH_NAMES:
-        _render_chart(latest, payload, path_name)
+        _render_chart(ranking_latest, payload, path_name)
 
+    print(
+        f"[OK] excluded {stale_row_count} stale strategy-window rows "
+        f"older than {freshness_cutoff.date()}"
+    )
     print(f"[OK] wrote {TRACKED_JSON}")
     for path_name, output_path in OUTPUT_PATHS.items():
         print(f"[OK] wrote {path_name} chart: {output_path}")

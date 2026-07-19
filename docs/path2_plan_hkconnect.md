@@ -1,5 +1,14 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-20 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 high-return monthly 仍未挑战 robust；本轮按 `biweekly_breakout` 新增 v54/v55/v56 三条质量/主题恢复变体，与 `hkconnect_path2_theme_monthly_cost_control` 同端点比较。
+- 本轮候选 ID 与命令：执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v54_return_recovery,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v55_quality_recovery,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v56_theme_recovery`。
+- Scorecard 与判定：三者 2020 CAGR 相对 robust 低 `9.32pp-18.02pp`，2023 低 `9.33pp-31.31pp`，v54 turnover 均值约 `10.99x`、v56 约 `14.07x`，2026 CAGR 全负。三者均 `reject`，已移出 active；winner/robust/tracked 不变。
+- 下一轮 focus 提示：停止 breakout 同形修补，切换到月频成本/容量邻域。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_cost_control_v57_capacity_balance`；未注册原因：本轮先完成三条 reject 的 active 清理。
+- Focus 候选池：`biweekly_breakout` -> `v57_lowturn_retest`、`v58_drawdown_guard`；`high_return_monthly` -> `v50_return_restore_ytd_guard`、`v57_quality_reconfirm`；`elasticity_cost_control` -> `v57_capacity_balance`、`v58_lowdraw_cost_guard`。
+- evict/归档：v54-v56 三条加入 `HK_ARCHIVED_STRATEGY_IDS`，结果 snapshot 保留。
+
 ## 2026-07-19 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 high-return monthly v46 收益仍不足；本轮按 `high_return_monthly` 五窗口实跑 `v47_return_drawdown_balance`、`v48_concentration_repair`、`v49_cost_guard`，与 robust `hkconnect_path2_theme_monthly_cost_control` 同窗比较。

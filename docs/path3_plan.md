@@ -1,5 +1,14 @@
 # Path 3 研究计划
 
+## 2026-07-20 收尾记录
+
+- 上一轮候选与结果摘要：上一轮低换手 v3 仅进入观察；本轮仍限定纯 `_weekly`，新增 v6/v7 尝试在 `1.0x-1.5x` 年换手附近恢复收益，没有混入 Path1 月选周控 overlay。
+- 本轮候选 ID 与命令：执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly`。
+- Scorecard 与判定：v6 相对 robust 在 2020/2023 CAGR 低 `6.99pp/8.47pp`；v7 的 2020 CAGR 只低 `0.60pp`，但 2023 低 `9.03pp`、Sharpe 低 `0.249`。二者虽把换手压到 `1.03x/1.30x` 且 2026 CAGR 达 `48.41%/56.26%`，仍不能用短窗爆发覆盖中期破坏，均判定 `reject` 并加入 Path3 archive；winner/robust/tracked 不变。
+- 下一轮 focus 提示：停止继续单向放宽 cap/持有期，优先在 incumbent 邻域做 exit-buffer 小步确认。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit92_risk12_weekly_return_balance_v8_weekly`；未注册原因：先完成 v6/v7 archive。
+- Focus 候选池：`turnover_reduction` -> `...return_balance_v8_weekly`、`...cap44_hold7_turn03_exit94_risk10_v9_weekly`；`weekly_exit_buffer` -> `weekly_exit_buffer_v3_weekly`、`...cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`；`risk_downshift` -> `...cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly`、`...cap40_hold8_turn02_exit98_risk08_weekly`。
+- evict/归档：v6/v7 已写入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，保留历史结果，不再进入 active 排名。
+
 ## 2026-07-19 收尾记录
 
 - 上一轮候选与结果摘要：上一轮只巡检纯 `_weekly`；本轮围绕 `turnover_reduction` 五窗口实跑 `weekly_exit_buffer_v3`、`weekly_turnover_reduction_v4`、`weekly_risk_downshift_v5`，全部保持纯周频，没有使用 Path1 月选周控 overlay。

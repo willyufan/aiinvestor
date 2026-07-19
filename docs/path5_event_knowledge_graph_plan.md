@@ -1,5 +1,14 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-20 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 PCB/覆铜板篮子短窗为负且成熟窗不足；本轮先审计 registry/candidates，确认 `4` 个 basket、`24` 个 candidate 均为 `source_audited`、无缺失 `source_url`，再按最新 Path4 `capacity_v2` 参考复跑短窗与成熟窗。
+- 本轮候选 ID 与命令：短窗执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_capacity_v2_20260720_short.json`；成熟窗同命令改为 `--horizons 20,40,60` 与 `_mature.json` 输出。
+- Scorecard 与判定：5D/10D 等权收益 `-3.78%/-13.64%`、seed-weight `-3.31%/-13.50%`，Path4 overlap `0/6`；短窗 timing 假设未获支持，判定 `reject`。20/40/60D 只有 17 个交易日，判定 `keep_watch`（数据成熟观察），不是 promote；该入口不产 CAGR/Sharpe/MaxDD/turnover，缺口由 horizon-return 口径解释。
+- 下一轮 focus 提示：至少再积累 3 个交易日后先复核 20D；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_capacity_v2_next_mature.json`。
+- Focus 候选池：`event_basket_registry` -> `ai_datacenter_power_grid_202607_v0`、`advanced_packaging_interconnect_202607_v0`；`event_backtest_entry` -> PCB 20/40/60、PCB 5/10/20；`path4_comparison` -> Path4 `capacity_v2`、`signal_quality_v4`；`frozen_candidate_audit` -> 24 个 frozen candidate 复审、第五篮子 primary-source audit。
+- evict/归档：短窗 timing 失败结果归入历史；registry 与 24 个 frozen candidates 不物理删除，成熟窗继续等待数据。
+
 ## 2026-07-19 收尾记录
 
 - 上一轮候选与结果摘要：上一轮高速 PCB/服务器覆铜板篮子 10D 已转负、20D 未成熟；本轮继续使用已 `source_audited` 的冻结篮子 `high_speed_pcb_copper_clad_server_20260624_v0`，分别复跑 `5/10/20` 与 `20/40/60`，并与 Path4 `prom23/signal29/risk04/cap05` 参考持仓比较。

@@ -1,5 +1,14 @@
 # Path 2 研究计划
 
+## 2026-07-20 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 `v81_midcycle_lowturn_confirm` 仅为弱观察；本轮继续独立 `growth_elastic` 池，新增 v82/v83 在 90/10 总市值与等权两个底座上的四个 base ids，专门挑战 2023 中周期稳定性。
+- 本轮候选 ID 与命令：执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit48_reconfirm98_caution56_cap18_cost_guard_v82_2023_quality_repair,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit48_reconfirm98_caution56_cap18_cost_guard_v82_2023_quality_repair,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk28_mom_exit46_reconfirm96_caution60_cap20_cost_guard_v83_midcycle_breadth_repair,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk28_mom_exit46_reconfirm96_caution60_cap20_cost_guard_v83_midcycle_breadth_repair`，随后运行 `scripts/path2_candidate_pass.py`。
+- Scorecard 与判定：四条候选相对当前 robust `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` 的 2023 CAGR 下降 `15.68pp-24.87pp`，Sharpe 下降 `0.441-0.788`；2026 CAGR 均约 `-25%`，部分换手达到 `6.5x-7.1x`。实验假设未获支持，四条全部 `reject` 并加入 `PATH2_ARCHIVED_STRATEGY_BASE_IDS`；无 window winner/robust/tracked 变化。
+- 下一轮 focus 提示：最终 guard 为 `risk_reconfirm_sensitivity`；停止 v82/v83 同形扩参，转向更窄风险暴露的 2023 修复。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk18_mom_exit46_reconfirm99_caution54_cap14_cost_guard_v84_2023_risk_repair,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk18_mom_exit46_reconfirm99_caution54_cap14_cost_guard_v84_2023_risk_repair`；未注册原因：本轮需先归档失败项并完成 artifact 同步。
+- Focus 候选池：`medium_cycle_growth` -> `v84_2023_risk_repair` 双底座、`v85_midcycle_quality_lowturn` 双底座；`underrepresented_families` -> `v78_underrepresented_repair` 70/30、`v83_underrepresented_quality_lowturn` 80/20；`risk_reconfirm_sensitivity` -> `v77_reconfirm100_caution52`、`v84_risk18_exit46_reconfirm99`；`capacity_cost_stress` -> `v74_capacity_cost_stress`、`v85_cap14_cost_guard_retest`。
+- evict/归档：v82/v83 四个 base ids 均从 active 竞争口径移除，历史 CSV/策略定义保留；完整 scorecard 见 `research_iteration_scorecard_20260720.json`。
+
 ## 2026-07-19 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 `v79_medium_cycle_repair` 只进入弱观察；本轮沿 `medium_cycle_growth` 五窗口实跑 `v80_2023_repair`、`v81_midcycle_lowturn_confirm` 的 90/10 总市值与等权双底座，共 4 个 base ids，继续保持 `growth_elastic` 独立池。

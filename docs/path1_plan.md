@@ -1,5 +1,15 @@
 # Path 1 研究计划
 
+## 2026-07-20 收尾记录
+
+- 上一轮候选与结果摘要：上一轮多因子低波质量线未挑战 `risk20_reconfirm`；本轮先把 incumbent 刷新到同一 `2026-07-17` 端点，再按 `signal_quality` 新增两条动量/质量多因子候选。Path1 主线未新增变体，core_multifactor 仍只是 Path1 direction group。
+- 本轮候选 ID 与命令：新增 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_momentum_quality_growth_signal_gate_cashguard_risk14_v7`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_momentum_quality_industry_signal_gate_cashguard_risk18_v8`；执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_momentum_quality_growth_signal_gate_cashguard_risk14_v7,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_momentum_quality_industry_signal_gate_cashguard_risk18_v8`。
+- Scorecard 与判定：相对 `risk20_reconfirm`，v7 的 2020/2023 CAGR 低 `16.66pp/5.98pp`、2020 Sharpe 低 `0.422`；v8 分别低 `17.14pp/5.91pp`、2020 Sharpe 低 `0.438`，且 2026 CAGR `-3.65%`。两者假设均未获支持，判定 `reject`，已从 fast-pass active 恢复为原 risk07/risk06 两条覆盖项；winner/robust/tracked 不应改变。
+- core_multifactor 子段：代码覆盖仍以 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS` 为准；新定义保留供历史复算，但不再参与 active 排名。主线 incumbent 同端点复跑只作 comparator，不算新增实验。
+- 下一轮 focus 提示：最终 guard 已轮换到 `satellite_risk_cost`；先复核卫星风险成本邻域，不再扩大单纯 momentum 权重。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm`。
+- Focus 候选池：`signal_quality` -> `...risk09_reconfirm_v5`、`...quality_profitability_value_lowvol_trend_cost_guard_reconfirm`；`core_multifactor_coverage` -> `...risk07_reconfirm_v4`、`...risk06_reconfirm_v2`；`satellite_risk_cost` -> `risk18_reconfirm`、`risk16_reconfirm`；`weekly_exposure_path` -> `__port_weekly_exposure_buffered`、`__port_weekly_exposure_buffered_asym13`；`holding_shape` -> `share_22_78_hold_2_8_ramp64_cost_guard_reconfirm`、`share_20_80_hold_2_8_ramp62_cost_guard_reconfirm`。
+- evict/归档：v7/v8 从 active 移除，定义与五窗口结果保留；完整 scorecard 见 `results/research/a_share/research_iteration_scorecard_20260720.json`。
+
 ## 2026-07-19 收尾记录
 
 - 上一轮候选与结果摘要：上一轮只保留 core_multifactor 信号质量候选设计；本轮五窗口实跑 `quality46...risk08_v6`，并额外确认正式 incumbent `risk20_reconfirm` 与恢复 active 的 `quality_profitability...risk06_reconfirm_v2`。`risk20_reconfirm` 在 2020/2023 CAGR 为 `26.35%/21.87%`，确认继续作为 Path1 winner；主线没有被独立 Path4 或月选周控混入。

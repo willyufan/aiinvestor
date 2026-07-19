@@ -1,5 +1,14 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-07-20 收尾记录
+
+- 上一轮候选与结果摘要：上一轮月频周控 v54/v55 均失败；本轮继续 `monthly_weekly_overlay`，新增低波 v56 与质量动量 v57，并把 robust `hkconnect_path1_biweekly_lowvol` 刷新到同端点。
+- 本轮候选 ID 与命令：执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_lowvol_weekly_overlay_v56_ytd_repair,hkconnect_path1_monthly_quality_momentum_weekly_overlay_v57_return_repair`。
+- Scorecard 与判定：v56/v57 相对 robust 的 2023 CAGR 低 `7.79pp/8.24pp`、Sharpe 低 `0.304/0.341`，2026 CAGR `-22.54%/-14.06%`；假设未获支持，均 `reject` 并移出 active。window winner/robust/tracked 不改变。
+- 下一轮 focus 提示：停止月频周控同形扩参，转回双周 buffer 与风险成本。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_lowvol_quality_equal_buffered_v58_return_risk_balance`；未注册原因：本轮先归档 v56/v57。
+- Focus 候选池：`monthly_weekly_overlay` -> `v58_overlay_return_balance`、`v59_overlay_risk_guard`；`biweekly_buffer` -> `v58_return_risk_balance`、`v59_biweekly_cost_guard`；`risk_overlay_repair` -> `v58_soft_exit_risk_guard`、`v59_lowvol_cost_guard`。
+- evict/归档：v56/v57 写入 `HK_ARCHIVED_STRATEGY_IDS`，定义与 CSV 历史保留。
+
 ## 2026-07-19 收尾记录
 
 - 上一轮候选与结果摘要：上一轮双周 v53 仍未替换 robust；本轮按 `monthly_weekly_overlay` 五窗口实跑月度质量动量周控 `v54_signal_buffer`、`v55_drawdown_buffer`，继续与 HK Path1 robust `hkconnect_path1_biweekly_lowvol` 同窗比较。

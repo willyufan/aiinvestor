@@ -4754,6 +4754,156 @@ HK_PATH2_VARIANTS = [
     for variant in HK_PATH2_VARIANTS
     if str(variant.get("rebalance_frequency", "")).lower() != "weekly"
 ]
+
+# 2026-07-20 日更研究候选：Path1-3 各自围绕 guard focus 恢复中长窗收益。
+HK_PATH1_VARIANTS.extend(
+    [
+        {
+            **next(
+                item
+                for item in HK_PATH1_VARIANTS
+                if item["strategy_id"] == "hkconnect_path1_monthly_quality_momentum_weekly_overlay_v48_monthly_weekly_overlay"
+            ),
+            "strategy_id": "hkconnect_path1_monthly_lowvol_weekly_overlay_v56_ytd_repair",
+            "strategy_name": "沪港通Path1 月度低波周控(年内修复v56)",
+            "signal_family": "path1_lowvol",
+            "risk_off_exposure": 0.00,
+            "risk_caution_exposure": 0.50,
+            "buy_entry_percentile": 0.28,
+            "sell_exit_percentile": 0.58,
+            "max_holdings": 42,
+            "weight_cap": 0.040,
+        },
+        {
+            **next(
+                item
+                for item in HK_PATH1_VARIANTS
+                if item["strategy_id"] == "hkconnect_path1_monthly_quality_momentum_weekly_overlay_v48_monthly_weekly_overlay"
+            ),
+            "strategy_id": "hkconnect_path1_monthly_quality_momentum_weekly_overlay_v57_return_repair",
+            "strategy_name": "沪港通Path1 月度质量动量周控(收益修复v57)",
+            "risk_off_exposure": 0.00,
+            "risk_caution_exposure": 0.46,
+            "buy_entry_percentile": 0.30,
+            "sell_exit_percentile": 0.60,
+            "max_holdings": 44,
+            "weight_cap": 0.038,
+        },
+    ]
+)
+HK_PATH2_VARIANTS.extend(
+    [
+        {
+            **next(
+                item
+                for item in HK_PATH2_VARIANTS
+                if item["strategy_id"] == "hkconnect_path2_theme_monthly_cost_control"
+            ),
+            "strategy_id": "hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v54_return_recovery",
+            "strategy_name": "沪港通Path2 双周主题突破(收益恢复v54)",
+            "candidate_family": "biweekly_breakout",
+            "rebalance_frequency": "biweekly",
+            "signal_family": "path4_liquidity_momentum",
+            "risk_off_rule": "and",
+            "risk_off_exposure": 0.55,
+            "risk_caution_exposure": 0.85,
+            "buy_entry_percentile": 0.14,
+            "sell_exit_percentile": 0.30,
+            "max_holdings": 12,
+            "weight_cap": 0.16,
+        },
+        {
+            **next(
+                item
+                for item in HK_PATH2_VARIANTS
+                if item["strategy_id"] == "hkconnect_path2_theme_monthly_cost_control"
+            ),
+            "strategy_id": "hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v55_quality_recovery",
+            "strategy_name": "沪港通Path2 双周主题突破(质量恢复v55)",
+            "candidate_family": "biweekly_breakout",
+            "rebalance_frequency": "biweekly",
+            "signal_family": "path4_quality_momentum",
+            "risk_off_rule": "and",
+            "risk_off_exposure": 0.45,
+            "risk_caution_exposure": 0.80,
+            "buy_entry_percentile": 0.16,
+            "sell_exit_percentile": 0.32,
+            "max_holdings": 14,
+            "weight_cap": 0.14,
+        },
+        {
+            **next(
+                item
+                for item in HK_PATH2_VARIANTS
+                if item["strategy_id"] == "hkconnect_path2_theme_monthly_cost_control"
+            ),
+            "strategy_id": "hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v56_theme_recovery",
+            "strategy_name": "沪港通Path2 双周主题突破(主题恢复v56)",
+            "candidate_family": "biweekly_breakout",
+            "rebalance_frequency": "biweekly",
+            "risk_off_rule": "and",
+            "risk_off_exposure": 0.60,
+            "risk_caution_exposure": 0.86,
+            "buy_entry_percentile": 0.13,
+            "sell_exit_percentile": 0.30,
+            "max_holdings": 12,
+            "weight_cap": 0.16,
+        },
+    ]
+)
+HK_PATH3_VARIANTS.extend(
+    [
+        {
+            **next(
+                item
+                for item in HK_PATH3_VARIANTS
+                if item["strategy_id"] == "hkconnect_path3_stable_weekly_equal_buffered"
+            ),
+            "strategy_id": "hkconnect_path3_stable_weekly_equal_buffered_v36_return_recovery",
+            "strategy_name": "沪港通Path3 单周稳健等权缓冲(收益恢复v36)",
+            "candidate_family": "weekly_turnover_reduction",
+            "risk_off_exposure": 0.60,
+            "risk_caution_exposure": 0.84,
+            "buy_entry_percentile": 0.18,
+            "sell_exit_percentile": 0.34,
+            "max_holdings": 14,
+            "weight_cap": 0.12,
+        },
+        {
+            **next(
+                item
+                for item in HK_PATH3_VARIANTS
+                if item["strategy_id"] == "hkconnect_path3_stable_weekly_equal_buffered"
+            ),
+            "strategy_id": "hkconnect_path3_stable_weekly_equal_buffered_v37_turnover_balance",
+            "strategy_name": "沪港通Path3 单周稳健等权缓冲(换手收益平衡v37)",
+            "candidate_family": "weekly_turnover_reduction",
+            "risk_off_exposure": 0.55,
+            "risk_caution_exposure": 0.80,
+            "buy_entry_percentile": 0.20,
+            "sell_exit_percentile": 0.38,
+            "max_holdings": 18,
+            "weight_cap": 0.09,
+        },
+        {
+            **next(
+                item
+                for item in HK_PATH3_VARIANTS
+                if item["strategy_id"] == "hkconnect_path3_stable_weekly_equal_buffered"
+            ),
+            "strategy_id": "hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery",
+            "strategy_name": "沪港通Path3 单周低波稳健缓冲(收益恢复v38)",
+            "candidate_family": "weekly_turnover_reduction",
+            "signal_family": "path1_lowvol",
+            "risk_off_exposure": 0.58,
+            "risk_caution_exposure": 0.82,
+            "buy_entry_percentile": 0.18,
+            "sell_exit_percentile": 0.36,
+            "max_holdings": 16,
+            "weight_cap": 0.10,
+        },
+    ]
+)
 HK_PATH4_VARIANTS: List[Dict[str, object]] = [
     {
         "strategy_id": "hkconnect_path4_quality_momentum_monthly_smoke",
@@ -7836,6 +7986,184 @@ HK_PATH4_VARIANTS.extend(
         },
     ]
 )
+
+# 2026-07-20 日更研究候选：Path4-7 从上一轮过度防守参数回到收益/风险平衡。
+HK_PATH4_VARIANTS.extend(
+    [
+        {
+            **next(
+                item
+                for item in HK_PATH4_VARIANTS
+                if item["strategy_id"] == "hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality"
+            ),
+            "strategy_id": "hkconnect_path4_quality_momentum_monthly_v50_return_restore",
+            "strategy_name": "沪港通Path4 月度质量动量(收益恢复v50)",
+            "base_weight_method": "equal_weight",
+            "base_weight_mode": "signal",
+            "risk_off_exposure": 0.08,
+            "risk_caution_exposure": 0.48,
+            "buy_entry_percentile": 0.30,
+            "sell_exit_percentile": 0.48,
+            "max_holdings": 28,
+            "weight_cap": 0.05,
+        },
+        {
+            **next(
+                item
+                for item in HK_PATH4_VARIANTS
+                if item["strategy_id"] == "hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality"
+            ),
+            "strategy_id": "hkconnect_path4_quality_momentum_monthly_v51_quality_balance",
+            "strategy_name": "沪港通Path4 月度质量动量(质量平衡v51)",
+            "risk_off_exposure": 0.04,
+            "risk_caution_exposure": 0.42,
+            "buy_entry_percentile": 0.34,
+            "sell_exit_percentile": 0.52,
+            "max_holdings": 36,
+            "weight_cap": 0.03,
+        },
+        {
+            **next(
+                item
+                for item in HK_PATH4_VARIANTS
+                if item["strategy_id"] == "hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality"
+            ),
+            "strategy_id": "hkconnect_path4_liquidity_momentum_biweekly_v52_return_balance",
+            "strategy_name": "沪港通Path4 双周流动性动量(收益平衡v52)",
+            "rebalance_frequency": "biweekly",
+            "base_weight_method": "equal_weight",
+            "base_weight_mode": "signal",
+            "signal_family": "path4_liquidity_momentum",
+            "risk_off_exposure": 0.15,
+            "risk_caution_exposure": 0.55,
+            "buy_entry_percentile": 0.20,
+            "sell_exit_percentile": 0.40,
+            "max_holdings": 20,
+            "weight_cap": 0.07,
+        },
+    ]
+)
+HK_PATH5_VARIANTS.extend(
+    [
+        {
+            **next(
+                item
+                for item in HK_PATH5_VARIANTS
+                if item["strategy_id"] == "hkconnect_path5_pullback_continuation_monthly_quality_retest_v36_lowturn_pullback_definition"
+            ),
+            "strategy_id": "hkconnect_path5_pullback_continuation_monthly_v39_definition_balance",
+            "strategy_name": "沪港通Path5 月度回踩续涨(定义平衡v39)",
+            "risk_off_exposure": 0.15,
+            "risk_caution_exposure": 0.55,
+            "buy_entry_percentile": 0.40,
+            "sell_exit_percentile": 0.62,
+            "max_holdings": 20,
+            "weight_cap": 0.04,
+        },
+        {
+            **next(
+                item
+                for item in HK_PATH5_VARIANTS
+                if item["strategy_id"] == "hkconnect_path5_pullback_continuation_monthly_quality_retest_v36_lowturn_pullback_definition"
+            ),
+            "strategy_id": "hkconnect_path5_pullback_continuation_biweekly_v40_definition_balance",
+            "strategy_name": "沪港通Path5 双周回踩续涨(定义平衡v40)",
+            "rebalance_frequency": "biweekly",
+            "risk_off_exposure": 0.20,
+            "risk_caution_exposure": 0.60,
+            "buy_entry_percentile": 0.35,
+            "sell_exit_percentile": 0.58,
+            "max_holdings": 18,
+            "weight_cap": 0.05,
+        },
+    ]
+)
+HK_PATH6_VARIANTS.extend(
+    [
+        {
+            **next(
+                item
+                for item in HK_PATH6_VARIANTS
+                if item["strategy_id"] == "hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v42_lowvol_liquid_core_repair"
+            ),
+            "strategy_id": "hkconnect_path6_large_liquid_core_monthly_v46_return_balance",
+            "strategy_name": "沪港通Path6 月度大市值高流动核心(收益平衡v46)",
+            "rebalance_frequency": "monthly",
+            "risk_off_exposure": 0.20,
+            "risk_caution_exposure": 0.60,
+            "buy_entry_percentile": 0.28,
+            "sell_exit_percentile": 0.48,
+            "max_holdings": 28,
+            "weight_cap": 0.05,
+        },
+        {
+            **next(
+                item
+                for item in HK_PATH6_VARIANTS
+                if item["strategy_id"] == "hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v42_lowvol_liquid_core_repair"
+            ),
+            "strategy_id": "hkconnect_path6_lowvol_liquid_biweekly_v47_return_balance",
+            "strategy_name": "沪港通Path6 双周低波高流动核心(收益平衡v47)",
+            "risk_off_exposure": 0.12,
+            "risk_caution_exposure": 0.50,
+            "buy_entry_percentile": 0.34,
+            "sell_exit_percentile": 0.54,
+            "max_holdings": 34,
+            "weight_cap": 0.04,
+        },
+    ]
+)
+HK_PATH7_VARIANTS.extend(
+    [
+        {
+            **next(
+                item
+                for item in HK_PATH7_VARIANTS
+                if item["strategy_id"] == "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v41_core_sleeve_turnover_control"
+            ),
+            "strategy_id": "hkconnect_path7_barbell_quality_growth_biweekly_v44_sleeve_balance",
+            "strategy_name": "沪港通Path7 双周质量成长杠铃(袖结构平衡v44)",
+            "risk_off_exposure": 0.15,
+            "risk_caution_exposure": 0.55,
+            "buy_entry_percentile": 0.24,
+            "sell_exit_percentile": 0.48,
+            "max_holdings": 28,
+            "weight_cap": 0.04,
+        },
+        {
+            **next(
+                item
+                for item in HK_PATH7_VARIANTS
+                if item["strategy_id"] == "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v41_core_sleeve_turnover_control"
+            ),
+            "strategy_id": "hkconnect_path7_barbell_quality_growth_biweekly_v45_quality_balance",
+            "strategy_name": "沪港通Path7 双周质量成长杠铃(质量平衡v45)",
+            "base_weight_method": "equal_weight",
+            "base_weight_mode": "signal",
+            "risk_off_exposure": 0.20,
+            "risk_caution_exposure": 0.60,
+            "buy_entry_percentile": 0.20,
+            "sell_exit_percentile": 0.42,
+            "max_holdings": 24,
+            "weight_cap": 0.05,
+        },
+    ]
+)
+
+# 2026-07-20 scorecard 淘汰项：保留定义与历史结果，但不再进入 active 回测/排名口径。
+HK_ARCHIVED_STRATEGY_IDS = {
+    "hkconnect_path1_monthly_lowvol_weekly_overlay_v56_ytd_repair",
+    "hkconnect_path1_monthly_quality_momentum_weekly_overlay_v57_return_repair",
+    "hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v54_return_recovery",
+    "hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v55_quality_recovery",
+    "hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v56_theme_recovery",
+    "hkconnect_path3_stable_weekly_equal_buffered_v37_turnover_balance",
+    "hkconnect_path5_pullback_continuation_monthly_v39_definition_balance",
+    "hkconnect_path5_pullback_continuation_biweekly_v40_definition_balance",
+    "hkconnect_path6_large_liquid_core_monthly_v46_return_balance",
+    "hkconnect_path6_lowvol_liquid_biweekly_v47_return_balance",
+    "hkconnect_path7_barbell_quality_growth_biweekly_v45_quality_balance",
+}
 HK_EXPANSION_VARIANTS = HK_PATH4_VARIANTS + HK_PATH5_VARIANTS + HK_PATH6_VARIANTS + HK_PATH7_VARIANTS
 
 
@@ -9798,7 +10126,11 @@ def main() -> None:
         if selected_sample_tags
         else list(HK_SAMPLE_WINDOWS)
     )
-    strategy_variants = HK_PATH1_VARIANTS + HK_PATH2_VARIANTS + HK_PATH3_VARIANTS + HK_EXPANSION_VARIANTS
+    strategy_variants = [
+        variant
+        for variant in HK_PATH1_VARIANTS + HK_PATH2_VARIANTS + HK_PATH3_VARIANTS + HK_EXPANSION_VARIANTS
+        if str(variant["strategy_id"]) not in HK_ARCHIVED_STRATEGY_IDS
+    ]
     if selected_strategy_ids:
         strategy_variants = [variant for variant in strategy_variants if variant["strategy_id"] in selected_strategy_ids]
         known_ids = {str(variant["strategy_id"]) for variant in strategy_variants}
