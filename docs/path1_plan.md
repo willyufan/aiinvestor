@@ -1,5 +1,15 @@
 # Path 1 研究计划
 
+## 2026-07-19 收尾记录
+
+- 上一轮候选与结果摘要：上一轮只保留 core_multifactor 信号质量候选设计；本轮五窗口实跑 `quality46...risk08_v6`，并额外确认正式 incumbent `risk20_reconfirm` 与恢复 active 的 `quality_profitability...risk06_reconfirm_v2`。`risk20_reconfirm` 在 2020/2023 CAGR 为 `26.35%/21.87%`，确认继续作为 Path1 winner；主线没有被独立 Path4 或月选周控混入。
+- 本轮候选 ID 与命令：新增 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality46_growth_lowvol_signal_quality_gate_cashguard_risk08_v6`，确认 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk06_reconfirm_v2`；均使用 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述具体 IDs>` 增量回测。
+- Scorecard 与判定：`quality46...risk08_v6` 相对 `risk20_reconfirm` 的 2020/2023 CAGR 分别低 `18.39pp/8.20pp`，2020 Sharpe 低 `0.485`，判定 `reject` 并移出 fast-pass active；恢复对照 `risk06_reconfirm_v2` 2020 CAGR 仅 `9.02%`，判定 `reject`。`risk20_reconfirm` 确认结果判定 `promote`（保留 incumbent，不是新增换位）。artifact 曾因无 current incumbent 行误写新多因子为 2017 winner，补跑后已纠正；最终 Path1 winner/robust 回到 `risk20_reconfirm`。
+- core_multifactor 子段：本轮覆盖由代码实际 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS` 决定；新增 v6 未通过稳定性护栏，旧 `risk06_reconfirm_v2` 恢复 active 仅用于保持方向覆盖，不等同独立 Path4。
+- 下一轮 focus 提示：最终 guard 为 `core_multifactor_coverage`。第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk09_reconfirm_v5`；目标是确认中等风险是否能缩小 2020/2023 CAGR 差距。
+- Focus 候选池：`core_multifactor_coverage` -> `...risk09_reconfirm_v5`、`...risk07_reconfirm_v4`；`satellite_risk_cost` -> `risk18_reconfirm`、`risk16_reconfirm`；`weekly_exposure_path` -> `__port_weekly_exposure_buffered`、`__port_weekly_exposure_buffered_asym13`；`holding_shape` -> `share_22_78_hold_2_8_ramp64_cost_guard_reconfirm`、`share_20_80_hold_2_8_ramp62_cost_guard_reconfirm`。
+- evict/归档：新 v6 从 Path1 active 移除但保留历史结果；没有物理删除 snapshot。scorecard 见 `results/research/a_share/research_iteration_20260719_scorecards.json`。
+
 ## 2026-07-09 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 Path1 `risk16/risk18` 已完成 satellite defense 晋级复核；本轮开局 guard 显示 Path1 fast family `136/136`、core_multifactor `67/67` 完整。Path1 主线与 core_multifactor 本轮只做巡检、winner/tracked 同步和下一轮候选设计，没有新增 `--only-base-ids` 实跑，也没有把独立 Path4 `emergent_theme` 或月选周控 overlay 写成 core_multifactor。

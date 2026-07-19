@@ -1,5 +1,14 @@
 # Path 2 研究计划
 
+## 2026-07-19 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 `v79_medium_cycle_repair` 只进入弱观察；本轮沿 `medium_cycle_growth` 五窗口实跑 `v80_2023_repair`、`v81_midcycle_lowturn_confirm` 的 90/10 总市值与等权双底座，共 4 个 base ids，继续保持 `growth_elastic` 独立池。
+- 本轮候选 ID 与命令：`core_explore_90_10_{total_mv,equal_weight}_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk26_mom_exit48_reconfirm96_caution58_cap20_cost_guard_v80_2023_repair` 与 `core_explore_90_10_{total_mv,equal_weight}_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit50_reconfirm97_caution54_cap16_cost_guard_v81_midcycle_lowturn_confirm`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述 4 个完整 IDs>`，随后运行 `scripts/path2_candidate_pass.py` 与 `scripts/update_weighted_winners.py`。
+- Scorecard 与判定：v80 总市值在 2023 CAGR 为 `-2.40%`、等权在 2020/2023 为 `-2.45%/-1.67%`，两者均 `archive`；v81 等权在 2023 CAGR `-2.88%` 且 MaxDD `-38.37%`，判定 `reject`。v81 总市值在 2020 CAGR/MaxDD/Sharpe 为 `10.48%/-16.00%/0.628`，相对 v79 有改善且未命中二次硬阈值，但 2026 CAGR `-24.24%`，artifact 将其推到观察位，判定 `robust_observation`：进入观察位，不是强稳定 winner；正式 2020/2023 winner 未改变。
+- 下一轮 focus 提示：最终 guard 继续 `medium_cycle_growth`。第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit50_reconfirm97_caution54_cap16_cost_guard_v81_midcycle_lowturn_confirm`；观察条件是 2026 转正且 2023 不低于当前 robust 超过 3pp。
+- Focus 候选池：`medium_cycle_growth` -> `v81_midcycle_lowturn_confirm` 总市值、`v82_2023_quality_repair` 总市值；`underrepresented_families` -> `v78_underrepresented_repair` 70/30、`v83_underrepresented_quality_lowturn` 80/20；`risk_reconfirm_sensitivity` -> `v77_reconfirm100_caution52`、`v84_risk18_exit46_reconfirm99`；`capacity_cost_stress` -> `v74_capacity_cost_stress`、`v85_cap14_cost_guard_retest`。
+- evict/归档：v80 两个 base ids 已加入 `PATH2_ARCHIVED_STRATEGY_BASE_IDS`；`update_weighted_winners.py` 同步应用 archive，并显式排除 `emergent_theme` 泄漏，不再把独立 Path4 历史结果算入 Path2。
+
 ## 2026-07-09 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 v78 underrepresented 修复只进入弱观察；本轮按 `medium_cycle_growth` 新增并五窗口确认 `v79_medium_cycle_repair` 双底座，仍保持独立 `growth_elastic` 池，未引入 Path4 `emergent_theme`，也未把 Path3 `_weekly` 结论并入 Path2。

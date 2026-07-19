@@ -1,5 +1,17 @@
 # 沪港通策略空间扩展计划
 
+## 2026-07-19 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 Path4-7 都没有强稳定晋级；本轮四条扩展线共实跑 10 个 strategy ids、全部覆盖五窗口：Path4 质量/流动性动量 3 条、Path5 回踩续涨 2 条、Path6 大市值高流动核心 3 条、Path7 杠铃 2 条，仍独立于 A股和 HK Path1-3。
+- 本轮候选 ID 与命令：`hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`、`...v48_quality_drawdown_balance`、`...v49_capacity_guard`，`hkconnect_path5_pullback_continuation_monthly_v37_definition_reopen`、`...biweekly_v38_definition_reopen`，`hkconnect_path6_large_liquid_core_monthly_v43_core_reopen`、`...v44_capacity_balance`、`hkconnect_path6_lowvol_liquid_biweekly_v45_core_balance`，`hkconnect_path7_barbell_monthly_quality_sleeve_v42_trigger_reopen`、`hkconnect_path7_barbell_quality_growth_biweekly_v43_sleeve_reopen`；统一命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <上述 10 个完整 IDs>`。
+- HK Path4 scorecard：v47 在 2020/2023 CAGR `8.78%/11.69%`，较 robust 提升 `0.21pp/2.49pp`，MaxDD 改善 `17.70pp/12.37pp`、turnover 仅 `1.56x/1.74x`，但 2026 CAGR 仅 `0.38%`、明显弱于 robust；v48/v49 同样未触发 2020/2023 硬护栏，但 2026 为 `-10.53%/-2.13%`。三者均 `keep_watch`，robust/window winner/tracked 未改变。
+- HK Path5 scorecard：v37/v38 的 2020/2023 CAGR 为 `6.28%/5.97%` 与 `7.68%/6.17%`，虽部分收益高于当前弱 robust，但 MaxDD 恶化约 `9-22pp` 且 2026 CAGR `-19.13%/-18.81%`，均 `reject`，不是 robust_observation。
+- HK Path6 scorecard：v43/v44/v45 的 2020 CAGR `6.23%/7.35%/7.07%`、2023 CAGR `9.19%/10.38%/9.96%`，相对 robust 均显著退化且 2026 为 `-25.12%/-23.30%/-19.80%`，均 `reject`。
+- HK Path7 scorecard：v42/v43 在 2020/2023 CAGR `7.34%/11.13%` 与 `6.03%/10.47%`，均低 robust 超过 3pp，2026 为 `-19.55%/-14.47%`，均 `reject`。
+- 下一轮 focus 提示：最终 guard 为 Path4 `quality_momentum`、Path5 `pullback_definition`、Path6 `large_liquid_core`、Path7 `barbell_sleeve_structure`。第一条可执行扩展命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_pullback_continuation_monthly_quality_retest_v36_lowturn_pullback_definition,hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v42_lowvol_liquid_core_repair,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v41_core_sleeve_turnover_control`。
+- Focus 候选池：Path4 `quality_momentum` -> `v47_totalmv_quality`、`v50_quality_ytd_guard`；Path4 `liquidity_momentum` -> `v43_liquidity_momentum_ytd_repair`、`v51_lowturn_reconfirm`；Path5 `pullback_definition` -> `v36_lowturn_pullback_definition`、`v39_ytd_positive_definition`；Path5 `retest_confirmation` -> `v21_retest_confirmation`、`v40_lowturn_retest`；Path6 `large_liquid_core` -> `v42_lowvol_liquid_core_repair`、`v46_ytd_core_repair`；Path6 `lowvol_liquid_core` -> `lowvol_liquid_biweekly_smoke`、`v47_capacity_guard`；Path7 `barbell_sleeve_structure` -> `v41_core_sleeve_turnover_control`、`v44_ytd_sleeve_repair`；Path7 `biweekly_barbell` -> `core_sleeve_v3`、`v45_quality_growth_reconfirm`。
+- evict/归档：Path4 v47-v49 保留 active watch；Path5 v37/v38、Path6 v43-v45、Path7 v42/v43 已从 active variants 移除，历史 comparison snapshot 保留。
+
 ## 2026-07-09 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 HK Path4-7 已全部实跑但没有强稳定晋级；本轮四条扩展线继续全部五窗口确认，仍独立于 A股 winner，也不并入 HK Path1/2/3 结论。

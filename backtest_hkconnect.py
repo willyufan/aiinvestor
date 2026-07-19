@@ -7783,6 +7783,59 @@ HK_PATH7_VARIANTS: List[Dict[str, object]] = [
         "weight_cap": 0.010,
     },
 ]
+
+# 2026-07-19 日更研究候选：仅保留通过稳定性二次判断的 Path4 观察组。
+HK_PATH4_VARIANTS.extend(
+    [
+        {
+            **next(
+                item
+                for item in HK_PATH4_VARIANTS
+                if item["strategy_id"] == "hkconnect_path4_quality_momentum_monthly_ytd_positive_v46_lowdraw_ytd_guard"
+            ),
+            "strategy_id": "hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality",
+            "strategy_name": "沪港通Path4 月度质量动量(总市值质量v47)",
+            "base_weight_method": "total_mv",
+            "base_weight_mode": "hybrid",
+            "risk_caution_exposure": 0.36,
+            "buy_entry_percentile": 0.42,
+            "sell_exit_percentile": 0.60,
+            "max_holdings": 48,
+            "weight_cap": 0.020,
+        },
+        {
+            **next(
+                item
+                for item in HK_PATH4_VARIANTS
+                if item["strategy_id"] == "hkconnect_path4_quality_momentum_monthly_ytd_positive_v46_lowdraw_ytd_guard"
+            ),
+            "strategy_id": "hkconnect_path4_quality_momentum_monthly_v48_quality_drawdown_balance",
+            "strategy_name": "沪港通Path4 月度质量动量(质量回撤平衡v48)",
+            "risk_off_exposure": 0.04,
+            "risk_caution_exposure": 0.38,
+            "buy_entry_percentile": 0.40,
+            "sell_exit_percentile": 0.58,
+            "max_holdings": 46,
+            "weight_cap": 0.022,
+        },
+        {
+            **next(
+                item
+                for item in HK_PATH4_VARIANTS
+                if item["strategy_id"] == "hkconnect_path4_quality_momentum_monthly_ytd_positive_v46_lowdraw_ytd_guard"
+            ),
+            "strategy_id": "hkconnect_path4_quality_momentum_monthly_v49_capacity_guard",
+            "strategy_name": "沪港通Path4 月度质量动量(容量守门v49)",
+            "base_weight_method": "total_mv",
+            "base_weight_mode": "hybrid",
+            "risk_caution_exposure": 0.34,
+            "buy_entry_percentile": 0.44,
+            "sell_exit_percentile": 0.62,
+            "max_holdings": 54,
+            "weight_cap": 0.016,
+        },
+    ]
+)
 HK_EXPANSION_VARIANTS = HK_PATH4_VARIANTS + HK_PATH5_VARIANTS + HK_PATH6_VARIANTS + HK_PATH7_VARIANTS
 
 

@@ -1,5 +1,14 @@
 # Path 3 研究计划
 
+## 2026-07-19 收尾记录
+
+- 上一轮候选与结果摘要：上一轮只巡检纯 `_weekly`；本轮围绕 `turnover_reduction` 五窗口实跑 `weekly_exit_buffer_v3`、`weekly_turnover_reduction_v4`、`weekly_risk_downshift_v5`，全部保持纯周频，没有使用 Path1 月选周控 overlay。
+- 本轮候选 ID 与命令：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`、`...cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly`、`...cap38_hold10_turn02_exit97_risk06_weekly_risk_downshift_v5_weekly`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述 3 个完整 IDs>`。
+- Scorecard 与判定：v3 在 2020 CAGR/MaxDD/Sharpe/turnover 为 `12.81%/-27.09%/0.712/0.98x`，但 2023 CAGR 仅 `4.63%`、Sharpe 相对 incumbent 低 `0.313`；artifact 将其推入 2017 window/candidate 观察位，判定 `robust_observation`，进入观察位，不是强稳定 winner。v4/v5 虽把换手降到约 `0.87x/0.98x` 且 2026 CAGR 爆发到 `36.90%/48.39%`，但 2020/2023 CAGR 均接近零或为负，判定 `archive`，不以短窗爆发晋级。
+- 下一轮 focus 提示：最终 guard 为 `turnover_reduction`。第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`；目标是在 `1.0-1.5x` 换手附近恢复 2023 CAGR。
+- Focus 候选池：`turnover_reduction` -> `...cap42_hold7_turn02_exit98_risk10_weekly`、`...cap44_hold7_turn04_exit94_risk12_weekly_turnover_repair_v3_weekly`；`weekly_exit_buffer` -> `weekly_exit_buffer_v3_weekly`、`...cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`；`risk_downshift` -> `...cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly`、`...cap40_hold8_turn02_exit98_risk08_weekly`。
+- evict/归档：v4/v5 已从 `PATH2_SCAN_VARIANT_IDS` 的 weekly active 段移除并加入 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`；另归档三条历史最弱纯周频候选，历史 snapshot 保留。
+
 ## 2026-07-09 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 Path3 只做巡检；本轮继续按纯 `_weekly` 口径巡检，guard coverage 完整，没有使用 Path1 月选周控 overlay，也没有把 HK weekly 结论并入 A股 Path3。

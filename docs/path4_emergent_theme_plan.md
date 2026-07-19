@@ -1,5 +1,14 @@
 # Path 4 强主题涌现路径
 
+## 2026-07-19 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 `prom24/risk04` 仍弱于 `prom23/signal29/risk04`；本轮按独立 `emergent_theme` 池新增 `signal30/leader80` 信号质量 v2 与 `cap04/exit72` 容量 v2，分别覆盖 80/20 总市值、90/10 总市值、90/10 等权，共 6 个 base ids，并完成五窗口比较。
+- 本轮候选 ID 与命令：三个 `PATH4_THEME_DISCOVERY_BASE_IDS` 分别拼接 `aggr_13_87_prom23_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk04_cap05_exit70_lowturn_v2`、`aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述 6 个完整 IDs>`。
+- Scorecard 与判定：80/20 总市值 `capacity_v2` 在 2020/2023 CAGR 为 `6.25%/4.00%`，相对旧参考仅低 `1.33pp/0.97pp`，MaxDD 改善 `4.93pp/4.74pp`、turnover 降至 `2.61x/2.43x`，2026 CAGR `2.75%`；代码相邻验证通过并成为 tracked-only 四个长窗 winner/robust，判定 `promote`。90/10 总市值容量版回撤显著更低但 2020 CAGR 低 `4.12pp`，判定 `keep_watch`；90/10 等权容量版及三条 signal-quality v2 因中长窗/2026 退化判定 `reject`。Path4 仍不直接改写 A股 official live allocation。
+- 下一轮 focus 提示：最终 guard 为 `emergent_theme_coverage`。第一条可执行命令继续确认晋级组：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- Focus 候选池：`emergent_theme_coverage` -> `capacity_v2` 80/20 总市值、`capacity_v2` 90/10 总市值；`theme_signal_quality` -> `signal29/leader80/cap04_v3`、`signal28/leader78/cap04_v3`；`theme_risk_control` -> `risk06/cap04/exit72_v3`、`risk04/cap05/exit74_v3`；`theme_capacity_cost` -> `cap035/max_holdings32_v3`、`cap04/exit74/cost_guard_v3`。
+- evict/归档：为两条新方向腾出槽位，旧 `prom24/signal29/risk10` 与 `prom24/signal30/risk08` 从 active 移除；新 signal-quality v2 失败后也移出 active。最终 active 为 20 个 variants，未删除历史结果。
+
 ## 2026-07-09 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 `prom23/signal29/risk04/cap05/exit70` 成为 Path4 tracked-only robust 主体；本轮按独立 `PATH4_THEME_DISCOVERY_*` 新增并确认 `prom24/signal29/risk04/cap05/exit70` 三底座，不并入 Path2，也不做半导体/AI/PCB 等人工后视主题分类。

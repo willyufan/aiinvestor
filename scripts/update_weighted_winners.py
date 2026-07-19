@@ -524,6 +524,20 @@ def load_path2_scan_rules(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> tuple[l
     return prefixes, variant_ids
 
 
+def load_archived_path_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> tuple[set[str], set[str]]:
+    try:
+        consts = _parse_python_constants(
+            backtest_path,
+            ["PATH2_ARCHIVED_STRATEGY_BASE_IDS", "PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS"],
+        )
+    except Exception:
+        return (set(), set())
+    return (
+        {str(item) for item in consts.get("PATH2_ARCHIVED_STRATEGY_BASE_IDS") or []},
+        {str(item) for item in consts.get("PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS") or []},
+    )
+
+
 def load_path4_theme_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[str]:
     try:
         consts = _parse_python_constants(
@@ -543,7 +557,7 @@ def load_path4_theme_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[str]
 
 
 def _matches_path2(base_id: str, prefixes: list[str], variant_ids: list[str]) -> bool:
-    if _matches_path3(base_id):
+    if _matches_path3(base_id) or "_emergent_theme_" in str(base_id):
         return False
     if any(base_id.startswith(prefix) for prefix in prefixes):
         return True
@@ -2546,13 +2560,14 @@ def main() -> None:
     path1_allowed_ids = path1_family_ids & active_family_ids
 
     path2_prefixes, path2_variant_ids = load_path2_scan_rules()
+    path2_archived_ids, path3_archived_ids = load_archived_path_ids()
     comparison_ids = set(latest_all["strategy_base_id"].astype(str).unique())
     path4_allowed_ids = load_path4_theme_ids() & comparison_ids - STATIC_BASE_IDS
     path2_allowed_ids = {
         str(base_id)
         for base_id in comparison_ids
         if _matches_path2(str(base_id), path2_prefixes, path2_variant_ids)
-    } - STATIC_BASE_IDS - path4_allowed_ids
+    } - STATIC_BASE_IDS - path4_allowed_ids - path2_archived_ids
     if not path2_allowed_ids:
         raise RuntimeError(
             "Path 2 candidate universe is empty. "
@@ -2563,7 +2578,7 @@ def main() -> None:
         str(base_id)
         for base_id in set(latest_all["strategy_base_id"].astype(str).unique())
         if _matches_path3(str(base_id))
-    } - STATIC_BASE_IDS
+    } - STATIC_BASE_IDS - path3_archived_ids
     path3_available = bool(path3_allowed_ids)
     if not path3_available:
         print("[path3] no pure weekly candidates in comparison CSV; preserving existing Path 3 winners.")

@@ -1,5 +1,14 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-19 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 v32 低换手但收益不足；本轮按 `weekly_turnover_reduction` 五窗口实跑纯周频 `v33_turnover_buffer`、`v34_exit_buffer`、`v35_cost_stability`，未混入月频或双周路径。
+- 本轮候选 ID 与命令：`hkconnect_path3_stable_weekly_equal_buffered_v33_turnover_buffer`、`...v34_exit_buffer`、`...v35_cost_stability`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <上述 3 个完整 IDs>`。
+- Scorecard 与判定：v34 为三者中收益最高，2020/2023 CAGR `11.91%/11.39%`、turnover `4.48x/4.93x`，虽相对 robust 将换手大幅压低且改善 MaxDD，但 CAGR 分别低 `7.88pp/12.76pp`，2026 CAGR `-10.90%`；v33/v35 同样中长窗不足且 2026 为负。三者均 `reject`，winner/robust/tracked 无变化。
+- 下一轮 focus 提示：最终 guard 仍为 `weekly_turnover_reduction`。第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest`；目标转为恢复 2020/2023 CAGR，不再继续单向压换手。
+- Focus 候选池：`weekly_turnover_reduction` -> `v32_turnover_reduction_retest`、`v36_ytd_return_recovery`；`weekly_defensive_overlay` -> `v33_defensive_recovery`、`v37_riskon_buffer`；`cost_stress` -> `v32_cost_guard`、`v33_lowturn_guard`。
+- evict/归档：v33-v35 已从 HK Path3 active 列表移除，五窗口结果保留。
+
 ## 2026-07-09 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 v32 设计目标是降低 HK Path3 高换手；本轮按 pure weekly 口径实跑 `hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest`，没有把 HK Path1/2 月频或双周策略并入本路径。
