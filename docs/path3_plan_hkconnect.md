@@ -1,5 +1,14 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-21 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 v36/v38 只留短窗修复观察；本轮按 `cost_stress` 确认三条纯周频成本压力候选，继续与 `hkconnect_path3_equal_elastic_weekly` 同窗比较。
+- 本轮候选 ID 与命令：执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-20 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover6_exit42_coststress_2026_repair,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover5_exit42_coststress_ytd_guard,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v22_cost_stress`。
+- Scorecard 与判定：前两条 2020/2023 CAGR 尚有 `21.23%/21.86%` 与 `20.70%/19.79%`，但 2026 均约 `-13%`、换手达 `7.0x-9.5x`；v22 换手较低但 2020/2023 只约 `8.9%`。三条均无法通过稳定性与成本二次判断，全部 `reject`；winner/robust/tracked 不变。
+- 下一轮 focus 提示：最终 guard 仍为 `cost_stress`；停止这三条同形参数，回到 v38 的低波收益修复。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-20 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`。
+- Focus 候选池：`weekly_turnover_reduction` -> `v38_return_recovery`、`v36_return_recovery`；`weekly_defensive_overlay` -> `v38_return_recovery`、`hkconnect_path3_equal_elastic_weekly`；`cost_stress` -> `v38_return_recovery`、`hkconnect_path3_equal_elastic_weekly`。
+- evict/归档：本轮三条全部加入 `HK_ARCHIVED_STRATEGY_IDS`，保留策略定义与历史 CSV；无 active 新留项。
+
 ## 2026-07-20 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 v33-v35 降换手但收益不足；本轮纯周频新增 v36/v37/v38，目标是在显著低于 robust `30.39x` 的换手下恢复 2020/2023 收益。

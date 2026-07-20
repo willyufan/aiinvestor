@@ -1,5 +1,14 @@
 # Path 4 强主题涌现路径
 
+## 2026-07-21 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 signal-quality v4 仅留观察；本轮按 `theme_risk_control` 新增 `risk_control_v5`，仍由三个 `PATH4_THEME_DISCOVERY_BASE_IDS` 自动拼接，不做人工主题归类，共 3 个 base ids、五窗口同端点实跑。
+- 本轮候选 ID 与命令：新增三个完整 base ids：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-20 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`。
+- Scorecard 与判定：80/20 total_mv 的 2020/2023 CAGR 为 `5.03%/1.93%`、MaxDD `-23.48%/-23.64%`、turnover `2.62x/2.42x`，raw artifact 排序进入 robust，但 `update_weighted_winners.py` 相邻验证拒绝且 2026 CAGR `-10.69%`，判 `robust_observation`：进入观察位，不是强稳定 winner。两个 90/10 底座的 2020/2023 CAGR 仅 `2.45%/-0.09%` 与 `1.13%/-0.73%`，均 `reject`。未改写 A股 official live winner。
+- 下一轮 focus 提示：最终 guard 回到 `emergent_theme_coverage`；先确认 incumbent `capacity_v2`，若 risk_control_v5 的 2023 与 2026 不能转强则移除整个 variant。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-20 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- Focus 候选池：`emergent_theme_coverage` -> `capacity_v2` 80/20、`risk_control_v5` 80/20；`theme_signal_quality` -> `signal_quality_v4`、`signal_capacity_v5`；`theme_risk_control` -> `risk_control_v5`、`risk04/cap05/exit74_v6`；`theme_capacity_cost` -> `cap035/exit72_v5`、`cap04/exit74/cost_guard_v6`。
+- evict/归档：两个 90/10 base_id 判 reject，但 variant 为与 80/20 共享的生成单元，暂不删除定义；只保留 80/20 active/watch，停止 90/10 同形扩参。完整 scorecard 见 `results/research/a_share/research_iteration_scorecard_20260721.json`。
+
 ## 2026-07-20 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 `capacity_v2` 成为独立 Path4 tracked-only robust；本轮按 `theme_signal_quality` 新增 signal-quality v3/v4，仍由三个 `PATH4_THEME_DISCOVERY_BASE_IDS` 自动拼接，共六个 base ids，不做人工主题归类。

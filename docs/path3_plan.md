@@ -1,5 +1,14 @@
 # Path 3 研究计划
 
+## 2026-07-21 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 v6/v7 以中窗退化告终；本轮按 `turnover_reduction` 重新确认纯周频 v3/v4/v5，全部 strategy id 以 `_weekly` 结尾，未使用 Path1 月选周控 overlay。
+- 本轮候选 ID 与命令：执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-20 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap38_hold10_turn02_exit97_risk06_weekly_risk_downshift_v5_weekly`。
+- Scorecard 与判定：v3 的 2020 CAGR/MaxDD/Sharpe/turnover 为 `12.39%/-27.09%/0.69/0.98x`，但 2023/2026 仅 `4.02%/-9.88%`；artifact 将其推到 2017/robust 观察位，判 `robust_observation`：进入观察位，不是强稳定 winner。v4/v5 虽将 2020 换手压到 `0.40x/0.38x` 且 2026 有爆发，但 2020/2023 CAGR 仅约 `2.22%/-0.79%` 与 `1.74%/-0.08%`，均 `reject`，不能用短窗替代稳定性。
+- 下一轮 focus 提示：最终 guard 仍为 `turnover_reduction`；下一轮先确认 v3，要求 2023 CAGR 至少回升 3pp 且 2026 转正。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-20 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`。
+- Focus 候选池：`turnover_reduction` -> `weekly_exit_buffer_v3_weekly`、`cap42_hold7_turn02_exit98_risk10_weekly`；`weekly_exit_buffer` -> `weekly_exit_buffer_v3_weekly`、`cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`；`risk_downshift` -> `cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly`、`cap40_hold8_turn02_exit98_risk08_weekly`；`cost_stress` -> `cap42_hold7_turn02_exit98_risk10_weekly_cost_stress_weekly`、`cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`。
+- evict/归档：v4/v5 已在 `PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS`，历史结果保留；v3 留观察。完整 scorecard 见 `research_iteration_scorecard_20260721.json`。
+
 ## 2026-07-20 收尾记录
 
 - 上一轮候选与结果摘要：上一轮低换手 v3 仅进入观察；本轮仍限定纯 `_weekly`，新增 v6/v7 尝试在 `1.0x-1.5x` 年换手附近恢复收益，没有混入 Path1 月选周控 overlay。

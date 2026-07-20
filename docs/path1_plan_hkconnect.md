@@ -1,5 +1,14 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-07-21 收尾记录
+
+- 上一轮候选与结果摘要：上一轮月频周控 v56/v57 淘汰；本轮按双周 buffer 与 `risk_overlay_cost` 确认 v49/v53，两条均覆盖五窗口并与 `hkconnect_path1_biweekly_lowvol` 同窗比较。
+- 本轮候选 ID 与命令：执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-20 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair,hkconnect_path1_biweekly_quality_momentum_equal_buffered_v53_biweekly_buffer_ytd_repair`。
+- Scorecard 与判定：v49 的 2020/2023 CAGR `16.10%/15.15%`、2025 `28.85%`，进入 2025 窗口 winner，但 2023 相对 robust 触发护栏且 2026 `-12.01%`，判 `keep_watch`；v53 的 2020/2023 `14.15%/13.23%`、2026 `-15.29%`，被 v49 支配，判 `reject`。robust/tracked 主体不变。
+- 下一轮 focus 提示：最终 guard 为 `risk_overlay_cost`；先复核 v49，要求 2026 转正且 2023 不再触发 3pp 护栏。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-20 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair`。
+- Focus 候选池：`monthly_weekly_overlay` -> `v54_signal_buffer`、`v55_drawdown_buffer`；`biweekly_buffer` -> `v49_biweekly_buffer_ytd_repair`、`hkconnect_path1_biweekly_lowvol`；`risk_overlay_repair` -> `v49_biweekly_buffer_ytd_repair`、`v53_biweekly_buffer_ytd_repair`；`risk_overlay_cost` -> `v49_biweekly_buffer_ytd_repair`、`hkconnect_path1_biweekly_lowvol`。
+- evict/归档：v53 加入 `HK_ARCHIVED_STRATEGY_IDS`；v49 留 watch。完整 scorecard 见 `results/research/a_share/research_iteration_scorecard_20260721.json`。
+
 ## 2026-07-20 收尾记录
 
 - 上一轮候选与结果摘要：上一轮月频周控 v54/v55 均失败；本轮继续 `monthly_weekly_overlay`，新增低波 v56 与质量动量 v57，并把 robust `hkconnect_path1_biweekly_lowvol` 刷新到同端点。

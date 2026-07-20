@@ -15144,6 +15144,34 @@ WINNER_CORE_VARIANTS.extend(
             "promoted_core_sell_exit_percentile": 0.74,
             "weight_cap": 0.04,
         },
+        {
+            "variant_id": "aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5",
+            "variant_name": "进攻13/87 晋升23只(强主题涌现风险控制v5, 信号28%, 龙头78%, 熊市6%, 单票4%, 出场72%)",
+            "winner_core_stable_share": 0.13,
+            "winner_core_promoted_share": 0.87,
+            "stable_core_max_holdings": 2,
+            "promoted_core_max_holdings": 29,
+            "promoted_core_stage_ramp": {1: 1.00},
+            "core_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+            "promotion_signal_mode": EMERGENT_THEME_SIGNAL_MODE,
+            "standard_promotion_percentile": 0.28,
+            "standard_promotion_min_industry_leader": 0.78,
+            "standard_promotion_min_momentum_3_1_rank": 0.66,
+            "fast_promotion_percentile": 0.045,
+            "fast_promotion_min_industry_leader": 0.92,
+            "fast_promotion_min_momentum_3_1_rank": 0.76,
+            "fast_promotion_min_amount_surge_ratio": 1.38,
+            "market_risk_off_rule": "negative_mom",
+            "risk_staging_mode": "three_stage",
+            "core_risk_off_exposure": 0.06,
+            "satellite_risk_off_exposure": 0.06,
+            "core_quality_quantile": 0.73,
+            "promoted_core_quality_quantile": 0.57,
+            "explore_quality_quantile": 0.67,
+            "seed_quality_quantile": 0.51,
+            "promoted_core_sell_exit_percentile": 0.72,
+            "weight_cap": 0.04,
+        },
     ]
 )
 
@@ -15246,7 +15274,6 @@ PATH1_FAST_PASS_DIRECTION_GROUPS = {
         "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm",
         "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk06_reconfirm",
         "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk08_reconfirm",
-        "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk09_reconfirm_v5",
         "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk07_reconfirm_v4",
         "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk06_reconfirm_v2",
     ],
@@ -15396,7 +15423,6 @@ PATH1_FAST_PASS_VARIANT_IDS = [
     "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm",
     "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk06_reconfirm",
     "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk08_reconfirm",
-    "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk09_reconfirm_v5",
     "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk07_reconfirm_v4",
     "aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk06_reconfirm_v2",
     "aggr_09_91_prom7",
@@ -15464,6 +15490,7 @@ PATH4_THEME_DISCOVERY_VARIANT_IDS = [
     "aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn",
     "aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
     "aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4",
+    "aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5",
 ]
 
 PATH2_SCAN_BASE_PREFIXES = [
@@ -16526,6 +16553,8 @@ PATH2_SCAN_VARIANT_IDS = [
 ]
 
 PATH2_ARCHIVED_STRATEGY_BASE_IDS = [
+    "core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair",
+    "core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit50_reconfirm97_caution54_cap16_cost_guard_v81_midcycle_lowturn_confirm",
     "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit48_reconfirm98_caution56_cap18_cost_guard_v82_2023_quality_repair",
     "core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit48_reconfirm98_caution56_cap18_cost_guard_v82_2023_quality_repair",
     "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk28_mom_exit46_reconfirm96_caution60_cap20_cost_guard_v83_midcycle_breadth_repair",

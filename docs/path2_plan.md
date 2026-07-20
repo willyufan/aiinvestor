@@ -1,5 +1,14 @@
 # Path 2 研究计划
 
+## 2026-07-21 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 v82/v83 全部淘汰；本轮按 `underrepresented_families` 与 `medium_cycle_growth` 确认 v78 双周流动性动量两底座、v81 中周期低换手两底座，共 4 个 base ids，继续保持 `growth_elastic` 独立池。
+- 本轮候选 ID 与命令：执行 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-20 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit50_reconfirm97_caution54_cap16_cost_guard_v81_midcycle_lowturn_confirm,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit50_reconfirm97_caution54_cap16_cost_guard_v81_midcycle_lowturn_confirm`，随后运行 `scripts/path2_candidate_pass.py` 与 `scripts/update_weighted_winners.py`。
+- Scorecard 与判定：v78 70/30 的 2020/2023 CAGR 仅 `1.86%/1.57%`、换手约 `8.07x/6.68x`，虽进入弱路径 robust，仍判定 `robust_observation`：进入观察位，不是强稳定 winner；v78 80/20 因 2023/2026 为负判 `reject`。v81 total_mv 的 2017/2020 CAGR `10.19%/10.42%` 并进入 2017 窗口排序，但 2023/2026 仅 `4.34%/-28.88%`，判 `keep_watch`；equal_weight 判 `reject`。无正式 promote。
+- 下一轮 focus 提示：最终 guard 为 `medium_cycle_growth`；先复核 v81 total_mv，只有 2023 至少恢复 3pp 且 2026 转正才保留。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-20 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit50_reconfirm97_caution54_cap16_cost_guard_v81_midcycle_lowturn_confirm`。
+- Focus 候选池：`medium_cycle_growth` -> `v81_midcycle_lowturn_confirm` total_mv、`v79_medium_cycle_repair` total_mv；`underrepresented_families` -> `v78_underrepresented_repair` 70/30、`v70_underrepresented_lowturn` 70/30；`risk_reconfirm_sensitivity` -> `v77_reconfirm100_caution52`、`v84_risk18_exit46_reconfirm99`；`capacity_cost_stress` -> `v74_capacity_cost_stress`、`v85_cap14_cost_guard_retest`。
+- evict/归档：v78 80/20 equal_weight 与 v81 90/10 equal_weight 加入 `PATH2_ARCHIVED_STRATEGY_BASE_IDS`；v78 70/30 与 v81 total_mv 留 watch。完整 scorecard 见 `research_iteration_scorecard_20260721.json`。
+
 ## 2026-07-20 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 `v81_midcycle_lowturn_confirm` 仅为弱观察；本轮继续独立 `growth_elastic` 池，新增 v82/v83 在 90/10 总市值与等权两个底座上的四个 base ids，专门挑战 2023 中周期稳定性。
