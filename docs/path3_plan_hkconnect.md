@@ -1,5 +1,13 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-22 收尾记录
+
+- 上一轮候选与结果摘要：上一轮三条 cost-stress 全淘汰；本轮按 `weekly_turnover_reduction` 确认 v36/v38/v32，继续保持纯周频并与 `hkconnect_path3_equal_elastic_weekly` 同窗比较。
+- 本轮候选 ID 与命令：`hkconnect_path3_stable_weekly_equal_buffered_v36_return_recovery`、`hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-21 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_v36_return_recovery,hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest`。
+- Scorecard 与判定：v36/v38 未触发 2020/2023 护栏，平均换手降到约 `9.92x/8.94x`，v38 的 2023 CAGR 还高 robust 约 `3.39pp`；但 2026 CAGR `-20.62%/-16.03%`，均 `keep_watch`。v32 中窗 CAGR 低 `10.9pp/15.7pp`，判 `archive`。HK Path3 winner/robust/tracked 未变。
+- 下一轮 focus 提示：优先修复 v38 的 2026 风险，不再继续压换手。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-21 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`。
+- Focus 候选池：`weekly_turnover_reduction` -> v38、v36；`weekly_defensive_overlay` -> v38、`hkconnect_path3_equal_elastic_weekly`；`cost_stress` -> v38、`hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`。v32 已归档，定义与 CSV 历史保留。
+
 ## 2026-07-21 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 v36/v38 只留短窗修复观察；本轮按 `cost_stress` 确认三条纯周频成本压力候选，继续与 `hkconnect_path3_equal_elastic_weekly` 同窗比较。

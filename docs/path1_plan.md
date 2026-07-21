@@ -1,5 +1,13 @@
 # Path 1 研究计划
 
+## 2026-07-22 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 `risk18/risk16` 只留观察、多因子 `risk09_v5` 淘汰；本轮按 `core_multifactor_coverage` 五窗口确认 `risk07_v4/risk06_v2`。两条相对主线 robust `risk20_reconfirm` 的 2020 CAGR 分别低约 `16.19pp/16.42pp`，2023 低约 `7.64pp/9.35pp`，虽 MaxDD 改善约 `7.5pp-8.5pp`，仍触发 CAGR/Sharpe 护栏，均判 `archive`。Path1 主线 winner/robust 未变。
+- 本轮候选 ID 与命令：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk07_reconfirm_v4`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk06_reconfirm_v2`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-21 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk07_reconfirm_v4,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk06_reconfirm_v2`。
+- core_multifactor 子段：两条弱 lowvol 变体已从 `PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]` 与 `PATH1_FAST_PASS_VARIANT_IDS` 移除，定义和历史结果保留；代码实际 coverage 由 `66` 降为 `64`，仍高于 direction 最低要求。`winner_only_pass.py` 的 clear 信号已交由 weighted 相邻验证，official Path1 winner/robust 未改写。
+- 下一轮 focus 提示：停止继续下调同形 risk 暴露，改查质量成长/趋势组合。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-21 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm`。
+- Focus 候选池：`core_multifactor_coverage` -> `growth_trend...risk08_reconfirm`、`growth_lowvol...risk08_reconfirm`；`signal_quality` -> `quality_profitability_growth_trend...risk08`、`quality_profitability_signal...risk14`；`satellite_risk_cost` -> `risk20_reconfirm`、`risk18_reconfirm`；`weekly_exposure_path` -> `__port_weekly_exposure_buffered`、`__port_weekly_exposure_buffered_asym13`；`holding_shape` -> `share_22_78_hold_2_8_ramp64_cost_guard`、`share_20_80_hold_2_8_ramp62_cost_guard_reconfirm`。完整 scorecard 见 `results/research/a_share/research_iteration_scorecard_20260722.json`。
+
 ## 2026-07-21 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 core_multifactor 新候选均 `reject`；本轮按 `core_multifactor_coverage` 同窗确认卫星风险 `risk18/risk16` 与多因子 `risk09_v5`，全部覆盖 `since_2017_01/since_2020_01/since_2023_01/since_2025_01/since_2026_01`。主线与 core_multifactor 仍属于同一 Path1，未混入独立 Path4。

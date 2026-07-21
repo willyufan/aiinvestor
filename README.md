@@ -49,16 +49,16 @@
 
 ### 2017 窗口赢家
 
-- 鲁棒赢家：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm`（核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险18成本再确认)）
-- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`18.18%` / `0.7825` / `-31.64%` / `3.08`
+- 鲁棒赢家：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`（核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险20成本再确认)）
+- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`20.67%` / `0.8779` / `-24.73%` / `3.09`
 
 窗口指标（权重：2017-01=100%）：
 
-- `2017-01-01` → `2026-07-20`: Total Return `395.58%`, CAGR `18.18%`, Max DD `-31.64%`, Sharpe `0.7825`, Turnover `3.08`
-- `2020-01-01` → `2026-07-21`: Total Return `346.06%`, CAGR `25.50%`, Max DD `-27.01%`, Sharpe `0.9115`, Turnover `3.36`
-- `2023-01-01` → `2026-07-21`: Total Return `87.74%`, CAGR `19.22%`, Max DD `-26.68%`, Sharpe `0.6905`, Turnover `3.36`
-- `2025-01-01` → `2026-07-21`: Total Return `126.43%`, CAGR `67.56%`, Max DD `-28.06%`, Sharpe `1.2694`, Turnover `4.78`
-- `2026-01-01` → `2026-07-21`: Total Return `17.86%`, CAGR `32.54%`, Max DD `-29.04%`, Sharpe `0.7521`, Turnover `6.73`
+- `2017-01-01` → `2026-07-21`: Total Return `505.31%`, CAGR `20.67%`, Max DD `-24.73%`, Sharpe `0.8779`, Turnover `3.09`
+- `2020-01-01` → `2026-07-21`: Total Return `390.98%`, CAGR `27.34%`, Max DD `-27.01%`, Sharpe `0.9567`, Turnover `3.36`
+- `2023-01-01` → `2026-07-21`: Total Return `116.41%`, CAGR `24.04%`, Max DD `-26.68%`, Sharpe `0.7946`, Turnover `3.37`
+- `2025-01-01` → `2026-07-21`: Total Return `126.40%`, CAGR `67.55%`, Max DD `-28.06%`, Sharpe `1.2692`, Turnover `4.78`
+- `2026-01-01` → `2026-07-21`: Total Return `17.86%`, CAGR `32.53%`, Max DD `-29.04%`, Sharpe `0.7521`, Turnover `6.73`
 
 ### 2023 窗口赢家
 
@@ -67,7 +67,7 @@
 
 窗口指标（权重：2023-01=100%）：
 
-- `2017-01-01` → `2026-07-17`: Total Return `113.15%`, CAGR `8.22%`, Max DD `-32.48%`, Sharpe `0.5130`, Turnover `3.17`
+- `2017-01-01` → `2026-07-21`: Total Return `123.99%`, CAGR `8.78%`, Max DD `-32.48%`, Sharpe `0.5462`, Turnover `3.17`
 - `2020-01-01` → `2026-07-21`: Total Return `7.34%`, CAGR `1.08%`, Max DD `-32.56%`, Sharpe `0.1479`, Turnover `2.79`
 - `2023-01-01` → `2026-07-21`: Total Return `114.11%`, CAGR `23.67%`, Max DD `-20.45%`, Sharpe `0.8646`, Turnover `3.42`
 - `2025-01-01` → `2026-07-21`: Total Return `85.31%`, CAGR `47.64%`, Max DD `-23.61%`, Sharpe `1.1526`, Turnover `4.87`
@@ -80,7 +80,7 @@
 
 窗口指标（权重：2020-01=100%）：
 
-- `2017-01-01` → `2026-07-17`: Total Return `471.83%`, CAGR `19.96%`, Max DD `-28.89%`, Sharpe `0.8435`, Turnover `3.09`
+- `2017-01-01` → `2026-07-21`: Total Return `505.31%`, CAGR `20.67%`, Max DD `-24.73%`, Sharpe `0.8779`, Turnover `3.09`
 - `2020-01-01` → `2026-07-21`: Total Return `390.98%`, CAGR `27.34%`, Max DD `-27.01%`, Sharpe `0.9567`, Turnover `3.36`
 - `2023-01-01` → `2026-07-21`: Total Return `116.41%`, CAGR `24.04%`, Max DD `-26.68%`, Sharpe `0.7946`, Turnover `3.37`
 - `2025-01-01` → `2026-07-21`: Total Return `126.40%`, CAGR `67.55%`, Max DD `-28.06%`, Sharpe `1.2692`, Turnover `4.78`
@@ -103,53 +103,51 @@
 
 ### 四窗口鲁棒候选
 
-- 策略：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk16_reconfirm`（核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险16成本再确认)）
-- 鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）：`28.60%` / `16.00%` / `0.8320` / `-35.25%` / `3.64`
+- 策略：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`（核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险20成本再确认)）
+- 鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）：`34.90%` / `20.67%` / `0.9746` / `-28.06%` / `3.65`
 
 窗口指标：
 
-- `2017-01-01` → `2026-07-20`: Total Return `395.26%`, CAGR `18.17%`, Max DD `-31.64%`, Sharpe `0.7822`, Turnover `3.07`
-- `2020-01-01` → `2026-07-21`: Total Return `345.40%`, CAGR `25.47%`, Max DD `-27.01%`, Sharpe `0.9108`, Turnover `3.35`
-- `2023-01-01` → `2026-07-21`: Total Return `88.62%`, CAGR `19.37%`, Max DD `-26.68%`, Sharpe `0.6948`, Turnover `3.37`
-- `2025-01-01` → `2026-07-21`: Total Return `126.44%`, CAGR `67.56%`, Max DD `-28.06%`, Sharpe `1.2695`, Turnover `4.78`
-- `2026-01-01` → `2026-07-21`: Total Return `17.86%`, CAGR `32.54%`, Max DD `-29.04%`, Sharpe `0.7521`, Turnover `6.73`
+- `2017-01-01` → `2026-07-21`: Total Return `505.31%`, CAGR `20.67%`, Max DD `-24.73%`, Sharpe `0.8779`, Turnover `3.09`
+- `2020-01-01` → `2026-07-21`: Total Return `390.98%`, CAGR `27.34%`, Max DD `-27.01%`, Sharpe `0.9567`, Turnover `3.36`
+- `2023-01-01` → `2026-07-21`: Total Return `116.41%`, CAGR `24.04%`, Max DD `-26.68%`, Sharpe `0.7946`, Turnover `3.37`
+- `2025-01-01` → `2026-07-21`: Total Return `126.40%`, CAGR `67.55%`, Max DD `-28.06%`, Sharpe `1.2692`, Turnover `4.78`
+- `2026-01-01` → `2026-07-21`: Total Return `17.86%`, CAGR `32.53%`, Max DD `-29.04%`, Sharpe `0.7521`, Turnover `6.73`
 
 ## Path 1：组合方案
 
 - 组合ID：`path1_composite_robust_window_blend_v1`
 - 组合逻辑：不再要求单一 winner 覆盖所有行情，按鲁棒候选与窗口赢家合并权重。
-- 组合鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）：`32.77%` / `17.80%` / `0.9423` / `-30.17%` / `3.62`
+- 组合鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）：`34.33%` / `19.71%` / `0.9827` / `-27.41%` / `3.62`
 
 当前组合成分：
 
-- `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk16_reconfirm`（核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险16成本再确认)）：`45.0%`；来源：robust-candidate
-- `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm`（核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险18成本再确认)）：`20.0%`；来源：2017-01
-- `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`（核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险20成本再确认)）：`20.0%`；来源：2020-01
+- `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`（核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(卫星三档风险20成本再确认)）：`85.0%`；来源：robust-candidate, 2017-01, 2020-01
 - `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`（核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只）：`10.0%`；来源：2023-01
 - `core_explore_80_20_total_mv_winner_core__share_20_80_hold_2_8_ramp62_cost_guard_reconfirm`（核心80_探索20_总市值底座_胜出者核心__比例20/80(2+8 分步加仓62成本防守再确认)）：`5.0%`；来源：2025-01
 
 组合窗口指标：
 
-- `2017-01-01` → `2026-07-21`: Total Return `377.89%`, CAGR `17.80%`, Max DD `-30.17%`, Sharpe `0.8101`, Turnover `3.07`
-- `2020-01-01` → `2026-07-21`: Total Return `316.45%`, CAGR `24.33%`, Max DD `-26.58%`, Sharpe `0.8974`, Turnover `3.28`
-- `2023-01-01` → `2026-07-21`: Total Return `97.84%`, CAGR `21.18%`, Max DD `-25.84%`, Sharpe `0.7555`, Turnover `3.35`
-- `2025-01-01` → `2026-07-21`: Total Return `122.93%`, CAGR `67.76%`, Max DD `-27.41%`, Sharpe `1.3063`, Turnover `4.77`
+- `2017-01-01` → `2026-07-21`: Total Return `457.13%`, CAGR `19.71%`, Max DD `-24.31%`, Sharpe `0.8783`, Turnover `3.08`
+- `2020-01-01` → `2026-07-21`: Total Return `345.94%`, CAGR `25.63%`, Max DD `-26.61%`, Sharpe `0.9287`, Turnover `3.28`
+- `2023-01-01` → `2026-07-21`: Total Return `116.08%`, CAGR `24.23%`, Max DD `-25.92%`, Sharpe `0.8176`, Turnover `3.35`
+- `2025-01-01` → `2026-07-21`: Total Return `122.91%`, CAGR `67.75%`, Max DD `-27.41%`, Sharpe `1.3061`, Turnover `4.77`
 - `2026-01-01` → `2026-07-21`: Total Return `17.29%`, CAGR `33.62%`, Max DD `-27.83%`, Sharpe `0.7652`, Turnover `6.52`
 
 ## Path 2：窗口跟踪赢家
 
 ### 2017 窗口赢家（Path 2）
 
-- 鲁棒赢家：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit50_reconfirm97_caution54_cap16_cost_guard_v81_midcycle_lowturn_confirm`（核心90_探索10_总市值底座_胜出者核心__进攻4/96 晋升4只(中周期成长低换手, 量价前10%, 风险20%, 出场50%, 恢复97, 谨慎54%, 单票16%, v81确认)）
-- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`10.19%` / `0.6321` / `-20.23%` / `4.64`
+- 鲁棒赢家：`core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`（核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只）
+- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`8.78%` / `0.5462` / `-32.48%` / `3.17`
 
 窗口指标（权重：2017-01=100%）：
 
-- `2017-01-01` → `2026-07-20`: Total Return `153.44%`, CAGR `10.19%`, Max DD `-20.23%`, Sharpe `0.6321`, Turnover `4.64`
-- `2020-01-01` → `2026-07-21`: Total Return `94.54%`, CAGR `10.64%`, Max DD `-16.00%`, Sharpe `0.6374`, Turnover `4.06`
-- `2023-01-01` → `2026-07-21`: Total Return `31.43%`, CAGR `7.92%`, Max DD `-25.06%`, Sharpe `0.4195`, Turnover `5.60`
-- `2025-01-01` → `2026-07-21`: Total Return `45.82%`, CAGR `26.90%`, Max DD `-25.06%`, Sharpe `0.7979`, Turnover `10.26`
-- `2026-01-01` → `2026-07-21`: Total Return `-7.48%`, CAGR `-12.47%`, Max DD `-25.06%`, Sharpe `-0.0641`, Turnover `9.57`
+- `2017-01-01` → `2026-07-21`: Total Return `123.99%`, CAGR `8.78%`, Max DD `-32.48%`, Sharpe `0.5462`, Turnover `3.17`
+- `2020-01-01` → `2026-07-21`: Total Return `7.34%`, CAGR `1.08%`, Max DD `-32.56%`, Sharpe `0.1479`, Turnover `2.79`
+- `2023-01-01` → `2026-07-21`: Total Return `114.11%`, CAGR `23.67%`, Max DD `-20.45%`, Sharpe `0.8646`, Turnover `3.42`
+- `2025-01-01` → `2026-07-21`: Total Return `85.31%`, CAGR `47.64%`, Max DD `-23.61%`, Sharpe `1.1526`, Turnover `4.87`
+- `2026-01-01` → `2026-07-21`: Total Return `10.98%`, CAGR `19.55%`, Max DD `-16.72%`, Sharpe `0.6269`, Turnover `5.34`
 
 ### 2023 窗口赢家（Path 2）
 
@@ -158,7 +156,7 @@
 
 窗口指标（权重：2023-01=100%）：
 
-- `2017-01-01` → `2026-07-17`: Total Return `113.15%`, CAGR `8.22%`, Max DD `-32.48%`, Sharpe `0.5130`, Turnover `3.17`
+- `2017-01-01` → `2026-07-21`: Total Return `123.99%`, CAGR `8.78%`, Max DD `-32.48%`, Sharpe `0.5462`, Turnover `3.17`
 - `2020-01-01` → `2026-07-21`: Total Return `7.34%`, CAGR `1.08%`, Max DD `-32.56%`, Sharpe `0.1479`, Turnover `2.79`
 - `2023-01-01` → `2026-07-21`: Total Return `114.11%`, CAGR `23.67%`, Max DD `-20.45%`, Sharpe `0.8646`, Turnover `3.42`
 - `2025-01-01` → `2026-07-21`: Total Return `85.31%`, CAGR `47.64%`, Max DD `-23.61%`, Sharpe `1.1526`, Turnover `4.87`
@@ -168,12 +166,10 @@
 
 - 鲁棒赢家：`core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`（核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只）
 - 加权指标（CAGR / Sharpe / Max DD / Turnover）：`1.08%` / `0.1479` / `-32.56%` / `2.79`
-- 单窗口最高收益（被鲁棒检验过滤）：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm`（核心90_探索10_总市值底座_胜出者核心__进攻4/96 晋升4只(量价前12%, 动量三档28%, 出场48%, 恢复94, 谨慎60%, 单票24%, 成本防守v42风险确认)）
-  - 该窗口指标（CAGR / Sharpe / Max DD / Turnover）：`12.45%` / `0.7670` / `-15.14%` / `3.95`
 
 窗口指标（权重：2020-01=100%）：
 
-- `2017-01-01` → `2026-07-17`: Total Return `113.15%`, CAGR `8.22%`, Max DD `-32.48%`, Sharpe `0.5130`, Turnover `3.17`
+- `2017-01-01` → `2026-07-21`: Total Return `123.99%`, CAGR `8.78%`, Max DD `-32.48%`, Sharpe `0.5462`, Turnover `3.17`
 - `2020-01-01` → `2026-07-21`: Total Return `7.34%`, CAGR `1.08%`, Max DD `-32.56%`, Sharpe `0.1479`, Turnover `2.79`
 - `2023-01-01` → `2026-07-21`: Total Return `114.11%`, CAGR `23.67%`, Max DD `-20.45%`, Sharpe `0.8646`, Turnover `3.42`
 - `2025-01-01` → `2026-07-21`: Total Return `85.31%`, CAGR `47.64%`, Max DD `-23.61%`, Sharpe `1.1526`, Turnover `4.87`
@@ -186,7 +182,7 @@
 
 窗口指标（权重：2025-01=100%）：
 
-- `2017-01-01` → `2026-07-17`: Total Return `113.15%`, CAGR `8.22%`, Max DD `-32.48%`, Sharpe `0.5130`, Turnover `3.17`
+- `2017-01-01` → `2026-07-21`: Total Return `123.99%`, CAGR `8.78%`, Max DD `-32.48%`, Sharpe `0.5462`, Turnover `3.17`
 - `2020-01-01` → `2026-07-21`: Total Return `7.34%`, CAGR `1.08%`, Max DD `-32.56%`, Sharpe `0.1479`, Turnover `2.79`
 - `2023-01-01` → `2026-07-21`: Total Return `114.11%`, CAGR `23.67%`, Max DD `-20.45%`, Sharpe `0.8646`, Turnover `3.42`
 - `2025-01-01` → `2026-07-21`: Total Return `85.31%`, CAGR `47.64%`, Max DD `-23.61%`, Sharpe `1.1526`, Turnover `4.87`
@@ -196,27 +192,27 @@
 
 ### 四窗口鲁棒候选
 
-- 策略：`core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair`（核心70_探索30_等权底座_胜出者核心__进攻3/97 晋升3只(量价弹性双周, 风险14%, 出场34%, 单票10%, 成本防守v78欠配修复)）
-- 鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）：`6.79%` / `1.57%` / `0.3306` / `-31.95%` / `10.38`
+- 策略：`core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`（核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只）
+- 鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）：`20.29%` / `1.08%` / `0.6778` / `-32.56%` / `3.56`
 
 窗口指标：
 
-- `2017-01-01` → `2026-07-20`: Total Return `40.77%`, CAGR `3.70%`, Max DD `-30.69%`, Sharpe `0.2811`, Turnover `7.74`
-- `2020-01-01` → `2026-07-21`: Total Return `23.65%`, CAGR `3.34%`, Max DD `-24.32%`, Sharpe `0.2609`, Turnover `8.07`
-- `2023-01-01` → `2026-07-21`: Total Return `8.13%`, CAGR `2.26%`, Max DD `-18.43%`, Sharpe `0.2165`, Turnover `6.68`
-- `2025-01-01` → `2026-07-21`: Total Return `44.97%`, CAGR `26.55%`, Max DD `-26.05%`, Sharpe `0.8236`, Turnover `19.02`
-- `2026-01-01` → `2026-07-21`: Total Return `2.27%`, CAGR `4.26%`, Max DD `-26.05%`, Sharpe `0.3221`, Turnover `19.29`
+- `2017-01-01` → `2026-07-21`: Total Return `123.99%`, CAGR `8.78%`, Max DD `-32.48%`, Sharpe `0.5462`, Turnover `3.17`
+- `2020-01-01` → `2026-07-21`: Total Return `7.34%`, CAGR `1.08%`, Max DD `-32.56%`, Sharpe `0.1479`, Turnover `2.79`
+- `2023-01-01` → `2026-07-21`: Total Return `114.11%`, CAGR `23.67%`, Max DD `-20.45%`, Sharpe `0.8646`, Turnover `3.42`
+- `2025-01-01` → `2026-07-21`: Total Return `85.31%`, CAGR `47.64%`, Max DD `-23.61%`, Sharpe `1.1526`, Turnover `4.87`
+- `2026-01-01` → `2026-07-21`: Total Return `10.98%`, CAGR `19.55%`, Max DD `-16.72%`, Sharpe `0.6269`, Turnover `5.34`
 
 ## Path 3：窗口跟踪赢家
 
 ### 2017 窗口赢家（Path 3）
 
 - 鲁棒赢家：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`（核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(周频出场缓冲v3, 熊市12%, 单票46%, 持有6周, 换手4%, 出场90%)）
-- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`10.01%` / `0.6911` / `-20.43%` / `1.17`
+- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`10.43%` / `0.7146` / `-20.43%` / `1.17`
 
 窗口指标（权重：2017-01=100%）：
 
-- `2017-01-01` → `2026-07-20`: Total Return `145.22%`, CAGR `10.01%`, Max DD `-20.43%`, Sharpe `0.6911`, Turnover `1.17`
+- `2017-01-01` → `2026-07-21`: Total Return `154.15%`, CAGR `10.43%`, Max DD `-20.43%`, Sharpe `0.7146`, Turnover `1.17`
 - `2020-01-01` → `2026-07-21`: Total Return `121.97%`, CAGR `13.13%`, Max DD `-27.09%`, Sharpe `0.7242`, Turnover `0.98`
 - `2023-01-01` → `2026-07-21`: Total Return `18.68%`, CAGR `5.02%`, Max DD `-19.12%`, Sharpe `0.3827`, Turnover `0.59`
 - `2025-01-01` → `2026-07-21`: Total Return `29.81%`, CAGR `18.23%`, Max DD `-19.22%`, Sharpe `0.6720`, Turnover `2.25`
@@ -226,8 +222,8 @@
 
 - 鲁棒赢家：`core_explore_70_30_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly`（核心70_探索30_等权底座_胜出者核心__进攻1/99 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 单周)）
 - 加权指标（CAGR / Sharpe / Max DD / Turnover）：`27.12%` / `0.6907` / `-36.07%` / `11.84`
-- 单窗口最高收益（被鲁棒检验过滤）：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn02_exit98_risk06_weekly`（核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(成本压力熊市6%, 单票30%, 持有11周, 换手2%, 出场98%, 单周)）
-  - 该窗口指标（CAGR / Sharpe / Max DD / Turnover）：`1.40%` / `0.3976` / `-5.77%` / `0.10`
+- 单窗口最高收益（被鲁棒检验过滤）：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`（核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(周频出场缓冲v3, 熊市12%, 单票46%, 持有6周, 换手4%, 出场90%)）
+  - 该窗口指标（CAGR / Sharpe / Max DD / Turnover）：`5.02%` / `0.3827` / `-19.12%` / `0.59`
 
 窗口指标（权重：2023-01=100%）：
 
@@ -246,7 +242,7 @@
 
 窗口指标（权重：2020-01=100%）：
 
-- `2017-01-01` → `2026-07-17`: Total Return `147.76%`, CAGR `10.15%`, Max DD `-27.76%`, Sharpe `0.6069`, Turnover `2.16`
+- `2017-01-01` → `2026-07-21`: Total Return `131.33%`, CAGR `9.33%`, Max DD `-32.55%`, Sharpe `0.5650`, Turnover `2.21`
 - `2020-01-01` → `2026-07-21`: Total Return `124.44%`, CAGR `13.33%`, Max DD `-27.46%`, Sharpe `0.6684`, Turnover `1.89`
 - `2023-01-01` → `2026-07-21`: Total Return `54.10%`, CAGR `13.15%`, Max DD `-29.36%`, Sharpe `0.6165`, Turnover `1.85`
 - `2025-01-01` → `2026-07-21`: Total Return `60.30%`, CAGR `35.38%`, Max DD `-37.36%`, Sharpe `1.0065`, Turnover `3.76`
@@ -272,11 +268,11 @@
 ### 四窗口鲁棒候选
 
 - 策略：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`（核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(周频出场缓冲v3, 熊市12%, 单票46%, 持有6周, 换手4%, 出场90%)）
-- 鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）：`9.62%` / `4.02%` / `0.5538` / `-27.09%` / `1.25`
+- 鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）：`11.70%` / `5.02%` / `0.6234` / `-27.09%` / `1.25`
 
 窗口指标：
 
-- `2017-01-01` → `2026-07-20`: Total Return `145.22%`, CAGR `10.01%`, Max DD `-20.43%`, Sharpe `0.6911`, Turnover `1.17`
+- `2017-01-01` → `2026-07-21`: Total Return `154.15%`, CAGR `10.43%`, Max DD `-20.43%`, Sharpe `0.7146`, Turnover `1.17`
 - `2020-01-01` → `2026-07-21`: Total Return `121.97%`, CAGR `13.13%`, Max DD `-27.09%`, Sharpe `0.7242`, Turnover `0.98`
 - `2023-01-01` → `2026-07-21`: Total Return `18.68%`, CAGR `5.02%`, Max DD `-19.12%`, Sharpe `0.3827`, Turnover `0.59`
 - `2025-01-01` → `2026-07-21`: Total Return `29.81%`, CAGR `18.23%`, Max DD `-19.22%`, Sharpe `0.6720`, Turnover `2.25`
@@ -286,13 +282,13 @@
 
 ### 2017 窗口赢家（Path 4）
 
-- 鲁棒赢家：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`（核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升23只(强主题涌现风险控制v5, 信号28%, 龙头78%, 熊市6%, 单票4%, 出场72%)）
-- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`5.99%` / `0.4725` / `-23.48%` / `2.56`
+- 鲁棒赢家：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4`（核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升23只(强主题涌现信号质量v4, 信号28%, 龙头80%, 熊市6%, 单票4%, 出场74%)）
+- 加权指标（CAGR / Sharpe / Max DD / Turnover）：`7.46%` / `0.5846` / `-17.19%` / `2.56`
 
 窗口指标（权重：2017-01=100%）：
 
-- `2017-01-01` → `2026-07-20`: Total Return `74.55%`, CAGR `5.99%`, Max DD `-23.48%`, Sharpe `0.4725`, Turnover `2.56`
-- `2020-01-01` → `2026-07-21`: Total Return `48.13%`, CAGR `6.15%`, Max DD `-17.96%`, Sharpe `0.4598`, Turnover `2.62`
+- `2017-01-01` → `2026-07-21`: Total Return `99.20%`, CAGR `7.46%`, Max DD `-17.19%`, Sharpe `0.5846`, Turnover `2.56`
+- `2020-01-01` → `2026-07-21`: Total Return `57.69%`, CAGR `7.16%`, Max DD `-17.19%`, Sharpe `0.5140`, Turnover `2.61`
 - `2023-01-01` → `2026-07-21`: Total Return `15.05%`, CAGR `3.99%`, Max DD `-17.97%`, Sharpe `0.3472`, Turnover `2.42`
 - `2025-01-01` → `2026-07-21`: Total Return `34.60%`, CAGR `20.64%`, Max DD `-18.78%`, Sharpe `0.8416`, Turnover `4.43`
 - `2026-01-01` → `2026-07-21`: Total Return `1.07%`, CAGR `1.84%`, Max DD `-17.73%`, Sharpe `0.2093`, Turnover `4.64`
@@ -304,7 +300,7 @@
 
 窗口指标（权重：2023-01=100%）：
 
-- `2017-01-01` → `2026-07-17`: Total Return `84.44%`, CAGR `6.60%`, Max DD `-20.48%`, Sharpe `0.5152`, Turnover `2.55`
+- `2017-01-01` → `2026-07-21`: Total Return `92.10%`, CAGR `7.05%`, Max DD `-17.18%`, Sharpe `0.5574`, Turnover `2.55`
 - `2020-01-01` → `2026-07-21`: Total Return `55.27%`, CAGR `6.91%`, Max DD `-17.18%`, Sharpe `0.4975`, Turnover `2.61`
 - `2023-01-01` → `2026-07-21`: Total Return `21.26%`, CAGR `5.53%`, Max DD `-16.76%`, Sharpe `0.4325`, Turnover `2.43`
 - `2025-01-01` → `2026-07-21`: Total Return `44.01%`, CAGR `25.90%`, Max DD `-17.09%`, Sharpe `1.0001`, Turnover `4.48`
@@ -317,7 +313,7 @@
 
 窗口指标（权重：2020-01=100%）：
 
-- `2017-01-01` → `2026-07-17`: Total Return `84.44%`, CAGR `6.60%`, Max DD `-20.48%`, Sharpe `0.5152`, Turnover `2.55`
+- `2017-01-01` → `2026-07-21`: Total Return `92.10%`, CAGR `7.05%`, Max DD `-17.18%`, Sharpe `0.5574`, Turnover `2.55`
 - `2020-01-01` → `2026-07-21`: Total Return `55.27%`, CAGR `6.91%`, Max DD `-17.18%`, Sharpe `0.4975`, Turnover `2.61`
 - `2023-01-01` → `2026-07-21`: Total Return `21.26%`, CAGR `5.53%`, Max DD `-16.76%`, Sharpe `0.4325`, Turnover `2.43`
 - `2025-01-01` → `2026-07-21`: Total Return `44.01%`, CAGR `25.90%`, Max DD `-17.09%`, Sharpe `1.0001`, Turnover `4.48`
@@ -340,16 +336,16 @@
 
 ### 四窗口鲁棒候选
 
-- 策略：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`（核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升23只(强主题涌现风险控制v5, 信号28%, 龙头78%, 熊市6%, 单票4%, 出场72%)）
-- 鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）：`7.10%` / `1.93%` / `0.4236` / `-24.23%` / `3.01`
+- 策略：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`（核心80_探索20_总市值底座_胜出者核心__进攻13/87 晋升23只(强主题涌现容量v2, 信号29%, 龙头78%, 熊市4%, 单票4%, 出场72%)）
+- 鲁棒指标（平均 CAGR / 最低 CAGR / 平均 Sharpe / 最差 Max DD / 平均 Turnover）：`11.35%` / `5.53%` / `0.6219` / `-17.18%` / `3.02`
 
 窗口指标：
 
-- `2017-01-01` → `2026-07-20`: Total Return `74.55%`, CAGR `5.99%`, Max DD `-23.48%`, Sharpe `0.4725`, Turnover `2.56`
-- `2020-01-01` → `2026-07-21`: Total Return `48.13%`, CAGR `6.15%`, Max DD `-17.96%`, Sharpe `0.4598`, Turnover `2.62`
-- `2023-01-01` → `2026-07-21`: Total Return `15.05%`, CAGR `3.99%`, Max DD `-17.97%`, Sharpe `0.3472`, Turnover `2.42`
-- `2025-01-01` → `2026-07-21`: Total Return `34.60%`, CAGR `20.64%`, Max DD `-18.78%`, Sharpe `0.8416`, Turnover `4.43`
-- `2026-01-01` → `2026-07-21`: Total Return `1.07%`, CAGR `1.84%`, Max DD `-17.73%`, Sharpe `0.2093`, Turnover `4.64`
+- `2017-01-01` → `2026-07-21`: Total Return `92.10%`, CAGR `7.05%`, Max DD `-17.18%`, Sharpe `0.5574`, Turnover `2.55`
+- `2020-01-01` → `2026-07-21`: Total Return `55.27%`, CAGR `6.91%`, Max DD `-17.18%`, Sharpe `0.4975`, Turnover `2.61`
+- `2023-01-01` → `2026-07-21`: Total Return `21.26%`, CAGR `5.53%`, Max DD `-16.76%`, Sharpe `0.4325`, Turnover `2.43`
+- `2025-01-01` → `2026-07-21`: Total Return `44.01%`, CAGR `25.90%`, Max DD `-17.09%`, Sharpe `1.0001`, Turnover `4.48`
+- `2026-01-01` → `2026-07-21`: Total Return `7.13%`, CAGR `12.54%`, Max DD `-16.72%`, Sharpe `0.4853`, Turnover `4.52`
 
 <!-- AUTO:WEIGHTED-WINNERS:END -->
 

@@ -1,5 +1,13 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-22 收尾记录
+
+- 上一轮候选与结果摘要：上一轮月频 v41 只留短窗观察；本轮按 `biweekly_breakout` 确认 v50/v51/v53，并与 `hkconnect_path2_theme_monthly_cost_control` 同端点比较。
+- 本轮候选 ID 与命令：`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v50_lowdraw_breakout_retest`、`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v51_elasticity_cost_control`、`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v53_drawdown_guard`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-21 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v50_lowdraw_breakout_retest,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v51_elasticity_cost_control,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v53_drawdown_guard`。
+- Scorecard 与判定：三条 2020/2023 CAGR 相对 robust 低约 `22.2pp-29.5pp`，MaxDD 恶化 `12.8pp-16.6pp`，Sharpe 下降 `0.66-1.02`，2026 全负；全部判 `archive` 并移出 active。window winner/robust/tracked 未变。
+- 下一轮 focus 提示：停止 v50-v56 同形 breakout，转向旧低回撤边界 v43/v44。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-21 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v43_lowdraw_retest,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v44_lowturn_confirmation`。
+- Focus 候选池：`biweekly_breakout` -> v43、v44；`high_return_monthly` -> v41、`hkconnect_path2_theme_monthly_cost_control`；`elasticity_cost_control` -> `hkconnect_path2_equal_elastic_monthly_cost_guard`、`hkconnect_path2_theme_monthly_cost_control`。三条本轮候选只保留历史快照。
+
 ## 2026-07-21 收尾记录
 
 - 上一轮候选与结果摘要：上一轮三条 biweekly breakout 全部淘汰；本轮按 `high_return_monthly` 确认 v37/v41/v42 三条月频成本控制候选，并与 `hkconnect_path2_theme_monthly_cost_control` 同窗比较。

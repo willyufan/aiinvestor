@@ -8150,8 +8150,21 @@ HK_PATH7_VARIANTS.extend(
     ]
 )
 
-# 2026-07-20/21 scorecard 淘汰项：保留定义与历史结果，但不再进入 active 回测/排名口径。
+# 2026-07-20/21/22 scorecard 淘汰项：保留定义与历史结果，但不再进入 active 回测/排名口径。
 HK_ARCHIVED_STRATEGY_IDS = {
+    "hkconnect_path1_monthly_quality_momentum_weekly_overlay_v48_monthly_weekly_overlay",
+    "hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v50_lowdraw_breakout_retest",
+    "hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v51_elasticity_cost_control",
+    "hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v53_drawdown_guard",
+    "hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest",
+    "hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v45_quality_momentum_repair",
+    "hkconnect_path5_breakout_retest_biweekly_quality_confirm_v30_retest_confirmation_ytd_guard",
+    "hkconnect_path5_breakout_retest_biweekly_quality_confirm_v33_retest_confirmation_ytd_guard",
+    "hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v28_lowvol_liquid_core",
+    "hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v30_lowvol_liquid_core",
+    "hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v37_lowvol_liquid_core_repair",
+    "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v23_biweekly_barbell",
+    "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v28_biweekly_barbell",
     "hkconnect_path1_biweekly_quality_momentum_equal_buffered_v53_biweekly_buffer_ytd_repair",
     "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v37_high_return_monthly",
     "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v42_high_return_monthly",

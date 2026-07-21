@@ -1,5 +1,13 @@
 # Path 3 研究计划
 
+## 2026-07-22 收尾记录
+
+- 上一轮候选与结果摘要：上一轮 v3 进入弱观察、v4/v5 淘汰；本轮按 `turnover_reduction` 五窗口确认纯周频 v3 与两条已归档低换手形态，全部 strategy id 以 `_weekly` 结尾，未混入 Path1 周控 overlay。
+- 本轮候选 ID 与命令：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`；命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-21 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`。
+- Scorecard 与判定：v3 的 2020 CAGR 仅低 incumbent `0.19pp`、换手降到约 `0.98x`，但 2023 CAGR 低 `8.13pp`；artifact 将其放入 2017 window winner/robust 观察位，判 `robust_observation`：进入观察位，不是强稳定 winner。另两条中窗 CAGR/Sharpe 破坏明显，继续 `archive`。
+- 下一轮 focus 提示：最终 guard 已转为 `weekly_exit_buffer`；只在 v3 邻域做收益修复，不再单向压换手。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-21 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`。
+- Focus 候选池：`turnover_reduction` -> `weekly_exit_buffer_v3_weekly`、`cap42_hold7_turn02_exit98_risk10_weekly` 历史边界；`weekly_exit_buffer` -> `v3_weekly`、`cap46_hold7_turn03_exit97...weekly` 历史边界；`risk_downshift` -> `cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly`、`cap40_hold8_turn02_exit98_risk08_weekly`；`cost_stress` -> `cost_stress_weekly`、v3。完整 scorecard 见 `research_iteration_scorecard_20260722.json`。
+
 ## 2026-07-21 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 v6/v7 以中窗退化告终；本轮按 `turnover_reduction` 重新确认纯周频 v3/v4/v5，全部 strategy id 以 `_weekly` 结尾，未使用 Path1 月选周控 overlay。
