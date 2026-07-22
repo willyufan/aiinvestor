@@ -1,5 +1,25 @@
 # Path 1 研究计划
 
+## 2026-07-23 收尾记录
+
+### 上一轮候选与结果摘要
+
+- 上一轮两个 lowvol core_multifactor 已归档；本轮转向 guard 的 `satellite_risk_cost`，五窗口确认 `risk20/risk18`，并用 growth-trend `risk08` 检查 core_multifactor 中窗修复。`risk20` 继续作为 Path1 incumbent，2020/2023 CAGR `27.06%/22.60%`，判定 `promote`（确认 incumbent）；`risk18` 的 2023 CAGR 低 `4.77pp`，判定 `reject`。
+- core_multifactor 子段：`growth_trend...risk08` 的 2020 CAGR 仅 `8.85%`，比 `risk20` 低 `18.21pp`；MaxDD 虽较浅，但 CAGR/Sharpe 触发护栏，判定 `reject`。Path1 main/core_multifactor 均未产生新的 robust 替换。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`、`...risk18_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-22 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm`。
+
+### 下一轮 focus 提示
+
+- `satellite_risk_cost` 不再继续向低 risk 扩参，第一条命令改为确认风险上沿能否提升 2023 且不扩大回撤：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-22 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+
+### Focus 候选池
+
+- `satellite_risk_cost`：`risk25_reconfirm`、`risk20_reconfirm`；`core_multifactor_coverage`：`growth_trend...risk10_reconfirm`、`growth_lowvol...risk08_reconfirm`；`weekly_exposure_path`：`__port_weekly_exposure_buffered`、`__port_weekly_exposure_buffered_asym13`；`holding_shape`：`share_22_78_hold_2_8_ramp64_cost_guard`、`share_20_80_hold_2_8_ramp62_cost_guard_reconfirm`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260723.json`。
+
 ## 2026-07-22 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 `risk18/risk16` 只留观察、多因子 `risk09_v5` 淘汰；本轮按 `core_multifactor_coverage` 五窗口确认 `risk07_v4/risk06_v2`。两条相对主线 robust `risk20_reconfirm` 的 2020 CAGR 分别低约 `16.19pp/16.42pp`，2023 低约 `7.64pp/9.35pp`，虽 MaxDD 改善约 `7.5pp-8.5pp`，仍触发 CAGR/Sharpe 护栏，均判 `archive`。Path1 主线 winner/robust 未变。

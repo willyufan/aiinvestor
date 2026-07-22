@@ -1,5 +1,24 @@
 # Path 2 研究计划
 
+## 2026-07-23 收尾记录
+
+### 上一轮候选与结果摘要
+
+- 上一轮 90/10 中周期同形线全部归档；本轮按 `underrepresented_families` 确认 v70/v78 双周 70/30 与 v38/v41 等权弹性，共 4 个 base ids。v70/v78 的 2023 CAGR 仅约 `2.1%`、换手 `6.7x-19.3x`；v38/v41 的 2026 CAGR `-45.15%/-29.69%`，四条均 `reject`。
+- 当前 Path2 winner/robust 仍为 `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`，本轮没有 window winner、robust 或 tracked 改写，也没有把 Path4 emergent-theme 混入 Path2。
+
+### 本轮候选 ID 与命令
+
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-22 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk30_exit50_cap35_cost_guard_v38_underrep,core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk26_exit46_cap24_cost_guard_v41_underrep_quality`。
+
+### 下一轮 focus 提示
+
+- 欠配族需要停止高换手 70/30 小修，转向 v43/v44 的质量/容量约束；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-22 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality,core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair`。
+
+### Focus 候选池
+
+- `underrepresented_families`：v43、v44；`medium_cycle_growth`：v30 历史强线、v41 underrep-quality；`risk_reconfirm_sensitivity`：v69、v77；`capacity_and_cost_stress`：v44、v46。`scripts/path2_candidate_pass.py` 已完成，scorecard 见 `results/research/a_share/research_iteration_scorecard_20260723.json`。
+
 ## 2026-07-22 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 v78/v81 只留弱观察；本轮按 `medium_cycle_growth` 同端点确认 v79 双底座、v81 total_mv 与 v74 total_mv，共 4 个 base ids。四条均在 2023 CAGR/Sharpe 上显著落后 robust，且 2026 CAGR 约 `-12.5%` 至 `-14.9%`。

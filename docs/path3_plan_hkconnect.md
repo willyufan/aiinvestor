@@ -1,5 +1,23 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-23 收尾记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 v38 lowvol、v36 equal-buffered、wide-cost-guard。三条 2020 CAGR `21.04%-21.94%`，2023 CAGR `22.58%-28.12%`，换手约 `8.1x-9.1x`，但 2026 CAGR 全为负；均判 `keep_watch`，current robust `equal_elastic_weekly` 未变。
+
+### 本轮候选 ID 与命令
+
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-22 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_stable_weekly_equal_buffered_v36_return_recovery,hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 为 `cost_stress / rotate`（停滞 `17` 轮）；下一轮用 v38 与 current robust 做成本压力下的 2026 risk overlay 复核，不再继续单向压换手。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-22 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v38、wide-cost-guard；`weekly_defensive_overlay`：v38、equal-elastic-weekly；`cost_stress`：wide-cost-guard、v38。scorecard：`results/research/a_share/research_iteration_scorecard_20260723.json`。
+
 ## 2026-07-22 收尾记录
 
 - 上一轮候选与结果摘要：上一轮三条 cost-stress 全淘汰；本轮按 `weekly_turnover_reduction` 确认 v36/v38/v32，继续保持纯周频并与 `hkconnect_path3_equal_elastic_weekly` 同窗比较。

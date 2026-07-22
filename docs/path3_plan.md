@@ -1,5 +1,24 @@
 # Path 3 研究计划
 
+## 2026-07-23 收尾记录
+
+### 上一轮候选与结果摘要
+
+- 本轮五窗口确认纯周频 v3、`cost_stress_weekly`、`turnover_repair_weekly`。v3 的 2026 CAGR `-0.45%`，继续 `robust_observation`；进入观察位，不是强稳定 winner。cost-stress 虽把 2026 CAGR 提到 `31.82%`，但 2020/2023 CAGR 仅 `3.71%/3.04%`，判 `reject`。
+- turnover-repair 的 2023/2026 CAGR `9.04%/40.91%`、换手仅 `0.47x/2.71x`，但 2020 CAGR 比 v3 低 `5.40pp`；artifact 将其推入 Path3 robust 观察位，判 `robust_observation`，不是强稳定 winner。
+
+### 本轮候选 ID 与命令
+
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-22 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly_cost_stress_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`。
+
+### 下一轮 focus 提示
+
+- 下一轮只做 turnover-repair 的 2020 收益恢复，不继续追 2026 爆发；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-22 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：turnover-repair、return-recovery-v7；`weekly_exit_buffer`：v3、return-recovery-v7；`risk_downshift`：risk06 downshift、risk08 weekly；`cost_stress`：cost-stress-weekly、v3。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260723.json`。
+
 ## 2026-07-22 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 v3 进入弱观察、v4/v5 淘汰；本轮按 `turnover_reduction` 五窗口确认纯周频 v3 与两条已归档低换手形态，全部 strategy id 以 `_weekly` 结尾，未混入 Path1 周控 overlay。

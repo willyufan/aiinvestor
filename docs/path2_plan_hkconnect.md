@@ -1,5 +1,23 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-23 收尾记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认高收益月频 v41 与低回撤双周 v43/v44。三条 2026 CAGR `-10.17%/-18.70%/-18.13%`，均明显落后 robust `theme_fast_monthly` 的 `47.01%`；v43/v44 中窗也触发护栏，三条全部 `reject`。
+
+### 本轮候选 ID 与命令
+
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-22 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v41_high_return_monthly,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v43_lowdraw_retest,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v44_lowturn_confirmation`。
+
+### 下一轮 focus 提示
+
+- 停止 v41/v43/v44 同形确认，回到强月频基准做成本与集中度解释；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-22 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_fast_monthly,hkconnect_path2_theme_monthly_cost_control`。
+
+### Focus 候选池
+
+- `high_return_monthly`：theme-fast-monthly、theme-monthly-cost-control；`biweekly_breakout`：v43、v44 历史边界；`elasticity_cost_control`：equal-elastic-cost-guard、theme-monthly-cost-control。winner/robust/tracked 未变。
+
 ## 2026-07-22 收尾记录
 
 - 上一轮候选与结果摘要：上一轮月频 v41 只留短窗观察；本轮按 `biweekly_breakout` 确认 v50/v51/v53，并与 `hkconnect_path2_theme_monthly_cost_control` 同端点比较。

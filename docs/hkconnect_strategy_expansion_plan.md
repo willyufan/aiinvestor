@@ -1,5 +1,24 @@
 # 沪港通策略空间扩展计划
 
+## 2026-07-23 收尾记录
+
+### 上一轮候选与结果摘要
+
+- HK Path4：v50/v51 的 2020/2023 CAGR 高于 weak robust v47，但 2026 为 `-10.09%/-9.77%`，均 `keep_watch`；v47 仍为 `robust_observation`，进入观察位，不是强稳定 winner。
+- HK Path5：v34 `keep_watch`；v35 仍为 `robust_observation`，minCAGR `-9.67%`，进入观察位，不是强稳定 winner。HK Path6：large-liquid monthly smoke 长中窗改善但 2026 `-0.38%`，`keep_watch`；v9/v19 `reject`。HK Path7：v3 五窗口全正并确认 robust，`promote`（确认 incumbent）；v34 因中窗 CAGR 退化 `reject`。
+
+### 本轮候选 ID 与命令
+
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-22 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_v50_return_restore,hkconnect_path4_quality_momentum_monthly_v51_quality_balance,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite,hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair,hkconnect_path6_large_liquid_core_monthly_smoke,hkconnect_path6_large_liquid_core_biweekly_capacity_cost_v9,hkconnect_path6_lowvol_liquid_biweekly_quality_core_v19_capacity_cost_repair,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v34_turnover_control`。
+
+### 下一轮 focus 提示
+
+- 第一条扩展命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-22 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_v50_return_restore,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_breakout_retest_biweekly_quality_confirm_v11_retest_confirmation,hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair,hkconnect_path6_large_liquid_core_monthly_smoke,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3,hkconnect_path7_barbell_quality_growth_biweekly_smoke`。
+
+### Focus 候选池
+
+- Path4 `quality_momentum`：v50、v51；`liquidity_momentum`：v47、v43。Path5 `pullback_definition`：v34、v35；`retest_confirmation`：v11、v17。Path6 `large_liquid_core`：monthly-smoke、lowvol-smoke；`capacity_cost`：v9、v19。Path7 `barbell_sleeve_structure`：v3、biweekly-smoke；`turnover_control`：v34、v41。无 evict；历史结果保留。scorecard：`results/research/a_share/research_iteration_scorecard_20260723.json`。
+
 ## 2026-07-22 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 Path4 v50/v51、Path7 v44 只留观察；本轮 HK Path4-7 按 guard 配额实跑 10 个 strategy ids（Path4 3、Path5 2、Path6 3、Path7 2），全部覆盖五窗口并与各 path robust 同端点比较。

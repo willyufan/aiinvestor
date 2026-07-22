@@ -1,5 +1,25 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-23 收尾记录
+
+### 上一轮候选与结果摘要
+
+- 已审计冻结篮子 `high_speed_pcb_copper_clad_server_20260624_v0` 首次获得完整 20D：等权 `-20.43%`、seed-weight `-20.74%`，且与 Path4 `capacity_v2` overlap 仍为 `0/6`。成熟 20D 明确 `reject`；40D/60D 仍不足，但不再继续同形刷新。
+- 5/10/20 与 20/40/60 两组入口均完成；Path5 不写入 A股 Path1-4 winner/robust/tracked，事件入口继续使用 horizon-return 而不伪造 CAGR/Sharpe/MaxDD/turnover。
+
+### 本轮候选 ID 与命令
+
+- 短窗命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_capacity_v2_20260723_short.json`。
+- 成熟窗同命令使用 `--horizons 20,40,60`，输出 `results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_capacity_v2_20260723_mature.json`。
+
+### 下一轮 focus 提示
+
+- 当前 PCB 篮子停止刷新；下一轮第一条可执行命令转到另一个已 source-audited basket：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_power_liquid_cooling_20260528_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_power_liquid_cooling_20260528_v0_path4_capacity_v2_next.json`。
+
+### Focus 候选池
+
+- `event_basket_registry`：`ai_datacenter_power_grid_202607_v0`、`advanced_packaging_interconnect_202607_v0`；`frozen_candidate_audit`：两个第五篮子 primary-source audit、24 个 frozen refresh；`event_backtest_entry`：`ai_power_liquid_cooling_20260528_v0`、`ai_glasses_edge_terminal_20260424_v0`；`path4_comparison`：capacity_v2、新 2017 winner。scorecard：`results/research/a_share/research_iteration_scorecard_20260723.json`。
+
 ## 2026-07-22 收尾记录
 
 - 上一轮候选与结果摘要：上一轮 PCB/覆铜板/服务器篮子 5D/10D 为负、20D 仅 18 个交易日；本轮保持 `source_audited / frozen / backtest_ready` 状态，对照 Path4 `capacity_v2` 复跑短窗与成熟窗。
