@@ -1,5 +1,28 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-07-24 二次迭代记录（07:25 CST）
+
+### 上一轮候选与结果摘要
+
+- 上一轮 v49 为 `keep_watch`、`biweekly_lowvol` 确认 incumbent robust；本轮按 `biweekly_buffer` 五窗口确认 v46/v43，并继续与 `hkconnect_path1_biweekly_lowvol` 同窗比较。
+- v46/v43 的 2023 CAGR 为 `16.51%/16.37%`，相对 robust 下降约 `6.8pp/7.0pp`，Sharpe 下降约 `0.34/0.35`，2026 CAGR 均为 `-4.03%`；两条均 `reject`。window winner/robust/tracked 未改写，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v46_risk_overlay_cost_guard`、`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v43_biweekly_buffer_repair`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v46_risk_overlay_cost_guard,hkconnect_path1_biweekly_quality_momentum_equal_buffered_v43_biweekly_buffer_repair`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 轮换到 `risk_overlay_cost`；停止 v43/v46 同形扩参，回到 v49 与 lowvol 做风险/成本相邻确认；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `biweekly_buffer`：v49 YTD-repair、`biweekly_lowvol`。
+- `risk_overlay_cost`：v49 YTD-repair、`biweekly_lowvol`。
+- `risk_overlay`：v46 risk-overlay、v49 YTD-repair。
+- `turnover_cost`：`biweekly_lowvol`、v43 buffer-repair。
+
 ## 2026-07-24 收尾记录
 
 ### 上一轮候选与结果摘要

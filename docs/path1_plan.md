@@ -1,5 +1,29 @@
 # Path 1 研究计划
 
+## 2026-07-24 二次迭代记录（07:25 CST）
+
+### 上一轮候选与结果摘要
+
+- 上一轮 holding-shape 的 `share20/share22` 为 `reject`，`share24` 仅 `keep_watch`；本轮按 `core_multifactor_coverage` 五窗口确认两条等权多因子候选，并继续与主线 robust `...sat_three_stage_buffered_cost_guard_risk20_reconfirm` 同窗比较。
+- `...core_multifactor_quality_growth_signal_reconfirm` 与 `...quality_profitability_value_lowvol_trend_cost_guard_reconfirm` 的 2020 CAGR 分别为 `-2.22%/-2.69%`，相对 robust 下降约 `28.78pp/29.24pp`，且 2026 CAGR 为 `-4.22%/-12.48%`；假设未获支持，两条均 `reject`。Path1 主线、core_multifactor robust、window winner 与 tracked 均未改写，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_growth_signal_reconfirm`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_cost_guard_reconfirm`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_growth_signal_reconfirm,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_cost_guard_reconfirm`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 轮换到 `signal_quality`；停止继续扩展同形等权低波组合，下一轮先对质量成长与盈利质量信号做边界确认。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_growth_signal_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cost_guard_reconfirm`。
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：`...core_multifactor_quality_growth_signal_reconfirm`、`...core_multifactor_quality_profitability_value_lowvol_trend_cost_guard_reconfirm`（只作失败对照，不再同形扩参）。
+- `signal_quality`：`...core_multifactor_quality_growth_signal_reconfirm`、`...core_multifactor_quality_profitability_signal_cost_guard_reconfirm`。
+- `holding_shape`：`...share_24_76_hold_2_8_ramp62_cost_guard`、`...share_22_78_hold_2_8_ramp64_cost_guard`。
+- `satellite_risk_cost`：`...sat_three_stage_buffered_cost_guard_risk25_reconfirm`、`...sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- `weekly_exposure_path`：`__port_weekly_exposure_buffered`、`__port_weekly_exposure_buffered_asym13`。
+
 ## 2026-07-24 收尾记录
 
 ### 上一轮候选与结果摘要

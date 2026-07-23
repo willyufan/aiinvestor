@@ -1,5 +1,38 @@
 # 沪港通策略空间扩展计划
 
+## 2026-07-24 二次迭代记录（07:25 CST）
+
+### 上一轮候选与结果摘要
+
+- HK Path4：v19 的 2020/2023 CAGR `14.56%/14.33%`、低回撤，但 2026 `-7.87%`，`keep_watch`；v29/v40 的中窗回撤深且 2023 稳定性破坏，均 `reject`。
+- HK Path5：v34 低换手但 2026 CAGR `-12.68%`，`keep_watch`；v14 的中窗 MaxDD 恶化 `7.4pp-10.6pp`，`reject`。
+- HK Path6：monthly-ytd-guard 的 2020/2023/2026 CAGR `15.45%/23.55%/3.20%`，未胜过 incumbent robust，`keep_watch`；monthly-v4 与 biweekly-v11 均命中中窗护栏，`reject`。
+- HK Path7：defensive-lowturn-v10 五窗稳定、2026 CAGR `2.50%`，`keep_watch`；growth-dynamic-v6 中窗未破坏但 2026 `-5.21%` 且换手更高，`keep_watch`。Path4-7 无正式 promote、无 tracked 改写、无 evict；弱路径内部若出现排序观察位，也不是强稳定 winner。
+
+### 本轮候选 ID 与命令
+
+- Path4：`hkconnect_path4_quality_momentum_monthly_lowdraw_v19_signal_quality_repair`、`hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v29_liquidity_momentum_cost_guard`、`hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v40_liquidity_momentum_repair`。
+- Path5：`hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite`、`hkconnect_path5_pullback_continuation_monthly_quality_retest_v14_definition_lowturn`。
+- Path6：`hkconnect_path6_large_liquid_core_monthly_ytd_guard`、`hkconnect_path6_large_liquid_core_monthly_lowturn_v4`、`hkconnect_path6_large_liquid_core_biweekly_quality_liquidity_lowturn_v11`。
+- Path7：`hkconnect_path7_barbell_quality_growth_biweekly_core_defensive_lowturn_v10`、`hkconnect_path7_barbell_quality_growth_biweekly_core_growth_dynamic_v6`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_lowdraw_v19_signal_quality_repair,hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v29_liquidity_momentum_cost_guard,hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v40_liquidity_momentum_repair,hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite,hkconnect_path5_pullback_continuation_monthly_quality_retest_v14_definition_lowturn,hkconnect_path6_large_liquid_core_monthly_ytd_guard,hkconnect_path6_large_liquid_core_monthly_lowturn_v4,hkconnect_path6_large_liquid_core_biweekly_quality_liquidity_lowturn_v11,hkconnect_path7_barbell_quality_growth_biweekly_core_defensive_lowturn_v10,hkconnect_path7_barbell_quality_growth_biweekly_core_growth_dynamic_v6`。
+
+### 下一轮 focus 提示
+
+- Path4 最终 focus `liquidity_momentum` 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v40_liquidity_momentum_repair,hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v43_liquidity_momentum_ytd_repair`。
+- Path5 最终 focus `retest_confirmation` 第一条命令：同命令仅替换为 `hkconnect_path5_breakout_retest_biweekly_quality_confirm_v11_retest_confirmation,hkconnect_path5_breakout_retest_biweekly_quality_confirm_v17_retest_confirmation`。
+- Path6 最终 focus `lowvol_liquid_core` 第一条命令：同命令仅替换为 `hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path6_lowvol_liquid_biweekly_quality_core_v19_capacity_cost_repair`。
+- Path7 最终 focus `biweekly_barbell` 第一条命令：同命令仅替换为 `hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3,hkconnect_path7_barbell_quality_growth_biweekly_smoke`。
+
+### Focus 候选池
+
+- Path4 `quality_momentum`：v19 signal-quality-repair、v47 totalmv-quality；`liquidity_momentum`：v29 cost-guard、v40 repair。
+- Path5 `pullback_definition`：v34 definition-rewrite、v35 YTD-repair；`retest_confirmation`：v11、v17。
+- Path6 `large_liquid_core`：monthly-ytd-guard、monthly-smoke；`capacity_cost`：monthly-v4、biweekly-v11。
+- Path7 `barbell_sleeve_structure`：defensive-lowturn-v10、core-sleeve-v3；`turnover_control`：growth-dynamic-v6、turnover-control-v34。
+- Path6 `lowvol_liquid_core`：lowvol-biweekly-smoke、v19 capacity-cost-repair。
+- Path7 `biweekly_barbell`：core-sleeve-v3、biweekly-smoke。
+
 ## 2026-07-24 收尾记录
 
 ### 上一轮候选与结果摘要

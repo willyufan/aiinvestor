@@ -1,5 +1,28 @@
 # Path 3 研究计划
 
+## 2026-07-24 二次迭代记录（07:25 CST）
+
+### 上一轮候选与结果摘要
+
+- 上一轮 v3 与 v7 为 `keep_watch`、turnover-repair 为 `robust_observation`；本轮确认两条 `_weekly` 纯周频低风险候选，并与 current robust `...turnover_repair_weekly` 同窗比较。
+- `...weekly_risk_downshift_weekly` 与 `...cap30_hold11...risk06_weekly` 的 2026 CAGR 虽为 `33.49%/57.70%`，但 2020/2023 CAGR 仅约 `1.3%/1.5%`，中窗 CAGR 下降 `6.2pp-7.4pp` 且 Sharpe 下降超过护栏；短窗爆发不足以晋级，两条均 `reject`。winner/robust/tracked 未改写，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn02_exit98_risk06_weekly`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn02_exit98_risk06_weekly`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 轮换到 `risk_downshift`；只保留能同时守住 2020/2023 且 2026 非负的纯周频形态，以下命令用于失败边界与 v3 对照。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`。
+
+### Focus 候选池
+
+- `weekly_exit_buffer`：`...weekly_exit_buffer_v3_weekly`、`...weekly_return_recovery_v7_weekly`。
+- `turnover_reduction`：`...turnover_repair_weekly`、`...weekly_return_recovery_v7_weekly`。
+- `weekly_risk_downshift`：`...weekly_risk_downshift_weekly`、`...cap30_hold11...risk06_weekly`（失败对照）。
+- `risk_downshift`：`...weekly_risk_downshift_weekly`、`...weekly_exit_buffer_v3_weekly`。
+
 ## 2026-07-24 收尾记录
 
 ### 上一轮候选与结果摘要

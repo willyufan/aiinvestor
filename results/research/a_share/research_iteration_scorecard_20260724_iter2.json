@@ -1,0 +1,3296 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-24T07:20:00+08:00",
+  "run_date": "2026-07-24-iter2",
+  "comparison_end_date": "2026-07-23",
+  "windows": [
+    "since_2017_01",
+    "since_2020_01",
+    "since_2023_01",
+    "since_2025_01",
+    "since_2026_01"
+  ],
+  "candidate_count": 29,
+  "event_card_count": 1,
+  "decision_counts": {
+    "promote": 0,
+    "keep_watch": 10,
+    "robust_observation": 0,
+    "reject": 20,
+    "archive": 0
+  },
+  "scorecards": [
+    {
+      "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_growth_signal_reconfirm",
+      "market": "a_share",
+      "path": "path1",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "等权 core_multifactor 预期改善信号质量，同时保持 2020/2023 稳定。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.04101797,
+          -0.02222559,
+          0.21146312,
+          0.24818708,
+          -0.04215767
+        ],
+        "sharpe": [
+          0.31193762,
+          -0.00739934,
+          0.7877522,
+          0.81420498,
+          0.17180105
+        ],
+        "max_drawdown": [
+          -0.3373084,
+          -0.34445828,
+          -0.28942516,
+          -0.30409333,
+          -0.27548929
+        ],
+        "turnover": [
+          3.37861683,
+          2.97257248,
+          3.66819388,
+          6.02051992,
+          8.8054436
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.20286959,
+          0.26553377,
+          0.22113818,
+          0.65233973,
+          0.24339433
+        ],
+        "sharpe": [
+          0.8593848,
+          0.92759982,
+          0.74026447,
+          1.23299444,
+          0.64856786
+        ],
+        "max_drawdown": [
+          -0.26984077,
+          -0.29931129,
+          -0.30675902,
+          -0.29629546,
+          -0.31636252
+        ],
+        "turnover": [
+          3.08832169,
+          3.36038451,
+          3.36697535,
+          4.78335193,
+          6.7299881
+        ]
+      },
+      "delta": {
+        "cagr": [
+          -0.16185162,
+          -0.28775936,
+          -0.00967506,
+          -0.40415265,
+          -0.285552
+        ],
+        "sharpe": [
+          -0.54744718,
+          -0.93499916,
+          0.04748773,
+          -0.41878946,
+          -0.47676681
+        ],
+        "max_drawdown": [
+          -0.06746763,
+          -0.04514699,
+          0.01733386,
+          -0.00779787,
+          0.04087323
+        ],
+        "turnover": [
+          0.29029514,
+          -0.38781203,
+          0.30121853,
+          1.23716799,
+          2.0754555
+        ]
+      },
+      "stability_breaks": [
+        "since_2020_01: CAGR -0.2878",
+        "since_2020_01: Sharpe -0.9350"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_cost_guard_reconfirm",
+      "market": "a_share",
+      "path": "path1",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "等权 core_multifactor 预期改善信号质量，同时保持 2020/2023 稳定。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.03215803,
+          -0.02685683,
+          0.21968939,
+          0.2324748,
+          -0.12479815
+        ],
+        "sharpe": [
+          0.26818842,
+          -0.03732214,
+          0.81565528,
+          0.74329843,
+          0.08333161
+        ],
+        "max_drawdown": [
+          -0.30869895,
+          -0.30983858,
+          -0.28503592,
+          -0.32009285,
+          -0.3268666
+        ],
+        "turnover": [
+          3.1194433,
+          2.78022899,
+          3.10989625,
+          6.05201852,
+          8.14884121
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.20286959,
+          0.26553377,
+          0.22113818,
+          0.65233973,
+          0.24339433
+        ],
+        "sharpe": [
+          0.8593848,
+          0.92759982,
+          0.74026447,
+          1.23299444,
+          0.64856786
+        ],
+        "max_drawdown": [
+          -0.26984077,
+          -0.29931129,
+          -0.30675902,
+          -0.29629546,
+          -0.31636252
+        ],
+        "turnover": [
+          3.08832169,
+          3.36038451,
+          3.36697535,
+          4.78335193,
+          6.7299881
+        ]
+      },
+      "delta": {
+        "cagr": [
+          -0.17071156,
+          -0.2923906,
+          -0.00144879,
+          -0.41986493,
+          -0.36819248
+        ],
+        "sharpe": [
+          -0.59119638,
+          -0.96492196,
+          0.07539081,
+          -0.48969601,
+          -0.56523625
+        ],
+        "max_drawdown": [
+          -0.03885818,
+          -0.01052729,
+          0.0217231,
+          -0.02379739,
+          -0.01050408
+        ],
+        "turnover": [
+          0.03112161,
+          -0.58015552,
+          -0.2570791,
+          1.26866659,
+          1.41885311
+        ]
+      },
+      "stability_breaks": [
+        "since_2020_01: CAGR -0.2924",
+        "since_2020_01: Sharpe -0.9649"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle",
+      "market": "a_share",
+      "path": "path2",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "中周期与风险确认预期修复容量成本，并保持 2023 收益。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.1295565,
+          0.12193674,
+          0.01699153,
+          0.23423882,
+          -0.19692342
+        ],
+        "sharpe": [
+          0.82574771,
+          0.75694863,
+          0.18620745,
+          0.72736161,
+          -0.19519969
+        ],
+        "max_drawdown": [
+          -0.1579988,
+          -0.14983943,
+          -0.23436668,
+          -0.27607059,
+          -0.27607059
+        ],
+        "turnover": [
+          4.42440525,
+          3.83707553,
+          3.6184856,
+          9.66390237,
+          9.20685996
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.08329687,
+          0.00426587,
+          0.20835118,
+          0.44335689,
+          0.06458341
+        ],
+        "sharpe": [
+          0.51965228,
+          0.11450847,
+          0.76441973,
+          1.07810749,
+          0.34609761
+        ],
+        "max_drawdown": [
+          -0.32482398,
+          -0.32556706,
+          -0.26801735,
+          -0.26297672,
+          -0.22164582
+        ],
+        "turnover": [
+          3.16675454,
+          2.78741724,
+          3.42105031,
+          4.8676614,
+          5.3355693
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.04625963,
+          0.11767087,
+          -0.19135965,
+          -0.20911807,
+          -0.26150683
+        ],
+        "sharpe": [
+          0.30609543,
+          0.64244016,
+          -0.57821228,
+          -0.35074588,
+          -0.5412973
+        ],
+        "max_drawdown": [
+          0.16682518,
+          0.17572763,
+          0.03365067,
+          -0.01309387,
+          -0.05442477
+        ],
+        "turnover": [
+          1.25765071,
+          1.04965829,
+          0.19743529,
+          4.79624097,
+          3.87129066
+        ]
+      },
+      "stability_breaks": [
+        "since_2023_01: CAGR -0.1914",
+        "since_2023_01: Sharpe -0.5782"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk27_mom_exit47_reconfirm95_caution58_cap22_cost_guard_v37_medium_cycle_repair",
+      "market": "a_share",
+      "path": "path2",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "中周期与风险确认预期修复容量成本，并保持 2023 收益。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.12967416,
+          0.12189731,
+          0.01666835,
+          0.23423882,
+          -0.19692342
+        ],
+        "sharpe": [
+          0.82582356,
+          0.75632699,
+          0.18445781,
+          0.72736161,
+          -0.19519969
+        ],
+        "max_drawdown": [
+          -0.16350057,
+          -0.14983943,
+          -0.23436668,
+          -0.27607059,
+          -0.27607059
+        ],
+        "turnover": [
+          4.46306127,
+          3.86689854,
+          3.65872779,
+          9.66390237,
+          9.20685996
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.08329687,
+          0.00426587,
+          0.20835118,
+          0.44335689,
+          0.06458341
+        ],
+        "sharpe": [
+          0.51965228,
+          0.11450847,
+          0.76441973,
+          1.07810749,
+          0.34609761
+        ],
+        "max_drawdown": [
+          -0.32482398,
+          -0.32556706,
+          -0.26801735,
+          -0.26297672,
+          -0.22164582
+        ],
+        "turnover": [
+          3.16675454,
+          2.78741724,
+          3.42105031,
+          4.8676614,
+          5.3355693
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.04637729,
+          0.11763144,
+          -0.19168283,
+          -0.20911807,
+          -0.26150683
+        ],
+        "sharpe": [
+          0.30617128,
+          0.64181852,
+          -0.57996192,
+          -0.35074588,
+          -0.5412973
+        ],
+        "max_drawdown": [
+          0.16132341,
+          0.17572763,
+          0.03365067,
+          -0.01309387,
+          -0.05442477
+        ],
+        "turnover": [
+          1.29630673,
+          1.0794813,
+          0.23767748,
+          4.79624097,
+          3.87129066
+        ]
+      },
+      "stability_breaks": [
+        "since_2023_01: CAGR -0.1917",
+        "since_2023_01: Sharpe -0.5800"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm",
+      "market": "a_share",
+      "path": "path2",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "中周期与风险确认预期修复容量成本，并保持 2023 收益。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.1273423,
+          0.12360702,
+          0.01427901,
+          0.24607831,
+          -0.19698368
+        ],
+        "sharpe": [
+          0.80866721,
+          0.7614458,
+          0.17125291,
+          0.75060749,
+          -0.20113283
+        ],
+        "max_drawdown": [
+          -0.18687259,
+          -0.15139363,
+          -0.23223682,
+          -0.27309434,
+          -0.27309434
+        ],
+        "turnover": [
+          4.55313752,
+          3.95375437,
+          3.6692337,
+          9.5731013,
+          9.14990299
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.08329687,
+          0.00426587,
+          0.20835118,
+          0.44335689,
+          0.06458341
+        ],
+        "sharpe": [
+          0.51965228,
+          0.11450847,
+          0.76441973,
+          1.07810749,
+          0.34609761
+        ],
+        "max_drawdown": [
+          -0.32482398,
+          -0.32556706,
+          -0.26801735,
+          -0.26297672,
+          -0.22164582
+        ],
+        "turnover": [
+          3.16675454,
+          2.78741724,
+          3.42105031,
+          4.8676614,
+          5.3355693
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.04404543,
+          0.11934115,
+          -0.19407217,
+          -0.19727858,
+          -0.26156709
+        ],
+        "sharpe": [
+          0.28901493,
+          0.64693733,
+          -0.59316682,
+          -0.3275,
+          -0.54723044
+        ],
+        "max_drawdown": [
+          0.13795139,
+          0.17417343,
+          0.03578053,
+          -0.01011762,
+          -0.05144852
+        ],
+        "turnover": [
+          1.38638298,
+          1.16633713,
+          0.24818339,
+          4.7054399,
+          3.81433369
+        ]
+      },
+      "stability_breaks": [
+        "since_2023_01: CAGR -0.1941",
+        "since_2023_01: Sharpe -0.5932"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly",
+      "market": "a_share",
+      "path": "path3",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "低风险纯周频形态预期降低换手回撤，同时保持中窗收益。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.02496852,
+          0.01284437,
+          0.01463202,
+          0.29735041,
+          0.334879
+        ],
+        "sharpe": [
+          0.42705672,
+          0.16552209,
+          0.32738449,
+          1.06619894,
+          0.93617566
+        ],
+        "max_drawdown": [
+          -0.16585325,
+          -0.29637488,
+          -0.08817234,
+          -0.15508303,
+          -0.1677397
+        ],
+        "turnover": [
+          0.44549112,
+          0.42778014,
+          0.09970921,
+          0.48895374,
+          2.50180144
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.04119894,
+          0.07482619,
+          0.08856215,
+          0.3234372,
+          0.41178146
+        ],
+        "sharpe": [
+          0.43992299,
+          0.52998068,
+          0.79693767,
+          1.17732587,
+          0.9697302
+        ],
+        "max_drawdown": [
+          -0.2291812,
+          -0.27815967,
+          -0.11724802,
+          -0.14735663,
+          -0.23588159
+        ],
+        "turnover": [
+          0.80376241,
+          0.66259551,
+          0.4683719,
+          0.57880692,
+          2.70925454
+        ]
+      },
+      "delta": {
+        "cagr": [
+          -0.01623042,
+          -0.06198182,
+          -0.07393013,
+          -0.02608679,
+          -0.07690246
+        ],
+        "sharpe": [
+          -0.01286627,
+          -0.36445859,
+          -0.46955318,
+          -0.11112693,
+          -0.03355454
+        ],
+        "max_drawdown": [
+          0.06332795,
+          -0.01821521,
+          0.02907568,
+          -0.0077264,
+          0.06814189
+        ],
+        "turnover": [
+          -0.35827129,
+          -0.23481537,
+          -0.36866269,
+          -0.08985318,
+          -0.2074531
+        ]
+      },
+      "stability_breaks": [
+        "since_2020_01: CAGR -0.0620",
+        "since_2020_01: Sharpe -0.3645",
+        "since_2023_01: CAGR -0.0739",
+        "since_2023_01: Sharpe -0.4696"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn02_exit98_risk06_weekly",
+      "market": "a_share",
+      "path": "path3",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "低风险纯周频形态预期降低换手回撤，同时保持中窗收益。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.02263779,
+          0.01316761,
+          0.01532438,
+          -0.00508042,
+          0.57697544
+        ],
+        "sharpe": [
+          0.43392472,
+          0.17613899,
+          0.4280527,
+          0.13507647,
+          1.55419324
+        ],
+        "max_drawdown": [
+          -0.16166694,
+          -0.27679596,
+          -0.05766891,
+          -0.21414505,
+          -0.16802143
+        ],
+        "turnover": [
+          0.4142874,
+          0.36777697,
+          0.09886121,
+          1.57168766,
+          2.60083386
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.04119894,
+          0.07482619,
+          0.08856215,
+          0.3234372,
+          0.41178146
+        ],
+        "sharpe": [
+          0.43992299,
+          0.52998068,
+          0.79693767,
+          1.17732587,
+          0.9697302
+        ],
+        "max_drawdown": [
+          -0.2291812,
+          -0.27815967,
+          -0.11724802,
+          -0.14735663,
+          -0.23588159
+        ],
+        "turnover": [
+          0.80376241,
+          0.66259551,
+          0.4683719,
+          0.57880692,
+          2.70925454
+        ]
+      },
+      "delta": {
+        "cagr": [
+          -0.01856115,
+          -0.06165858,
+          -0.07323777,
+          -0.32851762,
+          0.16519398
+        ],
+        "sharpe": [
+          -0.00599827,
+          -0.35384169,
+          -0.36888497,
+          -1.0422494,
+          0.58446304
+        ],
+        "max_drawdown": [
+          0.06751426,
+          0.00136371,
+          0.05957911,
+          -0.06678842,
+          0.06786016
+        ],
+        "turnover": [
+          -0.38947501,
+          -0.29481854,
+          -0.36951069,
+          0.99288074,
+          -0.10842068
+        ]
+      },
+      "stability_breaks": [
+        "since_2020_01: CAGR -0.0617",
+        "since_2020_01: Sharpe -0.3538",
+        "since_2023_01: CAGR -0.0732",
+        "since_2023_01: Sharpe -0.3689"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5",
+      "market": "a_share",
+      "path": "path4",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "信号质量、风险与容量边界预期改善 Path4 中窗收益或回撤。",
+      "actual_supports_hypothesis": true,
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.06328856,
+          0.05530966,
+          0.02765642,
+          0.17891181,
+          -0.05269476
+        ],
+        "sharpe": [
+          0.5035305,
+          0.41359418,
+          0.25736521,
+          0.72847222,
+          0.03558455
+        ],
+        "max_drawdown": [
+          -0.21066181,
+          -0.21066181,
+          -0.21378303,
+          -0.21697059,
+          -0.21130157
+        ],
+        "turnover": [
+          2.55711177,
+          2.61599018,
+          2.41933712,
+          4.42862431,
+          4.63982576
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.0662829,
+          0.06299558,
+          0.04242062,
+          0.22815988,
+          0.0449352
+        ],
+        "sharpe": [
+          0.51809299,
+          0.45227839,
+          0.3387147,
+          0.87088043,
+          0.29274419
+        ],
+        "max_drawdown": [
+          -0.20251259,
+          -0.20251259,
+          -0.20332198,
+          -0.20286838,
+          -0.20249358
+        ],
+        "turnover": [
+          2.55127806,
+          2.60879218,
+          2.42669537,
+          4.47600916,
+          4.52346613
+        ]
+      },
+      "delta": {
+        "cagr": [
+          -0.00299434,
+          -0.00768592,
+          -0.0147642,
+          -0.04924807,
+          -0.09762996
+        ],
+        "sharpe": [
+          -0.01456249,
+          -0.03868421,
+          -0.08134949,
+          -0.14240821,
+          -0.25715964
+        ],
+        "max_drawdown": [
+          -0.00814922,
+          -0.00814922,
+          -0.01046105,
+          -0.01410221,
+          -0.00880799
+        ],
+        "turnover": [
+          0.00583371,
+          0.007198,
+          -0.00735825,
+          -0.04738485,
+          0.11635963
+        ]
+      },
+      "stability_breaks": [],
+      "decision": "keep_watch",
+      "decision_rationale": "未命中强制护栏但尚未跨窗击败 robust，保留观察。"
+    },
+    {
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4",
+      "market": "a_share",
+      "path": "path4",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "信号质量、风险与容量边界预期改善 Path4 中窗收益或回撤。",
+      "actual_supports_hypothesis": true,
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.07050134,
+          0.06574659,
+          0.02765642,
+          0.17891181,
+          -0.05269476
+        ],
+        "sharpe": [
+          0.54602661,
+          0.46979664,
+          0.25736521,
+          0.72847222,
+          0.03558455
+        ],
+        "max_drawdown": [
+          -0.20133678,
+          -0.20133678,
+          -0.21378303,
+          -0.21697059,
+          -0.21130157
+        ],
+        "turnover": [
+          2.55529414,
+          2.61334427,
+          2.41933712,
+          4.42862431,
+          4.63982576
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.0662829,
+          0.06299558,
+          0.04242062,
+          0.22815988,
+          0.0449352
+        ],
+        "sharpe": [
+          0.51809299,
+          0.45227839,
+          0.3387147,
+          0.87088043,
+          0.29274419
+        ],
+        "max_drawdown": [
+          -0.20251259,
+          -0.20251259,
+          -0.20332198,
+          -0.20286838,
+          -0.20249358
+        ],
+        "turnover": [
+          2.55127806,
+          2.60879218,
+          2.42669537,
+          4.47600916,
+          4.52346613
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.00421844,
+          0.00275101,
+          -0.0147642,
+          -0.04924807,
+          -0.09762996
+        ],
+        "sharpe": [
+          0.02793362,
+          0.01751825,
+          -0.08134949,
+          -0.14240821,
+          -0.25715964
+        ],
+        "max_drawdown": [
+          0.00117581,
+          0.00117581,
+          -0.01046105,
+          -0.01410221,
+          -0.00880799
+        ],
+        "turnover": [
+          0.00401608,
+          0.00455209,
+          -0.00735825,
+          -0.04738485,
+          0.11635963
+        ]
+      },
+      "stability_breaks": [],
+      "decision": "keep_watch",
+      "decision_rationale": "未命中强制护栏但尚未跨窗击败 robust，保留观察。"
+    },
+    {
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap06_exit66_lowturn",
+      "market": "a_share",
+      "path": "path4",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "信号质量、风险与容量边界预期改善 Path4 中窗收益或回撤。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.09613683,
+          0.09444025,
+          0.02972543,
+          0.31304938,
+          0.04159908
+        ],
+        "sharpe": [
+          0.55807429,
+          0.50719027,
+          0.26408772,
+          0.89433944,
+          0.3312058
+        ],
+        "max_drawdown": [
+          -0.28208378,
+          -0.28208378,
+          -0.25808421,
+          -0.28258045,
+          -0.27480723
+        ],
+        "turnover": [
+          3.59377126,
+          3.63926461,
+          3.24118649,
+          6.23356265,
+          6.39855505
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.0662829,
+          0.06299558,
+          0.04242062,
+          0.22815988,
+          0.0449352
+        ],
+        "sharpe": [
+          0.51809299,
+          0.45227839,
+          0.3387147,
+          0.87088043,
+          0.29274419
+        ],
+        "max_drawdown": [
+          -0.20251259,
+          -0.20251259,
+          -0.20332198,
+          -0.20286838,
+          -0.20249358
+        ],
+        "turnover": [
+          2.55127806,
+          2.60879218,
+          2.42669537,
+          4.47600916,
+          4.52346613
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.02985393,
+          0.03144467,
+          -0.01269519,
+          0.0848895,
+          -0.00333612
+        ],
+        "sharpe": [
+          0.0399813,
+          0.05491188,
+          -0.07462698,
+          0.02345901,
+          0.03846161
+        ],
+        "max_drawdown": [
+          -0.07957119,
+          -0.07957119,
+          -0.05476223,
+          -0.07971207,
+          -0.07231365
+        ],
+        "turnover": [
+          1.0424932,
+          1.03047243,
+          0.81449112,
+          1.75755349,
+          1.87508892
+        ]
+      },
+      "stability_breaks": [
+        "since_2020_01: MaxDD -0.0796",
+        "since_2023_01: MaxDD -0.0548"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk08_cap06_exit64_lowturn",
+      "market": "a_share",
+      "path": "path4",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "信号质量、风险与容量边界预期改善 Path4 中窗收益或回撤。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.09617385,
+          0.09450779,
+          0.0298043,
+          0.31304938,
+          0.04159908
+        ],
+        "sharpe": [
+          0.55824416,
+          0.50746187,
+          0.26453127,
+          0.89433944,
+          0.3312058
+        ],
+        "max_drawdown": [
+          -0.28208378,
+          -0.28208378,
+          -0.25808421,
+          -0.28258045,
+          -0.27480723
+        ],
+        "turnover": [
+          3.59339833,
+          3.63872776,
+          3.2412248,
+          6.23356265,
+          6.39855505
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.0662829,
+          0.06299558,
+          0.04242062,
+          0.22815988,
+          0.0449352
+        ],
+        "sharpe": [
+          0.51809299,
+          0.45227839,
+          0.3387147,
+          0.87088043,
+          0.29274419
+        ],
+        "max_drawdown": [
+          -0.20251259,
+          -0.20251259,
+          -0.20332198,
+          -0.20286838,
+          -0.20249358
+        ],
+        "turnover": [
+          2.55127806,
+          2.60879218,
+          2.42669537,
+          4.47600916,
+          4.52346613
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.02989095,
+          0.03151221,
+          -0.01261632,
+          0.0848895,
+          -0.00333612
+        ],
+        "sharpe": [
+          0.04015117,
+          0.05518348,
+          -0.07418343,
+          0.02345901,
+          0.03846161
+        ],
+        "max_drawdown": [
+          -0.07957119,
+          -0.07957119,
+          -0.05476223,
+          -0.07971207,
+          -0.07231365
+        ],
+        "turnover": [
+          1.04212027,
+          1.02993558,
+          0.81452943,
+          1.75755349,
+          1.87508892
+        ]
+      },
+      "stability_breaks": [
+        "since_2020_01: MaxDD -0.0796",
+        "since_2023_01: MaxDD -0.0548"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "hkconnect_path1_biweekly_quality_momentum_equal_buffered_v46_risk_overlay_cost_guard",
+      "market": "hkconnect",
+      "path": "path1",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "双周 buffer/cost overlay 预期让 2026 转正且保持中窗。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "hkconnect_path1_biweekly_lowvol",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.16414845,
+          0.17087504,
+          0.1651221,
+          0.30707169,
+          -0.04031187
+        ],
+        "sharpe": [
+          0.95047199,
+          0.93312001,
+          0.92808361,
+          1.50945057,
+          -0.19152775
+        ],
+        "max_drawdown": [
+          -0.19070562,
+          -0.16714619,
+          -0.1257303,
+          -0.09876947,
+          -0.09534001
+        ],
+        "turnover": [
+          3.80415136,
+          3.73750548,
+          3.94822907,
+          4.62163307,
+          4.80666286
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.17417867,
+          0.18533861,
+          0.23335676,
+          0.26868656,
+          0.08264759
+        ],
+        "sharpe": [
+          0.98491762,
+          1.00661499,
+          1.27201156,
+          1.46577608,
+          0.53335375
+        ],
+        "max_drawdown": [
+          -0.22309212,
+          -0.17170995,
+          -0.11259508,
+          -0.11259498,
+          -0.11243379
+        ],
+        "turnover": [
+          1.86925072,
+          1.90639729,
+          1.58525575,
+          2.02324522,
+          3.20892873
+        ]
+      },
+      "delta": {
+        "cagr": [
+          -0.01003022,
+          -0.01446357,
+          -0.06823466,
+          0.03838513,
+          -0.12295946
+        ],
+        "sharpe": [
+          -0.03444563,
+          -0.07349498,
+          -0.34392795,
+          0.04367449,
+          -0.7248815
+        ],
+        "max_drawdown": [
+          0.0323865,
+          0.00456376,
+          -0.01313522,
+          0.01382551,
+          0.01709378
+        ],
+        "turnover": [
+          1.93490064,
+          1.83110819,
+          2.36297332,
+          2.59838785,
+          1.59773413
+        ]
+      },
+      "stability_breaks": [
+        "since_2023_01: CAGR -0.0682",
+        "since_2023_01: Sharpe -0.3439"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "hkconnect_path1_biweekly_quality_momentum_equal_buffered_v43_biweekly_buffer_repair",
+      "market": "hkconnect",
+      "path": "path1",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "双周 buffer/cost overlay 预期让 2026 转正且保持中窗。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "hkconnect_path1_biweekly_lowvol",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.16462203,
+          0.17180242,
+          0.16370353,
+          0.30707169,
+          -0.04031187
+        ],
+        "sharpe": [
+          0.95077742,
+          0.9354092,
+          0.92228283,
+          1.50945057,
+          -0.19152775
+        ],
+        "max_drawdown": [
+          -0.1919246,
+          -0.16823489,
+          -0.12573914,
+          -0.09876947,
+          -0.09534001
+        ],
+        "turnover": [
+          3.82135501,
+          3.749999,
+          3.954366,
+          4.62163307,
+          4.80666286
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.17417867,
+          0.18533861,
+          0.23335676,
+          0.26868656,
+          0.08264759
+        ],
+        "sharpe": [
+          0.98491762,
+          1.00661499,
+          1.27201156,
+          1.46577608,
+          0.53335375
+        ],
+        "max_drawdown": [
+          -0.22309212,
+          -0.17170995,
+          -0.11259508,
+          -0.11259498,
+          -0.11243379
+        ],
+        "turnover": [
+          1.86925072,
+          1.90639729,
+          1.58525575,
+          2.02324522,
+          3.20892873
+        ]
+      },
+      "delta": {
+        "cagr": [
+          -0.00955664,
+          -0.01353619,
+          -0.06965323,
+          0.03838513,
+          -0.12295946
+        ],
+        "sharpe": [
+          -0.0341402,
+          -0.07120579,
+          -0.34972873,
+          0.04367449,
+          -0.7248815
+        ],
+        "max_drawdown": [
+          0.03116752,
+          0.00347506,
+          -0.01314406,
+          0.01382551,
+          0.01709378
+        ],
+        "turnover": [
+          1.95210429,
+          1.84360171,
+          2.36911025,
+          2.59838785,
+          1.59773413
+        ]
+      },
+      "stability_breaks": [
+        "since_2023_01: CAGR -0.0697",
+        "since_2023_01: Sharpe -0.3497"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard",
+      "market": "hkconnect",
+      "path": "path2",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "高收益月频与成本控制预期提升中窗并控制换手。",
+      "actual_supports_hypothesis": true,
+      "current_winner_or_robust_id": "hkconnect_path2_theme_fast_monthly",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.20873828,
+          0.23371271,
+          0.30834141,
+          0.26159618,
+          -0.13842939
+        ],
+        "sharpe": [
+          1.2194289,
+          1.25400428,
+          1.40685385,
+          1.07084767,
+          -0.33004716
+        ],
+        "max_drawdown": [
+          -0.19845185,
+          -0.19845185,
+          -0.19845185,
+          -0.19881594,
+          -0.18207879
+        ],
+        "turnover": [
+          3.09498653,
+          2.93765644,
+          2.89736058,
+          3.69643376,
+          3.30039587
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.14494398,
+          0.19092607,
+          0.24105933,
+          0.48658726,
+          0.40588064
+        ],
+        "sharpe": [
+          0.71847806,
+          0.87125957,
+          1.0156167,
+          1.43185301,
+          0.89761562
+        ],
+        "max_drawdown": [
+          -0.32871816,
+          -0.19029998,
+          -0.17733844,
+          -0.17733844,
+          -0.17733844
+        ],
+        "turnover": [
+          7.08891754,
+          7.04653019,
+          7.06651911,
+          7.89178713,
+          7.6784267
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.0637943,
+          0.04278664,
+          0.06728208,
+          -0.22499108,
+          -0.54431003
+        ],
+        "sharpe": [
+          0.50095084,
+          0.38274471,
+          0.39123715,
+          -0.36100534,
+          -1.22766278
+        ],
+        "max_drawdown": [
+          0.13026631,
+          -0.00815187,
+          -0.02111341,
+          -0.0214775,
+          -0.00474035
+        ],
+        "turnover": [
+          -3.99393101,
+          -4.10887375,
+          -4.16915853,
+          -4.19535337,
+          -4.37803083
+        ]
+      },
+      "stability_breaks": [],
+      "decision": "keep_watch",
+      "decision_rationale": "未命中强制护栏但尚未跨窗击败 robust，保留观察。"
+    },
+    {
+      "candidate_id": "hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v23_2023_restore",
+      "market": "hkconnect",
+      "path": "path2",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "高收益月频与成本控制预期提升中窗并控制换手。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "hkconnect_path2_theme_fast_monthly",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.20105644,
+          0.24250334,
+          0.2051047,
+          0.35311677,
+          -0.02835064
+        ],
+        "sharpe": [
+          0.84555243,
+          0.89705633,
+          0.79252222,
+          1.14622099,
+          0.12452374
+        ],
+        "max_drawdown": [
+          -0.22255135,
+          -0.17265342,
+          -0.17265342,
+          -0.17265341,
+          -0.17265338
+        ],
+        "turnover": [
+          5.27479461,
+          5.28478565,
+          5.48101652,
+          6.25256875,
+          6.3954924
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.14494398,
+          0.19092607,
+          0.24105933,
+          0.48658726,
+          0.40588064
+        ],
+        "sharpe": [
+          0.71847806,
+          0.87125957,
+          1.0156167,
+          1.43185301,
+          0.89761562
+        ],
+        "max_drawdown": [
+          -0.32871816,
+          -0.19029998,
+          -0.17733844,
+          -0.17733844,
+          -0.17733844
+        ],
+        "turnover": [
+          7.08891754,
+          7.04653019,
+          7.06651911,
+          7.89178713,
+          7.6784267
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.05611246,
+          0.05157727,
+          -0.03595463,
+          -0.13347049,
+          -0.43423128
+        ],
+        "sharpe": [
+          0.12707437,
+          0.02579676,
+          -0.22309448,
+          -0.28563202,
+          -0.77309188
+        ],
+        "max_drawdown": [
+          0.10616681,
+          0.01764656,
+          0.00468502,
+          0.00468503,
+          0.00468506
+        ],
+        "turnover": [
+          -1.81412293,
+          -1.76174454,
+          -1.58550259,
+          -1.63921838,
+          -1.2829343
+        ]
+      },
+      "stability_breaks": [
+        "since_2023_01: CAGR -0.0360"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair",
+      "market": "hkconnect",
+      "path": "path2",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "高收益月频与成本控制预期提升中窗并控制换手。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "hkconnect_path2_theme_fast_monthly",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.21921988,
+          0.2459915,
+          0.16165484,
+          0.20116403,
+          -0.14787004
+        ],
+        "sharpe": [
+          0.82660893,
+          0.83209324,
+          0.59581358,
+          0.78937251,
+          -0.58013593
+        ],
+        "max_drawdown": [
+          -0.27834507,
+          -0.27834507,
+          -0.21557611,
+          -0.17345167,
+          -0.11614678
+        ],
+        "turnover": [
+          13.80456072,
+          13.15590484,
+          13.68948891,
+          17.11337562,
+          16.76053728
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.14494398,
+          0.19092607,
+          0.24105933,
+          0.48658726,
+          0.40588064
+        ],
+        "sharpe": [
+          0.71847806,
+          0.87125957,
+          1.0156167,
+          1.43185301,
+          0.89761562
+        ],
+        "max_drawdown": [
+          -0.32871816,
+          -0.19029998,
+          -0.17733844,
+          -0.17733844,
+          -0.17733844
+        ],
+        "turnover": [
+          7.08891754,
+          7.04653019,
+          7.06651911,
+          7.89178713,
+          7.6784267
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.0742759,
+          0.05506543,
+          -0.07940449,
+          -0.28542323,
+          -0.55375068
+        ],
+        "sharpe": [
+          0.10813087,
+          -0.03916633,
+          -0.41980312,
+          -0.6424805,
+          -1.47775155
+        ],
+        "max_drawdown": [
+          0.05037309,
+          -0.08804509,
+          -0.03823767,
+          0.00388677,
+          0.06119166
+        ],
+        "turnover": [
+          6.71564318,
+          6.10937465,
+          6.6229698,
+          9.22158849,
+          9.08211058
+        ]
+      },
+      "stability_breaks": [
+        "since_2020_01: MaxDD -0.0880",
+        "since_2023_01: CAGR -0.0794",
+        "since_2023_01: Sharpe -0.4198"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover0_exit44_v12_turnover_reduction",
+      "market": "hkconnect",
+      "path": "path3",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "纯周频降换手/成本形态预期保留 2020/2023 并修复 2026。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "hkconnect_path3_equal_elastic_weekly",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.16113081,
+          0.15504799,
+          0.16258599,
+          0.3128072,
+          -0.02623469
+        ],
+        "sharpe": [
+          0.87595274,
+          0.8250356,
+          0.89671138,
+          1.39377847,
+          -0.06158006
+        ],
+        "max_drawdown": [
+          -0.2700941,
+          -0.18926726,
+          -0.14776819,
+          -0.145712,
+          -0.14143592
+        ],
+        "turnover": [
+          5.9490144,
+          5.92013959,
+          6.52696945,
+          7.44159887,
+          7.91063975
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.17182936,
+          0.20575645,
+          0.25638222,
+          0.56907499,
+          0.30244182
+        ],
+        "sharpe": [
+          0.602963,
+          0.64720265,
+          0.71278544,
+          1.34143549,
+          0.92952159
+        ],
+        "max_drawdown": [
+          -0.48417762,
+          -0.48417762,
+          -0.31972378,
+          -0.19199832,
+          -0.19199832
+        ],
+        "turnover": [
+          26.80447588,
+          27.03024811,
+          27.94680558,
+          33.78796044,
+          36.67304741
+        ]
+      },
+      "delta": {
+        "cagr": [
+          -0.01069855,
+          -0.05070846,
+          -0.09379623,
+          -0.25626779,
+          -0.32867651
+        ],
+        "sharpe": [
+          0.27298974,
+          0.17783295,
+          0.18392594,
+          0.05234298,
+          -0.99110165
+        ],
+        "max_drawdown": [
+          0.21408352,
+          0.29491036,
+          0.17195559,
+          0.04628632,
+          0.0505624
+        ],
+        "turnover": [
+          -20.85546148,
+          -21.11010852,
+          -21.41983613,
+          -26.34636157,
+          -28.76240766
+        ]
+      },
+      "stability_breaks": [
+        "since_2020_01: CAGR -0.0507",
+        "since_2023_01: CAGR -0.0938"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff30_turnover0_exit48_v14_turnover_reduction",
+      "market": "hkconnect",
+      "path": "path3",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "纯周频降换手/成本形态预期保留 2020/2023 并修复 2026。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "hkconnect_path3_equal_elastic_weekly",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.14368704,
+          0.13558278,
+          0.13288737,
+          0.26688353,
+          -0.050452
+        ],
+        "sharpe": [
+          0.81258581,
+          0.75040801,
+          0.76629719,
+          1.24011186,
+          -0.21892122
+        ],
+        "max_drawdown": [
+          -0.27848815,
+          -0.19736937,
+          -0.15445603,
+          -0.15626969,
+          -0.14891269
+        ],
+        "turnover": [
+          5.83849225,
+          5.84067474,
+          6.4541245,
+          7.27721383,
+          7.64662776
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.17182936,
+          0.20575645,
+          0.25638222,
+          0.56907499,
+          0.30244182
+        ],
+        "sharpe": [
+          0.602963,
+          0.64720265,
+          0.71278544,
+          1.34143549,
+          0.92952159
+        ],
+        "max_drawdown": [
+          -0.48417762,
+          -0.48417762,
+          -0.31972378,
+          -0.19199832,
+          -0.19199832
+        ],
+        "turnover": [
+          26.80447588,
+          27.03024811,
+          27.94680558,
+          33.78796044,
+          36.67304741
+        ]
+      },
+      "delta": {
+        "cagr": [
+          -0.02814232,
+          -0.07017367,
+          -0.12349485,
+          -0.30219146,
+          -0.35289382
+        ],
+        "sharpe": [
+          0.20962281,
+          0.10320536,
+          0.05351175,
+          -0.10132363,
+          -1.14844281
+        ],
+        "max_drawdown": [
+          0.20568947,
+          0.28680825,
+          0.16526775,
+          0.03572863,
+          0.04308563
+        ],
+        "turnover": [
+          -20.96598363,
+          -21.18957337,
+          -21.49268108,
+          -26.51074661,
+          -29.02641965
+        ]
+      },
+      "stability_breaks": [
+        "since_2020_01: CAGR -0.0702",
+        "since_2023_01: CAGR -0.1235"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "hkconnect_path3_theme_fast_weekly_cost_guard_turnover12_exit48",
+      "market": "hkconnect",
+      "path": "path3",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "纯周频降换手/成本形态预期保留 2020/2023 并修复 2026。",
+      "actual_supports_hypothesis": true,
+      "current_winner_or_robust_id": "hkconnect_path3_equal_elastic_weekly",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.17949752,
+          0.24903989,
+          0.26458312,
+          0.33895613,
+          -0.16271235
+        ],
+        "sharpe": [
+          0.75012614,
+          0.90933987,
+          0.97967104,
+          1.14511653,
+          -0.62241566
+        ],
+        "max_drawdown": [
+          -0.39632814,
+          -0.31080692,
+          -0.19211995,
+          -0.19211995,
+          -0.19211995
+        ],
+        "turnover": [
+          24.87518729,
+          23.65835183,
+          23.82621916,
+          30.03389789,
+          29.37017057
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.17182936,
+          0.20575645,
+          0.25638222,
+          0.56907499,
+          0.30244182
+        ],
+        "sharpe": [
+          0.602963,
+          0.64720265,
+          0.71278544,
+          1.34143549,
+          0.92952159
+        ],
+        "max_drawdown": [
+          -0.48417762,
+          -0.48417762,
+          -0.31972378,
+          -0.19199832,
+          -0.19199832
+        ],
+        "turnover": [
+          26.80447588,
+          27.03024811,
+          27.94680558,
+          33.78796044,
+          36.67304741
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.00766816,
+          0.04328344,
+          0.0082009,
+          -0.23011886,
+          -0.46515417
+        ],
+        "sharpe": [
+          0.14716314,
+          0.26213722,
+          0.2668856,
+          -0.19631896,
+          -1.55193725
+        ],
+        "max_drawdown": [
+          0.08784948,
+          0.1733707,
+          0.12760383,
+          -0.00012163,
+          -0.00012163
+        ],
+        "turnover": [
+          -1.92928859,
+          -3.37189628,
+          -4.12058642,
+          -3.75406255,
+          -7.30287684
+        ]
+      },
+      "stability_breaks": [],
+      "decision": "keep_watch",
+      "decision_rationale": "未命中强制护栏但尚未跨窗击败 robust，保留观察。"
+    },
+    {
+      "candidate_id": "hkconnect_path4_quality_momentum_monthly_lowdraw_v19_signal_quality_repair",
+      "market": "hkconnect",
+      "path": "path4",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "质量或流动性动量修复预期提升中窗并控制回撤。",
+      "actual_supports_hypothesis": true,
+      "current_winner_or_robust_id": "hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.13391478,
+          0.14556321,
+          0.14333466,
+          0.19497589,
+          -0.07866579
+        ],
+        "sharpe": [
+          0.94023389,
+          0.9676122,
+          0.93570569,
+          1.0975481,
+          -0.2884108
+        ],
+        "max_drawdown": [
+          -0.2055309,
+          -0.1017495,
+          -0.1017495,
+          -0.10466578,
+          -0.1013905
+        ],
+        "turnover": [
+          2.18948168,
+          2.07277781,
+          2.23127978,
+          2.78272322,
+          2.7644482
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.08728861,
+          0.08609794,
+          0.11299142,
+          0.23689963,
+          -0.00220671
+        ],
+        "sharpe": [
+          0.67460294,
+          0.65105106,
+          0.80417581,
+          1.46115535,
+          0.06156948
+        ],
+        "max_drawdown": [
+          -0.27257655,
+          -0.19261756,
+          -0.12759071,
+          -0.08146548,
+          -0.06970877
+        ],
+        "turnover": [
+          1.71224632,
+          1.55244051,
+          1.7212624,
+          2.0687696,
+          2.13325326
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.04662617,
+          0.05946527,
+          0.03034324,
+          -0.04192374,
+          -0.07645908
+        ],
+        "sharpe": [
+          0.26563095,
+          0.31656114,
+          0.13152988,
+          -0.36360725,
+          -0.34998028
+        ],
+        "max_drawdown": [
+          0.06704565,
+          0.09086806,
+          0.02584121,
+          -0.0232003,
+          -0.03168173
+        ],
+        "turnover": [
+          0.47723536,
+          0.5203373,
+          0.51001738,
+          0.71395362,
+          0.63119494
+        ]
+      },
+      "stability_breaks": [],
+      "decision": "keep_watch",
+      "decision_rationale": "未命中强制护栏但尚未跨窗击败 robust，保留观察。"
+    },
+    {
+      "candidate_id": "hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v29_liquidity_momentum_cost_guard",
+      "market": "hkconnect",
+      "path": "path4",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "质量或流动性动量修复预期提升中窗并控制回撤。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.0986005,
+          0.07991385,
+          0.0755771,
+          0.32295366,
+          -0.10723537
+        ],
+        "sharpe": [
+          0.56089912,
+          0.45498969,
+          0.42005208,
+          1.29038143,
+          -0.58756935
+        ],
+        "max_drawdown": [
+          -0.37685392,
+          -0.37687966,
+          -0.25016997,
+          -0.12806484,
+          -0.11998772
+        ],
+        "turnover": [
+          4.75933085,
+          4.69829492,
+          5.28457209,
+          6.87786881,
+          6.40917623
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.08728861,
+          0.08609794,
+          0.11299142,
+          0.23689963,
+          -0.00220671
+        ],
+        "sharpe": [
+          0.67460294,
+          0.65105106,
+          0.80417581,
+          1.46115535,
+          0.06156948
+        ],
+        "max_drawdown": [
+          -0.27257655,
+          -0.19261756,
+          -0.12759071,
+          -0.08146548,
+          -0.06970877
+        ],
+        "turnover": [
+          1.71224632,
+          1.55244051,
+          1.7212624,
+          2.0687696,
+          2.13325326
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.01131189,
+          -0.00618409,
+          -0.03741432,
+          0.08605403,
+          -0.10502866
+        ],
+        "sharpe": [
+          -0.11370382,
+          -0.19606137,
+          -0.38412373,
+          -0.17077392,
+          -0.64913883
+        ],
+        "max_drawdown": [
+          -0.10427737,
+          -0.1842621,
+          -0.12257926,
+          -0.04659936,
+          -0.05027895
+        ],
+        "turnover": [
+          3.04708453,
+          3.14585441,
+          3.56330969,
+          4.80909921,
+          4.27592297
+        ]
+      },
+      "stability_breaks": [
+        "since_2020_01: MaxDD -0.1843",
+        "since_2023_01: CAGR -0.0374",
+        "since_2023_01: MaxDD -0.1226",
+        "since_2023_01: Sharpe -0.3841"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v40_liquidity_momentum_repair",
+      "market": "hkconnect",
+      "path": "path4",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "质量或流动性动量修复预期提升中窗并控制回撤。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.09750413,
+          0.08069036,
+          0.07240572,
+          0.32362084,
+          -0.10492557
+        ],
+        "sharpe": [
+          0.55929669,
+          0.4602389,
+          0.40876981,
+          1.28930338,
+          -0.61253968
+        ],
+        "max_drawdown": [
+          -0.3675582,
+          -0.3675582,
+          -0.25103809,
+          -0.13240791,
+          -0.11679226
+        ],
+        "turnover": [
+          4.82636911,
+          4.72957665,
+          5.30966176,
+          6.91758491,
+          6.63293912
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.08728861,
+          0.08609794,
+          0.11299142,
+          0.23689963,
+          -0.00220671
+        ],
+        "sharpe": [
+          0.67460294,
+          0.65105106,
+          0.80417581,
+          1.46115535,
+          0.06156948
+        ],
+        "max_drawdown": [
+          -0.27257655,
+          -0.19261756,
+          -0.12759071,
+          -0.08146548,
+          -0.06970877
+        ],
+        "turnover": [
+          1.71224632,
+          1.55244051,
+          1.7212624,
+          2.0687696,
+          2.13325326
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.01021552,
+          -0.00540758,
+          -0.0405857,
+          0.08672121,
+          -0.10271886
+        ],
+        "sharpe": [
+          -0.11530625,
+          -0.19081216,
+          -0.395406,
+          -0.17185197,
+          -0.67410916
+        ],
+        "max_drawdown": [
+          -0.09498165,
+          -0.17494064,
+          -0.12344738,
+          -0.05094243,
+          -0.04708349
+        ],
+        "turnover": [
+          3.11412279,
+          3.17713614,
+          3.58839936,
+          4.84881531,
+          4.49968586
+        ]
+      },
+      "stability_breaks": [
+        "since_2020_01: MaxDD -0.1749",
+        "since_2023_01: CAGR -0.0406",
+        "since_2023_01: MaxDD -0.1234",
+        "since_2023_01: Sharpe -0.3954"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite",
+      "market": "hkconnect",
+      "path": "path5",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "回踩定义重写预期让弱路径 2026 转正且不扩大回撤。",
+      "actual_supports_hypothesis": true,
+      "current_winner_or_robust_id": "hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.05063857,
+          0.04692626,
+          0.04584281,
+          0.06883273,
+          -0.12682244
+        ],
+        "sharpe": [
+          0.6680897,
+          0.58051424,
+          0.54943369,
+          0.66813701,
+          -1.01552589
+        ],
+        "max_drawdown": [
+          -0.12342469,
+          -0.10693083,
+          -0.10054759,
+          -0.10165256,
+          -0.09248046
+        ],
+        "turnover": [
+          1.21772892,
+          1.09910608,
+          1.28726942,
+          1.57220398,
+          1.37318625
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.04691516,
+          0.04188943,
+          0.04162098,
+          0.05628911,
+          -0.09050016
+        ],
+        "sharpe": [
+          0.75076367,
+          0.62119538,
+          0.59710852,
+          0.6486071,
+          -0.94328696
+        ],
+        "max_drawdown": [
+          -0.07999377,
+          -0.07931826,
+          -0.07931826,
+          -0.08022193,
+          -0.07040354
+        ],
+        "turnover": [
+          0.9378816,
+          0.87787243,
+          1.00951883,
+          1.28682853,
+          1.05652792
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.00372341,
+          0.00503683,
+          0.00422183,
+          0.01254362,
+          -0.03632228
+        ],
+        "sharpe": [
+          -0.08267397,
+          -0.04068114,
+          -0.04767483,
+          0.01952991,
+          -0.07223893
+        ],
+        "max_drawdown": [
+          -0.04343092,
+          -0.02761257,
+          -0.02122933,
+          -0.02143063,
+          -0.02207692
+        ],
+        "turnover": [
+          0.27984732,
+          0.22123365,
+          0.27775059,
+          0.28537545,
+          0.31665833
+        ]
+      },
+      "stability_breaks": [],
+      "decision": "keep_watch",
+      "decision_rationale": "未命中强制护栏但尚未跨窗击败 robust，保留观察。"
+    },
+    {
+      "candidate_id": "hkconnect_path5_pullback_continuation_monthly_quality_retest_v14_definition_lowturn",
+      "market": "hkconnect",
+      "path": "path5",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "回踩定义重写预期让弱路径 2026 转正且不扩大回撤。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.10402577,
+          0.10259267,
+          0.08809968,
+          0.13544207,
+          -0.19734526
+        ],
+        "sharpe": [
+          0.70152554,
+          0.6606111,
+          0.56308268,
+          0.70358541,
+          -0.68249075
+        ],
+        "max_drawdown": [
+          -0.2376032,
+          -0.18518092,
+          -0.15336395,
+          -0.15477485,
+          -0.16403262
+        ],
+        "turnover": [
+          2.73268466,
+          2.58398983,
+          2.8237511,
+          3.39701262,
+          3.12669246
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.04691516,
+          0.04188943,
+          0.04162098,
+          0.05628911,
+          -0.09050016
+        ],
+        "sharpe": [
+          0.75076367,
+          0.62119538,
+          0.59710852,
+          0.6486071,
+          -0.94328696
+        ],
+        "max_drawdown": [
+          -0.07999377,
+          -0.07931826,
+          -0.07931826,
+          -0.08022193,
+          -0.07040354
+        ],
+        "turnover": [
+          0.9378816,
+          0.87787243,
+          1.00951883,
+          1.28682853,
+          1.05652792
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.05711061,
+          0.06070324,
+          0.0464787,
+          0.07915296,
+          -0.1068451
+        ],
+        "sharpe": [
+          -0.04923813,
+          0.03941572,
+          -0.03402584,
+          0.05497831,
+          0.26079621
+        ],
+        "max_drawdown": [
+          -0.15760943,
+          -0.10586266,
+          -0.07404569,
+          -0.07455292,
+          -0.09362908
+        ],
+        "turnover": [
+          1.79480306,
+          1.7061174,
+          1.81423227,
+          2.11018409,
+          2.07016454
+        ]
+      },
+      "stability_breaks": [
+        "since_2020_01: MaxDD -0.1059",
+        "since_2023_01: MaxDD -0.0740"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "hkconnect_path6_large_liquid_core_monthly_ytd_guard",
+      "market": "hkconnect",
+      "path": "path6",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "大市值高流动核心预期保持全窗正收益并降低换手。",
+      "actual_supports_hypothesis": true,
+      "current_winner_or_robust_id": "hkconnect_path6_lowvol_liquid_biweekly_smoke",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.13640557,
+          0.1544714,
+          0.23551754,
+          0.24467443,
+          0.03199725
+        ],
+        "sharpe": [
+          0.98074717,
+          1.13379717,
+          1.58403959,
+          1.4397161,
+          0.23710303
+        ],
+        "max_drawdown": [
+          -0.18028339,
+          -0.14429153,
+          -0.11348831,
+          -0.11265154,
+          -0.11447716
+        ],
+        "turnover": [
+          1.23092323,
+          1.23398304,
+          1.12897086,
+          1.41859617,
+          1.83681525
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.14058073,
+          0.14291418,
+          0.22005384,
+          0.25105485,
+          0.114784
+        ],
+        "sharpe": [
+          0.88710931,
+          0.86494176,
+          1.23010688,
+          1.4879555,
+          0.72112477
+        ],
+        "max_drawdown": [
+          -0.20676547,
+          -0.15895296,
+          -0.10474234,
+          -0.10093746,
+          -0.10607942
+        ],
+        "turnover": [
+          2.08959813,
+          2.03546266,
+          1.78697598,
+          2.03485822,
+          3.30153047
+        ]
+      },
+      "delta": {
+        "cagr": [
+          -0.00417516,
+          0.01155722,
+          0.0154637,
+          -0.00638042,
+          -0.08278675
+        ],
+        "sharpe": [
+          0.09363786,
+          0.26885541,
+          0.35393271,
+          -0.0482394,
+          -0.48402174
+        ],
+        "max_drawdown": [
+          0.02648208,
+          0.01466143,
+          -0.00874597,
+          -0.01171408,
+          -0.00839774
+        ],
+        "turnover": [
+          -0.8586749,
+          -0.80147962,
+          -0.65800512,
+          -0.61626205,
+          -1.46471522
+        ]
+      },
+      "stability_breaks": [],
+      "decision": "keep_watch",
+      "decision_rationale": "未命中强制护栏但尚未跨窗击败 robust，保留观察。"
+    },
+    {
+      "candidate_id": "hkconnect_path6_large_liquid_core_monthly_lowturn_v4",
+      "market": "hkconnect",
+      "path": "path6",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "大市值高流动核心预期保持全窗正收益并降低换手。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "hkconnect_path6_lowvol_liquid_biweekly_smoke",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.12265592,
+          0.1360785,
+          0.19005089,
+          0.25903817,
+          -0.02114468
+        ],
+        "sharpe": [
+          0.90862902,
+          1.00537108,
+          1.32514149,
+          1.49073793,
+          0.00634594
+        ],
+        "max_drawdown": [
+          -0.18470206,
+          -0.15002914,
+          -0.10830971,
+          -0.10869011,
+          -0.11492894
+        ],
+        "turnover": [
+          1.18015726,
+          1.23279759,
+          1.10858292,
+          1.53052327,
+          1.94527342
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.14058073,
+          0.14291418,
+          0.22005384,
+          0.25105485,
+          0.114784
+        ],
+        "sharpe": [
+          0.88710931,
+          0.86494176,
+          1.23010688,
+          1.4879555,
+          0.72112477
+        ],
+        "max_drawdown": [
+          -0.20676547,
+          -0.15895296,
+          -0.10474234,
+          -0.10093746,
+          -0.10607942
+        ],
+        "turnover": [
+          2.08959813,
+          2.03546266,
+          1.78697598,
+          2.03485822,
+          3.30153047
+        ]
+      },
+      "delta": {
+        "cagr": [
+          -0.01792481,
+          -0.00683568,
+          -0.03000295,
+          0.00798332,
+          -0.13592868
+        ],
+        "sharpe": [
+          0.02151971,
+          0.14042932,
+          0.09503461,
+          0.00278243,
+          -0.71477883
+        ],
+        "max_drawdown": [
+          0.02206341,
+          0.00892382,
+          -0.00356737,
+          -0.00775265,
+          -0.00884952
+        ],
+        "turnover": [
+          -0.90944087,
+          -0.80266507,
+          -0.67839306,
+          -0.50433495,
+          -1.35625705
+        ]
+      },
+      "stability_breaks": [
+        "since_2023_01: CAGR -0.0300"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "hkconnect_path6_large_liquid_core_biweekly_quality_liquidity_lowturn_v11",
+      "market": "hkconnect",
+      "path": "path6",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "大市值高流动核心预期保持全窗正收益并降低换手。",
+      "actual_supports_hypothesis": false,
+      "current_winner_or_robust_id": "hkconnect_path6_lowvol_liquid_biweekly_smoke",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.13088126,
+          0.1240136,
+          0.1811918,
+          0.28202658,
+          0.01645958
+        ],
+        "sharpe": [
+          0.84949873,
+          0.78855702,
+          1.02515524,
+          1.6338879,
+          0.17817975
+        ],
+        "max_drawdown": [
+          -0.22525265,
+          -0.1597154,
+          -0.12346535,
+          -0.10387754,
+          -0.10678484
+        ],
+        "turnover": [
+          2.1162619,
+          2.05928689,
+          1.82538042,
+          1.98425802,
+          2.97218369
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.14058073,
+          0.14291418,
+          0.22005384,
+          0.25105485,
+          0.114784
+        ],
+        "sharpe": [
+          0.88710931,
+          0.86494176,
+          1.23010688,
+          1.4879555,
+          0.72112477
+        ],
+        "max_drawdown": [
+          -0.20676547,
+          -0.15895296,
+          -0.10474234,
+          -0.10093746,
+          -0.10607942
+        ],
+        "turnover": [
+          2.08959813,
+          2.03546266,
+          1.78697598,
+          2.03485822,
+          3.30153047
+        ]
+      },
+      "delta": {
+        "cagr": [
+          -0.00969947,
+          -0.01890058,
+          -0.03886204,
+          0.03097173,
+          -0.09832442
+        ],
+        "sharpe": [
+          -0.03761058,
+          -0.07638474,
+          -0.20495164,
+          0.1459324,
+          -0.54294502
+        ],
+        "max_drawdown": [
+          -0.01848718,
+          -0.00076244,
+          -0.01872301,
+          -0.00294008,
+          -0.00070542
+        ],
+        "turnover": [
+          0.02666377,
+          0.02382423,
+          0.03840444,
+          -0.0506002,
+          -0.32934678
+        ]
+      },
+      "stability_breaks": [
+        "since_2023_01: CAGR -0.0389"
+      ],
+      "decision": "reject",
+      "decision_rationale": "命中中窗稳定性护栏，或换手/回撤代价不可接受。"
+    },
+    {
+      "candidate_id": "hkconnect_path7_barbell_quality_growth_biweekly_core_defensive_lowturn_v10",
+      "market": "hkconnect",
+      "path": "path7",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "杠铃 sleeve 调整预期保持全窗正收益并控制换手。",
+      "actual_supports_hypothesis": true,
+      "current_winner_or_robust_id": "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.13718092,
+          0.12317631,
+          0.18239278,
+          0.25482257,
+          0.02499709
+        ],
+        "sharpe": [
+          0.87073387,
+          0.77759476,
+          1.02666856,
+          1.43847225,
+          0.23553295
+        ],
+        "max_drawdown": [
+          -0.21328141,
+          -0.16069167,
+          -0.11038502,
+          -0.09736971,
+          -0.10221712
+        ],
+        "turnover": [
+          5.14849356,
+          4.93746504,
+          4.73884434,
+          5.86146735,
+          5.94009236
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.14434974,
+          0.1301312,
+          0.19770395,
+          0.24726811,
+          0.08350443
+        ],
+        "sharpe": [
+          0.8650708,
+          0.79321725,
+          1.06050064,
+          1.33998287,
+          0.53746105
+        ],
+        "max_drawdown": [
+          -0.21886216,
+          -0.14271577,
+          -0.11816436,
+          -0.11873827,
+          -0.12030607
+        ],
+        "turnover": [
+          5.19882856,
+          4.99054001,
+          4.60063729,
+          5.19129186,
+          5.86286455
+        ]
+      },
+      "delta": {
+        "cagr": [
+          -0.00716882,
+          -0.00695489,
+          -0.01531117,
+          0.00755446,
+          -0.05850734
+        ],
+        "sharpe": [
+          0.00566307,
+          -0.01562249,
+          -0.03383208,
+          0.09848938,
+          -0.3019281
+        ],
+        "max_drawdown": [
+          0.00558075,
+          -0.0179759,
+          0.00777934,
+          0.02136856,
+          0.01808895
+        ],
+        "turnover": [
+          -0.050335,
+          -0.05307497,
+          0.13820705,
+          0.67017549,
+          0.07722781
+        ]
+      },
+      "stability_breaks": [],
+      "decision": "keep_watch",
+      "decision_rationale": "未命中强制护栏但尚未跨窗击败 robust，保留观察。"
+    },
+    {
+      "candidate_id": "hkconnect_path7_barbell_quality_growth_biweekly_core_growth_dynamic_v6",
+      "market": "hkconnect",
+      "path": "path7",
+      "experiment_type": "confirmation_backtest",
+      "hypothesis": "杠铃 sleeve 调整预期保持全窗正收益并控制换手。",
+      "actual_supports_hypothesis": true,
+      "current_winner_or_robust_id": "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "cagr": [
+          0.15708013,
+          0.14355846,
+          0.18997745,
+          0.21285473,
+          -0.05213891
+        ],
+        "sharpe": [
+          0.92891974,
+          0.84689989,
+          1.03688852,
+          1.07449328,
+          -0.20789353
+        ],
+        "max_drawdown": [
+          -0.1863361,
+          -0.14848043,
+          -0.13200489,
+          -0.13209872,
+          -0.13097452
+        ],
+        "turnover": [
+          8.80826523,
+          8.59957238,
+          8.86184357,
+          11.59755742,
+          10.00346885
+        ]
+      },
+      "current_winner_or_robust_metrics": {
+        "cagr": [
+          0.14434974,
+          0.1301312,
+          0.19770395,
+          0.24726811,
+          0.08350443
+        ],
+        "sharpe": [
+          0.8650708,
+          0.79321725,
+          1.06050064,
+          1.33998287,
+          0.53746105
+        ],
+        "max_drawdown": [
+          -0.21886216,
+          -0.14271577,
+          -0.11816436,
+          -0.11873827,
+          -0.12030607
+        ],
+        "turnover": [
+          5.19882856,
+          4.99054001,
+          4.60063729,
+          5.19129186,
+          5.86286455
+        ]
+      },
+      "delta": {
+        "cagr": [
+          0.01273039,
+          0.01342726,
+          -0.0077265,
+          -0.03441338,
+          -0.13564334
+        ],
+        "sharpe": [
+          0.06384894,
+          0.05368264,
+          -0.02361212,
+          -0.26548959,
+          -0.74535458
+        ],
+        "max_drawdown": [
+          0.03252606,
+          -0.00576466,
+          -0.01384053,
+          -0.01336045,
+          -0.01066845
+        ],
+        "turnover": [
+          3.60943667,
+          3.60903237,
+          4.26120628,
+          6.40626556,
+          4.1406043
+        ]
+      },
+      "stability_breaks": [],
+      "decision": "keep_watch",
+      "decision_rationale": "未命中强制护栏但尚未跨窗击败 robust，保留观察。"
+    }
+  ],
+  "event_scorecards": [
+    {
+      "candidate_id": "ai_power_liquid_cooling_20260528_v0",
+      "market": "a_share",
+      "path": "path5",
+      "experiment_type": "event_basket_confirmation",
+      "audit_status": "approved + source_audited + frozen",
+      "horizons": [
+        20,
+        40,
+        60
+      ],
+      "candidate_metrics": {
+        "equal_weight_return": {
+          "20": -0.04689275,
+          "40": null,
+          "60": null
+        },
+        "seed_weight_return": {
+          "20": -0.0311251,
+          "40": null,
+          "60": null
+        }
+      },
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+      "current_winner_or_robust_metrics": {
+        "path4_overlap_count": 0,
+        "path4_overlap_ratio": 0.0
+      },
+      "delta": {
+        "return_vs_zero": {
+          "20": -0.04689275,
+          "40": null,
+          "60": null
+        }
+      },
+      "decision": "keep_watch",
+      "decision_rationale": "20D 为负，40D/60D 仍只有 39 个交易日；等待自然成熟，不晋级。"
+    }
+  ],
+  "notes": [
+    "二次判断使用同步前锁定的 current winner/robust comparator。",
+    "同步后仅 HK Path2 artifact 排序变化：v25_breakout_repair 成为 since_2017_01 window winner、v27_cost_guard 成为 since_2023_01 window winner；Path2 robust 仍为 theme_fast_monthly，v25 仍 reject、v27 仍 keep_watch。",
+    "Path6/HK Path8 属于运行前用户改动，本轮不纳入候选或提交。"
+  ]
+}

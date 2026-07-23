@@ -1,5 +1,28 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-24 二次迭代记录（07:25 CST）
+
+### 上一轮候选与结果摘要
+
+- 上一轮 v38/v36/wide-cost-guard 均 `keep_watch`；本轮按 `weekly_defensive_overlay/weekly_turnover_reduction` 五窗口确认 v12/v14 与 theme-fast cost-guard，并与 `hkconnect_path3_equal_elastic_weekly` 同窗比较。
+- v12/v14 的 2020/2023 CAGR 退化超过护栏，均 `reject`；theme-fast cost-guard 的 2020/2023 CAGR 为 `24.90%/26.46%`，但 2026 CAGR `-16.27%`、换手约 `24x-29x`，仅 `keep_watch`。正式 winner/robust/tracked 未改写，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover0_exit44_v12_turnover_reduction`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff30_turnover0_exit48_v14_turnover_reduction`、`hkconnect_path3_theme_fast_weekly_cost_guard_turnover12_exit48`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover0_exit44_v12_turnover_reduction,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff30_turnover0_exit48_v14_turnover_reduction,hkconnect_path3_theme_fast_weekly_cost_guard_turnover12_exit48`。
+
+### 下一轮 focus 提示
+
+- `weekly_defensive_overlay` 下一轮把 theme-fast cost-guard 与 current robust 同窗复核，要求 2026 转正且换手显著下降；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_cost_guard_turnover12_exit48,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- `weekly_defensive_overlay`：theme-fast cost-guard、`equal_elastic_weekly`。
+- `weekly_turnover_reduction`：v12 turnover-reduction、v14 turnover-reduction。
+- `cost_stress`：wide-cost-guard、theme-fast cost-guard。
+- `return_recovery`：v38 lowvol-buffered、v36 equal-buffered。
+
 ## 2026-07-24 收尾记录
 
 ### 上一轮候选与结果摘要
