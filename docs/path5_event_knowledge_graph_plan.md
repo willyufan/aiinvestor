@@ -1,5 +1,26 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-24 收尾记录
+
+### 上一轮候选与结果摘要
+
+- 已审计冻结篮子 `ai_power_liquid_cooling_20260528_v0` 完成 5/10/20 与 20/40/60 两组入口。5D/10D/20D 等权收益 `-7.60%/-16.04%/-4.69%`，与 Path4 `capacity_v2` overlap `0/6`；短窗判 `reject`。
+- 成熟窗目前只有 20D 有效，40D/60D 仅有 39 个交易日，判 `keep_watch` 等待自然成熟，不写入 Path1-4 winner/robust/tracked；pending audit 仍为 0。
+
+### 本轮候选 ID 与命令
+
+- 短窗命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_power_liquid_cooling_20260528_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_power_liquid_cooling_20260528_v0_path4_capacity_v2_20260724_short.json`。
+- 成熟窗使用同一入口和 `--horizons 20,40,60`，输出 `results/research/a_share/event_theme_backtest_entry_ai_power_liquid_cooling_20260528_v0_path4_capacity_v2_20260724_mature.json`。
+
+### 下一轮 focus 提示
+
+- 继续 `path4_comparison`，优先成熟审计篮子，不刷新已 reject 的短窗同形；首条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_power_liquid_cooling_20260528_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_power_liquid_cooling_20260528_v0_path4_capacity_v2_next_mature.json`。
+
+### Focus 候选池
+
+- `path4_comparison`：`ai_power_liquid_cooling_20260528_v0`、`high_speed_pcb_copper_clad_server_20260624_v0`。
+- `event_basket_maturation`：上述两篮子的 `20/40/60` 成熟窗；均保持 `approved + source_audited + frozen` 后才实跑。
+
 ## 2026-07-23 收尾记录
 
 ### 上一轮候选与结果摘要

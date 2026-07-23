@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-24 收尾记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 v38、v36 与 wide-cost-guard。三条 2020/2023 CAGR 约 `21.28%-22.17%/23.00%-28.60%`，但 2026 CAGR `-10.23%/-14.92%/-14.67%`，换手最高约 `10.4x`，全部 `keep_watch`。
+- 当前 robust/tracked 未因高换手弱短窗候选而改写；若 artifact 在弱子集中给出相对观察位，也不得视为 promote。
+
+### 本轮候选 ID 与命令
+
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_stable_weekly_equal_buffered_v36_return_recovery,hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction` 先确认低换手 v12/v14，观察 2026 能否转正；首条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover0_exit44_v12_turnover_reduction,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff30_turnover0_exit48_v14_turnover_reduction`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v12 turnover-reduction、v14 turnover-reduction。
+- `return_recovery`：v38 lowvol-buffered、v36 equal-buffered。
+
 ## 2026-07-23 收尾记录
 
 ### 上一轮候选与结果摘要

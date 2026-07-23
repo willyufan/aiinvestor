@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-07-24 收尾记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认纯周频 v3、`turnover_repair_weekly` 与 v7。v3 的 2026 CAGR `-2.26%`，判 `keep_watch`；turnover-repair 的 2023/2026 CAGR `8.86%/41.18%`、换手 `0.47x/2.71x`，artifact 保留为 `robust_observation`，进入观察位，不是强稳定 winner。
+- v7 五窗口 CAGR 全正，2026 CAGR `61.21%`，但尚未通过正式相邻晋级且不在当前 active 选择位，判 `keep_watch`；没有 window winner/tracked 改写或 active evict。
+
+### 本轮候选 ID 与命令
+
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly`。
+
+### 下一轮 focus 提示
+
+- 最终 focus 为 `weekly_exit_buffer`，只接受保持 2020/2023 稳定且 2026 非负的纯周频候选；首条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly`。
+
+### Focus 候选池
+
+- `weekly_exit_buffer`：`...weekly_exit_buffer_v3_weekly`、`...weekly_return_recovery_v7_weekly`。
+- `turnover_reduction`：`...turnover_repair_weekly`、`...weekly_return_recovery_v7_weekly`。
+
 ## 2026-07-23 收尾记录
 
 ### 上一轮候选与结果摘要

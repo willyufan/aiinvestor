@@ -1,5 +1,26 @@
 # Path 2 研究计划
 
+## 2026-07-24 收尾记录
+
+### 上一轮候选与结果摘要
+
+- `capacity_and_cost_stress` 五窗口确认 v43/v44/v46。三者 2023 CAGR 分别 `-0.62%/-0.22%/9.94%`，2026 CAGR `-34.66%/-25.79%/-19.24%`，且换手约 `8.4x-8.9x`；相对 robust `...aggr_10_90_prom6` 明显破坏 2023/2026 稳定性，全部 `reject`。
+- Path2 winner/robust/tracked 未变，Path4 emergent-theme 未混入本路径，也未产生 active evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`...v43_underrep_quality`、`...v44_underrep_repair`、`...v46_capacity_cost`（完整 ID 见 scorecard）。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality,core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair,core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top8_risk22_exit42_cap16_cost_guard_v46_capacity_cost`。
+
+### 下一轮 focus 提示
+
+- 停止 v43/v44/v46 同形扩参，回到已注册的 `capacity_and_cost_stress` 对照，先确认是否仍应归档；首条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk22_mom_exit44_reconfirm99_caution54_cap16_cost_guard_v74_capacity_cost_stress,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk22_mom_exit44_reconfirm99_caution54_cap16_cost_guard_v74_capacity_cost_stress`。
+
+### Focus 候选池
+
+- `capacity_and_cost_stress`：v74 total_mv、v74 equal_weight 两个已注册对照；若仍弱则归档，不继续同形扩参。
+- `underrepresented_families`：`...v43_underrep_quality`、`...v44_underrep_repair`（仅作历史对照，不再同形扩参）。
+
 ## 2026-07-23 收尾记录
 
 ### 上一轮候选与结果摘要

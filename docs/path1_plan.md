@@ -1,5 +1,27 @@
 # Path 1 研究计划
 
+## 2026-07-24 收尾记录
+
+### 上一轮候选与结果摘要
+
+- 主线围绕 `holding_shape` 五窗口确认 `share20/share22/share24`。相对 robust `...risk20_reconfirm`，三者都把 2020 CAGR 降低超过 `6pp`，触发稳定性护栏；`share20/share22` 判 `reject`，`share24` 虽成为 2025-window winner（CAGR `71.66%`、MaxDD `-24.17%`），仍只判 `keep_watch`，不进入正式 promote。
+- core_multifactor 子段本轮仅复核上一轮结果，没有用同步替代实验；日更实跑预算优先给 holding shape、Path2/3/4/5 与 HK。下一轮先确认 `quality_growth_signal_reconfirm`，当前 Path1 robust/tracked 仍为 `...risk20_reconfirm`。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_total_mv_winner_core__share_20_80_hold_2_8_ramp62_cost_guard_reconfirm`、`core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp64_cost_guard`、`core_explore_80_20_total_mv_winner_core__share_24_76_hold_2_8_ramp62_cost_guard`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_20_80_hold_2_8_ramp62_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp64_cost_guard,core_explore_80_20_total_mv_winner_core__share_24_76_hold_2_8_ramp62_cost_guard`。
+
+### 下一轮 focus 提示
+
+- 最终 focus 为 `core_multifactor_coverage`；首条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_growth_signal_reconfirm,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_cost_guard_reconfirm`。
+- holding-shape 暂停新增；`share24` 只有修复 2020 CAGR 缺口后才可重新申请晋级。
+
+### Focus 候选池
+
+- `holding_shape`：`...share_24_76_hold_2_8_ramp62_cost_guard`、`...share_22_78_hold_2_8_ramp64_cost_guard`。
+- `core_multifactor_coverage`：`...core_multifactor_quality_growth_signal_reconfirm`、`...core_multifactor_quality_profitability_value_lowvol_trend_cost_guard_reconfirm`。
+
 ## 2026-07-23 收尾记录
 
 ### 上一轮候选与结果摘要

@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-23T17:16:25.424254+00:00",
+  "basket_id": "ai_power_liquid_cooling_20260528_v0",
+  "alpha_pool_profile": "event_kg_basket",
+  "pool_id": "path5_event_kg_basket",
+  "pool_name": "Path5 事件知识图谱冻结篮子",
+  "theme_name": "AI 电力与液冷基础设施",
+  "event_date": "2026-05-28",
+  "sample_tags": [
+    "since_2025_01",
+    "since_2026_01"
+  ],
+  "candidate_count": 6,
+  "horizons_trading_days": [
+    20,
+    40,
+    60
+  ],
+  "portfolio_returns": {
+    "20": {
+      "equal_weight": {
+        "status": "ok",
+        "eligible_count": 5,
+        "return": -0.04689274947934124,
+        "weights": {
+          "002837.SZ": 0.2,
+          "002335.SZ": 0.2,
+          "002518.SZ": 0.2,
+          "300442.SZ": 0.2,
+          "300274.SZ": 0.2
+        }
+      },
+      "seed_weight": {
+        "status": "ok",
+        "eligible_count": 5,
+        "return": -0.031125101416172255,
+        "weights": {
+          "002837.SZ": 0.24242424242424243,
+          "002335.SZ": 0.21212121212121213,
+          "002518.SZ": 0.21212121212121213,
+          "300442.SZ": 0.1818181818181818,
+          "300274.SZ": 0.15151515151515152
+        }
+      }
+    },
+    "40": {
+      "equal_weight": {
+        "status": "insufficient_data",
+        "eligible_count": 0
+      },
+      "seed_weight": {
+        "status": "insufficient_data",
+        "eligible_count": 0
+      }
+    },
+    "60": {
+      "equal_weight": {
+        "status": "insufficient_data",
+        "eligible_count": 0
+      },
+      "seed_weight": {
+        "status": "insufficient_data",
+        "eligible_count": 0
+      }
+    }
+  },
+  "candidate_returns": [
+    {
+      "ts_code": "002837.SZ",
+      "name": "英维克",
+      "role": "数据中心温控/液冷候选",
+      "weight_seed": 0.16,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-21/1225131813.PDF",
+      "status": "ok",
+      "returns": {
+        "20": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-26",
+          "return": 0.10275215439895824
+        },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 39
+        },
+        "60": {
+          "status": "insufficient_data",
+          "available_trading_days": 39
+        }
+      }
+    },
+    {
+      "ts_code": "002335.SZ",
+      "name": "科华数据",
+      "role": "数据中心电源/UPS候选",
+      "weight_seed": 0.14,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-27/1225194937.PDF",
+      "status": "ok",
+      "returns": {
+        "20": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-26",
+          "return": 0.05412832487196484
+        },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 39
+        },
+        "60": {
+          "status": "insufficient_data",
+          "available_trading_days": 39
+        }
+      }
+    },
+    {
+      "ts_code": "002518.SZ",
+      "name": "科士达",
+      "role": "数据中心电源/储能供电候选",
+      "weight_seed": 0.14,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-27/1225189515.PDF",
+      "status": "ok",
+      "returns": {
+        "20": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-26",
+          "return": -0.08535489667565144
+        },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 39
+        },
+        "60": {
+          "status": "insufficient_data",
+          "available_trading_days": 39
+        }
+      }
+    },
+    {
+      "ts_code": "300442.SZ",
+      "name": "润泽科技",
+      "role": "数据中心基础设施候选",
+      "weight_seed": 0.12,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-10/1225090821.PDF",
+      "status": "ok",
+      "returns": {
+        "20": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-26",
+          "return": -0.10061292933965527
+        },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 39
+        },
+        "60": {
+          "status": "insufficient_data",
+          "available_trading_days": 39
+        }
+      }
+    },
+    {
+      "ts_code": "300274.SZ",
+      "name": "阳光电源",
+      "role": "电力电子/储能供电候选",
+      "weight_seed": 0.1,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-01/1225066678.PDF",
+      "status": "ok",
+      "returns": {
+        "20": {
+          "status": "ok",
+          "start_date": "2026-05-28",
+          "end_date": "2026-06-26",
+          "return": -0.20537640065232254
+        },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 39
+        },
+        "60": {
+          "status": "insufficient_data",
+          "available_trading_days": 39
+        }
+      }
+    },
+    {
+      "ts_code": "603063.SH",
+      "name": "禾望电气",
+      "role": "电力电子/供电设备候选",
+      "weight_seed": 0.1,
+      "status": "no_price_after_event",
+      "returns": {}
+    }
+  ],
+  "path4_reference_overlap": {
+    "status": "ok",
+    "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+    "sample_tag": "since_2026_01",
+    "event_date": "2026-05-28",
+    "reference_as_of": "2026-04-30",
+    "candidate_count": 6,
+    "path4_holding_count": 13,
+    "overlap_count": 0,
+    "overlap_ratio_of_basket": 0.0,
+    "overlap_ratio_of_path4": 0.0,
+    "path4_overlap_weight": 0,
+    "seed_overlap_weight": 0.0,
+    "overlap_holdings": []
+  },
+  "notes": "Entry probe only; computes post-event basket returns from audited frozen candidates and does not update official winners."
+}

@@ -2,6 +2,8 @@
 
 一个基于 Tushare Pro 的 A 股与沪港通组合回测、策略迭代项目。
 
+> 2026-07-24 研究校准：A股 `share24` 仅成为 2025-window artifact winner；因 2020 CAGR 相对 Path1 robust 下降超过 6pp，判定仍为 `keep_watch`，不是正式 promote。HK Path4 v47 与 Path5 v35 为 `robust_observation`，进入观察位，不是强稳定 winner。
+
 项目当前重点是构建并持续迭代一个月度调仓的 A 股选股框架，核心关注点包括：
 
 - 使用动态股票池，而不是纯后视镜的静态冠军池
