@@ -1,5 +1,27 @@
 # Path 2 研究计划
 
+## 2026-07-25 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 v66/v67/v68/v69 四条中周期 growth-elastic 参数。v66 的 2023 CAGR 比 robust 低 `14.68pp`，v67-v69 低约 `22.17pp-22.28pp`；四条 2026 CAGR 均为 `-19.76%` 至 `-23.09%`，换手最高约 `9.62x`。中周期收益修复假设未成立，四条均 `reject`；Path2 window winner/robust/tracked 未改变，未混入 Path4，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`...v66_risk_reconfirm_sensitivity`、`...v67_medium_cycle_growth_repair`、`...v68_medium_cycle_growth_repair`、`...v69_medium_cycle_growth_repair`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm99_caution54_cap14_cost_guard_v66_risk_reconfirm_sensitivity,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm96_caution56_cap18_cost_guard_v67_medium_cycle_growth_repair,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm94_caution58_cap16_cost_guard_v68_medium_cycle_growth_repair,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top11_risk28_mom_exit48_reconfirm94_caution60_cap18_cost_guard_v69_medium_cycle_growth_repair`；v68 另补齐到 `2026-07-24`。
+
+- stale 修复：对上述全部候选把同一 `--only-base-ids` 命令的 `--end-date` 改为 `2026-07-24` 后完成五窗增量复跑；最终 scorecard、strategy JSON 与 live valuation 均采用该终点。
+
+### 下一轮 focus 提示
+
+- 最终 guard 为 `risk_reconfirm_sensitivity`：停止 v66-v69 同形扩参，用 v66 与 incumbent 做风险边界复核；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm99_caution54_cap14_cost_guard_v66_risk_reconfirm_sensitivity,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`。
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v67、v68（失败边界）；`risk_reconfirm_sensitivity`：v66、v69。
+- `capacity_and_cost_stress`：v74 total-mv、v74 equal-weight；`underrepresented_families`：v43 underrep-quality、v44 underrep-repair。
+
 ## 2026-07-24 二次迭代记录（07:25 CST）
 
 ### 上一轮候选与结果摘要

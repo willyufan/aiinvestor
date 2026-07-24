@@ -1,5 +1,27 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-25 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 theme-fast cost-guard、stable wide-cost-guard 与 incumbent equal-elastic-weekly。前两条 2020/2023 CAGR 分别为 `24.82%/26.29%`、`22.12%/23.28%`，但 2026 CAGR `-16.95%/-14.99%`，换手分别约 `29.37x/10.40x`，均 `keep_watch`；equal-elastic 五窗 incumbent 确认 `promote`。
+- winner/robust/tracked 未改变，无 evict；高换手短窗改善未被写成稳定晋级。
+
+### 本轮候选 ID 与命令
+
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_cost_guard_turnover12_exit48,hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard,hkconnect_path3_equal_elastic_weekly`。
+
+- stale 修复：对上述全部候选把同一 `--only-strategy-ids` 命令的 `--end-date` 改为 `2026-07-24` 后完成五窗增量复跑；最终 scorecard 与 strategy JSON 均采用该终点。
+
+### 下一轮 focus 提示
+
+- `cost_stress`：只复核 wide-cost-guard 与 incumbent，要求 2026 转正且成本可接受；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- `cost_stress`：wide-cost-guard、theme-fast cost-guard；`weekly_turnover_reduction`：wide-cost-guard、v14 turnover-reduction。
+- `weekly_defensive_overlay`：theme-fast cost-guard、equal-elastic-weekly；`return_recovery`：v38 lowvol-buffered、v36 equal-buffered。
+
 ## 2026-07-24 二次迭代记录（07:25 CST）
 
 ### 上一轮候选与结果摘要

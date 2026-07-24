@@ -1,5 +1,29 @@
 # Path 1 研究计划
 
+## 2026-07-25 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 主线：本轮没有新增主线参数，按统一 scorecard 继续以 `...sat_three_stage_buffered_cost_guard_risk20_reconfirm` 为 current robust；主线 window winner、robust 与 tracked 均未改变，无 evict。
+- core_multifactor：五窗口确认 `...quality_growth_signal_reconfirm` 与 `...quality_profitability_signal_cost_guard_reconfirm`。两者 2020 CAGR 为 `-2.47%/-3.47%`，相对 robust 下降 `28.47pp/29.47pp`；第一条 2026 CAGR `-6.44%`，第二条虽为 `2.03%`，仍破坏 2020/2023 稳定性。实验假设不成立，均 `reject`。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_growth_signal_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cost_guard_reconfirm`。
+- 主确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_growth_signal_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cost_guard_reconfirm`；为统一 `2026-07-24` 终点，对第二条执行了同参数增量补齐。
+
+- stale 修复：对上述全部候选把同一 `--only-base-ids` 命令的 `--end-date` 改为 `2026-07-24` 后完成五窗增量复跑；最终 scorecard、strategy JSON 与 live valuation 均采用该终点。
+
+### 下一轮 focus 提示
+
+- 最终 guard 为 `satellite_risk_cost`：用风险上沿与 incumbent 做边界复核；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+
+### Focus 候选池
+
+- `signal_quality`：`...core_multifactor_quality_profitability_signal_cost_guard_reconfirm`、`...core_multifactor_quality_growth_signal_reconfirm`；`core_multifactor_coverage`：同两条作为失败边界。
+- `satellite_risk_cost`：`...sat_three_stage_buffered_cost_guard_risk20_reconfirm`、`...risk25_reconfirm`；`holding_shape`：`...share_24_76_hold_2_8_ramp62_cost_guard`、`...share_22_78_hold_2_8_ramp64_cost_guard`。
+- `weekly_exposure_path`：`...__port_weekly_exposure_buffered`、`...__port_weekly_exposure_buffered_asym13`。
+
 ## 2026-07-24 二次迭代记录（07:25 CST）
 
 ### 上一轮候选与结果摘要

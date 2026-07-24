@@ -1,5 +1,26 @@
 # Path 3 研究计划
 
+## 2026-07-25 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认纯周频 `risk_downshift_weekly` 与 `weekly_exit_buffer_v3_weekly`。前者 2020/2023 CAGR 相对 robust 低 `5.88pp/7.11pp`；后者虽被 artifact 推为 `since_2017_01` 窗口赢家，但 2023 CAGR 低 `4.89pp`、2026 CAGR `-5.23%`，命中稳定性护栏。两条均 `reject`；2017 window winner 发生机械更新，但 robust/tracked candidate 仍为 `...turnover_repair_weekly`，不构成强稳定晋级，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`。
+
+- stale 修复：对上述全部候选把同一 `--only-base-ids` 命令的 `--end-date` 改为 `2026-07-24` 后完成五窗增量复跑；最终 scorecard、strategy JSON 与 live valuation 均采用该终点。
+
+### 下一轮 focus 提示
+
+- 最终 guard 为 `cost_stress`：优先确认低换手成本压力线与 incumbent robust，不继续扩展 v3 同形；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly_cost_stress_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`。
+
+### Focus 候选池
+
+- `risk_downshift`：`...turnover_repair_weekly`、`...risk_downshift_weekly`；`exit_buffer`：`...weekly_exit_buffer_v3_weekly`、`...turnover_repair_weekly`。
+- `turnover_reduction`：`...cap42_hold9_turn02_exit97_risk06_weekly`、`...cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`；`return_recovery`：`...cash_off_and_cap60_hold3_turn05_exit94_weekly`、`...weekly_exit_buffer_v3_weekly`。
+
 ## 2026-07-24 二次迭代记录（07:25 CST）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,28 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-25 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 复跑已 `source_audited` 且冻结的 `ai_glasses_edge_terminal_20260424_v0`，horizon 为 `20/40/60` 日；equal-weight 收益为 `21.80%/26.82%/0.11%`，seed-weight 为 `21.99%/26.93%/0.38%`。20/40 日假设获支持，但 60 日收益几乎归零，判 `keep_watch`。
+- 与 Path4 `capacity_v2` 当前持仓重叠为 `0/6`；这是一条独立事件观察线，不与 Path1-4 混算 winner，不改写 tracked，无 evict。事件入口不伪造 CAGR/Sharpe/MaxDD/turnover。
+
+### 本轮候选 ID 与命令
+
+- candidate/basket：`ai_glasses_edge_terminal_20260424_v0__mature_20_40_60`；输出：`results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_20260725_mature.json`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_20260725_mature.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 为 `frozen_candidate_audit`：先确认 `ai_power_liquid_cooling_20260528_v0` 的冻结与来源审计口径，再做成熟 horizon 复核；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_power_liquid_cooling_20260528_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_power_liquid_cooling_20260528_v0_path4_capacity_v2_next_mature.json`。
+
+### Focus 候选池
+
+- `event_basket_registry`：`ai_power_liquid_cooling_20260528_v0`、`mrc_uec_ai_network_20260506_v0`。
+- `frozen_candidate_audit`：`ai_power_liquid_cooling_20260528_v0`、`mrc_uec_ai_network_20260506_v0`。
+- `source_audit`：`ai_glasses_edge_terminal_20260424_v0`、`high_speed_pcb_copper_clad_server_20260624_v0`；`horizon_validation`：AI glasses `20/40/60`、AI power cooling `20/40/60`。
+- `path4_overlap`：AI glasses vs `capacity_v2`、AI power cooling vs `capacity_v2`。
+
 ## 2026-07-24 二次迭代记录（07:25 CST）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,28 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-25 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 monthly quality-liquidity v27、biweekly breakout v25 与 incumbent theme-fast-monthly。v27 的 2020/2023 CAGR 比 incumbent高 `4.69pp/7.53pp`，但 2026 CAGR `-11.97%`，判 `keep_watch`；v25 的 2023 CAGR 低 `7.37pp`、2026 `-13.97%` 且换手 `16.76x`，判 `reject`；theme-fast 五窗 incumbent 确认 `promote`。
+- winner/robust/tracked 未改变，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard,hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair,hkconnect_path2_theme_fast_monthly`。
+
+- stale 修复：对上述全部候选把同一 `--only-strategy-ids` 命令的 `--end-date` 改为 `2026-07-24` 后完成五窗增量复跑；最终 scorecard 与 strategy JSON 均采用该终点。
+
+### 下一轮 focus 提示
+
+- 最终 guard 为 `elasticity_cost_control`：先比较防守弹性月频线与 incumbent 的成本/2026 风险；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_defensive,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `biweekly_breakout`：v21、v25；`high_return_monthly`：v27 cost-guard、v28 YTD-repair。
+- `elasticity_cost_control`：equal-elastic-monthly-defensive、theme-fast-monthly。
+- `risk_overlay_cost`：v27 cost-guard、theme-fast-monthly；`return_recovery`：v28 YTD-repair、theme-fast-monthly。
+
 ## 2026-07-24 二次迭代记录（07:25 CST）
 
 ### 上一轮候选与结果摘要
