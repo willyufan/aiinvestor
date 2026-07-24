@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-25 二次迭代记录（07:25 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `weekly_turnover_reduction` 五窗口确认 wide-cost-guard、theme-fast-cost-guard 与 robust `equal-elastic-weekly`。前两条未触发中窗硬护栏，但 2026 CAGR 为 `-14.99%/-16.95%`，且换手约 `10.40x/29.37x`，均 `keep_watch`；equal-elastic 五窗确认 `promote`。
+- wide-cost-guard 成为 2017-window artifact winner，但负 2026 不构成强稳定晋级；robust/tracked 未改变，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard,hkconnect_path3_theme_fast_weekly_cost_guard_turnover12_exit48,hkconnect_path3_equal_elastic_weekly`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260725_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 下一轮用低波 return-recovery v38 与 incumbent 检查 2026 修复，停止继续提高 theme-fast 换手；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v38 lowvol-buffered、wide-cost-guard；`cost_stress`：wide-cost-guard、theme-fast-cost-guard。
+- `weekly_defensive_overlay`：v38、equal-elastic-weekly；`return_recovery`：v38、v36 equal-buffered。
+
 ## 2026-07-25 迭代记录
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,24 @@
 # Path 2 研究计划
 
+## 2026-07-25 二次迭代记录（07:25 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `risk_reconfirm_sensitivity` 五窗口确认 v66、v69 与 current robust `aggr_10_90_prom6`。v66/v69 的 2023 CAGR 相对 robust 下降 `14.68pp/22.24pp`，Sharpe 下降 `0.41/0.74`，且 2026 CAGR 为 `-19.76%/-22.70%`，均 `reject`；incumbent 五窗确认 `promote`。Path4 候选未混入本路径，winner/robust/tracked 未改变，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm99_caution54_cap14_cost_guard_v66_risk_reconfirm_sensitivity,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top11_risk28_mom_exit48_reconfirm94_caution60_cap18_cost_guard_v69_medium_cycle_growth_repair,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260725_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮换到 `underrepresented_families`；v66-v69 同形连续失败后停止扩参，下一轮回到等权弹性质量/容量修复线。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality,core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair`。
+
+### Focus 候选池
+
+- `risk_reconfirm_sensitivity`：v74 capacity-cost、current `aggr_10_90_prom6`；`medium_cycle_growth`：v30、v37（仅作失败边界）。
+- `capacity_and_cost_stress`：v74 total-mv、v74 equal-weight；`underrepresented_families`：v43 underrep-quality、v44 underrep-repair。
+
 ## 2026-07-25 迭代记录
 
 ### 上一轮候选与结果摘要

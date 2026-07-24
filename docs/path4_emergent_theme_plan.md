@@ -1,5 +1,25 @@
 # Path 4 强主题涌现路径
 
+## 2026-07-25 二次迭代记录（07:25 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `theme_signal_quality` 五窗口确认 80/20 total-mv 的 signal-quality-v4、risk-control-v5 与 capacity-v2。前两条未触发 2020/2023 硬护栏，但 2026 CAGR 均为 `-6.94%`，只判 `keep_watch`；capacity-v2 五窗全正，继续 `promote` 为 incumbent robust/window winner。
+- 本轮没有人工主题标签、没有单票幸运晋级；weighted 同步未改写 Path4 robust/tracked，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260725_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 继续 signal-quality，但停止 signal28 同形；下一轮用已注册 signal30 低换手线挑战 capacity-v2。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### Focus 候选池
+
+- `theme_signal_quality`：signal30 lowturn、capacity-v2；`theme_risk_control`：risk-control-v5、capacity-v2。
+- `theme_capacity_cost`：capacity-v2、cap05-exit70-lowturn；`emergent_theme_coverage`：signal-quality-v4、capacity-v2。
+
 ## 2026-07-25 迭代记录
 
 ### 上一轮候选与结果摘要
