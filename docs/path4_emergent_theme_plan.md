@@ -1,5 +1,24 @@
 # Path 4 强主题涌现路径
 
+## 2026-07-26 二次迭代记录（07:19 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `theme_capacity_cost` 五窗口确认 80/20 total-mv 的 `signal30/leader80/risk06/cap05/exit68-lowturn`，并与正式 robust `capacity_v2` 比较。挑战者 2020/2023 MaxDD 分别恶化约 `6.31pp/5.02pp`，2026 CAGR `-12.10%`，触发回撤护栏并判定 `reject`；capacity-v2 五窗口同端点确认 `promote`。实验假设“更高信号/龙头权重兼顾容量”未获支持；无人工主题标签、无单票幸运晋级、window winner/robust/tracked 未改变，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap05_exit68_lowturn`、`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap05_exit68_lowturn,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260726_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 停止 signal30/leader80 同形扩参；下一轮只检查 signal29/cap05/exit70 的更温和容量边界。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### Focus 候选池
+
+- `theme_capacity_cost`：cap05-exit70-lowturn、capacity-v2；`theme_signal_quality`：signal-quality-v4、capacity-v2；`theme_risk_control`：risk-control-v5、capacity-v2；`emergent_theme_coverage`：signal28、capacity-v2。
+
 ## 2026-07-26 迭代记录
 
 ### 上一轮候选与结果摘要

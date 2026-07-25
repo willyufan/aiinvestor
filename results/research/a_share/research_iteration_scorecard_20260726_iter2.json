@@ -1,0 +1,3957 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-25T23:19:23.864602+00:00",
+  "sample_end": "2026-07-24",
+  "windows": [
+    "since_2017_01",
+    "since_2020_01",
+    "since_2023_01",
+    "since_2025_01",
+    "since_2026_01"
+  ],
+  "thresholds": {
+    "middle_window_cagr_decline": -0.03,
+    "middle_window_maxdd_worsening": -0.05,
+    "middle_window_sharpe_decline": -0.3
+  },
+  "security_strategy_count": 24,
+  "event_card_count": 1,
+  "market_counts": {
+    "ashare_security": 9,
+    "hkconnect_security": 15
+  },
+  "decision_counts": {
+    "keep_watch": 5,
+    "promote": 8,
+    "reject": 10,
+    "robust_observation": 2
+  },
+  "scorecards": [
+    {
+      "market": "ashare",
+      "path": "path1",
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cost_guard_reconfirm",
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm",
+      "experiment_hypothesis": "质量、盈利与信号成本守门组合可降低噪声并改善 Path1 多因子稳定性。",
+      "changed_from_comparator": "以 quality/profitability/signal 多因子替代卫星三档 risk20 形态。",
+      "expected_improvement": "改善 2020/2023 Sharpe 与回撤，且不牺牲 CAGR。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.03539302,
+          "Sharpe": 0.28546785,
+          "MaxDD": -0.34157261,
+          "turnover": 2.9523058,
+          "cumulative_trading_cost": 0.0619465
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.03473834,
+          "Sharpe": -0.0853731,
+          "MaxDD": -0.32268313,
+          "turnover": 2.54266808,
+          "cumulative_trading_cost": 0.02170214
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.17686661,
+          "Sharpe": 0.72226896,
+          "MaxDD": -0.25795065,
+          "turnover": 2.78523589,
+          "cumulative_trading_cost": 0.01483071
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.2355616,
+          "Sharpe": 0.85117193,
+          "MaxDD": -0.23614119,
+          "turnover": 5.07407045,
+          "cumulative_trading_cost": 0.01146609
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.02025576,
+          "Sharpe": 0.18950753,
+          "MaxDD": -0.13162042,
+          "turnover": 6.01412505,
+          "cumulative_trading_cost": 0.00405443
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.20030585,
+          "Sharpe": 0.84712053,
+          "MaxDD": -0.28461891,
+          "turnover": 3.08832169,
+          "cumulative_trading_cost": 0.08019611
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.25996434,
+          "Sharpe": 0.90753952,
+          "MaxDD": -0.31936412,
+          "turnover": 3.36038451,
+          "cumulative_trading_cost": 0.05831176
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.21001641,
+          "Sharpe": 0.71039306,
+          "MaxDD": -0.32911872,
+          "turnover": 3.36697535,
+          "cumulative_trading_cost": 0.01721851
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.62195932,
+          "Sharpe": 1.18656446,
+          "MaxDD": -0.31667131,
+          "turnover": 4.78335193,
+          "cumulative_trading_cost": 0.01147002
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.19016087,
+          "Sharpe": 0.58449024,
+          "MaxDD": -0.33359131,
+          "turnover": 6.7299881,
+          "cumulative_trading_cost": 0.00459593
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": -0.16491283,
+          "Sharpe": -0.5616526799999999,
+          "MaxDD": -0.056953699999999996,
+          "turnover": -0.13601588999999992,
+          "cumulative_trading_cost": -0.01824961
+        },
+        "since_2020_01": {
+          "CAGR": -0.29470268,
+          "Sharpe": -0.99291262,
+          "MaxDD": -0.003319010000000011,
+          "turnover": -0.8177164299999999,
+          "cumulative_trading_cost": -0.036609619999999995
+        },
+        "since_2023_01": {
+          "CAGR": -0.03314979999999998,
+          "Sharpe": 0.01187589999999994,
+          "MaxDD": 0.07116806999999997,
+          "turnover": -0.5817394600000001,
+          "cumulative_trading_cost": -0.002387799999999999
+        },
+        "since_2025_01": {
+          "CAGR": -0.38639771999999994,
+          "Sharpe": -0.33539253,
+          "MaxDD": 0.08053011999999998,
+          "turnover": 0.29071851999999954,
+          "cumulative_trading_cost": -3.929999999999212e-06
+        },
+        "since_2026_01": {
+          "CAGR": -0.16990511,
+          "Sharpe": -0.39498271000000007,
+          "MaxDD": 0.20197089,
+          "turnover": -0.7158630500000003,
+          "cumulative_trading_cost": -0.0005414999999999994
+        }
+      },
+      "stability_guard_triggers": [
+        {
+          "window": "since_2020_01",
+          "metric": "CAGR",
+          "delta": -0.29470268,
+          "threshold": -0.03
+        },
+        {
+          "window": "since_2020_01",
+          "metric": "Sharpe",
+          "delta": -0.99291262,
+          "threshold": -0.3
+        },
+        {
+          "window": "since_2023_01",
+          "metric": "CAGR",
+          "delta": -0.03314979999999998,
+          "threshold": -0.03
+        }
+      ],
+      "decision": "reject",
+      "actual_validation": "触发稳定性护栏（since_2020_01 CAGR delta=-0.295、since_2020_01 Sharpe delta=-0.993、since_2023_01 CAGR delta=-0.033），since_2026_01 CAGR=2.03%；判定 reject。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "ashare",
+      "path": "path1",
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm",
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm",
+      "experiment_hypothesis": "成长趋势、信号质量门槛与 cashguard 可修复多因子短窗收益并控制风险。",
+      "changed_from_comparator": "在质量盈利底座加入 growth/trend、signal-quality gate 与 risk08 cashguard。",
+      "expected_improvement": "提高 2025/2026 CAGR，同时守住 2020/2023 稳定性。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08903518,
+          "Sharpe": 0.54153696,
+          "MaxDD": -0.2596744,
+          "turnover": 2.54939564,
+          "cumulative_trading_cost": 0.05941639
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08137233,
+          "Sharpe": 0.44923798,
+          "MaxDD": -0.237271,
+          "turnover": 2.71631768,
+          "cumulative_trading_cost": 0.02969346
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.16253289,
+          "Sharpe": 0.66556592,
+          "MaxDD": -0.18894895,
+          "turnover": 3.0365602,
+          "cumulative_trading_cost": 0.01531078
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.40627216,
+          "Sharpe": 0.97226959,
+          "MaxDD": -0.2516158,
+          "turnover": 5.3550997,
+          "cumulative_trading_cost": 0.01360809
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.0265678,
+          "Sharpe": 0.30691534,
+          "MaxDD": -0.29407829,
+          "turnover": 5.32726922,
+          "cumulative_trading_cost": 0.00368716
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.20030585,
+          "Sharpe": 0.84712053,
+          "MaxDD": -0.28461891,
+          "turnover": 3.08832169,
+          "cumulative_trading_cost": 0.08019611
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.25996434,
+          "Sharpe": 0.90753952,
+          "MaxDD": -0.31936412,
+          "turnover": 3.36038451,
+          "cumulative_trading_cost": 0.05831176
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.21001641,
+          "Sharpe": 0.71039306,
+          "MaxDD": -0.32911872,
+          "turnover": 3.36697535,
+          "cumulative_trading_cost": 0.01721851
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.62195932,
+          "Sharpe": 1.18656446,
+          "MaxDD": -0.31667131,
+          "turnover": 4.78335193,
+          "cumulative_trading_cost": 0.01147002
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.19016087,
+          "Sharpe": 0.58449024,
+          "MaxDD": -0.33359131,
+          "turnover": 6.7299881,
+          "cumulative_trading_cost": 0.00459593
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": -0.11127067,
+          "Sharpe": -0.30558357,
+          "MaxDD": 0.024944509999999975,
+          "turnover": -0.5389260499999997,
+          "cumulative_trading_cost": -0.02077972
+        },
+        "since_2020_01": {
+          "CAGR": -0.17859201000000002,
+          "Sharpe": -0.45830154000000006,
+          "MaxDD": 0.08209311999999996,
+          "turnover": -0.6440668299999999,
+          "cumulative_trading_cost": -0.028618299999999996
+        },
+        "since_2023_01": {
+          "CAGR": -0.047483519999999974,
+          "Sharpe": -0.04482713999999999,
+          "MaxDD": 0.14016976999999997,
+          "turnover": -0.3304151500000003,
+          "cumulative_trading_cost": -0.0019077299999999998
+        },
+        "since_2025_01": {
+          "CAGR": -0.21568716,
+          "Sharpe": -0.21429487000000003,
+          "MaxDD": 0.06505550999999998,
+          "turnover": 0.57174777,
+          "cumulative_trading_cost": 0.0021380700000000006
+        },
+        "since_2026_01": {
+          "CAGR": -0.16359307,
+          "Sharpe": -0.27757490000000007,
+          "MaxDD": 0.039513019999999954,
+          "turnover": -1.4027188800000001,
+          "cumulative_trading_cost": -0.0009087699999999997
+        }
+      },
+      "stability_guard_triggers": [
+        {
+          "window": "since_2020_01",
+          "metric": "CAGR",
+          "delta": -0.17859201000000002,
+          "threshold": -0.03
+        },
+        {
+          "window": "since_2020_01",
+          "metric": "Sharpe",
+          "delta": -0.45830154000000006,
+          "threshold": -0.3
+        },
+        {
+          "window": "since_2023_01",
+          "metric": "CAGR",
+          "delta": -0.047483519999999974,
+          "threshold": -0.03
+        }
+      ],
+      "decision": "reject",
+      "actual_validation": "触发稳定性护栏（since_2020_01 CAGR delta=-0.179、since_2020_01 Sharpe delta=-0.458、since_2023_01 CAGR delta=-0.047），since_2026_01 CAGR=2.66%；判定 reject。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "ashare",
+      "path": "path2",
+      "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk24_exit44_cap18_cost_guard_v45_capacity_stress",
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6",
+      "experiment_hypothesis": "等权高弹性 top10 与 cap18 可改善容量成本而保持中周期收益。",
+      "changed_from_comparator": "从 total-mv robust 改为 equal-weight、top10、risk24、exit44、cap18。",
+      "expected_improvement": "降低集中与成本压力，并保持 2020/2023 CAGR。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.09355467,
+          "Sharpe": 0.66711728,
+          "MaxDD": -0.18173546,
+          "turnover": 3.87462543,
+          "cumulative_trading_cost": 0.08059872
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08408546,
+          "Sharpe": 0.57986961,
+          "MaxDD": -0.15994518,
+          "turnover": 3.50372875,
+          "cumulative_trading_cost": 0.03880463
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08528941,
+          "Sharpe": 0.44655325,
+          "MaxDD": -0.33622396,
+          "turnover": 4.76180556,
+          "cumulative_trading_cost": 0.02596619
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.1983805,
+          "Sharpe": 0.66819099,
+          "MaxDD": -0.33622396,
+          "turnover": 8.90511193,
+          "cumulative_trading_cost": 0.02218036
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.25823716,
+          "Sharpe": -0.19896604,
+          "MaxDD": -0.33618176,
+          "turnover": 8.42558013,
+          "cumulative_trading_cost": 0.00600106
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08168933,
+          "Sharpe": 0.51011679,
+          "MaxDD": -0.32482398,
+          "turnover": 3.16675454,
+          "cumulative_trading_cost": 0.07755259
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.0025315,
+          "Sharpe": 0.10600331,
+          "MaxDD": -0.32556706,
+          "turnover": 2.78741724,
+          "cumulative_trading_cost": 0.02358494
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.2047629,
+          "Sharpe": 0.75238388,
+          "MaxDD": -0.27577651,
+          "turnover": 3.42105031,
+          "cumulative_trading_cost": 0.01998727
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.42567731,
+          "Sharpe": 1.03970874,
+          "MaxDD": -0.27721951,
+          "turnover": 4.8676614,
+          "cumulative_trading_cost": 0.01318933
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.02278135,
+          "Sharpe": 0.26697714,
+          "MaxDD": -0.23962283,
+          "turnover": 5.3355693,
+          "cumulative_trading_cost": 0.00355479
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.011865340000000002,
+          "Sharpe": 0.15700049000000005,
+          "MaxDD": 0.14308852000000002,
+          "turnover": 0.7078708900000001,
+          "cumulative_trading_cost": 0.003046129999999994
+        },
+        "since_2020_01": {
+          "CAGR": 0.08155396,
+          "Sharpe": 0.4738663,
+          "MaxDD": 0.16562188000000003,
+          "turnover": 0.7163115100000002,
+          "cumulative_trading_cost": 0.015219690000000001
+        },
+        "since_2023_01": {
+          "CAGR": -0.11947349,
+          "Sharpe": -0.30583063,
+          "MaxDD": -0.060447450000000014,
+          "turnover": 1.34075525,
+          "cumulative_trading_cost": 0.005978919999999999
+        },
+        "since_2025_01": {
+          "CAGR": -0.22729681,
+          "Sharpe": -0.37151775,
+          "MaxDD": -0.059004449999999986,
+          "turnover": 4.03745053,
+          "cumulative_trading_cost": 0.008991029999999999
+        },
+        "since_2026_01": {
+          "CAGR": -0.28101851,
+          "Sharpe": -0.46594318,
+          "MaxDD": -0.09655892999999999,
+          "turnover": 3.0900108299999998,
+          "cumulative_trading_cost": 0.00244627
+        }
+      },
+      "stability_guard_triggers": [
+        {
+          "window": "since_2023_01",
+          "metric": "CAGR",
+          "delta": -0.11947349,
+          "threshold": -0.03
+        },
+        {
+          "window": "since_2023_01",
+          "metric": "MaxDD",
+          "delta": -0.060447450000000014,
+          "threshold": -0.05
+        },
+        {
+          "window": "since_2023_01",
+          "metric": "Sharpe",
+          "delta": -0.30583063,
+          "threshold": -0.3
+        }
+      ],
+      "decision": "reject",
+      "actual_validation": "触发稳定性护栏（since_2023_01 CAGR delta=-0.119、since_2023_01 MaxDD delta=-0.060、since_2023_01 Sharpe delta=-0.306），since_2026_01 CAGR=-25.82%；判定 reject。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "ashare",
+      "path": "path2",
+      "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top8_risk22_exit42_cap16_cost_guard_v46_capacity_cost",
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6",
+      "experiment_hypothesis": "进一步收紧 top8/cap16 可验证容量成本边界是否优于 v45。",
+      "changed_from_comparator": "相对 robust 改为 equal-weight、top8、risk22、exit42、cap16。",
+      "expected_improvement": "降低风险与容量成本，且不破坏 2020/2023。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.09575535,
+          "Sharpe": 0.68424379,
+          "MaxDD": -0.17272517,
+          "turnover": 3.83659006,
+          "cumulative_trading_cost": 0.08063415
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08439099,
+          "Sharpe": 0.58350519,
+          "MaxDD": -0.16059392,
+          "turnover": 3.48131533,
+          "cumulative_trading_cost": 0.03827985
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.09171694,
+          "Sharpe": 0.46757711,
+          "MaxDD": -0.33407456,
+          "turnover": 4.73887585,
+          "cumulative_trading_cost": 0.02595661
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.22191931,
+          "Sharpe": 0.71596037,
+          "MaxDD": -0.33407456,
+          "turnover": 8.90618023,
+          "cumulative_trading_cost": 0.02248801
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.22638954,
+          "Sharpe": -0.12779497,
+          "MaxDD": -0.33403172,
+          "turnover": 8.41779145,
+          "cumulative_trading_cost": 0.00606072
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08168933,
+          "Sharpe": 0.51011679,
+          "MaxDD": -0.32482398,
+          "turnover": 3.16675454,
+          "cumulative_trading_cost": 0.07755259
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.0025315,
+          "Sharpe": 0.10600331,
+          "MaxDD": -0.32556706,
+          "turnover": 2.78741724,
+          "cumulative_trading_cost": 0.02358494
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.2047629,
+          "Sharpe": 0.75238388,
+          "MaxDD": -0.27577651,
+          "turnover": 3.42105031,
+          "cumulative_trading_cost": 0.01998727
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.42567731,
+          "Sharpe": 1.03970874,
+          "MaxDD": -0.27721951,
+          "turnover": 4.8676614,
+          "cumulative_trading_cost": 0.01318933
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.02278135,
+          "Sharpe": 0.26697714,
+          "MaxDD": -0.23962283,
+          "turnover": 5.3355693,
+          "cumulative_trading_cost": 0.00355479
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.014066019999999999,
+          "Sharpe": 0.17412700000000003,
+          "MaxDD": 0.15209881,
+          "turnover": 0.6698355199999999,
+          "cumulative_trading_cost": 0.003081559999999997
+        },
+        "since_2020_01": {
+          "CAGR": 0.08185949,
+          "Sharpe": 0.47750188,
+          "MaxDD": 0.16497314000000002,
+          "turnover": 0.6938980900000002,
+          "cumulative_trading_cost": 0.014694909999999999
+        },
+        "since_2023_01": {
+          "CAGR": -0.11304596,
+          "Sharpe": -0.28480677,
+          "MaxDD": -0.058298050000000046,
+          "turnover": 1.3178255400000003,
+          "cumulative_trading_cost": 0.00596934
+        },
+        "since_2025_01": {
+          "CAGR": -0.20375799999999997,
+          "Sharpe": -0.32374837,
+          "MaxDD": -0.05685505000000002,
+          "turnover": 4.03851883,
+          "cumulative_trading_cost": 0.009298679999999998
+        },
+        "since_2026_01": {
+          "CAGR": -0.24917089,
+          "Sharpe": -0.39477211,
+          "MaxDD": -0.09440888999999997,
+          "turnover": 3.082222149999999,
+          "cumulative_trading_cost": 0.0025059300000000004
+        }
+      },
+      "stability_guard_triggers": [
+        {
+          "window": "since_2023_01",
+          "metric": "CAGR",
+          "delta": -0.11304596,
+          "threshold": -0.03
+        },
+        {
+          "window": "since_2023_01",
+          "metric": "MaxDD",
+          "delta": -0.058298050000000046,
+          "threshold": -0.05
+        }
+      ],
+      "decision": "reject",
+      "actual_validation": "触发稳定性护栏（since_2023_01 CAGR delta=-0.113、since_2023_01 MaxDD delta=-0.058），since_2026_01 CAGR=-22.64%；判定 reject。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "ashare",
+      "path": "path2",
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6",
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6",
+      "experiment_hypothesis": "正式 Path2 robust 在同端点五窗口应继续保持稳定竞争力。",
+      "changed_from_comparator": "incumbent 同身确认，无参数变更。",
+      "expected_improvement": "五窗口覆盖完整且中窗稳定性不退化。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08168933,
+          "Sharpe": 0.51011679,
+          "MaxDD": -0.32482398,
+          "turnover": 3.16675454,
+          "cumulative_trading_cost": 0.07755259
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.0025315,
+          "Sharpe": 0.10600331,
+          "MaxDD": -0.32556706,
+          "turnover": 2.78741724,
+          "cumulative_trading_cost": 0.02358494
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.2047629,
+          "Sharpe": 0.75238388,
+          "MaxDD": -0.27577651,
+          "turnover": 3.42105031,
+          "cumulative_trading_cost": 0.01998727
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.42567731,
+          "Sharpe": 1.03970874,
+          "MaxDD": -0.27721951,
+          "turnover": 4.8676614,
+          "cumulative_trading_cost": 0.01318933
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.02278135,
+          "Sharpe": 0.26697714,
+          "MaxDD": -0.23962283,
+          "turnover": 5.3355693,
+          "cumulative_trading_cost": 0.00355479
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08168933,
+          "Sharpe": 0.51011679,
+          "MaxDD": -0.32482398,
+          "turnover": 3.16675454,
+          "cumulative_trading_cost": 0.07755259
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.0025315,
+          "Sharpe": 0.10600331,
+          "MaxDD": -0.32556706,
+          "turnover": 2.78741724,
+          "cumulative_trading_cost": 0.02358494
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.2047629,
+          "Sharpe": 0.75238388,
+          "MaxDD": -0.27577651,
+          "turnover": 3.42105031,
+          "cumulative_trading_cost": 0.01998727
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.42567731,
+          "Sharpe": 1.03970874,
+          "MaxDD": -0.27721951,
+          "turnover": 4.8676614,
+          "cumulative_trading_cost": 0.01318933
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.02278135,
+          "Sharpe": 0.26697714,
+          "MaxDD": -0.23962283,
+          "turnover": 5.3355693,
+          "cumulative_trading_cost": 0.00355479
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2020_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2023_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2025_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2026_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        }
+      },
+      "stability_guard_triggers": [],
+      "decision": "promote",
+      "actual_validation": "同端点五窗口确认 incumbent；未触发稳定性护栏，继续具备正式竞争资格。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "ashare",
+      "path": "path3",
+      "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly",
+      "current_winner_or_robust_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly",
+      "experiment_hypothesis": "更温和的 risk12/exit96 周频形态可降低换手并修复 v7 的中窗收益损失。",
+      "changed_from_comparator": "相对 robust 降 cap/risk/turnover，延长持有并放宽 exit96。",
+      "expected_improvement": "改善 turnover/MaxDD，同时守住 2020/2023 CAGR。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.0394024,
+          "Sharpe": 0.43291798,
+          "MaxDD": -0.20479711,
+          "turnover": 0.75941991,
+          "cumulative_trading_cost": 0.01322228
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.07272548,
+          "Sharpe": 0.53910529,
+          "MaxDD": -0.27235319,
+          "turnover": 0.58722636,
+          "cumulative_trading_cost": 0.00706253
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.06328348,
+          "Sharpe": 0.60673898,
+          "MaxDD": -0.13712439,
+          "turnover": 0.41893169,
+          "cumulative_trading_cost": 0.00181279
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.31006349,
+          "Sharpe": 1.14831991,
+          "MaxDD": -0.14308563,
+          "turnover": 0.5778077,
+          "cumulative_trading_cost": 0.00100641
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.32824995,
+          "Sharpe": 0.83407484,
+          "MaxDD": -0.25928234,
+          "turnover": 2.71028641,
+          "cumulative_trading_cost": 0.00147846
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08636878,
+          "Sharpe": 0.5025659,
+          "MaxDD": -0.30721569,
+          "turnover": 2.0833304,
+          "cumulative_trading_cost": 0.04401098
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.16758407,
+          "Sharpe": 0.74019629,
+          "MaxDD": -0.33032389,
+          "turnover": 1.53788806,
+          "cumulative_trading_cost": 0.02463573
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.06324035,
+          "Sharpe": 0.3849867,
+          "MaxDD": -0.32694456,
+          "turnover": 1.36373243,
+          "cumulative_trading_cost": 0.00616407
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.41493333,
+          "Sharpe": 1.08484707,
+          "MaxDD": -0.30761536,
+          "turnover": 2.99012394,
+          "cumulative_trading_cost": 0.00595127
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.38807693,
+          "Sharpe": 1.07055359,
+          "MaxDD": -0.15840091,
+          "turnover": 1.90645657,
+          "cumulative_trading_cost": 0.00106621
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": -0.04696638000000001,
+          "Sharpe": -0.06964792000000003,
+          "MaxDD": 0.10241857999999998,
+          "turnover": -1.3239104899999998,
+          "cumulative_trading_cost": -0.0307887
+        },
+        "since_2020_01": {
+          "CAGR": -0.09485859,
+          "Sharpe": -0.20109100000000002,
+          "MaxDD": 0.057970699999999986,
+          "turnover": -0.9506617,
+          "cumulative_trading_cost": -0.0175732
+        },
+        "since_2023_01": {
+          "CAGR": 4.313000000000233e-05,
+          "Sharpe": 0.22175228000000002,
+          "MaxDD": 0.18982016999999998,
+          "turnover": -0.94480074,
+          "cumulative_trading_cost": -0.00435128
+        },
+        "since_2025_01": {
+          "CAGR": -0.10486983999999999,
+          "Sharpe": 0.0634728400000002,
+          "MaxDD": 0.16452973,
+          "turnover": -2.41231624,
+          "cumulative_trading_cost": -0.00494486
+        },
+        "since_2026_01": {
+          "CAGR": -0.059826979999999974,
+          "Sharpe": -0.23647875000000007,
+          "MaxDD": -0.10088143,
+          "turnover": 0.8038298400000001,
+          "cumulative_trading_cost": 0.0004122500000000001
+        }
+      },
+      "stability_guard_triggers": [
+        {
+          "window": "since_2020_01",
+          "metric": "CAGR",
+          "delta": -0.09485859,
+          "threshold": -0.03
+        }
+      ],
+      "decision": "reject",
+      "actual_validation": "触发稳定性护栏（since_2020_01 CAGR delta=-0.095），since_2026_01 CAGR=32.82%；判定 reject。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "ashare",
+      "path": "path3",
+      "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly",
+      "current_winner_or_robust_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly",
+      "experiment_hypothesis": "正式 Path3 robust 在同端点应继续提供周频收益与风险基准。",
+      "changed_from_comparator": "incumbent 同身确认，无参数变更。",
+      "expected_improvement": "五窗口稳定且继续优于退出缓冲挑战者。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08636878,
+          "Sharpe": 0.5025659,
+          "MaxDD": -0.30721569,
+          "turnover": 2.0833304,
+          "cumulative_trading_cost": 0.04401098
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.16758407,
+          "Sharpe": 0.74019629,
+          "MaxDD": -0.33032389,
+          "turnover": 1.53788806,
+          "cumulative_trading_cost": 0.02463573
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.06324035,
+          "Sharpe": 0.3849867,
+          "MaxDD": -0.32694456,
+          "turnover": 1.36373243,
+          "cumulative_trading_cost": 0.00616407
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.41493333,
+          "Sharpe": 1.08484707,
+          "MaxDD": -0.30761536,
+          "turnover": 2.99012394,
+          "cumulative_trading_cost": 0.00595127
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.38807693,
+          "Sharpe": 1.07055359,
+          "MaxDD": -0.15840091,
+          "turnover": 1.90645657,
+          "cumulative_trading_cost": 0.00106621
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08636878,
+          "Sharpe": 0.5025659,
+          "MaxDD": -0.30721569,
+          "turnover": 2.0833304,
+          "cumulative_trading_cost": 0.04401098
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.16758407,
+          "Sharpe": 0.74019629,
+          "MaxDD": -0.33032389,
+          "turnover": 1.53788806,
+          "cumulative_trading_cost": 0.02463573
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.06324035,
+          "Sharpe": 0.3849867,
+          "MaxDD": -0.32694456,
+          "turnover": 1.36373243,
+          "cumulative_trading_cost": 0.00616407
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.41493333,
+          "Sharpe": 1.08484707,
+          "MaxDD": -0.30761536,
+          "turnover": 2.99012394,
+          "cumulative_trading_cost": 0.00595127
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.38807693,
+          "Sharpe": 1.07055359,
+          "MaxDD": -0.15840091,
+          "turnover": 1.90645657,
+          "cumulative_trading_cost": 0.00106621
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2020_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2023_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2025_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2026_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        }
+      },
+      "stability_guard_triggers": [],
+      "decision": "promote",
+      "actual_validation": "同端点五窗口确认 incumbent；未触发稳定性护栏，继续具备正式竞争资格。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "ashare",
+      "path": "path4",
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap05_exit68_lowturn",
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+      "experiment_hypothesis": "signal30/leader80 与 cap05 低换手可提高主题信号质量和容量。",
+      "changed_from_comparator": "相对 capacity-v2 提高信号/龙头权重、放宽 cap，并采用 risk06/exit68。",
+      "expected_improvement": "改善主题捕捉与换手，不破坏 2020/2023 回撤。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.07134946,
+          "Sharpe": 0.46970003,
+          "MaxDD": -0.27430801,
+          "turnover": 3.1688286,
+          "cumulative_trading_cost": 0.06207692
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.06035479,
+          "Sharpe": 0.38656599,
+          "MaxDD": -0.27430801,
+          "turnover": 3.26768342,
+          "cumulative_trading_cost": 0.03488372
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.01294494,
+          "Sharpe": 0.17131314,
+          "MaxDD": -0.26586833,
+          "turnover": 3.02364743,
+          "cumulative_trading_cost": 0.01336036
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.1685255,
+          "Sharpe": 0.61334146,
+          "MaxDD": -0.27921633,
+          "turnover": 5.55671031,
+          "cumulative_trading_cost": 0.01232407
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.12098708,
+          "Sharpe": -0.03964393,
+          "MaxDD": -0.26772277,
+          "turnover": 5.73585797,
+          "cumulative_trading_cost": 0.00383572
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.06506694,
+          "Sharpe": 0.50707885,
+          "MaxDD": -0.21118544,
+          "turnover": 2.55127806,
+          "cumulative_trading_cost": 0.04681275
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.06123143,
+          "Sharpe": 0.43975571,
+          "MaxDD": -0.21118544,
+          "turnover": 2.60879218,
+          "cumulative_trading_cost": 0.0273003
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.03783388,
+          "Sharpe": 0.3086678,
+          "MaxDD": -0.21581196,
+          "turnover": 2.42669537,
+          "cumulative_trading_cost": 0.0107858
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.2178167,
+          "Sharpe": 0.83037016,
+          "MaxDD": -0.21347146,
+          "turnover": 4.47600916,
+          "cumulative_trading_cost": 0.00964189
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.01971946,
+          "Sharpe": 0.23789619,
+          "MaxDD": -0.21377688,
+          "turnover": 4.52346613,
+          "cumulative_trading_cost": 0.00304753
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.00628252,
+          "Sharpe": -0.03737881999999998,
+          "MaxDD": -0.06312256999999999,
+          "turnover": 0.6175505399999999,
+          "cumulative_trading_cost": 0.01526417
+        },
+        "since_2020_01": {
+          "CAGR": -0.0008766400000000049,
+          "Sharpe": -0.053189719999999996,
+          "MaxDD": -0.06312256999999999,
+          "turnover": 0.65889124,
+          "cumulative_trading_cost": 0.0075834200000000004
+        },
+        "since_2023_01": {
+          "CAGR": -0.02488894,
+          "Sharpe": -0.13735466,
+          "MaxDD": -0.05005636999999999,
+          "turnover": 0.59695206,
+          "cumulative_trading_cost": 0.00257456
+        },
+        "since_2025_01": {
+          "CAGR": -0.04929120000000001,
+          "Sharpe": -0.21702869999999996,
+          "MaxDD": -0.06574487000000001,
+          "turnover": 1.0807011499999994,
+          "cumulative_trading_cost": 0.0026821799999999993
+        },
+        "since_2026_01": {
+          "CAGR": -0.14070654,
+          "Sharpe": -0.27754012,
+          "MaxDD": -0.053945889999999996,
+          "turnover": 1.2123918399999996,
+          "cumulative_trading_cost": 0.0007881899999999998
+        }
+      },
+      "stability_guard_triggers": [
+        {
+          "window": "since_2020_01",
+          "metric": "MaxDD",
+          "delta": -0.06312256999999999,
+          "threshold": -0.05
+        },
+        {
+          "window": "since_2023_01",
+          "metric": "MaxDD",
+          "delta": -0.05005636999999999,
+          "threshold": -0.05
+        }
+      ],
+      "decision": "reject",
+      "actual_validation": "触发稳定性护栏（since_2020_01 MaxDD delta=-0.063、since_2023_01 MaxDD delta=-0.050），since_2026_01 CAGR=-12.10%；判定 reject。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "ashare",
+      "path": "path4",
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+      "current_winner_or_robust_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+      "experiment_hypothesis": "Path4 capacity-v2 在同端点继续守住多窗口稳定与容量基准。",
+      "changed_from_comparator": "incumbent 同身确认，无参数变更。",
+      "expected_improvement": "五窗口保持正收益且不被 signal30 挑战者替换。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.06506694,
+          "Sharpe": 0.50707885,
+          "MaxDD": -0.21118544,
+          "turnover": 2.55127806,
+          "cumulative_trading_cost": 0.04681275
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.06123143,
+          "Sharpe": 0.43975571,
+          "MaxDD": -0.21118544,
+          "turnover": 2.60879218,
+          "cumulative_trading_cost": 0.0273003
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.03783388,
+          "Sharpe": 0.3086678,
+          "MaxDD": -0.21581196,
+          "turnover": 2.42669537,
+          "cumulative_trading_cost": 0.0107858
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.2178167,
+          "Sharpe": 0.83037016,
+          "MaxDD": -0.21347146,
+          "turnover": 4.47600916,
+          "cumulative_trading_cost": 0.00964189
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.01971946,
+          "Sharpe": 0.23789619,
+          "MaxDD": -0.21377688,
+          "turnover": 4.52346613,
+          "cumulative_trading_cost": 0.00304753
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.06506694,
+          "Sharpe": 0.50707885,
+          "MaxDD": -0.21118544,
+          "turnover": 2.55127806,
+          "cumulative_trading_cost": 0.04681275
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.06123143,
+          "Sharpe": 0.43975571,
+          "MaxDD": -0.21118544,
+          "turnover": 2.60879218,
+          "cumulative_trading_cost": 0.0273003
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.03783388,
+          "Sharpe": 0.3086678,
+          "MaxDD": -0.21581196,
+          "turnover": 2.42669537,
+          "cumulative_trading_cost": 0.0107858
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.2178167,
+          "Sharpe": 0.83037016,
+          "MaxDD": -0.21347146,
+          "turnover": 4.47600916,
+          "cumulative_trading_cost": 0.00964189
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.01971946,
+          "Sharpe": 0.23789619,
+          "MaxDD": -0.21377688,
+          "turnover": 4.52346613,
+          "cumulative_trading_cost": 0.00304753
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2020_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2023_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2025_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2026_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        }
+      },
+      "stability_guard_triggers": [],
+      "decision": "promote",
+      "actual_validation": "同端点五窗口确认 incumbent；未触发稳定性护栏，继续具备正式竞争资格。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path1",
+      "candidate_id": "hkconnect_path1_biweekly_quality_momentum_equal_buffered_v46_risk_overlay_cost_guard",
+      "current_winner_or_robust_id": "hkconnect_path1_biweekly_lowvol",
+      "experiment_hypothesis": "风险覆盖与成本守门可改善 Path1 双周缓冲的短窗回撤。",
+      "changed_from_comparator": "在质量动量等权缓冲上加入 risk-overlay cost guard。",
+      "expected_improvement": "降低回撤与换手，保持 2020/2023 CAGR。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.16301968,
+          "Sharpe": 0.94435427,
+          "MaxDD": -0.19070562,
+          "turnover": 3.81296326,
+          "cumulative_trading_cost": 0.04920653
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.1692192,
+          "Sharpe": 0.92481833,
+          "MaxDD": -0.16714619,
+          "turnover": 3.7503605,
+          "cumulative_trading_cost": 0.02590049
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-16",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.16204587,
+          "Sharpe": 0.91206122,
+          "MaxDD": -0.1257303,
+          "turnover": 3.97224393,
+          "cumulative_trading_cost": 0.01053984
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.29918215,
+          "Sharpe": 1.4747784,
+          "MaxDD": -0.09892071,
+          "turnover": 4.67740298,
+          "cumulative_trading_cost": 0.00589216
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.05265115,
+          "Sharpe": -0.28656117,
+          "MaxDD": -0.0953896,
+          "turnover": 4.80994887,
+          "cumulative_trading_cost": 0.00155298
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.17410518,
+          "Sharpe": 0.98439201,
+          "MaxDD": -0.22309212,
+          "turnover": 1.86705356,
+          "cumulative_trading_cost": 0.02263671
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.18523039,
+          "Sharpe": 1.00587915,
+          "MaxDD": -0.17170995,
+          "turnover": 1.90319202,
+          "cumulative_trading_cost": 0.01205012
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-16",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.23314642,
+          "Sharpe": 1.27036069,
+          "MaxDD": -0.1128492,
+          "turnover": 1.57926787,
+          "cumulative_trading_cost": 0.00496902
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.2681951,
+          "Sharpe": 1.4615386,
+          "MaxDD": -0.1128491,
+          "turnover": 2.00962533,
+          "cumulative_trading_cost": 0.0023353
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08166987,
+          "Sharpe": 0.52696295,
+          "MaxDD": -0.11269106,
+          "turnover": 3.18861508,
+          "cumulative_trading_cost": 0.00106143
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": -0.011085499999999998,
+          "Sharpe": -0.04003773999999993,
+          "MaxDD": 0.03238650000000001,
+          "turnover": 1.9459097,
+          "cumulative_trading_cost": 0.026569819999999997
+        },
+        "since_2020_01": {
+          "CAGR": -0.01601119000000001,
+          "Sharpe": -0.08106081999999992,
+          "MaxDD": 0.00456376,
+          "turnover": 1.8471684800000001,
+          "cumulative_trading_cost": 0.013850370000000002
+        },
+        "since_2023_01": {
+          "CAGR": -0.07110054999999998,
+          "Sharpe": -0.35829946999999995,
+          "MaxDD": -0.012881099999999993,
+          "turnover": 2.3929760599999996,
+          "cumulative_trading_cost": 0.00557082
+        },
+        "since_2025_01": {
+          "CAGR": 0.03098704999999996,
+          "Sharpe": 0.013239800000000024,
+          "MaxDD": 0.013928389999999999,
+          "turnover": 2.66777765,
+          "cumulative_trading_cost": 0.00355686
+        },
+        "since_2026_01": {
+          "CAGR": -0.13432102,
+          "Sharpe": -0.8135241200000001,
+          "MaxDD": 0.01730145999999999,
+          "turnover": 1.6213337900000004,
+          "cumulative_trading_cost": 0.0004915500000000001
+        }
+      },
+      "stability_guard_triggers": [
+        {
+          "window": "since_2023_01",
+          "metric": "CAGR",
+          "delta": -0.07110054999999998,
+          "threshold": -0.03
+        },
+        {
+          "window": "since_2023_01",
+          "metric": "Sharpe",
+          "delta": -0.35829946999999995,
+          "threshold": -0.3
+        }
+      ],
+      "decision": "reject",
+      "actual_validation": "触发稳定性护栏（since_2023_01 CAGR delta=-0.071、since_2023_01 Sharpe delta=-0.358），since_2026_01 CAGR=-5.27%；判定 reject。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path1",
+      "candidate_id": "hkconnect_path1_biweekly_lowvol",
+      "current_winner_or_robust_id": "hkconnect_path1_biweekly_lowvol",
+      "experiment_hypothesis": "Path1 lowvol incumbent 应继续提供五窗口正收益与较低风险。",
+      "changed_from_comparator": "incumbent 同身确认，无参数变更。",
+      "expected_improvement": "五窗口稳定且 2026 保持正收益。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.17410518,
+          "Sharpe": 0.98439201,
+          "MaxDD": -0.22309212,
+          "turnover": 1.86705356,
+          "cumulative_trading_cost": 0.02263671
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.18523039,
+          "Sharpe": 1.00587915,
+          "MaxDD": -0.17170995,
+          "turnover": 1.90319202,
+          "cumulative_trading_cost": 0.01205012
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-16",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.23314642,
+          "Sharpe": 1.27036069,
+          "MaxDD": -0.1128492,
+          "turnover": 1.57926787,
+          "cumulative_trading_cost": 0.00496902
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.2681951,
+          "Sharpe": 1.4615386,
+          "MaxDD": -0.1128491,
+          "turnover": 2.00962533,
+          "cumulative_trading_cost": 0.0023353
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08166987,
+          "Sharpe": 0.52696295,
+          "MaxDD": -0.11269106,
+          "turnover": 3.18861508,
+          "cumulative_trading_cost": 0.00106143
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.17410518,
+          "Sharpe": 0.98439201,
+          "MaxDD": -0.22309212,
+          "turnover": 1.86705356,
+          "cumulative_trading_cost": 0.02263671
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.18523039,
+          "Sharpe": 1.00587915,
+          "MaxDD": -0.17170995,
+          "turnover": 1.90319202,
+          "cumulative_trading_cost": 0.01205012
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-16",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.23314642,
+          "Sharpe": 1.27036069,
+          "MaxDD": -0.1128492,
+          "turnover": 1.57926787,
+          "cumulative_trading_cost": 0.00496902
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.2681951,
+          "Sharpe": 1.4615386,
+          "MaxDD": -0.1128491,
+          "turnover": 2.00962533,
+          "cumulative_trading_cost": 0.0023353
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08166987,
+          "Sharpe": 0.52696295,
+          "MaxDD": -0.11269106,
+          "turnover": 3.18861508,
+          "cumulative_trading_cost": 0.00106143
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2020_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2023_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2025_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2026_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        }
+      },
+      "stability_guard_triggers": [],
+      "decision": "promote",
+      "actual_validation": "同端点五窗口确认 incumbent；未触发稳定性护栏，继续具备正式竞争资格。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path2",
+      "candidate_id": "hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair",
+      "current_winner_or_robust_id": "hkconnect_path2_theme_fast_monthly",
+      "experiment_hypothesis": "双周主题突破 v21 可提高中周期弹性并控制成本。",
+      "changed_from_comparator": "由月频 theme-fast 改为双周突破与成本守门。",
+      "expected_improvement": "改善 2020/2023 CAGR，且 2026 不转负。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.21831029,
+          "Sharpe": 0.79818332,
+          "MaxDD": -0.30219423,
+          "turnover": 14.43152637,
+          "cumulative_trading_cost": 0.25089536
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.24304494,
+          "Sharpe": 0.79750467,
+          "MaxDD": -0.30219423,
+          "turnover": 13.74525124,
+          "cumulative_trading_cost": 0.13236573
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-16",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.16846403,
+          "Sharpe": 0.59377455,
+          "MaxDD": -0.20309693,
+          "turnover": 14.1227109,
+          "cumulative_trading_cost": 0.03727835
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.18944857,
+          "Sharpe": 0.74534952,
+          "MaxDD": -0.15212263,
+          "turnover": 17.68877018,
+          "cumulative_trading_cost": 0.02127022
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.16380628,
+          "Sharpe": -0.55612179,
+          "MaxDD": -0.13078167,
+          "turnover": 17.69973569,
+          "cumulative_trading_cost": 0.00567823
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.14359708,
+          "Sharpe": 0.71143025,
+          "MaxDD": -0.32871816,
+          "turnover": 7.08897505,
+          "cumulative_trading_cost": 0.07413103
+        },
+        "since_2020_01": {
+          "sample_start": "2020-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.18887903,
+          "Sharpe": 0.86063712,
+          "MaxDD": -0.19029998,
+          "turnover": 7.04661424,
+          "cumulative_trading_cost": 0.04725838
+        },
+        "since_2023_01": {
+          "sample_start": "2023-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.23710056,
+          "Sharpe": 0.99562495,
+          "MaxDD": -0.18657887,
+          "turnover": 7.0666752,
+          "cumulative_trading_cost": 0.02099047
+        },
+        "since_2025_01": {
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.4755462,
+          "Sharpe": 1.39236293,
+          "MaxDD": -0.18657887,
+          "turnover": 7.89215134,
+          "cumulative_trading_cost": 0.01111904
+        },
+        "since_2026_01": {
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.3747878,
+          "Sharpe": 0.84486531,
+          "MaxDD": -0.18657887,
+          "turnover": 7.67951932,
+          "cumulative_trading_cost": 0.00286447
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.07471321,
+          "Sharpe": 0.08675306999999999,
+          "MaxDD": 0.026523929999999973,
+          "turnover": 7.34255132,
+          "cumulative_trading_cost": 0.17676433000000003
+        },
+        "since_2020_01": {
+          "CAGR": 0.054165909999999984,
+          "Sharpe": -0.06313245,
+          "MaxDD": -0.11189425,
+          "turnover": 6.698637,
+          "cumulative_trading_cost": 0.08510734999999998
+        },
+        "since_2023_01": {
+          "CAGR": -0.06863653,
+          "Sharpe": -0.40185039999999994,
+          "MaxDD": -0.01651806,
+          "turnover": 7.0560357,
+          "cumulative_trading_cost": 0.01628788
+        },
+        "since_2025_01": {
+          "CAGR": -0.28609763,
+          "Sharpe": -0.64701341,
+          "MaxDD": 0.03445624,
+          "turnover": 9.796618839999999,
+          "cumulative_trading_cost": 0.01015118
+        },
+        "since_2026_01": {
+          "CAGR": -0.53859408,
+          "Sharpe": -1.4009871,
+          "MaxDD": 0.05579720000000002,
+          "turnover": 10.02021637,
+          "cumulative_trading_cost": 0.0028137600000000002
+        }
+      },
+      "stability_guard_triggers": [
+        {
+          "window": "since_2020_01",
+          "metric": "MaxDD",
+          "delta": -0.11189425,
+          "threshold": -0.05
+        },
+        {
+          "window": "since_2023_01",
+          "metric": "CAGR",
+          "delta": -0.06863653,
+          "threshold": -0.03
+        },
+        {
+          "window": "since_2023_01",
+          "metric": "Sharpe",
+          "delta": -0.40185039999999994,
+          "threshold": -0.3
+        }
+      ],
+      "decision": "reject",
+      "actual_validation": "触发稳定性护栏（since_2020_01 MaxDD delta=-0.112、since_2023_01 CAGR delta=-0.069、since_2023_01 Sharpe delta=-0.402），since_2026_01 CAGR=-16.38%；判定 reject。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path2",
+      "candidate_id": "hkconnect_path2_theme_biweekly_cost_guard_v29_breakout_turnover_cap",
+      "current_winner_or_robust_id": "hkconnect_path2_theme_fast_monthly",
+      "experiment_hypothesis": "双周突破换手上限可降低成本而保持主题弹性。",
+      "changed_from_comparator": "在双周主题突破上增加 turnover cap。",
+      "expected_improvement": "降低 turnover/MaxDD，并守住 2020/2023 CAGR。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.17803375,
+          "Sharpe": 0.75308641,
+          "MaxDD": -0.27506446,
+          "turnover": 12.35167471,
+          "cumulative_trading_cost": 0.18038888
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.18845654,
+          "Sharpe": 0.73249967,
+          "MaxDD": -0.27506446,
+          "turnover": 11.94302471,
+          "cumulative_trading_cost": 0.09520437
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-16",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.12471418,
+          "Sharpe": 0.53225302,
+          "MaxDD": -0.20113952,
+          "turnover": 12.50397262,
+          "cumulative_trading_cost": 0.03102007
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.21315196,
+          "Sharpe": 0.82906638,
+          "MaxDD": -0.18239876,
+          "turnover": 15.75534984,
+          "cumulative_trading_cost": 0.01977384
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.22356963,
+          "Sharpe": -1.04498038,
+          "MaxDD": -0.14253955,
+          "turnover": 14.95881328,
+          "cumulative_trading_cost": 0.00468065
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.14359708,
+          "Sharpe": 0.71143025,
+          "MaxDD": -0.32871816,
+          "turnover": 7.08897505,
+          "cumulative_trading_cost": 0.07413103
+        },
+        "since_2020_01": {
+          "sample_start": "2020-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.18887903,
+          "Sharpe": 0.86063712,
+          "MaxDD": -0.19029998,
+          "turnover": 7.04661424,
+          "cumulative_trading_cost": 0.04725838
+        },
+        "since_2023_01": {
+          "sample_start": "2023-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.23710056,
+          "Sharpe": 0.99562495,
+          "MaxDD": -0.18657887,
+          "turnover": 7.0666752,
+          "cumulative_trading_cost": 0.02099047
+        },
+        "since_2025_01": {
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.4755462,
+          "Sharpe": 1.39236293,
+          "MaxDD": -0.18657887,
+          "turnover": 7.89215134,
+          "cumulative_trading_cost": 0.01111904
+        },
+        "since_2026_01": {
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.3747878,
+          "Sharpe": 0.84486531,
+          "MaxDD": -0.18657887,
+          "turnover": 7.67951932,
+          "cumulative_trading_cost": 0.00286447
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.03443667,
+          "Sharpe": 0.04165615999999994,
+          "MaxDD": 0.05365369999999997,
+          "turnover": 5.262699659999999,
+          "cumulative_trading_cost": 0.10625785
+        },
+        "since_2020_01": {
+          "CAGR": -0.0004224899999999976,
+          "Sharpe": -0.12813744999999999,
+          "MaxDD": -0.08476448,
+          "turnover": 4.896410469999999,
+          "cumulative_trading_cost": 0.047945989999999994
+        },
+        "since_2023_01": {
+          "CAGR": -0.11238638,
+          "Sharpe": -0.46337193,
+          "MaxDD": -0.01456064999999998,
+          "turnover": 5.437297420000001,
+          "cumulative_trading_cost": 0.0100296
+        },
+        "since_2025_01": {
+          "CAGR": -0.26239424,
+          "Sharpe": -0.56329655,
+          "MaxDD": 0.004180110000000015,
+          "turnover": 7.863198499999999,
+          "cumulative_trading_cost": 0.0086548
+        },
+        "since_2026_01": {
+          "CAGR": -0.59835743,
+          "Sharpe": -1.88984569,
+          "MaxDD": 0.04403932000000002,
+          "turnover": 7.2792939599999995,
+          "cumulative_trading_cost": 0.0018161799999999997
+        }
+      },
+      "stability_guard_triggers": [
+        {
+          "window": "since_2020_01",
+          "metric": "MaxDD",
+          "delta": -0.08476448,
+          "threshold": -0.05
+        },
+        {
+          "window": "since_2023_01",
+          "metric": "CAGR",
+          "delta": -0.11238638,
+          "threshold": -0.03
+        },
+        {
+          "window": "since_2023_01",
+          "metric": "Sharpe",
+          "delta": -0.46337193,
+          "threshold": -0.3
+        }
+      ],
+      "decision": "reject",
+      "actual_validation": "触发稳定性护栏（since_2020_01 MaxDD delta=-0.085、since_2023_01 CAGR delta=-0.112、since_2023_01 Sharpe delta=-0.463），since_2026_01 CAGR=-22.36%；判定 reject。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path2",
+      "candidate_id": "hkconnect_path2_theme_fast_monthly",
+      "current_winner_or_robust_id": "hkconnect_path2_theme_fast_monthly",
+      "experiment_hypothesis": "Path2 theme-fast monthly incumbent 应继续保持五窗口强稳定基准。",
+      "changed_from_comparator": "incumbent 同身确认，无参数变更。",
+      "expected_improvement": "五窗口正收益且短窗优势不被双周挑战者破坏。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.14359708,
+          "Sharpe": 0.71143025,
+          "MaxDD": -0.32871816,
+          "turnover": 7.08897505,
+          "cumulative_trading_cost": 0.07413103
+        },
+        "since_2020_01": {
+          "sample_start": "2020-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.18887903,
+          "Sharpe": 0.86063712,
+          "MaxDD": -0.19029998,
+          "turnover": 7.04661424,
+          "cumulative_trading_cost": 0.04725838
+        },
+        "since_2023_01": {
+          "sample_start": "2023-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.23710056,
+          "Sharpe": 0.99562495,
+          "MaxDD": -0.18657887,
+          "turnover": 7.0666752,
+          "cumulative_trading_cost": 0.02099047
+        },
+        "since_2025_01": {
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.4755462,
+          "Sharpe": 1.39236293,
+          "MaxDD": -0.18657887,
+          "turnover": 7.89215134,
+          "cumulative_trading_cost": 0.01111904
+        },
+        "since_2026_01": {
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.3747878,
+          "Sharpe": 0.84486531,
+          "MaxDD": -0.18657887,
+          "turnover": 7.67951932,
+          "cumulative_trading_cost": 0.00286447
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.14359708,
+          "Sharpe": 0.71143025,
+          "MaxDD": -0.32871816,
+          "turnover": 7.08897505,
+          "cumulative_trading_cost": 0.07413103
+        },
+        "since_2020_01": {
+          "sample_start": "2020-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.18887903,
+          "Sharpe": 0.86063712,
+          "MaxDD": -0.19029998,
+          "turnover": 7.04661424,
+          "cumulative_trading_cost": 0.04725838
+        },
+        "since_2023_01": {
+          "sample_start": "2023-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.23710056,
+          "Sharpe": 0.99562495,
+          "MaxDD": -0.18657887,
+          "turnover": 7.0666752,
+          "cumulative_trading_cost": 0.02099047
+        },
+        "since_2025_01": {
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.4755462,
+          "Sharpe": 1.39236293,
+          "MaxDD": -0.18657887,
+          "turnover": 7.89215134,
+          "cumulative_trading_cost": 0.01111904
+        },
+        "since_2026_01": {
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.3747878,
+          "Sharpe": 0.84486531,
+          "MaxDD": -0.18657887,
+          "turnover": 7.67951932,
+          "cumulative_trading_cost": 0.00286447
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2020_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2023_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2025_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2026_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        }
+      },
+      "stability_guard_triggers": [],
+      "decision": "promote",
+      "actual_validation": "同端点五窗口确认 incumbent；未触发稳定性护栏，继续具备正式竞争资格。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path3",
+      "candidate_id": "hkconnect_path3_theme_fast_weekly_defensive_turnover12_exit48",
+      "current_winner_or_robust_id": "hkconnect_path3_equal_elastic_weekly",
+      "experiment_hypothesis": "defensive turnover12/exit48 可显著降低周频高换手成本。",
+      "changed_from_comparator": "由 equal-elastic 改为 theme-fast defensive、turnover12、exit48。",
+      "expected_improvement": "降低换手与回撤，保持中窗收益并修复 2026。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.17977507,
+          "Sharpe": 0.75055397,
+          "MaxDD": -0.3965364,
+          "turnover": 25.03614369,
+          "cumulative_trading_cost": 0.30636644
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.24906014,
+          "Sharpe": 0.90829261,
+          "MaxDD": -0.31080692,
+          "turnover": 23.85620774,
+          "cumulative_trading_cost": 0.21717685
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.26571469,
+          "Sharpe": 0.98253648,
+          "MaxDD": -0.19183947,
+          "turnover": 23.94395086,
+          "cumulative_trading_cost": 0.08004095
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.33498263,
+          "Sharpe": 1.13578505,
+          "MaxDD": -0.19183947,
+          "turnover": 30.03489481,
+          "cumulative_trading_cost": 0.04346044
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-05",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.16949553,
+          "Sharpe": -0.66138441,
+          "MaxDD": -0.19183947,
+          "turnover": 29.37022347,
+          "cumulative_trading_cost": 0.01005111
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.16921641,
+          "Sharpe": 0.59716091,
+          "MaxDD": -0.48417762,
+          "turnover": 26.82774247,
+          "cumulative_trading_cost": 0.28893424
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.20183627,
+          "Sharpe": 0.63953575,
+          "MaxDD": -0.48417762,
+          "turnover": 27.06418996,
+          "cumulative_trading_cost": 0.17282538
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.24880361,
+          "Sharpe": 0.69962795,
+          "MaxDD": -0.31972378,
+          "turnover": 28.00986694,
+          "cumulative_trading_cost": 0.07119042
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.54854801,
+          "Sharpe": 1.30856548,
+          "MaxDD": -0.1920774,
+          "turnover": 33.93765266,
+          "cumulative_trading_cost": 0.05423222
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-05",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.25388172,
+          "Sharpe": 0.82202241,
+          "MaxDD": -0.1920774,
+          "turnover": 37.07471835,
+          "cumulative_trading_cost": 0.01423392
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.010558659999999997,
+          "Sharpe": 0.15339305999999997,
+          "MaxDD": 0.08764121999999996,
+          "turnover": -1.791598780000001,
+          "cumulative_trading_cost": 0.01743220000000001
+        },
+        "since_2020_01": {
+          "CAGR": 0.04722387,
+          "Sharpe": 0.26875686,
+          "MaxDD": 0.1733707,
+          "turnover": -3.2079822200000017,
+          "cumulative_trading_cost": 0.044351470000000004
+        },
+        "since_2023_01": {
+          "CAGR": 0.016911079999999967,
+          "Sharpe": 0.28290853000000005,
+          "MaxDD": 0.12788431,
+          "turnover": -4.065916079999997,
+          "cumulative_trading_cost": 0.008850529999999995
+        },
+        "since_2025_01": {
+          "CAGR": -0.21356537999999997,
+          "Sharpe": -0.17278042999999998,
+          "MaxDD": 0.0002379299999999973,
+          "turnover": -3.902757849999997,
+          "cumulative_trading_cost": -0.010771779999999995
+        },
+        "since_2026_01": {
+          "CAGR": -0.42337725,
+          "Sharpe": -1.48340682,
+          "MaxDD": 0.0002379299999999973,
+          "turnover": -7.704494879999999,
+          "cumulative_trading_cost": -0.00418281
+        }
+      },
+      "stability_guard_triggers": [],
+      "decision": "keep_watch",
+      "actual_validation": "未触发中窗硬护栏，但 since_2026_01 CAGR=-16.95%，风险/成本或短窗持续性尚不足，判定 keep_watch。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path3",
+      "candidate_id": "hkconnect_path3_equal_elastic_weekly",
+      "current_winner_or_robust_id": "hkconnect_path3_equal_elastic_weekly",
+      "experiment_hypothesis": "Path3 equal-elastic incumbent 应继续提供五窗口收益基准。",
+      "changed_from_comparator": "incumbent 同身确认，无参数变更。",
+      "expected_improvement": "五窗口正收益，并显式记录高换手成本。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.16921641,
+          "Sharpe": 0.59716091,
+          "MaxDD": -0.48417762,
+          "turnover": 26.82774247,
+          "cumulative_trading_cost": 0.28893424
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.20183627,
+          "Sharpe": 0.63953575,
+          "MaxDD": -0.48417762,
+          "turnover": 27.06418996,
+          "cumulative_trading_cost": 0.17282538
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.24880361,
+          "Sharpe": 0.69962795,
+          "MaxDD": -0.31972378,
+          "turnover": 28.00986694,
+          "cumulative_trading_cost": 0.07119042
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.54854801,
+          "Sharpe": 1.30856548,
+          "MaxDD": -0.1920774,
+          "turnover": 33.93765266,
+          "cumulative_trading_cost": 0.05423222
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-05",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.25388172,
+          "Sharpe": 0.82202241,
+          "MaxDD": -0.1920774,
+          "turnover": 37.07471835,
+          "cumulative_trading_cost": 0.01423392
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.16921641,
+          "Sharpe": 0.59716091,
+          "MaxDD": -0.48417762,
+          "turnover": 26.82774247,
+          "cumulative_trading_cost": 0.28893424
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.20183627,
+          "Sharpe": 0.63953575,
+          "MaxDD": -0.48417762,
+          "turnover": 27.06418996,
+          "cumulative_trading_cost": 0.17282538
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.24880361,
+          "Sharpe": 0.69962795,
+          "MaxDD": -0.31972378,
+          "turnover": 28.00986694,
+          "cumulative_trading_cost": 0.07119042
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.54854801,
+          "Sharpe": 1.30856548,
+          "MaxDD": -0.1920774,
+          "turnover": 33.93765266,
+          "cumulative_trading_cost": 0.05423222
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-05",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.25388172,
+          "Sharpe": 0.82202241,
+          "MaxDD": -0.1920774,
+          "turnover": 37.07471835,
+          "cumulative_trading_cost": 0.01423392
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2020_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2023_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2025_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2026_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        }
+      },
+      "stability_guard_triggers": [],
+      "decision": "promote",
+      "actual_validation": "同端点五窗口确认 incumbent；未触发稳定性护栏，继续具备正式竞争资格。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path4",
+      "candidate_id": "hkconnect_path4_quality_momentum_monthly_ytd_guard_v3",
+      "current_winner_or_robust_id": "hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality",
+      "experiment_hypothesis": "月频 quality-momentum YTD guard 可修复弱 robust 的中长窗收益。",
+      "changed_from_comparator": "由 total-mv quality weak robust 改为 YTD guard v3。",
+      "expected_improvement": "提高 2020/2023 CAGR，控制回撤并使 2026 转正。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.19348897,
+          "Sharpe": 1.1353472,
+          "MaxDD": -0.19004061,
+          "turnover": 2.9660017,
+          "cumulative_trading_cost": 0.04125021
+        },
+        "since_2020_01": {
+          "sample_start": "2020-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.22976022,
+          "Sharpe": 1.23136484,
+          "MaxDD": -0.18772291,
+          "turnover": 2.82296423,
+          "cumulative_trading_cost": 0.02338781
+        },
+        "since_2023_01": {
+          "sample_start": "2023-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.25059115,
+          "Sharpe": 1.24814552,
+          "MaxDD": -0.18772291,
+          "turnover": 2.73283564,
+          "cumulative_trading_cost": 0.00905462
+        },
+        "since_2025_01": {
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.2351873,
+          "Sharpe": 1.00489324,
+          "MaxDD": -0.19319907,
+          "turnover": 3.3265357,
+          "cumulative_trading_cost": 0.00397907
+        },
+        "since_2026_01": {
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.15249767,
+          "Sharpe": -0.39863986,
+          "MaxDD": -0.18433293,
+          "turnover": 3.41700331,
+          "cumulative_trading_cost": 0.00101191
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08641982,
+          "Sharpe": 0.66846251,
+          "MaxDD": -0.27257655,
+          "turnover": 1.71224632,
+          "cumulative_trading_cost": 0.01428174
+        },
+        "since_2020_01": {
+          "sample_start": "2020-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08482981,
+          "Sharpe": 0.64237245,
+          "MaxDD": -0.19261756,
+          "turnover": 1.55244051,
+          "cumulative_trading_cost": 0.00721114
+        },
+        "since_2023_01": {
+          "sample_start": "2023-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.11057921,
+          "Sharpe": 0.78814928,
+          "MaxDD": -0.12759071,
+          "turnover": 1.7212624,
+          "cumulative_trading_cost": 0.00393455
+        },
+        "since_2025_01": {
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.23067199,
+          "Sharpe": 1.42106706,
+          "MaxDD": -0.08146548,
+          "turnover": 2.0687696,
+          "cumulative_trading_cost": 0.00229801
+        },
+        "since_2026_01": {
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.01732759,
+          "Sharpe": -0.02352116,
+          "MaxDD": -0.06970877,
+          "turnover": 2.13325326,
+          "cumulative_trading_cost": 0.00064885
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.10706915000000002,
+          "Sharpe": 0.46688469,
+          "MaxDD": 0.08253593999999997,
+          "turnover": 1.25375538,
+          "cumulative_trading_cost": 0.02696847
+        },
+        "since_2020_01": {
+          "CAGR": 0.14493040999999998,
+          "Sharpe": 0.5889923899999999,
+          "MaxDD": 0.00489465,
+          "turnover": 1.2705237200000001,
+          "cumulative_trading_cost": 0.016176669999999997
+        },
+        "since_2023_01": {
+          "CAGR": 0.14001194,
+          "Sharpe": 0.45999624000000006,
+          "MaxDD": -0.0601322,
+          "turnover": 1.0115732399999997,
+          "cumulative_trading_cost": 0.005120069999999999
+        },
+        "since_2025_01": {
+          "CAGR": 0.004515309999999995,
+          "Sharpe": -0.41617382,
+          "MaxDD": -0.11173359,
+          "turnover": 1.2577661,
+          "cumulative_trading_cost": 0.0016810600000000003
+        },
+        "since_2026_01": {
+          "CAGR": -0.13517008,
+          "Sharpe": -0.3751187,
+          "MaxDD": -0.11462416,
+          "turnover": 1.28375005,
+          "cumulative_trading_cost": 0.00036306
+        }
+      },
+      "stability_guard_triggers": [
+        {
+          "window": "since_2023_01",
+          "metric": "MaxDD",
+          "delta": -0.0601322,
+          "threshold": -0.05
+        }
+      ],
+      "decision": "keep_watch",
+      "actual_validation": "触发稳定性护栏（since_2023_01 MaxDD delta=-0.060），since_2026_01 CAGR=-15.25%；判定 keep_watch。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path4",
+      "candidate_id": "hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality",
+      "current_winner_or_robust_id": "hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality",
+      "experiment_hypothesis": "Path4 artifact robust 需同端点确认其弱路径内部防守地位。",
+      "changed_from_comparator": "弱 robust 同身确认，无参数变更。",
+      "expected_improvement": "确认内部排序，同时检查 minCAGR 与 2026 绝对收益。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08641982,
+          "Sharpe": 0.66846251,
+          "MaxDD": -0.27257655,
+          "turnover": 1.71224632,
+          "cumulative_trading_cost": 0.01428174
+        },
+        "since_2020_01": {
+          "sample_start": "2020-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08482981,
+          "Sharpe": 0.64237245,
+          "MaxDD": -0.19261756,
+          "turnover": 1.55244051,
+          "cumulative_trading_cost": 0.00721114
+        },
+        "since_2023_01": {
+          "sample_start": "2023-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.11057921,
+          "Sharpe": 0.78814928,
+          "MaxDD": -0.12759071,
+          "turnover": 1.7212624,
+          "cumulative_trading_cost": 0.00393455
+        },
+        "since_2025_01": {
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.23067199,
+          "Sharpe": 1.42106706,
+          "MaxDD": -0.08146548,
+          "turnover": 2.0687696,
+          "cumulative_trading_cost": 0.00229801
+        },
+        "since_2026_01": {
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.01732759,
+          "Sharpe": -0.02352116,
+          "MaxDD": -0.06970877,
+          "turnover": 2.13325326,
+          "cumulative_trading_cost": 0.00064885
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08641982,
+          "Sharpe": 0.66846251,
+          "MaxDD": -0.27257655,
+          "turnover": 1.71224632,
+          "cumulative_trading_cost": 0.01428174
+        },
+        "since_2020_01": {
+          "sample_start": "2020-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08482981,
+          "Sharpe": 0.64237245,
+          "MaxDD": -0.19261756,
+          "turnover": 1.55244051,
+          "cumulative_trading_cost": 0.00721114
+        },
+        "since_2023_01": {
+          "sample_start": "2023-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.11057921,
+          "Sharpe": 0.78814928,
+          "MaxDD": -0.12759071,
+          "turnover": 1.7212624,
+          "cumulative_trading_cost": 0.00393455
+        },
+        "since_2025_01": {
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.23067199,
+          "Sharpe": 1.42106706,
+          "MaxDD": -0.08146548,
+          "turnover": 2.0687696,
+          "cumulative_trading_cost": 0.00229801
+        },
+        "since_2026_01": {
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.01732759,
+          "Sharpe": -0.02352116,
+          "MaxDD": -0.06970877,
+          "turnover": 2.13325326,
+          "cumulative_trading_cost": 0.00064885
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2020_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2023_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2025_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2026_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        }
+      },
+      "stability_guard_triggers": [],
+      "decision": "robust_observation",
+      "actual_validation": "artifact 仍将其置于弱路径观察位，但 since_2026_01 CAGR 为 -1.73%；进入观察位，不是强稳定 winner。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path5",
+      "candidate_id": "hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite",
+      "current_winner_or_robust_id": "hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair",
+      "experiment_hypothesis": "pullback definition rewrite 可改善 Path5 弱 robust 的收益定义。",
+      "changed_from_comparator": "重写回踩续涨定义并保持月频质量复核。",
+      "expected_improvement": "改善中窗 CAGR/回撤并使 2026 转正。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.04992249,
+          "Sharpe": 0.65778437,
+          "MaxDD": -0.12342469,
+          "turnover": 1.21772892,
+          "cumulative_trading_cost": 0.00909983
+        },
+        "since_2020_01": {
+          "sample_start": "2020-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.04588354,
+          "Sharpe": 0.56713907,
+          "MaxDD": -0.10693083,
+          "turnover": 1.09910608,
+          "cumulative_trading_cost": 0.00505282
+        },
+        "since_2023_01": {
+          "sample_start": "2023-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.04390915,
+          "Sharpe": 0.52590724,
+          "MaxDD": -0.10635464,
+          "turnover": 1.28726942,
+          "cumulative_trading_cost": 0.00289229
+        },
+        "since_2025_01": {
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.0641995,
+          "Sharpe": 0.62245271,
+          "MaxDD": -0.10748753,
+          "turnover": 1.57220398,
+          "cumulative_trading_cost": 0.00158207
+        },
+        "since_2026_01": {
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.13747491,
+          "Sharpe": -1.10331765,
+          "MaxDD": -0.09803317,
+          "turnover": 1.37318625,
+          "cumulative_trading_cost": 0.00041181
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.04636008,
+          "Sharpe": 0.7411645,
+          "MaxDD": -0.08394524,
+          "turnover": 0.9378816,
+          "cumulative_trading_cost": 0.00688968
+        },
+        "since_2020_01": {
+          "sample_start": "2020-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.04108215,
+          "Sharpe": 0.60889701,
+          "MaxDD": -0.08394524,
+          "turnover": 0.87787243,
+          "cumulative_trading_cost": 0.00396686
+        },
+        "since_2023_01": {
+          "sample_start": "2023-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.04012265,
+          "Sharpe": 0.57530848,
+          "MaxDD": -0.08394524,
+          "turnover": 1.00951883,
+          "cumulative_trading_cost": 0.00226615
+        },
+        "since_2025_01": {
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.05272724,
+          "Sharpe": 0.60780293,
+          "MaxDD": -0.08487032,
+          "turnover": 1.28682853,
+          "cumulative_trading_cost": 0.00126643
+        },
+        "since_2026_01": {
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.1023237,
+          "Sharpe": -1.06221649,
+          "MaxDD": -0.07646571,
+          "turnover": 1.05759846,
+          "cumulative_trading_cost": 0.00031788
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.003562410000000002,
+          "Sharpe": -0.08338013,
+          "MaxDD": -0.03947945,
+          "turnover": 0.2798473200000001,
+          "cumulative_trading_cost": 0.00221015
+        },
+        "since_2020_01": {
+          "CAGR": 0.004801390000000003,
+          "Sharpe": -0.04175793999999999,
+          "MaxDD": -0.02298559,
+          "turnover": 0.22123365000000006,
+          "cumulative_trading_cost": 0.0010859600000000004
+        },
+        "since_2023_01": {
+          "CAGR": 0.003786499999999998,
+          "Sharpe": -0.04940124000000001,
+          "MaxDD": -0.022409399999999996,
+          "turnover": 0.27775059000000013,
+          "cumulative_trading_cost": 0.0006261399999999999
+        },
+        "since_2025_01": {
+          "CAGR": 0.011472260000000005,
+          "Sharpe": 0.014649780000000057,
+          "MaxDD": -0.02261721,
+          "turnover": 0.2853754500000001,
+          "cumulative_trading_cost": 0.00031564000000000006
+        },
+        "since_2026_01": {
+          "CAGR": -0.03515121,
+          "Sharpe": -0.04110115999999997,
+          "MaxDD": -0.021567459999999997,
+          "turnover": 0.31558779000000015,
+          "cumulative_trading_cost": 9.392999999999999e-05
+        }
+      },
+      "stability_guard_triggers": [],
+      "decision": "keep_watch",
+      "actual_validation": "未触发中窗硬护栏，但 since_2026_01 CAGR=-13.75%，风险/成本或短窗持续性尚不足，判定 keep_watch。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path5",
+      "candidate_id": "hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair",
+      "current_winner_or_robust_id": "hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair",
+      "experiment_hypothesis": "Path5 artifact robust 需同端点确认其弱路径内部观察地位。",
+      "changed_from_comparator": "弱 robust 同身确认，无参数变更。",
+      "expected_improvement": "确认内部排序，同时检查 2026 与 minCAGR。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.04636008,
+          "Sharpe": 0.7411645,
+          "MaxDD": -0.08394524,
+          "turnover": 0.9378816,
+          "cumulative_trading_cost": 0.00688968
+        },
+        "since_2020_01": {
+          "sample_start": "2020-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.04108215,
+          "Sharpe": 0.60889701,
+          "MaxDD": -0.08394524,
+          "turnover": 0.87787243,
+          "cumulative_trading_cost": 0.00396686
+        },
+        "since_2023_01": {
+          "sample_start": "2023-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.04012265,
+          "Sharpe": 0.57530848,
+          "MaxDD": -0.08394524,
+          "turnover": 1.00951883,
+          "cumulative_trading_cost": 0.00226615
+        },
+        "since_2025_01": {
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.05272724,
+          "Sharpe": 0.60780293,
+          "MaxDD": -0.08487032,
+          "turnover": 1.28682853,
+          "cumulative_trading_cost": 0.00126643
+        },
+        "since_2026_01": {
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.1023237,
+          "Sharpe": -1.06221649,
+          "MaxDD": -0.07646571,
+          "turnover": 1.05759846,
+          "cumulative_trading_cost": 0.00031788
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.04636008,
+          "Sharpe": 0.7411645,
+          "MaxDD": -0.08394524,
+          "turnover": 0.9378816,
+          "cumulative_trading_cost": 0.00688968
+        },
+        "since_2020_01": {
+          "sample_start": "2020-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.04108215,
+          "Sharpe": 0.60889701,
+          "MaxDD": -0.08394524,
+          "turnover": 0.87787243,
+          "cumulative_trading_cost": 0.00396686
+        },
+        "since_2023_01": {
+          "sample_start": "2023-02-01",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.04012265,
+          "Sharpe": 0.57530848,
+          "MaxDD": -0.08394524,
+          "turnover": 1.00951883,
+          "cumulative_trading_cost": 0.00226615
+        },
+        "since_2025_01": {
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.05272724,
+          "Sharpe": 0.60780293,
+          "MaxDD": -0.08487032,
+          "turnover": 1.28682853,
+          "cumulative_trading_cost": 0.00126643
+        },
+        "since_2026_01": {
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.1023237,
+          "Sharpe": -1.06221649,
+          "MaxDD": -0.07646571,
+          "turnover": 1.05759846,
+          "cumulative_trading_cost": 0.00031788
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2020_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2023_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2025_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2026_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        }
+      },
+      "stability_guard_triggers": [],
+      "decision": "robust_observation",
+      "actual_validation": "artifact 仍将其置于弱路径观察位，但 since_2026_01 CAGR 为 -10.23%；进入观察位，不是强稳定 winner。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path6",
+      "candidate_id": "hkconnect_path6_large_liquid_core_biweekly_quality_liquidity_lowturn_v11",
+      "current_winner_or_robust_id": "hkconnect_path6_lowvol_liquid_biweekly_smoke",
+      "experiment_hypothesis": "大市值质量流动性低换手 v11 可降低容量成本。",
+      "changed_from_comparator": "由 lowvol robust 改为 large-liquid quality/liquidity lowturn。",
+      "expected_improvement": "降低换手并保持 2020/2023 与 2026 收益。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.13062312,
+          "Sharpe": 0.84837206,
+          "MaxDD": -0.22525265,
+          "turnover": 2.11622833,
+          "cumulative_trading_cost": 0.0208799
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.12363932,
+          "Sharpe": 0.78691776,
+          "MaxDD": -0.1597154,
+          "turnover": 2.05923792,
+          "cumulative_trading_cost": 0.01036801
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-16",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.18045713,
+          "Sharpe": 1.02243925,
+          "MaxDD": -0.12346535,
+          "turnover": 1.82528893,
+          "cumulative_trading_cost": 0.0049618
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.28037067,
+          "Sharpe": 1.63464427,
+          "MaxDD": -0.10196627,
+          "turnover": 1.98083116,
+          "cumulative_trading_cost": 0.00235445
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.01292375,
+          "Sharpe": 0.15635135,
+          "MaxDD": -0.10679837,
+          "turnover": 2.97238446,
+          "cumulative_trading_cost": 0.00097394
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.14046046,
+          "Sharpe": 0.88648353,
+          "MaxDD": -0.20676547,
+          "turnover": 2.08993252,
+          "cumulative_trading_cost": 0.02088934
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.14273836,
+          "Sharpe": 0.86406856,
+          "MaxDD": -0.15895296,
+          "turnover": 2.03595046,
+          "cumulative_trading_cost": 0.0107712
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-16",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.21970325,
+          "Sharpe": 1.22849399,
+          "MaxDD": -0.10474234,
+          "turnover": 1.78788726,
+          "cumulative_trading_cost": 0.00536311
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.25099735,
+          "Sharpe": 1.48793227,
+          "MaxDD": -0.10090316,
+          "turnover": 2.03439688,
+          "cumulative_trading_cost": 0.00232966
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.11790059,
+          "Sharpe": 0.73354992,
+          "MaxDD": -0.10608704,
+          "turnover": 3.3005916,
+          "cumulative_trading_cost": 0.00110917
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": -0.00983734,
+          "Sharpe": -0.038111470000000036,
+          "MaxDD": -0.018487179999999992,
+          "turnover": 0.02629581000000014,
+          "cumulative_trading_cost": -9.439999999999449e-06
+        },
+        "since_2020_01": {
+          "CAGR": -0.01909904000000001,
+          "Sharpe": -0.07715079999999996,
+          "MaxDD": -0.0007624400000000031,
+          "turnover": 0.02328746000000015,
+          "cumulative_trading_cost": -0.00040318999999999945
+        },
+        "since_2023_01": {
+          "CAGR": -0.039246119999999995,
+          "Sharpe": -0.20605474000000013,
+          "MaxDD": -0.018723009999999998,
+          "turnover": 0.03740166999999994,
+          "cumulative_trading_cost": -0.0004013100000000002
+        },
+        "since_2025_01": {
+          "CAGR": 0.02937331999999998,
+          "Sharpe": 0.14671199999999995,
+          "MaxDD": -0.0010631099999999921,
+          "turnover": -0.05356572000000015,
+          "cumulative_trading_cost": 2.479000000000023e-05
+        },
+        "since_2026_01": {
+          "CAGR": -0.10497684,
+          "Sharpe": -0.57719857,
+          "MaxDD": -0.00071133000000001,
+          "turnover": -0.3282071400000004,
+          "cumulative_trading_cost": -0.00013523000000000007
+        }
+      },
+      "stability_guard_triggers": [
+        {
+          "window": "since_2023_01",
+          "metric": "CAGR",
+          "delta": -0.039246119999999995,
+          "threshold": -0.03
+        }
+      ],
+      "decision": "reject",
+      "actual_validation": "触发稳定性护栏（since_2023_01 CAGR delta=-0.039），since_2026_01 CAGR=1.29%；判定 reject。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path6",
+      "candidate_id": "hkconnect_path6_lowvol_liquid_biweekly_smoke",
+      "current_winner_or_robust_id": "hkconnect_path6_lowvol_liquid_biweekly_smoke",
+      "experiment_hypothesis": "Path6 lowvol-liquid incumbent 应继续保持五窗口正收益。",
+      "changed_from_comparator": "incumbent 同身确认，无参数变更。",
+      "expected_improvement": "五窗口稳定且 2026 收益保持正值。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.14046046,
+          "Sharpe": 0.88648353,
+          "MaxDD": -0.20676547,
+          "turnover": 2.08993252,
+          "cumulative_trading_cost": 0.02088934
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.14273836,
+          "Sharpe": 0.86406856,
+          "MaxDD": -0.15895296,
+          "turnover": 2.03595046,
+          "cumulative_trading_cost": 0.0107712
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-16",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.21970325,
+          "Sharpe": 1.22849399,
+          "MaxDD": -0.10474234,
+          "turnover": 1.78788726,
+          "cumulative_trading_cost": 0.00536311
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.25099735,
+          "Sharpe": 1.48793227,
+          "MaxDD": -0.10090316,
+          "turnover": 2.03439688,
+          "cumulative_trading_cost": 0.00232966
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.11790059,
+          "Sharpe": 0.73354992,
+          "MaxDD": -0.10608704,
+          "turnover": 3.3005916,
+          "cumulative_trading_cost": 0.00110917
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.14046046,
+          "Sharpe": 0.88648353,
+          "MaxDD": -0.20676547,
+          "turnover": 2.08993252,
+          "cumulative_trading_cost": 0.02088934
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.14273836,
+          "Sharpe": 0.86406856,
+          "MaxDD": -0.15895296,
+          "turnover": 2.03595046,
+          "cumulative_trading_cost": 0.0107712
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-16",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.21970325,
+          "Sharpe": 1.22849399,
+          "MaxDD": -0.10474234,
+          "turnover": 1.78788726,
+          "cumulative_trading_cost": 0.00536311
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.25099735,
+          "Sharpe": 1.48793227,
+          "MaxDD": -0.10090316,
+          "turnover": 2.03439688,
+          "cumulative_trading_cost": 0.00232966
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.11790059,
+          "Sharpe": 0.73354992,
+          "MaxDD": -0.10608704,
+          "turnover": 3.3005916,
+          "cumulative_trading_cost": 0.00110917
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2020_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2023_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2025_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2026_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        }
+      },
+      "stability_guard_triggers": [],
+      "decision": "promote",
+      "actual_validation": "同端点五窗口确认 incumbent；未触发稳定性护栏，继续具备正式竞争资格。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path7",
+      "candidate_id": "hkconnect_path7_barbell_quality_growth_biweekly_dual_sleeve_v4",
+      "current_winner_or_robust_id": "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3",
+      "experiment_hypothesis": "dual-sleeve v4 可优化杠铃结构并降低换手。",
+      "changed_from_comparator": "由 core-sleeve v3 改为 dual-sleeve v4。",
+      "expected_improvement": "改善中窗风险与换手，同时保持 2026 正收益。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.15530478,
+          "Sharpe": 0.89253388,
+          "MaxDD": -0.18875754,
+          "turnover": 9.59886999,
+          "cumulative_trading_cost": 0.11900351
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.13720627,
+          "Sharpe": 0.80091512,
+          "MaxDD": -0.1433735,
+          "turnover": 9.30216985,
+          "cumulative_trading_cost": 0.05346521
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-16",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.19880079,
+          "Sharpe": 1.03462178,
+          "MaxDD": -0.13300664,
+          "turnover": 9.23902483,
+          "cumulative_trading_cost": 0.02834061
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.21774686,
+          "Sharpe": 1.07345946,
+          "MaxDD": -0.13399189,
+          "turnover": 11.92513941,
+          "cumulative_trading_cost": 0.01462168
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-24",
+          "CAGR": -0.02762081,
+          "Sharpe": -0.0643652,
+          "MaxDD": -0.13253839,
+          "turnover": 10.6875608,
+          "cumulative_trading_cost": 0.00355217
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.14486579,
+          "Sharpe": 0.86532102,
+          "MaxDD": -0.21886216,
+          "turnover": 5.20010334,
+          "cumulative_trading_cost": 0.0585117
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.13087475,
+          "Sharpe": 0.79392385,
+          "MaxDD": -0.14271577,
+          "turnover": 4.9923997,
+          "cumulative_trading_cost": 0.02689204
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-16",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.19917647,
+          "Sharpe": 1.06014072,
+          "MaxDD": -0.12099403,
+          "turnover": 4.60411142,
+          "cumulative_trading_cost": 0.01400294
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.24919038,
+          "Sharpe": 1.32663747,
+          "MaxDD": -0.12158064,
+          "turnover": 5.21234961,
+          "cumulative_trading_cost": 0.00630047
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08961783,
+          "Sharpe": 0.56723962,
+          "MaxDD": -0.12020002,
+          "turnover": 5.84026334,
+          "cumulative_trading_cost": 0.00199077
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.010438990000000009,
+          "Sharpe": 0.027212860000000005,
+          "MaxDD": 0.03010462,
+          "turnover": 4.398766650000001,
+          "cumulative_trading_cost": 0.06049181000000001
+        },
+        "since_2020_01": {
+          "CAGR": 0.006331519999999979,
+          "Sharpe": 0.006991269999999994,
+          "MaxDD": -0.0006577299999999953,
+          "turnover": 4.30977015,
+          "cumulative_trading_cost": 0.02657317
+        },
+        "since_2023_01": {
+          "CAGR": -0.00037567999999998936,
+          "Sharpe": -0.02551893999999999,
+          "MaxDD": -0.012012610000000007,
+          "turnover": 4.63491341,
+          "cumulative_trading_cost": 0.014337669999999999
+        },
+        "since_2025_01": {
+          "CAGR": -0.03144352,
+          "Sharpe": -0.25317801000000006,
+          "MaxDD": -0.012411249999999999,
+          "turnover": 6.7127897999999995,
+          "cumulative_trading_cost": 0.008321209999999999
+        },
+        "since_2026_01": {
+          "CAGR": -0.11723863999999999,
+          "Sharpe": -0.6316048200000001,
+          "MaxDD": -0.012338370000000001,
+          "turnover": 4.84729746,
+          "cumulative_trading_cost": 0.0015613999999999997
+        }
+      },
+      "stability_guard_triggers": [],
+      "decision": "keep_watch",
+      "actual_validation": "未触发中窗硬护栏，但 since_2026_01 CAGR=-2.76%，风险/成本或短窗持续性尚不足，判定 keep_watch。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "hkconnect",
+      "path": "path7",
+      "candidate_id": "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3",
+      "current_winner_or_robust_id": "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3",
+      "experiment_hypothesis": "Path7 core-sleeve incumbent 应继续保持五窗口稳定。",
+      "changed_from_comparator": "incumbent 同身确认，无参数变更。",
+      "expected_improvement": "五窗口正收益且优于 dual-sleeve 的短窗风险。",
+      "windows": [
+        "since_2017_01",
+        "since_2020_01",
+        "since_2023_01",
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.14486579,
+          "Sharpe": 0.86532102,
+          "MaxDD": -0.21886216,
+          "turnover": 5.20010334,
+          "cumulative_trading_cost": 0.0585117
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.13087475,
+          "Sharpe": 0.79392385,
+          "MaxDD": -0.14271577,
+          "turnover": 4.9923997,
+          "cumulative_trading_cost": 0.02689204
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-16",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.19917647,
+          "Sharpe": 1.06014072,
+          "MaxDD": -0.12099403,
+          "turnover": 4.60411142,
+          "cumulative_trading_cost": 0.01400294
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.24919038,
+          "Sharpe": 1.32663747,
+          "MaxDD": -0.12158064,
+          "turnover": 5.21234961,
+          "cumulative_trading_cost": 0.00630047
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08961783,
+          "Sharpe": 0.56723962,
+          "MaxDD": -0.12020002,
+          "turnover": 5.84026334,
+          "cumulative_trading_cost": 0.00199077
+        }
+      },
+      "current_winner_or_robust_metrics": {
+        "since_2017_01": {
+          "sample_start": "2017-01-09",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.14486579,
+          "Sharpe": 0.86532102,
+          "MaxDD": -0.21886216,
+          "turnover": 5.20010334,
+          "cumulative_trading_cost": 0.0585117
+        },
+        "since_2020_01": {
+          "sample_start": "2020-01-06",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.13087475,
+          "Sharpe": 0.79392385,
+          "MaxDD": -0.14271577,
+          "turnover": 4.9923997,
+          "cumulative_trading_cost": 0.02689204
+        },
+        "since_2023_01": {
+          "sample_start": "2023-01-16",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.19917647,
+          "Sharpe": 1.06014072,
+          "MaxDD": -0.12099403,
+          "turnover": 4.60411142,
+          "cumulative_trading_cost": 0.01400294
+        },
+        "since_2025_01": {
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.24919038,
+          "Sharpe": 1.32663747,
+          "MaxDD": -0.12158064,
+          "turnover": 5.21234961,
+          "cumulative_trading_cost": 0.00630047
+        },
+        "since_2026_01": {
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-24",
+          "CAGR": 0.08961783,
+          "Sharpe": 0.56723962,
+          "MaxDD": -0.12020002,
+          "turnover": 5.84026334,
+          "cumulative_trading_cost": 0.00199077
+        }
+      },
+      "delta": {
+        "since_2017_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2020_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2023_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2025_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        },
+        "since_2026_01": {
+          "CAGR": 0.0,
+          "Sharpe": 0.0,
+          "MaxDD": 0.0,
+          "turnover": 0.0,
+          "cumulative_trading_cost": 0.0
+        }
+      },
+      "stability_guard_triggers": [],
+      "decision": "promote",
+      "actual_validation": "同端点五窗口确认 incumbent；未触发稳定性护栏，继续具备正式竞争资格。",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    },
+    {
+      "market": "ashare",
+      "path": "path5",
+      "candidate_id": "ai_glasses_edge_terminal_20260424_v0__mature_20_40_60",
+      "basket_id": "ai_glasses_edge_terminal_20260424_v0",
+      "audit_status": "approved + source_audited + frozen",
+      "candidate_count": 6,
+      "horizons_trading_days": [
+        20,
+        40,
+        60
+      ],
+      "portfolio_returns": {
+        "20": {
+          "equal_weight": {
+            "status": "ok",
+            "eligible_count": 6,
+            "return": 0.21800961254852186,
+            "weights": {
+              "002241.SZ": 0.16666666666666666,
+              "002475.SZ": 0.16666666666666666,
+              "300433.SZ": 0.16666666666666666,
+              "002273.SZ": 0.16666666666666666,
+              "002600.SZ": 0.16666666666666666,
+              "603501.SH": 0.16666666666666666
+            }
+          },
+          "seed_weight": {
+            "status": "ok",
+            "eligible_count": 6,
+            "return": 0.21988306802558943,
+            "weights": {
+              "002241.SZ": 0.20000000000000004,
+              "002475.SZ": 0.18571428571428572,
+              "300433.SZ": 0.17142857142857143,
+              "002273.SZ": 0.15714285714285717,
+              "002600.SZ": 0.14285714285714288,
+              "603501.SH": 0.14285714285714288
+            }
+          }
+        },
+        "40": {
+          "equal_weight": {
+            "status": "ok",
+            "eligible_count": 6,
+            "return": 0.2681735579881363,
+            "weights": {
+              "002241.SZ": 0.16666666666666666,
+              "002475.SZ": 0.16666666666666666,
+              "300433.SZ": 0.16666666666666666,
+              "002273.SZ": 0.16666666666666666,
+              "002600.SZ": 0.16666666666666666,
+              "603501.SH": 0.16666666666666666
+            }
+          },
+          "seed_weight": {
+            "status": "ok",
+            "eligible_count": 6,
+            "return": 0.2693133004184175,
+            "weights": {
+              "002241.SZ": 0.20000000000000004,
+              "002475.SZ": 0.18571428571428572,
+              "300433.SZ": 0.17142857142857143,
+              "002273.SZ": 0.15714285714285717,
+              "002600.SZ": 0.14285714285714288,
+              "603501.SH": 0.14285714285714288
+            }
+          }
+        },
+        "60": {
+          "equal_weight": {
+            "status": "ok",
+            "eligible_count": 6,
+            "return": 0.001100584373965418,
+            "weights": {
+              "002241.SZ": 0.16666666666666666,
+              "002475.SZ": 0.16666666666666666,
+              "300433.SZ": 0.16666666666666666,
+              "002273.SZ": 0.16666666666666666,
+              "002600.SZ": 0.16666666666666666,
+              "603501.SH": 0.16666666666666666
+            }
+          },
+          "seed_weight": {
+            "status": "ok",
+            "eligible_count": 6,
+            "return": 0.0037615648824780717,
+            "weights": {
+              "002241.SZ": 0.20000000000000004,
+              "002475.SZ": 0.18571428571428572,
+              "300433.SZ": 0.17142857142857143,
+              "002273.SZ": 0.15714285714285717,
+              "002600.SZ": 0.14285714285714288,
+              "603501.SH": 0.14285714285714288
+            }
+          }
+        }
+      },
+      "path4_reference_strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+      "path4_reference_overlap": {
+        "status": "ok",
+        "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+        "sample_tag": "since_2026_01",
+        "event_date": "2026-04-24",
+        "reference_as_of": "2026-03-31",
+        "candidate_count": 6,
+        "path4_holding_count": 18,
+        "overlap_count": 0,
+        "overlap_ratio_of_basket": 0.0,
+        "overlap_ratio_of_path4": 0.0,
+        "path4_overlap_weight": 0,
+        "seed_overlap_weight": 0.0,
+        "overlap_holdings": []
+      },
+      "experiment_hypothesis": "AI 眼镜与端侧 AI 事件篮子可在 20/40/60D 提供独立于 Path4 的收益。",
+      "changed_from_comparator": "冻结事件篮子独立计算 20/40/60D，并与 capacity-v2 事件日前持仓做 overlap。",
+      "expected_improvement": "20/40/60D 均保持正收益，且不是 Path4 持仓的简单复制。",
+      "actual_validation": "20D/40D equal-weight 收益约 21.80%/26.82%，60D 仅约 0.11%；与 Path4 overlap 0/6，独立性成立但长 horizon 收益消失。",
+      "metrics_gap_reason": "事件入口只计算 horizon return，不伪造 CAGR、Sharpe、MaxDD 或 turnover。",
+      "decision": "keep_watch",
+      "winner_or_robust_changed": false,
+      "evict_or_archive": null
+    }
+  ]
+}

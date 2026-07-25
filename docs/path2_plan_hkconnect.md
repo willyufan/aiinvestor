@@ -1,5 +1,24 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-26 二次迭代记录（07:19 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `biweekly_breakout` 五窗口确认 v21，并发现 plan 中 v54 已进入 `HK_ARCHIVED_STRATEGY_IDS`、当前变体集合不再生成；因此用当前有效 v29 turnover-cap 补足同路径预算。v21/v29 的 2023 CAGR 分别比 robust 低约 `6.88pp/11.18pp`，2026 CAGR `-16.38%/-22.36%`，并触发回撤/Sharpe 护栏，均 `reject`；正式 robust `theme_fast_monthly` 五窗口全正，确认 `promote`。window winner/robust/tracked 未改变，无新增 evict。
+
+### 本轮候选 ID 与命令
+
+- 原命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v54_return_recovery,hkconnect_path2_theme_fast_monthly`；v54 因已归档被当前生成集合跳过。
+- 替代实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v29_breakout_turnover_cap`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260726_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 仍为 `biweekly_breakout`。v21/v29 双周修复均失败，下一轮确认当前 2017-window winner v25 是否能通过其它窗口二次判断，并与正式 robust 比较。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `biweekly_breakout`：v21、v29（本轮均 reject）；`high_return_monthly`：v27、v28；`elasticity_cost_control`：theme-monthly-cost-control、theme-fast-monthly。
+
 ## 2026-07-26 迭代记录
 
 ### 上一轮候选与结果摘要

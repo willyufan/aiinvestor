@@ -1,5 +1,24 @@
 # Path 1 研究计划
 
+## 2026-07-26 二次迭代记录（07:19 CST）
+
+### 上一轮候选与结果摘要
+
+- 主线本轮未新增实跑：预算优先补上轮明确欠缺的 `core_multifactor_coverage`；正式 robust 仍为 `...risk20_reconfirm`，window winner/robust/tracked 未改变。core_multifactor 子段五窗口确认 `quality_profitability_signal_cost_guard_reconfirm` 与 `growth_trend_signal_quality_gate_cashguard_risk08_reconfirm`，两者相对 risk20 的 2020 CAGR 分别下降约 `29.5pp/17.9pp`，且均触发中窗护栏，判定 `reject`。实验假设“质量/趋势门槛改善多窗口稳定性”未获支持，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cost_guard_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260726_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 仍为 `core_multifactor_coverage`。本轮两条质量信号边界均失败，下一轮改用 value/lowvol/trend/cashguard 风险20组合挑战正式 robust；主线 share18 放入随后确认队列。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_risk20_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+
+### Focus 候选池
+
+- `core_multifactor_coverage/signal_quality`：`quality_profitability_value_lowvol_trend_signal_cashguard_risk20_reconfirm`、正式 robust `risk20_reconfirm`；`holding_shape`：share18、share20；`satellite_risk_cost`：risk25、risk20。
+
 ## 2026-07-26 迭代记录
 
 ### 上一轮候选与结果摘要

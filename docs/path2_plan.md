@@ -1,5 +1,24 @@
 # Path 2 研究计划
 
+## 2026-07-26 二次迭代记录（07:19 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `capacity_and_cost_stress` 五窗口确认 equal-weight v45/v46，并与正式 robust `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` 同窗比较。v45/v46 的 2020 CAGR 提高约 `8.2pp`，但 2023 CAGR 下降约 `11.9pp/11.3pp`、2026 CAGR 为 `-25.82%/-22.64%`，触发 CAGR/MaxDD/Sharpe 护栏，均 `reject`；robust 同端点确认 `promote`。实验假设“容量成本改善且守住中窗”未获支持，Path4 未混入 Path2，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk24_exit44_cap18_cost_guard_v45_capacity_stress`、`core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top8_risk22_exit42_cap16_cost_guard_v46_capacity_cost`、`core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk24_exit44_cap18_cost_guard_v45_capacity_stress,core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top8_risk22_exit42_cap16_cost_guard_v46_capacity_cost,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260726_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 轮换为 `medium_cycle_growth`。v45/v46 容量同形停止，下一轮转 v30/v37 中周期增长修复，并继续与正式 robust 比较。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk27_mom_exit47_reconfirm95_caution58_cap22_cost_guard_v37_medium_cycle_repair,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`。
+
+### Focus 候选池
+
+- `capacity_and_cost_stress`：v45、v46（本轮已 reject，停止同形）；`underrepresented_families`：双周 v70、v78；`medium_cycle_growth`：v30、v37；`risk_reconfirm_sensitivity`：v74、正式 robust。
+
 ## 2026-07-26 迭代记录
 
 ### 上一轮候选与结果摘要

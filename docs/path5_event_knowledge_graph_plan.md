@@ -1,5 +1,24 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-26 二次迭代记录（07:19 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `path4_comparison` 复跑 `approved + source_audited + frozen` 的 `ai_glasses_edge_terminal_20260424_v0` 20/40/60D。equal-weight 20D/40D 收益为 `21.80%/26.82%`，60D 仅 `0.11%`；seed-weight 为 `21.99%/26.93%/0.38%`。与 Path4 capacity-v2 overlap `0/6`，独立性假设成立，但长 horizon 收益消失，判定 `keep_watch`，不是 promote；Path5 不写入 Path1-4 winner/robust/tracked，无 evict。
+
+### 本轮候选 ID 与命令
+
+- candidate/basket：`ai_glasses_edge_terminal_20260424_v0__mature_20_40_60`；审计状态：`approved + source_audited + frozen`；输出：`results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_20260726_iter2_mature.json`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_20260726_iter2_mature.json`。完整事件卡：`results/research/a_share/research_iteration_scorecard_20260726_iter2.json`；事件入口不伪造 CAGR/Sharpe/MaxDD/turnover。
+
+### 下一轮 focus 提示
+
+- 最终 guard 轮换为 `event_basket_registry`。先核对第五篮子候选是否尚未进入 registry/candidates，再做 primary-source audit；AI 眼镜 60D 已确认几乎归零，停止同形刷新。第一条可执行核对命令：`rg -n "ai_datacenter_power_grid_202607_v0|advanced_packaging_interconnect_202607_v0" results/research/a_share/event_theme_registry.json results/research/a_share/event_theme_candidates.jsonl`；审计通过后才注册最小篮子并运行 event entry。
+
+### Focus 候选池
+
+- `path4_comparison`：MRC/UEC vs capacity-v2、AI glasses vs capacity-v2；`event_backtest_entry`：MRC/UEC 60D、AI glasses 已成熟复核；`event_basket_registry`：`ai_datacenter_power_grid_202607_v0`、`advanced_packaging_interconnect_202607_v0`；`frozen_candidate_audit`：第五篮子 primary-source audit、现有 24 个 frozen refresh。
+
 ## 2026-07-26 迭代记录
 
 ### 上一轮候选与结果摘要
