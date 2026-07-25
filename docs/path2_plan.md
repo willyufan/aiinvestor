@@ -1,5 +1,25 @@
 # Path 2 研究计划
 
+## 2026-07-26 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 按 `underrepresented_families` 五窗口确认 equal-weight v43/v44，并与正式 robust `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` 同窗比较。v43/v44 的 2023 CAGR 为 `-1.09%/-0.76%`、2026 CAGR 为 `-37.65%/-29.02%`，中窗 CAGR/Sharpe 明显破坏稳定性，均判定 `reject`。Path4 候选未混入 Path2，window winner/robust/tracked 未改变，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality`、`core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality,core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260726.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮换到 `capacity_and_cost_stress`。v43/v44 同形已失败，下一轮改测 equal-weight v45/v46 的容量成本边界，并以正式 robust 为同窗对照。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk24_exit44_cap18_cost_guard_v45_capacity_stress,core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top8_risk22_exit42_cap16_cost_guard_v46_capacity_cost,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`。
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v30 medium-cycle、v37 growth-repair；`risk_reconfirm_sensitivity`：v74 capacity-cost、正式 robust `aggr_10_90_prom6`。
+- `underrepresented_families`：双周 v70 lowturn、双周 v78 repair；`capacity_and_cost_stress`：equal-weight v45、v46 capacity-cost。
+
 ## 2026-07-25 二次迭代记录（07:25 CST）
 
 ### 上一轮候选与结果摘要

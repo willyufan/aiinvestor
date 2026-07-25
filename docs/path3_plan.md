@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-07-26 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 按 `turnover_reduction` 五窗口确认纯周频 return-recovery v7，并复核正式 robust `...cap54_hold5_turn05_exit98_risk16_weekly`。v7 的 MaxDD 与 turnover 明显改善、2026 CAGR 为 `55.79%`，但 2020 CAGR 比 robust 低 `3.24pp`，命中稳定性护栏，判定 `reject`；robust 五窗全正，确认 `promote`。window winner/robust/tracked 未改变，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260726.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮换到 `weekly_exit_buffer`。v7 的收益恢复以 2020 退化为代价，下一轮检查更温和、exit96 的 v6 是否能守住中窗。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：return-recovery v6、正式 robust cap54；`weekly_exit_buffer`：exit-buffer-v3、return-recovery-v6。
+- `risk_downshift`：risk-downshift risk06、正式 robust cap54；`cost_stress`：cost-stress risk10、return-recovery-v6。
+
 ## 2026-07-25 二次迭代记录（07:25 CST）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,36 @@
 # 沪港通策略空间扩展计划
 
+## 2026-07-26 迭代记录
+
+### 上一轮候选与结果摘要
+
+- Path4 `ytd_guard`：v38/v41 的中窗收益或回撤较弱 robust v47 有改善，但 2026 CAGR 为 `-9.30%/-7.76%`，均 `keep_watch`；v47 的 minCAGR/2026 CAGR 仍为 `-1.73%`，继续 `robust_observation`，进入观察位，不是强稳定 winner。
+- Path5 `pause_or_redesign`：v31 的 2020 MaxDD 比 v35 恶化 `5.51pp`，且 2026 CAGR `-16.57%`，判定 `reject`；v35 的 2026 CAGR `-10.23%`，继续 `robust_observation`，进入观察位，不是强稳定 winner。
+- Path6 `capacity_cost`：biweekly capacity-cost v9 的 2023 CAGR 低于 robust `3.87pp`，判定 `reject`；monthly-ytd-guard 五窗全正且风险成本改善，但 2026 明显弱于 robust，`keep_watch`；monthly-smoke 五窗全正、中窗 CAGR/Sharpe/MaxDD/turnover 均改善，判定 `promote`，具备正式晋级资格。
+- Path7 `turnover_control`：defensive-lowturn-v10 五窗全正且部分回撤改善，但中窗与 2026 收益均弱于 core-sleeve-v3，判定 `keep_watch`；core-sleeve-v3 五窗确认 `promote`。Path4-7 robust/tracked 未被本轮挑战者替换，无 evict。
+
+### 本轮候选 ID 与命令
+
+- Path4：`hkconnect_path4_quality_momentum_monthly_ytd_positive_v38_ytd_guard`、`hkconnect_path4_quality_momentum_monthly_lowdraw_v41_quality_momentum_ytd_guard`、`hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`。
+- Path5：`hkconnect_path5_pullback_continuation_monthly_quality_retest_v31_pause_redesign_probe`、`hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair`。
+- Path6：`hkconnect_path6_large_liquid_core_biweekly_capacity_cost_v9`、`hkconnect_path6_large_liquid_core_monthly_ytd_guard`、`hkconnect_path6_large_liquid_core_monthly_smoke`。
+- Path7：`hkconnect_path7_barbell_quality_growth_biweekly_core_defensive_lowturn_v10`、`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_ytd_positive_v38_ytd_guard,hkconnect_path4_quality_momentum_monthly_lowdraw_v41_quality_momentum_ytd_guard,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_pullback_continuation_monthly_quality_retest_v31_pause_redesign_probe,hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair,hkconnect_path6_large_liquid_core_biweekly_capacity_cost_v9,hkconnect_path6_large_liquid_core_monthly_ytd_guard,hkconnect_path6_large_liquid_core_monthly_smoke,hkconnect_path7_barbell_quality_growth_biweekly_core_defensive_lowturn_v10,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260726.json`。
+
+### 下一轮 focus 提示
+
+- Path4 `ytd_guard` 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_ytd_guard_v3,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`。
+- Path5 `pause_or_redesign` 第一条命令：同命令替换为 `hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite,hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair`。
+- Path6 `capacity_cost` 第一条命令：同命令替换为 `hkconnect_path6_large_liquid_core_biweekly_quality_liquidity_lowturn_v11,hkconnect_path6_lowvol_liquid_biweekly_smoke`。
+- Path7 `turnover_control` 第一条命令：同命令替换为 `hkconnect_path7_barbell_quality_growth_biweekly_dual_sleeve_v4,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3`。
+
+### Focus 候选池
+
+- Path4 `quality_momentum`：v47、v50 return-restore；`liquidity_momentum`：v27 repair、v47；`ytd_guard`：v3、v41。
+- Path5 `pullback_definition`：v34 rewrite、v35 YTD-repair；`retest_confirmation`：v23 lowturn、v35；`pause_or_redesign`：v31 probe、v34 rewrite。
+- Path6 `large_liquid_core`：monthly-smoke、monthly-ytd-guard；`lowvol_liquid_core`：v42 repair、lowvol-biweekly-smoke；`capacity_cost`：v11 lowturn、monthly-ytd-guard。
+- Path7 `barbell_sleeve_structure`：v10 defensive-lowturn、core-sleeve-v3；`biweekly_barbell`：v36 quality、core-sleeve-v3；`turnover_control`：dual-sleeve-v4、v10 defensive-lowturn。
+
 ## 2026-07-25 二次迭代记录（07:25 CST）
 
 ### 上一轮候选与结果摘要

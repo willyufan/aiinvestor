@@ -1,5 +1,27 @@
 # Path 1 研究计划
 
+## 2026-07-26 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 主线按 `holding_shape` 五窗口确认 `share24/share22`，并以正式 robust `...risk20_reconfirm` 同端点比较。`share24` 的 2025/2026 CAGR 为 `68.87%/23.80%`、2020 CAGR 比 robust 低 `6.21pp`，判定 `keep_watch`；`share22` 的 2020 CAGR 低 `6.36pp` 且短窗不优于 share24，判定 `reject`；`risk20` 五窗全正，确认 `promote`。2025 window winner 仍为 share24，robust/tracked 未改变，无 evict。
+- core_multifactor 子段本轮没有新增回测：首轮 guard 确认代码实际集合 `64/64` 五窗口覆盖完整，新增预算用于本轮 rotation 指向的 holding-shape、Path2/3/4/5 与 HK Path1-7；不得以主线同步替代 core_multifactor 实验结论。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_total_mv_winner_core__share_24_76_hold_2_8_ramp62_cost_guard`、`core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp64_cost_guard`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_24_76_hold_2_8_ramp62_cost_guard,core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp64_cost_guard,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260726.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮换到 `core_multifactor_coverage`。第一条确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm`；本轮未跑原因是 29 个证券策略预算已按 rotation 分配，且 core coverage 无 blocking。
+- `holding_shape` 不再向 share22/share24 同形扩参；后续用 share18 与 risk20 检查 fast-pass 给出的 2023 优势能否通过 2020 稳定性护栏。
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：`quality_profitability_signal_cost_guard_reconfirm`、`growth_trend_signal_quality_gate_cashguard_risk08_reconfirm`；`signal_quality`：同两条质量信号边界候选。
+- `satellite_risk_cost`：`risk25_reconfirm`、`risk20_reconfirm`；`holding_shape`：`share_18_82_hold_2_8_ramp68_cost_guard`、`share_20_80_hold_2_8_ramp66_cost_guard`。
+
 ## 2026-07-25 二次迭代记录（07:25 CST）
 
 ### 上一轮候选与结果摘要
