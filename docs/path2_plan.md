@@ -1,5 +1,24 @@
 # Path 2 研究计划
 
+## 2026-07-27 二次迭代记录（07:25 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `risk_reconfirm_sensitivity` 五窗口确认 v73 双底座，并与正式 robust `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` 同窗比较。total-mv v73 的 2020 CAGR 提高 `5.31pp`，但 2023 CAGR 仅 `5.92%`、相对 robust 下降 `14.55pp`，2026 CAGR `-23.09%`；equal-weight v73 的 2023/2026 CAGR 为 `-4.39%/-28.35%`。两条均触发中窗护栏并 `reject`；正式 robust 同端点确认 `promote`。Path4 未混入 Path2，winner/robust/tracked 未改变，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v73_risk_reconfirm_sensitivity`、`core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v73_risk_reconfirm_sensitivity`、正式 robust `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`。
+- 五窗口确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v73_risk_reconfirm_sensitivity,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v73_risk_reconfirm_sensitivity,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260727_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 当前 focus 为 `risk_reconfirm_sensitivity`，v73 双底座已证伪，下一轮回到已注册 v42 风险边界，要求 2023 不再破坏稳定性；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`。
+
+### Focus 候选池
+
+- `risk_reconfirm_sensitivity`：v42、正式 robust；`medium_cycle_growth`：v30、v37；`underrepresented_families`：双周 v70、v78；`capacity_and_cost_stress`：v45、v46。
+
 ## 2026-07-27 迭代记录
 
 ### 上一轮候选与结果摘要

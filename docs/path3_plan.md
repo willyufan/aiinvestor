@@ -1,5 +1,24 @@
 # Path 3 研究计划
 
+## 2026-07-27 二次迭代记录（07:25 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `cost_stress` 五窗口确认纯周频 risk10，并与正式 robust risk16 同窗比较。risk10 的 2020/2023 turnover 降至 `0.43x/0.11x`，2023 MaxDD 改善至 `-8.48%`，但 2020/2023 CAGR 仅 `3.54%/2.60%`，相对 robust 下降 `13.22pp/3.72pp`，触发稳定性护栏并 `reject`；“大幅压换手仍守住中窗收益”的假设不成立。risk16 五窗口确认 `promote`，winner/robust/tracked 未改变，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly_cost_stress_weekly`、正式 robust `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 五窗口确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly_cost_stress_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260727_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 当前 focus 为 `cost_stress`。risk10 压换手过度，下一轮用 risk14 turnover-repair 检查中间折中；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `cost_stress/turnover_reduction`：risk14 turnover-repair、risk16 robust；`weekly_exit_buffer`：exit-buffer-v3、risk16；`risk_downshift`：risk10、risk12；`return_recovery`：return-recovery-v6、risk16。
+
 ## 2026-07-27 迭代记录
 
 ### 上一轮候选与结果摘要

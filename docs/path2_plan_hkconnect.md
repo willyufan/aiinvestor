@@ -1,5 +1,24 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-27 二次迭代记录（07:25 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `elasticity_cost_control` 五窗口确认 v46 terminal，并与正式 robust `hkconnect_path2_theme_fast_monthly` 同窗比较。v46 的 2020/2023 CAGR 为 `3.24%/-1.14%`，相对 robust 下降 `15.65pp/24.85pp`，2026 CAGR `-30.83%`，触发 CAGR/MaxDD/Sharpe 护栏并 `reject`；“terminal 成本控制修复 v45”的假设不成立。theme-fast 五窗口确认 `promote`，winner/robust/tracked 未改变，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`hkconnect_path2_equal_elastic_monthly_cost_guard_v46_elasticity_cost_control_terminal`、`hkconnect_path2_theme_fast_monthly`。
+- 五窗口确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v46_elasticity_cost_control_terminal,hkconnect_path2_theme_fast_monthly`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260727_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 当前 rotation focus 已指向 `high_return_monthly`。停止 equal-elastic v45/v46 同形，下一轮确认 v27/v28 是否能修复 2026；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard,hkconnect_path2_high_return_monthly_quality_liquidity_v28_ytd_repair,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `high_return_monthly`：v27 cost-guard、v28 YTD-repair；`elasticity_cost_control`：theme-monthly-cost-control、theme-fast-monthly；`biweekly_breakout`：v21、v29；`return_recovery`：theme-fast-monthly、v50 return-restore。
+
 ## 2026-07-27 迭代记录
 
 ### 上一轮候选与结果摘要
