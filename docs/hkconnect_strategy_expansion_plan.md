@@ -1,5 +1,33 @@
 # 沪港通策略空间扩展计划
 
+## 2026-07-27 迭代记录
+
+### 上一轮候选与结果摘要
+
+- Path4 `quality_momentum`：v50/v19 的 2020/2023 CAGR 相对弱 robust v47 分别提高 `8.13pp/6.70pp` 与 `5.95pp/3.05pp`，且回撤更浅，但 2026 CAGR 为 `-8.29%/-9.11%`，均 `keep_watch`；v47 的 minCAGR/2026 CAGR 仍为 `-1.73%`，继续 `robust_observation`，进入观察位，不是强稳定 winner。
+- Path5 `pullback_definition`：v34 的 2020/2023 CAGR 略高于 v35，但 2026 CAGR `-13.75%`，`keep_watch`；v35 的 2026 CAGR `-10.23%`，继续 `robust_observation`，进入观察位，不是强稳定 winner。
+- Path6 `large_liquid_core`：monthly-smoke 五窗全正、2020/2023 CAGR 比 lowvol-biweekly 高 `3.52pp/2.68pp`，但 2026 仅 `2.61%`，风险调整后不足以替换 incumbent，`keep_watch`；lowvol-biweekly 确认 `promote`。Path7 `barbell_sleeve_structure`：defensive-lowturn-v10 五窗全正、2023 turnover `4.75x`，但 2020/2023/2026 CAGR 均低于 core-sleeve-v3，`keep_watch`；core-sleeve-v3 确认 `promote`。四条路径的实验假设均完成同窗验证，正式 robust/tracked 未变化，无新增注册、无 evict。
+
+### 本轮候选 ID 与命令
+
+- Path4：`hkconnect_path4_quality_momentum_monthly_v50_return_restore`、`hkconnect_path4_quality_momentum_monthly_lowdraw_v19_signal_quality_repair`、`hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`。Path5：`hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite`、`hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair`。
+- Path6：`hkconnect_path6_large_liquid_core_monthly_smoke`、`hkconnect_path6_lowvol_liquid_biweekly_smoke`。Path7：`hkconnect_path7_barbell_quality_growth_biweekly_core_defensive_lowturn_v10`、`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3`。
+- 五窗口确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_v50_return_restore,hkconnect_path4_quality_momentum_monthly_lowdraw_v19_signal_quality_repair,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite,hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair,hkconnect_path6_large_liquid_core_monthly_smoke,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_barbell_quality_growth_biweekly_core_defensive_lowturn_v10,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260727.json`。
+
+### 下一轮 focus 提示
+
+- Path4 `liquidity_momentum` 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v27_liquidity_momentum_repair,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`。
+- Path5 `retest_confirmation` 第一条命令：同命令替换为 `hkconnect_path5_breakout_retest_biweekly_quality_confirm_v23_retest_confirmation_lowturn,hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair`。
+- Path6 `lowvol_liquid_core` 第一条命令：同命令替换为 `hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v42_lowvol_liquid_core_repair,hkconnect_path6_lowvol_liquid_biweekly_smoke`。
+- Path7 `biweekly_barbell` 第一条命令：同命令替换为 `hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v36_biweekly_barbell,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3`。
+
+### Focus 候选池
+
+- Path4 `liquidity_momentum`：v27 repair、v47 observation；`quality_momentum`：v50、v47；`ytd_guard`：v3、v41。
+- Path5 `retest_confirmation`：v23 lowturn、v35 observation；`pullback_definition`：v34、v35；`pause_or_redesign`：v31、v34。
+- Path6 `lowvol_liquid_core`：v42 repair、lowvol-biweekly-smoke；`large_liquid_core`：monthly-smoke、monthly-ytd-guard；`capacity_cost`：v11、monthly-ytd-guard。
+- Path7 `biweekly_barbell`：v36 quality、core-sleeve-v3；`barbell_sleeve_structure`：v10、core-sleeve-v3；`turnover_control`：dual-sleeve-v4、v10。
+
 ## 2026-07-26 二次迭代记录（07:19 CST）
 
 ### 上一轮候选与结果摘要

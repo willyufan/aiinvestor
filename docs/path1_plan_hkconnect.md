@@ -1,5 +1,24 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-07-27 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 按 `monthly_weekly_overlay` 五窗口确认 lowvol soft-exit32/34，并与正式 robust `hkconnect_path1_biweekly_lowvol` 同窗比较。两条 overlay 的 2020/2023 CAGR 为 `26.70%/33.77%` 与 `26.58%/33.74%`，显著高于 robust，但 2026 CAGR 均为 `-4.44%`，实验假设“软退出可兼顾长中窗与 YTD”只在长中窗获支持，均 `keep_watch`；biweekly-lowvol 五窗确认 `promote`。window winner/robust/tracked 未改变，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32`、`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit34`、`hkconnect_path1_biweekly_lowvol`。
+- 五窗口确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit34,hkconnect_path1_biweekly_lowvol`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260727.json`。
+
+### 下一轮 focus 提示
+
+- 最终 focus 轮换为 `biweekly_buffer`。soft-exit32/34 的 YTD 同形失败，下一轮改确认双周 equal-buffered 低波形态；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_equal_buffered_lowvol_soft_exit38,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：v45 monthly-weekly-repair、soft-exit34；`risk_overlay_cost`：soft-exit32、biweekly-lowvol；`biweekly_buffer`：biweekly-lowvol、biweekly-equal-buffered-lowvol-soft-exit38；`return_recovery`：v45、biweekly-lowvol。
+
 ## 2026-07-26 二次迭代记录（07:19 CST）
 
 ### 上一轮候选与结果摘要

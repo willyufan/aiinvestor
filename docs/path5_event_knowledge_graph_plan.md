@@ -1,5 +1,24 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-27 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 对已 `approved/source_audited/frozen` 的 `ai_glasses_edge_terminal_20260424_v0` 六股篮子执行成熟 `20/40/60D` 复核，并以 Path4 `capacity_v2` 为参考。等权/seed-weighted 收益分别为 `21.80%/21.99%`、`26.82%/26.93%`、`0.11%/0.38%`，与参考持仓重合 `0/6`。假设“事件线可提供独立且跨 horizon 持续的正收益”只在 20/40D 获支持，60D 优势消失，判定 `keep_watch`，不进入 Path1-4 winner/robust/tracked；registry 仍为 4 个 audited frozen basket，pending audit 为 0，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选/篮子：`ai_glasses_edge_terminal_20260424_v0__mature_20_40_60`；输出：`results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_20260727_mature.json`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_20260727_mature.json`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260727.json`。
+
+### 下一轮 focus 提示
+
+- 最终 focus 轮换为 `frozen_candidate_audit`。当前 pending audit 为 0，下一轮先复核 `mrc_uec_ai_network_20260506_v0` 的 frozen/source 字段，确认无漂移后做同口径成熟确认；第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_mrc_uec_ai_network_20260506_v0_path4_capacity_v2_next_mature.json`。
+
+### Focus 候选池
+
+- `event_basket_registry`：`mrc_uec_ai_network_20260506_v0`、`ai_power_liquid_cooling_20260528_v0`；`event_backtest_entry`：MRC/UEC 20/40/60、liquid-cooling 20/40/60；`path4_comparison`：Path4 capacity-v2、risk-control-v5；`frozen_candidate_audit`：24 个 frozen candidate refresh、第五篮子 primary-source audit。
+
 ## 2026-07-26 二次迭代记录（07:19 CST）
 
 ### 上一轮候选与结果摘要
