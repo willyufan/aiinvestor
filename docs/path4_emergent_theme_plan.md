@@ -1,5 +1,25 @@
 # Path 4 强主题涌现路径
 
+## 2026-07-28 二次迭代记录（07:23 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `theme_risk_control` 五窗口确认 90/10 与 80/20 risk-control-v5，并与正式 robust capacity-v2 同窗比较。90/10 的 2020/2023/2026 CAGR 为 `2.56%/0.08%/-4.39%`，中窗显著退化，判定 `reject`；80/20 为 `5.35%/2.43%/-6.94%`，未触发硬护栏但短窗为负，判定 `keep_watch`。
+- capacity-v2 五窗口确认 `promote`，2020/2023/2026 CAGR 为 `6.12%/3.78%/1.97%`。未使用人工主题标签，无单票幸运晋级；window winner/robust/tracked 未变化，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`、对应 80/20 total-mv、正式 robust `...signal29_leader78...risk04_cap04_exit72_capacity_v2`。
+- 五窗口确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260728_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard focus 为 `theme_capacity_cost`。90/10 底座已证伪，下一轮只在 80/20 上测试已注册 cap05/exit70 的容量风险折中；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### Focus 候选池
+
+- `theme_risk_control`：80/20 risk-control-v5、capacity-v2；`theme_signal_quality`：signal-quality-v4、capacity-v2；`theme_capacity_cost`：cap05/exit70、capacity-v2；`emergent_theme_coverage`：signal29/cap06、capacity-v2。
+
 ## 2026-07-28 迭代记录
 
 ### 上一轮候选与结果摘要

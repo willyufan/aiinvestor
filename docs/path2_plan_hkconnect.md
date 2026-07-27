@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-28 二次迭代记录（07:23 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `biweekly_breakout` 五窗口确认 v21/v29，并与正式 robust `hkconnect_path2_theme_fast_monthly` 同窗比较。v21 的 2020 CAGR `24.30%`，但 2023/2026 为 `16.85%/-16.38%`、2023 turnover `14.12x`；v29 的 2020/2023/2026 为 `18.85%/12.47%/-22.36%`、turnover `12.50x`。两条均破坏中短窗与成本约束，判定 `reject`。
+- theme-fast 五窗口确认 `promote`，2023/2026 CAGR `23.71%/37.48%`；window winner/robust/tracked 未变化，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选：`hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair`、`...v29_breakout_turnover_cap`、正式 robust `hkconnect_path2_theme_fast_monthly`。
+- 五窗口确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair,hkconnect_path2_theme_biweekly_cost_guard_v29_breakout_turnover_cap,hkconnect_path2_theme_fast_monthly`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260728_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard focus 为 `elasticity_cost_control`。v21/v29 已证伪，下一轮回到月频 cost-control 与正式 robust 检查收益/换手边界；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_cost_control,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `biweekly_breakout`：v25 breakout-repair、v29 turnover-cap；`high_return_monthly`：v27、v28；`elasticity_cost_control`：theme-monthly-cost-control、theme-fast；`return_recovery`：theme-fast、v50 return-restore。
+
 ## 2026-07-28 迭代记录
 
 ### 上一轮候选与结果摘要

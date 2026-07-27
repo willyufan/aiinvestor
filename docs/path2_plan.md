@@ -1,5 +1,25 @@
 # Path 2 研究计划
 
+## 2026-07-28 二次迭代记录（07:23 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `capacity_and_cost_stress` 五窗口确认 equal-weight v45/v46，并与正式 robust `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` 同窗比较。v45/v46 的 2020 CAGR 为 `8.41%/8.44%`，但 2023 仅 `8.53%/9.17%`、相对 robust `20.48%` 下降约 `11.95pp/11.31pp`，2026 为 `-25.82%/-22.64%`，且 2023 turnover 约 `4.76x/4.74x`；两条均 `reject`。
+- robust 五窗口确认 `promote`；实验假设“压集中度和成本可守住 2023 并修复短窗”不成立。Path4 未混入 Path2，window winner/robust/tracked 未变化，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk24_exit44_cap18_cost_guard_v45_capacity_stress`、`...top8_risk22_exit42_cap16_cost_guard_v46_capacity_cost`、正式 robust `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`。
+- 五窗口确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk24_exit44_cap18_cost_guard_v45_capacity_stress,core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top8_risk22_exit42_cap16_cost_guard_v46_capacity_cost,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260728_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 当前 focus 为 `capacity_and_cost_stress`。v45/v46 同形已证伪，下一轮回到较温和 v44；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`。
+
+### Focus 候选池
+
+- `capacity_and_cost_stress`：v44 underrep-repair、v45 capacity-stress；`underrepresented_families`：60/40-v70、70/30-v70；`medium_cycle_growth`：v30、v37；`risk_reconfirm_sensitivity`：v42、正式 robust。
+
 ## 2026-07-28 迭代记录
 
 ### 上一轮候选与结果摘要
