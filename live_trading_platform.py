@@ -297,11 +297,12 @@ def strategy_detail_explanation_html(item: dict, active_view: dict, schedule_kin
         return "<ul>" + "".join(f"<li>{html.escape(line)}</li>" for line in lines) + "</ul>"
 
     return (
-        "<details class='card' style='margin-top:16px'>"
-        "<summary style='cursor:pointer;font-size:20px;font-weight:700'>策略详细说明</summary>"
+        "<details class='strategy-detail-toggle'>"
+        "<summary>策略详细说明</summary>"
+        "<div class='card strategy-detail-panel'>"
         f"<p><strong>{html.escape(display_name)}</strong></p>"
         f"<p class='muted'>{html.escape(role_text)}</p>"
-        f"<p>当前查看窗口：{html.escape(active_sample_label)}；{html.escape(metrics_text)}</p>"
+        f"<p>当前窗口指标：{html.escape(active_sample_label)}；{html.escape(metrics_text)}</p>"
         "<h3>策略定位</h3>"
         + list_html([f"标的范围：{universe}。", core_source])
         + "<h3>选股与组合结构</h3>"
@@ -310,7 +311,7 @@ def strategy_detail_explanation_html(item: dict, active_view: dict, schedule_kin
         + list_html(risk_lines)
         + "<h3>调仓/生效规则</h3>"
         + list_html([f"实际调整类型：{adjustment_style}。", f"当前判定口径：{schedule_kind_label(schedule_kind)}。", schedule_text])
-        + "</details>"
+        + "</div></details>"
     )
 
 
@@ -1987,10 +1988,53 @@ def render_page(title: str, body: str) -> str:
     a.strategy-card h3 {{ color: var(--ink); margin-bottom: 8px; }}
     a.strategy-card .muted {{ color: var(--muted); }}
     .detail-heading {{ display:flex; align-items:flex-start; justify-content:space-between; gap:18px; flex-wrap:wrap; }}
+    .detail-heading > div:first-child {{ flex:1; min-width:0; }}
     .detail-heading h1 {{ margin-bottom: 10px; }}
+    .detail-heading code {{ white-space:normal; overflow-wrap:anywhere; word-break:break-word; }}
     .favorite-actions {{ display:flex; gap:8px; align-items:center; justify-content:flex-end; flex-wrap:wrap; margin:4px 0 16px; }}
     .favorite-form {{ margin:0; }}
     .favorite-form button {{ min-width:112px; }}
+    .strategy-detail-toggle {{ margin:12px 0 16px; }}
+    .strategy-detail-toggle > summary {{
+      display:inline-block; list-style:none; padding:8px 16px; border:1.5px solid var(--ink);
+      background:var(--ink); color:var(--bg); font-size:12px; font-weight:600;
+      letter-spacing:.08em; text-transform:uppercase;
+    }}
+    .strategy-detail-toggle > summary::-webkit-details-marker {{ display:none; }}
+    .strategy-detail-toggle[open] > summary {{ background:transparent; color:var(--ink); }}
+    .strategy-detail-panel {{ margin-top:8px; }}
+    .decision-summary {{ margin-top:16px; }}
+    .decision-summary-heading {{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; }}
+    .decision-summary-heading h2 {{ margin:0; }}
+    .decision-grid {{
+      display:grid; grid-template-columns:repeat(6,minmax(120px,1fr)); gap:0;
+      margin-top:16px; border-top:1px solid #d8d0c4; border-left:1px solid #d8d0c4;
+    }}
+    .decision-item {{ min-height:92px; padding:14px; border-right:1px solid #d8d0c4; border-bottom:1px solid #d8d0c4; }}
+    .decision-label {{ color:var(--muted); font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px; }}
+    .decision-value {{ font-family:var(--serif); font-size:20px; line-height:1.2; }}
+    .change-filters {{ display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin:14px 0 10px; }}
+    .change-filter {{
+      display:inline-block; padding:6px 10px; border:1px solid var(--ink); color:var(--ink);
+      text-decoration:none; font-size:11px; font-weight:700; letter-spacing:.04em;
+    }}
+    .change-filter.active {{ background:var(--ink); color:var(--bg); }}
+    .table-scroll {{ overflow-x:auto; -webkit-overflow-scrolling:touch; }}
+    .history-controls {{ display:flex; align-items:flex-end; gap:10px; flex-wrap:wrap; margin:12px 0 16px; }}
+    .history-controls form {{ display:flex; align-items:flex-end; gap:10px; flex:1; min-width:280px; margin:0; }}
+    .history-controls form > div {{ flex:1; min-width:240px; }}
+    .history-pagination {{ display:flex; gap:8px; flex-wrap:wrap; }}
+    .history-pagination .disabled {{ opacity:.35; pointer-events:none; }}
+    .history-snapshot {{ margin-top:10px; border:1px solid #d8d0c4; background:var(--bg); }}
+    .history-snapshot > summary {{
+      display:flex; align-items:center; justify-content:space-between; gap:12px; padding:13px 15px;
+      list-style:none; font-size:13px; font-weight:700;
+    }}
+    .history-snapshot > summary::-webkit-details-marker {{ display:none; }}
+    .history-snapshot > summary::before {{ content:"+"; width:18px; flex:0 0 18px; font-size:18px; line-height:1; }}
+    .history-snapshot[open] > summary::before {{ content:"−"; }}
+    .history-snapshot-meta {{ margin-left:auto; color:var(--muted); font-size:12px; font-weight:400; }}
+    .history-snapshot-body {{ padding:0 15px 15px; }}
     /* ── Tables ── */
     table {{ width: 100%; border-collapse: collapse; }}
     th {{ font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 8px 12px; text-align: left; border-bottom: 1.5px solid var(--rule); background: transparent; }}
@@ -2050,7 +2094,17 @@ def render_page(title: str, body: str) -> str:
     /* ── Page section ── */
     .page-section {{ margin-bottom: 36px; }}
     .section-heading {{ font-family: var(--serif); font-size: clamp(18px,2.5vw,26px); letter-spacing: -.01em; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1.5px solid var(--rule); }}
-    @media (max-width: 720px) {{ .strategy-grid {{ grid-template-columns: 1fr; }} }}
+    @media (max-width: 980px) {{ .decision-grid {{ grid-template-columns:repeat(3,minmax(120px,1fr)); }} }}
+    @media (max-width: 720px) {{
+      main {{ padding:24px 16px 48px; }}
+      .strategy-grid {{ grid-template-columns:1fr; }}
+      .decision-grid {{ grid-template-columns:repeat(2,minmax(0,1fr)); }}
+      .decision-item {{ min-height:82px; padding:12px; }}
+      .decision-value {{ font-size:17px; }}
+      .history-controls form {{ min-width:100%; }}
+      .history-snapshot > summary {{ align-items:flex-start; flex-wrap:wrap; }}
+      .history-snapshot-meta {{ width:100%; margin-left:30px; }}
+    }}
     /* ── Misc ── */
     hr {{ border: none; border-top: 1px solid #e0d8cc; margin: 20px 0; }}
     ul, ol {{ padding-left: 20px; }}
@@ -2202,7 +2256,7 @@ def strategy_card_html(
     target_exposure = safe_float(view.get("target_total_exposure", item.get("target_total_exposure")), 0.0)
     href = f"/strategies/{quote(strategy_id)}"
     if sample_tag:
-        href += f"?sample_view={quote(sample_tag)}&history_window=all"
+        href += f"?sample_view={quote(sample_tag)}&history_window=0"
     tags_html = leading_badges
     if item.get("is_pinned"):
         tags_html += "<span class='badge badge-green' style='margin-right:4px'>置顶</span>"
@@ -2581,6 +2635,100 @@ def build_history_selection(history_windows: list[dict], history_window_key: str
         history_window_index = 0
     history_window_index = max(0, min(history_window_index, len(history_windows) - 1))
     return str(history_window_index), history_windows[history_window_index]
+
+
+CHANGE_FILTER_OPTIONS = (
+    ("all", "全部"),
+    ("trade", "真实交易"),
+    ("drift", "市值漂移"),
+    ("new", "新增"),
+    ("increase", "加仓"),
+    ("decrease", "减仓"),
+    ("exit", "清仓"),
+)
+
+
+def normalize_change_filter(value: str) -> str:
+    allowed = {key for key, _ in CHANGE_FILTER_OPTIONS}
+    return value if value in allowed else "all"
+
+
+def filter_rebalance_change_rows(rows: list[dict], change_filter: str) -> list[dict]:
+    change_filter = normalize_change_filter(change_filter)
+    if change_filter == "all":
+        return list(rows)
+    if change_filter == "trade":
+        return [row for row in rows if str(row.get("source_type") or "") in {"trade", "mixed"}]
+    if change_filter == "drift":
+        return [row for row in rows if str(row.get("source_type") or "") == "drift"]
+    action_by_filter = {
+        "new": "新增",
+        "increase": "加仓",
+        "decrease": "减仓",
+        "exit": "清仓",
+    }
+    action = action_by_filter.get(change_filter)
+    return [row for row in rows if str(row.get("action") or "") == action]
+
+
+def render_history_snapshot_blocks(snapshots: list[dict]) -> str:
+    blocks: list[str] = []
+    for index, snapshot in enumerate(snapshots):
+        is_open = " open" if index == 0 else ""
+        if str(snapshot.get("event_type") or "") == "weekly_satellite_overlay":
+            event = snapshot.get("overlay_event") or {}
+            signal_date = str(event.get("signal_date") or snapshot.get("date") or "")
+            trade_date = str(event.get("trade_date") or snapshot.get("date") or "")
+            blocks.append(
+                f"<details class='history-snapshot'{is_open}>"
+                "<summary>"
+                f"<span>信号日：{html.escape(signal_date)}</span>"
+                "<span class='history-snapshot-meta'>周度卫星仓实际调仓</span>"
+                "</summary>"
+                "<div class='history-snapshot-body'>"
+                f"<p class='muted'>实际交易日：{html.escape(trade_date)}</p>"
+                "<div class='table-scroll'><table><thead><tr><th>确认状态</th><th>原始状态</th><th>单边换手</th><th>双边换手</th><th>买入/NAV</th><th>卖出/NAV</th><th>费用/NAV</th></tr></thead><tbody>"
+                f"<tr><td>{html.escape(str(event.get('risk_stage') or 'n/a'))}</td>"
+                f"<td>{html.escape(str(event.get('raw_risk_stage') or 'n/a'))}</td>"
+                f"<td>{fmt_pct(float(event.get('one_way_turnover') or 0.0))}</td>"
+                f"<td>{fmt_pct(float(event.get('two_way_turnover') or 0.0))}</td>"
+                f"<td>{fmt_pct(float(event.get('buy_amount_pct_nav') or 0.0))}</td>"
+                f"<td>{fmt_pct(float(event.get('sell_amount_pct_nav') or 0.0))}</td>"
+                f"<td>{fmt_pct(float(event.get('trading_cost_pct_nav') or 0.0))}</td></tr>"
+                "</tbody></table></div>"
+                + render_overlay_trade_details(event)
+                + "</div></details>"
+            )
+            continue
+        holdings = snapshot.get("holdings") or []
+        rows_html = "".join(
+            f"<tr><td>{html.escape(str(row.get('ts_code') or ''))}</td>"
+            f"<td>{html.escape(str(row.get('name') or ''))}</td>"
+            f"<td>{fmt_pct(float(row.get('weight') or 0.0))}</td></tr>"
+            for row in holdings
+        )
+        total_exposure = sum(
+            max(0.0, float(row.get("weight") or 0.0))
+            for row in holdings
+            if str(row.get("ts_code") or "") != "CASH"
+        )
+        holding_count = sum(
+            1
+            for row in holdings
+            if str(row.get("ts_code") or "") != "CASH" and float(row.get("weight") or 0.0) > 1e-9
+        )
+        blocks.append(
+            f"<details class='history-snapshot'{is_open}>"
+            "<summary>"
+            f"<span>调仓日：{html.escape(str(snapshot.get('date') or ''))}</span>"
+            f"<span class='history-snapshot-meta'>{holding_count} 只持仓 · 总仓位 {fmt_pct(total_exposure)}</span>"
+            "</summary>"
+            "<div class='history-snapshot-body'>"
+            "<div class='table-scroll'><table><thead><tr><th>代码</th><th>名称</th><th>权重</th></tr></thead><tbody>"
+            + rows_html
+            + "</tbody></table></div></div></details>"
+        )
+    return "".join(blocks)
 
 
 def build_rebalance_change_rows(
@@ -2974,7 +3122,14 @@ def render_month_end_preview(preview: dict, official_weights: list[dict], schedu
     )
 
 
-def render_exposure_return_curve(snapshots: list[dict], equity_curve_points: list[dict], start_date: str = "", end_date: str = "") -> str:
+def render_exposure_return_curve(
+    snapshots: list[dict],
+    equity_curve_points: list[dict],
+    start_date: str = "",
+    end_date: str = "",
+    latest_valuation_date: str = "",
+    latest_holdings: list[dict] | None = None,
+) -> str:
     snapshots = [snapshot for snapshot in snapshots if snapshot.get("holdings")]
     if not snapshots:
         return "<div class='muted'>暂无仓位与收益率曲线。</div>"
@@ -2993,6 +3148,25 @@ def render_exposure_return_curve(snapshots: list[dict], equity_curve_points: lis
     if start_date and end_date:
         curve_points = [point for point in curve_points if start_date <= str(point.get("date", "")) <= end_date]
     curve_map = {str(point.get("date", "")): float(point.get("nav", 1.0)) - 1.0 for point in curve_points}
+    valuation_point_added = False
+    valuation_date = str(latest_valuation_date or "")
+    if valuation_date:
+        available_valuation_dates = sorted(date for date in curve_map if date <= valuation_date)
+        if available_valuation_dates:
+            valuation_date = available_valuation_dates[-1]
+    if valuation_date and valuation_date > dates[-1] and valuation_date in curve_map:
+        latest_cash_weight = 0.0
+        for row in latest_holdings or []:
+            if str(row.get("ts_code")) == "CASH":
+                latest_cash_weight = float(row.get("weight", 0.0))
+                break
+        dates.append(valuation_date)
+        exposures.append(
+            max(0.0, min(1.0, 1.0 - latest_cash_weight))
+            if latest_holdings
+            else exposures[-1]
+        )
+        valuation_point_added = True
     returns = [curve_map.get(date, 0.0) for date in dates]
     width = 980
     height = 260
@@ -3043,7 +3217,11 @@ def render_exposure_return_curve(snapshots: list[dict], equity_curve_points: lis
         )
     latest_exposure = exposures[-1]
     latest_return = returns[-1] if returns else 0.0
-    summary = f"最新总仓位 {fmt_pct(latest_exposure)}，区间收益率 {fmt_pct(latest_return)}，共 {len(exposures)} 个调仓快照。"
+    valuation_note = f"，另含最新估值点 {valuation_date}" if valuation_point_added else ""
+    summary = (
+        f"最新总仓位 {fmt_pct(latest_exposure)}，区间收益率 {fmt_pct(latest_return)}，"
+        f"共 {len(ordered)} 个调仓快照{valuation_note}。"
+    )
     return (
         "<div class='card' style='margin-top:16px'>"
         "<h2>总仓位 + 收益率曲线</h2>"
@@ -3527,10 +3705,11 @@ def strategy_favorite_actions_html(strategy_id: str, is_favorite: bool, is_pinne
 
 def strategy_detail_html(
     strategy_id: str,
-    history_window_key: str = "all",
+    history_window_key: str = "0",
     sample_view_tag: str = "",
     tab: str = "official",
     show_reasons: bool = False,
+    change_filter: str = "all",
 ) -> str:
     item = load_strategy_snapshot(strategy_id)
     favorite_state = get_strategy_favorite_state(strategy_id)
@@ -3574,9 +3753,11 @@ def strategy_detail_html(
     preview_frequency = str(active_view.get("rebalance_frequency", item.get("rebalance_frequency", "monthly")) or "").strip().lower()
     active_tab = "preview" if requested_tab == "preview" else "official"
     reason_param = "1" if show_reasons else "0"
+    active_change_filter = normalize_change_filter(str(change_filter or "all"))
     tab_base = (
         f"/strategies/{quote(strategy_id)}?sample_view={quote(selected_sample_tag)}"
-        f"&history_window={quote(history_window_key or 'all')}&show_reasons={quote(reason_param)}"
+        f"&history_window={quote(history_window_key or '0')}&show_reasons={quote(reason_param)}"
+        f"&change_filter={quote(active_change_filter)}"
     )
     tabs_html = (
         "<div class='tabs'>"
@@ -3603,14 +3784,16 @@ def strategy_detail_html(
     sample_selector = ""
     if sample_options:
         sample_selector = (
-            f"<form method='get' action='/strategies/{quote(strategy_id)}' style='margin:12px 0 16px 0'>"
-            "<label>实际回测窗口</label>"
-            f"<select name='sample_view' style='display:block;margin-top:8px;padding:8px 10px;min-width:320px'>{''.join(sample_options)}</select>"
-            f"<input type='hidden' name='history_window' value='{html.escape(history_window_key or 'all')}' />"
+            "<div class='card' style='padding:14px 16px'>"
+            f"<form method='get' action='/strategies/{quote(strategy_id)}' style='display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;margin:0'>"
+            "<div style='flex:1;min-width:280px'><label>回测窗口</label>"
+            f"<select name='sample_view'>{''.join(sample_options)}</select></div>"
+            f"<input type='hidden' name='history_window' value='{html.escape(history_window_key or '0')}' />"
             f"<input type='hidden' name='tab' value='{html.escape(active_tab)}' />"
             f"<input type='hidden' name='show_reasons' value='{html.escape(reason_param)}' />"
-            "<div style='margin-top:10px'><button>切换窗口</button></div>"
-            "</form>"
+            f"<input type='hidden' name='change_filter' value='{html.escape(active_change_filter)}' />"
+            "<button>切换</button>"
+            "</form></div>"
         )
     rows = []
     for key in ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"):
@@ -3624,6 +3807,20 @@ def strategy_detail_html(
     history_windows = active_view.get("history_windows") or []
     trade_events = active_view.get("trade_events") or list(
         load_strategy_trade_events(strategy_id, selected_sample_tag, str(item.get("market_scope") or "a_share"))
+    )
+    reason_toggle_url = (
+        f"/strategies/{quote(strategy_id)}"
+        f"?sample_view={quote(selected_sample_tag)}"
+        f"&history_window={quote(history_window_key or '0')}"
+        f"&tab={quote(active_tab)}"
+        f"&show_reasons={quote('0' if show_reasons else '1')}"
+        f"&change_filter={quote(active_change_filter)}"
+        "#latest-changes"
+    )
+    reason_toggle_html = (
+        f"<a class='button' style='background:transparent;color:var(--ink);white-space:nowrap' href='{html.escape(reason_toggle_url)}'>"
+        f"{'隐藏策略理由' if show_reasons else '展示策略理由'}"
+        "</a>"
     )
     rebalance_change = build_rebalance_change_rows(
         active_view.get("latest_weights") or [],
@@ -3660,8 +3857,32 @@ def strategy_detail_html(
             f"<p class='muted'>{html.escape(source_text + '。' if source_text else '')}{html.escape(detail_note)}</p>"
             "</div>"
         )
+        all_change_rows = list(rebalance_change["rows"])
+        filtered_change_rows = filter_rebalance_change_rows(all_change_rows, active_change_filter)
+        filter_links = []
+        for filter_key, filter_label in CHANGE_FILTER_OPTIONS:
+            count = len(filter_rebalance_change_rows(all_change_rows, filter_key))
+            filter_url = (
+                f"/strategies/{quote(strategy_id)}"
+                f"?sample_view={quote(selected_sample_tag)}"
+                f"&history_window={quote(history_window_key or '0')}"
+                f"&tab={quote(active_tab)}"
+                f"&show_reasons={quote(reason_param)}"
+                f"&change_filter={quote(filter_key)}"
+                "#latest-changes"
+            )
+            active_cls = " active" if filter_key == active_change_filter else ""
+            filter_links.append(
+                f"<a class='change-filter{active_cls}' href='{html.escape(filter_url)}'>"
+                f"{html.escape(filter_label)} {count}</a>"
+            )
+        change_filter_html = (
+            "<div class='change-filters' aria-label='变化明细筛选'>"
+            + "".join(filter_links)
+            + "</div>"
+        )
         change_rows = []
-        for row in rebalance_change["rows"]:
+        for row in filtered_change_rows:
             diff_weight = float(row["diff_weight"])
             abs_diff = abs(diff_weight)
             row_style = ""
@@ -3701,19 +3922,29 @@ def strategy_detail_html(
             reason_head = "<th>策略理由</th>" if show_reasons else ""
             reason_note = "策略理由只解释主动调仓，纯漂移不解释；" if show_reasons else ""
             change_rows_html = (
-                "<div class='card' style='margin-top:16px'><h2>最新调仓建议变化明细</h2>"
-                f"<p class='muted'>总变化来自最近两次权重快照；真实交易来自逐票交易明细；市值漂移=总变化-真实交易。{reason_note}变化≥10% 的行会重点高亮，变化≥5% 的行会浅色高亮。</p>"
-                "<table><thead><tr><th>代码</th><th>名称</th><th>动作</th><th>归因</th>"
+                "<div class='card' id='latest-changes' style='margin-top:16px'>"
+                "<div style='display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap'>"
+                "<h2 style='margin:0'>最新调仓建议变化明细</h2>"
+                + reason_toggle_html
+                + "</div>"
+                + change_filter_html
+                + f"<p class='muted'>总变化来自最近两次权重快照；真实交易来自逐票交易明细；市值漂移=总变化-真实交易。{reason_note}变化≥10% 的行会重点高亮，变化≥5% 的行会浅色高亮。</p>"
+                "<div class='table-scroll'><table><thead><tr><th>代码</th><th>名称</th><th>动作</th><th>归因</th>"
                 + reason_head
                 + "<th>上次权重</th><th>当前权重</th><th>总变化</th><th>真实交易</th><th>市值漂移</th><th>最新价格</th></tr></thead><tbody>"
                 + "".join(change_rows)
-                + "</tbody></table></div>"
+                + "</tbody></table></div></div>"
             )
         else:
             change_rows_html = (
-                "<div class='card' style='margin-top:16px'><h2>最新调仓建议变化明细</h2>"
-                "<p class='muted'>最近两次权重快照没有变化。</p>"
-                "</div>"
+                "<div class='card' id='latest-changes' style='margin-top:16px'>"
+                "<div style='display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap'>"
+                "<h2 style='margin:0'>最新调仓建议变化明细</h2>"
+                + reason_toggle_html
+                + "</div>"
+                + change_filter_html
+                + "<p class='muted'>当前筛选没有匹配的变化记录。</p>"
+                + "</div>"
             )
     split_latest_html = ""
     if str(split_view.get("mode") or "") == "satellite_weekly_overlay":
@@ -3782,101 +4013,131 @@ def strategy_detail_html(
     exposure_html = "<div class='muted'>暂无仓位与收益率曲线。</div>"
     if history_windows:
         options = []
-        all_selected = " selected" if selected_key == "all" else ""
         all_snapshots = flatten_history_snapshots(history_windows)
-        options.append(f"<option value='all'{all_selected}>全部历史（{len(all_snapshots)} 条记录）</option>")
         for hist in history_windows:
             selected = " selected" if str(hist["window_index"]) == selected_key else ""
             options.append(
                 f"<option value='{int(hist['window_index'])}'{selected}>{html.escape(str(hist['label']))}（{int(hist['snapshot_count'])} 条记录）</option>"
             )
+        all_selected = " selected" if selected_key == "all" else ""
+        options.append(f"<option value='all'{all_selected}>全部历史（折叠查看，共 {len(all_snapshots)} 条）</option>")
+
+        def history_page_url(window_key: str) -> str:
+            return (
+                f"/strategies/{quote(strategy_id)}"
+                f"?sample_view={quote(selected_sample_tag)}"
+                f"&history_window={quote(window_key)}"
+                f"&tab={quote(active_tab)}"
+                f"&show_reasons={quote(reason_param)}"
+                f"&change_filter={quote(active_change_filter)}"
+                "#history-rebalances"
+            )
+
+        history_pagination = ""
+        if selected_key != "all":
+            selected_index = int(selected_key)
+            previous_cls = " disabled" if selected_index <= 0 else ""
+            next_cls = " disabled" if selected_index >= len(history_windows) - 1 else ""
+            previous_index = max(0, selected_index - 1)
+            next_index = min(len(history_windows) - 1, selected_index + 1)
+            history_pagination = (
+                "<div class='history-pagination' aria-label='历史调仓分页'>"
+                f"<a class='button{previous_cls}' href='{html.escape(history_page_url(str(previous_index)))}'>← 较新记录</a>"
+                f"<a class='button{next_cls}' href='{html.escape(history_page_url(str(next_index)))}'>更早记录 →</a>"
+                "</div>"
+            )
         history_selector = (
-            f"<form method='get' action='/strategies/{quote(strategy_id)}' style='margin:12px 0 16px 0'>"
-            f"<label>历史调仓建议窗口（按实际调仓日展示，当前频率：{html.escape(rebalance_frequency)}；每组最近12次调仓）</label>"
-            f"<select name='history_window' style='display:block;margin-top:8px;padding:8px 10px;min-width:320px'>{''.join(options)}</select>"
+            "<div class='history-controls'>"
+            f"<form method='get' action='/strategies/{quote(strategy_id)}#history-rebalances'>"
+            "<div>"
+            f"<label>历史页（当前频率：{html.escape(rebalance_frequency)}；每页最多 12 次）</label>"
+            f"<select name='history_window'>{''.join(options)}</select>"
+            "</div>"
             f"<input type='hidden' name='sample_view' value='{html.escape(selected_sample_tag)}' />"
             f"<input type='hidden' name='tab' value='{html.escape(active_tab)}' />"
             f"<input type='hidden' name='show_reasons' value='{html.escape(reason_param)}' />"
-            "<div style='margin-top:10px'><button>切换窗口</button></div>"
+            f"<input type='hidden' name='change_filter' value='{html.escape(active_change_filter)}' />"
+            "<button>切换</button>"
             "</form>"
+            + history_pagination
+            + "</div>"
         )
         exposure_html = render_exposure_return_curve(
-            selected_history["snapshots"],
+            all_snapshots,
             active_view.get("equity_curve_points") or [],
-            start_date=str(selected_history.get("start_date", "")),
-            end_date=str(selected_history.get("end_date", "")),
+            start_date=active_sample_start or (str(all_snapshots[-1].get("date") or "") if all_snapshots else ""),
+            end_date=active_sample_end or (str(all_snapshots[0].get("date") or "") if all_snapshots else ""),
+            latest_valuation_date=str(active_meta.get("latest_valuation_date") or active_sample_end or ""),
+            latest_holdings=active_view.get("latest_weights") or [],
         )
-        snapshot_blocks = []
-        for snapshot in selected_history["snapshots"]:
-            if str(snapshot.get("event_type") or "") == "weekly_satellite_overlay":
-                event = snapshot.get("overlay_event") or {}
-                signal_date = str(event.get("signal_date") or snapshot["date"])
-                trade_date = str(event.get("trade_date") or snapshot["date"])
-                snapshot_blocks.append(
-                    "<div class='card' style='margin-top:12px'>"
-                    f"<h3>信号日：{html.escape(signal_date)}（周度卫星仓实际调仓）</h3>"
-                    f"<p class='muted'>实际交易日：{html.escape(trade_date)}</p>"
-                    "<table><thead><tr><th>确认状态</th><th>原始状态</th><th>单边换手</th><th>双边换手</th><th>买入/NAV</th><th>卖出/NAV</th><th>费用/NAV</th></tr></thead><tbody>"
-                    f"<tr><td>{html.escape(str(event.get('risk_stage') or 'n/a'))}</td>"
-                    f"<td>{html.escape(str(event.get('raw_risk_stage') or 'n/a'))}</td>"
-                    f"<td>{fmt_pct(float(event.get('one_way_turnover') or 0.0))}</td>"
-                    f"<td>{fmt_pct(float(event.get('two_way_turnover') or 0.0))}</td>"
-                    f"<td>{fmt_pct(float(event.get('buy_amount_pct_nav') or 0.0))}</td>"
-                    f"<td>{fmt_pct(float(event.get('sell_amount_pct_nav') or 0.0))}</td>"
-                    f"<td>{fmt_pct(float(event.get('trading_cost_pct_nav') or 0.0))}</td></tr>"
-                    "</tbody></table>"
-                    + render_overlay_trade_details(event)
-                    + "</div>"
-                )
-                continue
-            rows_html = "".join(
-                f"<tr><td>{html.escape(row['ts_code'])}</td><td>{html.escape(row['name'])}</td><td>{fmt_pct(float(row['weight']))}</td></tr>"
-                for row in snapshot["holdings"]
-            )
-            snapshot_blocks.append(
-                "<div class='card' style='margin-top:12px'>"
-                f"<h3>调仓日：{html.escape(snapshot['date'])}</h3>"
-                "<table><thead><tr><th>代码</th><th>名称</th><th>权重</th></tr></thead><tbody>"
-                + rows_html
-                + "</tbody></table></div>"
-            )
         history_html = (
-            f"<p class='muted'>当前展示窗口：{html.escape(selected_history['label'])}。持仓快照展示目标持仓；周度卫星仓实际调仓展示换手摘要。</p>"
-            + "".join(snapshot_blocks)
+            f"<p class='muted'>当前页：{html.escape(str(selected_history['label']))}。默认展开最新一条，其余记录按需展开；切换历史页不会改变上方收益率曲线的回测窗口。</p>"
+            + render_history_snapshot_blocks(selected_history["snapshots"])
         )
     next_url = (
         f"/strategies/{quote(strategy_id)}"
         f"?sample_view={quote(selected_sample_tag)}"
-        f"&history_window={quote(history_window_key or 'all')}"
+        f"&history_window={quote(history_window_key or '0')}"
         f"&tab={quote(active_tab)}"
         f"&show_reasons={quote(reason_param)}"
+        f"&change_filter={quote(active_change_filter)}"
     )
-    reason_toggle_url = (
-        f"/strategies/{quote(strategy_id)}"
-        f"?sample_view={quote(selected_sample_tag)}"
-        f"&history_window={quote(history_window_key or 'all')}"
-        f"&tab={quote(active_tab)}"
-        f"&show_reasons={quote('0' if show_reasons else '1')}"
-    )
-    reason_toggle_html = (
-        "<div style='display:flex;justify-content:flex-end;margin:-4px 0 12px'>"
-        f"<a class='button' style='background:transparent;color:var(--ink)' href='{html.escape(reason_toggle_url)}'>"
-        f"{'隐藏策略理由' if show_reasons else '展示策略理由'}"
-        "</a></div>"
+    current_holdings = [
+        row
+        for row in active_view.get("latest_weights") or []
+        if str(row.get("ts_code") or "") != "CASH" and float(row.get("weight") or 0.0) > 1e-9
+    ]
+    if schedule_kind in {"portfolio_weekly_overlay", "satellite_weekly_overlay"}:
+        decision_date_label = "仓位状态评估日"
+        decision_effective_date = exposure_effective_date or suggestion_effective_date
+    else:
+        decision_date_label = "建议生效日"
+        decision_effective_date = suggestion_effective_date
+    timing_notes = [
+        f"判定口径：{schedule_kind_label(schedule_kind)}",
+        "估值日可以晚于建议生效日，表示当前持仓已继续按最新行情计价，并不代表发生了新调仓",
+    ]
+    if schedule_kind in {"portfolio_weekly_overlay", "satellite_weekly_overlay"}:
+        timing_notes.append(f"股票池生效日：{basket_effective_date or 'n/a'}")
+    decision_summary_html = (
+        "<section class='card decision-summary' aria-labelledby='decision-summary-title'>"
+        "<div class='decision-summary-heading'>"
+        "<div>"
+        "<h2 id='decision-summary-title'>当前决策摘要</h2>"
+        f"<p class='muted' style='margin:4px 0 0'>当前回测窗口：{html.escape(active_sample_label)}</p>"
+        "</div>"
+        f"<span class='badge badge-blue'>{html.escape(rebalance_frequency)}策略</span>"
+        "</div>"
+        "<div class='decision-grid'>"
+        "<div class='decision-item'><div class='decision-label'>持仓估值截至</div>"
+        f"<div class='decision-value'>{html.escape(str(active_meta.get('latest_valuation_date') or data_as_of or 'n/a'))}</div></div>"
+        f"<div class='decision-item'><div class='decision-label'>{html.escape(decision_date_label)}</div>"
+        f"<div class='decision-value'>{html.escape(decision_effective_date or 'n/a')}</div></div>"
+        "<div class='decision-item'><div class='decision-label'>目标总仓位</div>"
+        f"<div class='decision-value'>{fmt_pct(safe_float(active_view.get('target_total_exposure')))}</div></div>"
+        "<div class='decision-item'><div class='decision-label'>风险状态</div>"
+        f"<div class='decision-value'>{risk_badge(str(active_view.get('risk_state') or 'n/a'))}</div></div>"
+        "<div class='decision-item'><div class='decision-label'>当前持仓</div>"
+        f"<div class='decision-value'>{len(current_holdings)} 只</div></div>"
+        "<div class='decision-item'><div class='decision-label'>调仓节奏</div>"
+        f"<div class='decision-value'>{html.escape(adjustment_style)}</div></div>"
+        "</div>"
+        f"<p class='muted' style='margin-top:12px'>{html.escape('；'.join(timing_notes))}。</p>"
+        "</section>"
     )
     header_html = (
         "<div class='detail-heading'>"
         "<div>"
         f"<h1>{html.escape(item['display_name'])}</h1>"
         f"<p><code>{html.escape(strategy_id)}</code></p>"
-        f"<p>市场: {html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} | 路径: {html.escape(item['path'])} | 类型: {html.escape(item['winner_type'])} | 调仓频率: {html.escape(rebalance_frequency)} | 实际调整频率类型: {html.escape(adjustment_style)} | 当前建议仓位: {fmt_pct(float(active_view['target_total_exposure']))} | 风险状态: {html.escape(active_view['risk_state'])}</p>"
+        f"<p>市场: {html.escape(market_scope_label(str(item.get('market_scope', 'a_share'))))} | 路径: {html.escape(item['path'])} | 类型: {html.escape(item['winner_type'])}</p>"
         "</div>"
         + strategy_favorite_actions_html(strategy_id, favorite, pinned, next_url)
         + "</div>"
         + sample_selector
         + tabs_html
-        + reason_toggle_html
-        + f"<div class='card'><h2>当前查看窗口</h2><p>{html.escape(active_sample_label)}：{html.escape(active_sample_start)} → {html.escape(active_sample_end)}</p></div>"
+        + decision_summary_html
+        + strategy_detail_explanation_html(item, active_view, schedule_kind, active_sample_label)
     )
     if active_tab == "preview":
         if preview_frequency == "weekly":
@@ -3894,33 +4155,14 @@ def strategy_detail_html(
 
     body = (
         header_html
-        + strategy_detail_explanation_html(item, active_view, schedule_kind, active_sample_label)
-        + (
-            "<div class='card' style='margin-top:16px'><h2>当前建议时点</h2>"
-            f"<p>数据截止日：{html.escape(data_as_of or 'n/a')}</p>"
-            + (
-                f"<p>月末股票池生效日：{html.escape(basket_effective_date or 'n/a')}</p>"
-                f"<p>周度卫星仓位状态评估日：{html.escape(exposure_effective_date or 'n/a')}</p>"
-                if schedule_kind == 'satellite_weekly_overlay'
-                else f"<p>当前建议生效日：{html.escape(suggestion_effective_date or 'n/a')}</p>"
-            )
-            + (
-                f"<p>股票池生效日：{html.escape(basket_effective_date or 'n/a')}</p>"
-                f"<p>仓位状态生效日：{html.escape(exposure_effective_date or 'n/a')}</p>"
-                if schedule_kind == 'portfolio_weekly_overlay'
-                else ""
-            )
-            + f"<p class='muted'>判定口径：{html.escape(schedule_kind_label(schedule_kind))}。月度策略按真实月末，周度/双周策略按实际评估点更新“当前建议”；数据截止日可继续前进，但建议日期不一定每天变化。</p>"
-            "</div>"
-        )
-        + "<div class='card'><h2>窗口表现</h2><table><thead><tr><th>窗口</th><th>Total Return</th><th>CAGR</th><th>MaxDD</th><th>Sharpe</th><th>Turnover</th></tr></thead><tbody>"
+        + "<div class='card'><h2>窗口表现</h2><div class='table-scroll'><table><thead><tr><th>窗口</th><th>Total Return</th><th>CAGR</th><th>MaxDD</th><th>Sharpe</th><th>Turnover</th></tr></thead><tbody>"
         + "".join(rows)
-        + "</tbody></table></div>"
+        + "</tbody></table></div></div>"
+        + exposure_html
         + split_latest_html
         + change_summary_html
         + change_rows_html
-        + exposure_html
-        + "<div class='card' style='margin-top:16px'><h2>历史调仓建议</h2>"
+        + "<div class='card' id='history-rebalances' style='margin-top:16px'><h2>历史调仓建议</h2>"
         + history_selector
         + history_html
         + "</div>"
@@ -4406,11 +4648,12 @@ class Handler(BaseHTTPRequestHandler):
             if path.startswith("/strategies/"):
                 strategy_id = path.split("/strategies/", 1)[1]
                 query = parse_qs(parsed.query)
-                history_window_key = (query.get("history_window") or ["all"])[0]
+                history_window_key = (query.get("history_window") or ["0"])[0]
                 sample_view_tag = (query.get("sample_view") or [""])[0]
                 tab = (query.get("tab") or ["official"])[0]
                 show_reasons_raw = str((query.get("show_reasons") or ["0"])[0]).strip().lower()
                 show_reasons = show_reasons_raw not in {"0", "false", "no", "off"}
+                change_filter = (query.get("change_filter") or ["all"])[0]
                 self._html(
                     strategy_detail_html(
                         strategy_id,
@@ -4418,6 +4661,7 @@ class Handler(BaseHTTPRequestHandler):
                         sample_view_tag=sample_view_tag,
                         tab=tab,
                         show_reasons=show_reasons,
+                        change_filter=change_filter,
                     )
                 )
                 return
