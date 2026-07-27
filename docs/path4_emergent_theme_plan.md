@@ -1,5 +1,25 @@
 # Path 4 强主题涌现路径
 
+## 2026-07-28 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 按 `theme_signal_quality` 五窗口确认 signal-quality-v4、risk-control-v5，并与正式 robust `capacity_v2` 比较。v4 的 2020 CAGR 高 `0.23pp`、2023 CAGR低 `1.36pp`，v5 的 2020/2023 CAGR低 `0.77pp/1.36pp`；两条均未触发中窗硬护栏，但 2026 CAGR同为 `-6.94%`，只能 `keep_watch`，不能凭长窗小幅改善晋级。
+- capacity-v2 五窗口 CAGR `6.51%/6.12%/3.78%/21.78%/1.97%`，确认 `promote`；未做人工主题归类，无单票幸运晋级，window winner/robust/tracked 未改变，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4`、`...signal28_leader78...risk_control_v5`、正式 robust `...signal29_leader78...capacity_v2`。
+- 五窗口确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260728.json`。
+
+### 下一轮 focus 提示
+
+- 最终 focus 转为 `theme_risk_control`。下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`，检验底座容量变化而不放宽单票 cap。
+
+### Focus 候选池
+
+- `theme_risk_control`：90/10 risk-control-v5、capacity-v2；`theme_signal_quality`：90/10 signal-quality-v4、capacity-v2；`theme_capacity_cost`：cap05/exit70、capacity-v2；`emergent_theme_coverage`：signal29/cap06、capacity-v2。
+
 ## 2026-07-27 二次迭代记录（07:25 CST）
 
 ### 上一轮候选与结果摘要

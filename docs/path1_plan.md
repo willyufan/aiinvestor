@@ -1,5 +1,25 @@
 # Path 1 研究计划
 
+## 2026-07-28 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 主线五窗口确认 `risk25/risk20/risk16_reconfirm`。risk25 的 2020/2023 CAGR 为 `25.14%/20.37%`，相对正式 robust risk20 低 `0.85pp/0.64pp`，风险上沿没有换来更好收益，判定 `keep_watch`；risk16 的 2023 CAGR 低 `4.55pp`，判定 `keep_watch`。risk20 五窗口确认 `promote`，window winner/robust/tracked 未变化，无 evict。
+- core_multifactor 子段：代码实际覆盖仍为 `64/64`，本轮预算优先投向 rotation 的 `satellite_risk_cost`，没有新增多因子实跑；上一轮两条纯质量多因子已 `reject`。下一轮先转 `holding_shape`，避免继续同形 risk 参数。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm`、`...risk20_reconfirm`、`...risk16_reconfirm`。
+- 五窗口确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk25_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk16_reconfirm`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260728.json`。
+
+### 下一轮 focus 提示
+
+- 最终 focus 为 `holding_shape`。下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_20_80_hold_2_8_ramp66_cost_guard,core_explore_80_20_total_mv_winner_core__share_24_76_hold_2_8_ramp62_cost_guard`，验证较平滑持仓是否能保住 2020/2023 并降低回撤。
+
+### Focus 候选池
+
+- `holding_shape`：share20/ramp66、share24/ramp62；`satellite_risk_cost`：risk25、risk20；`signal_quality/core_multifactor_coverage`：quality-profitability-signal、quality-growth-signal；`weekly_exposure_path`：`__port_weekly_exposure_buffered`、`__port_weekly_exposure_buffered_asym13`。
+
 ## 2026-07-27 二次迭代记录（07:25 CST）
 
 ### 上一轮候选与结果摘要

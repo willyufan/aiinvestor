@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-28 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 按 `weekly_defensive_overlay` 五窗口确认 defensive-turnover12、stable-wide-cost-guard、theme-fast，并与正式 robust `hkconnect_path3_equal_elastic_weekly` 同窗比较。三条的 2020/2023 CAGR 均未破坏稳定性，stable-wide 的 2023 turnover 降至 `9.11x`，但三条 2026 CAGR 分别为 `-16.95%/-14.99%/-15.05%`，全部 `keep_watch`；短窗修复假设未成立。
+- 新候选未改变 window winner/robust/tracked，无 evict；高弹性周频仍须显式记录 `23.94x-30.30x` 高换手代价。
+
+### 本轮候选 ID 与命令
+
+- 候选：`hkconnect_path3_theme_fast_weekly_defensive_turnover12_exit48`、`hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`、`hkconnect_path3_theme_fast_weekly`。
+- 五窗口确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover12_exit48,hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard,hkconnect_path3_theme_fast_weekly`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260728.json`。
+
+### 下一轮 focus 提示
+
+- 最终 focus 转为 `cost_stress`。下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_cost_guard_turnover18_exit42,hkconnect_path3_theme_fast_weekly`，要求 2026 转正且 turnover 低于 theme-fast。
+
+### Focus 候选池
+
+- `cost_stress`：turnover18/exit42、stable-wide；`weekly_defensive_overlay`：defensive-turnover18、theme-fast；`weekly_turnover_reduction/return_recovery`：v38、stable-wide。
+
 ## 2026-07-27 二次迭代记录（07:25 CST）
 
 ### 上一轮候选与结果摘要

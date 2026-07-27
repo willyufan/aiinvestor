@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-28 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 按 `high_return_monthly` 五窗口确认 v27/v28，并与正式 robust `hkconnect_path2_theme_fast_monthly` 比较。v27/v28 的 2020/2023 CAGR 分别提高 `4.69pp/7.53pp` 与 `5.65pp/5.75pp`，换手约 `2.84x-2.90x`，但 2026 CAGR 为 `-11.97%/-13.85%`，均只 `keep_watch`，不得因中窗强就晋级。
+- theme-fast 五窗口确认 `promote`；window winner/robust/tracked 未变化，无 evict。
+
+### 本轮候选 ID 与命令
+
+- 候选：`hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard`、`...v28_ytd_repair`、`hkconnect_path2_theme_fast_monthly`。
+- 五窗口确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard,hkconnect_path2_high_return_monthly_quality_liquidity_v28_ytd_repair,hkconnect_path2_theme_fast_monthly`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260728.json`。
+
+### 下一轮 focus 提示
+
+- 最终 focus 转为 `biweekly_breakout`。下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `biweekly_breakout`：v21 breakout-repair、v29；`high_return_monthly`：v27、v28；`elasticity_cost_control`：theme-monthly-cost-control、theme-fast；`return_recovery`：theme-fast、v50 return-restore。
+
 ## 2026-07-27 二次迭代记录（07:25 CST）
 
 ### 上一轮候选与结果摘要
