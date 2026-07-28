@@ -1,5 +1,34 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-29 二次迭代记录（07:23 CST）
+
+### 上一轮候选与结果摘要
+
+- 已审计冻结篮子 `high_speed_pcb_copper_clad_server_20260624_v0` 完成 20/40/60 日入口复跑；有效样本仅 24 个交易日，20D equal/seed 分别约 `-20.43%/-20.74%`，40D/60D 样本不足。
+- 与 Path4 capacity-v2 持仓重叠 `0/6`，但收益假设不成立，判定 `reject`；Path5 继续独立跟踪，不写入 A股 Path1-4 winner。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_capacity_v2_20260729_iter2_mature.json
+```
+
+### 下一轮 focus 提示
+
+- focus：`frozen_candidate_audit`。先复核 `mrc_uec_supply_chain_20260716_v0` 的来源、冻结成分与 horizon 可用性，再执行入口回测。
+- 第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id mrc_uec_supply_chain_20260716_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_mrc_uec_supply_chain_20260716_v0_next_audit.json
+```
+
+### Focus 候选池
+
+- `frozen_candidate_audit`：`mrc_uec_supply_chain_20260716_v0`、`high_speed_pcb_copper_clad_server_20260624_v0`。
+- `event_source_audit`：`mrc_uec_supply_chain_20260716_v0`、`robotics_supply_chain_20260718_v0`。
+- `short_horizon_recheck`：PCB 篮子 `5/10/20`、MRC/UEC 篮子 `5/10/20`。
+- `path4_overlap`：MRC/UEC 对 capacity-v2、机器人供应链对 capacity-v2。
+
 ## 2026-07-29 迭代记录
 
 ### 上一轮候选与结果摘要

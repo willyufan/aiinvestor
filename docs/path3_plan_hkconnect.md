@@ -1,5 +1,34 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-29 二次迭代记录（07:23 CST）
+
+### 上一轮候选与结果摘要
+
+- `...defensive_turnover12_exit48` 与 `...stable...wide_cost_guard` 中窗/风险局部改善，但 `since_2026_01` 分别约 `-14.90%/-14.07%`，均判定 `keep_watch`。
+- `hkconnect_path3_equal_elastic_weekly` 判定 `promote`，但继续记录高换手代价；artifact 同步后 window winner、robust candidate 与 tracked payload 未变化。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover12_exit48,hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard,hkconnect_path3_equal_elastic_weekly
+```
+
+### 下一轮 focus 提示
+
+- focus：`weekly_defensive_overlay`。先复核 defensive12 与 equal-elastic 的风险/换手边界；若 2026 仍负，不继续同形扩参。
+- 第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover12_exit48,hkconnect_path3_equal_elastic_weekly
+```
+
+### Focus 候选池
+
+- `weekly_defensive_overlay`：defensive-turnover12-exit48、stable-wide-cost-guard。
+- `weekly_turnover_control`：stable-wide-cost-guard、equal-elastic-weekly。
+- `weekly_return_repair`：equal-elastic-weekly、theme-fast-weekly。
+- `weekly_risk_balance`：defensive-turnover12、stable-weekly-equal-buffered。
+
 ## 2026-07-29 迭代记录
 
 ### 上一轮候选与结果摘要

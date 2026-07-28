@@ -1,5 +1,36 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-07-29 二次迭代记录（07:23 CST）
+
+### 上一轮候选与结果摘要
+
+- `hkconnect_path1_biweekly_quality_momentum_equal_buffered_v43_biweekly_buffer_repair` 在 `since_2023_01` 明显弱于对照且 `since_2026_01` 为负，判定 `reject`。
+- `hkconnect_path1_biweekly_lowvol` 五窗口确认通过本轮二次判断，判定 `promote`；artifact 同步后 window winner、robust candidate 与 tracked payload 未变化。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v43_biweekly_buffer_repair,hkconnect_path1_biweekly_lowvol
+```
+
+Scorecard：`results/research/a_share/research_iteration_scorecard_20260729_iter2.json`。
+
+### 下一轮 focus 提示
+
+- focus：`biweekly_buffer`。v43 已失败，下一轮先用当前可生成的 lowvol 与 buffered incumbent 做再确认，不扩未注册同形参数。
+- 第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_lowvol,hkconnect_path1_biweekly_quality_momentum_equal_buffered_v43_biweekly_buffer_repair
+```
+
+### Focus 候选池
+
+- `biweekly_buffer`：`hkconnect_path1_biweekly_lowvol`、`...v43_biweekly_buffer_repair`。
+- `quality_momentum`：`hkconnect_path1_biweekly_quality_momentum_equal_buffered`、`hkconnect_path1_biweekly_lowvol`。
+- `lowvol_defense`：`hkconnect_path1_biweekly_lowvol`、`hkconnect_path1_monthly_lowvol`。
+- `cost_capacity`：buffered equal-weight、biweekly lowvol。
+
 ## 2026-07-29 迭代记录
 
 ### 上一轮候选与结果摘要

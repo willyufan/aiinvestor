@@ -1,5 +1,37 @@
 # Path 1 研究计划
 
+## 2026-07-29 二次迭代记录（07:23 CST）
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 `...quality_profitability_growth_lowvol...risk08_reconfirm` 与 `...quality_profitability_growth_trend...risk10_reconfirm`：两者在 `since_2020_01`/`since_2023_01` 相对当前 `risk20_reconfirm` 分别明显失速，且 `since_2026_01` 为负，均判定 `reject`。
+- 当前对照 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm` 完成确认，判定 `promote`；window winner、robust candidate 与 tracked payload 未变化。
+- `core_multifactor` 子组覆盖保持 `64/64`；本轮两个 signal-quality 多因子变体均未通过稳定性护栏。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk08_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk10_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm
+```
+
+Scorecard：`results/research/a_share/research_iteration_scorecard_20260729_iter2.json`。
+
+### 下一轮 focus 提示
+
+- focus：`satellite_risk_cost`。优先确认 `risk18_reconfirm` 对 `risk20_reconfirm` 的回撤/收益取舍。
+- 第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm
+```
+
+### Focus 候选池
+
+- `signal_quality` / `core_multifactor`：`...quality_profitability_growth_lowvol...risk08_reconfirm`、`...quality_profitability_growth_trend...risk10_reconfirm`。
+- `satellite_risk_cost`：`...sat_three_stage_buffered_cost_guard_risk18_reconfirm`、`...sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- `holding_shape`：`...holding_shape_share22_reconfirm`、`...holding_shape_share24_reconfirm`。
+- `weekly_exposure_path`：`...__port_weekly_exposure_buffered`、`...__port_weekly_exposure_buffered_asym13`。
+
 ## 2026-07-29 迭代记录
 
 ### 上一轮候选与结果摘要

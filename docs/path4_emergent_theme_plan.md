@@ -1,5 +1,35 @@
 # Path 4 强主题涌现路径
 
+## 2026-07-29 二次迭代记录（07:23 CST）
+
+### 上一轮候选与结果摘要
+
+- `80_20_total_mv` signal30 与 `90_10_equal_weight` signal30 分别因中窗 MaxDD 恶化超过 5 个百分点、收益失速而 `reject`。
+- `90_10_total_mv` signal30 在 `since_2020_01`/`since_2023_01` CAGR 仅下降约 2.16/0.39 个百分点，同时 MaxDD 改善约 8.65/9.53 个百分点，判定 `promote` 资格；artifact 仍保留 capacity-v2，未改 official winner。
+- capacity-v2 对照因 `since_2026_01` 仍为负，判定 `robust_observation`：进入观察位，不是强稳定 winner。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2
+```
+
+### 下一轮 focus 提示
+
+- focus：`emergent_theme_coverage`。以 coverage/capacity 折中变体挑战 capacity-v2，重点复核中窗 MaxDD 与单票集中度。
+- 第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap06_exit66_lowturn,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2
+```
+
+### Focus 候选池
+
+- `emergent_theme_coverage`：`...signal29...risk06_cap06_exit66_lowturn`、`...signal30...risk06_cap05_exit68_lowturn`。
+- `theme_signal_quality`：`...signal30_leader78...`、`...signal29_leader78...`。
+- `theme_risk_control`：`...risk04_cap04_exit72_capacity_v2`、`...risk06_cap05_exit68_lowturn`。
+- `theme_capacity_cost`：`...capacity_v2`、`...cap06_exit66_lowturn`。
+
 ## 2026-07-29 迭代记录
 
 ### 上一轮候选与结果摘要

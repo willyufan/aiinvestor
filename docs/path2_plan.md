@@ -1,5 +1,35 @@
 # Path 2 研究计划
 
+## 2026-07-29 二次迭代记录（07:23 CST）
+
+### 上一轮候选与结果摘要
+
+- `...v42_risk_reconfirm` 与 `...v37_medium_cycle_repair` 在 `since_2023_01` 近零、`since_2026_01` 约 `-32%`，均判定 `reject`。
+- 对照 `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` 在部分窗口仍居前，但 `since_2026_01` 为负，判定 `robust_observation`：进入观察位，不是强稳定 winner。
+- window winner、robust candidate 与 tracked payload 未变化。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk27_mom_exit47_reconfirm95_caution58_cap22_cost_guard_v37_medium_cycle_repair,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6
+```
+
+### 下一轮 focus 提示
+
+- focus：`risk_reconfirm_sensitivity`。下一轮比较 equal-weight 风险复核变体与当前观察位。
+- 第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6
+```
+
+### Focus 候选池
+
+- `risk_reconfirm_sensitivity`：`...v42_risk_reconfirm`、`...v37_medium_cycle_repair`。
+- `medium_cycle_growth`：`...v37_medium_cycle_repair`、`...v38_medium_cycle_balance`。
+- `cost_capacity`：`...cap22_cost_guard_v37`、`...cap24_cost_guard_v42`。
+- `short_window_elasticity`：`...aggr_10_90_prom6`、`...theme_fast_growth_elastic`。
+
 ## 2026-07-29 迭代记录
 
 ### 上一轮候选与结果摘要

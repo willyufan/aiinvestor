@@ -1,5 +1,34 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-29 二次迭代记录（07:23 CST）
+
+### 上一轮候选与结果摘要
+
+- `...v27_cost_guard`、`...v28_ytd_repair` 中窗收益有改善，但 `since_2026_01` 分别约 `-12.09%/-13.73%`，均判定 `keep_watch`。
+- `hkconnect_path2_theme_fast_monthly` 五窗口确认，判定 `promote`；window winner、robust candidate 与 tracked payload 未变化。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard,hkconnect_path2_high_return_monthly_quality_liquidity_v28_ytd_repair,hkconnect_path2_theme_fast_monthly
+```
+
+### 下一轮 focus 提示
+
+- focus：`biweekly_breakout`。仅确认已注册 v25 的跨窗边界，不重启普通 breakout 同形扩参；以 theme-fast 为对照。
+- 第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair,hkconnect_path2_theme_fast_monthly
+```
+
+### Focus 候选池
+
+- `biweekly_breakout`：v25 breakout-repair、v29 turnover-cap。
+- `high_return_monthly`：v27 cost-guard、v28 YTD-repair。
+- `elasticity_cost_control`：theme-monthly-cost-control、theme-fast-monthly。
+- `return_recovery`：theme-fast-monthly、v50 return-restore。
+
 ## 2026-07-29 迭代记录
 
 ### 上一轮候选与结果摘要

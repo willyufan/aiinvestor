@@ -1,5 +1,35 @@
 # Path 3 研究计划
 
+## 2026-07-29 二次迭代记录（07:23 CST）
+
+### 上一轮候选与结果摘要
+
+- `...exit97_risk12_weekly_exit_buffer_weekly` 与 `...weekly_turnover_reduction_v4_weekly` 均破坏 `since_2020_01`/`since_2023_01` 稳定性，判定 `reject`。
+- 对照 `...exit98_risk14_turnover_repair_weekly` 完成确认，但绝对收益仍弱，判定 `robust_observation`：进入观察位，不是强稳定 winner。
+- window winner、robust candidate 与 tracked payload 未变化；低换手改善不足以抵消收益损失。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### 下一轮 focus 提示
+
+- focus：`weekly_exit_buffer`。尝试 `cap44/hold8/turn02/exit97/risk08` 的中间形态，并继续以 turnover-repair 为对照。
+- 第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn02_exit97_risk08_weekly_exit_buffer_v2_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### Focus 候选池
+
+- `weekly_exit_buffer`：`...cap44_hold8_turn02_exit97_risk08_weekly_exit_buffer_v2_weekly`、`...cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`。
+- `weekly_turnover_reduction`：`...cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly`、`...cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`。
+- `weekly_risk_overlay`：`...risk08_weekly`、`...risk12_weekly`。
+- `weekly_capacity_cost`：`...cap40...cost_guard_weekly`、`...cap46...cost_guard_weekly`。
+
 ## 2026-07-29 迭代记录
 
 ### 上一轮候选与结果摘要
