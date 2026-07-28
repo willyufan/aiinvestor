@@ -15,17 +15,17 @@ AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.p
 
 ### 下一轮 focus 提示
 
-- focus：`frozen_candidate_audit`。先复核 `mrc_uec_supply_chain_20260716_v0` 的来源、冻结成分与 horizon 可用性，再执行入口回测。
+- focus：`frozen_candidate_audit`。先复核 registry 现有篮子 `mrc_uec_ai_network_20260506_v0` 的来源、冻结成分与 horizon 可用性，再执行入口回测。
 - 第一条命令：
 
 ```bash
-AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id mrc_uec_supply_chain_20260716_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_mrc_uec_supply_chain_20260716_v0_next_audit.json
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_mrc_uec_ai_network_20260506_v0_next_audit.json
 ```
 
 ### Focus 候选池
 
-- `frozen_candidate_audit`：`mrc_uec_supply_chain_20260716_v0`、`high_speed_pcb_copper_clad_server_20260624_v0`。
-- `event_source_audit`：`mrc_uec_supply_chain_20260716_v0`、`robotics_supply_chain_20260718_v0`。
+- `frozen_candidate_audit`：`mrc_uec_ai_network_20260506_v0`、`high_speed_pcb_copper_clad_server_20260624_v0`。
+- `event_source_audit`：`mrc_uec_ai_network_20260506_v0`、`ai_glasses_edge_terminal_20260424_v0`。
 - `short_horizon_recheck`：PCB 篮子 `5/10/20`、MRC/UEC 篮子 `5/10/20`。
 - `path4_overlap`：MRC/UEC 对 capacity-v2、机器人供应链对 capacity-v2。
 
