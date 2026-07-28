@@ -1,5 +1,25 @@
 # Path 2 研究计划
 
+## 2026-07-29 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 按 `medium_cycle_growth`/温和欠配修复五窗口确认 v30、v44，并与正式 robust `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6` 同窗比较。v30/v44 的 2023 CAGR 相对 robust 分别下降 `19.16pp/20.28pp`，Sharpe 下降 `0.610/0.651`，2026 CAGR 为 `-31.78%/-32.92%`，均 `reject`；实验假设“中周期或温和等权能修复 2023”不成立。
+- robust 本身 2020/2026 CAGR 已为 `-0.11%/-14.73%`，虽仍是 artifact robust，但只能标记 `robust_observation`，进入观察位，不是强稳定 winner。v30 的窗口排序未改变 robust/tracked；Path4 未混入 Path2，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle`、`core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair`、`core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`。
+- 五窗口增量命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle,core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top12_risk24_exit44_cap20_cost_guard_v44_underrep_repair,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260729.json`。
+
+### 下一轮 focus 提示
+
+- guard focus 为 `medium_cycle_growth`。v30 已因 2023 断裂被拒绝，下一轮只确认注册的 v37 修复边界；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk27_mom_exit47_reconfirm95_caution58_cap22_cost_guard_v37_medium_cycle_repair,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6`；若仍破坏 2023，停止 v30/v37 同形扩参并转 risk-reconfirm。
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v37 medium-cycle-repair、v30 失败边界；`risk_reconfirm_sensitivity`：v42 risk-reconfirm、正式 robust；`underrepresented_families`：60/40-v70、70/30-v70；`capacity_and_cost_stress`：v44 underrep-repair、v45 capacity-stress。
+
 ## 2026-07-28 二次迭代记录（07:23 CST）
 
 ### 上一轮候选与结果摘要

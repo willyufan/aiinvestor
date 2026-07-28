@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-07-29 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 按 `monthly_weekly_overlay` 五窗口确认 lowvol soft-exit36/38，并与正式 robust `hkconnect_path1_biweekly_lowvol` 同窗比较。两条 overlay 的 2020/2023 CAGR 仍优于 robust，但 2026 CAGR 均为 `-3.92%`，实验假设“继续放宽退出可修复 YTD”未获支持，均 `keep_watch`。
+- biweekly-lowvol 的 2026 CAGR 为 `9.55%`，五窗口确认 `promote`；window winner、robust candidate 与 tracked payload 均未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36`、`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38`、正式 robust `hkconnect_path1_biweekly_lowvol`。
+- 五窗口确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38,hkconnect_path1_biweekly_lowvol`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260729.json`。
+
+### 下一轮 focus 提示
+
+- 当前 focus 为 `monthly_weekly_overlay`。soft-exit36/38 已同形失败，下一轮以已注册 soft-exit42 验证“更宽退出能否让 2026 转正且守住中窗”；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit42,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：lowvol-soft-exit42、biweekly-lowvol；`risk_overlay_cost`：v27 risk-overlay、biweekly-lowvol；`biweekly_buffer`：v43 buffer-repair、biweekly-lowvol；`return_recovery`：lowvol-soft-exit42、biweekly-lowvol。
+
 ## 2026-07-28 二次迭代记录（07:23 CST）
 
 ### 上一轮候选与结果摘要

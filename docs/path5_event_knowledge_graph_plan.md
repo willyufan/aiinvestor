@@ -1,5 +1,25 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-29 迭代记录
+
+### 上一轮候选与结果摘要
+
+- `event_theme_registry.json` 维持 4 个 active basket、24 个 frozen/backtest-ready candidates，`pending_audit_count=0`。本轮复跑已审计冻结篮子 `ai_glasses_edge_terminal_20260424_v0` 的 20/40/60D：equal-weight 收益为 `21.80%/26.82%/0.11%`，seed-weight 为 `21.99%/26.93%/0.38%`，与 Path4 capacity-v2 事件日前持仓 overlap `0/6`。
+- 实验假设“独立事件篮子在长 horizon 保持持续正收益”只获局部支持：20/40D 强、60D 几乎归零，判定 `keep_watch`；不写入 Path1-4 winner/robust/tracked。第五篮子仍缺 primary-source audit，未把计划 seed 当成有效结论；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选：`ai_glasses_edge_terminal_20260424_v0__mature_20_40_60`；审计状态 `approved + source_audited + frozen`，Path4 reference 为 `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`，输出 `results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_20260729.json`。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_20260729.json`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260729.json`。
+
+### 下一轮 focus 提示
+
+- guard focus 为 `event_basket_registry`。`ai_datacenter_power_grid_202607_v0`、`advanced_packaging_interconnect_202607_v0` 尚无通过审计的 registry/candidate 记录，故本轮不伪造第五篮子；先补 primary-source audit。审计等待期间的第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_mrc_uec_ai_network_20260506_v0_path4_capacity_v2_next.json`。
+
+### Focus 候选池
+
+- `event_basket_registry`：`ai_datacenter_power_grid_202607_v0`、`advanced_packaging_interconnect_202607_v0`（均需 source audit 后才可 active）；`frozen_candidate_audit`：现有 24 个 frozen refresh、AI 眼镜 6 股来源复核；`event_backtest_entry`：MRC/UEC 20/40/60、AI 眼镜 60D 衰减复核；`path4_comparison`：MRC/UEC 对 capacity-v2、AI 眼镜对 capacity-v2。
+
 ## 2026-07-28 二次迭代记录（07:23 CST）
 
 ### 上一轮候选与结果摘要
@@ -1038,3 +1058,9 @@ Path 5 成立需要满足至少一个条件：
 - 结论：Path 5 仍不写入 window winner、robust candidate 或 tracked payload；本轮没有新增第五篮子，原因是现有 PCB 篮子刚有 5D 负收益且 guard focus 指向来源复核，下一轮应先扩审计池或等 10D/20D 成熟。
 - 下一轮 focus：若最终仍为 `frozen_candidate_audit`，第一动作先补第五事件篮子 registry/candidates/audit；若选择复跑现有入口，首条命令沿用本轮有效 reference，并把输出改为新文件名：`.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_robust_prom22_signal29_risk06_next.json`。
 - Final guard 修正：最终 guard 轮换为 `ashare_path5 -> event_backtest_entry / rotate / stagnation_runs=66`。下一轮第一动作应先复跑同一 PCB 篮子可比入口，等待 10D/20D 成熟；首条命令为 `.venv/bin/python scripts/event_theme_backtest_entry.py --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_robust_prom22_signal29_risk06_next.json`；若 10D 仍不足，再补第五篮子来源审计池。
+## Path6 分线说明（2026-07-22）
+
+- 上一轮候选与结果摘要：Path5 仍是事件知识图谱入口，需继续依赖 approved/source-audited 冻结篮子；本轮没有用 Path6 的短动量结果替代 Path5 结论。
+- 本轮候选 ID 与命令：Path5 未新增 event basket 回测，原因是本轮实验预算用于新建 Path6/Path8 并解决估值滞后。下轮仍使用文档中最近一条已审计 basket 的 `scripts/event_theme_backtest_entry.py` 命令。
+- 下一轮 focus 提示：保持 `event_basket_registry -> frozen_candidate_audit -> event_backtest_entry -> path4_comparison` 顺序；Path6 只作为新的短窗收益基准，不改变 Path5 审计要求。
+- Focus 候选池：沿用本文档现有 `event_basket_registry`、`frozen_candidate_audit`、`event_backtest_entry`、`path4_comparison` 各至少 2 个具体候选；本轮不新增未审计 seed。

@@ -1,5 +1,25 @@
 # Path 1 研究计划
 
+## 2026-07-29 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 主线五窗口确认 `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_cash_off__port_weekly_exposure_buffered_asym13` 与正式 robust risk20。周度仓位 asym13 的 2020/2023 CAGR 相对 robust 下降 `8.70pp/4.95pp`，虽 2026 CAGR `11.20%`、winner-only 在 2017/2025 raw 排名领先，仍判定 `keep_watch`；相邻验证未通过，official window winner/robust/tracked 不变。risk20 2026 CAGR `9.27%`，五窗确认 `promote`。
+- core_multifactor 子段：代码实际覆盖 `64/64`。新确认 `quality_profitability_growth_trend_signal_quality_gate_cashguard_risk12_reconfirm`，2020 CAGR/Sharpe 相对 risk20 分别下降 `18.03pp/0.475`，2026 CAGR `-4.23%`，判定 `reject`；实验假设“质量门槛可修复中窗且控制风险”不成立。无新增注册、无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk12_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_cash_off__port_weekly_exposure_buffered_asym13`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- 五窗口增量命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk12_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_cash_off__port_weekly_exposure_buffered_asym13,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260729.json`。
+
+### 下一轮 focus 提示
+
+- guard focus 为 `signal_quality`。risk12 quality-gate 已证伪，下一轮先确认较低风险的 growth/lowvol quality-gate 是否能缩小 2020 缺口；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk08_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。只有 2020/2023 均不触发护栏才继续；asym13 保留观察，不按 raw 单窗排名晋级。
+
+### Focus 候选池
+
+- `signal_quality/core_multifactor_coverage`：growth-lowvol-quality-gate-risk08、growth-trend-quality-gate-risk10；`holding_shape`：share22/ramp64、share24/ramp62；`satellite_risk_cost`：risk18、risk20；`weekly_exposure_path`：`__port_weekly_exposure_buffered`、`__port_weekly_exposure_buffered_asym13`。
+
 ## 2026-07-28 二次迭代记录（07:23 CST）
 
 ### 上一轮候选与结果摘要
