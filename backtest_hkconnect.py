@@ -8537,7 +8537,32 @@ def load_or_fetch_stock_hsgt_latest(pro, end_date: pd.Timestamp) -> pd.DataFrame
         (pd.to_datetime(cached["trade_date"]) == latest_date) & cached["type"].isin(["SH_HK", "SZ_HK"])
     ].copy()
     latest = latest.sort_values(["type", "ts_code"]).drop_duplicates(subset=["ts_code"]).reset_index(drop=True)
+    latest = filter_replaced_hk_connect_codes(latest)
     return latest
+
+
+def filter_replaced_hk_connect_codes(latest: pd.DataFrame) -> pd.DataFrame:
+    if latest.empty or "name" not in latest.columns:
+        return latest
+
+    def split_name_role(value: object) -> Tuple[str, str]:
+        name = str(value).strip()
+        for suffix, role in (("(新)", "new"), ("（新）", "new"), ("(旧)", "old"), ("（旧）", "old")):
+            if name.endswith(suffix):
+                return name[: -len(suffix)].strip(), role
+        return name, ""
+
+    name_roles = latest["name"].map(split_name_role)
+    new_names = {base_name for base_name, role in name_roles if role == "new"}
+    replaced_mask = pd.Series(
+        [role == "old" and base_name in new_names for base_name, role in name_roles],
+        index=latest.index,
+        dtype=bool,
+    )
+    if replaced_mask.any():
+        removed = ",".join(latest.loc[replaced_mask, "ts_code"].astype(str).tolist())
+        print(f"[HK Data] 最新港股通名单已剔除存在新代码的旧代码：{removed}")
+    return latest.loc[~replaced_mask].reset_index(drop=True)
 
 
 def hk_ts_code_to_akshare_symbol(ts_code: str) -> str:
