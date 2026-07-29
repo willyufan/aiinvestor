@@ -1,5 +1,35 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-07-30 迭代记录
+
+### 上一轮候选与结果摘要
+
+- stable-wide、lowvol-buffered-v38、equal-elastic 的 2020/2023/2026 CAGR 分别为 `18.12%/19.95%/-13.05%`、`17.34%/26.14%/-6.62%`、`20.24%/24.65%/34.06%`。三条都相对修复后的 current robust `theme_fast_weekly_cost_guard_turnover18_exit42` 触发中窗 CAGR 护栏；equal-elastic 另有 2023 MaxDD `-39.09%` 与 turnover `27.35x`，全部 `reject`。
+- artifact robust/window winner/tracked 因 `02525.HK` 复权连续性修复与 `tracked_active` 重建而纠偏，不是新参数晋级；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard,hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_equal_elastic_weekly
+```
+
+修复后另执行 `--family-scope tracked_active` 五窗口刷新；Scorecard：`results/research/a_share/research_iteration_scorecard_20260730.json`。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction` 需在新 robust 邻域验证，下一轮比较 defensive-turnover12 与 turnover18/exit42；不再用 27x turnover 的 equal-elastic 作为扩参起点。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover12_exit48,hkconnect_path3_theme_fast_weekly_cost_guard_turnover18_exit42
+```
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：`...defensive_turnover12_exit48`、`...cost_guard_turnover18_exit42`。
+- `weekly_defensive_overlay`：`...defensive_turnover12_exit48`、`...stable_weekly_equal_buffered_wide_cost_guard`。
+- `return_recovery`：`...lowvol_buffered_v38_return_recovery`、`...cost_guard_turnover18_exit42`。
+- `cost_stress`：`...stable_weekly_equal_buffered_wide_cost_guard`、`...cost_guard_turnover18_exit42`。
+
 ## 2026-07-29 二次迭代记录（07:23 CST）
 
 ### 上一轮候选与结果摘要

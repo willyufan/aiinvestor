@@ -1,5 +1,35 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-30 迭代记录
+
+### 上一轮候选与结果摘要
+
+- high-return monthly v27/v28 的 2020/2023 CAGR 为 `23.78%/30.74%` 与 `21.95%/28.69%`，2026 为 `-11.08%/-12.98%`；theme-fast monthly 的 2020/2023/2026 为 `17.87%/23.03%/34.16%`，但 2023 turnover `6.98x`、MaxDD `-20.01%`。三条相对修复后的 current robust `theme_monthly_cost_control` 都触发中窗护栏，判定 `reject`。
+- artifact robust/window winner/tracked 因 `02525.HK` 复权连续性修复与 `tracked_active` 重建而纠偏，不是本轮候选晋级；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard,hkconnect_path2_high_return_monthly_quality_liquidity_v28_ytd_repair,hkconnect_path2_theme_fast_monthly
+```
+
+修复后另执行 `--family-scope tracked_active` 五窗口刷新；Scorecard：`results/research/a_share/research_iteration_scorecard_20260730.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 仍给出 `high_return_monthly`。v27/v28 已证伪，下一轮转注册的 v30/v31 YTD-recovery guard，与 current robust 同窗比较；只接受中窗不触发护栏且 2026 非负。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v30_ytd_recovery_guard,hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard,hkconnect_path2_theme_monthly_cost_control
+```
+
+### Focus 候选池
+
+- `high_return_monthly`：`...v30_ytd_recovery_guard`、`...v31_ytd_recovery_guard`。
+- `monthly_cost_control`：`...theme_monthly_cost_control_v2`、`...theme_monthly_cost_control`。
+- `elasticity_cost_control`：`...theme_monthly_cost_control_lowturn`、`...theme_monthly_cost_control_v2`。
+- `short_window_elasticity`：`...theme_fast_monthly`、`...theme_monthly_cost_control`。
+
 ## 2026-07-29 二次迭代记录（07:23 CST）
 
 ### 上一轮候选与结果摘要

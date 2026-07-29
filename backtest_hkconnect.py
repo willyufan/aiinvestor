@@ -8846,6 +8846,7 @@ def append_hk_daily_frames(
     mv_frames: List[pd.DataFrame],
     amount_frames: List[pd.DataFrame],
 ) -> None:
+    daily = repair_hk_forward_adj_close_continuity(daily)
     price_frames.append(
         daily[["trade_date", "forward_adj_close"]]
         .rename(columns={"forward_adj_close": ts_code})
@@ -8855,6 +8856,45 @@ def append_hk_daily_frames(
         mv_frames.append(daily[["trade_date", "total_mv"]].rename(columns={"total_mv": ts_code}).set_index("trade_date"))
     if "amount" in daily.columns:
         amount_frames.append(daily[["trade_date", "amount"]].rename(columns={"amount": ts_code}).set_index("trade_date"))
+
+
+def repair_hk_forward_adj_close_continuity(daily: pd.DataFrame) -> pd.DataFrame:
+    required_columns = {"trade_date", "close", "pre_close", "forward_adj_close"}
+    if daily.empty or not required_columns.issubset(daily.columns):
+        return daily
+
+    repaired = daily.sort_values("trade_date").drop_duplicates(subset=["trade_date"]).copy()
+    closes = pd.to_numeric(repaired["close"], errors="coerce")
+    pre_closes = pd.to_numeric(repaired["pre_close"], errors="coerce")
+    forward_prices = pd.to_numeric(repaired["forward_adj_close"], errors="coerce")
+    scale = 1.0
+    previous_adjusted_price: float | None = None
+    adjusted_prices: List[float] = []
+
+    for close, pre_close, forward_price in zip(closes, pre_closes, forward_prices):
+        adjusted_price = float(forward_price) * scale if pd.notna(forward_price) else float("nan")
+        if (
+            previous_adjusted_price is not None
+            and previous_adjusted_price > 0.0
+            and pd.notna(close)
+            and pd.notna(pre_close)
+            and float(close) > 0.0
+            and float(pre_close) > 0.0
+            and pd.notna(adjusted_price)
+            and adjusted_price > 0.0
+        ):
+            reported_price_ratio = float(close) / float(pre_close)
+            adjusted_price_ratio = adjusted_price / previous_adjusted_price
+            discontinuity_ratio = adjusted_price_ratio / reported_price_ratio
+            if discontinuity_ratio > 1.5 or discontinuity_ratio < (1.0 / 1.5):
+                scale /= discontinuity_ratio
+                adjusted_price = float(forward_price) * scale
+        adjusted_prices.append(adjusted_price)
+        if pd.notna(adjusted_price) and adjusted_price > 0.0:
+            previous_adjusted_price = adjusted_price
+
+    repaired["forward_adj_close"] = adjusted_prices
+    return repaired
 
 
 def collect_hk_akshare_fallback_dates(

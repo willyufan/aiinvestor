@@ -1,5 +1,35 @@
 # Path 2 研究计划
 
+## 2026-07-30 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 等权 `v42_risk_reconfirm` 的 2023 CAGR 为 `-3.35%`，相对当前观察位 `aggr_10_90_prom6` 的 `18.19%` 下降 `21.54pp`，Sharpe 下降 `0.52`，且 2026 CAGR `-44.99%`，判定 `reject`。
+- `aggr_10_90_prom6` 的 2020/2026 CAGR 仍为 `-0.09%/-12.79%`，只能标记 `robust_observation`：进入观察位，不是强稳定 winner。window winner、robust candidate 与 tracked payload 未因新候选改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6
+```
+
+Scorecard：`results/research/a_share/research_iteration_scorecard_20260730.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 轮换到 `underrepresented_families`。下一轮用 60/40 等权双周 v70 与弱 robust 同窗确认不同 core/explore 配比；该族若继续出现长窗回撤或 2023 断裂，不再做同形微调。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6
+```
+
+### Focus 候选池
+
+- `medium_cycle_growth`：`...v37_medium_cycle_repair`、`...v30_medium_cycle`。
+- `risk_reconfirm_sensitivity`：total-mv `...v42_risk_reconfirm`、正式观察位 `...aggr_10_90_prom6`。
+- `cost_capacity`：`...cap22_cost_guard_v37`、`...cap24_cost_guard_v42`。
+- `short_window_elasticity`：`...aggr_10_90_prom6`、`...theme_fast_growth_elastic`。
+
 ## 2026-07-29 二次迭代记录（07:23 CST）
 
 ### 上一轮候选与结果摘要

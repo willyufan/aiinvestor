@@ -1,5 +1,35 @@
 # Path 1 研究计划
 
+## 2026-07-30 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 主线按 `satellite_risk_cost` 五窗口确认 `risk18_reconfirm` 与正式对照 `risk20_reconfirm`。risk18 的 2023 CAGR 为 `13.53%`，相对 risk20 的 `18.13%` 下降 `4.61pp`，触发稳定性护栏并 `reject`；risk20 五窗确认 `promote`。window winner、robust candidate 与 tracked payload 未因参数竞争改变，无 evict/archive。
+- `core_multifactor` 子段：开局 guard 的代码实际覆盖仍为 `64/64`；本轮预算优先用于 satellite risk 边界，没有把既有多因子同步当成新增实验。上一轮 signal-quality 两条均已 `reject`，下一轮仅在 rotation 再指向时用完整五窗口确认。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm
+```
+
+Scorecard：`results/research/a_share/research_iteration_scorecard_20260730.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 仍给出 `satellite_risk_cost / rotate`。risk18 已证实破坏 2023，下一轮回到较温和的 risk16 与 risk20 做终点确认；若 risk16 再触发 2023 护栏，则该邻域停止扩参。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm
+```
+
+### Focus 候选池
+
+- `holding_shape`：`...share_22_78_hold_2_8_ramp64_cost_guard`、`...share_24_76_hold_2_8_ramp62_cost_guard`。
+- `satellite_risk_cost`：`...risk16_reconfirm`、`...risk20_reconfirm`。
+- `signal_quality` / `core_multifactor`：`...quality_profitability_growth_lowvol...risk08_reconfirm`、`...quality_profitability_growth_trend...risk10_reconfirm`。
+- `weekly_exposure_path`：`...__port_weekly_exposure_buffered_asym13`、`...__port_weekly_exposure_buffered`。
+
 ## 2026-07-29 二次迭代记录（07:23 CST）
 
 ### 上一轮候选与结果摘要

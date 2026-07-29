@@ -1,5 +1,35 @@
 # Path 3 研究计划
 
+## 2026-07-30 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 纯周频 `cap44/hold8/turn02/exit97/risk08_weekly_exit_buffer_weekly` 的 2020/2023 CAGR 为 `3.34%/2.55%`，相对当前 turnover-repair 低 `3.47pp/5.15pp`，虽 2023 turnover 仅 `0.13x`，仍触发稳定性护栏并 `reject`。
+- 当前 `...cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly` 五窗为正，但 2020/2023 CAGR 仅 `6.81%/7.70%`，继续 `robust_observation`：进入观察位，不是强稳定 winner。window winner、robust candidate 与 tracked payload 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn02_exit97_risk08_weekly_exit_buffer_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+Scorecard：`results/research/a_share/research_iteration_scorecard_20260730.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 轮换到 `risk_downshift`。下一轮确认 risk06 downshift 与当前 turnover-repair 的风险收益取舍，仍要求 strategy id 以 `_weekly` 结尾。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：`...cap44_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly`、当前 turnover-repair。
+- `weekly_exit_buffer`：`...cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`、当前 turnover-repair。
+- `risk_downshift`：`...cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly`、当前 turnover-repair。
+- `return_recovery` / `cost_stress`：`...weekly_return_recovery_v7_weekly`、`...risk10_weekly_cost_stress_weekly`。
+
 ## 2026-07-29 二次迭代记录（07:23 CST）
 
 ### 上一轮候选与结果摘要
