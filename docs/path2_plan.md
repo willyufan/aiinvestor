@@ -1,5 +1,33 @@
 # Path 2 研究计划
 
+## 2026-07-30 二次迭代记录（07:24 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `underrepresented_families` 五窗口确认 v70 的 60/40、70/30 等权双周形态，并与正式 robust `aggr_10_90_prom6` 同窗比较。两条候选 2023 CAGR 仅 `1.88%/1.96%`，相对 robust `18.19%` 下降约 `16.31pp/16.23pp`，Sharpe 也下降约 `0.99`；70/30 的 2026 CAGR 为 `-4.25%`，全部 `reject`。
+- `aggr_10_90_prom6` 的 2020/2026 CAGR 为 `-0.09%/-12.78%`，虽仍被 artifact 保留为 Path2 robust，但只判 `robust_observation`：进入观察位，不是强稳定 winner。Path4 未混入 Path2，winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6
+```
+
+Scorecard：`results/research/a_share/research_iteration_scorecard_20260730_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 仍为 `underrepresented_families / rotate`。60/40 与 70/30 已证伪，下一轮只用 40/60 做最后一次比例边界确认；若 2023 再触发护栏，则停止 v70 同形扩参。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_40_60_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6
+```
+
+### Focus 候选池
+
+- `underrepresented_families`：40/60-v70、60/40-v78；`medium_cycle_growth`：v30 medium-cycle、v37 medium-cycle-repair。
+- `risk_reconfirm_sensitivity`：v42 risk-reconfirm、正式 robust；`capacity_and_cost_stress`：v44 underrep-repair、v45 capacity-stress。
+
 ## 2026-07-30 迭代记录
 
 ### 上一轮候选与结果摘要

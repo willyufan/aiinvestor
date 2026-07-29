@@ -1,5 +1,35 @@
 # Path 1 研究计划
 
+## 2026-07-30 二次迭代记录（07:24 CST）
+
+### 上一轮候选与结果摘要
+
+- 主线按 `holding_shape` 五窗口确认 share22/ramp64、share24/ramp62，并与正式 robust risk20 同端点比较。两条 holding-shape 的 2020 CAGR 为 `18.01%/18.15%`，相对 risk20 的 `24.44%` 下降 `6.43pp/6.29pp`，触发稳定性护栏；但 2023 CAGR 均约 `18.5%`、2026 为 `7.34%/8.03%`，故只 `keep_watch`。risk20 五窗确认 `promote`；window winner、robust candidate 与 tracked payload 未改变，无 evict/archive。
+- `core_multifactor` 子段：最终 guard 的代码实际覆盖为 `64/64`。本轮 27 个证券策略预算优先投向最终 focus 的 holding-shape 与其余路径最低实跑，没有把已有同步当成新增多因子实验；下一轮若 focus 转回 signal/core，再执行下方五窗口确认。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp64_cost_guard,core_explore_80_20_total_mv_winner_core__share_24_76_hold_2_8_ramp62_cost_guard,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm
+```
+
+Scorecard：`results/research/a_share/research_iteration_scorecard_20260730_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 仍为 `holding_shape / rotate`。share22/share24 的 2020 缺口已再次确认，下一轮只验证中间 share20/ramp66 与 risk20，不继续向更高 share 同形扩参。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_20_80_hold_2_8_ramp66_cost_guard,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm
+```
+
+- `core_multifactor` 未实跑原因为本轮 focus 与预算分配；若 rotation 转回 signal/core，第一条确认命令为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk08_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+
+### Focus 候选池
+
+- `holding_shape`：share20/ramp66、share22/ramp64；`satellite_risk_cost`：risk16、risk20。
+- `signal_quality/core_multifactor_coverage`：growth-lowvol-quality-gate-risk08、growth-trend-quality-gate-risk10；`weekly_exposure_path`：`__port_weekly_exposure_buffered`、`__port_weekly_exposure_buffered_asym13`。
+
 ## 2026-07-30 迭代记录
 
 ### 上一轮候选与结果摘要

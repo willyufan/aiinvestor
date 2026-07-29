@@ -1,5 +1,33 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-07-30 二次迭代记录（07:24 CST）
+
+### 上一轮候选与结果摘要
+
+- 在修复后的 current robust `v26_ytd_positive_guard` 基线上确认 monthly-weekly-overlay soft-exit40 与 v27 risk-overlay。两条的 2020/2023 CAGR 分别为 `25.83%/26.87%` 与 `20.36%/25.82%`，相对 robust 下降 `26.90pp/61.03pp` 与 `32.37pp/62.08pp`；2026 为 `-18.43%/-3.99%`，全部 `reject`。
+- 正式 window winner、robust candidate 与 tracked payload 未改变，无 evict/archive；本轮结果是参数竞争，不把上轮数据纠偏当作晋级。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit40,hkconnect_path1_biweekly_quality_momentum_equal_buffered_v27_risk_overlay
+```
+
+Scorecard：`results/research/a_share/research_iteration_scorecard_20260730_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 为 `monthly_weekly_overlay / continue`。soft-exit40 未修复 YTD，下一轮只确认 lowvol soft-exit38 与 current robust。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38,hkconnect_path1_biweekly_quality_momentum_equal_buffered_v26_ytd_positive_guard
+```
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：lowvol-soft-exit38、soft-exit40；`biweekly_equal_buffered`：biweekly-lowvol、v26 positive-guard。
+- `lowvol_risk_overlay`：biweekly-lowvol、v27 risk-overlay；`capacity_cost`：soft-exit38、soft-exit40。
+
 ## 2026-07-30 迭代记录
 
 ### 上一轮候选与结果摘要

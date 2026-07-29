@@ -1,5 +1,33 @@
 # Path 4 强主题涌现路径
 
+## 2026-07-30 二次迭代记录（07:24 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `theme_signal_quality` 五窗口确认 80/20 total-mv signal-quality-v4，并与 capacity-v2 同窗比较。候选 2020 CAGR 略高 `0.30pp`、2023 低 `1.45pp`，未触发中窗硬护栏，但 2026 CAGR 从 capacity-v2 的 `-6.24%` 恶化到 `-15.37%`，只 `keep_watch`。
+- capacity-v2 继续保持 Path4 window winner/robust，但 2026 为负，判定 `robust_observation`：进入观察位，不是强稳定 winner。没有人工主题分类、没有以单票幸运晋级，winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2
+```
+
+Scorecard：`results/research/a_share/research_iteration_scorecard_20260730_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 轮换到 `theme_risk_control / rotate`。下一轮比较 80/20 total-mv risk-control-v5 与 capacity-v2，只接受中窗不触发护栏且 2026 明显收敛。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2
+```
+
+### Focus 候选池
+
+- `theme_risk_control`：80/20 total-mv risk-control-v5、capacity-v2；`theme_signal_quality`：signal-quality-v4、risk-control-v5。
+- `theme_capacity_cost`：capacity-v2、cap05/exit70-lowturn；`emergent_theme_coverage`：signal-quality-v4、capacity-v2。
+
 ## 2026-07-30 迭代记录
 
 ### 上一轮候选与结果摘要

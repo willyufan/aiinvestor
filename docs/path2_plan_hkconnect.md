@@ -1,5 +1,33 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-07-30 二次迭代记录（07:24 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `high_return_monthly` 确认 v30/v31 YTD-recovery 与 theme-monthly-cost-control，并与修复后的 robust `equal_elastic_monthly` 同窗比较。三条 2020 CAGR 分别低 `9.82pp/10.60pp/8.95pp`，2026 为 `-12.39%/-15.50%/-18.64%`，全部触发稳定性或绝对收益约束并 `reject`。
+- 正式 window winner、robust candidate 与 tracked payload 未改变，无 evict/archive；未因短窗或低换手局部改善晋级。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v30_ytd_recovery_guard,hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard,hkconnect_path2_theme_monthly_cost_control
+```
+
+Scorecard：`results/research/a_share/research_iteration_scorecard_20260730_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 为 `high_return_monthly / continue`。v30/v31 已证伪，下一轮只确认已注册 v32 与 current robust；若 2026 仍负则停止该同形。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-29 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v32_high_return_monthly_guard,hkconnect_path2_equal_elastic_monthly
+```
+
+### Focus 候选池
+
+- `high_return_monthly`：v32 high-return guard、v31 YTD-recovery；`monthly_cost_control`：theme-monthly-cost-control-v2、theme-monthly-cost-control。
+- `elasticity_cost_control`：theme-monthly-cost-control-lowturn、cost-control-v2；`short_window_elasticity`：theme-fast-monthly、equal-elastic-monthly。
+
 ## 2026-07-30 迭代记录
 
 ### 上一轮候选与结果摘要

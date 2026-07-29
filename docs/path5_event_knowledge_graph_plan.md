@@ -1,5 +1,33 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-30 二次迭代记录（07:24 CST）
+
+### 上一轮候选与结果摘要
+
+- 已审计冻结篮子 `mrc_uec_ai_network_20260506_v0` 再跑 20/40/60D。20D/40D 等权收益为 `41.75%/30.40%`，seed-weight 为 `43.85%/32.40%`；60D 仍只有 59 个交易日，未成熟。
+- 与 Path4 capacity-v2 的事件日前持仓 overlap 为 `1/6`、Path4 overlap weight `3.71%`。事件假设仅局部支持，判定 `keep_watch`；不伪造 CAGR、Sharpe、MaxDD、turnover，也不进入 Path1-4 winner/robust/tracked。registry 仍为 4 个 active basket、24 个 frozen/backtest-ready、pending audit 0，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_mrc_uec_ai_network_20260506_v0_path4_capacity_v2_20260730_iter2.json
+```
+
+Scorecard：`results/research/a_share/research_iteration_scorecard_20260730_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 仍为 `event_backtest_entry / rotate`。等待第 60 个交易日后优先复跑同一篮子；若仍未成熟，继续明确记录数据缺口，不以 20/40D 爆发晋级。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_mrc_uec_ai_network_20260506_v0_path4_capacity_v2_next.json
+```
+
+### Focus 候选池
+
+- `event_backtest_entry`：MRC/UEC 20/40/60D、AI 眼镜 20/40/60D；`frozen_candidate_audit`：MRC/UEC、PCB/覆铜板。
+- `path4_comparison`：MRC/UEC 对 capacity-v2、AI 眼镜对 capacity-v2；`event_basket_registry`：现有 MRC/UEC、现有 AI 眼镜，新增 seed 必须先完成来源审计。
+
 ## 2026-07-30 迭代记录
 
 ### 上一轮候选与结果摘要
