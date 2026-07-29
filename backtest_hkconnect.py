@@ -8771,13 +8771,26 @@ def get_factor_signal_dates(prepared: HKPreparedData) -> List[pd.Timestamp]:
     return sorted(signal_dates)
 
 
-def get_rebalance_signal_dates(prepared: HKPreparedData, rebalance_frequency: str) -> List[pd.Timestamp]:
+def get_formal_rebalance_signal_dates(
+    prepared: HKPreparedData,
+    rebalance_frequency: str,
+) -> List[pd.Timestamp]:
     freq = str(rebalance_frequency or "monthly").strip().lower()
     if freq == "weekly":
         return list(prepared.week_end_dates)
     if freq == "biweekly":
         return [date for idx, date in enumerate(prepared.week_end_dates) if idx % 2 == 1]
-    return list(prepared.monthly_period_end_dates)
+    return list(prepared.month_end_dates)
+
+
+def get_rebalance_signal_dates(prepared: HKPreparedData, rebalance_frequency: str) -> List[pd.Timestamp]:
+    schedule = get_formal_rebalance_signal_dates(prepared, rebalance_frequency)
+
+    if not prepared.price_ffill.empty:
+        latest_valuation_date = pd.Timestamp(prepared.price_ffill.index.max())
+        if not schedule or latest_valuation_date > schedule[-1]:
+            schedule.append(latest_valuation_date)
+    return schedule
 
 
 def get_next_trading_day(trading_dates: pd.Index, signal_date: pd.Timestamp) -> pd.Timestamp | None:
@@ -9684,6 +9697,7 @@ def run_hk_backtest(
         and risk_overlay_scope == HK_RISK_OVERLAY_SCOPE_PORTFOLIO
     )
     signal_schedule = get_rebalance_signal_dates(prepared, rebalance_frequency)
+    formal_period_end_dates = set(get_formal_rebalance_signal_dates(prepared, rebalance_frequency))
     trading_dates = prepared.price_ffill.index
 
     if len(signal_schedule) < 2:
@@ -9907,6 +9921,7 @@ def run_hk_backtest(
         monthly_rows.append(
             {
                 "date": period_end,
+                "is_partial_period": pd.Timestamp(period_end) not in formal_period_end_dates,
                 "portfolio_return": net_return,
                 "gross_return": gross_return,
                 "net_return": net_return,

@@ -18282,13 +18282,30 @@ def get_factor_signal_dates(prepared: PreparedData) -> List[pd.Timestamp]:
     return sorted(set(prepared.month_end_dates) | set(prepared.week_end_dates))
 
 
-def get_rebalance_signal_dates(prepared: PreparedData, rebalance_frequency: str) -> List[pd.Timestamp]:
+def get_formal_rebalance_signal_dates(
+    prepared: PreparedData,
+    rebalance_frequency: str,
+) -> List[pd.Timestamp]:
     freq = str(rebalance_frequency or "monthly").strip().lower()
     if freq == "weekly":
         return list(prepared.week_end_dates)
     if freq == "biweekly":
         return [date for idx, date in enumerate(prepared.week_end_dates) if idx % 2 == 1]
-    return list(prepared.monthly_period_end_dates)
+    return list(prepared.month_end_dates)
+
+
+def get_rebalance_signal_dates(prepared: PreparedData, rebalance_frequency: str) -> List[pd.Timestamp]:
+    freq = str(rebalance_frequency or "monthly").strip().lower()
+    if freq == "monthly":
+        schedule = list(prepared.monthly_period_end_dates)
+    else:
+        schedule = get_formal_rebalance_signal_dates(prepared, freq)
+
+    if not prepared.price_ffill.empty:
+        latest_valuation_date = pd.Timestamp(prepared.price_ffill.index.max())
+        if not schedule or latest_valuation_date > schedule[-1]:
+            schedule.append(latest_valuation_date)
+    return schedule
 
 
 def get_next_trading_day(trading_dates: pd.Index, signal_date: pd.Timestamp) -> pd.Timestamp | None:
@@ -20239,6 +20256,10 @@ def compute_metrics(
 ) -> Dict[str, float]:
     nav = equity_curve["nav"].astype(float)
     period_net = monthly_returns["net_return"].astype(float)
+    partial_period_mask = pd.Series(False, index=monthly_returns.index)
+    if "is_partial_period" in monthly_returns.columns:
+        partial_period_mask = monthly_returns["is_partial_period"].fillna(False).astype(bool)
+    complete_period_net = period_net.loc[~partial_period_mask]
     periods_per_year = 12.0
     if str(rebalance_frequency).strip().lower() == "weekly":
         periods_per_year = 52.0
@@ -20248,14 +20269,36 @@ def compute_metrics(
     total_return = float(nav.iloc[-1] - 1.0)
     periods = len(period_net)
     years = periods / periods_per_year if periods > 0 else np.nan
-    cagr = float(nav.iloc[-1] ** (1 / years) - 1) if periods > 0 and nav.iloc[-1] > 0 else np.nan
+    if bool(partial_period_mask.any()):
+        equity_dates = pd.to_datetime(equity_curve["date"], errors="coerce").dropna()
+        elapsed_days = (
+            int((equity_dates.max() - equity_dates.min()).days)
+            if len(equity_dates) >= 2
+            else 0
+        )
+        years = elapsed_days / 365.25 if elapsed_days > 0 else np.nan
+    cagr = (
+        float(nav.iloc[-1] ** (1 / years) - 1)
+        if pd.notna(years) and years > 0 and nav.iloc[-1] > 0
+        else np.nan
+    )
     max_drawdown = float(equity_curve["drawdown"].min())
-    win_rate = float((period_net > 0).mean()) if periods > 0 else np.nan
-    annual_volatility = float(period_net.std(ddof=1) * math.sqrt(periods_per_year)) if periods > 1 else np.nan
-    sharpe_ratio = float((period_net.mean() / period_net.std(ddof=1)) * math.sqrt(periods_per_year)) if periods > 1 and period_net.std(ddof=1) > 0 else np.nan
+    complete_periods = len(complete_period_net)
+    win_rate = float((complete_period_net > 0).mean()) if complete_periods > 0 else np.nan
+    complete_period_std = complete_period_net.std(ddof=1)
+    annual_volatility = (
+        float(complete_period_std * math.sqrt(periods_per_year))
+        if complete_periods > 1
+        else np.nan
+    )
+    sharpe_ratio = (
+        float((complete_period_net.mean() / complete_period_std) * math.sqrt(periods_per_year))
+        if complete_periods > 1 and complete_period_std > 0
+        else np.nan
+    )
     average_annual_turnover = (
         float(turnover["one_way_turnover"].astype(float).sum() / years)
-        if not turnover.empty and periods > 0 and years > 0
+        if not turnover.empty and pd.notna(years) and years > 0
         else np.nan
     )
     cumulative_trading_cost = float(turnover["trading_cost"].sum()) if not turnover.empty else 0.0
@@ -20981,6 +21024,7 @@ def run_backtest(
     total_mv = prepared.total_mv
     rebalance_frequency = str(strategy_config.get("rebalance_frequency", "monthly") or "monthly").strip().lower()
     signal_schedule = get_rebalance_signal_dates(prepared, rebalance_frequency)
+    formal_period_end_dates = set(get_formal_rebalance_signal_dates(prepared, rebalance_frequency))
     trading_dates = price_ffill.index
 
     if len(signal_schedule) < 2:
@@ -21521,6 +21565,7 @@ def run_backtest(
         monthly_rows.append(
             {
                 "date": holding_period_end,
+                "is_partial_period": pd.Timestamp(holding_month_end) not in formal_period_end_dates,
                 "portfolio_return": net_return,
                 "gross_return": gross_return,
                 "net_return": net_return,

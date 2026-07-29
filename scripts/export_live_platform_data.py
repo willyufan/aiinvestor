@@ -14,6 +14,11 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from backtest_hkconnect import HK_ARCHIVED_STRATEGY_IDS
+from scripts.hkconnect_ranking import (
+    prepare_hk_candidate_frames,
+    valid_hk_leaderboard_rows as _valid_hk_leaderboard_rows,
+)
 from scripts.results_layout import (
     RESULTS_LIVE_DIR,
     existing_research_file,
@@ -1159,6 +1164,11 @@ def _build_ashare_2026_leaderboards() -> dict[str, Any]:
 
 
 def _build_hkconnect_leaderboards(df: pd.DataFrame) -> dict[str, Any]:
+    _latest, df, _freshness_cutoff, _stale_row_count = prepare_hk_candidate_frames(
+        df,
+        archived_strategy_ids=HK_ARCHIVED_STRATEGY_IDS,
+        max_staleness_days=0,
+    )
     out: dict[str, Any] = {path_name: {} for path_name in HK_TRACKED_PATH_NAMES}
     for path_name in HK_TRACKED_PATH_NAMES:
         for sample_tag in HK_LEADERBOARD_WINDOW_TAGS:
@@ -1203,9 +1213,24 @@ def load_hkconnect_registry() -> list[dict[str, Any]]:
         df = pd.read_csv(comparison_path)
     except Exception:
         return []
-    required = {"sample_tag", "path", "strategy_id", "cagr", "max_drawdown", "sharpe_ratio", "average_annual_turnover"}
+    required = {
+        "sample_tag",
+        "sample_end",
+        "path",
+        "strategy_id",
+        "cagr",
+        "max_drawdown",
+        "sharpe_ratio",
+        "average_annual_turnover",
+        "total_return",
+    }
     if df.empty or not required.issubset(df.columns):
         return []
+    _latest, df, _freshness_cutoff, _stale_row_count = prepare_hk_candidate_frames(
+        df,
+        archived_strategy_ids=HK_ARCHIVED_STRATEGY_IDS,
+        max_staleness_days=0,
+    )
 
     dedup: dict[str, dict[str, Any]] = {}
 

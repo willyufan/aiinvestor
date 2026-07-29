@@ -22,6 +22,10 @@ from matplotlib import font_manager
 from matplotlib.patches import Rectangle
 
 from backtest_hkconnect import HK_ARCHIVED_STRATEGY_IDS
+from scripts.hkconnect_ranking import (
+    prepare_hk_candidate_frames,
+    valid_hk_leaderboard_rows as _valid_leaderboard_rows,
+)
 from scripts.results_layout import existing_research_file, research_file
 
 DOCS_DIR = ROOT / "docs"
@@ -34,8 +38,7 @@ OUTPUT_PATHS = {
 }
 CHART_PATH_NAMES = ("path1", "path2", "path3")
 TRACK_PATH_NAMES = ("path1", "path2", "path3", "path4", "path5", "path6", "path7")
-MAX_SAMPLE_END_STALENESS_DAYS = 21
-
+ARTIFACT_MAX_SAMPLE_END_STALENESS_DAYS = 0
 WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01")
 WINDOW_LABELS = {
     "since_2017_01": "2017",
@@ -332,15 +335,11 @@ def main() -> None:
 
     _configure_matplotlib_fonts()
     frame = pd.read_csv(COMPARISON_CSV)
-    latest = _latest_per_strategy_window(frame)
-    latest["sample_tag"] = latest["sample_tag"].astype(str)
-    latest["strategy_id"] = latest["strategy_id"].astype(str)
-    latest["path"] = latest["path"].astype(str)
-    latest = latest[~latest["strategy_id"].isin(HK_ARCHIVED_STRATEGY_IDS)].copy()
-    newest_sample_end = latest["sample_end"].max()
-    freshness_cutoff = newest_sample_end - pd.Timedelta(days=MAX_SAMPLE_END_STALENESS_DAYS)
-    stale_row_count = int((latest["sample_end"] < freshness_cutoff).sum())
-    ranking_latest = latest[latest["sample_end"] >= freshness_cutoff].copy()
+    latest, ranking_latest, freshness_cutoff, stale_row_count = prepare_hk_candidate_frames(
+        frame,
+        archived_strategy_ids=HK_ARCHIVED_STRATEGY_IDS,
+        max_staleness_days=ARTIFACT_MAX_SAMPLE_END_STALENESS_DAYS,
+    )
 
     payload = _build_payload(latest, ranking_latest=ranking_latest)
     TRACKED_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
