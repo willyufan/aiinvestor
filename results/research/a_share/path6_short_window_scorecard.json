@@ -1,0 +1,467 @@
+{
+  "market": "ashare",
+  "path": "path6",
+  "objective": "maximize_cagr_on_since_2025_01_and_since_2026_01",
+  "as_of": "2026-07-28",
+  "window_winners": {
+    "since_2025_01": {
+      "candidate_id": "core_explore_80_20_equal_weight_winner_core__path6_short_window_weekly_pullback_top3_cashoff_v4_weekly",
+      "metrics": {
+        "cagr": 0.42101261,
+        "sharpe_ratio": 1.01296599,
+        "max_drawdown": -0.30159443,
+        "average_annual_turnover": 17.56807375,
+        "cumulative_trading_cost": 0.05206596,
+        "sample_start": "2025-01-01",
+        "sample_end": "2026-07-28"
+      }
+    },
+    "since_2026_01": {
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__path6_short_window_weekly_balanced_top4_risk15_v3_weekly",
+      "metrics": {
+        "cagr": 0.00666435,
+        "sharpe_ratio": 0.22048195,
+        "max_drawdown": -0.21202143,
+        "average_annual_turnover": 17.97366009,
+        "cumulative_trading_cost": 0.01112852,
+        "sample_start": "2026-01-01",
+        "sample_end": "2026-07-28"
+      }
+    }
+  },
+  "scorecards": [
+    {
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__path6_short_window_weekly_breakout_top6_risk25_v1_weekly",
+      "hypothesis": "提高调仓频率并集中到短动量/突破标的，预期同时抬升 2025 与 2026 CAGR。",
+      "windows": [
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2025_01": {
+          "cagr": -0.17330455,
+          "sharpe_ratio": -0.32265323,
+          "max_drawdown": -0.32849769,
+          "average_annual_turnover": 21.07337729,
+          "cumulative_trading_cost": 0.03306044,
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24"
+        },
+        "since_2026_01": {
+          "cagr": -0.13009959,
+          "sharpe_ratio": -0.05726658,
+          "max_drawdown": -0.33291264,
+          "average_annual_turnover": 24.90553056,
+          "cumulative_trading_cost": 0.01697027,
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24"
+        }
+      },
+      "current_winner_or_robust": {
+        "since_2025_01": {
+          "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+          "metrics": {
+            "cagr": 2.294958,
+            "sharpe_ratio": 1.84318496,
+            "max_drawdown": -0.41253061,
+            "average_annual_turnover": 15.49085588,
+            "cumulative_trading_cost": 0.08492223,
+            "sample_start": "2025-01-01",
+            "sample_end": "2026-07-28"
+          }
+        },
+        "since_2026_01": {
+          "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+          "metrics": {
+            "cagr": 1.1922482,
+            "sharpe_ratio": 1.3936055,
+            "max_drawdown": -0.45143457,
+            "average_annual_turnover": 20.37689113,
+            "cumulative_trading_cost": 0.01694079,
+            "sample_start": "2026-01-01",
+            "sample_end": "2026-07-28"
+          }
+        }
+      },
+      "delta": {
+        "since_2025_01": {
+          "cagr": -2.46826255,
+          "sharpe_ratio": -2.16583819,
+          "max_drawdown": 0.08403292000000001,
+          "average_annual_turnover": 5.58252141,
+          "cumulative_trading_cost": -0.05186179
+        },
+        "since_2026_01": {
+          "cagr": -1.32234779,
+          "sharpe_ratio": -1.4508720800000001,
+          "max_drawdown": 0.11852193,
+          "average_annual_turnover": 4.528639429999998,
+          "cumulative_trading_cost": 2.9479999999998396e-05
+        }
+      },
+      "decision": "reject",
+      "reason": "未能在两个目标窗口形成可持续正收益，或高换手/回撤代价不支持继续同形扩参。"
+    },
+    {
+      "candidate_id": "core_explore_80_20_equal_weight_winner_core__path6_short_window_weekly_breakout_top3_risk10_v2_weekly",
+      "hypothesis": "提高调仓频率并集中到短动量/突破标的，预期同时抬升 2025 与 2026 CAGR。",
+      "windows": [
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2025_01": {
+          "cagr": -0.03363234,
+          "sharpe_ratio": 0.18428339,
+          "max_drawdown": -0.40303766,
+          "average_annual_turnover": 18.66495987,
+          "cumulative_trading_cost": 0.03919353,
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24"
+        },
+        "since_2026_01": {
+          "cagr": -0.3522484,
+          "sharpe_ratio": -0.42883603,
+          "max_drawdown": -0.40303766,
+          "average_annual_turnover": 21.13498069,
+          "cumulative_trading_cost": 0.01229281,
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24"
+        }
+      },
+      "current_winner_or_robust": {
+        "since_2025_01": {
+          "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+          "metrics": {
+            "cagr": 2.294958,
+            "sharpe_ratio": 1.84318496,
+            "max_drawdown": -0.41253061,
+            "average_annual_turnover": 15.49085588,
+            "cumulative_trading_cost": 0.08492223,
+            "sample_start": "2025-01-01",
+            "sample_end": "2026-07-28"
+          }
+        },
+        "since_2026_01": {
+          "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+          "metrics": {
+            "cagr": 1.1922482,
+            "sharpe_ratio": 1.3936055,
+            "max_drawdown": -0.45143457,
+            "average_annual_turnover": 20.37689113,
+            "cumulative_trading_cost": 0.01694079,
+            "sample_start": "2026-01-01",
+            "sample_end": "2026-07-28"
+          }
+        }
+      },
+      "delta": {
+        "since_2025_01": {
+          "cagr": -2.32859034,
+          "sharpe_ratio": -1.65890157,
+          "max_drawdown": 0.00949295,
+          "average_annual_turnover": 3.1741039900000008,
+          "cumulative_trading_cost": -0.045728700000000004
+        },
+        "since_2026_01": {
+          "cagr": -1.5444966,
+          "sharpe_ratio": -1.82244153,
+          "max_drawdown": 0.04839690999999996,
+          "average_annual_turnover": 0.7580895599999984,
+          "cumulative_trading_cost": -0.004647980000000001
+        }
+      },
+      "decision": "reject",
+      "reason": "未能在两个目标窗口形成可持续正收益，或高换手/回撤代价不支持继续同形扩参。"
+    },
+    {
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__path6_short_window_weekly_balanced_top4_risk15_v3_weekly",
+      "hypothesis": "用周频均衡信号替代单一突破，预期在保留 2026 弹性的同时降低回撤。",
+      "windows": [
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2025_01": {
+          "cagr": -0.03815071,
+          "sharpe_ratio": 0.08646597,
+          "max_drawdown": -0.28360715,
+          "average_annual_turnover": 15.96647611,
+          "cumulative_trading_cost": 0.02945504,
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-28"
+        },
+        "since_2026_01": {
+          "cagr": 0.00666435,
+          "sharpe_ratio": 0.22048195,
+          "max_drawdown": -0.21202143,
+          "average_annual_turnover": 17.97366009,
+          "cumulative_trading_cost": 0.01112852,
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-28"
+        }
+      },
+      "current_winner_or_robust": {
+        "since_2025_01": {
+          "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+          "metrics": {
+            "cagr": 2.294958,
+            "sharpe_ratio": 1.84318496,
+            "max_drawdown": -0.41253061,
+            "average_annual_turnover": 15.49085588,
+            "cumulative_trading_cost": 0.08492223,
+            "sample_start": "2025-01-01",
+            "sample_end": "2026-07-28"
+          }
+        },
+        "since_2026_01": {
+          "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+          "metrics": {
+            "cagr": 1.1922482,
+            "sharpe_ratio": 1.3936055,
+            "max_drawdown": -0.45143457,
+            "average_annual_turnover": 20.37689113,
+            "cumulative_trading_cost": 0.01694079,
+            "sample_start": "2026-01-01",
+            "sample_end": "2026-07-28"
+          }
+        }
+      },
+      "delta": {
+        "since_2025_01": {
+          "cagr": -2.33310871,
+          "sharpe_ratio": -1.75671899,
+          "max_drawdown": 0.12892346000000005,
+          "average_annual_turnover": 0.47562023000000053,
+          "cumulative_trading_cost": -0.05546719
+        },
+        "since_2026_01": {
+          "cagr": -1.18558385,
+          "sharpe_ratio": -1.1731235500000001,
+          "max_drawdown": 0.23941313999999997,
+          "average_annual_turnover": -2.4032310400000014,
+          "cumulative_trading_cost": -0.005812270000000001
+        }
+      },
+      "decision": "reject",
+      "reason": "未能在两个目标窗口形成可持续正收益，或高换手/回撤代价不支持继续同形扩参。"
+    },
+    {
+      "candidate_id": "core_explore_80_20_equal_weight_winner_core__path6_short_window_weekly_pullback_top3_cashoff_v4_weekly",
+      "hypothesis": "用周频回踩与熊市空仓捕捉短窗反弹，预期改善 2025 CAGR 并控制回撤。",
+      "windows": [
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2025_01": {
+          "cagr": 0.42101261,
+          "sharpe_ratio": 1.01296599,
+          "max_drawdown": -0.30159443,
+          "average_annual_turnover": 17.56807375,
+          "cumulative_trading_cost": 0.05206596,
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-28"
+        },
+        "since_2026_01": {
+          "cagr": -0.26279506,
+          "sharpe_ratio": -0.25809162,
+          "max_drawdown": -0.30159443,
+          "average_annual_turnover": 19.26258369,
+          "cumulative_trading_cost": 0.01188661,
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-28"
+        }
+      },
+      "current_winner_or_robust": {
+        "since_2025_01": {
+          "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+          "metrics": {
+            "cagr": 2.294958,
+            "sharpe_ratio": 1.84318496,
+            "max_drawdown": -0.41253061,
+            "average_annual_turnover": 15.49085588,
+            "cumulative_trading_cost": 0.08492223,
+            "sample_start": "2025-01-01",
+            "sample_end": "2026-07-28"
+          }
+        },
+        "since_2026_01": {
+          "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+          "metrics": {
+            "cagr": 1.1922482,
+            "sharpe_ratio": 1.3936055,
+            "max_drawdown": -0.45143457,
+            "average_annual_turnover": 20.37689113,
+            "cumulative_trading_cost": 0.01694079,
+            "sample_start": "2026-01-01",
+            "sample_end": "2026-07-28"
+          }
+        }
+      },
+      "delta": {
+        "since_2025_01": {
+          "cagr": -1.8739453899999998,
+          "sharpe_ratio": -0.83021897,
+          "max_drawdown": 0.11093618,
+          "average_annual_turnover": 2.07721787,
+          "cumulative_trading_cost": -0.03285627
+        },
+        "since_2026_01": {
+          "cagr": -1.45504326,
+          "sharpe_ratio": -1.6516971200000001,
+          "max_drawdown": 0.14984013999999996,
+          "average_annual_turnover": -1.114307440000001,
+          "cumulative_trading_cost": -0.00505418
+        }
+      },
+      "decision": "reject",
+      "reason": "未能在两个目标窗口形成可持续正收益，或高换手/回撤代价不支持继续同形扩参。"
+    },
+    {
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__path6_short_window_monthly_3_1_top2_risk15_v5",
+      "hypothesis": "用月频 3-1 动量和两只集中仓降低交易噪声，预期改善 2025 收益并保留 2026 正收益。",
+      "windows": [
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2025_01": {
+          "cagr": 0.37426451,
+          "sharpe_ratio": 0.84747395,
+          "max_drawdown": -0.34993819,
+          "average_annual_turnover": 6.65830827,
+          "cumulative_trading_cost": 0.01770449,
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-28"
+        },
+        "since_2026_01": {
+          "cagr": -0.35861925,
+          "sharpe_ratio": -0.52787552,
+          "max_drawdown": -0.32651643,
+          "average_annual_turnover": 6.00641425,
+          "cumulative_trading_cost": 0.00366025,
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-28"
+        }
+      },
+      "current_winner_or_robust": {
+        "since_2025_01": {
+          "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+          "metrics": {
+            "cagr": 2.294958,
+            "sharpe_ratio": 1.84318496,
+            "max_drawdown": -0.41253061,
+            "average_annual_turnover": 15.49085588,
+            "cumulative_trading_cost": 0.08492223,
+            "sample_start": "2025-01-01",
+            "sample_end": "2026-07-28"
+          }
+        },
+        "since_2026_01": {
+          "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+          "metrics": {
+            "cagr": 1.1922482,
+            "sharpe_ratio": 1.3936055,
+            "max_drawdown": -0.45143457,
+            "average_annual_turnover": 20.37689113,
+            "cumulative_trading_cost": 0.01694079,
+            "sample_start": "2026-01-01",
+            "sample_end": "2026-07-28"
+          }
+        }
+      },
+      "delta": {
+        "since_2025_01": {
+          "cagr": -1.92069349,
+          "sharpe_ratio": -0.9957110100000001,
+          "max_drawdown": 0.06259242000000004,
+          "average_annual_turnover": -8.832547609999999,
+          "cumulative_trading_cost": -0.06721774
+        },
+        "since_2026_01": {
+          "cagr": -1.5508674500000001,
+          "sharpe_ratio": -1.92148102,
+          "max_drawdown": 0.12491813999999996,
+          "average_annual_turnover": -14.370476880000002,
+          "cumulative_trading_cost": -0.01328054
+        }
+      },
+      "decision": "reject",
+      "reason": "未能在两个目标窗口形成可持续正收益，或高换手/回撤代价不支持继续同形扩参。"
+    },
+    {
+      "candidate_id": "core_explore_80_20_equal_weight_winner_core__path6_short_window_monthly_midcycle_top3_risk20_v6",
+      "hypothesis": "用月频中周期动量和三只集中仓平衡短窗收益与换手成本。",
+      "windows": [
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2025_01": {
+          "cagr": -0.13782055,
+          "sharpe_ratio": -0.22306573,
+          "max_drawdown": -0.33507263,
+          "average_annual_turnover": 7.79900733,
+          "cumulative_trading_cost": 0.01335158,
+          "sample_start": "2025-01-01",
+          "sample_end": "2026-07-24"
+        },
+        "since_2026_01": {
+          "cagr": -0.35551871,
+          "sharpe_ratio": -0.32687463,
+          "max_drawdown": -0.42829674,
+          "average_annual_turnover": 9.1897595,
+          "cumulative_trading_cost": 0.00662434,
+          "sample_start": "2026-01-01",
+          "sample_end": "2026-07-24"
+        }
+      },
+      "current_winner_or_robust": {
+        "since_2025_01": {
+          "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+          "metrics": {
+            "cagr": 2.294958,
+            "sharpe_ratio": 1.84318496,
+            "max_drawdown": -0.41253061,
+            "average_annual_turnover": 15.49085588,
+            "cumulative_trading_cost": 0.08492223,
+            "sample_start": "2025-01-01",
+            "sample_end": "2026-07-28"
+          }
+        },
+        "since_2026_01": {
+          "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
+          "metrics": {
+            "cagr": 1.1922482,
+            "sharpe_ratio": 1.3936055,
+            "max_drawdown": -0.45143457,
+            "average_annual_turnover": 20.37689113,
+            "cumulative_trading_cost": 0.01694079,
+            "sample_start": "2026-01-01",
+            "sample_end": "2026-07-28"
+          }
+        }
+      },
+      "delta": {
+        "since_2025_01": {
+          "cagr": -2.4327785499999997,
+          "sharpe_ratio": -2.06625069,
+          "max_drawdown": 0.07745798000000004,
+          "average_annual_turnover": -7.69184855,
+          "cumulative_trading_cost": -0.07157065
+        },
+        "since_2026_01": {
+          "cagr": -1.54776691,
+          "sharpe_ratio": -1.72048013,
+          "max_drawdown": 0.02313782999999997,
+          "average_annual_turnover": -11.187131630000001,
+          "cumulative_trading_cost": -0.010316450000000001
+        }
+      },
+      "decision": "reject",
+      "reason": "未能在两个目标窗口形成可持续正收益，或高换手/回撤代价不支持继续同形扩参。"
+    }
+  ],
+  "interpretation_guard": "路径内短窗领先不等于跨窗口 robust winner；未跑 2017/2020/2023 时不得作强稳定性结论。"
+}

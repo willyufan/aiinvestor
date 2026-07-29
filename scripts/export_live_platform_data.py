@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import functools
 import json
-import math
 import re
 import sys
 from pathlib import Path
@@ -89,6 +88,10 @@ SELECTION_DIAGNOSTIC_FIELDS = [
     "target_total_exposure",
     "risk_trigger",
 ]
+
+
+class StaleStrategyValuationError(RuntimeError):
+    pass
 
 
 def infer_adjustment_style(strategy_id: str, rebalance_frequency: str) -> str:
@@ -741,6 +744,80 @@ def _validate_monthly_preview_freshness(
         )
 
 
+def _validate_strategy_valuation_freshness(
+    *,
+    base_id: str,
+    sample_tag: str,
+    market_scope: str,
+    market_data_as_of: str | None,
+    summary: dict[str, Any],
+) -> None:
+    if not market_data_as_of:
+        return
+    valuation_date = _parse_date_text(summary.get("sample_end"))
+    market_date = _parse_date_text(market_data_as_of)
+    if valuation_date is None or market_date is None or valuation_date >= market_date:
+        return
+    raise StaleStrategyValuationError(
+        f"{market_scope} {base_id}/{sample_tag} valuation_as_of={valuation_date.date()} "
+        f"早于 raw data_as_of={market_date.date()}"
+    )
+
+
+def _validate_live_specs_valuation_freshness(specs: list[dict[str, Any]]) -> None:
+    stale_by_market: dict[str, set[str]] = {}
+    stale_details: list[str] = []
+    checked: set[tuple[str, str]] = set()
+    for spec in specs:
+        market_scope = str(spec.get("market_scope") or "a_share")
+        strategy_id = str(spec.get("strategy_id") or "")
+        if not strategy_id or (market_scope, strategy_id) in checked:
+            continue
+        checked.add((market_scope, strategy_id))
+        path_builder = build_hk_result_path if market_scope == "hkconnect" else build_result_path
+        market_data_as_of = latest_market_data_as_of(market_scope)
+        for sample_tag in SAMPLE_TAGS:
+            summary_path = path_builder(strategy_id, sample_tag, "summary.json")
+            if not summary_path.exists():
+                continue
+            try:
+                _validate_strategy_valuation_freshness(
+                    base_id=strategy_id,
+                    sample_tag=sample_tag,
+                    market_scope=market_scope,
+                    market_data_as_of=market_data_as_of,
+                    summary=load_json(summary_path),
+                )
+            except StaleStrategyValuationError as exc:
+                stale_by_market.setdefault(market_scope, set()).add(strategy_id)
+                stale_details.append(str(exc))
+                break
+    if not stale_by_market:
+        return
+    windows = ",".join(SAMPLE_TAGS)
+    commands: list[str] = []
+    if stale_by_market.get("a_share"):
+        ashare_as_of = latest_market_data_as_of("a_share")
+        end_date_arg = f"--end-date {ashare_as_of} " if ashare_as_of else ""
+        commands.append(
+            "AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py "
+            f"{end_date_arg}--family-scope live_active --sample-tags {windows}"
+        )
+    if stale_by_market.get("hkconnect"):
+        hk_as_of = latest_market_data_as_of("hkconnect")
+        end_date_arg = f"--end-date {hk_as_of} " if hk_as_of else ""
+        commands.append(
+            "AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py "
+            f"{end_date_arg}--family-scope live_active --sample-tags {windows}"
+        )
+    detail_preview = "\n".join(stale_details[:8])
+    raise StaleStrategyValuationError(
+        "正式发布策略的估值截止日落后于最新行情，拒绝导出 stale 收益。\n"
+        f"{detail_preview}\n"
+        "请先执行：\n" + "\n".join(commands)
+    )
+
+
 def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_share") -> dict[str, Any] | None:
     path_builder = build_hk_result_path if market_scope == "hkconnect" else build_result_path
     summary_path = path_builder(base_id, sample_tag, "summary.json")
@@ -796,6 +873,13 @@ def _load_sample_view(base_id: str, sample_tag: str, *, market_scope: str = "a_s
         market_scope=market_scope,
     )
     market_data_as_of = latest_market_data_as_of(market_scope)
+    _validate_strategy_valuation_freshness(
+        base_id=base_id,
+        sample_tag=sample_tag,
+        market_scope=market_scope,
+        market_data_as_of=market_data_as_of,
+        summary=summary,
+    )
     if market_data_as_of:
         formal_schedule = {**formal_schedule, "data_as_of": market_data_as_of}
     schedule_kind = str(formal_schedule.get("schedule_kind") or "")
@@ -999,32 +1083,6 @@ def _metrics_from_row(row: pd.Series) -> dict[str, float]:
         "average_annual_turnover": float(row.get("average_annual_turnover", 0.0)),
         "total_return": float(row.get("total_return", 0.0)),
     }
-
-
-def _valid_hk_leaderboard_row(row: pd.Series) -> bool:
-    metrics = [
-        float(row.get("cagr", float("nan"))),
-        float(row.get("sharpe_ratio", float("nan"))),
-        float(row.get("max_drawdown", float("nan"))),
-        float(row.get("average_annual_turnover", float("nan"))),
-        float(row.get("total_return", float("nan"))),
-    ]
-    if not all(math.isfinite(value) for value in metrics):
-        return False
-    cagr, _sharpe, max_drawdown, turnover, total_return = metrics
-    inactive = (
-        abs(cagr) < 1e-12
-        and abs(max_drawdown) < 1e-12
-        and abs(turnover) < 1e-12
-        and abs(total_return) < 1e-12
-    )
-    return not inactive
-
-
-def _valid_hk_leaderboard_rows(frame: pd.DataFrame) -> pd.DataFrame:
-    if frame.empty:
-        return frame.copy()
-    return frame[frame.apply(_valid_hk_leaderboard_row, axis=1)].copy()
 
 
 def _is_ashare_path2_leaderboard_excluded(strategy_id: str, path4_theme_ids: set[str]) -> bool:
@@ -1601,6 +1659,8 @@ def export_live_data() -> dict[str, Any]:
             item["strategy_id"],
         ),
     )
+
+    _validate_live_specs_valuation_freshness(registry_specs)
 
     LIVE_DIR.mkdir(parents=True, exist_ok=True)
     (LIVE_DIR / "strategies").mkdir(parents=True, exist_ok=True)

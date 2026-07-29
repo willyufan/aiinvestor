@@ -29,7 +29,7 @@ from scripts.results_layout import (
     research_file,
     strategy_result_dir,
 )
-from scripts.active_strategy_scope import collect_ashare_refresh_active_ids
+from scripts.active_strategy_scope import collect_ashare_live_active_ids, collect_ashare_refresh_active_ids
 from scripts.comparison_merge import merge_latest_rows
 
 
@@ -570,11 +570,13 @@ ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED = "core_explore_seed"
 ALPHA_POOL_PROFILE_GROWTH_ELASTIC = "growth_elastic"
 ALPHA_POOL_PROFILE_EMERGENT_THEME = "emergent_theme"
 ALPHA_POOL_PROFILE_EVENT_KG_BASKET = "event_kg_basket"
+ALPHA_POOL_PROFILE_SHORT_WINDOW_RETURN_MAX = "short_window_return_max"
 ALPHA_POOL_NAMES = {
     ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED: "Path1/3 核心-探索-种子共用池",
     ALPHA_POOL_PROFILE_GROWTH_ELASTIC: "Path2 高弹性赢家池",
     ALPHA_POOL_PROFILE_EMERGENT_THEME: "Path4 新兴主题发现池",
     ALPHA_POOL_PROFILE_EVENT_KG_BASKET: "Path5 事件知识图谱冻结篮子",
+    ALPHA_POOL_PROFILE_SHORT_WINDOW_RETURN_MAX: "Path6 2025/2026 短窗收益竞争池",
 }
 MARKET_INDEX_CODE = "000300.SH"
 BENCHMARK_INDEX_CODE = "000001.SH"
@@ -15175,6 +15177,189 @@ WINNER_CORE_VARIANTS.extend(
     ]
 )
 
+# Path6 是独立的 2025/2026 短窗收益竞争线。它可以使用更集中、更高频的形态，
+# 但不参与 Path2 成长高弹性池或 Path3 纯周频 robust winner 的评选。
+PATH6_SHORT_WINDOW_VARIANTS = [
+    {
+        "variant_id": "path6_short_window_weekly_breakout_top6_risk25_v1_weekly",
+        "variant_name": "Path6短窗周频突破(集中6只,风险25%,v1)",
+        "winner_core_stable_share": 0.04,
+        "winner_core_promoted_share": 0.96,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 6,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_breakout",
+        "promotion_signal_mode": "weekly_alpha_breakout",
+        "standard_promotion_percentile": 0.10,
+        "fast_promotion_percentile": 0.06,
+        "market_risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.25,
+        "satellite_risk_off_exposure": 0.25,
+        "core_caution_exposure": 0.65,
+        "satellite_caution_exposure": 0.65,
+        "promoted_core_sell_exit_percentile": 0.52,
+        "weight_cap": 0.35,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 2,
+        "weekly_turnover_cap": 0.35,
+        "alpha_pool_profile": ALPHA_POOL_PROFILE_SHORT_WINDOW_RETURN_MAX,
+        "alpha_pool_signal_percentile": 0.25,
+    },
+    {
+        "variant_id": "path6_short_window_weekly_breakout_top3_risk10_v2_weekly",
+        "variant_name": "Path6短窗周频突破(集中3只,风险10%,v2)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_breakout",
+        "promotion_signal_mode": "weekly_alpha_breakout",
+        "standard_promotion_percentile": 0.08,
+        "fast_promotion_percentile": 0.05,
+        "market_risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.10,
+        "satellite_risk_off_exposure": 0.10,
+        "core_caution_exposure": 0.55,
+        "satellite_caution_exposure": 0.55,
+        "promoted_core_sell_exit_percentile": 0.46,
+        "weight_cap": 0.55,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 2,
+        "weekly_turnover_cap": 0.30,
+        "alpha_pool_profile": ALPHA_POOL_PROFILE_SHORT_WINDOW_RETURN_MAX,
+        "alpha_pool_signal_percentile": 0.18,
+    },
+    {
+        "variant_id": "path6_short_window_weekly_balanced_top4_risk15_v3_weekly",
+        "variant_name": "Path6短窗周频均衡(集中4只,风险15%,v3)",
+        "winner_core_stable_share": 0.04,
+        "winner_core_promoted_share": 0.96,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 4,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_balanced",
+        "promotion_signal_mode": "weekly_alpha_balanced",
+        "standard_promotion_percentile": 0.10,
+        "fast_promotion_percentile": 0.06,
+        "market_risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.15,
+        "satellite_risk_off_exposure": 0.15,
+        "core_caution_exposure": 0.60,
+        "satellite_caution_exposure": 0.60,
+        "promoted_core_sell_exit_percentile": 0.52,
+        "weight_cap": 0.45,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 3,
+        "weekly_turnover_cap": 0.25,
+        "alpha_pool_profile": ALPHA_POOL_PROFILE_SHORT_WINDOW_RETURN_MAX,
+        "alpha_pool_signal_percentile": 0.22,
+    },
+    {
+        "variant_id": "path6_short_window_weekly_pullback_top3_cashoff_v4_weekly",
+        "variant_name": "Path6短窗周频回踩(集中3只,熊市空仓,v4)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "weekly_alpha_pullback",
+        "promotion_signal_mode": "weekly_alpha_pullback",
+        "standard_promotion_percentile": 0.08,
+        "fast_promotion_percentile": 0.05,
+        "market_risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.00,
+        "satellite_risk_off_exposure": 0.00,
+        "core_caution_exposure": 0.50,
+        "satellite_caution_exposure": 0.50,
+        "promoted_core_sell_exit_percentile": 0.48,
+        "weight_cap": 0.55,
+        "rebalance_frequency": "weekly",
+        "weekly_min_hold_periods": 3,
+        "weekly_turnover_cap": 0.25,
+        "alpha_pool_profile": ALPHA_POOL_PROFILE_SHORT_WINDOW_RETURN_MAX,
+        "alpha_pool_signal_percentile": 0.18,
+    },
+    {
+        "variant_id": "path6_short_window_monthly_3_1_top2_risk15_v5",
+        "variant_name": "Path6短窗月频3-1动量(集中2只,风险15%,v5)",
+        "winner_core_stable_share": 0.02,
+        "winner_core_promoted_share": 0.98,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 2,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "3_1",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.08,
+        "standard_promotion_min_momentum_3_1_rank": 0.78,
+        "fast_promotion_percentile": 0.04,
+        "fast_promotion_min_momentum_3_1_rank": 0.88,
+        "fast_promotion_min_recent_1m_return": 0.02,
+        "fast_promotion_min_amount_surge_ratio": 1.20,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.15,
+        "satellite_risk_off_exposure": 0.15,
+        "core_caution_exposure": 0.60,
+        "satellite_caution_exposure": 0.60,
+        "promoted_core_sell_exit_percentile": 0.45,
+        "weight_cap": 0.48,
+        "alpha_pool_profile": ALPHA_POOL_PROFILE_SHORT_WINDOW_RETURN_MAX,
+        "alpha_pool_signal_percentile": 0.15,
+    },
+    {
+        "variant_id": "path6_short_window_monthly_midcycle_top3_risk20_v6",
+        "variant_name": "Path6短窗月频中周期动量(集中3只,风险20%,v6)",
+        "winner_core_stable_share": 0.03,
+        "winner_core_promoted_share": 0.97,
+        "stable_core_max_holdings": 1,
+        "promoted_core_max_holdings": 3,
+        "promoted_core_stage_ramp": {1: 1.00},
+        "core_signal_mode": "midcycle_momentum",
+        "promotion_signal_mode": "liquidity_momentum",
+        "standard_promotion_percentile": 0.10,
+        "standard_promotion_min_momentum_6_1_rank": 0.82,
+        "standard_promotion_min_momentum_3_1_rank": 0.72,
+        "fast_promotion_percentile": 0.05,
+        "fast_promotion_min_momentum_6_1_rank": 0.92,
+        "fast_promotion_min_momentum_3_1_rank": 0.82,
+        "fast_promotion_min_recent_1m_return": 0.015,
+        "fast_promotion_min_amount_surge_ratio": 1.18,
+        "market_risk_off_rule": "negative_mom",
+        "risk_staging_mode": "three_stage",
+        "core_risk_off_exposure": 0.20,
+        "satellite_risk_off_exposure": 0.20,
+        "core_caution_exposure": 0.65,
+        "satellite_caution_exposure": 0.65,
+        "promoted_core_sell_exit_percentile": 0.48,
+        "weight_cap": 0.35,
+        "alpha_pool_profile": ALPHA_POOL_PROFILE_SHORT_WINDOW_RETURN_MAX,
+        "alpha_pool_signal_percentile": 0.20,
+    },
+]
+WINNER_CORE_VARIANTS.extend(PATH6_SHORT_WINDOW_VARIANTS)
+
+PATH6_SHORT_WINDOW_VARIANT_IDS = [
+    "path6_short_window_weekly_breakout_top6_risk25_v1_weekly",
+    "path6_short_window_weekly_breakout_top3_risk10_v2_weekly",
+    "path6_short_window_weekly_balanced_top4_risk15_v3_weekly",
+    "path6_short_window_weekly_pullback_top3_cashoff_v4_weekly",
+    "path6_short_window_monthly_3_1_top2_risk15_v5",
+    "path6_short_window_monthly_midcycle_top3_risk20_v6",
+]
+PATH6_SHORT_WINDOW_BASE_IDS = [
+    "core_explore_80_20_total_mv_winner_core__path6_short_window_weekly_breakout_top6_risk25_v1_weekly",
+    "core_explore_80_20_equal_weight_winner_core__path6_short_window_weekly_breakout_top3_risk10_v2_weekly",
+    "core_explore_80_20_total_mv_winner_core__path6_short_window_weekly_balanced_top4_risk15_v3_weekly",
+    "core_explore_80_20_equal_weight_winner_core__path6_short_window_weekly_pullback_top3_cashoff_v4_weekly",
+    "core_explore_80_20_total_mv_winner_core__path6_short_window_monthly_3_1_top2_risk15_v5",
+    "core_explore_80_20_equal_weight_winner_core__path6_short_window_monthly_midcycle_top3_risk20_v6",
+]
+
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
     "promotion_ramp": [
         "aggr_10_90_fast_ramp",
@@ -16793,7 +16978,9 @@ def is_path2_scan_strategy_base_id(strategy_base_id: str) -> bool:
     base_id = strip_weekly_overlay_suffix(strategy_base_id)
     variant_id = extract_winner_variant_id(base_id)
     if variant_id is not None and (
-        variant_id.endswith("_weekly") or variant_id in PATH4_THEME_DISCOVERY_VARIANT_IDS
+        variant_id.endswith("_weekly")
+        or variant_id in PATH4_THEME_DISCOVERY_VARIANT_IDS
+        or variant_id in PATH6_SHORT_WINDOW_VARIANT_IDS
     ):
         return False
     if any(base_id.startswith(str(prefix)) for prefix in PATH2_SCAN_BASE_PREFIXES):
@@ -21060,6 +21247,7 @@ def run_backtest(
         {"date": sample_start, "portfolio_return": 0.0, "nav": 1.0, "drawdown": 0.0, "trading_cost": 0.0}
     ]
     realized_schedule_end = signal_schedule[report_start_idx]
+    latest_formal_signal_date: pd.Timestamp | None = None
 
     for idx in range(report_start_idx, len(signal_schedule) - 1):
         signal_date = signal_schedule[idx]
@@ -21665,6 +21853,7 @@ def run_backtest(
             }
         )
         realized_schedule_end = holding_period_end
+        latest_formal_signal_date = pd.Timestamp(signal_date)
 
     equity_curve = pd.DataFrame(equity_rows)
     equity_curve["date"] = pd.to_datetime(equity_curve["date"])
@@ -21690,13 +21879,8 @@ def run_backtest(
     )
 
     metrics = compute_metrics(equity_curve, monthly_returns, turnover, rebalance_frequency=rebalance_frequency)
-    latest_formal_signal_date = None
-    if rebalance_frequency == "monthly":
-        formal_signal_dates = [date for date in prepared.month_end_dates if date <= realized_schedule_end]
-        latest_formal_signal_date = formal_signal_dates[-1] if formal_signal_dates else None
     is_provisional_period_end = (
-        rebalance_frequency == "monthly"
-        and latest_formal_signal_date is not None
+        latest_formal_signal_date is not None
         and realized_schedule_end > latest_formal_signal_date
     )
     month_end_preview = (
@@ -21710,7 +21894,7 @@ def run_backtest(
             promoted_core_ages=promoted_core_ages,
             pure_core_watch_streaks=pure_core_watch_streaks,
         )
-        if is_provisional_period_end
+        if rebalance_frequency == "monthly" and is_provisional_period_end
         else None
     )
 
@@ -21757,6 +21941,13 @@ def run_backtest(
         )
         listing_filter = f"核心/探索层上市满 {core_min_listing_months} 个月；种子层上市满 {seed_min_listing_months} 个月"
         momentum_lookback_rule = "主题池优先使用行业强度、行业内龙头、3-1 动量、近 1 月收益、放量与突破的 emergent_theme 信号"
+    elif alpha_pool_profile == ALPHA_POOL_PROFILE_SHORT_WINDOW_RETURN_MAX:
+        selection_overlay = (
+            "Path6 2025/2026 短窗收益竞争池：在可交易 A 股范围内用 3-1/6-1 动量、近 1 月收益、"
+            "放量与突破快速聚焦少数高弹性标的；该路径优先比较 2025/2026 收益，集中度、回撤、换手和成本作为强制风险注记。"
+        )
+        listing_filter = f"核心/探索层上市满 {core_min_listing_months} 个月；种子层上市满 {seed_min_listing_months} 个月"
+        momentum_lookback_rule = "短窗池优先使用 3-1、6-1、近 1 月收益、放量和突破信号，允许月频或周频高集中组合"
     else:
         selection_overlay = (
             "核心池=沪深300+科创50，探索池=中证500+科创100+科创200；在探索层内再切出种子层做更早期发现。"
@@ -22029,6 +22220,10 @@ def get_refresh_active_strategy_base_ids() -> Set[str]:
     return get_core_active_strategy_base_ids() | _load_weighted_tracked_winner_ids()
 
 
+def get_live_active_strategy_base_ids() -> Set[str]:
+    return collect_ashare_live_active_ids()
+
+
 def get_research_active_strategy_base_ids() -> Set[str]:
     return get_active_strategy_base_ids()
 
@@ -22210,10 +22405,11 @@ def main(argv: list[str] | None = None) -> None:
     )
     parser.add_argument(
         "--family-scope",
-        choices=["refresh_active", "core_active", "research_active", "active", "archive", "all"],
+        choices=["live_active", "refresh_active", "core_active", "research_active", "active", "archive", "all"],
         default="research_active",
         help=(
-            "策略家族范围：refresh_active 跑 winners/top1/core_active/live 活跃刷新集合，"
+            "策略家族范围：live_active 只跑当前 live 与 public top5 发布集合，"
+            "refresh_active 跑 winners/top1/core_active/live 活跃刷新集合，"
             "research_active 跑更宽的研究活跃家族，"
             "core_active 只跑动态 winner 观察池，"
             "active 作为 research_active 的兼容别名，"
@@ -22229,6 +22425,10 @@ def main(argv: list[str] | None = None) -> None:
     explicit_selected_base_ids = bool(selected_base_ids)
     if args.winner_only and not selected_base_ids:
         selected_base_ids = get_winner_only_base_ids()
+    elif not selected_base_ids and args.family_scope == "live_active":
+        selected_base_ids = get_live_active_strategy_base_ids()
+        if not selected_base_ids:
+            raise SystemExit("[A] No live_active strategy IDs found; refusing to fall back to a full A-share run.")
     elif not selected_base_ids and args.family_scope == "refresh_active":
         selected_base_ids = get_refresh_active_strategy_base_ids()
     elif not selected_base_ids and args.family_scope == "core_active":
@@ -22383,7 +22583,7 @@ def main(argv: list[str] | None = None) -> None:
         explicit_selected_base_ids
         or selected_sample_tags
         or args.winner_only
-        or args.family_scope in {"refresh_active", "core_active", "archive"}
+        or args.family_scope in {"live_active", "refresh_active", "core_active", "archive"}
     )
     save_pool_comparison(comparison_rows, comparison_csv=comparison_csv, merge_existing=merge_existing)
 

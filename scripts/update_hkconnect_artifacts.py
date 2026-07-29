@@ -37,7 +37,7 @@ OUTPUT_PATHS = {
     "path3": DOCS_DIR / "strategy_comparison_hkconnect_path3.png",
 }
 CHART_PATH_NAMES = ("path1", "path2", "path3")
-TRACK_PATH_NAMES = ("path1", "path2", "path3", "path4", "path5", "path6", "path7")
+TRACK_PATH_NAMES = ("path1", "path2", "path3", "path4", "path5", "path6", "path7", "path8")
 ARTIFACT_MAX_SAMPLE_END_STALENESS_DAYS = 0
 WINDOW_TAGS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01")
 WINDOW_LABELS = {
@@ -81,14 +81,6 @@ def _date_text(value: Any) -> str:
     return str(parsed.date())
 
 
-def _latest_per_strategy_window(frame: pd.DataFrame) -> pd.DataFrame:
-    typed = frame.copy()
-    typed["sample_end"] = pd.to_datetime(typed["sample_end"], errors="coerce")
-    typed = typed.dropna(subset=["sample_end"])
-    typed = typed.sort_values(["strategy_id", "sample_tag", "sample_end"])
-    return typed.groupby(["strategy_id", "sample_tag"], as_index=False).tail(1)
-
-
 def _metric_row(row: pd.Series) -> dict[str, Any]:
     return {
         "sample_start": _date_text(row.get("sample_start")),
@@ -99,32 +91,6 @@ def _metric_row(row: pd.Series) -> dict[str, Any]:
         "sharpe_ratio": float(row["sharpe_ratio"]),
         "average_annual_turnover": float(row["average_annual_turnover"]),
     }
-
-
-def _valid_leaderboard_row(row: pd.Series) -> bool:
-    metrics = [
-        float(row.get("cagr", np.nan)),
-        float(row.get("sharpe_ratio", np.nan)),
-        float(row.get("max_drawdown", np.nan)),
-        float(row.get("average_annual_turnover", np.nan)),
-        float(row.get("total_return", np.nan)),
-    ]
-    if not all(np.isfinite(value) for value in metrics):
-        return False
-    cagr, _sharpe, max_drawdown, turnover, total_return = metrics
-    inactive = (
-        abs(cagr) < 1e-12
-        and abs(max_drawdown) < 1e-12
-        and abs(turnover) < 1e-12
-        and abs(total_return) < 1e-12
-    )
-    return not inactive
-
-
-def _valid_leaderboard_rows(frame: pd.DataFrame) -> pd.DataFrame:
-    if frame.empty:
-        return frame.copy()
-    return frame[frame.apply(_valid_leaderboard_row, axis=1)].copy()
 
 
 def _short_label(strategy_id: str) -> str:
@@ -342,7 +308,10 @@ def main() -> None:
     )
 
     payload = _build_payload(latest, ranking_latest=ranking_latest)
-    TRACKED_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    TRACKED_JSON.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False) + "\n",
+        encoding="utf-8",
+    )
     for path_name in CHART_PATH_NAMES:
         _render_chart(ranking_latest, payload, path_name)
 

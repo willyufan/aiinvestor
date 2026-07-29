@@ -1,0 +1,467 @@
+{
+  "market": "hkconnect",
+  "path": "path8",
+  "objective": "maximize_cagr_on_since_2025_01_and_since_2026_01",
+  "as_of": "2026-07-28",
+  "window_winners": {
+    "since_2025_01": {
+      "candidate_id": "hkconnect_path8_short_window_momentum_monthly_top6_risk15_v5",
+      "metrics": {
+        "cagr": 0.39786135,
+        "sharpe_ratio": 1.20001071,
+        "max_drawdown": -0.18942203,
+        "average_annual_turnover": 9.64455151,
+        "cumulative_trading_cost": 0.01273696,
+        "sample_start": "2025-02-03",
+        "sample_end": "2026-07-28"
+      }
+    },
+    "since_2026_01": {
+      "candidate_id": "hkconnect_path8_short_window_momentum_monthly_top6_risk15_v5",
+      "metrics": {
+        "cagr": 0.13181838,
+        "sharpe_ratio": 0.45520688,
+        "max_drawdown": -0.18942203,
+        "average_annual_turnover": 9.61922101,
+        "cumulative_trading_cost": 0.00340717,
+        "sample_start": "2026-02-02",
+        "sample_end": "2026-07-28"
+      }
+    }
+  },
+  "scorecards": [
+    {
+      "candidate_id": "hkconnect_path8_short_window_momentum_weekly_top8_risk20_v1",
+      "hypothesis": "用周频短动量快速追踪领涨股，预期挑战现有 HK 短窗收益冠军。",
+      "windows": [
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2025_01": {
+          "cagr": 0.35920466,
+          "sharpe_ratio": 1.07016117,
+          "max_drawdown": -0.21791235,
+          "average_annual_turnover": 37.27031224,
+          "cumulative_trading_cost": 0.05558135,
+          "sample_start": "2025-01-06",
+          "sample_end": "2026-07-28"
+        },
+        "since_2026_01": {
+          "cagr": -0.10710777,
+          "sharpe_ratio": -0.3065267,
+          "max_drawdown": -0.21791235,
+          "average_annual_turnover": 37.97431419,
+          "cumulative_trading_cost": 0.01383364,
+          "sample_start": "2026-01-05",
+          "sample_end": "2026-07-28"
+        }
+      },
+      "current_winner_or_robust": {
+        "since_2025_01": {
+          "candidate_id": "hkconnect_path2_breakout_concentrated_monthly",
+          "metrics": {
+            "cagr": 0.60646318,
+            "sharpe_ratio": 1.19541191,
+            "max_drawdown": -0.34734099,
+            "average_annual_turnover": 9.76841058,
+            "cumulative_trading_cost": 0.0169665,
+            "sample_start": "2025-02-03",
+            "sample_end": "2026-07-28"
+          }
+        },
+        "since_2026_01": {
+          "candidate_id": "hkconnect_path3_equal_elastic_cashoff_weekly",
+          "metrics": {
+            "cagr": 0.26285517,
+            "sharpe_ratio": 0.85205433,
+            "max_drawdown": -0.19207866,
+            "average_annual_turnover": 37.15473488,
+            "cumulative_trading_cost": 0.0147535,
+            "sample_start": "2026-01-05",
+            "sample_end": "2026-07-28"
+          }
+        }
+      },
+      "delta": {
+        "since_2025_01": {
+          "cagr": -0.24725851999999998,
+          "sharpe_ratio": -0.12525074000000003,
+          "max_drawdown": 0.12942864,
+          "average_annual_turnover": 27.50190166,
+          "cumulative_trading_cost": 0.038614850000000006
+        },
+        "since_2026_01": {
+          "cagr": -0.36996294,
+          "sharpe_ratio": -1.15858103,
+          "max_drawdown": -0.025833689999999992,
+          "average_annual_turnover": 0.8195793100000017,
+          "cumulative_trading_cost": -0.0009198599999999998
+        }
+      },
+      "decision": "reject",
+      "reason": "未能在两个目标窗口形成可持续正收益，或高换手/回撤代价不支持继续同形扩参。"
+    },
+    {
+      "candidate_id": "hkconnect_path8_short_window_momentum_weekly_top5_cashoff_v2",
+      "hypothesis": "用周频短动量快速追踪领涨股，预期挑战现有 HK 短窗收益冠军。",
+      "windows": [
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2025_01": {
+          "cagr": 0.37799225,
+          "sharpe_ratio": 1.04388753,
+          "max_drawdown": -0.26997019,
+          "average_annual_turnover": 38.11939776,
+          "cumulative_trading_cost": 0.0591107,
+          "sample_start": "2025-01-06",
+          "sample_end": "2026-07-28"
+        },
+        "since_2026_01": {
+          "cagr": -0.20373145,
+          "sharpe_ratio": -0.57151984,
+          "max_drawdown": -0.26997019,
+          "average_annual_turnover": 36.37765387,
+          "cumulative_trading_cost": 0.01316151,
+          "sample_start": "2026-01-05",
+          "sample_end": "2026-07-28"
+        }
+      },
+      "current_winner_or_robust": {
+        "since_2025_01": {
+          "candidate_id": "hkconnect_path2_breakout_concentrated_monthly",
+          "metrics": {
+            "cagr": 0.60646318,
+            "sharpe_ratio": 1.19541191,
+            "max_drawdown": -0.34734099,
+            "average_annual_turnover": 9.76841058,
+            "cumulative_trading_cost": 0.0169665,
+            "sample_start": "2025-02-03",
+            "sample_end": "2026-07-28"
+          }
+        },
+        "since_2026_01": {
+          "candidate_id": "hkconnect_path3_equal_elastic_cashoff_weekly",
+          "metrics": {
+            "cagr": 0.26285517,
+            "sharpe_ratio": 0.85205433,
+            "max_drawdown": -0.19207866,
+            "average_annual_turnover": 37.15473488,
+            "cumulative_trading_cost": 0.0147535,
+            "sample_start": "2026-01-05",
+            "sample_end": "2026-07-28"
+          }
+        }
+      },
+      "delta": {
+        "since_2025_01": {
+          "cagr": -0.22847093000000002,
+          "sharpe_ratio": -0.15152438000000013,
+          "max_drawdown": 0.07737080000000002,
+          "average_annual_turnover": 28.350987179999997,
+          "cumulative_trading_cost": 0.04214420000000001
+        },
+        "since_2026_01": {
+          "cagr": -0.46658662000000006,
+          "sharpe_ratio": -1.42357417,
+          "max_drawdown": -0.07789152999999999,
+          "average_annual_turnover": -0.7770810099999963,
+          "cumulative_trading_cost": -0.0015919899999999997
+        }
+      },
+      "decision": "reject",
+      "reason": "未能在两个目标窗口形成可持续正收益，或高换手/回撤代价不支持继续同形扩参。"
+    },
+    {
+      "candidate_id": "hkconnect_path8_short_window_momentum_biweekly_top10_risk15_v3",
+      "hypothesis": "用双周短动量在收益与换手间折中，预期优于既有 HK Path4-7 的 2026 表现。",
+      "windows": [
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2025_01": {
+          "cagr": 0.19044272,
+          "sharpe_ratio": 0.68943993,
+          "max_drawdown": -0.25299254,
+          "average_annual_turnover": 19.75460501,
+          "cumulative_trading_cost": 0.0269626,
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-28"
+        },
+        "since_2026_01": {
+          "cagr": -0.29467578,
+          "sharpe_ratio": -1.10090458,
+          "max_drawdown": -0.25299254,
+          "average_annual_turnover": 20.51656081,
+          "cumulative_trading_cost": 0.00711683,
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-28"
+        }
+      },
+      "current_winner_or_robust": {
+        "since_2025_01": {
+          "candidate_id": "hkconnect_path2_breakout_concentrated_monthly",
+          "metrics": {
+            "cagr": 0.60646318,
+            "sharpe_ratio": 1.19541191,
+            "max_drawdown": -0.34734099,
+            "average_annual_turnover": 9.76841058,
+            "cumulative_trading_cost": 0.0169665,
+            "sample_start": "2025-02-03",
+            "sample_end": "2026-07-28"
+          }
+        },
+        "since_2026_01": {
+          "candidate_id": "hkconnect_path3_equal_elastic_cashoff_weekly",
+          "metrics": {
+            "cagr": 0.26285517,
+            "sharpe_ratio": 0.85205433,
+            "max_drawdown": -0.19207866,
+            "average_annual_turnover": 37.15473488,
+            "cumulative_trading_cost": 0.0147535,
+            "sample_start": "2026-01-05",
+            "sample_end": "2026-07-28"
+          }
+        }
+      },
+      "delta": {
+        "since_2025_01": {
+          "cagr": -0.41602046,
+          "sharpe_ratio": -0.50597198,
+          "max_drawdown": 0.09434845000000003,
+          "average_annual_turnover": 9.98619443,
+          "cumulative_trading_cost": 0.0099961
+        },
+        "since_2026_01": {
+          "cagr": -0.5575309500000001,
+          "sharpe_ratio": -1.95295891,
+          "max_drawdown": -0.060913879999999976,
+          "average_annual_turnover": -16.638174069999998,
+          "cumulative_trading_cost": -0.007636669999999999
+        }
+      },
+      "decision": "reject",
+      "reason": "未能在两个目标窗口形成可持续正收益，或高换手/回撤代价不支持继续同形扩参。"
+    },
+    {
+      "candidate_id": "hkconnect_path8_short_window_momentum_biweekly_top6_cashoff_v4",
+      "hypothesis": "用双周短动量在收益与换手间折中，预期优于既有 HK Path4-7 的 2026 表现。",
+      "windows": [
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2025_01": {
+          "cagr": 0.15758738,
+          "sharpe_ratio": 0.60575494,
+          "max_drawdown": -0.2181569,
+          "average_annual_turnover": 20.81014553,
+          "cumulative_trading_cost": 0.02629855,
+          "sample_start": "2025-01-13",
+          "sample_end": "2026-07-21"
+        },
+        "since_2026_01": {
+          "cagr": -0.33437166,
+          "sharpe_ratio": -1.31743878,
+          "max_drawdown": -0.2181569,
+          "average_annual_turnover": 21.74596474,
+          "cumulative_trading_cost": 0.0067501,
+          "sample_start": "2026-01-12",
+          "sample_end": "2026-07-21"
+        }
+      },
+      "current_winner_or_robust": {
+        "since_2025_01": {
+          "candidate_id": "hkconnect_path2_breakout_concentrated_monthly",
+          "metrics": {
+            "cagr": 0.60646318,
+            "sharpe_ratio": 1.19541191,
+            "max_drawdown": -0.34734099,
+            "average_annual_turnover": 9.76841058,
+            "cumulative_trading_cost": 0.0169665,
+            "sample_start": "2025-02-03",
+            "sample_end": "2026-07-28"
+          }
+        },
+        "since_2026_01": {
+          "candidate_id": "hkconnect_path3_equal_elastic_cashoff_weekly",
+          "metrics": {
+            "cagr": 0.26285517,
+            "sharpe_ratio": 0.85205433,
+            "max_drawdown": -0.19207866,
+            "average_annual_turnover": 37.15473488,
+            "cumulative_trading_cost": 0.0147535,
+            "sample_start": "2026-01-05",
+            "sample_end": "2026-07-28"
+          }
+        }
+      },
+      "delta": {
+        "since_2025_01": {
+          "cagr": -0.4488758,
+          "sharpe_ratio": -0.5896569700000001,
+          "max_drawdown": 0.12918409000000003,
+          "average_annual_turnover": 11.04173495,
+          "cumulative_trading_cost": 0.009332050000000001
+        },
+        "since_2026_01": {
+          "cagr": -0.5972268300000001,
+          "sharpe_ratio": -2.16949311,
+          "max_drawdown": -0.026078239999999975,
+          "average_annual_turnover": -15.408770139999998,
+          "cumulative_trading_cost": -0.008003399999999999
+        }
+      },
+      "decision": "reject",
+      "reason": "未能在两个目标窗口形成可持续正收益，或高换手/回撤代价不支持继续同形扩参。"
+    },
+    {
+      "candidate_id": "hkconnect_path8_short_window_momentum_monthly_top6_risk15_v5",
+      "hypothesis": "用月频短动量六只集中仓降低周频噪声，预期在 2025/2026 两窗保持正收益。",
+      "windows": [
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2025_01": {
+          "cagr": 0.39786135,
+          "sharpe_ratio": 1.20001071,
+          "max_drawdown": -0.18942203,
+          "average_annual_turnover": 9.64455151,
+          "cumulative_trading_cost": 0.01273696,
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-07-28"
+        },
+        "since_2026_01": {
+          "cagr": 0.13181838,
+          "sharpe_ratio": 0.45520688,
+          "max_drawdown": -0.18942203,
+          "average_annual_turnover": 9.61922101,
+          "cumulative_trading_cost": 0.00340717,
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-07-28"
+        }
+      },
+      "current_winner_or_robust": {
+        "since_2025_01": {
+          "candidate_id": "hkconnect_path2_breakout_concentrated_monthly",
+          "metrics": {
+            "cagr": 0.60646318,
+            "sharpe_ratio": 1.19541191,
+            "max_drawdown": -0.34734099,
+            "average_annual_turnover": 9.76841058,
+            "cumulative_trading_cost": 0.0169665,
+            "sample_start": "2025-02-03",
+            "sample_end": "2026-07-28"
+          }
+        },
+        "since_2026_01": {
+          "candidate_id": "hkconnect_path3_equal_elastic_cashoff_weekly",
+          "metrics": {
+            "cagr": 0.26285517,
+            "sharpe_ratio": 0.85205433,
+            "max_drawdown": -0.19207866,
+            "average_annual_turnover": 37.15473488,
+            "cumulative_trading_cost": 0.0147535,
+            "sample_start": "2026-01-05",
+            "sample_end": "2026-07-28"
+          }
+        }
+      },
+      "delta": {
+        "since_2025_01": {
+          "cagr": -0.20860183,
+          "sharpe_ratio": 0.004598799999999903,
+          "max_drawdown": 0.15791896000000002,
+          "average_annual_turnover": -0.12385906999999996,
+          "cumulative_trading_cost": -0.004229539999999999
+        },
+        "since_2026_01": {
+          "cagr": -0.13103679000000001,
+          "sharpe_ratio": -0.39684745,
+          "max_drawdown": 0.002656630000000021,
+          "average_annual_turnover": -27.53551387,
+          "cumulative_trading_cost": -0.011346329999999998
+        }
+      },
+      "decision": "keep_watch",
+      "reason": "两个目标窗口均为正收益，但 CAGR 尚未同时超过现有短窗冠军。"
+    },
+    {
+      "candidate_id": "hkconnect_path8_short_window_momentum_monthly_top10_fullrisk_v6",
+      "hypothesis": "用月频短动量与全风险敞口提高上行捕获，预期抬升 2025/2026 CAGR。",
+      "windows": [
+        "since_2025_01",
+        "since_2026_01"
+      ],
+      "candidate_metrics": {
+        "since_2025_01": {
+          "cagr": 0.24892668,
+          "sharpe_ratio": 0.78625834,
+          "max_drawdown": -0.32069132,
+          "average_annual_turnover": 8.75766842,
+          "cumulative_trading_cost": 0.01202953,
+          "sample_start": "2025-02-03",
+          "sample_end": "2026-07-28"
+        },
+        "since_2026_01": {
+          "cagr": -0.26698561,
+          "sharpe_ratio": -0.16337369,
+          "max_drawdown": -0.32069132,
+          "average_annual_turnover": 8.63739062,
+          "cumulative_trading_cost": 0.00290324,
+          "sample_start": "2026-02-02",
+          "sample_end": "2026-07-28"
+        }
+      },
+      "current_winner_or_robust": {
+        "since_2025_01": {
+          "candidate_id": "hkconnect_path2_breakout_concentrated_monthly",
+          "metrics": {
+            "cagr": 0.60646318,
+            "sharpe_ratio": 1.19541191,
+            "max_drawdown": -0.34734099,
+            "average_annual_turnover": 9.76841058,
+            "cumulative_trading_cost": 0.0169665,
+            "sample_start": "2025-02-03",
+            "sample_end": "2026-07-28"
+          }
+        },
+        "since_2026_01": {
+          "candidate_id": "hkconnect_path3_equal_elastic_cashoff_weekly",
+          "metrics": {
+            "cagr": 0.26285517,
+            "sharpe_ratio": 0.85205433,
+            "max_drawdown": -0.19207866,
+            "average_annual_turnover": 37.15473488,
+            "cumulative_trading_cost": 0.0147535,
+            "sample_start": "2026-01-05",
+            "sample_end": "2026-07-28"
+          }
+        }
+      },
+      "delta": {
+        "since_2025_01": {
+          "cagr": -0.3575365,
+          "sharpe_ratio": -0.4091535700000001,
+          "max_drawdown": 0.026649670000000014,
+          "average_annual_turnover": -1.0107421599999995,
+          "cumulative_trading_cost": -0.004936969999999999
+        },
+        "since_2026_01": {
+          "cagr": -0.52984078,
+          "sharpe_ratio": -1.0154280199999999,
+          "max_drawdown": -0.12861266,
+          "average_annual_turnover": -28.51734426,
+          "cumulative_trading_cost": -0.01185026
+        }
+      },
+      "decision": "reject",
+      "reason": "未能在两个目标窗口形成可持续正收益，或高换手/回撤代价不支持继续同形扩参。"
+    }
+  ],
+  "interpretation_guard": "路径内短窗领先不等于跨窗口 robust winner；未跑 2017/2020/2023 时不得作强稳定性结论。"
+}

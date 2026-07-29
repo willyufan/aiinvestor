@@ -42,6 +42,7 @@ DEFAULT_EXPERIMENT_LOG = research_file("research_experiments.jsonl")
 A_SHARE_REQUIRED_WINDOWS = ("since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01")
 A_SHARE_OBSERVATION_WINDOWS = (*A_SHARE_REQUIRED_WINDOWS, "since_2026_01")
 HK_REQUIRED_WINDOWS = (*A_SHARE_REQUIRED_WINDOWS, "since_2026_01")
+SHORT_WINDOW_RETURN_WINDOWS = ("since_2025_01", "since_2026_01")
 
 PATH1_MIN_DIRECTION_COUNTS = {
     "promotion_ramp": 4,
@@ -83,6 +84,12 @@ PATH_FOCUS_ROTATION = {
         "event_backtest_entry",
         "path4_comparison",
     ],
+    "ashare_path6": [
+        "short_window_breakout",
+        "short_window_momentum",
+        "concentration_risk",
+        "turnover_cost",
+    ],
     "hkconnect_path1": [
         "monthly_weekly_overlay",
         "biweekly_buffer",
@@ -117,6 +124,12 @@ PATH_FOCUS_ROTATION = {
         "barbell_sleeve_structure",
         "biweekly_barbell",
         "turnover_control",
+    ],
+    "hkconnect_path8": [
+        "short_window_momentum",
+        "weekly_concentration",
+        "biweekly_breakout",
+        "turnover_cost",
     ],
 }
 
@@ -280,6 +293,7 @@ def _load_backtest_constants() -> dict[str, Any]:
             "PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS",
             "PATH4_THEME_DISCOVERY_BASE_IDS",
             "PATH4_THEME_DISCOVERY_VARIANT_IDS",
+            "PATH6_SHORT_WINDOW_BASE_IDS",
         ],
     )
 
@@ -321,6 +335,16 @@ def _extract_path4_theme_candidates(constants: dict[str, Any]) -> list[str]:
             for base_id in base_ids
             for variant_id in variant_ids
             if base_id and variant_id
+        }
+    )
+
+
+def _extract_path6_short_window_candidates(constants: dict[str, Any]) -> list[str]:
+    return sorted(
+        {
+            str(item)
+            for item in constants.get("PATH6_SHORT_WINDOW_BASE_IDS") or []
+            if str(item).strip()
         }
     )
 
@@ -459,6 +483,40 @@ def _hk_path_comparison_signatures(frame: pd.DataFrame, path_names: Iterable[str
                 )
         signatures[f"hkconnect_{path_name}"] = _stable_key(parts)
     return signatures
+
+
+def _ashare_path6_comparison_signature(frame: pd.DataFrame, candidate_ids: Iterable[str]) -> str:
+    candidate_ids = {str(item) for item in candidate_ids if str(item).strip()}
+    if frame.empty or not candidate_ids:
+        return _stable_key([])
+    subset = frame.loc[
+        frame["strategy_base_id"].astype(str).isin(candidate_ids)
+        & frame["sample_tag"].astype(str).isin(SHORT_WINDOW_RETURN_WINDOWS)
+    ].copy()
+    parts: list[Any] = [f"candidate_count:{len(candidate_ids)}"]
+    for window in SHORT_WINDOW_RETURN_WINDOWS:
+        rows = subset.loc[subset["sample_tag"].astype(str) == window].copy()
+        if rows.empty:
+            parts.append(f"{window}:")
+            continue
+        for column in ("cagr", "sharpe_ratio", "max_drawdown", "average_annual_turnover"):
+            rows[column] = pd.to_numeric(rows[column], errors="coerce")
+        winner = rows.sort_values(
+            ["cagr", "sharpe_ratio", "max_drawdown", "average_annual_turnover", "strategy_base_id"],
+            ascending=[False, False, False, True, True],
+            na_position="last",
+        ).iloc[0]
+        parts.append(
+            {
+                "window": window,
+                "winner": str(winner["strategy_base_id"]),
+                "cagr": round(float(winner["cagr"]), 8) if pd.notna(winner["cagr"]) else None,
+                "max_drawdown": (
+                    round(float(winner["max_drawdown"]), 8) if pd.notna(winner["max_drawdown"]) else None
+                ),
+            }
+        )
+    return _stable_key(parts)
 
 
 def _read_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -808,12 +866,13 @@ def main(argv: list[str] | None = None) -> int:
     direction_groups, path1_fast_ids = _extract_path1_candidates(constants)
     core_multifactor_ids = direction_groups.get("core_multifactor", [])
     path4_theme_ids = _extract_path4_theme_candidates(constants)
+    path6_short_window_ids = _extract_path6_short_window_candidates(constants)
 
     ashare_latest = _read_latest_csv(args.comparison_csv, "strategy_base_id")
     hk_latest = _read_latest_csv(args.hk_comparison_csv, "strategy_id")
     ashare_windows = _window_map(ashare_latest, "strategy_base_id")
     hk_windows = _window_map(hk_latest, "strategy_id")
-    hk_expansion_path_ids = _hk_path_candidate_ids(hk_latest, ("path4", "path5", "path6", "path7"))
+    hk_expansion_path_ids = _hk_path_candidate_ids(hk_latest, ("path4", "path5", "path6", "path7", "path8"))
     path3_archived_ids = {
         str(item)
         for item in constants.get("PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS") or []
@@ -833,8 +892,11 @@ def main(argv: list[str] | None = None) -> int:
         for strategy_id in ashare_windows
         if str(strategy_id).endswith("_weekly")
         and str(strategy_id) not in path3_archived_ids
+        and str(strategy_id) not in set(path6_short_window_ids)
     )
     hk_ids = sorted(hk_windows)
+    hk_path8_ids = set(hk_expansion_path_ids.get("path8", []))
+    hk_regular_ids = sorted(set(hk_ids) - hk_path8_ids)
 
     coverage_scopes = [
         _coverage_scope(
@@ -888,10 +950,20 @@ def main(argv: list[str] | None = None) -> int:
             description="Path 4 emergent-theme candidates use no manual theme labels and must be observed before judging theme-capture quality.",
         ),
         _coverage_scope(
+            scope_id="ashare_path6_short_window_return",
+            market="ashare",
+            path="path6",
+            candidates=path6_short_window_ids,
+            required_windows=SHORT_WINDOW_RETURN_WINDOWS,
+            windows_by_id=ashare_windows,
+            blocking=True,
+            description="Path 6 is an explicit 2025/2026 return-max path and must be compared on both short windows.",
+        ),
+        _coverage_scope(
             scope_id="hkconnect_all_candidates",
             market="hkconnect",
             path="all",
-            candidates=hk_ids,
+            candidates=hk_regular_ids,
             required_windows=HK_REQUIRED_WINDOWS,
             windows_by_id=hk_windows,
             blocking=True,
@@ -903,6 +975,7 @@ def main(argv: list[str] | None = None) -> int:
         ("path5", "HK Path5 pullback/retest expansion candidates must be comparable."),
         ("path6", "HK Path6 large-liquid defensive core candidates must be comparable."),
         ("path7", "HK Path7 barbell expansion candidates must be comparable."),
+        ("path8", "HK Path8 short-window return candidates must cover both 2025/2026 windows."),
     ):
         coverage_scopes.append(
             _coverage_scope(
@@ -910,7 +983,7 @@ def main(argv: list[str] | None = None) -> int:
                 market="hkconnect",
                 path=path_name,
                 candidates=hk_expansion_path_ids.get(path_name, []),
-                required_windows=HK_REQUIRED_WINDOWS,
+                required_windows=(SHORT_WINDOW_RETURN_WINDOWS if path_name == "path8" else HK_REQUIRED_WINDOWS),
                 windows_by_id=hk_windows,
                 blocking=True,
                 description=description,
@@ -920,7 +993,8 @@ def main(argv: list[str] | None = None) -> int:
     warning_missing = sum(scope["missing_count"] for scope in coverage_scopes if not scope["blocking"])
 
     signatures = _strategy_signature(weighted, hk_tracked)
-    signatures.update(_hk_path_comparison_signatures(hk_latest, ("path4", "path5", "path6", "path7")))
+    signatures["ashare_path6"] = _ashare_path6_comparison_signature(ashare_latest, path6_short_window_ids)
+    signatures.update(_hk_path_comparison_signatures(hk_latest, ("path4", "path5", "path6", "path7", "path8")))
     signatures["ashare_path5"] = _event_theme_signature(event_theme_status)
     hk_path_counts = {}
     if not hk_latest.empty and "path" in hk_latest.columns and "strategy_id" in hk_latest.columns:
@@ -971,6 +1045,16 @@ def main(argv: list[str] | None = None) -> int:
                 "path4_comparison": 1,
             },
         },
+        "ashare_path6": {
+            "candidate_count": len(path6_short_window_ids),
+            "objective_windows": list(SHORT_WINDOW_RETURN_WINDOWS),
+            "next_run_new_candidate_quota": {
+                "short_window_breakout": 2,
+                "short_window_momentum": 2,
+                "concentration_risk": 1,
+                "turnover_cost": 1,
+            },
+        },
         "hkconnect": {
             "candidate_count": len(hk_ids),
             "path_counts": hk_path_counts,
@@ -982,6 +1066,7 @@ def main(argv: list[str] | None = None) -> int:
                 "path5": 2,
                 "path6": 3,
                 "path7": 2,
+                "path8": 6,
             },
         },
     }

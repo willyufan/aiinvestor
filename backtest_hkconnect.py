@@ -21,7 +21,7 @@ import tushare as ts
 matplotlib.use("Agg")
 
 from scripts.results_layout import ensure_results_layout, market_backtests_dir, research_file, strategy_result_dir
-from scripts.active_strategy_scope import collect_hkconnect_refresh_active_ids
+from scripts.active_strategy_scope import collect_hkconnect_live_active_ids, collect_hkconnect_refresh_active_ids
 from scripts.comparison_merge import merge_latest_rows
 
 from backtest_marketcap_etf import (
@@ -8150,6 +8150,125 @@ HK_PATH7_VARIANTS.extend(
     ]
 )
 
+# Path8 独立优化 2025/2026 短窗收益；该路径允许更高集中度和换手，
+# 但只做路径内短窗竞争，不自动解读为跨窗口 robust winner。
+HK_PATH8_VARIANTS: List[Dict[str, object]] = [
+    {
+        "strategy_id": "hkconnect_path8_short_window_momentum_weekly_top8_risk20_v1",
+        "strategy_name": "沪港通Path8 周频短动量(集中8只,风险20%,v1)",
+        "path": "path8",
+        "candidate_family": "short_window_momentum",
+        "rebalance_frequency": "weekly",
+        "base_weight_method": "equal_weight",
+        "base_weight_mode": "signal",
+        "signal_family": "path8_short_window_momentum",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.20,
+        "risk_caution_exposure": 0.60,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.12,
+        "sell_exit_percentile": 0.28,
+        "max_holdings": 8,
+        "weight_cap": 0.16,
+    },
+    {
+        "strategy_id": "hkconnect_path8_short_window_momentum_weekly_top5_cashoff_v2",
+        "strategy_name": "沪港通Path8 周频短动量(集中5只,熊市空仓,v2)",
+        "path": "path8",
+        "candidate_family": "short_window_momentum",
+        "rebalance_frequency": "weekly",
+        "base_weight_method": "equal_weight",
+        "base_weight_mode": "signal",
+        "signal_family": "path8_short_window_momentum",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.00,
+        "risk_caution_exposure": 0.50,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.08,
+        "sell_exit_percentile": 0.22,
+        "max_holdings": 5,
+        "weight_cap": 0.22,
+    },
+    {
+        "strategy_id": "hkconnect_path8_short_window_momentum_biweekly_top10_risk15_v3",
+        "strategy_name": "沪港通Path8 双周短动量(集中10只,风险15%,v3)",
+        "path": "path8",
+        "candidate_family": "short_window_momentum",
+        "rebalance_frequency": "biweekly",
+        "base_weight_method": "equal_weight",
+        "base_weight_mode": "signal",
+        "signal_family": "path8_short_window_momentum",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.15,
+        "risk_caution_exposure": 0.58,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.14,
+        "sell_exit_percentile": 0.30,
+        "max_holdings": 10,
+        "weight_cap": 0.14,
+    },
+    {
+        "strategy_id": "hkconnect_path8_short_window_momentum_biweekly_top6_cashoff_v4",
+        "strategy_name": "沪港通Path8 双周短动量(集中6只,熊市空仓,v4)",
+        "path": "path8",
+        "candidate_family": "short_window_momentum",
+        "rebalance_frequency": "biweekly",
+        "base_weight_method": "equal_weight",
+        "base_weight_mode": "signal",
+        "signal_family": "path8_short_window_momentum",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.00,
+        "risk_caution_exposure": 0.48,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.10,
+        "sell_exit_percentile": 0.24,
+        "max_holdings": 6,
+        "weight_cap": 0.20,
+    },
+    {
+        "strategy_id": "hkconnect_path8_short_window_momentum_monthly_top6_risk15_v5",
+        "strategy_name": "沪港通Path8 月频短动量(集中6只,风险15%,v5)",
+        "path": "path8",
+        "candidate_family": "short_window_momentum",
+        "rebalance_frequency": "monthly",
+        "base_weight_method": "equal_weight",
+        "base_weight_mode": "signal",
+        "signal_family": "path8_short_window_momentum",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 0.15,
+        "risk_caution_exposure": 0.58,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.12,
+        "sell_exit_percentile": 0.26,
+        "max_holdings": 6,
+        "weight_cap": 0.20,
+    },
+    {
+        "strategy_id": "hkconnect_path8_short_window_momentum_monthly_top10_fullrisk_v6",
+        "strategy_name": "沪港通Path8 月频短动量(集中10只,全仓,v6)",
+        "path": "path8",
+        "candidate_family": "short_window_momentum",
+        "rebalance_frequency": "monthly",
+        "base_weight_method": "equal_weight",
+        "base_weight_mode": "signal",
+        "signal_family": "path8_short_window_momentum",
+        "risk_off_rule": "and",
+        "risk_staging_mode": "three_stage",
+        "risk_off_exposure": 1.00,
+        "risk_caution_exposure": 1.00,
+        "risk_on_exposure": 1.00,
+        "buy_entry_percentile": 0.16,
+        "sell_exit_percentile": 0.32,
+        "max_holdings": 10,
+        "weight_cap": 0.14,
+    },
+]
+
 # 2026-07-20/21/22 scorecard 淘汰项：保留定义与历史结果，但不再进入 active 回测/排名口径。
 HK_ARCHIVED_STRATEGY_IDS = {
     "hkconnect_path1_monthly_quality_momentum_weekly_overlay_v48_monthly_weekly_overlay",
@@ -8189,7 +8308,9 @@ HK_ARCHIVED_STRATEGY_IDS = {
     "hkconnect_path6_lowvol_liquid_biweekly_v47_return_balance",
     "hkconnect_path7_barbell_quality_growth_biweekly_v45_quality_balance",
 }
-HK_EXPANSION_VARIANTS = HK_PATH4_VARIANTS + HK_PATH5_VARIANTS + HK_PATH6_VARIANTS + HK_PATH7_VARIANTS
+HK_EXPANSION_VARIANTS = (
+    HK_PATH4_VARIANTS + HK_PATH5_VARIANTS + HK_PATH6_VARIANTS + HK_PATH7_VARIANTS + HK_PATH8_VARIANTS
+)
 
 
 def ensure_hk_directories() -> None:
@@ -9356,6 +9477,17 @@ def build_hk_signal_scores(prepared: HKPreparedData, signal_date: pd.Timestamp, 
                 (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.10),
             ]
         )
+    if signal_family == "path8_short_window_momentum":
+        return blend_ranked_components(
+            [
+                (safe_percentile_rank(momentum_3_1, ascending=True), 0.30),
+                (safe_percentile_rank(recent_1m, ascending=True), 0.25),
+                (safe_percentile_rank(momentum_6_1, ascending=True), 0.15),
+                (breakout_signal.astype(float), 0.15),
+                (safe_percentile_rank(amount_surge_ratio, ascending=True), 0.10),
+                (liquidity_quality, 0.05),
+            ]
+        )
     return blend_ranked_components(
         [
             (safe_percentile_rank(momentum_12_1, ascending=True), 0.40),
@@ -9720,6 +9852,7 @@ def run_hk_backtest(
     weights_history_rows: List[Dict[str, object]] = []
     equity_rows: List[Dict[str, object]] = []
     effective_sample_start: pd.Timestamp | None = None
+    latest_formal_signal_date: pd.Timestamp | None = None
 
     for idx in range(report_start_idx, len(signal_schedule) - 1):
         signal_date = signal_schedule[idx]
@@ -9965,6 +10098,7 @@ def run_hk_backtest(
         )
         turnover_rows.extend(weekly_overlay_turnover_rows)
         equity_rows.append({"date": period_end, "portfolio_return": net_return, "nav": nav_end, "drawdown": 0.0, "trading_cost": trade_stats["trading_cost"]})
+        latest_formal_signal_date = pd.Timestamp(signal_date)
 
     if effective_sample_start is None or len(equity_rows) < 2:
         raise RuntimeError("设定的回测起点晚于当前可用调仓数据。")
@@ -9999,15 +10133,10 @@ def run_hk_backtest(
     metrics = compute_metrics(equity_curve, monthly_returns, turnover, rebalance_frequency=rebalance_frequency)
     official_backtest_end = pd.Timestamp(equity_curve["date"].iloc[-1])
     latest_valuation_date = official_backtest_end
-    if rebalance_frequency == "monthly" and not prepared.price_ffill.empty:
+    if not prepared.price_ffill.empty:
         latest_valuation_date = max(official_backtest_end, pd.Timestamp(prepared.price_ffill.index.max()))
-    latest_formal_signal_date = None
-    if rebalance_frequency == "monthly":
-        formal_signal_dates = [date for date in prepared.month_end_dates if date <= latest_valuation_date]
-        latest_formal_signal_date = formal_signal_dates[-1] if formal_signal_dates else None
     is_provisional_period_end = (
-        rebalance_frequency == "monthly"
-        and latest_formal_signal_date is not None
+        latest_formal_signal_date is not None
         and latest_valuation_date > latest_formal_signal_date
     )
     month_end_preview = (
@@ -10018,7 +10147,7 @@ def run_hk_backtest(
             formal_signal_date=latest_formal_signal_date,
             positions=positions,
         )
-        if is_provisional_period_end
+        if rebalance_frequency == "monthly" and is_provisional_period_end
         else None
     )
 
@@ -10105,10 +10234,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--only-strategy-ids", type=str, default="")
     parser.add_argument(
         "--family-scope",
-        choices=["tracked_active", "research_active", "active", "all"],
+        choices=["live_active", "tracked_active", "research_active", "active", "all"],
         default="research_active",
         help=(
-            "Strategy family scope: tracked_active runs HK tracked/top1/live active ids; "
+            "Strategy family scope: live_active runs current live and public top5 ids; "
+            "tracked_active runs HK tracked/top1/live active ids; "
             "research_active/all run all configured HK Path 1/2/3 variants plus expansion smoke variants. "
             "active is a compatibility alias for tracked_active."
         ),
@@ -10143,7 +10273,11 @@ def main() -> None:
     selected_sample_tags = {tag.strip() for tag in str(args.sample_tags).split(",") if tag.strip()}
     selected_strategy_ids = {sid.strip() for sid in str(args.only_strategy_ids).split(",") if sid.strip()}
     explicit_selected_strategy_ids = bool(selected_strategy_ids)
-    if not selected_strategy_ids and args.family_scope in {"tracked_active", "active"}:
+    if not selected_strategy_ids and args.family_scope == "live_active":
+        selected_strategy_ids = collect_hkconnect_live_active_ids()
+        if not selected_strategy_ids:
+            raise SystemExit("[HK] No live_active strategy IDs found; refusing to fall back to a full HK run.")
+    elif not selected_strategy_ids and args.family_scope in {"tracked_active", "active"}:
         selected_strategy_ids = collect_hkconnect_refresh_active_ids()
         if not selected_strategy_ids:
             raise SystemExit("[HK] No tracked_active strategy IDs found; refusing to fall back to a full HK run.")
@@ -10232,7 +10366,7 @@ def main() -> None:
     merge_existing = bool(
         explicit_selected_strategy_ids
         or selected_sample_tags
-        or args.family_scope in {"tracked_active", "active"}
+        or args.family_scope in {"live_active", "tracked_active", "active"}
     )
     if merge_existing:
         comparison_df = merge_latest_rows(

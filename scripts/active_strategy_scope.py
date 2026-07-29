@@ -32,7 +32,13 @@ def _collect_leaderboard_topn(obj: Any, target: set[str], top_n: int) -> None:
             _collect_leaderboard_topn(item, target, top_n)
 
 
-def _collect_live_registry_ids(market_scope: str, target: set[str], *, leaderboard_top_n: int = 1) -> None:
+def _collect_live_registry_ids(
+    market_scope: str,
+    target: set[str],
+    *,
+    leaderboard_top_n: int = 1,
+    include_core_active: bool = True,
+) -> None:
     payload = load_json(RESULTS_LIVE_DIR / "strategy_registry.json")
     if not isinstance(payload, dict):
         return
@@ -51,7 +57,8 @@ def _collect_live_registry_ids(market_scope: str, target: set[str], *, leaderboa
                 target.add(strategy_id)
 
     add_items(payload.get("strategies"))
-    add_items(payload.get("core_active_strategies"))
+    if include_core_active:
+        add_items(payload.get("core_active_strategies"))
     leaderboards = payload.get("winner_leaderboards") or {}
     if isinstance(leaderboards, dict):
         _collect_leaderboard_topn(leaderboards.get(market_scope) or {}, target, leaderboard_top_n)
@@ -83,6 +90,17 @@ def collect_ashare_refresh_active_ids(*, include_top_n: int = 1) -> set[str]:
     return {strategy_id for strategy_id in strategy_ids if strategy_id}
 
 
+def collect_ashare_live_active_ids(*, include_top_n: int = 5) -> set[str]:
+    strategy_ids: set[str] = set()
+    _collect_live_registry_ids(
+        A_SHARE_SCOPE,
+        strategy_ids,
+        leaderboard_top_n=include_top_n,
+        include_core_active=False,
+    )
+    return {strategy_id for strategy_id in strategy_ids if strategy_id}
+
+
 def collect_hkconnect_refresh_active_ids(*, include_top_n: int = 5) -> set[str]:
     strategy_ids: set[str] = set()
     collect_ids(
@@ -95,5 +113,16 @@ def collect_hkconnect_refresh_active_ids(*, include_top_n: int = 5) -> set[str]:
         id_col="strategy_id",
         target=strategy_ids,
         top_n=include_top_n,
+    )
+    return {strategy_id for strategy_id in strategy_ids if strategy_id}
+
+
+def collect_hkconnect_live_active_ids(*, include_top_n: int = 5) -> set[str]:
+    strategy_ids: set[str] = set()
+    _collect_live_registry_ids(
+        HKCONNECT_SCOPE,
+        strategy_ids,
+        leaderboard_top_n=include_top_n,
+        include_core_active=False,
     )
     return {strategy_id for strategy_id in strategy_ids if strategy_id}

@@ -556,6 +556,18 @@ def load_path4_theme_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[str]
     }
 
 
+def load_path6_short_window_ids(backtest_path: Path = BACKTEST_SCRIPT_PATH) -> set[str]:
+    try:
+        consts = _parse_python_constants(backtest_path, ["PATH6_SHORT_WINDOW_BASE_IDS"])
+    except Exception:
+        return set()
+    return {
+        str(item)
+        for item in consts.get("PATH6_SHORT_WINDOW_BASE_IDS") or []
+        if str(item).strip()
+    }
+
+
 def _matches_path2(base_id: str, prefixes: list[str], variant_ids: list[str]) -> bool:
     if _matches_path3(base_id) or "_emergent_theme_" in str(base_id):
         return False
@@ -2563,6 +2575,7 @@ def main() -> None:
     path2_archived_ids, path3_archived_ids = load_archived_path_ids()
     comparison_ids = set(latest_all["strategy_base_id"].astype(str).unique())
     path4_allowed_ids = load_path4_theme_ids() & comparison_ids - STATIC_BASE_IDS
+    path6_short_window_ids = load_path6_short_window_ids() & comparison_ids
     path2_allowed_ids = {
         str(base_id)
         for base_id in comparison_ids
@@ -2578,7 +2591,7 @@ def main() -> None:
         str(base_id)
         for base_id in set(latest_all["strategy_base_id"].astype(str).unique())
         if _matches_path3(str(base_id))
-    } - STATIC_BASE_IDS - path3_archived_ids
+    } - STATIC_BASE_IDS - path3_archived_ids - path6_short_window_ids
     path3_available = bool(path3_allowed_ids)
     if not path3_available:
         print("[path3] no pure weekly candidates in comparison CSV; preserving existing Path 3 winners.")
