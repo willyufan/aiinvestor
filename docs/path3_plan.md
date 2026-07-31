@@ -1,5 +1,33 @@
 # Path 3 研究计划
 
+## 2026-07-31 迭代记录（07:55 CST）
+
+### 上一轮候选与结果摘要
+
+- `cost_stress` 确认 risk10-cost-stress、return-recovery-v7 与 turnover-repair。前两条 2020/2023 CAGR 为 `3.12%/1.66%`、`11.18%/3.29%`，分别触发 CAGR、Sharpe 或 MaxDD 护栏，均 `reject`。
+- turnover-repair 的 2020/2023/2026 CAGR 为 `6.24%/6.86%/0.29%`，低换手但绝对收益弱，判定 `robust_observation`：进入观察位，不是强稳定 winner。实验假设“压换手和提高退出阈值能在成本后保住收益”仅支持防守面；window winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly_cost_stress_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### 下一轮 focus 提示
+
+- focus=`cost_stress`：用基础 risk10-weekly 对照 turnover-repair，分离“成本压力标签”与真实 holding/exit 贡献。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### Focus 候选池
+
+- `cost_stress`：risk10-weekly、turnover-repair-risk14。
+- `weekly_turnover_reduction`：turn02/exit98-risk10、turn03/exit98-risk14。
+- `weekly_return_recovery`：return-recovery-v7、risk16-weekly。
+- `risk_downshift`：risk06-downshift、risk10-weekly。
+
 ## 2026-07-30 二次迭代记录（07:24 CST）
 
 ### 上一轮候选与结果摘要

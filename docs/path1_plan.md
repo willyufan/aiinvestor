@@ -1,5 +1,34 @@
 # Path 1 研究计划
 
+## 2026-07-31 迭代记录（07:55 CST）
+
+### 上一轮候选与结果摘要
+
+- 主线确认正式 risk20：2020/2023/2026 CAGR 为 `22.15%/14.32%/-9.74%`，判定 `robust_observation`，进入观察位，不是强稳定 winner；window winner、robust 与 tracked 未改变。
+- `core_multifactor` 子段确认 quality-profitability-growth-lowvol-risk08 与 quality-profitability-growth-trend-risk10。相对 risk20，前者 2020/2023 CAGR 下降 `13.96pp/6.96pp`，后者下降 `16.99pp/1.90pp` 且 Sharpe 触发护栏，均 `reject`。实验假设“低波或趋势质量门改善中窗回撤”未获支持；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk08_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk10_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm
+```
+
+### 下一轮 focus 提示
+
+- focus=`core_multifactor_coverage`：改用 growth-trend risk08 与 value-lowvol-trend risk20，验证更低风险档能否修复 2020 CAGR 且不牺牲 2023。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_risk20_reconfirm
+```
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：growth-trend-risk08、value-lowvol-trend-risk20。
+- `signal_quality`：growth-lowvol-risk08、growth-trend-risk08。
+- `satellite_risk_cost`：sat-three-stage-risk20、sat-three-stage-risk18。
+- `holding_shape`：share20/ramp66、share22/ramp64。
+- `weekly_exposure_path`：buffered、buffered-asym13。
+
 ## 2026-07-30 二次迭代记录（07:24 CST）
 
 ### 上一轮候选与结果摘要

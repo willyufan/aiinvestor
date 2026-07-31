@@ -1,5 +1,33 @@
 # Path 2 研究计划
 
+## 2026-07-31 迭代记录（07:55 CST）
+
+### 上一轮候选与结果摘要
+
+- `medium_cycle_growth` 确认 v30 与 v37。二者 2020 CAGR 都为 `11.89%`，但 2023 约 `-3.1%`、2026 `-42.18%`；相对运行前 robust `aggr_10_90_prom6` 的 2023 CAGR 下降约 `20pp`，均 `reject`。v30 虽被 artifact 推为 2017/2020 window winner，但只是路径内排序变化，不构成 promote。
+- `aggr_10_90_prom6` 的 2020/2023/2026 CAGR 为 `-0.55%/16.92%/-26.27%`，继续 `robust_observation`：进入观察位，不是强稳定 winner。实验假设“中周期风险/退出微调可保住 2020 弹性并修复回撤”未获支持；不再扩同形参数，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk27_mom_exit47_reconfirm95_caution58_cap22_cost_guard_v37_medium_cycle_repair,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6
+```
+
+### 下一轮 focus 提示
+
+- focus=`medium_cycle_growth`：停止 v30/v37 邻近扩参，改验更低 risk/cap 的 v79 total-mv 与 equal-weight 形态。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair
+```
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v79-total-mv、v79-equal-weight。
+- `underrepresented_families`：60/40-biweekly-v70、70/30-biweekly-v70。
+- `drawdown_repair`：v37-medium-cycle-repair、v79-medium-cycle-repair。
+- `capacity_cost`：cap18-v79、cap22-v30。
+
 ## 2026-07-30 二次迭代记录（07:24 CST）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,33 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-07-31 迭代记录（07:55 CST）
+
+### 上一轮候选与结果摘要
+
+- 已审计冻结篮子 `mrc_uec_ai_network_20260506_v0` 完成 20/40/60D：等权收益 `41.75%/30.40%/-10.99%`，seed-weight `43.85%/32.40%/-10.04%`；60D 已成熟，短窗爆发未延续，判定 `reject` 并转 archive，不再高频刷新同篮子。
+- 与 Path4 capacity-v2 的 overlap 为 `1/6`，Path4 overlap weight `3.71%`。实验假设“低重叠事件篮子能在中周期持续跑赢强主题涌现”未获支持；不写入 Path1-4 winner/robust/tracked。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_mrc_uec_ai_network_20260506_v0_path4_capacity_v2_20260731.json
+```
+
+### 下一轮 focus 提示
+
+- focus=`path4_comparison`：转向已审计冻结的 `ai_glasses_edge_terminal_20260424_v0`，与 capacity-v2 做同口径 overlap/20-60D 对照。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_next.json
+```
+
+### Focus 候选池
+
+- `path4_comparison`：ai-glasses-edge-terminal vs capacity-v2、ai-power-liquid-cooling vs capacity-v2。
+- `event_backtest_entry`：ai-glasses-edge-terminal、high-speed-pcb-copper-clad-server。
+- `source_audit`：下一条 pending seed、下一条 multi-source seed（当前 pending 为 0 时仅保留队列）。
+- `basket_horizon`：20/40/60D mature、5/10/20D short review。
+
 ## 2026-07-30 二次迭代记录（07:24 CST）
 
 ### 上一轮候选与结果摘要
