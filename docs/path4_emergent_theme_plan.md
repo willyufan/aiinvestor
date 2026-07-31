@@ -1,5 +1,32 @@
 # Path 4 强主题涌现路径
 
+## 2026-08-01 迭代记录（01:20 CST）
+
+### 上一轮候选与结果摘要
+
+- `emergent_theme_coverage` 确认 90/10 cap06、80/20 signal-quality-v4 与 capacity-v2。三者 2020/2023/2026 CAGR 分别为 `4.02%/-0.02%/-2.82%`、`5.37%/0.34%/-18.23%`、`5.07%/1.64%/-10.30%`；前者有两个负窗，后两者相对 current robust 的中窗 MaxDD 恶化超过 5pp，全部 `reject`。
+- weighted 同步后 current robust 切到 `90/10 prom22 signal29 leader78 risk06 cap05 exit68 lowturn`，minCAGR `1.82%`，但最新 top1 权重约 `69.81%`、平均 top1 约 `60.97%`，只作 `robust_observation`：进入观察位，不是强稳定 winner。该变化来自最新端点 artifact 排序，不是弱候选 promote；没有人工主题标签，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap06_exit66_lowturn,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2
+```
+
+### 下一轮 focus 提示
+
+- focus=`emergent_theme_coverage`：转向 2017-window p20/risk12/cap06 与 current robust 的覆盖边界确认；只接受降低单票集中且不破坏 2020/2023。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn
+```
+
+### Focus 候选池
+
+- `emergent_theme_coverage`：p20/risk12/cap06、p22/risk06/cap05 current robust。
+- `theme_signal_quality`：signal30/leader78、signal28/leader80；`theme_risk_control`：risk-control-v5、current robust。
+- `theme_capacity_cost`：cap04-capacity-v2、cap05-current-robust。
+
 ## 2026-07-31 迭代记录（07:55 CST）
 
 ### 上一轮候选与结果摘要

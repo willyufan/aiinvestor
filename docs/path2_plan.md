@@ -1,5 +1,32 @@
 # Path 2 研究计划
 
+## 2026-08-01 迭代记录（01:20 CST）
+
+### 上一轮候选与结果摘要
+
+- `medium_cycle_growth` 确认 v79 total-mv/equal-weight 与 2023/2025 window incumbent `aggr_10_90_prom6`。三者 2020/2023/2026 CAGR 分别为 `5.43%/3.39%/-33.72%`、`2.23%/-6.49%/-37.48%`、`-0.32%/17.66%/-18.86%`；v79 两底座触发中窗护栏，aggr 则有两个负收益窗口，全部 `reject`。
+- 当前 artifact robust 为 `...quality_value_industry_cost_guard_reconfirm`，minCAGR `-3.09%`，只能 `robust_observation`：进入观察位，不是强稳定 winner。实验假设“v79 的更低 risk/cap 可修复中周期收益与容量”未获支持；window winner/robust/tracked 未因本轮候选改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6
+```
+
+### 下一轮 focus 提示
+
+- focus=`medium_cycle_growth`：v79 已证伪，下一轮转 v45/v48 的不同 top-N 与 risk/cap 组合，并继续与 current robust 同窗比较。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v45_medium_cycle_growth,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm97_caution54_cap16_cost_guard_v48_medium_cycle_growth,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm
+```
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v45-top10-cap20、v48-top10-cap16。
+- `underrepresented_families`：40/60-v70、60/40-v78；`drawdown_repair`：v37、v52。
+- `capacity_and_cost_stress`：v44-underrep-repair、v45-capacity-stress；`risk_reconfirm_sensitivity`：v42-total-mv、v42-equal-weight。
+
 ## 2026-07-31 迭代记录（07:55 CST）
 
 ### 上一轮候选与结果摘要
