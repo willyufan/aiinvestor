@@ -1,5 +1,35 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-01 二次迭代记录（07:26 CST）
+
+### 上一轮候选与结果摘要
+
+- `frozen_candidate_audit` 巡检确认 registry 仍为 4 个 active `source_audited + frozen` basket、24 个 backtest-ready candidate、pending audit 0；上一轮 AI 眼镜篮子 20/40/60D 等权收益 `21.80%/26.82%/0.11%`，仍为 `keep_watch`。
+- 本轮核对第五篮子草案 `ai_datacenter_power_grid_202607_v0`、`advanced_packaging_interconnect_202607_v0`，registry 与 candidates 均无匹配。因缺少 primary-source audit 与冻结候选，本轮未实跑 Path5，不能写入 scorecard 或晋级；未跑原因及命令已记录，不影响 A股其它路径的 12 个有效实跑。
+
+### 本轮候选 ID 与命令
+
+```bash
+rg -n "ai_datacenter_power_grid_202607_v0|advanced_packaging_interconnect_202607_v0" results/research/a_share/event_theme_registry.json results/research/a_share/event_theme_candidates.jsonl
+```
+
+结果为无匹配（exit 1），不是回测失败；完整证券 scorecard 与 not_run 记录：`results/research/a_share/research_iteration_scorecard_20260801_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮换到 focus=`event_backtest_entry / rotate`：第五篮子仍未审计，下一轮先对已审计冻结的 PCB 篮子做 5/10/20D 短窗复核；结果只作为事件路径独立 scorecard，不进入 Path1-4 winner。第一条可执行命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_signal29_20260802.json
+```
+
+### Focus 候选池
+
+- `frozen_candidate_audit`：现有 24 条 frozen refresh、AI 眼镜 6 股来源复核。
+- `event_basket_registry`：ai-datacenter-power-grid-v0、advanced-packaging-interconnect-v0（均须先 source audit）。
+- `event_backtest_entry`：AI-power-liquid-cooling 20/40/60、PCB 5/10/20。
+- `path4_comparison`：AI 眼镜 vs capacity-v2、AI power vs capacity-v2。
+
 ## 2026-08-01 迭代记录（01:20 CST）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,34 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-01 二次迭代记录（07:26 CST）
+
+### 上一轮候选与结果摘要
+
+- 原计划 v54/v55 已在 `HK_ARCHIVED_STRATEGY_IDS`，current generator 跳过，未把跳过冒充结果；改用 active v48/v52 完成五窗口双周突破确认。v48/v52 的 2020/2023/2026 CAGR 为 `7.08%/3.05%/-22.97%`、`6.46%/3.36%/-21.32%`，中窗 CAGR/Sharpe/MaxDD 多项触发护栏，均 `reject`。
+- theme-fast-monthly 五窗均正，2020/2023/2026 CAGR `17.96%/23.23%/35.11%`，确认 `promote` 并维持 robust。实验假设“低回撤或低换手双周突破可保留月频收益质量”未获支持；window winner/robust/tracked 未改变，无新增 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v48_lowdraw_terminal,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v52_lowturn_repair,hkconnect_path2_theme_fast_monthly
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260801_iter2.json`。
+
+### 下一轮 focus 提示
+
+- focus=`elasticity_cost_control / rotate`：双周 v48/v52 已证伪，转回 equal-elastic 月频 v45/v46 成本边界，并继续以 theme-fast robust 对照。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control,hkconnect_path2_equal_elastic_monthly_cost_guard_v46_elasticity_cost_control_terminal,hkconnect_path2_theme_fast_monthly
+```
+
+### Focus 候选池
+
+- `elasticity_cost_control`：equal-elastic-v45、equal-elastic-v46-terminal。
+- `biweekly_breakout`：v48-lowdraw、v52-lowturn；`high_return_monthly`：v44-high-return、v45-2023-repair。
+- `drawdown_guard`：v43-lowdraw-retest、v48-lowdraw-terminal；`theme_fast_reconfirm`：theme-fast-monthly、theme-fast-biweekly。
+
 ## 2026-08-01 迭代记录（01:20 CST）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,35 @@
 # Path 3 研究计划
 
+## 2026-08-01 二次迭代记录（07:26 CST）
+
+### 上一轮候选与结果摘要
+
+- `weekly_exit_buffer` 确认 exit97/risk12 与 exit-buffer-v3，并与 current turnover-repair robust 同窗比较。两挑战者 2020/2023/2026 CAGR 为 `2.45%/0.13%/0.24%`、`11.70%/2.83%/-21.67%`；前者破坏 2020/2023，后者破坏 2023 且短窗转负，均 `reject`。
+- current robust 的 2020/2023/2026 CAGR 为 `6.75%/7.59%/8.35%`、2023 turnover 约 `0.47x`，成本防守有效但绝对收益仍弱，判定 `robust_observation`：进入观察位，不是强稳定 winner。window winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260801_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮换到 focus=`risk_downshift / rotate`：exit97/risk12 与 v3 均证伪，下一轮验证 cap42/hold9/risk06 的浅风险降档，要求 2023 CAGR 缺口小于 3pp 且不以短窗爆发换中窗退化。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### Focus 候选池
+
+- `weekly_exit_buffer`：cap44/hold8/exit97/risk08、current turnover-repair。
+- `turnover_reduction`：cap42/hold8/risk10、cap44/hold7/risk12-v3。
+- `risk_downshift`：risk08-v4、risk10-base；`cost_stress`：risk10-cost-stress、return-recovery-v7。
+- `weekly_return_recovery`：return-recovery-v6、return-recovery-v7。
+
 ## 2026-08-01 迭代记录（01:20 CST）
 
 ### 上一轮候选与结果摘要

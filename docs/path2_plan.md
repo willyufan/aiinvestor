@@ -1,5 +1,35 @@
 # Path 2 研究计划
 
+## 2026-08-01 二次迭代记录（07:26 CST）
+
+### 上一轮候选与结果摘要
+
+- `risk_reconfirm_sensitivity` 五窗口确认 v42 total-mv/equal-weight，并与 current robust `quality_value_industry_cost_guard_reconfirm` 同窗比较。v42 两底座的 2020 CAGR 为 `12.14%/10.45%`，但 2023 CAGR 降至 `-1.98%/-4.43%`、2026 为 `-35.07%/-48.89%`，均触发中窗护栏并 `reject`。
+- current robust 的 2020/2023/2026 CAGR 为 `-3.09%/16.04%/-10.39%`，minCAGR 仍负，只判 `robust_observation`：进入观察位，不是强稳定 winner。实验假设“v42 风险再确认能修复负窗同时守住 2023”未获支持；window winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260801_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮换到 focus=`underrepresented_families / rotate`：v42 已证伪，转向 60/40 与 70/30 的 v70 双周低换手线，检查能否降低单一家族偏置并守住 2020/2023。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm
+```
+
+### Focus 候选池
+
+- `risk_reconfirm_sensitivity`：v56-total-mv、v56-equal-weight。
+- `medium_cycle_growth`：v45-top10-cap20、v48-top10-cap16。
+- `underrepresented_families`：40/60-v70、60/40-v78；`capacity_and_cost_stress`：v44-underrep-repair、v45-capacity-stress。
+- `drawdown_repair`：v37、v52。
+
 ## 2026-08-01 迭代记录（01:20 CST）
 
 ### 上一轮候选与结果摘要
