@@ -1,5 +1,34 @@
 # Path 2 研究计划
 
+## 2026-08-03 迭代记录（01:18 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `capacity_and_cost_stress` 五窗口确认 v45 total-mv/equal-weight。两条挑战者的 2020/2023/2026 CAGR 为 `4.39%/3.47%/-37.39%`、`8.27%/6.13%/-35.35%`，2023 相对 current robust 分别下降 `12.57pp/9.91pp`，均触发稳定性护栏并 `reject`。
+- current robust quality-value-industry 的 2020/2023/2026 CAGR 为 `-3.09%/16.04%/-10.39%`，minCAGR 为负，只作 `robust_observation`：进入观察位，不是强稳定 winner。Path2 candidate-pass 已完成 814 个候选巡检；正式 winner/robust/tracked 未改变，无 evict。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk24_exit44_cap18_cost_guard_v45_capacity_stress,core_explore_80_20_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk24_exit44_cap18_cost_guard_v45_capacity_stress,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260803.json`。
+
+### 下一轮 focus 提示
+
+- capacity-stress 未守住 2023，下一轮转 `medium_cycle_growth` 的 v45/v48，要求 2023 CAGR 不下降超过 3pp，且 2026 不再出现超过 30% 的负收益。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v45_medium_cycle_growth,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm97_caution54_cap16_cost_guard_v48_medium_cycle_growth,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm
+```
+
+### Focus 候选池
+
+- `capacity_and_cost_stress`：v44-underrep-repair、v45-capacity-stress；`medium_cycle_growth`：v45-top10-cap20、v48-top10-cap16。
+- `underrepresented_families`：60/40-v70、70/30-v70；`risk_reconfirm_sensitivity`：v42-total、v42-equal。
+- `drawdown_repair`：v37、v52。
+
 ## 2026-08-02 二次迭代记录（08:42 CST）
 
 ### 上一轮候选与结果摘要

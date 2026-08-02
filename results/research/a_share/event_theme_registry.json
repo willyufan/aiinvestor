@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-06-25",
+  "updated_at": "2026-08-03",
   "baskets": [
     {
       "basket_id": "mrc_uec_ai_network_20260506_v0",
@@ -24,13 +24,13 @@
       "theme_name": "AI 电力与液冷基础设施",
       "report_date": "2026-05-28",
       "event_time": "2026-05-28",
-      "status": "source_audited",
+      "status": "archived",
       "frozen": true,
       "candidate_source": "path5_second_event_basket_audit_pool",
       "candidate_file": "results/research/a_share/event_theme_candidates.jsonl",
       "audit_file": "results/research/a_share/event_theme_audit.jsonl",
-      "backtest_status": "entry_probe_ready",
-      "notes": "Second Path5 basket draft for frozen_candidate_audit focus. The frozen pool passed primary-source audit on 2026-06-11 and is ready for the minimal event basket entry probe."
+      "backtest_status": "archive_only",
+      "notes": "The frozen pool passed primary-source audit on 2026-06-11. Repeated mature-window checks showed 20D and 40D losses, so the basket moved out of the active refresh pool on 2026-08-03; historical snapshots remain available."
     },
     {
       "basket_id": "ai_glasses_edge_terminal_20260424_v0",

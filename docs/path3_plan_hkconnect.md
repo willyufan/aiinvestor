@@ -1,5 +1,33 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-03 迭代记录（01:18 CST）
+
+### 上一轮候选与结果摘要
+
+- `weekly_defensive_overlay` 五窗口确认 defensive-turnover12 与 stable-wide。defensive 的 2020/2023 CAGR 为 `22.24%/24.34%`、五窗平均 turnover 降至 `26.31x`，但 2026 CAGR `-12.12%`，只 `keep_watch`；stable-wide 的 2023 CAGR 相对 robust 下降 `4.73pp`，触发护栏并 `reject`。
+- equal-elastic robust 的 2020/2023/2026 CAGR 为 `20.33%/24.90%/34.02%`，但五窗平均 turnover `30.35x`，继续 `robust_observation`：进入观察位，不是强稳定 winner。winner/robust/tracked 未改变，无 evict。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover12_exit48,hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard,hkconnect_path3_equal_elastic_weekly
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260803.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 保持 `weekly_defensive_overlay`。下一轮改验 v26/v29 两个 soft-riskoff 防守形态，并与 equal-elastic robust 同窗比较；要求 turnover 低于 20x、2026 非负且 2020/2023 不触发护栏。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover0_exit48_v26_weekly_defensive_overlay,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v29_defensive_overlay,hkconnect_path3_equal_elastic_weekly
+```
+
+### Focus 候选池
+
+- `weekly_defensive_overlay`：soft-riskoff-v26、soft-riskoff-v29；`weekly_turnover_reduction`：stable-v20、turnover12/exit48。
+- `cost_stress`：turnover10/exit50、turnover14/exit45；`weekly_return_recovery`：lowvol-v38、equal-elastic。
+
 ## 2026-08-02 二次迭代记录（08:42 CST）
 
 ### 上一轮候选与结果摘要

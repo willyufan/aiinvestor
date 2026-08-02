@@ -1,5 +1,34 @@
 # Path 3 研究计划
 
+## 2026-08-03 迭代记录（01:18 CST）
+
+### 上一轮候选与结果摘要
+
+- `cost_stress` 五窗口确认 risk10/turn02，并与 turnover-repair-risk14 robust 比较。挑战者的 2020/2023/2026 CAGR 为 `3.26%/2.00%/9.34%`，虽然五窗平均 turnover 仅 `0.79x`，但 2020/2023 CAGR 分别下降 `3.49pp/5.58pp`，触发护栏并 `reject`。
+- turnover-repair robust 为 `6.75%/7.59%/8.35%`、五窗平均 turnover `1.03x`；五窗为正但 minCAGR 仅约 `3.74%`，仍作 `robust_observation`：进入观察位，不是强稳定 winner。所有 ID 以 `_weekly` 结尾，window winner/robust/tracked 未改变，无 evict。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly_cost_stress_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260803.json`。
+
+### 下一轮 focus 提示
+
+- 继续压成本已伤及中窗，下一轮转 `turnover_reduction` 的 risk08/hold9 形态，目标是保留当前低换手同时把 2023 CAGR 缺口压到 3pp 内。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### Focus 候选池
+
+- `cost_stress`：risk10-cost-stress、return-recovery-v7；`turnover_reduction`：risk08/hold9-v4、cap44/hold7/risk12。
+- `risk_downshift`：risk06/hold9、risk08/hold9；`weekly_exit_buffer`：exit97/risk08、exit-buffer-v3。
+- `weekly_return_recovery`：return-recovery-v6、return-recovery-v7。
+
 ## 2026-08-02 二次迭代记录（08:42 CST）
 
 ### 上一轮候选与结果摘要
