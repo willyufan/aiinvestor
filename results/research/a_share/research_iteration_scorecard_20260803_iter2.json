@@ -4803,6 +4803,7 @@
       "changed_from_comparator": "独立 event_kg_basket 与 Path4 capacity_v2 做成熟 horizon 和持仓 overlap 对照。",
       "expected_improvement": "20/40/60D 至少两个 horizon 为正，60D 不显著衰减，且不依赖 Path4 重叠持仓。",
       "command_type": "event_theme_backtest_entry",
+      "metric_gap_reason": "Path5 event runner 按离散事件 horizon 计算 basket return 与 Path4 overlap，不生成连续组合净值，因此 CAGR、Sharpe、MaxDD、turnover 不适用；本卡以 20/40/60D equal/seed-weight return、eligible_count 与 overlap 指标替代。",
       "windows": [
         "since_2017_01",
         "since_2020_01",

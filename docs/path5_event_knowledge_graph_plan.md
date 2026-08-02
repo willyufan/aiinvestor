@@ -6,6 +6,7 @@
 
 - 按 `event_basket_registry` 的可执行观察线复跑 `source_audited + frozen` 的 `ai_glasses_edge_terminal_20260424_v0` 20/40/60D。等权收益为 `21.80%/26.82%/0.11%`，seed-weight 为 `21.99%/26.93%/0.38%`，与 Path4 capacity-v2 overlap 为 `0/6`。
 - 事件篮子独立性成立，但 60D 收益几乎消失，持续性假设未完全获支持，判定 `keep_watch`；不写入 Path1-4 winner/robust/tracked，无 evict/archive。
+- 指标缺口：event runner 只计算离散事件 horizon return、eligible count 与 Path4 overlap，不生成连续组合净值，因此 CAGR、Sharpe、MaxDD、turnover 不适用；scorecard 已显式记录该替代口径。
 
 ### 本轮候选 ID 与命令
 
