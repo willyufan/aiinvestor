@@ -1,5 +1,33 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-02 二次迭代记录（08:42 CST）
+
+### 上一轮候选与结果摘要
+
+- 在首轮 elasticity 证伪后，新增确认 high-return v44/v45；2020/2023/2026 CAGR 为 `13.56%/14.60%/-17.24%`、`13.80%/14.62%/-16.73%`，两条均破坏中窗且短窗为负，`reject`。
+- theme-fast-monthly 为 `17.96%/23.23%/35.11%`，确认 `promote` 并维持 robust。高收益月频成本修复假设未获支持；无 winner/robust/tracked 变化与 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v44_high_return_monthly,hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v45_2023_repair,hkconnect_path2_theme_fast_monthly
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260802_iter2.json`。
+
+### 下一轮 focus 提示
+
+- high-return 与 elasticity 均未修复，转 `biweekly_breakout` 的 v48/v52，要求 2026 转正并收敛 MaxDD。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v48_lowdraw_terminal,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v52_lowturn_repair,hkconnect_path2_theme_fast_monthly
+```
+
+### Focus 候选池
+
+- `high_return_monthly`：v44-high-return、v45-2023-repair；`elasticity_cost_control`：equal-elastic-v45、v46-terminal。
+- `biweekly_breakout`：v48-lowdraw、v52-lowturn；`drawdown_guard`：v43-lowdraw-retest、v48-lowdraw-terminal；`theme_fast_reconfirm`：monthly、biweekly。
+
 ## 2026-08-02 迭代记录（08:12 CST）
 
 ### 上一轮候选与结果摘要

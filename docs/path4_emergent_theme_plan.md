@@ -1,5 +1,33 @@
 # Path 4 强主题涌现路径
 
+## 2026-08-02 二次迭代记录（08:42 CST）
+
+### 上一轮候选与结果摘要
+
+- 二次确认 risk-control-v5 的 80/20、90/10 与 signal29 robust。80/20 的 2020/2023/2026 CAGR `4.29%/0.34%/-18.23%` 且 MaxDD 恶化，`reject`；90/10 为 `2.13%/-0.69%/-8.59%`，只 `keep_watch`。
+- signal29 为 `3.07%/1.82%/-1.80%`，仍是 `robust_observation`：进入观察位，不是强稳定 winner。无人工主题标签，风险控制假设未获支持；无 winner/robust/tracked 变化与 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260802_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 转 `theme_capacity_cost`，比较 capacity-v2 与 signal29，只接受集中度/回撤改善且 2020/2023 不退化。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn
+```
+
+### Focus 候选池
+
+- `theme_capacity_cost`：capacity-v2、signal29-lowturn；`theme_risk_control`：risk-control-v5-80/20、risk-control-v5-90/10。
+- `theme_signal_quality`：signal28/leader80、signal30/leader78；`emergent_theme_coverage`：p20/risk12/cap06、p22/risk06/cap05；`leader_quality`：signal29/leader80、signal30/leader78。
+
 ## 2026-08-02 迭代记录（08:12 CST）
 
 ### 上一轮候选与结果摘要

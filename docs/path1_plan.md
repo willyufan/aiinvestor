@@ -1,5 +1,34 @@
 # Path 1 研究计划
 
+## 2026-08-02 二次迭代记录（08:42 CST）
+
+### 上一轮候选与结果摘要
+
+- 在 08:12 首轮基础上二次确认 risk18、risk20 与 `holding_shape` share20/ramp66。三者 2020/2023/2026 CAGR 分别为 `21.65%/11.64%/-1.73%`、`23.44%/16.15%/-1.75%`、`17.12%/15.76%/-2.40%`；risk18 与 share20 破坏中窗或短窗仍负，均 `reject`，risk20 仍是 `robust_observation`：进入观察位，不是强稳定 winner。
+- `core_multifactor` 子段复核首轮 risk16 结论与代码覆盖 `64/64`，本次没有追加同形扩参；risk16 仍 `reject`。window winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm,core_explore_80_20_total_mv_winner_core__share_20_80_hold_2_8_ramp66_cost_guard
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260802_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 转 `holding_shape`，用 share22/ramp64 挑战 risk20；要求 2026 转正且 2020/2023 CAGR 缺口不超过 3pp。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_20_80_hold_2_8_ramp66_cost_guard,core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp64_cost_guard,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm
+```
+
+### Focus 候选池
+
+- `holding_shape`：share20/ramp66、share22/ramp64；`satellite_risk_cost`：risk16、risk20。
+- `core_multifactor_coverage`：profitability-signal-risk18、profitability-signal-risk14；`signal_quality`：growth-trend-quality-gate-risk12、risk10。
+- `weekly_exposure_path`：buffered、buffered-asym13。
+
 ## 2026-08-02 迭代记录（08:12 CST）
 
 ### 上一轮候选与结果摘要
