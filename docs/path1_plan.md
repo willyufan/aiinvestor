@@ -1,5 +1,33 @@
 # Path 1 研究计划
 
+## 2026-08-03 二次迭代记录（07:18 CST）
+
+### 上一轮候选与结果摘要
+
+- `core_multifactor_coverage` 五窗口确认 profitability-signal risk18/risk14，并与主线 risk20 同窗比较。两条挑战者的 2020/2023/2026 CAGR 分别为 `9.65%/11.33%/-6.04%`、`9.44%/11.20%/-6.46%`，相对 risk20 的中窗降幅均超过 3pp，判定 `reject`。
+- 主线 risk20 为 `23.44%/16.15%/-1.75%`，短窗仍负，只作 `robust_observation`：进入观察位，不是强稳定 winner。主线与 core_multifactor 均无 window winner/robust/tracked 变化，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk18_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk14_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260803_iter2.json`。
+
+### 下一轮 focus 提示
+
+- guard 继续指向 `core_multifactor_coverage`。risk14/risk18 同形已证伪，下一轮改验 risk16 与 growth-trend-signal risk12，目标是把 2020/2023 CAGR 缺口压到 3pp 内；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk12_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm
+```
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：profitability-signal-risk16、growth-trend-signal-risk12；`signal_quality`：growth-signal-risk16、growth-trend-quality-gate-risk10。
+- `holding_shape`：share20、share22；`satellite_risk_cost`：risk18、risk16；`weekly_exposure_path`：buffered、buffered-asym13。
+
 ## 2026-08-03 迭代记录（01:18 CST）
 
 ### 上一轮候选与结果摘要

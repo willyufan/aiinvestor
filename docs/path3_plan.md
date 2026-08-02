@@ -1,5 +1,33 @@
 # Path 3 研究计划
 
+## 2026-08-03 二次迭代记录（07:18 CST）
+
+### 上一轮候选与结果摘要
+
+- `turnover_reduction` 五窗口确认 risk08/hold9/turn02。挑战者五窗平均 turnover 降至约 `0.84x`，但 2020/2023 CAGR 为 `1.93%/-0.74%`，相对 turnover-repair robust 下降 `4.82pp/8.32pp`，判定 `reject`。
+- turnover-repair robust 的 2020/2023/2026 CAGR 为 `6.75%/7.59%/8.35%`、平均 turnover 约 `1.03x`；绝对收益仍弱，只作 `robust_observation`：进入观察位，不是强稳定 winner。无 winner/robust/tracked 变化与 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260803_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 当前 `turnover_reduction` 已接近过度防守，下一轮改验 cap44/hold7/risk08 的中间档，要求保留低换手同时把中窗缺口压到 3pp 内。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn03_exit99_risk08_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### Focus 候选池
+
+- `turnover_reduction`：cap44/hold7/risk08、cap40/hold9/risk08-v4；`weekly_exit_buffer`：exit97/risk08、exit-buffer-v3。
+- `risk_downshift`：risk06/hold9、risk08/hold9；`cost_stress`：risk10/turn02、return-recovery-v7。
+
 ## 2026-08-03 迭代记录（01:18 CST）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,33 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-03 二次迭代记录（07:18 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `event_basket_registry` 的可执行观察线复跑 `source_audited + frozen` 的 `ai_glasses_edge_terminal_20260424_v0` 20/40/60D。等权收益为 `21.80%/26.82%/0.11%`，seed-weight 为 `21.99%/26.93%/0.38%`，与 Path4 capacity-v2 overlap 为 `0/6`。
+- 事件篮子独立性成立，但 60D 收益几乎消失，持续性假设未完全获支持，判定 `keep_watch`；不写入 Path1-4 winner/robust/tracked，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_20260803_iter2.json
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260803_iter2.json`。
+
+### 下一轮 focus 提示
+
+- `ai_datacenter_power_grid_202607_v0`、`advanced_packaging_interconnect_202607_v0` 仍需 primary-source audit，审计前不得虚构回测。若下一交易端点到达而审计仍未完成，第一条可执行命令继续确认 AI 眼镜成熟窗：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_next.json
+```
+
+### Focus 候选池
+
+- `event_basket_registry`：ai-datacenter-power-grid-v0、advanced-packaging-interconnect-v0（均须 source audit）；`frozen_candidate_audit`：AI 眼镜来源复核、现有非归档 frozen refresh。
+- `event_backtest_entry`：AI-glasses 20/40/60、MRC/UEC 历史成熟窗；`path4_comparison`：AI-glasses vs capacity-v2、已归档篮子历史对照。
+
 ## 2026-08-03 迭代记录（01:18 CST）
 
 ### 上一轮候选与结果摘要

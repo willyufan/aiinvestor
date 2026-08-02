@@ -1,5 +1,33 @@
 # Path 2 研究计划
 
+## 2026-08-03 二次迭代记录（07:18 CST）
+
+### 上一轮候选与结果摘要
+
+- `medium_cycle_growth` 五窗口确认 v45/v48。两条挑战者的 2020/2023/2026 CAGR 为 `6.97%/3.40%/-34.41%`、`8.32%/3.37%/-33.06%`；虽改善弱 robust 的 2020 窗口，但 2023 CAGR/Sharpe 明显破坏稳定性，均 `reject`。
+- quality-value robust 的 2020/2023/2026 CAGR 为 `-3.09%/16.04%/-10.39%`，minCAGR 为负，只作 `robust_observation`：进入观察位，不是强稳定 winner。window winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk24_mom_exit44_reconfirm97_caution56_cap20_cost_guard_v45_medium_cycle_growth,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm97_caution54_cap16_cost_guard_v48_medium_cycle_growth,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260803_iter2.json`。
+
+### 下一轮 focus 提示
+
+- v45/v48 证明“只修 2020”不可接受；下一轮 `medium_cycle_growth` 回到 v30/v37 的较宽容量形态，必须同时守住 2023 并修复 2026。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk27_mom_exit47_reconfirm95_caution58_cap22_cost_guard_v37_medium_cycle_repair,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm
+```
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v30-medium-cycle、v37-medium-cycle-repair；`risk_reconfirm_sensitivity`：v42-risk-reconfirm、v79-medium-cycle-repair。
+- `capacity_and_cost_stress`：v44-underrep-repair、v46-capacity-cost；`underrepresented_families`：v70-lowturn、v78-repair。
+
 ## 2026-08-03 迭代记录（01:18 CST）
 
 ### 上一轮候选与结果摘要
