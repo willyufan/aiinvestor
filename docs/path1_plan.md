@@ -1,5 +1,34 @@
 # Path 1 研究计划
 
+## 2026-08-02 迭代记录（08:12 CST）
+
+### 上一轮候选与结果摘要
+
+- 主线按 `satellite_risk_cost` 五窗口确认 risk18 与 risk20。risk18 的 2020/2023/2026 CAGR 为 `21.65%/11.64%/-1.73%`，2023 相对 risk20 下降 `4.51pp`，触发稳定性护栏并 `reject`；risk20 为 `23.44%/16.15%/-1.75%`，仍因 2026 为负只判 `robust_observation`：进入观察位，不是强稳定 winner。
+- `core_multifactor` 子段确认 quality-profitability-signal-risk16，2020/2023/2026 CAGR 为 `9.30%/11.37%/-6.25%`，中窗 CAGR/Sharpe 三项护栏命中，`reject`。假设“移除 growth 倾斜能缩小中窗缺口”未获支持；window winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk16_reconfirm
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260802.json`。
+
+### 下一轮 focus 提示
+
+- `satellite_risk_cost` 已再次证伪 risk18；下一轮优先轮到 `holding_shape`，比较 share20/ramp66、share22/ramp64 与 risk20，要求 2026 转正且 2020/2023 缺口均不超过 3pp。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_20_80_hold_2_8_ramp66_cost_guard,core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp64_cost_guard,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm
+```
+
+### Focus 候选池
+
+- `satellite_risk_cost`：risk16、risk20；`holding_shape`：share20/ramp66、share22/ramp64。
+- `core_multifactor_coverage`：profitability-signal-risk18、profitability-signal-risk14；`signal_quality`：growth-trend-quality-gate-risk12、risk10。
+- `weekly_exposure_path`：buffered、buffered-asym13。
+
 ## 2026-08-01 二次迭代记录（07:26 CST）
 
 ### 上一轮候选与结果摘要

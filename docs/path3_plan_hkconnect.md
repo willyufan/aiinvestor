@@ -1,5 +1,33 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-02 迭代记录（08:12 CST）
+
+### 上一轮候选与结果摘要
+
+- `cost_stress` 确认 turnover14/exit45 与 turnover10/exit50，并与 equal-elastic robust 同窗比较。两条的 2020/2023/2026 CAGR 分别为 `13.74%/13.54%/-11.73%`、`18.18%/20.45%/-16.02%`，分别命中两项/一项中窗护栏，且五窗平均 turnover 仍为 `27.98x/25.61x`，均 `reject`。
+- equal-elastic 为 `20.33%/24.90%/34.02%`，但五窗平均 turnover `30.35x`，容量/成本不可接受，只判 `robust_observation`：进入观察位，不是强稳定 winner。window winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_cost_guard_turnover14_exit45,hkconnect_path3_theme_fast_weekly_cost_guard_turnover10_exit50,hkconnect_path3_equal_elastic_weekly
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260802.json`。
+
+### 下一轮 focus 提示
+
+- 成本支线仍在 25x+，下一轮转 `weekly_turnover_reduction`，用 stable-v20 与 turnover12 对照 robust；要求 turnover 明显低于 20x且 2026 非负。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-07-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v20_turnover_reduction,hkconnect_path3_theme_fast_weekly_cost_guard_turnover12_exit48,hkconnect_path3_equal_elastic_weekly
+```
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：stable-v20、turnover12/exit48；`cost_stress`：turnover10/exit50、turnover14/exit45。
+- `weekly_defensive_overlay`：defensive-turnover12、stable-wide；`weekly_return_recovery`：lowvol-v38、equal-elastic。
+
 ## 2026-08-01 二次迭代记录（07:26 CST）
 
 ### 上一轮候选与结果摘要

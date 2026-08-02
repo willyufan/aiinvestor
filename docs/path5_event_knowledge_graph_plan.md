@@ -1,5 +1,34 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-02 迭代记录（08:12 CST）
+
+### 上一轮候选与结果摘要
+
+- registry 仍为 4 个 active `source_audited + frozen` basket、24 个 backtest-ready candidate、pending audit 0。本轮按 `event_backtest_entry` 复跑 PCB/覆铜板/服务器篮子 5/10/20D，等权收益为 `-3.78%/-13.64%/-20.43%`，seed-weight 为 `-3.31%/-13.50%/-20.74%`。
+- 与 Path4 signal29 current robust 的 overlap 为 `0/6`。独立性不是问题，但三个 horizon 全负，实验假设未获支持，判定 `reject` 并 `archive_same_shape`；不写入 Path1-4 winner/robust/tracked。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_signal29_20260802.json
+```
+
+完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260802.json`。
+
+### 下一轮 focus 提示
+
+- PCB 同形已归档，下一轮转 `path4_comparison`：复核已审计 AI 液冷篮子的 20/40/60D，并与 capacity-v2 比较持续性；第五篮子仍必须先完成 primary-source audit 才能注册。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_power_liquid_cooling_20260528_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_power_liquid_cooling_20260528_v0_path4_capacity_v2_next.json
+```
+
+### Focus 候选池
+
+- `event_backtest_entry`：AI-power-liquid-cooling 20/40/60、AI-glasses 20/40/60。
+- `path4_comparison`：AI-power vs capacity-v2、AI-glasses vs capacity-v2。
+- `event_basket_registry`：ai-datacenter-power-grid-v0、advanced-packaging-interconnect-v0（均须先 source audit）；`frozen_candidate_audit`：现有 24 条 frozen refresh、AI 眼镜来源复核。
+
 ## 2026-08-01 二次迭代记录（07:26 CST）
 
 ### 上一轮候选与结果摘要
