@@ -1,5 +1,33 @@
 # Path 4 强主题涌现路径
 
+## 2026-08-04 迭代记录（约 01:30 CST）
+
+### 上一轮候选与结果摘要
+
+- `emergent_theme_coverage` 五窗口确认 signal28-80/20、signal29-90/10 与 signal29 robust。signal28-80/20 的 2020/2023/2026 CAGR 为 `5.37%/-1.91%/-24.08%`，`reject`；signal29-90/10 为 `3.92%/-0.50%/-5.11%`，风险改善但收益仍弱，`keep_watch`。
+- signal29 robust 的 2020/2023/2026 CAGR 为 `2.86%/1.40%/-3.67%`、平均 turnover `2.83x`，判 `robust_observation`；进入观察位，不是强稳定 winner。假设“coverage penalty 可改善回撤并保持收益”仅获风险侧部分支持。2017 window 排序由既有 signal28-90/10 占位，不代表本轮候选 `promote`；tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn
+```
+
+完整五窗口 scorecard：`results/research/a_share/research_iteration_scorecard_20260804.json`。
+
+### 下一轮 focus 提示
+
+- coverage 缺口已为零；最终 guard 继续 `emergent_theme_coverage`，下一轮用 signal30 做 coverage 边界确认，要求同时改善 2023 与 2026，第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk12_cap06_exit60_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk12_cap06_exit60_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn
+```
+
+### Focus 候选池
+
+- `emergent_theme_coverage`：signal28-coverage、signal29-coverage；`theme_signal_quality`：signal30-prom20、signal30-prom22。
+- `theme_risk_control`：risk06-exit68、risk08-exit66；`theme_capacity_cost`：cap05-lowturn、cap06-lowturn。
+
 ## 2026-08-03 二次迭代记录（07:18 CST）
 
 ### 上一轮候选与结果摘要

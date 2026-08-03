@@ -1,5 +1,32 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-04 迭代记录（约 01:30 CST）
+
+### 上一轮候选与结果摘要
+
+- `monthly_weekly_overlay` 确认 soft-exit36、soft-exit38，并与 `hkconnect_path1_biweekly_lowvol` 同窗比较。两条 soft-exit 的 2020/2023/2026 CAGR 均约 `26.4%/32.3%/-5.73%`，但 2023 MaxDD 相对 lowvol 恶化超过 5pp且短窗为负，均 `reject`；假设“软退出保收益同时控制回撤”未获支持。
+- lowvol 的 2020/2023/2026 CAGR 为 `17.62%/22.98%/13.54%`，五窗为正，确认 `promote` 并维持 robust。无 robust/tracked 改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38,hkconnect_path1_biweekly_lowvol
+```
+
+完整五窗口 scorecard：`results/research/a_share/research_iteration_scorecard_20260804.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮换到 `biweekly_buffer`；停止 soft-exit36/38 同形扩参，改验 v41/v42 的双周缓冲并保留 lowvol 对照；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v41_biweekly_buffer,hkconnect_path1_biweekly_quality_momentum_equal_buffered_v42_biweekly_buffer,hkconnect_path1_biweekly_lowvol
+```
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：soft-exit34、soft-exit36；`biweekly_buffer`：v41、v42；`risk_overlay_cost`：cost-guard-v30、cost-guard-v33；`turnover_control`：buffer-v51、buffer-v53。
+
 ## 2026-08-03 二次迭代记录（07:18 CST）
 
 ### 上一轮候选与结果摘要

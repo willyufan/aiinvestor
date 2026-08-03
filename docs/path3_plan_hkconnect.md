@@ -1,5 +1,33 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-04 迭代记录（约 01:30 CST）
+
+### 上一轮候选与结果摘要
+
+- `cost_stress` 确认 turn12/exit48、turn16/exit45 与 equal-elastic。两条成本压力候选的 2020/2023 CAGR 为 `21.68%/23.27%`、`19.30%/23.89%`，但 2026 为 `-12.88%/-5.39%`、平均 turnover `26.56x/27.70x`，均 `keep_watch`；假设“成本约束可保住中窗”部分支持，但短窗和换手不支持晋级。
+- equal-elastic 的 2020/2023/2026 CAGR `19.91%/23.99%/29.50%`，但平均 turnover `30.77x`、最差 MaxDD `-54.05%`，判 `robust_observation`；进入观察位，不是强稳定 winner。robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_cost_guard_turnover12_exit48,hkconnect_path3_theme_fast_weekly_cost_guard_turnover16_exit45,hkconnect_path3_equal_elastic_weekly
+```
+
+完整五窗口 scorecard：`results/research/a_share/research_iteration_scorecard_20260804.json`。
+
+### 下一轮 focus 提示
+
+- `cost_stress` 未解决高换手；最终 guard 转到 `weekly_turnover_reduction`，下一轮验证 v19/v32 是否能在降低换手时守住中窗；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit54_v19_turnover_reduction,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest,hkconnect_path3_equal_elastic_weekly
+```
+
+### Focus 候选池
+
+- `cost_stress`：turn12-exit48、turn16-exit45；`weekly_defensive_overlay`：v26、v29。
+- `turnover_reduction`：v19、v32；`return_recovery`：theme-fast-risk18、theme-fast-risk20。
+
 ## 2026-08-03 二次迭代记录（07:18 CST）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,33 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-04 迭代记录（约 01:30 CST）
+
+### 上一轮候选与结果摘要
+
+- 对已完成来源审计的 `mrc_uec_ai_network_20260506_v0` 做冻结篮子 20/40/60 日确认：等权收益 `41.75%/30.40%/-10.99%`，seed-weighted 为 `43.85%/32.40%/-10.03%`，与 Path4 参考持仓 overlap `0/6`。短中窗事件弹性存在，但 60 日转负，假设“成熟事件在 60 日仍能延续”不成立，判 `archive`。
+- registry 已改为 `archived` + `archive_only`，保留历史 snapshot，不再进入 active；本路径独立于 Path1-4 winner。event runner 不产 CAGR/Sharpe/MaxDD/turnover，scorecard 明确标注指标口径缺口，未据此做 `promote`。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id mrc_uec_ai_network_20260506_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_mrc_uec_ai_network_20260506_v0_path4_signal29_20260804.json
+```
+
+scorecard：`results/research/a_share/research_iteration_scorecard_20260804.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 转到 `event_basket_registry`：先确认 AI 眼镜篮子的 registry/source audit 状态，再做 20/40/60 日衰减确认；审计通过后的第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal29_20260804_next.json
+```
+
+### Focus 候选池
+
+- `frozen_candidate_audit`：AI-glasses、high-speed-PCB；`event_basket_registry`：AI-datacenter、advanced-packaging（均先审计来源）。
+- `event_backtest_entry`：AI-glasses-20/40/60、high-speed-PCB-20/40/60；`path4_comparison`：signal29-risk06、signal30-risk12。
+
 ## 2026-08-03 二次迭代记录（07:18 CST）
 
 ### 上一轮候选与结果摘要

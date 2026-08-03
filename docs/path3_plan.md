@@ -1,5 +1,33 @@
 # Path 3 研究计划
 
+## 2026-08-04 迭代记录（约 01:30 CST）
+
+### 上一轮候选与结果摘要
+
+- `weekly_exit_buffer` 五窗口确认 exit97-risk08、exit90-risk12 与 turnover-repair。前两者分别因 2020/2023 CAGR 护栏及 2026 `-25.62%` 退化判 `reject`；假设“更早退出能恢复收益而不破坏中窗”未获支持。
+- turnover-repair 的 2020/2023/2026 CAGR 为 `6.79%/7.59%/6.06%`，平均 turnover 约 `1.01x`，保住低换手但绝对收益仍弱，判 `robust_observation`；进入观察位，不是强稳定 winner。robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn02_exit97_risk08_weekly_exit_buffer_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+完整五窗口 scorecard：`results/research/a_share/research_iteration_scorecard_20260804.json`。
+
+### 下一轮 focus 提示
+
+- 保留 `_weekly` 纯周频口径，下一轮验证更温和的 exit96 收益恢复，不再追逐 exit90 同形；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### Focus 候选池
+
+- `weekly_exit_buffer`：exit96-v6、exit97-risk12；`turnover_control`：cap44-turn02、turnover-repair。
+- `risk_downshift`：risk06、risk08；`weekly_cost_stress`：risk10-cost-guard、v7-return-recovery。
+
 ## 2026-08-03 二次迭代记录（07:18 CST）
 
 ### 上一轮候选与结果摘要
