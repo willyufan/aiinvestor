@@ -1,5 +1,34 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-04 二次迭代记录（约 07:29 CST）
+
+### 上一轮候选与结果摘要
+
+- 入口、registry 与 candidates 均完整：4 个 basket、2 个 active basket、24 个 backtest-ready candidate、`pending_audit_count=0`。本轮确认 `ai_glasses_edge_terminal_20260424_v0`，审计状态为 approved/source-audited，冻结候选 6 只。
+- 等权篮子 20/40/60 日收益为 `21.80%/26.82%/0.11%`，seed-weighted 为 `21.99%/26.93%/0.38%`；与 Path4 signal29 当前参考持仓 overlap 为 `0/6`。中短 horizon 有效、60 日优势消失，判 `keep_watch`，不并入 Path1-4 winner/robust/tracked。
+- Path5 runner 输出 horizon 收益、波动与 overlap，不生成 CAGR/Sharpe/MaxDD/turnover；该结构缺口已在事件 scorecard 中显式标记，因此不能据此 `promote`。无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal29_20260804_iter2.json
+```
+
+事件 scorecard 同样收录于 `results/research/a_share/research_iteration_scorecard_20260804_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 rotation 为 `frozen_candidate_audit`。由于 pending audit 已清零，下一轮应对另一 active basket `high_speed_pcb_copper_clad_server_20260624_v0` 做 20/40/60 日冻结池复核，并检查来源审计时间戳是否仍有效；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id high_speed_pcb_copper_clad_server_20260624_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_high_speed_pcb_copper_clad_server_20260624_v0_path4_signal29_20260805_audit.json
+```
+
+### Focus 候选池
+
+- `frozen_candidate_audit`：AI-glasses frozen-6、high-speed-PCB frozen-6；`event_backtest_entry`：AI-glasses-20/40/60、high-speed-PCB-20/40/60。
+- `event_basket_registry`：AI-glasses active basket、high-speed-PCB active basket；`path4_comparison`：signal29-risk06、signal31-leader80。
+
 ## 2026-08-04 迭代记录（约 01:30 CST）
 
 ### 上一轮候选与结果摘要

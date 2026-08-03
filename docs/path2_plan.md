@@ -1,5 +1,33 @@
 # Path 2 研究计划
 
+## 2026-08-04 二次迭代记录（约 07:29 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `risk_reconfirm_sensitivity` 五窗口确认 v42 total-mv/equal-weight，并以 active robust v70 同窗对照。两条 v42 的 2020/2023/2026 CAGR 分别为 `12.08%/-3.10%/-38.81%`、`10.39%/-5.50%/-51.69%`，中窗与短窗严重退化，均 `reject`；风险再确认无法修复跨窗稳定性。
+- v70 为 `4.93%/1.54%/5.01%`，五窗为正但绝对收益弱，且五窗 turnover 约 `6.81x-17.94x`，仅 `robust_observation`：进入观察位，不是强稳定 winner。candidate-pass 已巡检 814 个候选；winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm,core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn
+```
+
+五窗口 scorecard 见 `results/research/a_share/research_iteration_scorecard_20260804_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮换到 `underrepresented_families`。v42 同形停止，下一轮改验未归档 active v64/v78，以不同风险/退出档挑战 v70，只有 2020/2023 不触发护栏且 turnover 可接受才保留；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk18_exit38_cap12_cost_guard_v64_underrepresented_lowturn,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn
+```
+
+### Focus 候选池
+
+- `underrepresented_families`：v64-underrepresented-lowturn、v78-underrepresented-repair；`risk_reconfirm_sensitivity`：v56、v66。
+- `medium_cycle_growth`：v30-medium-cycle、v37-medium-cycle-repair；`capacity_cost_stress`：v74-capacity-cost、v85-cap14-cost-guard-retest。
+
 ## 2026-08-04 迭代记录（约 01:30 CST）
 
 ### 上一轮候选与结果摘要

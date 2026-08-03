@@ -1,5 +1,33 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-04 二次迭代记录（约 07:29 CST）
+
+### 上一轮候选与结果摘要
+
+- 按上一 focus `high_return_monthly` 五窗口确认 v41/v43，并与 theme-fast robust 同窗比较。v41/v43 的 2020/2023/2026 CAGR 分别为 `16.22%/17.71%/-16.55%`、`13.38%/14.77%/-21.62%`；v41 触发 2023 CAGR 护栏，v43 中长窗与短窗均弱，均 `reject`。
+- theme-fast 为 `17.92%/23.11%/34.41%`，五窗均正，确认 `promote` 资格并维持 incumbent robust；没有 window winner/robust/tracked 替换，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v41_high_return_monthly,hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v43_high_return_monthly,hkconnect_path2_theme_fast_monthly
+```
+
+五窗口 scorecard 见 `results/research/a_share/research_iteration_scorecard_20260804_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 rotation 转为 `biweekly_breakout`。已归档 v54/v55 不再作为可执行候选，下一轮改验未归档 active v48-lowdraw 与 v52-lowturn，对照 theme-fast，要求 2023 不触发护栏且 2026 非负；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v48_lowdraw_terminal,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v52_lowturn_repair,hkconnect_path2_theme_fast_monthly
+```
+
+### Focus 候选池
+
+- `biweekly_breakout`：v48-lowdraw-terminal、v52-lowturn-repair；`high_return_monthly`：v41、v43。
+- `elasticity_cost_control`：monthly-v33、monthly-v46；`drawdown_guard`：v51、v53（仅历史/归档对照，不进入 active 命令）。
+
 ## 2026-08-04 迭代记录（约 01:30 CST）
 
 ### 上一轮候选与结果摘要

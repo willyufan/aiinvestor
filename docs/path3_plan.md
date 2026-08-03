@@ -1,5 +1,33 @@
 # Path 3 研究计划
 
+## 2026-08-04 二次迭代记录（约 07:29 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `risk_downshift` 五窗口确认 risk06，并以 turnover-reduction-v4 与 turnover-repair 同窗比较。risk06 的 2020/2023/2026 CAGR 为 `1.04%/1.24%/10.16%`，risk08-v4 为 `1.95%/-0.80%/8.25%`，两者都明显损伤中窗，均 `reject`；低风险档修复短窗的假设未获得跨窗支持。
+- turnover-repair 为 `6.79%/7.59%/6.06%`，换手约 `1x`，但绝对收益仍弱，维持 `robust_observation`：进入观察位，不是强稳定 winner。全部 ID 均为纯周频 `_weekly`，robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+五窗口 scorecard 见 `results/research/a_share/research_iteration_scorecard_20260804_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮换到 `cost_stress`。risk06/hold9 已证伪，下一轮用 active risk10/cap42 与 risk12/turn02 两个成本/风险档确认“更低换手是否能保住中窗”，并保留 turnover-repair 对照；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly_cost_stress_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn02_exit99_risk12_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### Focus 候选池
+
+- `cost_stress`：risk10-cost-guard、risk12-turn02；`risk_downshift`：risk06-cap30-hold11、risk12-cap46-turn02。
+- `weekly_exit_buffer`：exit96-v6、exit97-risk12；`turnover_control`：cap44-turn02、turnover-repair。
+
 ## 2026-08-04 迭代记录（约 01:30 CST）
 
 ### 上一轮候选与结果摘要

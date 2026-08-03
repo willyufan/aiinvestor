@@ -1,5 +1,34 @@
 # Path 1 研究计划
 
+## 2026-08-04 二次迭代记录（约 07:29 CST）
+
+### 上一轮候选与结果摘要
+
+- 主线按 `satellite_risk_cost` 五窗口确认 risk16/risk18，并以 risk20 同窗对照。risk16/risk18 的 2020/2023/2026 CAGR 分别为 `21.17%/11.40%/-9.37%`、`21.20%/11.25%/-9.38%`，均因 2023 CAGR 相对 risk20 下降超过 3pp 判 `reject`；假设“下调卫星风险能保住中窗并修复短窗”未获支持。
+- risk20 为 `22.97%/15.75%/-9.40%`，中窗仍占优但 2026 为负，维持 `robust_observation`：进入观察位，不是强稳定 winner。主线 window winner/robust/tracked 未改变，无 evict/archive。
+- `core_multifactor` 子段代码覆盖仍为 `64/64`，并完成 winner-only 132 个 fast-family 巡检；本次实跑预算优先给 rotation 指向的主线卫星风险档，未新增 core_multifactor 确认。上一轮 signal-quality risk08/risk10 已 `reject`，不据此晋级。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm
+```
+
+五窗口 scorecard 见 `results/research/a_share/research_iteration_scorecard_20260804_iter2.json`，含 CAGR、Sharpe、MaxDD、turnover、对照值与 delta。
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮换到 `holding_shape`。停止 risk16/risk18 同形，下一轮改验 active share22/share24，要求 2020/2023 不触发护栏且 2026 明显优于 risk20；core_multifactor 未实跑原因是本次 Path1 最低预算已用于主线，后续首个多因子确认仍沿 risk09/risk12 signal-quality。第一条主线命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_22_78_hold_2_8_ramp64_cost_guard,core_explore_80_20_total_mv_winner_core__share_24_76_hold_2_8_ramp62_cost_guard,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm
+```
+
+### Focus 候选池
+
+- `holding_shape`：share22、share24；`satellite_risk_cost`：risk14-reconfirm、risk12-reconfirm；`signal_quality`：trend-signal-risk09、trend-signal-risk12。
+- `core_multifactor_coverage`：profitability-value-lowvol-trend-risk18、profitability-value-lowvol-trend-risk20；`weekly_exposure_path`：buffered、buffered-asym13。
+
 ## 2026-08-04 迭代记录（约 01:30 CST）
 
 ### 上一轮候选与结果摘要

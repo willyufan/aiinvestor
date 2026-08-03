@@ -1,5 +1,33 @@
 # Path 4 强主题涌现路径
 
+## 2026-08-04 二次迭代记录（约 07:29 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `theme_signal_quality` 五窗口确认 signal30 的 80/20 与 90/10 形态，并以 signal29 robust 同窗对照。80/20 signal30 的 2020/2023/2026 CAGR 为 `4.52%/-4.76%/-34.95%`，触发中窗 CAGR/MaxDD 护栏，判 `reject`。
+- 90/10 signal30 为 `2.86%/1.40%/-3.67%`，与 signal29 指标完全相同，说明本次 signal 阈值没有产生有效差异，仅 `keep_watch`；signal29 因绝对收益弱且 2026 为负维持 `robust_observation`，进入观察位，不是强稳定 winner。未发现单票幸运式改善，window winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk12_cap06_exit60_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn
+```
+
+五窗口 scorecard 见 `results/research/a_share/research_iteration_scorecard_20260804_iter2.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮换到 `theme_risk_control`。停止等效的 signal30/leader78 形态，下一轮改验 active risk-control-v5 与 signal29/risk04，目标是在真正改变持仓的同时改善 2023/2026 MaxDD；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn
+```
+
+### Focus 候选池
+
+- `theme_risk_control`：signal28-risk-control-v5、signal29-risk04；`theme_signal_quality`：signal31-leader80-80/20、signal31-leader80-90/10。
+- `emergent_theme_coverage`：signal28-coverage、signal29-coverage；`theme_capacity_cost`：signal29-capacity-v2、signal30-cap04。
+
 ## 2026-08-04 迭代记录（约 01:30 CST）
 
 ### 上一轮候选与结果摘要
