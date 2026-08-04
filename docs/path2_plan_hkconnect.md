@@ -1,5 +1,31 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-05 二次迭代记录（约 07:29 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `biweekly_breakout` 确认 v48/v52，并与 `hkconnect_path2_theme_fast_monthly` 同窗比较。两条挑战者 2020/2023/2026 CAGR 为 `7.13%/3.16%/-22.04%`、`6.50%/3.43%/-20.55%`，中窗分别下降约 `10.68/19.73pp`、`11.31/19.46pp`，均 `reject`。
+- theme-fast 为 `17.81%/22.89%/32.72%`，五窗均正，确认 `promote` 并维持 incumbent robust；不是挑战者替换。正式 window winner/robust/tracked ID 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v48_lowdraw_terminal,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v52_lowturn_repair,hkconnect_path2_theme_fast_monthly
+```
+
+### 下一轮 focus 提示
+
+- v48/v52 已证伪，现有 `biweekly_breakout` active 边界耗尽；下一轮转向 elasticity-cost v33/v46，检验成本约束能否在不破坏中窗时降低换手。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v33_elasticity_cost_repair,hkconnect_path2_equal_elastic_monthly_cost_guard_v46_elasticity_cost_control_terminal,hkconnect_path2_theme_fast_monthly
+```
+
+### Focus 候选池
+
+- `high_return_monthly`：quality-liquidity-v32、v46-ytd；`biweekly_breakout`：v48、v52（本轮 reject，停止同形）。
+- `elasticity_cost_control`：monthly-v33、monthly-v46；`drawdown_guard`：v51、v53（历史对照）。
+
 ## 2026-08-05 迭代记录（约 01:28 CST）
 
 ### 上一轮候选与结果摘要

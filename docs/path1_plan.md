@@ -1,5 +1,31 @@
 # Path 1 研究计划
 
+## 2026-08-05 二次迭代记录（约 07:29 CST）
+
+### 上一轮候选与结果摘要
+
+- 主线确认当前 robust `...aggr_08_92_prom6_satellite_cost_guard`：2020/2023/2026 CAGR 为 `18.41%/18.44%/-6.47%`，五窗平均 turnover `3.98x`；因 2026 为负，判 `robust_observation`，进入观察位，不是强稳定 winner。
+- `core_multifactor` 子段按 `signal_quality` 确认 profitability/value/lowvol/trend signal 的 risk18/risk20。两者 2020/2023/2026 CAGR 为 `-3.77%/12.22%/-9.82%`、`-3.71%/12.63%/-9.08%`，相对 robust 的 2020/2023 CAGR 分别下降约 `22.18/6.23pp`、`22.11/5.81pp`，均 `reject`；“复杂信号组合可保住中窗并降风险”的假设未获支持。代码 core_multifactor 覆盖仍为 `64/64`，winner-only 巡检 132 个 base candidates；正式 winner/robust/tracked ID 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_risk18_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_risk20_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard
+```
+
+### 下一轮 focus 提示
+
+- `signal_quality` 的 value/lowvol/trend risk18/risk20 同形停止；下一轮改验更简单的 profitability-signal cost-guard 两条 active 变体，要求 2020/2023 不触发护栏且 2026 转正。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_lowvol_signal_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard
+```
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：profitability-industry-signal、profitability-growth-signal；`signal_quality`：quality-profitability-signal-cost、quality-profitability-lowvol-signal-cost。
+- `holding_shape`：share22、share24；`satellite_risk_cost`：risk14-reconfirm、risk12-reconfirm；`weekly_exposure_path`：buffered、buffered-asym13。
+
 ## 2026-08-05 迭代记录（约 01:28 CST）
 
 ### 上一轮候选与结果摘要

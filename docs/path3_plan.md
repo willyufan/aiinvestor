@@ -1,5 +1,31 @@
 # Path 3 研究计划
 
+## 2026-08-05 二次迭代记录（约 07:29 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `turnover_reduction` 确认 cap44/risk08 与 v4，并以 turnover-repair 同窗比较。两条挑战者 2020/2023/2026 CAGR 为 `6.22%/4.51%/20.49%`、`2.22%/-0.73%/19.38%`；分别因 2023 CAGR 下降 `4.04pp`、以及 2020/2023 同时退化而 `reject`。降低 turnover 的假设在风险侧成立，但收益稳定性不成立。
+- turnover-repair 为 `7.41%/8.55%/20.49%`、五窗平均 turnover `1.01x`，仍只作 `robust_observation`：进入观察位，不是强稳定 winner。全部 ID 均为纯周频 `_weekly`；正式 winner/robust/tracked ID 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn03_exit99_risk08_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### 下一轮 focus 提示
+
+- 低换手 v4 与 cap44 中间档均未守住中窗；下一轮改验 return-recovery v6/v7，目标是在平均 turnover 不超过 `1.5x` 时把 2020/2023 CAGR 缺口缩到 3pp 内。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### Focus 候选池
+
+- `turnover_reduction`：cap44-risk08、v4-lowturn；`weekly_exit_buffer`：exit96-v6、exit94-v7。
+- `risk_downshift`：risk06-hold9、risk08-hold9；`cost_stress`：risk10-base、risk12-turn02；`return_recovery`：v6、v7。
+
 ## 2026-08-05 迭代记录（约 01:28 CST）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,31 @@
 # Path 2 研究计划
 
+## 2026-08-05 二次迭代记录（约 07:29 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `risk_reconfirm_sensitivity` 确认 v56/v66，并与 artifact robust observation `quality_value_industry` 同窗比较。v56/v66 的 2020/2023/2026 CAGR 为 `2.63%/-5.88%/-41.23%`、`5.74%/1.70%/-36.77%`；两者相对对照的 2023 CAGR 下降 `21.62/14.03pp`，均 `reject`，风险再确认不能修复跨窗稳定性。
+- `quality_value_industry` 本身为 `-3.18%/15.74%/-7.93%`、minCAGR 为负，只维持 `robust_observation`：进入观察位，不是强稳定 winner。candidate-pass 巡检 `814` 条；正式 window winner/robust/tracked ID 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk30_mom_exit48_reconfirm92_caution60_cap22_cost_guard_v56_risk_reconfirm_sensitivity,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm99_caution54_cap14_cost_guard_v66_risk_reconfirm_sensitivity,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm
+```
+
+### 下一轮 focus 提示
+
+- v56/v66 同形已证伪，`risk_reconfirm_sensitivity` 当前 active 边界耗尽；下一轮先切到未归档的 underrepresented v64/v78，验证不同风险/退出档能否同时修复 2020/2023，并继续与当前 artifact robust observation 比较。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk18_exit38_cap12_cost_guard_v64_underrepresented_lowturn,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm
+```
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v54、v55；`risk_reconfirm_sensitivity`：v56、v66（本轮 reject，停止同形扩参）。
+- `underrepresented_families`：v64、v78；`capacity_and_cost_stress`：v74、v85；`biweekly_rebalance_aggressive`：v70、v78。
+
 ## 2026-08-05 迭代记录（约 01:28 CST）
 
 ### 上一轮候选与结果摘要
