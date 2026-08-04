@@ -1,5 +1,31 @@
 # Path 2 研究计划
 
+## 2026-08-05 迭代记录（约 01:28 CST）
+
+### 上一轮候选与结果摘要
+
+- 按 `medium_cycle_growth` 确认 v79/v81，并复核 v70；三者 2020/2023/2026 CAGR 分别为 `5.33%/1.64%/-40.04%`、`10.15%/1.59%/-39.34%`、`5.13%/1.68%/7.36%`。相对当前 robust observation `quality_value_industry`，三条都破坏 2023 稳定性，全部 `reject`。
+- 假设“更低换手的中周期形态能同时修复 2020/2023”未获支持；v81 只改善 2020，短窗与 2023 仍失败。candidate-pass 巡检 `814` 条；weighted 后 robust 刷新为 `quality_value_industry`，但 minCAGR 仍为负，进入观察位，不是强稳定 winner。window winners 未替换，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit50_reconfirm97_caution54_cap16_cost_guard_v81_midcycle_lowturn_confirm,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn
+```
+
+### 下一轮 focus 提示
+
+- 最终 guard 仍为 `medium_cycle_growth`。停止 v79/v81 同形，改验较早但未归档的 v54/v55 中周期风险/质量边界，要求 2023 CAGR 缺口小于 3pp、2026 非负且 turnover 不高于当前 robust；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit44_reconfirm96_caution56_cap18_cost_guard_v54_medium_cycle_rebound,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit46_reconfirm94_caution58_cap20_cost_guard_v55_medium_cycle_quality,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm
+```
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v54、v55；`underrepresented_families`：v64、v78。
+- `risk_reconfirm_sensitivity`：v56、v66；`capacity_and_cost_stress`：v74、v85；`biweekly_rebalance_aggressive`：v70、v78。
+
 ## 2026-08-04 二次迭代记录（约 07:29 CST）
 
 ### 上一轮候选与结果摘要
