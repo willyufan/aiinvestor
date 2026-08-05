@@ -1,5 +1,31 @@
 # Path 3 研究计划
 
+## 2026-08-06 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 纯周频 return-recovery v6/v7 与 turnover-repair 同端点比较。v6 的 2020/2023/2026 CAGR 为 `7.80%/7.35%/26.49%`、五窗平均 turnover `0.98x`，未触发硬护栏但未改善 robust，判 `keep_watch`。
+- v7 为 `13.48%/6.70%/46.15%`，短窗更强但 2023 MaxDD/Sharpe 相对 robust 分别恶化 `7.13pp/0.33`，判 `reject`。turnover-repair 为 `7.78%/9.09%/26.90%`、平均 turnover `1.01x`，仍只作 `robust_observation`：进入观察位，不是强稳定 winner。所有 ID 均以 `_weekly` 结尾；无 winner/robust/tracked 替换与 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮转到 `weekly_exit_buffer`；v6 保留一次观察，v7 停止同形，下一轮复核 exit97 与 exit-buffer-v3，并保留 turnover-repair robust。要求平均 turnover 不超过 `1.5x` 且 2020/2023 缺口不超过 3pp。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### Focus 候选池
+
+- `weekly_exit_buffer`：exit97-risk12、exit-buffer-v3；`turnover_reduction`：v4-lowturn、return-recovery-v6。
+- `risk_downshift`：risk-downshift-v5、risk06-hold9；`cost_stress`：risk10-base、risk12-turn02；`return_recovery`：v6、v7（v7 本轮 reject）。
+
 ## 2026-08-05 二次迭代记录（约 07:29 CST）
 
 ### 上一轮候选与结果摘要

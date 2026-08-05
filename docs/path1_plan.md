@@ -1,5 +1,33 @@
 # Path 1 研究计划
 
+## 2026-08-06 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 主线同端点确认 robust `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard`：2020/2023/2026 CAGR 为 `19.07%/19.91%/1.97%`，五窗均正，判 `promote`（incumbent 确认，不是挑战者替换）；正式 window winner/robust/tracked ID 未改变。
+- `core_multifactor` 子段按 `signal_quality` 确认 profitability-signal 与 profitability-lowvol-signal cost-guard。两者 2020 CAGR 均约 `-3.6%`，相对 robust 下降超过 `22pp`，2023 也分别下降 `4.44/5.34pp`，均 `reject`；“简化信号即可守住中窗并修复短窗”的假设不成立。代码方向组覆盖保持 `64/64`，winner-only 巡检 `132` 个 base candidates；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_lowvol_signal_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard
+```
+
+完整五窗口对比见 `results/research/a_share/research_iteration_scorecard_20260806.json`。
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮转到 `satellite_risk_cost`；下一轮确认 risk14/risk12 两条卫星风险成本变体，并保留 satellite-cost robust。目标是 2020/2023 CAGR 与 robust 差距不超过 `3pp`、2026 保持非负且回撤不恶化；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk14_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk12_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard
+```
+
+### Focus 候选池
+
+- `satellite_risk_cost`：risk14-reconfirm、risk12-reconfirm；`holding_shape`：share22、share24；`weekly_exposure_path`：buffered、buffered-asym13。
+- `core_multifactor_coverage`：profitability-industry-signal、profitability-growth-signal；`signal_quality`：profitability-signal-cost、profitability-lowvol-signal-cost（本轮 reject，停止同形）。
+
 ## 2026-08-05 二次迭代记录（约 07:29 CST）
 
 ### 上一轮候选与结果摘要

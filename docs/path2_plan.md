@@ -1,5 +1,31 @@
 # Path 2 研究计划
 
+## 2026-08-06 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 按 underrepresented 双周线确认 v64/v78，并在 weighted 更新后补跑最终 robust `v70_underrepresented_lowturn` 到同一端点。v64/v78/v70 的 2020/2023/2026 CAGR 分别为 `7.18%/-0.55%/10.25%`、`5.63%/1.82%/11.60%`、`5.53%/1.93%/11.59%`；v64/v78 未触发中窗硬护栏但五窗平均 turnover 约 `11.6x`，均 `keep_watch`。
+- `quality_value_industry` 在 2020 CAGR `-3.09%`，相对 v70 下降 `8.62pp` 且 2023 MaxDD 恶化超过 `5pp`，判 `reject`。v70 被 artifact 推为 Path2 robust，但绝对收益弱、换手高，只判 `robust_observation`：进入观察位，不是强稳定 winner。candidate-pass 巡检 `816` 条；正式 window winner/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk18_exit38_cap12_cost_guard_v64_underrepresented_lowturn,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn
+```
+
+### 下一轮 focus 提示
+
+- 最终 guard 已轮转到 `risk_reconfirm_sensitivity`；v64/v78 仅留下高换手观察，下一轮以新 artifact robust v70 为对照复核 v56/v66 的风险敏感性，要求 2020/2023 同时改善且平均 turnover 明显低于 `11.6x`。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk30_mom_exit48_reconfirm92_caution60_cap22_cost_guard_v56_risk_reconfirm_sensitivity,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm99_caution54_cap14_cost_guard_v66_risk_reconfirm_sensitivity,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn
+```
+
+### Focus 候选池
+
+- `risk_reconfirm_sensitivity`：v56、v66；`medium_cycle_growth`：v54、v55；`underrepresented_families`：v64、v78。
+- `capacity_and_cost_stress`：v74、v85；`biweekly_rebalance_aggressive`：v70、v78；`weekly_rebalance_aggressive`：先注册有效生成器后再入池。
+
 ## 2026-08-05 二次迭代记录（约 07:29 CST）
 
 ### 上一轮候选与结果摘要

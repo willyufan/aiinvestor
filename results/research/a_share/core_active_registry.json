@@ -17,6 +17,7 @@
     "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle"
   ],
   "current_refresh_only_ids": [
+    "core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk18_exit38_cap12_cost_guard_v64_underrepresented_lowturn",
     "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_02_98_prom2_core_3_1_full_risk_cap95",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn02_exit98_risk06_weekly",
@@ -624,13 +625,6 @@
           "sample_tag": "since_2020_01",
           "kind": "robust",
           "refresh_only": false
-        },
-        {
-          "path": "path2",
-          "track": "since_2020_only",
-          "sample_tag": "since_2020_01",
-          "kind": "raw",
-          "refresh_only": true
         }
       ],
       "refresh_only": false,
@@ -1541,6 +1535,37 @@
           "path": "path2",
           "track": "since_2025_only",
           "sample_tag": "since_2025_01",
+          "kind": "raw",
+          "refresh_only": true
+        }
+      ],
+      "refresh_only": true,
+      "active": false,
+      "days_since_last_win": 0
+    },
+    {
+      "strategy_id": "core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk18_exit38_cap12_cost_guard_v64_underrepresented_lowturn",
+      "strategy_name": "核心60_探索40_等权底座_胜出者核心__进攻3/97 晋升3只(量价弹性双周, 风险18%, 出场38%, 单票12%, 成本防守v64欠配低换手)",
+      "first_win_date": "2026-08-05",
+      "last_win_date": "2026-08-05",
+      "win_dates": [
+        "2026-08-05"
+      ],
+      "win_count": 1,
+      "last_path": "path2",
+      "last_track": "since_2020_only",
+      "last_sample_tag": "since_2020_01",
+      "last_metrics": {
+        "weighted_cagr": 0.07178987,
+        "weighted_sharpe": 0.40982314,
+        "weighted_max_drawdown": -0.27865746,
+        "weighted_turnover": 8.23546577
+      },
+      "current_winner_roles": [
+        {
+          "path": "path2",
+          "track": "since_2020_only",
+          "sample_tag": "since_2020_01",
           "kind": "raw",
           "refresh_only": true
         }
