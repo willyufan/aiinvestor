@@ -1,5 +1,31 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-07 二次迭代记录（约 07:24 CST）
+
+### 上一轮候选与结果摘要
+
+- 唯一 active 篮子 `ai_glasses_edge_terminal_20260424_v0` 继续满足 `approved + source_audited + frozen`，6 个候选均可回测、`pending_audit_count=0`。20/40/60D equal-weight 为 `21.80%/26.82%/0.11%`，seed-weight 为 `21.99%/26.93%/0.38%`。
+- 本轮成功读取 Path4 `capacity_v2` reference，overlap 为 `0/6`、Path4 overlap weight 为 `0`。独立性成立，但 60D 优势基本消失，判 `keep_watch`；runner 不生成连续 CAGR/Sharpe/MaxDD/turnover，不能 promote，不混入 Path1-4 winner/tracked，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_20260807_iter2.json
+```
+
+### 下一轮 focus 提示
+
+- 按轮换顺序回到 `event_basket_registry`。`ai_datacenter_power_grid_202607_v0` 与 `advanced_packaging_interconnect_202607_v0` 仍需 primary-source audit，未通过前不得注册；可执行的第一条确认命令先复核 active AI-glasses 的 5/10/20D 与 capacity-v2 overlap：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_short_next.json
+```
+
+### Focus 候选池
+
+- `event_basket_registry`：ai-datacenter-power-grid、advanced-packaging-interconnect（均须先审计）；`frozen_candidate_audit`：AI-glasses frozen-6、PCB archive frozen-6。
+- `event_backtest_entry`：AI-glasses 5/10/20、20/40/60；`path4_comparison`：capacity-v2、signal29-risk06。
+
 ## 2026-08-07 迭代记录
 
 ### 上一轮候选与结果摘要

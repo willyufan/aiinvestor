@@ -1,5 +1,31 @@
 # Path 3 研究计划
 
+## 2026-08-07 二次迭代记录（约 07:24 CST）
+
+### 上一轮候选与结果摘要
+
+- 纯周频 `weekly_exit_buffer` 确认 exit97-risk12、exit-buffer-v3 与 turnover-repair。exit97 的 2020/2023/2026 CAGR 为 `2.65%/0.58%/3.72%`；v3 为 `13.14%/5.38%/-6.69%`，两者均触发 2023 CAGR/风险护栏，判 `reject`。
+- turnover-repair 为 `7.96%/9.56%/32.69%`、平均 turnover `1.01x`，仍只作 `robust_observation`，进入观察位，不是强稳定 winner。artifact 将 v3 推为 2017-window 排序位，但相邻验证拒绝，窗口排序不等于 promote；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-06 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### 下一轮 focus 提示
+
+- 最终 guard 仍指向 `weekly_exit_buffer`；下一轮确认尚未实跑的 cap44/hold8/risk08，并用本轮 exit97/risk12 与 turnover-repair 作同窗对照；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn02_exit97_risk08_weekly_exit_buffer_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### Focus 候选池
+
+- `turnover_reduction`：hold8-risk10、return-recovery-v6；`weekly_exit_buffer`：cap44-hold8-risk08、exit97-risk12（后者本轮 reject，仅作对照）。
+- `risk_downshift`：risk-downshift-v5、hold9-risk06；`cost_stress`：risk10-base、risk12-turn02；`return_recovery`：v6、v7。
+
 ## 2026-08-07 迭代记录
 
 ### 上一轮候选与结果摘要

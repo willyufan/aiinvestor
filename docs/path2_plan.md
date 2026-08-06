@@ -1,5 +1,31 @@
 # Path 2 研究计划
 
+## 2026-08-07 二次迭代记录（约 07:24 CST）
+
+### 上一轮候选与结果摘要
+
+- `underrepresented_families` 确认 v64/v78，并与 v70 robust observation 同端点比较。v64/v78 的 2020/2023/2026 CAGR 为 `7.44%/-0.40%/13.42%`、`5.87%/1.96%/14.52%`；相对弱 robust 未触发二次硬护栏，但五窗平均 turnover 仍为 `11.61x/11.58x`，均 `keep_watch`，不能据此挑战正式窗口 winner。
+- v70 为 `5.78%/2.09%/14.65%`、平均 turnover `11.60x`，维持 `robust_observation`：进入观察位，不是强稳定 winner。相邻验证拒绝 v64/v78/v70 对正式窗口 winner 的晋级，winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-06 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk18_exit38_cap12_cost_guard_v64_underrepresented_lowturn,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn
+```
+
+### 下一轮 focus 提示
+
+- 最终 guard 仍指向 `underrepresented_families`；v64/v78 已确认但换手偏高，下一轮改验同族尚未确认的 v62/v63，并保留 v70。目标是平均 turnover 显著低于 `10x` 且 2020/2023 不触发护栏；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk22_exit42_cap16_cost_guard_v62_underrepresented_lowturn,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn
+```
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v67、v69；`risk_reconfirm_sensitivity`：v42、v34；`underrepresented_families`：v62、v63（v64/v78 已确认）。
+- `capacity_and_cost_stress`：v74 双底座、v85（待注册）；`biweekly_rebalance_aggressive`：v70、v78；`weekly_rebalance_aggressive`：注册有效生成器后再入池。
+
 ## 2026-08-07 迭代记录
 
 ### 上一轮候选与结果摘要

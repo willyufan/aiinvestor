@@ -1,5 +1,31 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-07 二次迭代记录（约 07:24 CST）
+
+### 上一轮候选与结果摘要
+
+- 原计划 v54/v55 已在 `HK_ARCHIVED_STRATEGY_IDS`，当前生成器跳过，未把归档 selector 计入实验数；本轮改跑 active v48/v52。两条的 2020/2023/2026 CAGR 为 `7.35%/3.56%/-20.06%`、`6.77%/3.92%/-18.10%`，CAGR/MaxDD/Sharpe 多项护栏触发，均 `reject`。
+- `hkconnect_path2_theme_fast_monthly` 为 `17.90%/23.05%/33.83%`，确认 `promote` incumbent，不是挑战者替换；正式 winner/robust/tracked 未改变，无新增 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-06 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v48_lowdraw_terminal,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v52_lowturn_repair,hkconnect_path2_theme_fast_monthly
+```
+
+### 下一轮 focus 提示
+
+- 最终 guard 仍指向 `biweekly_breakout`；停止 v48/v52 同形，下一轮改验 active v43/v44，并保留 theme-fast。目标是修复 2026、显著降低换手且不触发 2020/2023 护栏；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v43_lowdraw_retest,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v44_lowturn_confirmation,hkconnect_path2_theme_fast_monthly
+```
+
+### Focus 候选池
+
+- `high_return_monthly`：v27、v28；`biweekly_breakout`：v43、v44（v54/v55 已归档）。
+- `elasticity_cost_control`：equal-elastic-monthly-cost-guard、theme-monthly-cost-control；`drawdown_guard`：v51、v53。
+
 ## 2026-08-07 迭代记录
 
 ### 上一轮候选与结果摘要
