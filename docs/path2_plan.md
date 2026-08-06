@@ -1,5 +1,31 @@
 # Path 2 研究计划
 
+## 2026-08-07 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 按 `risk_reconfirm_sensitivity` 确认 v56/v66，并与 v70 artifact robust 同窗比较。v56 的 2020/2023/2026 CAGR 为 `2.60%/-5.87%/-41.90%`，多项护栏触发；v66 为 `5.74%/1.44%/-37.50%`，仍触发中窗风险护栏，均 `reject`。
+- v70 为 `5.78%/2.09%/14.65%`，五窗平均 turnover 约 `10.02x`，仍是绝对收益偏弱且容量/成本受限的 `robust_observation`：进入观察位，不是强稳定 winner。无 evict/archive，正式 tracked 暂未改变。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-06 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk30_mom_exit48_reconfirm92_caution60_cap22_cost_guard_v56_risk_reconfirm_sensitivity,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk22_mom_exit42_reconfirm99_caution54_cap14_cost_guard_v66_risk_reconfirm_sensitivity,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn
+```
+
+### 下一轮 focus 提示
+
+- v56/v66 同形停止；最终 guard 已轮转到 `underrepresented_families`，下一轮重新确认不同风险/退出档的 v64/v78，并保留 v70。观察条件是 2020/2023 同时改善、2026 非负且平均 turnover 显著低于 `10x`；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk18_exit38_cap12_cost_guard_v64_underrepresented_lowturn,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn
+```
+
+### Focus 候选池
+
+- `risk_reconfirm_sensitivity`：v42、v34；`medium_cycle_growth`：v67、v69；`underrepresented_families`：v64、v78。
+- `capacity_and_cost_stress`：v74、v85；`biweekly_rebalance_aggressive`：v70、v78；`weekly_rebalance_aggressive`：先注册有效生成器后再入池。
+
 ## 2026-08-06 迭代记录
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,31 @@
 # Path 3 研究计划
 
+## 2026-08-07 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 纯周频 `turnover_reduction` 确认 v4、return-recovery-v6 与 turnover-repair 基线。v4 的 2020/2023/2026 CAGR 为 `2.46%/-0.46%/27.61%`，虽将五窗平均 turnover 压到约 `0.40x`，但中窗收益/Sharpe护栏触发，判 `reject`。
+- v6 为 `7.90%/7.69%/32.27%`，未触发硬护栏且 turnover 约 `0.58x`，但仍未超过 turnover-repair 的 `7.96%/9.56%/32.69%`，判 `keep_watch`；turnover-repair 仍为 `robust_observation`，进入观察位，不是强稳定 winner。无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-06 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### 下一轮 focus 提示
+
+- 最终 guard focus 为 `turnover_reduction`；v4 停止，v6 保留一轮观察。下一轮加入 hold8/risk10 turnover-repair，要求 2020/2023 缺口不超过 `3pp`、平均 turnover 不高于 `1.0x`；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly
+```
+
+### Focus 候选池
+
+- `turnover_reduction`：hold8-risk10、return-recovery-v6；`weekly_exit_buffer`：exit97-risk12、exit-buffer-v3。
+- `risk_downshift`：risk-downshift-v5、risk06-hold9；`cost_stress`：risk10-base、risk12-turn02；`return_recovery`：v6、v7（v7 停止同形）。
+
 ## 2026-08-06 迭代记录
 
 ### 上一轮候选与结果摘要
