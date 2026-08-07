@@ -1,5 +1,30 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-08 二次迭代记录（约 07:30 CST）
+
+### 上一轮候选与结果摘要
+
+- `ai_glasses_edge_terminal_20260424_v0` 保持 `approved + source_audited + frozen`，本轮以 Path4 capacity-v2 对照复跑 5/10/20D。假设是短窗收益连续为正且与强主题涌现低重叠；实际 equal-weight 为 `2.67%/15.79%/21.80%`，overlap `0/6`，支持独立性。
+- runner 不产出连续 CAGR/Sharpe/MaxDD/turnover，故判 `keep_watch`，不进入 Path1-4 winner/tracked；`pending_audit_count=0`，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk10_cap05_exit64_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_short_next.json
+```
+
+### 下一轮 focus 提示
+
+- 下一轮先补 20/40/60D 成熟期，仍以已审计 frozen basket 为唯一可回测入口；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal29_risk06_20260809_mature.json
+```
+
+### Focus 候选池
+
+- `event_basket_registry`：ai-datacenter-power-grid 草案、advanced-packaging-interconnect 草案（须 primary-source audit）；`frozen_candidate_audit`：AI-glasses frozen-6、PCB archive frozen-6；`event_backtest_entry`：AI-glasses 5/10/20、20/40/60；`path4_comparison`：signal29-risk06、capacity-v2。
+
 ## 2026-08-08 迭代记录（约 01:30 CST）
 
 ### 上一轮候选与结果摘要

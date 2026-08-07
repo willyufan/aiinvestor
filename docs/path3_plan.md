@@ -1,5 +1,30 @@
 # Path 3 研究计划
 
+## 2026-08-08 二次迭代记录（约 07:30 CST）
+
+### 上一轮候选与结果摘要
+
+- 本轮确认 turnover-repair cap42 与 reduction-v4 cap40。假设是更低持仓上限可压换手且保住中窗；实际 2020/2023/2026 CAGR 为 `5.87%/6.29%/29.35%`、`1.75%/-1.42%/22.44%`，相对 cap54 incumbent 的 `17.89%/8.39%/41.07%` 明显损害 2020，均 `reject`。
+- cap54/hold5/risk16 复核 `promote` incumbent；不是新替换，winner/robust/tracked 无变化，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly
+```
+
+### 下一轮 focus 提示
+
+- 最终 guard focus 仍为 `turnover_reduction`；停止继续缩 cap，改验 cap44-v3 与 cap46-repair，比较温和降换手能否保住中窗；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn04_exit94_risk12_weekly_turnover_repair_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly
+```
+
+### Focus 候选池
+
+- `turnover_reduction`：cap44-v3、cap46-repair；`weekly_exit_buffer`：cap44-exit97-risk08、cap46-exit97-risk12；`risk_downshift`：cap38-risk06-v5、hold9-risk06；`cost_stress`：risk10-base、risk12-turn02；`return_recovery`：v6、v7。
+
 ## 2026-08-08 迭代记录（约 01:30 CST）
 
 ### 上一轮候选与结果摘要

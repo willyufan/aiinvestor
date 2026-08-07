@@ -1,5 +1,30 @@
 # Path 2 研究计划
 
+## 2026-08-08 二次迭代记录（约 07:30 CST）
+
+### 上一轮候选与结果摘要
+
+- 本轮确认 `medium_cycle_growth` v68/v71。假设是中周期风险/退出折中能修复 2023/2026；实际 2020/2023/2026 CAGR 为 `2.32%/-5.69%/-39.64%`、`1.91%/-5.83%/-40.53%`，CAGR 与 MaxDD 均破坏稳定性，均 `reject`。
+- v70 对照为 `5.98%/2.20%/17.04%`，但平均 turnover 约 `11.60x` 且绝对收益弱，维持 `robust_observation`：进入观察位，不是强稳定 winner。winner/robust/tracked ID 无变化，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm94_caution58_cap16_cost_guard_v68_medium_cycle_growth_repair,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk26_mom_exit46_reconfirm96_caution56_cap18_cost_guard_v71_medium_cycle_growth_repair,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn
+```
+
+### 下一轮 focus 提示
+
+- 最终 guard focus 仍为 `medium_cycle_growth`；停止 v68/v71 同形扩参，改验 v72/v79，目标是在不触发 2020/2023 护栏下恢复中窗收益；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top16_risk28_mom_exit48_reconfirm94_caution58_cap20_cost_guard_v72_medium_cycle_growth_repair,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn
+```
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v72、v79；`risk_reconfirm_sensitivity`：v42、v34；`underrepresented_families`：v62、v63；`capacity_and_cost_stress`：v74-equal、v74-total；`biweekly_rebalance_aggressive`：v70、v78。
+
 ## 2026-08-08 迭代记录（约 01:30 CST）
 
 ### 上一轮候选与结果摘要

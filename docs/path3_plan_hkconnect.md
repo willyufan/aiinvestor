@@ -1,5 +1,30 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-08 二次迭代记录（约 07:30 CST）
+
+### 上一轮候选与结果摘要
+
+- 本轮确认 turnover-reduction v18 与 turnover4-exit42。假设是显著降换手后仍保中窗；实际 2020/2023/2026 CAGR 为 `10.50%/11.35%/-1.01%`、`17.98%/19.10%/-6.13%`，均触发中窗稳定性护栏，判 `reject`。
+- equal-elastic 为 `20.46%/25.12%/35.12%`，但平均 turnover 约 `30.30x`、最差 MaxDD 约 `-54%`，维持 `robust_observation`：进入观察位，不是强稳定 winner。winner/robust/tracked 无变化，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit52_v18_turnover_reduction,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover4_exit42,hkconnect_path3_equal_elastic_weekly
+```
+
+### 下一轮 focus 提示
+
+- 最终 guard focus 仍为 `weekly_turnover_reduction`；停止 v18/turnover4，下一轮确认 v30 与 v32，目标是 turnover 至少下降 50% 且 2023 CAGR 降幅不超过 3pp；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v30_turnover_reduction,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest,hkconnect_path3_equal_elastic_weekly
+```
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v30-reduction、v32-retest；`weekly_defensive_overlay`：v21、v18；`cost_stress`：v27、turn8-exit52；`return_recovery`：v36、v38。
+
 ## 2026-08-08 迭代记录（约 01:30 CST）
 
 ### 上一轮候选与结果摘要

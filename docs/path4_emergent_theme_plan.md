@@ -1,5 +1,30 @@
 # Path 4 强主题涌现路径
 
+## 2026-08-08 二次迭代记录（约 07:30 CST）
+
+### 上一轮候选与结果摘要
+
+- 本轮以 80/20-total 确认 signal30-risk08 与 signal28-risk12。假设是底座切换能缓解 2026 负收益并保持主题覆盖；实际 2020/2023/2026 CAGR 为 `7.12%/-1.34%/-14.39%`、`5.97%/-1.63%/-20.17%`，MaxDD 相对 signal29 robust 恶化约 15-19 个百分点，均 `reject`。
+- signal29-risk06 为 `2.89%/1.40%/-4.13%`，仍是 `robust_observation`：进入观察位，不是强稳定 winner。未以人工/后视主题解释结果；winner/robust/tracked 无变化，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn
+```
+
+### 下一轮 focus 提示
+
+- 最终 guard focus 仍为 `emergent_theme_coverage`；停止 80/20 同形扩参，改验 90/10 prom24 中间覆盖带，比较 signal30/31 门槛；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal31_leader80_coverage_penalty_risk10_cap05_exit58_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk10_cap06_exit58_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn
+```
+
+### Focus 候选池
+
+- `emergent_theme_coverage`：prom24-signal31-90/10-equal、prom24-signal30-90/10-total；`theme_signal_quality`：signal31-90/10-equal、prom24-signal30-90/10-total；`theme_risk_control`：signal29-risk04、risk-control-v5；`theme_capacity_cost`：capacity-v2、signal30-cap04。
+
 ## 2026-08-08 迭代记录（约 01:30 CST）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,30 @@
 # Path 1 研究计划
 
+## 2026-08-08 二次迭代记录（约 07:30 CST）
+
+### 上一轮候选与结果摘要
+
+- 本轮按 `signal_quality` 五窗口确认 quality-industry-signal、quality-growth-industry 两条 core_multifactor 线。实验假设是行业/成长质量组合可提升 Sharpe 且不损害 2020/2023 稳定性；实际 2020/2023/2026 CAGR 分别为 `8.28%/4.93%/13.71%` 与 `-4.17%/15.72%/-31.92%`，相对 satellite-cost 的 `20.24%/22.54%/12.87%` 触发稳定性护栏，两条均 `reject`。
+- 主线 satellite-cost 五窗确认 `promote` incumbent；core_multifactor 本轮没有新晋级，window winner/robust/tracked 无变化，无 evict/archive。完整卡见 `results/research/a_share/research_iteration_scorecard_20260808_iter2.json`。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_industry_signal_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_growth_industry_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard
+```
+
+### 下一轮 focus 提示
+
+- 停止本轮两条失败形态，下一轮从 `signal_quality` 转向更严格 quality-gate 风险梯度，预期先修复 2020/2023 Sharpe；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk09_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard
+```
+
+### Focus 候选池
+
+- `signal_quality`：quality-gate-risk09、quality-gate-risk08；`core_multifactor_coverage`：growth-trend-signal-risk16、growth-trend-signal-risk14；`satellite_risk_cost`：satellite-cost-guard、satellite-cost-guard-plus；`holding_shape`：hold8-cap44、hold7-cap46。
+
 ## 2026-08-08 迭代记录（约 01:30 CST）
 
 ### 上一轮候选与结果摘要
