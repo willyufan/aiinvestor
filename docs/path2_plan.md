@@ -1,5 +1,31 @@
 # Path 2 研究计划
 
+## 2026-08-08 迭代记录（约 01:30 CST）
+
+### 上一轮候选与结果摘要
+
+- `medium_cycle_growth` 确认 v67 equal/total 与 v69 total。假设是中周期参数可提升 2020 收益并压低换手；实际 2020/2023/2026 CAGR 分别为 `-3.70%/-4.57%/-42.46%`、`1.89%/-5.85%/-40.53%`、`2.38%/-5.82%/-40.36%`，均破坏跨窗稳定性，判 `reject`。
+- v70 对照为 `5.98%/2.20%/17.04%`、平均 turnover `11.60x`，维持 `robust_observation`：进入观察位，不是强稳定 winner。winner/robust/tracked 无变化，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm96_caution56_cap18_cost_guard_v67_medium_cycle_growth_repair,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit44_reconfirm96_caution56_cap18_cost_guard_v67_medium_cycle_growth_repair,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top11_risk28_mom_exit48_reconfirm94_caution60_cap18_cost_guard_v69_medium_cycle_growth_repair,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn
+```
+
+### 下一轮 focus 提示
+
+- 继续 `medium_cycle_growth`，停止 v67/v69 同形扩参，改验 v68/v71；目标是修复 2023/2026 负收益，同时使平均 turnover 低于 v70。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm94_caution58_cap16_cost_guard_v68_medium_cycle_growth_repair,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk26_mom_exit46_reconfirm96_caution56_cap18_cost_guard_v71_medium_cycle_growth_repair,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn
+```
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v68、v71；`risk_reconfirm_sensitivity`：v42、v34；`underrepresented_families`：v62、v63。
+- `capacity_and_cost_stress`：v74-equal、v74-total；`biweekly_rebalance_aggressive`：v70、v78；`weekly_rebalance_aggressive`：weekly-growth-v1、weekly-growth-v2（注册后启用）。
+
 ## 2026-08-07 二次迭代记录（约 07:24 CST）
 
 ### 上一轮候选与结果摘要

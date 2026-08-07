@@ -1,5 +1,33 @@
 # Path 1 研究计划
 
+## 2026-08-08 迭代记录（约 01:30 CST）
+
+### 上一轮候选与结果摘要
+
+- `core_multifactor_coverage` 按统一端点确认 quality-gate cashguard risk12/risk10。假设是更严 signal gate 能改善 2023 风险而不损害 2020；实际 2020/2023/2026 CAGR 分别为 `7.26%/17.60%/4.84%`、`7.12%/17.20%/3.81%`，相对 satellite-cost 的 `20.24%/22.54%/12.87%` 明显损害 2020 稳定性，两条均 `reject`。
+- 主线 satellite-cost 五窗全正、平均 turnover `3.96x`，确认 `promote` incumbent；不是挑战者替换，window winner/robust/tracked 无变化，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk12_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk10_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard
+```
+
+完整五窗口 scorecard：`results/research/a_share/research_iteration_scorecard_20260808.json`。
+
+### 下一轮 focus 提示
+
+- 最终 focus 转为 `signal_quality`；下一轮确认 quality-industry-signal 与 quality-growth-industry 两个组合，目标是在不触发 2020/2023 护栏的前提下提高 Sharpe，并继续以 satellite-cost 作对照。第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_industry_signal_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_growth_industry_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard
+```
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：growth-signal-cashguard-risk16、risk14；`signal_quality`：quality-industry-signal-cashguard、quality-growth-industry-cost-guard。
+- `satellite_risk_cost`：sat-risk14、sat-risk12；`holding_shape`：share20-reconfirm、share22；`weekly_exposure_path`：buffered、buffered-asym13。
+
 ## 2026-08-07 二次迭代记录（约 07:24 CST）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,31 @@
 # Path 3 研究计划
 
+## 2026-08-08 迭代记录（约 01:30 CST）
+
+### 上一轮候选与结果摘要
+
+- `turnover_reduction` 确认 total-mv cap44/hold8/risk10 与 return-recovery-v6。假设是将平均 turnover 压至约 `1x` 后仍保住中窗收益；实际虽达到 `1.08x/1.09x`，但 2020/2023/2026 CAGR 仅 `5.86%/6.85%/-4.57%`、`6.53%/7.52%/-4.97%`，稳定性护栏触发，均 `reject`。
+- cap54/hold5/risk16 对照五窗全正，2020/2023/2026 CAGR `17.89%/8.39%/41.07%`、平均 turnover `1.96x`，确认 `promote` incumbent；winner/robust/tracked 无变化，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly
+```
+
+### 下一轮 focus 提示
+
+- 继续 `turnover_reduction`，验证 total-mv cap42/cap40 是否能兼顾低换手和 2026 正收益；第一条命令：
+
+```bash
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly
+```
+
+### Focus 候选池
+
+- `turnover_reduction`：cap42-hold8-risk10、cap40-hold9-risk08-v4；`weekly_exit_buffer`：cap44-hold8-risk08、exit97-risk12。
+- `risk_downshift`：risk-downshift-v5、hold9-risk06；`cost_stress`：risk10-base、risk12-turn02；`return_recovery`：v6、v7。
+
 ## 2026-08-07 二次迭代记录（约 07:24 CST）
 
 ### 上一轮候选与结果摘要
