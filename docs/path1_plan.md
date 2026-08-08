@@ -1,5 +1,31 @@
 # Path 1 研究计划
 
+## 2026-08-09 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 `core_multifactor...risk09_reconfirm`、`core_multifactor...risk08` 与 `...satellite_cost_guard`；前两者在 since_2020_01 / since_2023_01 / since_2026_01 的 CAGR 分别为 `7.15%/17.14%/3.63%`、`7.54%/15.57%/3.18%`，触发稳定性护栏，均 `reject`。
+- 主线 `...satellite_cost_guard` 为现有稳健候选确认，CAGR `20.24%/22.54%/12.87%`，五窗平均 turnover `3.96x`，判定 `promote`（确认晋级资格，不改变 window winner / robust）。core_multifactor 本轮无候选晋级。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk09_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard`。
+- 命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `signal_quality`：验证更温和的 core_multifactor cashguard 风险阈值，并用 satellite 稳健候选同窗锚定；第一条命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk14,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard`。
+
+### Focus 候选池
+
+- `signal_quality`：`...core_multifactor...signal_cashguard_risk16_reconfirm`、`...core_multifactor...signal_cashguard_risk14`。
+- `weekly_exposure_path`：`...__port_weekly_exposure_buffered_asym13`、`...__port_weekly_exposure_asym`。
+- `satellite_defense`：`...satellite_cost_guard`、`...satellite_buffered_asym13`。
+- `holding_shape`：`...holding_shape_hold7`、`...holding_shape_hold9`。
+- `promotion_ramp`：`...promotion_ramp_prom5`、`...promotion_ramp_prom7`。
+- `core_multifactor`：`...core_multifactor...signal_cashguard_risk16_reconfirm`、`...core_multifactor...signal_cashguard_risk14`。
+- `signal_variants`：`...signal_quality_gate_cashguard_risk09_reconfirm`、`...signal_quality_gate_cashguard_risk08`。
+
 ## 2026-08-08 二次迭代记录（约 07:30 CST）
 
 ### 上一轮候选与结果摘要

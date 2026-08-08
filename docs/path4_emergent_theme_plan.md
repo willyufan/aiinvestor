@@ -1,5 +1,28 @@
 # Path 4 强主题涌现路径
 
+## 2026-08-09 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 equal-weight `signal31`、total-mv `signal30`、total-mv `signal29/risk06`；CAGR（2020/2023/2026）为 `0.36%/-0.61%/-23.92%`、`2.15%/-2.64%/-19.63%`、`2.89%/1.40%/-4.13%`。
+- 前两者分别 `keep_watch` / `reject`；`signal29/risk06` 仅为弱路径内相对防守改善，判定 `robust_observation`：进入观察位，不是强稳定 winner。无 winner / robust / tracked 变化。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal31_leader80_coverage_penalty_risk10_cap05_exit58_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk10_cap06_exit58_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+- 命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `emergent_theme_coverage` 转向 drawdown/exit 细调，避免继续追逐短窗；第一条命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+
+### Focus 候选池
+
+- `emergent_theme_coverage`：`...signal29_leader78...risk04_cap05_exit70_lowturn`、`...signal28_leader78...risk06_cap04_exit72_risk_control_v5`。
+- `theme_signal_quality`：`...signal31_leader80...risk10_cap05_exit58_lowturn`、`...signal30_leader80...risk10_cap06_exit58_lowturn`。
+- `theme_risk_control`：`...risk04_cap05_exit70_lowturn`、`...risk06_cap04_exit72_risk_control_v5`。
+- `theme_capacity_cost`：`...cap05_exit68_lowturn`、`...cap06_exit58_lowturn`。
+
 ## 2026-08-08 二次迭代记录（约 07:30 CST）
 
 ### 上一轮候选与结果摘要

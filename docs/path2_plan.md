@@ -1,5 +1,27 @@
 # Path 2 研究计划
 
+## 2026-08-09 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 `...v72_medium_cycle_growth_repair`、`...v79_medium_cycle_repair`、`...v70_underrepresented_lowturn`；前两者在 since_2023_01 / since_2026_01 CAGR 为 `-5.96%/-41.13%`、`1.38%/-40.53%`，均 `reject`。
+- `...v70_underrepresented_lowturn` 的 CAGR 为 `5.98%/2.20%/17.04%`，turnover `11.60x`，artifact 保留其弱路径观察位，判定 `robust_observation`：进入观察位，不是强稳定 winner；window winner / robust 未改变。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top16_risk28_mom_exit48_reconfirm94_caution58_cap20_cost_guard_v72_medium_cycle_growth_repair`、`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair`、`core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn`。
+- 命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `medium_cycle_growth`：从风险阈值而非继续压低持仓数修复 2023/2026；第一条命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk28_mom_exit48_reconfirm94_caution60_cap24_cost_guard_v42_risk_reconfirm,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk26_mom_exit46_reconfirm96_caution58_cap18_cost_guard_v34_reconfirm_balance,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn`。
+
+### Focus 候选池
+
+- `medium_cycle_growth`：`...v42_risk_reconfirm`、`...v34_reconfirm_balance`。
+- `underrepresented_lowturn`：`...v70_underrepresented_lowturn`、`...v68_lowturn_balance`。
+- `high_return_monthly`：`...v72_medium_cycle_growth_repair`、`...v79_medium_cycle_repair`。
+
 ## 2026-08-08 二次迭代记录（约 07:30 CST）
 
 ### 上一轮候选与结果摘要

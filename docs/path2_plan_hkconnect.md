@@ -1,5 +1,26 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-09 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 `...high_return...v44`、替代补跑 `...v45_2023_repair` 与 `hkconnect_path2_theme_monthly_fast`；CAGR（2020/2023/2026）为 `13.00%/13.54%/-19.97%`、`13.26%/13.59%/-19.37%`、`17.89%/23.03%/33.62%`。
+- v44/v45 均 `reject`；theme-fast 以稳定短中窗表现通过确认，`promote`（确认资格，不改变 window winner / robust / tracked）。原计划 v42 因不在 active registry 未实跑，已以 v45 补足配额。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v44_high_return_monthly`、`hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v45_2023_repair`、`hkconnect_path2_theme_fast_monthly`。
+- 命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `high_return_monthly`：不再沿 v44/v45 负 2026 形态扩参，转为 elasticity/cost control；第一条命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v40_elasticity_cost_control,hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `high_return_monthly`：`hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v40_elasticity_cost_control`、`hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control`。
+- `theme_fast_confirmation`：`hkconnect_path2_theme_monthly_fast`、`hkconnect_path2_theme_monthly_fast_cost_guard`。
+
 ## 2026-08-08 二次迭代记录（约 07:30 CST）
 
 ### 上一轮候选与结果摘要

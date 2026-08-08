@@ -1,5 +1,26 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-09 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 `...exit42`、`...cashguard_exit45`、`hkconnect_path1_lowvol_monthly_biweekly_smoke`；CAGR（2020/2023/2026）为 `25.87%/31.52%/-8.60%`、`21.93%/27.39%/-8.60%`、`17.02%/21.88%/6.63%`。
+- 前两者因 2026 负收益及稳定性退化 `reject`；lowvol 候选以平均 turnover `2.08x` 通过确认，`promote`（确认资格，不改变 window winner / robust / tracked）。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit42`、`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_cashguard_exit45`、`hkconnect_path1_biweekly_lowvol`。
+- 命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay`：用更缓和的 buffered/cost guard 修复 2026；第一条命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v31_ytd_repair,hkconnect_path1_biweekly_quality_momentum_equal_buffered_v33_risk_overlay_cost_guard,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：`hkconnect_path1_stable_monthly_totalmv_buffered_v31_ytd_repair`、`hkconnect_path1_stable_monthly_totalmv_buffered_v33_risk_overlay_cost_guard`。
+- `low_turnover_defense`：`hkconnect_path1_lowvol_monthly_biweekly_smoke`、`hkconnect_path1_stable_monthly_totalmv_cashguard_exit45_reconfirm`。
+
 ## 2026-08-08 二次迭代记录（约 07:30 CST）
 
 ### 上一轮候选与结果摘要

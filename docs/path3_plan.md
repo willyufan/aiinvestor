@@ -1,5 +1,26 @@
 # Path 3 研究计划
 
+## 2026-08-09 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 weekly-only 的 `cap44...v3`、`cap46...repair`、`cap54...weekly`；其 since_2020_01 / since_2023_01 / since_2026_01 CAGR 为 `11.87%/6.37%/1.08%`、`8.33%/9.88%/42.44%`、`17.89%/8.39%/41.07%`。
+- `cap54` 以平均 turnover `1.96x` 保住稳健锚点，判定 `promote`（确认，不改变 winner / robust）；其余触发稳定性退化，`reject`，不继续同形扩参。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn04_exit94_risk12_weekly_turnover_repair_v3_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction`：保持 `_weekly` 纯周频语义，挑战 exit buffer；第一条命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn02_exit97_risk08_weekly_exit_buffer_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：`...cap44_hold8_turn02_exit97_risk08_weekly_exit_buffer_weekly`、`...cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`。
+- `weekly_risk_control`：`...cap54_hold5_turn05_exit98_risk16_weekly`、`...cap50_hold6_turn04_exit96_risk12_weekly`。
+
 ## 2026-08-08 二次迭代记录（约 07:30 CST）
 
 ### 上一轮候选与结果摘要

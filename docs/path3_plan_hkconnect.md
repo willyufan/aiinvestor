@@ -1,5 +1,26 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-09 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 `...v30_turnover_reduction`、替代补跑 `...v31_ytd_defensive_repair`、`hkconnect_path3_equal_weight_elastic_weekly`；CAGR（2020/2023/2026）为 `9.38%/9.76%/-3.41%`、`9.26%/10.21%/-1.98%`、`20.46%/25.12%/35.12%`。
+- v30/v31 `reject`；equal-elastic 虽收益较强但平均 turnover `30.30x`，artifact 仅保留观察位，判定 `robust_observation`：进入观察位，不是强稳定 winner。原 v32 不在 active registry，已以 v31 补跑。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v30_turnover_reduction`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff44_turnover0_exit60_v31_ytd_defensive_repair`、`hkconnect_path3_equal_elastic_weekly`。
+- 命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction`：以 v18/v21 检查能否在保住 2023 的同时把 turnover 拉离 30x；第一条命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit52_v18_turnover_reduction,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v21_defensive_overlay,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：`...v18_turnover_reduction`、`...v21_defensive_overlay`。
+- `elasticity_confirmation`：`hkconnect_path3_equal_weight_elastic_weekly`、`hkconnect_path3_equal_weight_elastic_weekly_cost_guard`。
+
 ## 2026-08-08 二次迭代记录（约 07:30 CST）
 
 ### 上一轮候选与结果摘要
