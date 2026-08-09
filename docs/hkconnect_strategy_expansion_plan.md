@@ -1,5 +1,35 @@
 # 沪港通策略空间扩展计划
 
+## 2026-08-09 二次迭代记录（约 08:00 CST）
+
+### 上一轮候选与结果摘要
+
+- Path4：v43 与 biweekly-smoke 的 2020/2023/2026 CAGR 为 `6.52%/7.24%/-3.37%`、`9.90%/2.12%/-7.27%`，均 `reject`；v47 为 `7.75%/11.21%/0.44%`，只作 `robust_observation`：进入观察位，不是强稳定 winner。
+- Path5：v11/v15 为 `7.33%/7.54%/-12.12%`、`6.44%/6.22%/-16.89%`，均 `reject`；v35 的 2026 为 `-6.98%`，只作 `robust_observation`：进入观察位，不是强稳定 winner。
+- Path6：quality-ytd v19/v23 触发稳定性护栏，`reject`；lowvol-liquid 为 `13.58%/20.56%/10.59%`，确认 `promote` incumbent。Path7：v41 五窗零交易、v34 中短窗退化，均 `reject`；core-sleeve-v3 为 `12.66%/19.17%/8.58%`，确认 `promote` incumbent。
+- Path4-7 正式 window winner / robust / tracked ID 均未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- Path4 IDs：`hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v43_liquidity_momentum_ytd_repair`、`hkconnect_path4_liquidity_momentum_biweekly_smoke`、`hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`。
+- Path5 IDs：`hkconnect_path5_breakout_retest_biweekly_quality_confirm_v11_retest_confirmation`、`hkconnect_path5_breakout_retest_biweekly_quality_confirm_v15_retest_confirmation`、`hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair`。
+- Path6 IDs：`hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v19`、`hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v23`、`hkconnect_path6_lowvol_liquid_biweekly_smoke`。Path7 IDs：`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v41_core_sleeve_turnover_control`、`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v34_turnover_control`、`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3`。
+- 命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <上述12个ID>`。
+
+### 下一轮 focus 提示
+
+- Path4 `quality_momentum`：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_lowvol_drawdown_v4,hkconnect_path4_quality_momentum_monthly_v49_capacity_guard,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`。
+- Path5 `pullback_definition`：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_breakout_retest_biweekly_quality_confirm_v16_lowturn_retest,hkconnect_path5_breakout_retest_biweekly_quality_confirm_v23_retest_confirmation_lowturn,hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair`。
+- Path6 `large_liquid_core`：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_biweekly_lowvol_liquidity_mix_v7,hkconnect_path6_large_liquid_core_biweekly_quality_liquidity_lowturn_v11,hkconnect_path6_lowvol_liquid_biweekly_smoke`。
+- Path7 `barbell_sleeve_structure`：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7,hkconnect_path7_barbell_quality_growth_biweekly_core_defensive_lowturn_v10,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3`。
+
+### Focus 候选池
+
+- Path4 `quality_momentum`：`...monthly_lowvol_drawdown_v4`、`...monthly_v49_capacity_guard`；`liquidity_momentum` / `ytd_guard`：`...v43_liquidity_momentum_ytd_repair`、`...biweekly_ytd_guard_v2`。
+- Path5 `pullback_definition`：`...v16_lowturn_retest`、`...v23_retest_confirmation_lowturn`；`retest_confirmation` / `pause_or_redesign`：`...v28_redesign_probe`、`...v35_ytd_repair`。
+- Path6 `large_liquid_core`：`...lowvol_liquidity_mix_v7`、`...quality_liquidity_lowturn_v11`；`lowvol_liquid_core` / `capacity_cost`：`hkconnect_path6_lowvol_liquid_biweekly_smoke`、`...capacity_cost_v9`。
+- Path7 `barbell_sleeve_structure`：`...defensive_core_sleeve_v7`、`...core_defensive_lowturn_v10`；`biweekly_barbell` / `turnover_control`：`...core_sleeve_v3`、`...lowturn_dual_sleeve_v9`。
+
 ## 2026-08-09 迭代记录
 
 ### 上一轮候选与结果摘要

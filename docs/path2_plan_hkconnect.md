@@ -1,5 +1,26 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-09 二次迭代记录（约 08:00 CST）
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 high-return v40、equal-elastic cost-guard v45 与 theme-fast incumbent。假设是成本/弹性控制能降低风险；v40/v45 的 2020/2023/2026 CAGR 为 `16.93%/17.64%/-19.30%`、`3.43%/0.87%/-23.41%`，均触发护栏，`reject`。
+- theme-fast 为 `17.89%/23.03%/33.62%`、平均 turnover `7.82x`，确认 `promote` incumbent；winner / robust / tracked ID 未变，无 evict。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v40_elasticity_cost_control`、`hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control`、`hkconnect_path2_theme_fast_monthly`。
+- 命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `high_return_monthly` 停止负 2026 的 v40/v45，改验 theme-monthly cost-control 与质量流动成本变体。第一条命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_cost_control,hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `high_return_monthly`：`hkconnect_path2_theme_monthly_cost_control`、`...quality_liquidity_momentum_monthly_v2_cost_guard`；`biweekly_breakout`：`...theme_biweekly_cost_guard_v21_breakout_repair`、`...v25_breakout_repair`。
+- `elasticity_cost_control`：`hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control`、`hkconnect_path2_theme_monthly_cost_control`；`theme_fast_confirmation`：`hkconnect_path2_theme_fast_monthly`、`hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair`。
+
 ## 2026-08-09 迭代记录
 
 ### 上一轮候选与结果摘要

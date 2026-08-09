@@ -1,5 +1,27 @@
 # Path 1 研究计划
 
+## 2026-08-09 二次迭代记录（约 08:00 CST）
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 `...growth_trend_signal_cashguard_risk16_reconfirm`、`...risk14_reconfirm` 与 `...satellite_cost_guard`；实验假设是温和 cashguard 风险档能改善信号质量。前两者 2020/2023/2026 CAGR 为 `9.39%/16.58%/8.34%`、`9.30%/16.70%/7.94%`，相对 satellite 的 `20.24%/22.54%/12.87%` 触发 CAGR 护栏，均 `reject`。
+- 主线 satellite-cost 五窗平均 turnover `3.96x`，确认 `promote` incumbent；core_multifactor 无晋级，winner / robust / tracked ID 未变，无 evict。plan 原 `...risk14` 缺 `_reconfirm` 未注册，已用正确 active ID 补跑，不计为实验。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk16_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk14_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard`。
+- 命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述3个ID>`；scorecard：`results/research/a_share/research_iteration_scorecard_20260809_iter2.json`。
+
+### 下一轮 focus 提示
+
+- `signal_quality` 停止 trend-signal risk14/16 同形扩参，改验不含 trend 的 growth-signal cashguard，目标是缩小 2020 CAGR 缺口且不增加回撤。第一条命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk14_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard`。
+
+### Focus 候选池
+
+- `signal_quality` / `core_multifactor`：`...quality_profitability_growth_signal_cashguard_risk16_reconfirm`、`...risk14_reconfirm`；`weekly_exposure_path`：`...__port_weekly_exposure_buffered_asym13`、`...__port_weekly_exposure_asym`。
+- `satellite_defense`：`...satellite_cost_guard`、`...sat_three_stage_buffered_cost_guard_risk20_reconfirm`；`holding_shape`：`...share_22_78_hold_2_8_ramp64_cost_guard`、`...share_24_76_hold_2_8_ramp62_cost_guard`。
+- `promotion_ramp`：`...aggr_10_90_prom5`、`...aggr_10_90_prom7`；`signal_variants`：`...aggr_08_92_prom6_core_6_1`、`...aggr_10_90_prom6_core_6_1`。
+
 ## 2026-08-09 迭代记录
 
 ### 上一轮候选与结果摘要

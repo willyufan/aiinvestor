@@ -1,5 +1,26 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-09 二次迭代记录（约 08:00 CST）
+
+### 上一轮候选与结果摘要
+
+- `ai_glasses_edge_terminal_20260424_v0` 保持 `approved + source_audited + frozen`，以 5/10/20D 复核；equal-weight 收益 `2.67%/15.79%/21.80%`、seed-weight `2.63%/15.94%/21.99%`，与 Path4 signal29-risk06 overlap `0/6`，支持短窗独立性。
+- runner 不生成连续 CAGR / Sharpe / MaxDD / turnover，因此只能 `keep_watch`，不能 promote，也未写入 Path1-4 winner / robust；pending audit 为 0，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- basket：`ai_glasses_edge_terminal_20260424_v0`；输出：`results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal29_risk06_20260809_iter2_short.json`。
+- 命令：`.venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json <上述输出>`。
+
+### 下一轮 focus 提示
+
+- `frozen_candidate_audit` 已确认短窗，下一轮用 Path4 risk04/exit70 对照复核 overlap 是否仍为 0，并记录同一事件篮子的 reference sensitivity。第一条命令：`.venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal29_risk04_next_short.json`。
+
+### Focus 候选池
+
+- `frozen_candidate_audit`：`ai_glasses_edge_terminal_20260424_v0@5/10/20`、`ai_glasses_edge_terminal_20260424_v0@20/40/60`；`event_backtest_entry`：`ai_glasses...@risk04_reference`、`ai_glasses...@risk06_reference`。
+- `event_basket_registry`：`ai_glasses_edge_terminal_20260424_v0`、`high_speed_pcb_copper_clad_server_20260624_v0`；`path4_comparison`：`signal29_risk04_reference`、`signal29_risk06_reference`。
+
 ## 2026-08-09 迭代记录
 
 ### 上一轮候选与结果摘要

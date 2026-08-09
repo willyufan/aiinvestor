@@ -1,5 +1,26 @@
 # Path 3 研究计划
 
+## 2026-08-09 二次迭代记录（约 08:00 CST）
+
+### 上一轮候选与结果摘要
+
+- 纯周频确认 exit-buffer `cap44/risk08`、`cap46/risk12` 与 cap54 incumbent。假设是 exit97 + 低 turn 能降换手并保住中窗；前两者五窗平均 turnover 降至 `0.76x/1.04x`，但 2020/2023 CAGR 仅 `3.84%/3.81%`、`2.76%/0.76%`，均 `reject`。
+- cap54 为 `17.89%/8.39%/41.07%`、平均 turnover `1.96x`，确认 `promote` incumbent；winner / robust / tracked ID 未变，无 evict。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold8_turn02_exit97_risk08_weekly_exit_buffer_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述3个ID>`；所有 ID 均以 `_weekly` 结尾。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction` 停止继续压 turn02，改验 return-recovery v6/v7 能否在 `1–3x` 换手带恢复中窗。第一条命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：`...return_recovery_v6_weekly`、`...return_recovery_v7_weekly`；`weekly_exit_buffer`：`...cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`、`...cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`。
+- `risk_downshift`：`...cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly`、`...cap44_hold8_turn02_exit97_risk08_weekly_exit_buffer_weekly`；`cost_stress`：`...cap42_hold7_turn02_exit98_risk10_weekly_cost_stress_weekly`、`...cap54_hold5_turn05_exit98_risk16_weekly`。
+
 ## 2026-08-09 迭代记录
 
 ### 上一轮候选与结果摘要
