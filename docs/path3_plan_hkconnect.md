@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-10 二次迭代记录（约 07:27 CST）
+
+### 上一轮候选与结果摘要
+
+- theme-fast cost-guard/defensive turnover12 的 2020/2023/2026 CAGR 为 `21.51%/23.04%/-13.64%`、`21.92%/23.75%/-13.64%`；虽未触发代码层中窗护栏，但平均 turnover 仍达 `26.25x/26.37x` 且 2026 为负，均 `keep_watch`。
+- equal-elastic 为 `20.46%/25.12%/35.12%`，但平均 turnover `30.30x`、回撤偏深，继续 `robust_observation`：进入观察位，不是强稳定 winner。正式 ID 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path3_theme_fast_weekly_cost_guard_turnover12_exit48`、`hkconnect_path3_theme_fast_weekly_defensive_turnover12_exit48`、`hkconnect_path3_equal_elastic_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction` 改验 turnover4 与 defensive-turnover18 的两侧参数，目标是把平均 turnover 压到 `20x` 以下并保持 2023 CAGR。第一条命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover4_exit42,hkconnect_path3_theme_fast_weekly_defensive_turnover18,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：turnover4、defensive-turnover18；`weekly_defensive_overlay`：defensive-turnover18、v29-overlay；`cost_stress`：turnover4、wide-cost-guard；`elasticity_confirmation`：equal-elastic、equal-elastic-cashoff。
+
 ## 2026-08-10 迭代记录
 
 ### 上一轮候选与结果摘要

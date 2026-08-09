@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-10 二次迭代记录（约 07:27 CST）
+
+### 上一轮候选与结果摘要
+
+- biweekly breakout v21/v25 的 2020/2023/2026 CAGR 为 `21.67%/15.71%/-15.91%`、`22.01%/16.50%/-12.53%`；均因中窗回撤/收益护栏触发而 `reject`。
+- `hkconnect_path2_theme_fast_monthly` 为 `17.89%/23.03%/33.62%`、平均 turnover `7.82x`，确认 `promote` incumbent；winner / robust / tracked ID 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair`、`hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair`、`hkconnect_path2_theme_fast_monthly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `high_return_monthly` 停止 v21/v25 突破扩参，改验 v51/v52 elasticity-cost-control，目标是降低回撤并使 2026 转正。第一条命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v51_elasticity_cost_control,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v52_lowturn_repair,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `high_return_monthly`：theme-fast、quality-liquidity-v2；`biweekly_breakout`：v51、v52；`elasticity_cost_control`：v51、equal-elastic-v45；`theme_fast_confirmation`：theme-fast-monthly、theme-fast-biweekly。
+
 ## 2026-08-10 迭代记录
 
 ### 上一轮候选与结果摘要

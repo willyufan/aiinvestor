@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-08-10 二次迭代记录（约 07:27 CST）
+
+### 上一轮候选与结果摘要
+
+- cost-stress / risk-downshift 的 2020/2023/2026 CAGR 为 `3.99%/3.48%/30.81%`、`1.66%/2.28%/31.30%`；平均 turnover 降至 `0.77x/0.76x`，但中窗 CAGR 大幅退化，均 `reject`。
+- cap54 incumbent 为 `17.89%/8.39%/41.07%`、平均 turnover `1.96x`，确认 `promote`；winner / robust / tracked ID 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly_cost_stress_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述3个ID>`；所有 ID 均以 `_weekly` 结尾。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction` 停止 turn02 极低换手形态，回到 turn03/04 中间带；目标是在 `1–3x` turnover 恢复 2020/2023。第一条命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn04_exit94_risk12_weekly_turnover_repair_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：turnover-repair-v3、cap42-turn03；`weekly_exit_buffer`：exit-buffer-v3、cap46-exit97；`risk_downshift`：cap42-risk06、cap44-risk08；`cost_stress`：cap42-risk10、cap54 incumbent。
+
 ## 2026-08-10 迭代记录
 
 ### 上一轮候选与结果摘要

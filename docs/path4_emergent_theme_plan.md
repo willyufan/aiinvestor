@@ -1,5 +1,25 @@
 # Path 4 强主题涌现路径
 
+## 2026-08-10 二次迭代记录（约 07:27 CST）
+
+### 上一轮候选与结果摘要
+
+- leader80 signal31/risk10 与 signal30/risk06 的 2020/2023/2026 CAGR 为 `1.83%/-1.75%/-19.69%`、`2.19%/-1.80%/-16.19%`，均触发 2023 稳定性护栏并 `reject`；提高门槛未改善主题覆盖质量。
+- signal29/risk06 为 `2.89%/1.40%/-4.13%`，继续 `robust_observation`：进入观察位，不是强稳定 winner。未人工归类主题；正式 winner / robust / tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal31_leader80_coverage_penalty_risk10_cap05_exit58_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap05_exit68_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `emergent_theme_coverage` 停止 leader80 高门槛同形扩参，转向 equal-weight coverage 与 risk08/exit66；目标是修复 2023/2026，同时检查容量与单票集中。第一条命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap04_exit70_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+
+### Focus 候选池
+
+- `emergent_theme_coverage`：equal-weight signal30/leader80、total-mv signal30/risk08；`theme_signal_quality`：signal32/leader82、signal31/leader80；`theme_risk_control`：risk08/exit66、risk04/exit70；`theme_capacity_cost`：cap04 equal-weight、capacity-v2。
+
 ## 2026-08-10 迭代记录
 
 ### 上一轮候选与结果摘要

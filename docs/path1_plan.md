@@ -1,5 +1,26 @@
 # Path 1 研究计划
 
+## 2026-08-10 二次迭代记录（约 07:27 CST）
+
+### 上一轮候选与结果摘要
+
+- 主线 `...satellite_cost_guard` 五窗确认，2020/2023/2026 CAGR 为 `20.24%/22.54%/12.87%`、平均 turnover `3.96x`，判定 `promote` incumbent；winner / robust / tracked ID 未变，无 evict/archive。
+- core_multifactor 的 quality-profitability signal cashguard risk16/risk14 为 `10.67%/14.20%/8.25%`、`10.78%/13.97%/7.86%`，相对主线在 2020/2023 CAGR 均触发护栏，判定 `reject`。实验假设“不含 growth/trend 可修复 signal quality”未获支持。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk16_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk14_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述3个ID>`；scorecard：`results/research/a_share/research_iteration_scorecard_20260810_iter2.json`。
+
+### 下一轮 focus 提示
+
+- `signal_quality` 停止 risk14/16 同形扩参，转向 industry-signal 与 profitability-industry 的相邻确认；目标是恢复 2020/2023 CAGR，同时继续以 satellite 作锚。第一条命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_profitability_industry_signal_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_industry_signal_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard`。
+
+### Focus 候选池
+
+- `signal_quality` / `core_multifactor`：profitability-industry-signal、quality-industry-signal-cashguard；`weekly_exposure_path`：`...__port_weekly_exposure_buffered_asym13`、`...__port_weekly_exposure_asym`。
+- `satellite_defense`：satellite-cost、sat-three-stage-risk20；`holding_shape`：share22、share24；`promotion_ramp`：prom5、prom7；`signal_variants`：core-6-1 aggr08、core-6-1 aggr10。
+
 ## 2026-08-10 迭代记录
 
 ### 上一轮候选与结果摘要
