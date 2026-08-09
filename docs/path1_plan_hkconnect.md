@@ -1,5 +1,26 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-10 迭代记录
+
+### 上一轮候选与结果摘要
+
+- lowvol soft-exit38/soft-exit40 的 2020/2023/2026 CAGR 为 `25.90%/31.43%/-8.60%`、`25.65%/26.60%/-18.19%`；分别触发 2023 MaxDD `5.22pp/9.62pp` 恶化，均 `reject`，overlay 放宽退出的假设未成立。
+- `hkconnect_path1_biweekly_lowvol` 为 `17.02%/21.88%/6.63%`、平均 turnover `2.08x`，确认 `promote` incumbent；winner / robust / tracked ID 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38`、`hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit40`、`hkconnect_path1_biweekly_lowvol`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay` 回到更早 soft-exit34/36，验证是否存在收益与回撤的可接受折中；第一条命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit34,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：soft-exit34、soft-exit36；`biweekly_buffer`：v33-risk-overlay、v43-buffer-repair。
+- `risk_overlay_cost`：soft-exit34-cashguard-light、v46-risk-overlay；`low_turnover_defense`：biweekly-lowvol、soft-exit36。
+
 ## 2026-08-09 二次迭代记录（约 08:00 CST）
 
 ### 上一轮候选与结果摘要

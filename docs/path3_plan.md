@@ -1,5 +1,26 @@
 # Path 3 研究计划
 
+## 2026-08-10 迭代记录
+
+### 上一轮候选与结果摘要
+
+- return-recovery v6/v7 的 2020/2023/2026 CAGR 为 `8.03%/8.20%/41.99%`、`14.88%/7.74%/47.95%`；短窗爆发不能抵消中窗退化，均触发稳定性护栏并 `reject`。
+- cap54 incumbent 为 `17.89%/8.39%/41.07%`、平均 turnover `1.96x`，确认 `promote`；未改变 window winner / robust / tracked，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction` 继续压低交易强度，但要求 2020/2023 CAGR 不触发 3pp 护栏；第一条命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly_cost_stress_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：`...weekly_cost_stress_weekly`、`...weekly_risk_downshift_weekly`；`risk_cost_stress`：cost-stress、risk-downshift。
+- `return_recovery`：`...weekly_return_recovery_v6_weekly`、`...v7_weekly`；`pure_weekly_confirmation`：cap54 incumbent、weekly-cost-stress。
+
 ## 2026-08-09 二次迭代记录（约 08:00 CST）
 
 ### 上一轮候选与结果摘要

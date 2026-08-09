@@ -1,5 +1,26 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-10 迭代记录
+
+### 上一轮候选与结果摘要
+
+- theme-monthly cost-control 与 quality-liquidity v2 的 2020/2023/2026 CAGR 为 `21.91%/20.86%/-19.81%`、`21.14%/25.81%/-16.28%`；中窗有局部价值但 2026 为负，均 `keep_watch`，不能晋级。
+- `hkconnect_path2_theme_fast_monthly` 为 `17.89%/23.03%/33.62%`、平均 turnover `7.82x`，确认 `promote` incumbent；winner / robust / tracked ID 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_theme_monthly_cost_control`、`hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard`、`hkconnect_path2_theme_fast_monthly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `high_return_monthly` 保留本轮两条观察线，但新增预算改给 biweekly breakout repair，目标是修复 2026 且不丢失 2023 收益；第一条命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair,hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `high_return_monthly`：theme-monthly-cost-control、quality-liquidity-v2；`biweekly_breakout`：v21-breakout-repair、v25-breakout-repair。
+- `elasticity_cost_control`：quality-liquidity-v2、theme-monthly-cost-control；`theme_fast_confirmation`：theme-fast-monthly、v21-breakout-repair。
+
 ## 2026-08-09 二次迭代记录（约 08:00 CST）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,26 @@
 # Path 4 强主题涌现路径
 
+## 2026-08-10 迭代记录
+
+### 上一轮候选与结果摘要
+
+- signal30-risk06 与现有 signal29-risk06 的 2020/2023/2026 CAGR 同为 `2.89%/1.40%/-4.13%`，未形成增量，前者 `keep_watch`、后者 `robust_observation`。
+- capacity-v2 为 `5.24%/1.28%/-9.51%`，虽被 artifact 推到部分窗口观察位，但中窗 MaxDD 恶化 `8.37pp/10.58pp`，仅 `robust_observation`：进入观察位，不是强稳定 winner。未人工归类主题、未因短窗晋级；正式 winner / robust / tracked ID 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`、`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述3个ID>`。
+
+### 下一轮 focus 提示
+
+- `emergent_theme_coverage` 转向 leader80 的 signal31/30，目标是提高主题信号质量并限制 2020/2023 MaxDD；第一条命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal31_leader80_coverage_penalty_risk10_cap05_exit58_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap05_exit68_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+
+### Focus 候选池
+
+- `emergent_theme_coverage` / `theme_signal_quality`：`...signal31_leader80...risk10_cap05_exit58`、`...signal30_leader80...risk06_cap05_exit68`。
+- `theme_risk_control`：`...signal29...risk04_cap05_exit70`、`...signal29...risk06_cap05_exit68`；`theme_capacity_cost`：capacity-v2、`...risk12_cap06_exit60`。
+
 ## 2026-08-09 二次迭代记录（约 08:00 CST）
 
 ### 上一轮候选与结果摘要

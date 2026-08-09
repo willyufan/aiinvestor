@@ -1,5 +1,26 @@
 # Path 2 研究计划
 
+## 2026-08-10 迭代记录
+
+### 上一轮候选与结果摘要
+
+- v30/v37 的 2020/2023/2026 CAGR 为 `11.76%/-2.81%/-39.25%`、`11.76%/-2.84%/-39.25%`；虽修复部分 2020 收益，但破坏 2023/2026 稳定性，均 `reject`，中周期修复假设未成立。
+- v70 为 `5.98%/2.20%/17.04%`、平均 turnover `11.60x`，artifact 内仍属 `robust_observation`：进入观察位，不是强稳定 winner；winner / robust / tracked ID 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle`、`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk27_mom_exit47_reconfirm95_caution58_cap22_cost_guard_v37_medium_cycle_repair`、`core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids <上述3个ID>`；另运行 `scripts/path2_candidate_pass.py` 与 `scripts/update_weighted_winners.py`。
+
+### 下一轮 focus 提示
+
+- `medium_cycle_growth` 停止 v30/v37 同形扩参，转向 underrepresented 低换手参数，目标是把 turnover 压低且保持 2023 CAGR 非负。第一条命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk18_exit38_cap12_cost_guard_v64_underrepresented_lowturn,core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn`。
+
+### Focus 候选池
+
+- `medium_cycle_growth`：`...v64_underrepresented_lowturn`、`...v78_underrepresented_repair`；`underrepresented_families`：v64、v78。
+- `capacity_and_cost_stress`：v64、v70；`risk_reconfirm_sensitivity`：v70、v78；`biweekly_rebalance_aggressive`：v64、v70。
+
 ## 2026-08-09 二次迭代记录（约 08:00 CST）
 
 ### 上一轮候选与结果摘要
