@@ -1,5 +1,24 @@
 # Path 3 研究计划
 
+## 2026-08-11 迭代记录
+
+### 上一轮候选与结果摘要
+
+- turnover-repair-v3 与 cap42/turn03 的 2020 CAGR 为 `11.52%/7.32%`，相对 cap54 分别下降 `6.01pp/10.22pp`，均 `reject`；低换手假设未获得中窗支持。cap54 以 2020/2023/2026 CAGR `17.54%/8.27%/37.66%`、平均 turnover `1.93x` 确认 `promote` incumbent；正式 ID 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn04_exit94_risk12_weekly_turnover_repair_v3_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn04_exit94_risk12_weekly_turnover_repair_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`；均以 `_weekly` 结尾。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction` 停止 turn03/04 的弱收益形态，回到 cap46 的 exit-buffer/turn03 两侧确认。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：cap46-turn03-exit98、cap46-exit97；`weekly_exit_buffer`：cap46-exit97、cap54 incumbent；`risk_downshift`：cap44-risk08、cap46-risk12；`cost_stress`：cap46-turn03、cap54 incumbent。
+
 ## 2026-08-10 二次迭代记录（约 07:27 CST）
 
 ### 上一轮候选与结果摘要

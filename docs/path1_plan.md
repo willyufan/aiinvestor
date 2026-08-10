@@ -1,5 +1,26 @@
 # Path 1 研究计划
 
+## 2026-08-11 迭代记录
+
+### 上一轮候选与结果摘要
+
+- 本轮统一端点 `2026-08-10`。core_multifactor 的 profitability-industry 与 quality-industry-cashguard 在 2020 CAGR 相对 satellite 锚下降 `8.96pp/11.68pp`，均 `reject`；`...satellite_cost_guard` 五窗确认 `promote` incumbent。
+- winner-only 补充确认中，`...__sat_three_stage_buffered_cost_guard` 与 `...__sat_three_stage_buffered_asym13` 未触发中窗护栏，取得正式晋级资格，判定 `promote`；两个 hold4/6 变体虽改善 CAGR，但 2020 MaxDD 分别恶化 `8.06pp/8.62pp`，降为 `keep_watch`。另两条实际路由到 `growth_elastic`，按 `route_mismatch` `reject`。正式 winner/robust/tracked ID 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- core_multifactor：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_profitability_industry_signal_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_industry_signal_cashguard_reconfirm`；主线确认：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard`。
+- winner-only 追加：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__port_weekly_exposure_buffered_asym13`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__sat_three_stage_buffered_cost_guard`、`core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure_buffered_asym13`、`core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__sat_three_stage_buffered_asym13`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered_cost_guard`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__sat_three_stage_buffered_asym13`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_profitability_industry_signal_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_industry_signal_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard`；追加 6 个 ID 使用同一命令与同一五窗口。scorecard：`results/research/a_share/research_iteration_scorecard_20260811.json`。
+
+### 下一轮 focus 提示
+
+- `core_multifactor_coverage` 停止本轮两条弱形态，下一轮先确认 profitability-growth 与 quality-profitability-industry-defense；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_profitability_growth_signal_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_industry_defense_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__sat_three_stage_buffered_cost_guard`。
+
+### Focus 候选池
+
+- `core_multifactor_coverage` / `signal_quality`：profitability-growth-signal、quality-profitability-industry-defense；`weekly_exposure_path`：buffered-asym13、asym；`satellite_defense`：three-stage-cost-guard、three-stage-asym13；`holding_shape`：share22、share24；`promotion_ramp`：prom5、prom7；`signal_variants`：core-6-1-aggr08、core-6-1-aggr10。
+
 ## 2026-08-10 二次迭代记录（约 07:27 CST）
 
 ### 上一轮候选与结果摘要

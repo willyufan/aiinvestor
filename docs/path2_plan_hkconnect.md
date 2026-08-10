@@ -1,5 +1,24 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-11 迭代记录
+
+### 上一轮候选与结果摘要
+
+- v52 lowturn-repair 与 equal-elastic-v45 的 2020/2023/2026 CAGR 为 `7.66%/5.54%/-13.24%`、`3.89%/1.70%/-21.51%`，收益、回撤和 Sharpe 多项触发护栏，均 `reject`。`hkconnect_path2_theme_fast_monthly` 为 `17.41%/22.10%/35.40%`，确认 `promote` incumbent；正式 ID 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v52_lowturn_repair`、`hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control`、`hkconnect_path2_theme_fast_monthly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v52_lowturn_repair,hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control,hkconnect_path2_theme_fast_monthly`。原计划 v51 未被当前 variant set 生成，以 v45 完成同 focus 替代。
+
+### 下一轮 focus 提示
+
+- `high_return_monthly` 停止 v52/v45 扩参，重新比较两条已存在的月频成本/质量线；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_cost_control,hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `high_return_monthly`：theme-monthly-cost-control、quality-liquidity-v2；`biweekly_breakout`：v51（待注册确认）、v52；`elasticity_cost_control`：equal-elastic-v45、theme-monthly-cost-control；`theme_fast_confirmation`：theme-fast-monthly、quality-liquidity-v2。
+
 ## 2026-08-10 二次迭代记录（约 07:27 CST）
 
 ### 上一轮候选与结果摘要
