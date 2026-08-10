@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-11 二次迭代记录（约 07:38 CST）
+
+### 上一轮候选与结果摘要
+
+- v43 buffer-repair 的 2023 CAGR 相对 lowvol 下降 `5.99pp`，`reject`；lowvol-soft-exit34 的 2020/2023 CAGR 提高到 `26.03%/31.23%`，但 2023 MaxDD 恶化约 `5.20pp` 且 2026 CAGR `-6.90%`，按稳定性与短窗风险 `reject`。
+- `hkconnect_path1_biweekly_lowvol` 以 2020/2023/2026 CAGR `17.57%/22.87%/8.06%`、五窗平均 turnover `2.17x` 同窗确认 `promote` incumbent；正式 ID 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v43_biweekly_buffer_repair`、`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit34`、`hkconnect_path1_biweekly_lowvol`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v43_biweekly_buffer_repair,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit34,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay` 停止 soft-exit34 的短窗负收益形态，转向 soft-exit36/38 相邻参数并保留低波锚。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：lowvol-soft-exit36、lowvol-soft-exit38；`biweekly_buffer`：v43-buffer、biweekly-lowvol；`risk_overlay_cost`：v37、v46；`low_turnover_defense`：biweekly-lowvol、lowvol-soft-exit36。
+
 ## 2026-08-11 迭代记录
 
 ### 上一轮候选与结果摘要

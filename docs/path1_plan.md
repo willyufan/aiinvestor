@@ -1,5 +1,25 @@
 # Path 1 研究计划
 
+## 2026-08-11 二次迭代记录（约 07:38 CST）
+
+### 上一轮候选与结果摘要
+
+- core_multifactor profitability-growth 的 2020/2023/2026 CAGR 为 `11.32%/17.37%/16.94%`，相对 satellite-cost 锚的 2020/2023 CAGR 下降 `8.72pp/5.09pp`，触发稳定性护栏并 `reject`；quality-profitability-industry-defense 实际路由到 `growth_elastic`，且 2020 CAGR `-3.96%`，按 `route_mismatch` `reject`。
+- `...satellite_cost_guard` 以 2020/2023/2026 CAGR `20.04%/22.46%/12.30%` 同窗确认 `promote` incumbent。core_multifactor 覆盖保持 `64/64`；正式 winner/robust/tracked ID 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_profitability_growth_signal_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_industry_defense_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_profitability_growth_signal_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_industry_defense_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard`；scorecard：`results/research/a_share/research_iteration_scorecard_20260811_iter2.json`。
+
+### 下一轮 focus 提示
+
+- `core_multifactor_coverage` 停止本轮两条弱形态，下一轮比较 quality-profitability 的 cost-guard 与 lowvol-cost-guard，并保留 satellite 锚。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_lowvol_signal_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard`。
+
+### Focus 候选池
+
+- `core_multifactor_coverage` / `signal_quality`：quality-profitability-cost-guard、quality-profitability-lowvol-cost-guard；`weekly_exposure_path`：buffered-asym13、buffered-asym；`satellite_defense`：satellite-cost、three-stage-cashguard；`holding_shape`：share22、share24；`promotion_ramp`：prom5、prom7；`signal_variants`：core-6-1-aggr08、core-6-1-aggr10。
+
 ## 2026-08-11 迭代记录
 
 ### 上一轮候选与结果摘要

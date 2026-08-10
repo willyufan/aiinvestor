@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-11 二次迭代记录（约 07:38 CST）
+
+### 上一轮候选与结果摘要
+
+- theme-monthly-cost-control 的 2020/2023 CAGR 为 `21.53%/20.17%`，未破坏中窗但 2026 为 `-18.31%`，`keep_watch`；quality-liquidity-v2 的 2020/2023 CAGR `21.56%/26.59%`、回撤与换手均优于 theme-fast，但 2026 为 `-14.23%`，只能 `keep_watch`，不能因中窗改善直接晋级。
+- `hkconnect_path2_theme_fast_monthly` 以 2020/2023/2026 CAGR `17.41%/22.10%/35.40%` 同窗确认 `promote` incumbent；正式 ID 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_theme_monthly_cost_control`、`hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard`、`hkconnect_path2_theme_fast_monthly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_monthly_cost_control,hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard,hkconnect_path2_theme_fast_monthly`。
+
+### 下一轮 focus 提示
+
+- `high_return_monthly` 保留 quality-v2 的中窗信号，下一轮复核 v27/v28 的高收益月频相邻成本线并保留 theme-fast 锚。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard,hkconnect_path2_high_return_monthly_quality_liquidity_v28_ytd_repair,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `high_return_monthly`：high-return-v27、high-return-v28；`biweekly_breakout`：v51（待注册确认）、v52；`elasticity_cost_control`：quality-liquidity-v2、theme-monthly-cost-control；`theme_fast_confirmation`：theme-fast-monthly、high-return-v27。
+
 ## 2026-08-11 迭代记录
 
 ### 上一轮候选与结果摘要
