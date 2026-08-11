@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-12 迭代记录（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- lowvol-soft-exit36/38 的 2020/2023 CAGR 提高到约 `25.7%/31.1%`，但 2023 MaxDD 相对双周低波锚恶化超过 5pp，且 2026 CAGR 均为 `-7.86%`，两者均 `reject`；高收益未通过回撤和短窗稳定性验证。
+- `hkconnect_path1_biweekly_lowvol` 以 2020/2023/2026 CAGR `17.45%/22.63%/6.78%`、五窗平均 turnover `2.17x` 同窗确认 `promote` incumbent。正式 ID 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36`、`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38`、`hkconnect_path1_biweekly_lowvol`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay` 停止 soft-exit36/38 同形扩参，回查 soft-exit32/40 两侧并保留低波锚；要求 2026 转正且 MaxDD 不再破坏阈值。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit40,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：lowvol-soft-exit32、lowvol-soft-exit40；`biweekly_buffer`：v43-buffer、biweekly-lowvol；`risk_overlay_cost`：v37、v46；`low_turnover_defense`：biweekly-lowvol、soft-exit32。
+
 ## 2026-08-11 二次迭代记录（约 07:38 CST）
 
 ### 上一轮候选与结果摘要

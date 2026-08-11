@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-12 迭代记录（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- return-recovery v36/v38 的五窗平均 turnover 降至 `10.07x/8.90x`，回撤明显改善；v38 的 2023 CAGR 升至 `27.20%`，但两者 2026 CAGR 仍为 `-13.25%/-7.10%`，均 `keep_watch`，不能只凭中窗改善晋级。
+- equal-elastic 比 cashoff robust 的中窗收益小幅提高但平均 turnover `30.82x`，`keep_watch`；正式 robust `equal_elastic_cashoff_weekly` 平均 turnover 仍约 `29.00x`、最差 MaxDD 深，仅 `robust_observation`：进入观察位，不是强稳定 winner。正式 ID 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path3_stable_weekly_equal_buffered_v36_return_recovery`、`hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`、`hkconnect_path3_equal_elastic_weekly`、`hkconnect_path3_equal_elastic_cashoff_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_v36_return_recovery,hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_equal_elastic_weekly,hkconnect_path3_equal_elastic_cashoff_weekly`。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction` 保留 v38 的中窗信号，改试 v33 turnover-buffer 与 v37 turnover-balance，要求 2026 转正。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_v33_turnover_buffer,hkconnect_path3_stable_weekly_equal_buffered_v37_turnover_balance,hkconnect_path3_equal_elastic_cashoff_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v33-turnover-buffer、v37-turnover-balance；`weekly_defensive_overlay`：defensive-turnover18、v29-overlay；`cost_stress`：wide-cost-guard、turnover5；`elasticity_confirmation`：equal-elastic、equal-elastic-cashoff。
+
 ## 2026-08-11 二次迭代记录（约 07:38 CST）
 
 ### 上一轮候选与结果摘要

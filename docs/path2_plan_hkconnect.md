@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-12 迭代记录（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- biweekly-breakout v21/v25 的 2020 CAGR `22.21%/22.51%`，但 2023 CAGR 相对 theme-fast 分别下降 `4.62pp/3.89pp`，2020 MaxDD 也恶化约 `9.1pp/6.5pp`，且 2026 为负，均 `reject`；双周 breakout 的弹性未转化为稳定收益。
+- `hkconnect_path2_theme_fast_monthly` 以 2020/2023/2026 CAGR `16.97%/21.25%/29.02%` 同窗确认 `promote` incumbent。正式 ID 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair`、`hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair`、`hkconnect_path2_theme_fast_monthly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair,hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair,hkconnect_path2_theme_fast_monthly`。
+
+### 下一轮 focus 提示
+
+- `biweekly_breakout` 停止 v21/v25 同形扩参，转向 v46 低换手与 v48 低回撤终端参数，继续保留 theme-fast 锚。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v46_lowturn_confirmation,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v48_lowdraw_terminal,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `high_return_monthly`：high-return-v27、high-return-v28；`biweekly_breakout`：v46-lowturn、v48-lowdraw；`elasticity_cost_control`：quality-liquidity-v2、v46；`theme_fast_confirmation`：theme-fast-monthly、v48。
+
 ## 2026-08-11 二次迭代记录（约 07:38 CST）
 
 ### 上一轮候选与结果摘要
