@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-12 二次迭代记录（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- 原计划 v32/v37 虽仍在生成器定义中，但已列入 `HK_ARCHIVED_STRATEGY_IDS`，CLI 安全跳过且不计实验；替补 active v30/v31 的 2020/2023/2026 CAGR 为 `9.35%/9.66%/-5.11%`、`9.09%/9.87%/-3.81%`，平均 turnover 降至 `4.67x/4.42x`，但中窗 CAGR 相对锚下降 `7.81–10.67pp`，均 `reject`。
+- equal-elastic-cashoff 为 `17.16%/20.32%/12.82%`，但五窗平均 turnover `29.00x`、回撤仍深，仅 `robust_observation`：进入观察位，不是强稳定 winner。正式 ID 未变，无 evict/archive；scorecard：`results/research/a_share/research_iteration_scorecard_20260812_iter2.json`。
+
+### 本轮候选 ID 与命令
+
+- 实际 IDs：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v30_turnover_reduction`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff44_turnover0_exit60_v31_ytd_defensive_repair`、`hkconnect_path3_equal_elastic_cashoff_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v30_turnover_reduction,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff44_turnover0_exit60_v31_ytd_defensive_repair,hkconnect_path3_equal_elastic_cashoff_weekly`。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction` 停止 v30/v31 极低换手形态，回查 v18/v19 的中间风险带，要求 2020/2023 CAGR 下降不超过 3pp。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit52_v18_turnover_reduction,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit54_v19_turnover_reduction,hkconnect_path3_equal_elastic_cashoff_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v18-turnover-reduction、v19-turnover-reduction；`weekly_defensive_overlay`：v21-overlay、v29-overlay；`cost_stress`：v24-cost-stress、v27-cost-stress；`elasticity_confirmation`：equal-elastic、equal-elastic-cashoff。
+
 ## 2026-08-12 迭代记录（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

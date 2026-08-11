@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-12 二次迭代记录（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- biweekly breakout v46/v48 的 2020/2023/2026 CAGR 为 `7.77%/4.71%/-20.10%`、`7.41%/3.68%/-22.61%`；两条在中窗 CAGR、Sharpe、MaxDD 均触发护栏，`reject`。
+- `hkconnect_path2_theme_fast_monthly` 以 `16.97%/21.25%/29.02%` 同窗确认 `promote` incumbent。正式 winner/robust/tracked 未变，无 evict/archive；scorecard：`results/research/a_share/research_iteration_scorecard_20260812_iter2.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v46_lowturn_confirmation`、`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v48_lowdraw_terminal`、`hkconnect_path2_theme_fast_monthly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v46_lowturn_confirmation,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v48_lowdraw_terminal,hkconnect_path2_theme_fast_monthly`。
+
+### 下一轮 focus 提示
+
+- `biweekly_breakout` 停止 v46/v48，改试 v47/v52 的低换手相邻线，仍要求中窗三项护栏全部通过。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v47_lowturn_confirmation,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v52_lowturn_repair,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `biweekly_breakout` / `elasticity_cost_control`：v47-lowturn、v52-lowturn-repair；`high_return_monthly`：theme-fast-monthly、quality-momentum-monthly-v1；`cost_stress`：v44-lowturn、v47-lowturn。
+
 ## 2026-08-12 迭代记录（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

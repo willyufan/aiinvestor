@@ -473,7 +473,7 @@
           }
         },
         {
-          "rank": 25,
+          "rank": 27,
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6",
           "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只",
           "metrics": {
@@ -1569,7 +1569,7 @@
             }
           },
           {
-            "rank": 12,
+            "rank": 13,
             "strategy_base_id": "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle",
             "strategy_base_name": "核心90_探索10_总市值底座_胜出者核心__进攻4/96 晋升4只(量价前12%, 动量三档26%, 出场46%, 恢复96, 谨慎58%, 单票22%, 成本防守v30中周期)",
             "metrics": {
@@ -1748,6 +1748,45 @@
           },
           {
             "rank": 4,
+            "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_cost_guard_reconfirm",
+            "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(多因子质量盈利价值低波行业成本守门再确认)",
+            "metrics": {
+              "weighted_cagr": 0.14975944,
+              "weighted_sharpe": 0.59617695,
+              "weighted_max_drawdown": -0.30996917,
+              "weighted_turnover": 2.7978018
+            },
+            "is_official_winner": false,
+            "is_raw_winner": false,
+            "validation": {
+              "passed": false,
+              "validation_window": "since_2025_01",
+              "required_cagr": 0.37929267,
+              "candidate_cagr": 0.19409133,
+              "incumbent_id": "core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_confirm80_amt110_cap95",
+              "reason": "threshold_check"
+            },
+            "promotion_score": -0.06175489430000003,
+            "score_detail": {
+              "policy": "promotion_score_v1",
+              "score": -0.06175489430000003,
+              "base_score": 0.06516506779999998,
+              "ytd_penalty": 0.1201857665,
+              "concentration_penalty": 0.006734195600000008,
+              "concentration": {
+                "sample_tag": "since_2026_01",
+                "avg_top1_weight": 0.29146773875,
+                "avg_top3_weight": 0.5926445375,
+                "max_top1_weight": 0.38060998,
+                "max_top3_weight": 0.69679406,
+                "latest_top1_weight": 0.38060998,
+                "latest_top3_weight": 0.69679406,
+                "observations": 8
+              }
+            }
+          },
+          {
+            "rank": 5,
             "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_lowvol_industry_cost_guard_reconfirm",
             "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(多因子质量低波行业成本守门再确认)",
             "metrics": {
@@ -1786,46 +1825,7 @@
             }
           },
           {
-            "rank": 5,
-            "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_lowvol_signal_cost_guard_reconfirm",
-            "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(多因子质量盈利低波信号成本守门再确认)",
-            "metrics": {
-              "weighted_cagr": 0.15392759,
-              "weighted_sharpe": 0.60853614,
-              "weighted_max_drawdown": -0.30995322,
-              "weighted_turnover": 2.71083052
-            },
-            "is_official_winner": false,
-            "is_raw_winner": false,
-            "validation": {
-              "passed": false,
-              "validation_window": "since_2025_01",
-              "required_cagr": 0.37929267,
-              "candidate_cagr": 0.20096683,
-              "incumbent_id": "core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_confirm80_amt110_cap95",
-              "reason": "threshold_check"
-            },
-            "promotion_score": -0.07528527804000003,
-            "score_detail": {
-              "policy": "promotion_score_v1",
-              "score": -0.07528527804000003,
-              "base_score": 0.07112289055999998,
-              "ytd_penalty": 0.139673973,
-              "concentration_penalty": 0.006734195600000008,
-              "concentration": {
-                "sample_tag": "since_2026_01",
-                "avg_top1_weight": 0.29208875125,
-                "avg_top3_weight": 0.59115754375,
-                "max_top1_weight": 0.38060998,
-                "max_top3_weight": 0.69679406,
-                "latest_top1_weight": 0.38060998,
-                "latest_top3_weight": 0.69679406,
-                "observations": 8
-              }
-            }
-          },
-          {
-            "rank": 13,
+            "rank": 16,
             "strategy_base_id": "core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_confirm80_amt110_cap95",
             "strategy_base_name": "核心90_探索10_总市值底座_胜出者核心__进攻2/98 晋升2只(量价晋升前15%, 动量三档保留50%, 晋升确认80+量能110, 单票95%)",
             "metrics": {
@@ -2081,7 +2081,7 @@
             }
           },
           {
-            "rank": 13,
+            "rank": 16,
             "strategy_base_id": "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle",
             "strategy_base_name": "核心90_探索10_总市值底座_胜出者核心__进攻4/96 晋升4只(量价前12%, 动量三档26%, 出场46%, 恢复96, 谨慎58%, 单票22%, 成本防守v30中周期)",
             "metrics": {
@@ -2221,6 +2221,45 @@
           },
           {
             "rank": 3,
+            "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_cost_guard_reconfirm",
+            "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(多因子质量盈利价值低波行业成本守门再确认)",
+            "metrics": {
+              "weighted_cagr": 0.19409133,
+              "weighted_sharpe": 0.77876451,
+              "weighted_max_drawdown": -0.29086483,
+              "weighted_turnover": 5.30694662
+            },
+            "is_official_winner": false,
+            "is_raw_winner": false,
+            "validation": {
+              "passed": false,
+              "validation_window": "since_2023_01",
+              "required_cagr": 0.28643657699999997,
+              "candidate_cagr": 0.14975944,
+              "incumbent_id": "core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_confirm80_amt110_cap95",
+              "reason": "threshold_check"
+            },
+            "promotion_score": -0.03122827334000003,
+            "score_detail": {
+              "policy": "promotion_score_v1",
+              "score": -0.03122827334000003,
+              "base_score": 0.09569168875999998,
+              "ytd_penalty": 0.1201857665,
+              "concentration_penalty": 0.006734195600000008,
+              "concentration": {
+                "sample_tag": "since_2026_01",
+                "avg_top1_weight": 0.29146773875,
+                "avg_top3_weight": 0.5926445375,
+                "max_top1_weight": 0.38060998,
+                "max_top3_weight": 0.69679406,
+                "latest_top1_weight": 0.38060998,
+                "latest_top3_weight": 0.69679406,
+                "observations": 8
+              }
+            }
+          },
+          {
+            "rank": 4,
             "strategy_base_id": "core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_confirm80_amt110_cap95",
             "strategy_base_name": "核心90_探索10_总市值底座_胜出者核心__进攻2/98 晋升2只(量价晋升前15%, 动量三档保留50%, 晋升确认80+量能110, 单票95%)",
             "metrics": {
@@ -2259,7 +2298,7 @@
             }
           },
           {
-            "rank": 4,
+            "rank": 5,
             "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6",
             "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只",
             "metrics": {
@@ -2293,45 +2332,6 @@
                 "max_top3_weight": 0.74337506,
                 "latest_top1_weight": 0.46161751,
                 "latest_top3_weight": 0.7375290999999999,
-                "observations": 8
-              }
-            }
-          },
-          {
-            "rank": 5,
-            "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_lowvol_signal_cost_guard_reconfirm",
-            "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(多因子质量盈利低波信号成本守门再确认)",
-            "metrics": {
-              "weighted_cagr": 0.20096683,
-              "weighted_sharpe": 0.79294956,
-              "weighted_max_drawdown": -0.2909186,
-              "weighted_turnover": 5.28049866
-            },
-            "is_official_winner": false,
-            "is_raw_winner": false,
-            "validation": {
-              "passed": false,
-              "validation_window": "since_2023_01",
-              "required_cagr": 0.28643657699999997,
-              "candidate_cagr": 0.15392759,
-              "incumbent_id": "core_explore_90_10_total_mv_winner_core__aggr_02_98_prom2_core_6_1_promo_liqmom_top15_risk50_mom_confirm80_amt110_cap95",
-              "reason": "threshold_check"
-            },
-            "promotion_score": -0.04268755692000002,
-            "score_detail": {
-              "policy": "promotion_score_v1",
-              "score": -0.04268755692000002,
-              "base_score": 0.10372061167999999,
-              "ytd_penalty": 0.139673973,
-              "concentration_penalty": 0.006734195600000008,
-              "concentration": {
-                "sample_tag": "since_2026_01",
-                "avg_top1_weight": 0.29208875125,
-                "avg_top3_weight": 0.59115754375,
-                "max_top1_weight": 0.38060998,
-                "max_top3_weight": 0.69679406,
-                "latest_top1_weight": 0.38060998,
-                "latest_top3_weight": 0.69679406,
                 "observations": 8
               }
             }
@@ -2798,13 +2798,13 @@
           },
           {
             "rank": 5,
-            "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly",
-            "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(成本压力熊市6%, 单票42%, 持有9周, 换手2%, 出场97%, 单周risk downshift)",
+            "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly",
+            "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(周频收益恢复v7, 熊市14%, 单票46%, 持有5周, 换手4%, 出场94%)",
             "metrics": {
-              "weighted_cagr": 0.02522677,
-              "weighted_sharpe": 0.43477579,
-              "weighted_max_drawdown": -0.16585325,
-              "weighted_turnover": 0.43741361
+              "weighted_cagr": 0.11138343,
+              "weighted_sharpe": 0.69602921,
+              "weighted_max_drawdown": -0.32865249,
+              "weighted_turnover": 1.26800833
             },
             "is_official_winner": false,
             "is_raw_winner": false,
@@ -2812,25 +2812,25 @@
               "passed": false,
               "validation_window": "since_2020_01",
               "required_cagr": 0.12997908,
-              "candidate_cagr": 0.01586876,
+              "candidate_cagr": 0.10586013,
               "incumbent_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly",
               "reason": "threshold_check"
             },
-            "promotion_score": -0.06388161547161292,
+            "promotion_score": -0.06204307216645167,
             "score_detail": {
               "policy": "promotion_score_v1",
-              "score": -0.06388161547161292,
-              "base_score": -0.0003745559200000045,
-              "ytd_penalty": 0.045466599499999996,
-              "concentration_penalty": 0.018040460051612923,
+              "score": -0.06204307216645167,
+              "base_score": 0.04590638543999997,
+              "ytd_penalty": 0.0,
+              "concentration_penalty": 0.10794945760645164,
               "concentration": {
                 "sample_tag": "since_2026_01",
-                "avg_top1_weight": 0.3112430877419355,
-                "avg_top3_weight": 0.6701123890322581,
-                "max_top1_weight": 0.4124364,
-                "max_top3_weight": 0.8753139400000001,
-                "latest_top1_weight": 0.34045254,
-                "latest_top3_weight": 0.60944358,
+                "avg_top1_weight": 0.3888112612903226,
+                "avg_top3_weight": 0.8130898461290323,
+                "max_top1_weight": 0.53639929,
+                "max_top3_weight": 0.84880423,
+                "latest_top1_weight": 0.52471415,
+                "latest_top3_weight": 0.79567403,
                 "observations": 31
               }
             }
@@ -3053,7 +3053,7 @@
             }
           },
           {
-            "rank": 13,
+            "rank": 14,
             "strategy_base_id": "core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_weekly",
             "strategy_base_name": "核心70_探索30_等权底座_胜出者核心__进攻2/98 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 单周)",
             "metrics": {
@@ -3232,6 +3232,45 @@
           },
           {
             "rank": 4,
+            "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly",
+            "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(周频收益恢复v7, 熊市14%, 单票46%, 持有5周, 换手4%, 出场94%)",
+            "metrics": {
+              "weighted_cagr": 0.10586013,
+              "weighted_sharpe": 0.65354058,
+              "weighted_max_drawdown": -0.23290495,
+              "weighted_turnover": 0.99895327
+            },
+            "is_official_winner": false,
+            "is_raw_winner": false,
+            "validation": {
+              "passed": false,
+              "validation_window": "since_2023_01",
+              "required_cagr": 0.18478822599999997,
+              "candidate_cagr": 0.07370931,
+              "incumbent_id": "core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_weekly",
+              "reason": "threshold_check"
+            },
+            "promotion_score": -0.040077718046451646,
+            "score_detail": {
+              "policy": "promotion_score_v1",
+              "score": -0.040077718046451646,
+              "base_score": 0.06787173955999999,
+              "ytd_penalty": 0.0,
+              "concentration_penalty": 0.10794945760645164,
+              "concentration": {
+                "sample_tag": "since_2026_01",
+                "avg_top1_weight": 0.3888112612903226,
+                "avg_top3_weight": 0.8130898461290323,
+                "max_top1_weight": 0.53639929,
+                "max_top3_weight": 0.84880423,
+                "latest_top1_weight": 0.52471415,
+                "latest_top3_weight": 0.79567403,
+                "observations": 31
+              }
+            }
+          },
+          {
+            "rank": 5,
             "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly",
             "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻8/92 晋升6只(成本压力熊市14%, 单票46%, 持有7周, 换手3%, 出场98%, 单周换手修复)",
             "metrics": {
@@ -3265,45 +3304,6 @@
                 "max_top3_weight": 0.8753139400000001,
                 "latest_top1_weight": 0.21454365,
                 "latest_top3_weight": 0.50163702,
-                "observations": 31
-              }
-            }
-          },
-          {
-            "rank": 5,
-            "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly",
-            "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(成本压力熊市10%, 单票42%, 持有8周, 换手3%, 出场96%, 单周turnover repair)",
-            "metrics": {
-              "weighted_cagr": 0.05632557,
-              "weighted_sharpe": 0.51799152,
-              "weighted_max_drawdown": -0.2021794,
-              "weighted_turnover": 0.57459505
-            },
-            "is_official_winner": false,
-            "is_raw_winner": false,
-            "validation": {
-              "passed": false,
-              "validation_window": "since_2023_01",
-              "required_cagr": 0.18478822599999997,
-              "candidate_cagr": 0.06128548,
-              "incumbent_id": "core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_weekly",
-              "reason": "threshold_check"
-            },
-            "promotion_score": -0.05210453340000003,
-            "score_detail": {
-              "policy": "promotion_score_v1",
-              "score": -0.05210453340000003,
-              "base_score": 0.023899688599999983,
-              "ytd_penalty": 0.07600422200000001,
-              "concentration_penalty": 0.0,
-              "concentration": {
-                "sample_tag": "since_2026_01",
-                "avg_top1_weight": 0.2720931593548387,
-                "avg_top3_weight": 0.6129283041935485,
-                "max_top1_weight": 0.41746781,
-                "max_top3_weight": 0.84654176,
-                "latest_top1_weight": 0.22058121,
-                "latest_top3_weight": 0.49850911,
                 "observations": 31
               }
             }

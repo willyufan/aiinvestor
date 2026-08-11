@@ -1,5 +1,25 @@
 # Path 1 研究计划
 
+## 2026-08-12 二次迭代记录（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- core_multifactor industry-cost 的 2020/2023/2026 CAGR 为 `-3.82%/14.98%/-11.21%`，且路由到 `growth_elastic`；trend-cost 为 `8.75%/16.77%/9.55%`，相对 risk20 锚的 2020/2023 CAGR 下降 `17.15pp/4.23pp`。两条均命中稳定性护栏，`reject`，假设“value-lowvol 成本守门可保住中窗”不成立。
+- 主线 `risk20_reconfirm` 以 2020/2023/2026 CAGR `25.90%/21.01%/21.19%` 同窗确认 `promote` incumbent；core_multifactor 仍为 `64/64`，winner-only 的 clear-improvement 仅作 fast-pass 信号，正式 winner/robust/tracked 未变，无 evict/archive。scorecard：`results/research/a_share/research_iteration_scorecard_20260812_iter2.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_cost_guard_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_cost_guard_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`；另运行 `scripts/winner_only_pass.py`。
+
+### 下一轮 focus 提示
+
+- `core_multifactor_coverage` 停止本轮两个 cost-only 形态，转向 value-lowvol 的 industry/trend signal-cashguard，要求 2020 CAGR 不再大幅落后。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_signal_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+
+### Focus 候选池
+
+- `core_multifactor_coverage` / `signal_quality`：value-lowvol-industry-signal-cashguard、value-lowvol-trend-signal-cashguard；`weekly_exposure_path`：buffered-asym13、buffered-asym；`satellite_defense`：risk18、risk20；`holding_shape`：share22、share24；`promotion_ramp`：prom5、prom7；`signal_variants`：core-6-1-aggr08、core-6-1-aggr10。
+
 ## 2026-08-12 迭代记录（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

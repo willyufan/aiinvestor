@@ -1,5 +1,25 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-12 二次迭代记录（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- `ai_glasses_edge_terminal_20260424_v0` 保持 `source_audited + frozen`，以 capacity-v2 为 Path4 reference 复核 20/40/60D：等权收益 `21.80%/26.82%/0.11%`，Path4 overlap `0/6`。事件独立性仍获支持，但 60D 接近零且 runner 不生成连续 CAGR/Sharpe/MaxDD/turnover，判定 `keep_watch`，不能 promote。
+- registry 保持 4 个篮子、1 个 active basket、24 个 backtest-ready、6 个 frozen、pending audit `0`；正式 A股 winner/tracked 不受 Path5 影响，无 evict/archive。scorecard：`results/research/a_share/research_iteration_scorecard_20260812_iter2.json`。
+
+### 本轮候选 ID 与命令
+
+- basket：`ai_glasses_edge_terminal_20260424_v0`；reference：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`；输出：`results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_20260812_iter2_mature.json`。
+- 命令：`.venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_20260812_iter2_mature.json`。
+
+### 下一轮 focus 提示
+
+- `frozen_candidate_audit` 继续用同一已审计篮子做 5/10/20D 短窗复核，并切换到 signal-quality-v3 reference，检查收益节奏与独立性是否一致。第一条命令：`.venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader80_coverage_penalty_risk04_cap04_exit72_signal_quality_v3 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal_quality_v3_20260813_short.json`。
+
+### Focus 候选池
+
+- `event_basket_registry`：ai-glasses、high-speed-PCB；`frozen_candidate_audit`：ai-glasses-5/10/20、ai-glasses-20/40/60；`event_backtest_entry`：high-speed-PCB-short、ai-glasses-short；`path4_comparison`：signal-quality-v3、capacity-v2。
+
 ## 2026-08-12 迭代记录（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要
