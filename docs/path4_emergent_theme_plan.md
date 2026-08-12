@@ -1,5 +1,25 @@
 # Path 4 强主题涌现路径
 
+## 2026-08-12 四次迭代：风险与容量终端确认（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- 独立 Path4 实跑 `risk_control_v5` 与 `capacity_v2`。前者 2020/2023/2026 CAGR 为 `4.24%/-0.07%/-18.51%`，`reject`；后者为 `5.03%/1.22%/-10.98%`，被 artifact 保留为 2023/2025 窗口位置，但 2026 仍负，判定 `robust_observation`：进入观察位，不是强稳定 winner。
+- 假设“leader78 下风险/容量微调能修复短窗”不成立；未使用人工主题标签，未纳入 ETF。正式 tracked 未改变，无新增 evict/archive；scorecard：`results/research/a_share/research_iteration_scorecard_20260812_iter4.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`、`...signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --comparison-csv results/research/a_share/crash_resilience_strategy_comparison_iter4_batch2.csv --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### 下一轮 focus 提示
+
+- `theme_signal_quality` 停止本组同形扩参，下一轮先确认弱锚与 capacity-v2，再决定是否改信号定义。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+
+### Focus 候选池
+
+- `theme_signal_quality`：capacity-v2、signal29-risk06；`emergent_theme_coverage`：signal28-leader78、signal29-leader78；`theme_risk_control`：risk-control-v5、risk06-exit68；`theme_capacity_cost`：capacity-v2、risk06-cap05。
+
 ## 2026-08-12 三次迭代：信号质量确认（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

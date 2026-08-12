@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-12 四次迭代：双周突破参数终端确认（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- 两批实跑 v32/v34/v29/v31 与 theme-fast 锚。v29 是双周组最好者，2020/2023/2026 CAGR 为 `18.44%/13.53%/-19.85%`、turnover `11.93/12.51/16.29x`；其余候选 2026 为 `-21.80%~-22.49%`，均未修复短窗且成本高，全部 `reject`。
+- `hkconnect_path2_theme_fast_monthly` 以 2020/2023/2026 CAGR `16.97%/21.25%/29.02%` 同窗确认 `promote` incumbent。winner/robust/tracked 不变；双周 breakout 连续多轮无改善，停止同形扩参，无新增 archive 物理删除。scorecard：`results/research/a_share/research_iteration_scorecard_20260812_iter4.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_theme_biweekly_cost_guard_v32_breakout_repair`、`...v34_breakout_cost_repair`、`...v29_breakout_turnover_cap`、`...v31_breakout_lowturn_repair`、`hkconnect_path2_theme_fast_monthly`。
+- 命令类型：五窗口增量 `--only-strategy-ids`；第二批命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v29_breakout_turnover_cap,hkconnect_path2_theme_biweekly_cost_guard_v31_breakout_lowturn_repair,hkconnect_path2_theme_fast_monthly`。
+
+### 下一轮 focus 提示
+
+- `biweekly_breakout` 同形线已终止；下一轮若再启用，只接受新信号定义。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard,hkconnect_path2_high_return_monthly_quality_liquidity_v47_return_drawdown_balance,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `biweekly_breakout`：v29、v31（仅历史锚）；`elasticity_cost_control`：quality-liquidity-v2、v31；`high_return_monthly`：theme-fast、high-return-v47；`cost_stress`：v29、v31。
+
 ## 2026-08-12 三次迭代：双周突破低换手确认（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

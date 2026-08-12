@@ -1,5 +1,25 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-12 四次迭代：预算约束巡检（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- review `ai_glasses_edge_terminal_20260424_v0`：保持 `source_audited + frozen`，20/40/60D 等权收益 `21.80%/26.82%/0.11%`，判定仍为 `keep_watch`；不因 20/40D 单窗强而 promote，且不与 Path1-4 混算 winner。
+- 本轮未新增实跑：A/HK 共 51 个 ID 已超 48 软上限，继续事件篮子会挤占日更收尾窗口。registry/candidates 完整、pending audit 为 `0`，不是 coverage blocker；未改变 winner/robust/tracked，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 本轮设计 basket：`ai_glasses_edge_terminal_20260424_v0`，短窗 5/10/20D，Path4 reference 为 signal-quality-v3；因预算未执行。
+- 完整待跑命令：`.venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader80_coverage_penalty_risk04_cap04_exit72_signal_quality_v3 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal_quality_v3_20260813_short.json`。
+
+### 下一轮 focus 提示
+
+- 第一优先执行上述 5/10/20D 命令，检查收益节奏、单票集中度及与 Path4 overlap；只有来源审计、冻结池与风险指标齐备后才可晋级。
+
+### Focus 候选池
+
+- `event_basket_registry`：ai-glasses、high-speed-PCB；`frozen_candidate_audit`：ai-glasses-short、ai-glasses-mature；`event_backtest_entry`：ai-glasses-5/10/20、high-speed-PCB-5/10/20；`path4_comparison`：signal-quality-v3、capacity-v2。
+
 ## 2026-08-12 三次迭代：成熟事件收益复核（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

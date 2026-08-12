@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-12 四次迭代：双周缓冲与月频周风控终端确认（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- 五窗口实跑 v49、lowvol-soft-exit36 与双周低波锚。v49 的 2020/2023/2025/2026 CAGR 为 `14.81%/15.96%/30.95%/-2.39%`，回撤较浅且 2025 较强，但相邻 2023 低于双周低波 `6.67pp`、2026 转负，`keep_watch`。soft-exit36 为 `25.77%/31.12%/22.44%/-7.86%`，未修复短窗，`keep_watch`。
+- `hkconnect_path1_biweekly_lowvol` 以 `17.45%/22.63%/25.39%/6.78%` 同窗确认 `promote` incumbent；winner/robust/tracked 未变，无 evict/archive。scorecard：`results/research/a_share/research_iteration_scorecard_20260812_iter4.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair`、`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36`、`hkconnect_path1_biweekly_lowvol`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 提示
+
+- 本组未显著挑战双周低波，停止同形 soft-exit；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair,hkconnect_path1_biweekly_quality_momentum_equal_buffered_v34_lowvol_ytd_repair,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：soft-exit36、biweekly-buffer-v49；`biweekly_buffer`：v49、biweekly-lowvol；`risk_overlay_cost`：v34、biweekly-lowvol；`cashoff_confirmation`：biweekly-cashoff、biweekly-lowvol。
+
 ## 2026-08-12 三次迭代：月频周风控中间带（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

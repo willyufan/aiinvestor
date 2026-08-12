@@ -15529,6 +15529,339 @@ CRASH_RESILIENCE_VARIANTS.extend(
             "fast_crash_cooldown_weeks": 4,
         },
         {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse55_confirm2_v5",
+            "variant_name": "Path1稳健候选(快跌确认两周55%脉冲v5)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.55,
+            "fast_crash_trigger_confirm_weeks": 2,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse65_40_retrigger_v6",
+            "variant_name": "Path1稳健候选(快跌65%至40%持续恶化分级脉冲v6)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.65,
+            "fast_crash_pulse_weeks": 2,
+            "fast_crash_pulse_exposures": [0.65, 0.40],
+            "fast_crash_pulse_require_retrigger": True,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse55_1w_cd8_v7",
+            "variant_name": "Path1稳健候选(快跌单周55%长冷却v7)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.55,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 8,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse55_2w_v8",
+            "variant_name": "Path1稳健候选(快跌两周55%脉冲v8)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.55,
+            "fast_crash_pulse_weeks": 2,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse50_1w_v9",
+            "variant_name": "Path1稳健候选(快跌单周50%深度边界v9)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.50,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse60_1w_v10",
+            "variant_name": "Path1稳健候选(快跌单周60%深度边界v10)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.60,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse55_sparse35_v11",
+            "variant_name": "Path1稳健候选(快跌55%稀疏触发3.5%v11)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.035,
+            "fast_crash_weekly_return_trigger": 0.035,
+            "fast_crash_breadth_trigger": 0.425,
+            "fast_crash_risk_off_exposure": 0.55,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse55_sensitive25_v12",
+            "variant_name": "Path1稳健候选(快跌55%灵敏触发2.5%v12)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.025,
+            "fast_crash_weekly_return_trigger": 0.025,
+            "fast_crash_breadth_trigger": 0.475,
+            "fast_crash_risk_off_exposure": 0.55,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse0_1w_v13",
+            "variant_name": "Path1稳健候选(快跌单周空仓边界v13)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.00,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse15_1w_v14",
+            "variant_name": "Path1稳健候选(快跌单周15%深防守v14)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.15,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse25_1w_v15",
+            "variant_name": "Path1稳健候选(快跌单周25%深防守v15)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.25,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse30_1w_v16",
+            "variant_name": "Path1稳健候选(快跌单周30%深防守v16)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.30,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse40_1w_v17",
+            "variant_name": "Path1稳健候选(快跌单周40%深防守v17)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.40,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse45_1w_v18",
+            "variant_name": "Path1稳健候选(快跌单周45%深防守v18)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.45,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse475_1w_v19",
+            "variant_name": "Path1稳健候选(快跌单周47.5%边界v19)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.475,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse325_1w_v20",
+            "variant_name": "Path1稳健候选(快跌单周32.5%膝点v20)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.325,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse35_1w_v21",
+            "variant_name": "Path1稳健候选(快跌单周35%膝点v21)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.35,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse375_1w_v22",
+            "variant_name": "Path1稳健候选(快跌单周37.5%膝点v22)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.375,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse425_1w_v23",
+            "variant_name": "Path1稳健候选(快跌单周42.5%膝点v23)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.425,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse075_1w_v24",
+            "variant_name": "Path1稳健候选(快跌单周7.5%稳定性边界v24)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.075,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse10_1w_v25",
+            "variant_name": "Path1稳健候选(快跌单周10%稳定性边界v25)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.10,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse125_1w_v26",
+            "variant_name": "Path1稳健候选(快跌单周12.5%稳定性边界v26)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.125,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
             **_fast_crash_variant(
                 _PATH2_CRASH_REFERENCE_CONFIG,
                 variant_id="growth_elastic_v70_port_fast_crash_early_balanced_v2",
@@ -15594,7 +15927,19 @@ CRASH_RESILIENCE_BASE_IDS = (
 CRASH_RESILIENCE_ACTIVE_BASE_IDS = {
     "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_early_balanced_v2",
     "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse55_1w_v3",
-    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse65_1w_v4",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse15_1w_v14",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse25_1w_v15",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse30_1w_v16",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse40_1w_v17",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse45_1w_v18",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse475_1w_v19",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse325_1w_v20",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse35_1w_v21",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse375_1w_v22",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse425_1w_v23",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse075_1w_v24",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse10_1w_v25",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse125_1w_v26",
     "core_explore_60_40_equal_weight_winner_core__growth_elastic_v70_port_fast_crash_early_balanced_v2",
     "core_explore_80_20_equal_weight_winner_core__path7_crash_resilience_cash50_static_fast_pulse_v3_defbar",
 }
@@ -18813,36 +19158,65 @@ def apply_fast_crash_guard(
     if pulse_weeks > 0:
         raw_triggered = bool(crash["triggered"])
         action = "none"
+        pulse_exposure = float(strategy_config.get("fast_crash_risk_off_exposure", 0.20))
         if state is not None:
             pulse_state = dict(state.get("fast_crash_pulse_state") or {})
             remaining = max(0, int(pulse_state.get("remaining_weeks", 0) or 0))
             cooldown = max(0, int(pulse_state.get("cooldown_weeks", 0) or 0))
             needs_recovery = bool(pulse_state.get("needs_recovery", False))
+            step_index = max(0, int(pulse_state.get("step_index", 0) or 0))
+            trigger_streak = max(0, int(pulse_state.get("trigger_streak", 0) or 0))
+            confirm_weeks = max(1, int(strategy_config.get("fast_crash_trigger_confirm_weeks", 1) or 1))
+            trigger_streak = trigger_streak + 1 if raw_triggered else 0
+            confirmed_trigger = raw_triggered and trigger_streak >= confirm_weeks
+            configured_exposures = strategy_config.get("fast_crash_pulse_exposures")
+            if isinstance(configured_exposures, (list, tuple)) and configured_exposures:
+                pulse_exposures = [max(0.0, min(1.0, float(value))) for value in configured_exposures]
+            else:
+                pulse_exposures = [pulse_exposure] * pulse_weeks
+            if len(pulse_exposures) < pulse_weeks:
+                pulse_exposures.extend([pulse_exposures[-1]] * (pulse_weeks - len(pulse_exposures)))
+            require_retrigger = bool(strategy_config.get("fast_crash_pulse_require_retrigger", False))
             if remaining > 0:
-                action = "delever"
-                remaining -= 1
-                needs_recovery = remaining == 0
+                if require_retrigger and not raw_triggered:
+                    action = "recover"
+                    remaining = 0
+                    needs_recovery = False
+                    step_index = 0
+                else:
+                    action = "delever"
+                    step_index = min(step_index + 1, len(pulse_exposures) - 1)
+                    pulse_exposure = pulse_exposures[step_index]
+                    remaining -= 1
+                    needs_recovery = remaining == 0
             elif needs_recovery:
                 action = "recover"
                 needs_recovery = False
+                step_index = 0
                 cooldown = max(0, cooldown - 1)
             else:
                 cooldown = max(0, cooldown - 1)
-                if raw_triggered and cooldown == 0:
+                if confirmed_trigger and cooldown == 0:
                     action = "delever"
+                    step_index = 0
+                    pulse_exposure = pulse_exposures[0]
                     remaining = pulse_weeks - 1
                     needs_recovery = remaining == 0
                     cooldown = max(0, int(strategy_config.get("fast_crash_cooldown_weeks", 0) or 0))
+                    trigger_streak = 0
             state["fast_crash_pulse_state"] = {
                 "remaining_weeks": remaining,
                 "cooldown_weeks": cooldown,
                 "needs_recovery": needs_recovery,
+                "step_index": step_index,
+                "trigger_streak": trigger_streak,
             }
         crash["raw_triggered"] = raw_triggered
         crash["triggered"] = action == "delever"
         guarded["fast_crash_raw_triggered"] = raw_triggered
         guarded["fast_crash_triggered"] = action == "delever"
         guarded["fast_crash_pulse_action"] = action
+        guarded["fast_crash_pulse_exposure"] = pulse_exposure
         guarded["fast_crash_recovery"] = action == "recover"
     if bool(guarded.get("fast_crash_triggered", crash["triggered"])):
         risk_off_exposure = max(
@@ -20641,7 +21015,12 @@ def apply_weekly_satellite_risk_overlay(
             if pulse_action == "delever":
                 target_weights = build_portfolio_overlay_target_weights(
                     base_target_weights,
-                    portfolio_total_weight=float(strategy_config.get("fast_crash_risk_off_exposure", 0.20)),
+                    portfolio_total_weight=float(
+                        regime.get(
+                            "fast_crash_pulse_exposure",
+                            strategy_config.get("fast_crash_risk_off_exposure", 0.20),
+                        )
+                    ),
                 )
             elif pulse_action == "recover":
                 target_weights = base_target_weights.copy()
@@ -20739,6 +21118,7 @@ def apply_weekly_satellite_risk_overlay(
                 "fast_crash_mode": str(regime.get("fast_crash_mode", "")),
                 "fast_crash_raw_triggered": bool(regime.get("fast_crash_raw_triggered", False)),
                 "fast_crash_pulse_action": str(regime.get("fast_crash_pulse_action", "")),
+                "fast_crash_pulse_exposure": _diagnostic_float(regime.get("fast_crash_pulse_exposure")),
                 "fast_crash_market_drawdown": _diagnostic_float(regime.get("fast_crash_market_drawdown")),
                 "fast_crash_weekly_return": _diagnostic_float(regime.get("fast_crash_weekly_return")),
                 "fast_crash_breadth": _diagnostic_float(regime.get("fast_crash_breadth")),
@@ -22583,6 +22963,13 @@ def run_backtest(
         "fast_crash_risk_off_exposure": float(strategy_config.get("fast_crash_risk_off_exposure", 0.20)),
         "fast_crash_pulse_weeks": int(strategy_config.get("fast_crash_pulse_weeks", 0) or 0),
         "fast_crash_cooldown_weeks": int(strategy_config.get("fast_crash_cooldown_weeks", 0) or 0),
+        "fast_crash_trigger_confirm_weeks": int(
+            strategy_config.get("fast_crash_trigger_confirm_weeks", 1) or 1
+        ),
+        "fast_crash_pulse_exposures": list(strategy_config.get("fast_crash_pulse_exposures", []) or []),
+        "fast_crash_pulse_require_retrigger": bool(
+            strategy_config.get("fast_crash_pulse_require_retrigger", False)
+        ),
         "fast_crash_recovery_confirm_weeks": int(strategy_config.get("risk_on_confirm_weeks", 0) or 0),
         "buy_entry_percentile": BUY_ENTRY_PERCENTILE,
         "sell_exit_percentile": SELL_EXIT_PERCENTILE,

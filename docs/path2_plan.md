@@ -1,5 +1,25 @@
 # Path 2 研究计划
 
+## 2026-08-12 四次迭代：中周期低换手终端确认（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- 五窗口实跑 `v81_midcycle_lowturn_confirm`、`v82_2023_quality_repair`，相对 v70 weak robust。v81 的 2020/2023/2026 CAGR 为 `10.08%/1.43%/-38.91%`，v82 为 `5.32%/1.48%/-39.59%`，2026 MaxDD 均约 `-40%`、turnover 约 `10.4x`，均 `reject`；“中周期质量/低换手可抵御7月急跌”假设不成立。
+- v70 仍为 `robust_observation`：进入观察位，不是强稳定 winner。正式 winner/robust/tracked 未改变，无新增 evict；scorecard：`results/research/a_share/research_iteration_scorecard_20260812_iter4.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit50_reconfirm97_caution54_cap16_cost_guard_v81_midcycle_lowturn_confirm`、`...top12_risk24_mom_exit48_reconfirm98_caution56_cap18_cost_guard_v82_2023_quality_repair`、v70 reference。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --comparison-csv results/research/a_share/crash_resilience_strategy_comparison_iter4_batch2.csv --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit50_reconfirm97_caution54_cap16_cost_guard_v81_midcycle_lowturn_confirm,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit48_reconfirm98_caution56_cap18_cost_guard_v82_2023_quality_repair`。
+
+### 下一轮 focus 提示
+
+- 停止 v81/v82 同形扩参，回到 v70 快速退出与浅组合脉冲的交叉确认。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__growth_elastic_v70_port_fast_crash_early_balanced_v2,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit50_reconfirm97_caution54_cap16_cost_guard_v81_midcycle_lowturn_confirm`。
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v70、v81；`risk_reconfirm_sensitivity`：early-balanced-v2、v70；`underrepresented_families`：v70、v78；`capacity_and_cost_stress`：v70、v81；`crash_resilience`：v70-early-balanced、v70-fast-exit。
+
 ## 2026-08-12 三次迭代：中周期风险敏感性（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

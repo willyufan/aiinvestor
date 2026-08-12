@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-08-12 四次迭代：周频收益恢复终端确认（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- 实跑等权底座 `weekly_return_recovery_v6/v7`。v6 的 2020/2023/2026 CAGR 为 `7.82%/7.87%/35.76%`，v7 为 `14.46%/7.38%/42.07%`；相对 cap54 incumbent 的 `17.33%/7.99%/35.67%`，v6 中窗严重退化，v7 虽改善 2026 但 2025 CAGR 从 `41.40%` 降至 `16.94%`，均 `reject`。
+- 周频 incumbent/robust/tracked 不变，无 evict/archive；全部 ID 均以 `_weekly` 结尾。scorecard：`results/research/a_share/research_iteration_scorecard_20260812_iter4.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly`、`...cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --comparison-csv results/research/a_share/crash_resilience_strategy_comparison_iter4_batch2.csv --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly`。
+
+### 下一轮 focus 提示
+
+- 停止 return-recovery v6/v7，回查 turnover-repair 中间带。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：cap46-turn03、cap54 incumbent；`weekly_exit_buffer`：cap46-exit97、cap54-exit98；`risk_downshift`：cap44-risk08、cap46-risk12；`cost_stress`：cap46-turn03、cap54 incumbent。
+
 ## 2026-08-12 三次迭代：周频换手修复确认（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要
