@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-13 迭代：月频周风控与双周缓冲确认（端点 2026-08-12）
+
+### 上一轮候选与结果摘要
+
+- v49 的 2020/2023 CAGR 相对双周低波下降 `2.59pp/6.57pp`，2026 CAGR `-3.26%`，且 turnover 增加约 `1.7–2.2x`，`reject`。lowvol-soft-exit36 虽提高 2020/2023 CAGR `8.32pp/8.48pp`，但 2023 MaxDD 恶化 `5.22pp`、2026 CAGR `-9.04%`，`reject`。
+- `hkconnect_path1_biweekly_lowvol` 以 2020/2023/2026 CAGR `17.31%/22.35%/5.39%` 同窗确认 `promote` incumbent。正式 winner/robust/tracked 未变，无 evict/archive；scorecard：`results/research/a_share/research_iteration_scorecard_20260813.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair`、`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36`、`hkconnect_path1_biweekly_lowvol`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay` 停止 lowvol-soft-exit 梯度，回到 soft-exit36 与非 lowvol soft-exit36 的结构差异确认。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit36,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：soft-exit36、lowvol-soft-exit36；`biweekly_buffer`：v49、biweekly-lowvol；`risk_overlay_cost`：v46、biweekly-lowvol；`cashoff_confirmation`：biweekly-cashoff、biweekly-lowvol。
+
 ## 2026-08-12 四次迭代：双周缓冲与月频周风控终端确认（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

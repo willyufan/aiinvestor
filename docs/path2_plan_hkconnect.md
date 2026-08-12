@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-13 迭代：月频质量收益修复（端点 2026-08-12）
+
+### 上一轮候选与结果摘要
+
+- 停止已连续失败的双周 breakout 同形线，改跑月频 `v31/v46`。v31 相对 theme-fast 在 2020/2023 CAGR 提高 `3.02pp/3.10pp`、Sharpe 提高 `0.348/0.312`，turnover 降约 `4.5x`；v46 主要改善 MaxDD `8.23pp` 并降 turnover。但两者 2026 CAGR 为 `-18.21%/-10.97%`，均只 `keep_watch`，不能因中窗改善 promote。
+- `theme_fast_monthly` 以 2020/2023/2026 CAGR `16.81%/20.93%/26.74%` 同窗确认 `promote` incumbent。正式 winner/robust/tracked 未变，无 evict/archive；scorecard：`results/research/a_share/research_iteration_scorecard_20260813.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard`、`hkconnect_path2_high_return_monthly_quality_liquidity_v46_ytd_guard`、`hkconnect_path2_theme_fast_monthly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard,hkconnect_path2_high_return_monthly_quality_liquidity_v46_ytd_guard,hkconnect_path2_theme_fast_monthly`。
+
+### 下一轮 focus 提示
+
+- `biweekly_breakout` 只接受新信号定义；未注册新定义前，下一轮第一条命令先确认月频 `quality_liquidity_momentum` 能否保住 2026：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_quality_liquidity_momentum_monthly_v1,hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `biweekly_breakout`：v29、v31（历史锚，仅用于新信号对照）；`elasticity_cost_control`：quality-liquidity-v2、v46；`high_return_monthly`：theme-fast、quality-liquidity-v31；`cost_stress`：v46、quality-liquidity-v2。
+
 ## 2026-08-12 四次迭代：双周突破参数终端确认（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

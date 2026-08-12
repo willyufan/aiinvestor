@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-13 迭代：周频收益恢复确认（端点 2026-08-12）
+
+### 上一轮候选与结果摘要
+
+- return-recovery v36/v38 的 2020/2023 CAGR 分别为 `17.52%/20.04%`、`17.75%/26.87%`，MaxDD 与 turnover 均显著优于 equal-elastic-cashoff；但 2026 CAGR 仍为 `-14.41%/-8.39%`，均 `keep_watch`，假设只得到中窗支持。
+- equal-elastic-cashoff 同窗为 `17.19%/20.37%/13.14%`，但 2020 MaxDD `-52.19%`、2026 turnover `38.00x`，仅 `robust_observation`：进入观察位，不是强稳定 winner。正式 winner/robust/tracked 未改变，无 evict/archive；scorecard：`results/research/a_share/research_iteration_scorecard_20260813.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path3_stable_weekly_equal_buffered_v36_return_recovery`、`hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`、`hkconnect_path3_equal_elastic_cashoff_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_v36_return_recovery,hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_equal_elastic_cashoff_weekly`。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction` 保留 v38 的低回撤/低换手骨架，下一轮以 v18 的温和阈值和 cashoff 锚确认 2026 修复空间；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit52_v18_turnover_reduction,hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_equal_elastic_cashoff_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v18-turnover、v38-return-recovery；`weekly_defensive_overlay`：v21-overlay、v29-overlay；`cost_stress`：wide-cost-guard、v20-turnover；`elasticity_confirmation`：equal-elastic、equal-elastic-cashoff。
+
 ## 2026-08-12 四次迭代：周频防守终端确认（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

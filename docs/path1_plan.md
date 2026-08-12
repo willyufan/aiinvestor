@@ -1,5 +1,27 @@
 # Path 1 研究计划
 
+## 2026-08-13 迭代：暴跌脉冲跨端点与多因子确认（端点 2026-08-12）
+
+### 上一轮候选与结果摘要
+
+- 主线复核 `pulse40_1w_v17` 与 `risk20_reconfirm`：2026 CAGR/MaxDD 为 `47.55%/-25.36%` 对 `24.61%/-40.41%`，改善 `22.95pp/15.05pp`；但 2020/2023 CAGR 仍落后 `9.18pp/3.42pp`，因此只作专项 `keep_watch`，不是多窗口 robust。`risk20_reconfirm` 为 incumbent 同窗 `promote`；正式 window winner/robust/tracked 未改变。
+- core_multifactor 两条 signal-cashguard 实际仍路由到 `growth_elastic`，2020 CAGR 为 `-3.99%/-3.64%`，相对 risk20 下降约 `30pp`，均 `reject`。假设“value-lowvol 信号现金守门可修复路由并保住中窗”不成立；覆盖保持 `64/64`，无 evict/archive。scorecard：`results/research/a_share/research_iteration_scorecard_20260813.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_signal_cashguard_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse40_1w_v17`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_signal_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse40_1w_v17`。
+
+### 下一轮 focus 提示
+
+- `core_multifactor_coverage` 停止本轮两条 route-mismatch 形态，回查更简单的行业低波/质量价值成本守门。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_lowvol_industry_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- `crash_resilience` 只在新端点确认 `pulse40_1w_v17`，不再做同形仓位细分；原因是上一轮膝点已收敛。
+
+### Focus 候选池
+
+- `core_multifactor_coverage` / `signal_quality`：quality-lowvol-industry-cost、quality-value-industry-cost；`crash_resilience`：pulse40-v17、risk20；`weekly_exposure_path`：buffered-asym13、buffered-asym；`satellite_defense`：risk18、risk20。
+- `holding_shape`：share22、share24；`promotion_ramp`：prom5、prom7；`signal_variants`：core-6-1-aggr08、core-6-1-aggr10。
+
 ## 2026-08-12 四至六次迭代：暴跌脉冲膝点收敛（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要
