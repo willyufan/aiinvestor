@@ -1,5 +1,25 @@
 # Path 2 研究计划
 
+## 2026-08-12 三次迭代：中周期风险敏感性（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- 五窗口确认 v26/v27 与 v70 弱锚。v26 的 2020/2023/2026 CAGR 为 `5.26%/10.13%/-38.78%`，v27 为 `12.03%/-3.10%/-39.10%`，均未修复 2026 且中窗不连续，`reject`；假设“中周期风险再确认可抵御 7 月急跌”不成立。
+- v70 为 `5.73%/2.06%/13.60%`，继续 `robust_observation`：进入观察位，不是强稳定 winner。official winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk30_mom_exit50_reconfirm95_caution62_cap28_cost_guard_v26_medium_cycle`、`...top13_risk28_mom_exit48_reconfirm96_caution64_cap24_cost_guard_v27_medium_cycle`、`core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top14_risk30_mom_exit50_reconfirm95_caution62_cap28_cost_guard_v26_medium_cycle,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top13_risk28_mom_exit48_reconfirm96_caution64_cap24_cost_guard_v27_medium_cycle,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn`。
+
+### 下一轮 focus 提示
+
+- 停止 v26/v27 同形扩参，转向 v81 低换手确认与 v82 的 2023 质量修复；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit50_reconfirm97_caution54_cap16_cost_guard_v81_midcycle_lowturn_confirm,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit48_reconfirm98_caution56_cap18_cost_guard_v82_2023_quality_repair,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn`。
+
+### Focus 候选池
+
+- `risk_reconfirm_sensitivity`：v81、v82；`medium_cycle_growth`：v79、v81；`underrepresented_families`：v70、v78；`capacity_and_cost_stress`：v74、v81；`crash_resilience`：v70-fast-exit28-crash55、v70-fast-exit32-crash60。
+
 ## 2026-08-12 快跌适应性专项（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

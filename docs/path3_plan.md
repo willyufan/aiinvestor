@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-08-12 三次迭代：周频换手修复确认（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- `cap46/turn03` 的 2020/2023/2026 CAGR 为 `8.01%/9.59%/36.17%`，turnover `0.65/0.46/2.44x`；相对 cap54 明显改善 2023 回撤与换手并保留短窗弹性，但 2020 收益不足，判定 `keep_watch`。
+- `cap44/turn04-v3` 的 2026 CAGR 仅 `0.29%`、MaxDD `-35.21%`，`reject`；cap54 以 `17.33%/7.99%/35.67%` 同窗确认 `promote` incumbent。未改变正式 ID，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`、`...cap44_hold7_turn04_exit94_risk12_weekly_turnover_repair_v3_weekly`、`...cap54_hold5_turn05_exit98_risk16_weekly`；全部以 `_weekly` 结尾。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn04_exit94_risk12_weekly_turnover_repair_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### 下一轮 focus 提示
+
+- 下一轮围绕 cap46 修复 2020，而不是继续压到 cap44；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：cap46-turn03、return-recovery-v7；`weekly_exit_buffer`：cap46-exit97、v6；`risk_downshift`：cap44-risk08、v6-risk12；`cost_stress`：cap46-turn03、cap54 incumbent。
+
 ## 2026-08-12 二次迭代记录（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

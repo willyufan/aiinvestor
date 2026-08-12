@@ -75,7 +75,7 @@ class FastCrashGuardTest(unittest.TestCase):
         self.assertEqual(state["pending_count"], 1)
 
     def test_candidate_registration_is_path_separated(self) -> None:
-        self.assertEqual(len(backtest.PATH1_CRASH_RESILIENCE_BASE_IDS), 4)
+        self.assertEqual(len(backtest.PATH1_CRASH_RESILIENCE_BASE_IDS), 6)
         self.assertEqual(len(backtest.PATH2_CRASH_RESILIENCE_BASE_IDS), 3)
         self.assertEqual(len(backtest.PATH7_CRASH_RESILIENCE_BASE_IDS), 3)
         self.assertTrue(all("total_mv" in item for item in backtest.PATH1_CRASH_RESILIENCE_BASE_IDS))
@@ -83,6 +83,50 @@ class FastCrashGuardTest(unittest.TestCase):
         self.assertTrue(all(item.endswith("defbar") for item in backtest.PATH7_CRASH_RESILIENCE_BASE_IDS))
         self.assertTrue(set(backtest.CRASH_RESILIENCE_ACTIVE_BASE_IDS) <= set(backtest.CRASH_RESILIENCE_BASE_IDS))
         self.assertFalse(set(backtest.CRASH_RESILIENCE_BASE_IDS) & backtest.get_winner_only_base_ids())
+
+    def test_single_week_pulse_recovers_then_honors_cooldown(self) -> None:
+        market, prices = _market_inputs()
+        strategy_config = {
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.55,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        }
+        prepared = type("Prepared", (), {"market_weekly_close": market, "price_ffill": prices})()
+        state: dict[str, object] = {}
+
+        first = backtest.apply_fast_crash_guard(
+            {"risk_stage": "risk_on"},
+            prepared=prepared,
+            signal_date=prices.index[-1],
+            strategy_config=strategy_config,
+            state=state,
+        )
+        second = backtest.apply_fast_crash_guard(
+            {"risk_stage": "risk_on"},
+            prepared=prepared,
+            signal_date=prices.index[-1],
+            strategy_config=strategy_config,
+            state=state,
+        )
+        third = backtest.apply_fast_crash_guard(
+            {"risk_stage": "risk_on"},
+            prepared=prepared,
+            signal_date=prices.index[-1],
+            strategy_config=strategy_config,
+            state=state,
+        )
+
+        self.assertEqual(first["fast_crash_pulse_action"], "delever")
+        self.assertEqual(first["portfolio_target_exposure"], 0.55)
+        self.assertEqual(second["fast_crash_pulse_action"], "recover")
+        self.assertEqual(third["fast_crash_pulse_action"], "none")
+        self.assertIs(third["fast_crash_raw_triggered"], True)
+        self.assertIs(third["fast_crash_triggered"], False)
 
 
 if __name__ == "__main__":

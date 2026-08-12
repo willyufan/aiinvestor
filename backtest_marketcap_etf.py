@@ -15499,6 +15499,36 @@ CRASH_RESILIENCE_VARIANTS.extend(
             "fast_crash_risk_off_exposure": 0.40,
         },
         {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse55_1w_v3",
+            "variant_name": "Path1稳健候选(快跌单周55%脉冲v3)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.55,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
+            **_PATH1_CRASH_REFERENCE_CONFIG,
+            "variant_id": "aggr_05_95_prom7_risk20_port_fast_crash_pulse65_1w_v4",
+            "variant_name": "Path1稳健候选(快跌单周65%脉冲v4)",
+            "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+            "risk_overlay_scope": "portfolio_only",
+            "fast_crash_guard_enabled": True,
+            "fast_crash_mode": "combined",
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.65,
+            "fast_crash_pulse_weeks": 1,
+            "fast_crash_cooldown_weeks": 4,
+        },
+        {
             **_fast_crash_variant(
                 _PATH2_CRASH_REFERENCE_CONFIG,
                 variant_id="growth_elastic_v70_port_fast_crash_early_balanced_v2",
@@ -15562,6 +15592,9 @@ CRASH_RESILIENCE_BASE_IDS = (
     + PATH7_CRASH_RESILIENCE_BASE_IDS
 )
 CRASH_RESILIENCE_ACTIVE_BASE_IDS = {
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_early_balanced_v2",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse55_1w_v3",
+    "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse65_1w_v4",
     "core_explore_60_40_equal_weight_winner_core__growth_elastic_v70_port_fast_crash_early_balanced_v2",
     "core_explore_80_20_equal_weight_winner_core__path7_crash_resilience_cash50_static_fast_pulse_v3_defbar",
 }
@@ -18750,6 +18783,7 @@ def apply_fast_crash_guard(
     prepared: PreparedData,
     signal_date: pd.Timestamp,
     strategy_config: Dict[str, object],
+    state: Dict[str, object] | None = None,
 ) -> Dict[str, object]:
     guarded = dict(regime)
     if not bool(strategy_config.get("fast_crash_guard_enabled", False)):
@@ -18775,7 +18809,42 @@ def apply_fast_crash_guard(
     )
     guarded.update({f"fast_crash_{key}": value for key, value in crash.items()})
     guarded["slow_risk_stage"] = str(regime.get("risk_stage", "risk_on"))
-    if bool(crash["triggered"]):
+    pulse_weeks = max(0, int(strategy_config.get("fast_crash_pulse_weeks", 0) or 0))
+    if pulse_weeks > 0:
+        raw_triggered = bool(crash["triggered"])
+        action = "none"
+        if state is not None:
+            pulse_state = dict(state.get("fast_crash_pulse_state") or {})
+            remaining = max(0, int(pulse_state.get("remaining_weeks", 0) or 0))
+            cooldown = max(0, int(pulse_state.get("cooldown_weeks", 0) or 0))
+            needs_recovery = bool(pulse_state.get("needs_recovery", False))
+            if remaining > 0:
+                action = "delever"
+                remaining -= 1
+                needs_recovery = remaining == 0
+            elif needs_recovery:
+                action = "recover"
+                needs_recovery = False
+                cooldown = max(0, cooldown - 1)
+            else:
+                cooldown = max(0, cooldown - 1)
+                if raw_triggered and cooldown == 0:
+                    action = "delever"
+                    remaining = pulse_weeks - 1
+                    needs_recovery = remaining == 0
+                    cooldown = max(0, int(strategy_config.get("fast_crash_cooldown_weeks", 0) or 0))
+            state["fast_crash_pulse_state"] = {
+                "remaining_weeks": remaining,
+                "cooldown_weeks": cooldown,
+                "needs_recovery": needs_recovery,
+            }
+        crash["raw_triggered"] = raw_triggered
+        crash["triggered"] = action == "delever"
+        guarded["fast_crash_raw_triggered"] = raw_triggered
+        guarded["fast_crash_triggered"] = action == "delever"
+        guarded["fast_crash_pulse_action"] = action
+        guarded["fast_crash_recovery"] = action == "recover"
+    if bool(guarded.get("fast_crash_triggered", crash["triggered"])):
         risk_off_exposure = max(
             0.0,
             min(1.0, float(strategy_config.get("fast_crash_risk_off_exposure", 0.20))),
@@ -20535,9 +20604,17 @@ def apply_weekly_satellite_risk_overlay(
             prepared=prepared,
             signal_date=overlay_date,
             strategy_config=strategy_config,
+            state=overlay_state,
         )
-        effective_stage = str(regime["risk_stage"])
-        if use_buffered_stage and risk_staging_mode == "three_stage":
+        pulse_mode = max(0, int(strategy_config.get("fast_crash_pulse_weeks", 0) or 0)) > 0
+        if pulse_mode:
+            pulse_action = str(regime.get("fast_crash_pulse_action", "none"))
+            effective_stage = "risk_off" if pulse_action == "delever" else str(regime.get("slow_risk_stage", "risk_on"))
+        else:
+            effective_stage = str(regime["risk_stage"])
+        if pulse_mode:
+            pass
+        elif use_buffered_stage and risk_staging_mode == "three_stage":
             effective_stage, overlay_state = apply_buffered_stage_transition(
                 raw_stage=str(regime["risk_stage"]),
                 state=overlay_state,
@@ -20549,7 +20626,8 @@ def apply_weekly_satellite_risk_overlay(
         else:
             overlay_state = {"confirmed_stage": effective_stage, "pending_stage": None, "pending_count": 0}
 
-        regime = apply_effective_risk_stage(regime, effective_stage, strategy_config)
+        if not pulse_mode:
+            regime = apply_effective_risk_stage(regime, effective_stage, strategy_config)
 
         if effective_stage == "risk_off":
             satellite_target_exposure = satellite_risk_off_exposure
@@ -20557,7 +20635,19 @@ def apply_weekly_satellite_risk_overlay(
             satellite_target_exposure = satellite_caution_exposure
         else:
             satellite_target_exposure = satellite_risk_on_exposure
-        if overlay_scope == "satellite_only":
+        if pulse_mode:
+            nav_now = float(positions.sum() + cash_value)
+            pulse_action = str(regime.get("fast_crash_pulse_action", "none"))
+            if pulse_action == "delever":
+                target_weights = build_portfolio_overlay_target_weights(
+                    base_target_weights,
+                    portfolio_total_weight=float(strategy_config.get("fast_crash_risk_off_exposure", 0.20)),
+                )
+            elif pulse_action == "recover":
+                target_weights = base_target_weights.copy()
+            else:
+                target_weights = positions / nav_now if nav_now > 0 else pd.Series(dtype=float)
+        elif overlay_scope == "satellite_only":
             target_weights = build_satellite_overlay_target_weights(
                 positions,
                 cash_value,
@@ -20647,6 +20737,8 @@ def apply_weekly_satellite_risk_overlay(
                 "slow_risk_stage": str(regime.get("slow_risk_stage", regime["risk_stage"])),
                 "fast_crash_triggered": bool(regime.get("fast_crash_triggered", False)),
                 "fast_crash_mode": str(regime.get("fast_crash_mode", "")),
+                "fast_crash_raw_triggered": bool(regime.get("fast_crash_raw_triggered", False)),
+                "fast_crash_pulse_action": str(regime.get("fast_crash_pulse_action", "")),
                 "fast_crash_market_drawdown": _diagnostic_float(regime.get("fast_crash_market_drawdown")),
                 "fast_crash_weekly_return": _diagnostic_float(regime.get("fast_crash_weekly_return")),
                 "fast_crash_breadth": _diagnostic_float(regime.get("fast_crash_breadth")),
@@ -22489,6 +22581,8 @@ def run_backtest(
             strategy_config.get("fast_crash_breadth_trigger", FAST_CRASH_BREADTH_TRIGGER)
         ),
         "fast_crash_risk_off_exposure": float(strategy_config.get("fast_crash_risk_off_exposure", 0.20)),
+        "fast_crash_pulse_weeks": int(strategy_config.get("fast_crash_pulse_weeks", 0) or 0),
+        "fast_crash_cooldown_weeks": int(strategy_config.get("fast_crash_cooldown_weeks", 0) or 0),
         "fast_crash_recovery_confirm_weeks": int(strategy_config.get("risk_on_confirm_weeks", 0) or 0),
         "buy_entry_percentile": BUY_ENTRY_PERCENTILE,
         "sell_exit_percentile": SELL_EXIT_PERCENTILE,

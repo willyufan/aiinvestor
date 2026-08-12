@@ -1,5 +1,28 @@
 # Path 1 研究计划
 
+## 2026-08-12 三次迭代：单周快跌脉冲（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- 已修正专项判定口径：`early_balanced_v2` 的 2026 CAGR/MaxDD 为 `36.26%/-27.93%`，不再因非相邻的 2020/2023 退化直接 `reject`，改为 `keep_watch`；窗口 winner 只按代码 `ADJACENT_VALIDATION_WINDOW`，五窗口用于 robust 二次判断。
+- 本轮新跑 `pulse55_1w_v3` / `pulse65_1w_v4`。相对 `risk20_reconfirm` 的 2026 `21.19%/-40.41%`，两者分别为 `39.42%/-27.47%`、`36.13%/-28.92%`；2020 CAGR 为 `17.89%/18.16%`，显著好于持续降仓候选但仍弱于锚的 `25.90%`。两者均 `keep_watch`，55% 脉冲优先；未改变 official winner/robust/tracked，无 evict/archive。scorecard：`results/research/a_share/research_iteration_scorecard_20260812_iter3.json`。
+- core_multifactor 子组本轮覆盖复核仍为 `64/64`，未新增实跑；原因是预算优先用于暴跌脉冲的真实实现与五窗口确认，不以 coverage 同步替代实验。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse55_1w_v3`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse65_1w_v4`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --comparison-csv results/research/a_share/crash_resilience_strategy_comparison.csv --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse55_1w_v3,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse65_1w_v4`。
+
+### 下一轮 focus 提示
+
+- `crash_resilience` 下一步只验证“55% 单周脉冲 + 更长 cooldown”与“55% 两周脉冲”，目标是减少重复触发而不牺牲反弹；注册前先保留本轮两条确认锚。下一轮第一条可执行命令先复核 55/65 邻域：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --comparison-csv results/research/a_share/crash_resilience_strategy_comparison.csv --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse55_1w_v3,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse65_1w_v4`。
+- core_multifactor 下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_signal_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+
+### Focus 候选池
+
+- `crash_resilience`：pulse55-1w-cooldown6、pulse55-2w；`crash_signal_quality`：drawdown3-breadth35、weekly-loss4-breadth40；`weekly_exposure_path`：buffered-asym13、buffered-asym；`satellite_defense`：risk18、risk20。
+- `core_multifactor_coverage` / `signal_quality`：value-lowvol-industry-signal-cashguard、value-lowvol-trend-signal-cashguard；`holding_shape`：share22、share24；`promotion_ramp`：prom5、prom7；`signal_variants`：core-6-1-aggr08、core-6-1-aggr10。
+
 ## 2026-08-12 快跌适应性专项（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

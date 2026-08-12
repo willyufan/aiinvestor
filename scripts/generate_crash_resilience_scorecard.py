@@ -58,8 +58,24 @@ CANDIDATES: list[dict[str, str]] = [
         "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_early_balanced_v2",
         "reference_id": PATH1_REFERENCE,
         "hypothesis": "把联合触发提前到3%短回撤并仅降到40%，恢复缩短到2周，预期改善7月回撤同时减少长期收益损失。",
-        "decision": "reject",
-        "reason": "2026 CAGR和MaxDD均改善，但2020/2023 CAGR下降远超稳定性阈值，提前触发仍过度交易。",
+        "decision": "keep_watch",
+        "reason": "2026 CAGR和MaxDD均改善；窗口winner资格只检查相邻窗口，2020/2023退化仅阻止其成为robust，保留为暴跌专项观察。",
+    },
+    {
+        "path": "ashare_path1",
+        "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse55_1w_v3",
+        "reference_id": PATH1_REFERENCE,
+        "hypothesis": "快跌后只把全组合降到55%一周并立即恢复，预期缩短离场时间、保留反弹参与度。",
+        "decision": "keep_watch",
+        "reason": "2026 CAGR和MaxDD改善，且比持续降仓形态保留更多长期收益；但尚无2026 official winner槽位，先作为专项观察。",
+    },
+    {
+        "path": "ashare_path1",
+        "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse65_1w_v4",
+        "reference_id": PATH1_REFERENCE,
+        "hypothesis": "把单周脉冲仓位放宽到65%，预期进一步减少正常期收益牺牲，同时仍改善7月回撤。",
+        "decision": "keep_watch",
+        "reason": "2026 CAGR和MaxDD改善但弱于55%脉冲，长期CAGR略高；保留为脉冲深度相邻参数，不进入robust。",
     },
     {
         "path": "ashare_path2",
@@ -200,6 +216,11 @@ def main() -> None:
             "since_2020_or_2023_cagr_drop": -0.03,
             "since_2020_or_2023_max_drawdown_worsening": -0.05,
             "since_2020_or_2023_sharpe_drop": -0.30,
+            "scope": "robust二次判断，不替代窗口winner的相邻窗口校验",
+        },
+        "winner_validation_policy": {
+            "rule": "official window winner 仅使用 update_weighted_winners.py 的 ADJACENT_VALIDATION_WINDOW",
+            "since_2026_01": "observation_only_no_official_slot",
         },
         "summary": {
             "candidate_count": len(scorecards),

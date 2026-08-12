@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-12 三次迭代：软防守换手中间带（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- v18/v19 的 2020/2023 CAGR 为 `10.52%/11.51%`、`10.32%/11.57%`，2026 均为 `-2.49%`，MaxDD 已压到约 `-12%`、turnover 降至 `4.5–6.7x`；防守有效但收益尚未越过相邻锚，均 `keep_watch`。
+- `hkconnect_path3_equal_elastic_cashoff_weekly` 为 `17.16%/20.32%/12.82%`，同窗确认 `promote` incumbent；但 2020 MaxDD `-52.19%`、2026 turnover `38.17x`，正式 robust 仍需按高风险观察口径解释。winner/robust/tracked 未变，无 evict/archive；scorecard：`results/research/a_share/research_iteration_scorecard_20260812_iter3.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit52_v18_turnover_reduction`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit54_v19_turnover_reduction`、`hkconnect_path3_equal_elastic_cashoff_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit52_v18_turnover_reduction,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff38_turnover0_exit54_v19_turnover_reduction,hkconnect_path3_equal_elastic_cashoff_weekly`。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction` 沿 v18/v19 向风险阈值 40/42 推进，目标是恢复 2020 CAGR 且保持 2026 MaxDD 约 `-12%`；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v20_turnover_reduction,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v21_defensive_overlay,hkconnect_path3_equal_elastic_cashoff_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v20-turnover、v21-overlay；`weekly_defensive_overlay`：v21-overlay、v29-overlay；`cost_stress`：v24-cost-stress、wide-cost-guard；`elasticity_confirmation`：equal-elastic、equal-elastic-cashoff。
+
 ## 2026-08-12 二次迭代记录（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要
