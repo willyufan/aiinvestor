@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-13 二次迭代：双周失败后的替代信号确认（端点 2026-08-12）
+
+### 上一轮候选与结果摘要
+
+- 新信号替代 `quality_liquidity_momentum_monthly_v1/v2` 相对 theme-fast 在 2020/2023 CAGR 提高 `4.53/6.47pp` 与 `4.44/5.05pp`，turnover 降约 `4.3-4.5x`，验证中窗质量/流动性假设；但 2025 CAGR 下降约 `19-21pp`、2026 CAGR 为 `-15.88%/-16.65%`，均 `keep_watch`，不能 promote。
+- theme-fast 以 2020/2023/2026 CAGR `16.81%/20.93%/26.74%` 同窗确认 `promote` incumbent。正式 winner/robust/tracked 未改变，无 evict/archive；scorecard：`results/research/a_share/research_iteration_scorecard_20260813_iter2.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_quality_liquidity_momentum_monthly_v1`、`hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard`、`hkconnect_path2_theme_fast_monthly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_quality_liquidity_momentum_monthly_v1,hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard,hkconnect_path2_theme_fast_monthly`。
+
+### 下一轮 focus 提示
+
+- `biweekly_breakout` 仍停止旧参数梯度；下一轮先确认 `theme_biweekly_cost_guard_v21/v25` 是否能作为差异化成本基线，再决定是否注册新信号定义。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair,hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `biweekly_breakout`：v21-breakout、v25-breakout；`elasticity_cost_control`：quality-liquidity-v2、v25；`high_return_monthly`：theme-fast、quality-liquidity-v1；`cost_stress`：v21、v25。
+
 ## 2026-08-13 迭代：月频质量收益修复（端点 2026-08-12）
 
 ### 上一轮候选与结果摘要

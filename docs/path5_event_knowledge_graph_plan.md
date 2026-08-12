@@ -1,5 +1,25 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-13 二次迭代：已审计事件篮子成熟窗口确认（端点 2026-08-12）
+
+### 上一轮候选与结果摘要
+
+- `ai_glasses_edge_terminal_20260424_v0` 保持 `source_audited + frozen`；20/40/60D 等权收益为 `21.80%/26.82%/0.11%`，seed-weight 为 `21.99%/26.93%/0.38%`，与 Path4 signal29/risk06 overlap `0/6`。中段独立收益假设获支持，但 60D 几乎归零，且 runner 不生成连续 CAGR/Sharpe/MaxDD/turnover，判定 `keep_watch`，不能 promote。
+- Path5 独立跟踪；registry 4 篮子、active 1、pending audit `0`，无 evict/archive。scorecard：`results/research/a_share/research_iteration_scorecard_20260813_iter2.json`。
+
+### 本轮候选 ID 与命令
+
+- basket ID：`ai_glasses_edge_terminal_20260424_v0`；输出：`results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal29_20260813_mature.json`。
+- 命令：`.venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal29_20260813_mature.json`。
+
+### 下一轮 focus 提示
+
+- `event_backtest_entry` 下一轮回到 5/10/20D 确认端点漂移，并继续对照 Path4；第一条命令：`.venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal29_next_short.json`。
+
+### Focus 候选池
+
+- `event_backtest_entry`：AI眼镜 5/10/20D、20/40/60D；`path4_comparison`：signal29-risk06、capacity-v2；`event_basket_registry`：AI眼镜 active、PCB archived 对照；`frozen_candidate_audit`：AI眼镜来源复核、候选权重敏感性。
+
 ## 2026-08-13 迭代：已审计事件入口短窗复核（端点 2026-08-12）
 
 ### 上一轮候选与结果摘要

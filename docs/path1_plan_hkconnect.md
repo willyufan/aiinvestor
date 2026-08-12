@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-13 二次迭代：双周缓冲与低波确认（端点 2026-08-12）
+
+### 上一轮候选与结果摘要
+
+- v49 在 2025 CAGR 提高 `5.72pp`，但 2023 CAGR 下降 `6.57pp`、2026 转为 `-3.26%`，`reject`；v34 的 2023 CAGR/MaxDD 下降 `4.27pp/3.78pp` 且 2026 为 `-12.27%`，`reject`。假设“质量动量缓冲可替换低波锚”不成立。
+- `hkconnect_path1_biweekly_lowvol` 以 2020/2023/2026 CAGR `17.31%/22.35%/5.39%` 同窗确认 `promote` incumbent。正式 winner/robust/tracked 未改变，无 evict/archive；scorecard：`results/research/a_share/research_iteration_scorecard_20260813_iter2.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair`、`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v34_lowvol_ytd_repair`、`hkconnect_path1_biweekly_lowvol`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair,hkconnect_path1_biweekly_quality_momentum_equal_buffered_v34_lowvol_ytd_repair,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay` 停止 v34/v49，下一轮只确认 cashoff 与低波锚的成本边界；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_cashoff,hkconnect_path1_biweekly_hybrid,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：biweekly-hybrid、biweekly-lowvol；`biweekly_buffer`：biweekly-cashoff、biweekly-lowvol；`risk_overlay_cost`：v46、biweekly-lowvol；`cashoff_confirmation`：biweekly-cashoff、biweekly-lowvol。
+
 ## 2026-08-13 迭代：月频周风控与双周缓冲确认（端点 2026-08-12）
 
 ### 上一轮候选与结果摘要

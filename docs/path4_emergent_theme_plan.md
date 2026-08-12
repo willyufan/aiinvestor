@@ -1,5 +1,25 @@
 # Path 4 强主题涌现路径
 
+## 2026-08-13 二次迭代：signal28/29 信号边界确认（端点 2026-08-12）
+
+### 上一轮候选与结果摘要
+
+- `signal28/leader76` 相对 signal29/risk06 在 2020/2025 CAGR 改善 `1.32pp/1.47pp`，但 2023/2026 CAGR 为 `-0.92%/-6.39%`、turnover 增加 `0.16x/0.82x`，判定 `keep_watch`。`signal29/leader78/risk12` 同样在 2023/2026 为负，判定 `keep_watch`；两条均未形成 robust 前沿。
+- artifact 确认 `signal28/leader76` 为 Path4 2017-window winner，但相邻 2023 验证失败，不能写成强稳定 winner；signal29/risk06 仍为 `robust_observation`，进入观察位，不是强稳定 winner。未使用人工主题标签或 ETF，正式 robust/tracked 未改变，无 evict/archive。scorecard：`results/research/a_share/research_iteration_scorecard_20260813_iter2.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+
+### 下一轮 focus 提示
+
+- `theme_signal_quality` 停止 signal28/29-risk12 同形线，转查较轻 risk08 与 capacity-v2 的收益/容量取舍；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+
+### Focus 候选池
+
+- `theme_signal_quality`：signal28-risk08、signal29-risk06；`emergent_theme_coverage`：signal28-leader76、signal29-leader78；`theme_risk_control`：risk08-exit68、risk06-exit68；`theme_capacity_cost`：capacity-v2、risk06-cap05。
+
 ## 2026-08-13 迭代：信号质量与容量确认（端点 2026-08-12）
 
 ### 上一轮候选与结果摘要

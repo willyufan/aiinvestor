@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-08-13 二次迭代：周频 exit-buffer 终端复核（端点 2026-08-12）
+
+### 上一轮候选与结果摘要
+
+- `exit_buffer_v3_weekly` 相对 cap54 在 2020 CAGR 下降 `4.24pp`，2026 CAGR/MaxDD 下降 `38.40pp/13.23pp`，即使中窗回撤和换手显著下降仍判定 `reject`；假设“宽 exit buffer 可在保收益下减换手”不成立。
+- cap54 incumbent 同窗 `promote`，2020/2023/2026 CAGR 为 `17.71%/8.68%/39.60%`。artifact 仍记录 exit-buffer 为 Path3 2017-window 槽，但正式 robust/tracked ID 未变；无 evict/archive。scorecard：`results/research/a_share/research_iteration_scorecard_20260813_iter2.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`；均以 `_weekly` 结尾。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction` 停止 exit-buffer-v3，转查 cap42/cap40 风险降档能否改善短窗回撤而守住 2020；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：cap42-risk10、cap54；`weekly_exit_buffer`：exit-buffer-v3、cap54；`risk_downshift`：cap42-risk10、cap40-risk08；`cost_stress`：cap42-risk10、cap54。
+
 ## 2026-08-13 迭代：周频换手修复跨端点确认（端点 2026-08-12）
 
 ### 上一轮候选与结果摘要
