@@ -53,6 +53,7 @@ from backtest_marketcap_etf import (
     compute_rebalance_trades,
     apply_weight_cap_with_redistribution,
     compute_metrics,
+    formal_calendar_required_end_date,
 )
 
 
@@ -8152,6 +8153,7 @@ HK_PATH7_VARIANTS.extend(
 
 # Path8 独立优化 2025/2026 短窗收益；该路径允许更高集中度和换手，
 # 但只做路径内短窗竞争，不自动解读为跨窗口 robust winner。
+HK_PATH8_SAMPLE_TAGS = frozenset({"since_2025_01", "since_2026_01"})
 HK_PATH8_VARIANTS: List[Dict[str, object]] = [
     {
         "strategy_id": "hkconnect_path8_short_window_momentum_weekly_top8_risk20_v1",
@@ -8313,6 +8315,10 @@ HK_EXPANSION_VARIANTS = (
 )
 
 
+def is_hk_variant_sample_supported(variant: Dict[str, object], sample_tag: str) -> bool:
+    return str(variant.get("path") or "") != "path8" or str(sample_tag) in HK_PATH8_SAMPLE_TAGS
+
+
 def ensure_hk_directories() -> None:
     for path in [HK_RESULTS_DIR, HK_CACHE_DIR, HK_BASIC_DIR, HK_PRICE_DIR, HK_FACTOR_DIR]:
         path.mkdir(parents=True, exist_ok=True)
@@ -8322,7 +8328,7 @@ def ensure_hk_directories() -> None:
 def load_or_fetch_hk_trade_calendar(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
     cache_path = HK_BASIC_DIR / "trade_calendar_hk.csv"
     cached = read_cached_csv(cache_path, date_columns=["cal_date"])
-    required_end_date = max(end_date.normalize(), (end_date + pd.offsets.MonthEnd(0)).normalize())
+    required_end_date = formal_calendar_required_end_date(end_date)
     if not cached.empty:
         cached = cached.sort_values("cal_date").drop_duplicates(subset=["cal_date"])
         if cached["cal_date"].min() <= start_date and cached["cal_date"].max() >= required_end_date:
@@ -10381,6 +10387,8 @@ def main() -> None:
     skipped_runs: List[str] = []
     for sample_window in selected_windows:
         for variant in strategy_variants:
+            if not is_hk_variant_sample_supported(variant, str(sample_window["sample_tag"])):
+                continue
             strategy_config = {**variant, **sample_window}
             print(
                 f"[HK] Running {strategy_config['strategy_id']} | "

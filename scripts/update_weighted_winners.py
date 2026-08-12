@@ -1082,6 +1082,26 @@ def _leaderboard_entry(
     return entry
 
 
+def _retain_official_in_leaderboard(
+    ranked: list[tuple[str, TrackMetrics]],
+    official_winner_id: str,
+    limit: int,
+) -> list[tuple[int, tuple[str, TrackMetrics]]]:
+    selected = list(enumerate(ranked, start=1))[:limit]
+    if official_winner_id and all(candidate_id != official_winner_id for _, (candidate_id, _) in selected):
+        official_row = next(
+            (
+                (rank, candidate)
+                for rank, candidate in enumerate(ranked, start=1)
+                if candidate[0] == official_winner_id
+            ),
+            None,
+        )
+        if official_row is not None:
+            selected.append(official_row)
+    return selected
+
+
 def _build_single_window_leaderboard(
     latest: pd.DataFrame,
     sample_tag: str,
@@ -1096,10 +1116,9 @@ def _build_single_window_leaderboard(
     limit: int = TRACK_LEADERBOARD_LIMIT,
 ) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    for rank, (candidate_id, metrics) in enumerate(
-        _rank_single_window_candidates(latest, sample_tag, allowed_base_ids=allowed_base_ids)[:limit],
-        start=1,
-    ):
+    ranked = _rank_single_window_candidates(latest, sample_tag, allowed_base_ids=allowed_base_ids)
+    selected = _retain_official_in_leaderboard(ranked, official_winner_id, limit)
+    for rank, (candidate_id, metrics) in selected:
         validation_detail: dict[str, Any] | None = None
         score_detail: dict[str, Any] | None = None
         if enable_validation:

@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 from matplotlib.patches import Rectangle
 
-from backtest_hkconnect import HK_ARCHIVED_STRATEGY_IDS
+from backtest_hkconnect import HK_ARCHIVED_STRATEGY_IDS, HK_PATH8_SAMPLE_TAGS
 from scripts.hkconnect_ranking import (
     prepare_hk_candidate_frames,
     valid_hk_leaderboard_rows as _valid_leaderboard_rows,
@@ -160,15 +160,18 @@ def _build_payload(latest: pd.DataFrame, *, ranking_latest: pd.DataFrame | None 
 
     for strategy_id, group in latest.groupby("strategy_id"):
         last_row = group.sort_values("sample_end").iloc[-1]
+        path_name = str(last_row["path"])
+        allowed_window_tags = HK_PATH8_SAMPLE_TAGS if path_name == "path8" else set(WINDOW_TAGS)
         payload["strategies"][str(strategy_id)] = {
             "strategy_name": str(last_row["strategy_name"]),
-            "path": str(last_row["path"]),
+            "path": path_name,
             "candidate_family": str(last_row["candidate_family"]),
             "rebalance_frequency": str(last_row["rebalance_frequency"]),
             "short_label": _short_label(str(strategy_id)),
             "windows": {
                 str(row["sample_tag"]): _metric_row(row)
                 for _, row in group.sort_values("sample_tag").iterrows()
+                if str(row["sample_tag"]) in allowed_window_tags
             },
         }
 
@@ -176,7 +179,12 @@ def _build_payload(latest: pd.DataFrame, *, ranking_latest: pd.DataFrame | None 
         subset = ranking_latest[ranking_latest["path"] == path_name].copy()
         if subset.empty:
             continue
-        for sample_tag in WINDOW_TAGS:
+        path_window_tags = (
+            tuple(tag for tag in WINDOW_TAGS if tag in HK_PATH8_SAMPLE_TAGS)
+            if path_name == "path8"
+            else WINDOW_TAGS
+        )
+        for sample_tag in path_window_tags:
             sample_df = subset[subset["sample_tag"] == sample_tag]
             if sample_df.empty:
                 continue
@@ -188,6 +196,8 @@ def _build_payload(latest: pd.DataFrame, *, ranking_latest: pd.DataFrame | None 
                 "winner": str(row["strategy_id"]),
                 "metrics": _metric_row(row),
             }
+        if path_name == "path8":
+            continue
         try:
             robust_id, robust_metrics = _pick_robust(subset)
         except RuntimeError:

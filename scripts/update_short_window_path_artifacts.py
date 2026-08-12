@@ -111,7 +111,20 @@ def _build_scorecard(
     if missing:
         raise RuntimeError(f"{path} scorecard coverage incomplete: {missing}")
 
-    candidate_as_of = pd.Timestamp(candidates["sample_end"].max())
+    candidate_as_of_values = sorted(pd.Timestamp(value) for value in candidates["sample_end"].unique())
+    if len(candidate_as_of_values) != 1:
+        candidate_dates = {
+            candidate_id: sorted(
+                str(pd.Timestamp(value).date())
+                for value in candidates.loc[
+                    candidates[id_column].astype(str) == candidate_id,
+                    "sample_end",
+                ].unique()
+            )
+            for candidate_id in candidate_ids
+        }
+        raise RuntimeError(f"{path} scorecard candidates have mixed sample_end dates: {candidate_dates}")
+    candidate_as_of = candidate_as_of_values[0]
     benchmark_pool = latest[
         ~latest[id_column].astype(str).isin(set(candidate_ids) | set(archived_ids))
         & latest["sample_tag"].astype(str).isin(WINDOWS)

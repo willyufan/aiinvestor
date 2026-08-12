@@ -93,6 +93,11 @@ def _float_metric(metrics: dict[str, Any], keys: tuple[str, ...]) -> float:
     return 0.0
 
 
+def _resolve_frequency(explicit: str, payload: dict[str, Any] | None) -> str:
+    payload = payload or {}
+    return str(explicit or payload.get("frequency") or payload.get("rebalance_frequency") or "")
+
+
 def _public_leaderboard_metrics(metrics: dict[str, Any]) -> dict[str, float]:
     """Normalize A-share weighted metrics and HK raw metrics into the public shape."""
     if not metrics:
@@ -237,7 +242,7 @@ def build_strategy_entry(
         "signal_effective_date": sched.get("suggestion_effective_date") or (view.get("updated_at", "") if view else ""),
         "experimental":          experimental,
         "tracked_only":          tracked_only,
-        "frequency":             frequency,
+        "frequency":             _resolve_frequency(frequency, view),
         "metrics":               metrics,
         "window_metrics":        build_window_metrics(strategy_id, strategies_map),
         "latest_weights":        latest_weights,
@@ -493,7 +498,7 @@ def export_strategy_detail(
         "winner_type": winner_type,
         "experimental": experimental,
         "tracked_only": tracked_only,
-        "frequency": frequency,
+        "frequency": _resolve_frequency(frequency, detail),
         "sample_views": sample_views_out,
     }
     STRATEGIES_DIR.mkdir(parents=True, exist_ok=True)

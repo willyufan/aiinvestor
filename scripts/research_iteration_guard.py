@@ -614,13 +614,19 @@ def _update_state(
     stagnation_threshold: int,
 ) -> dict[str, Any]:
     previous_paths = previous_state.get("paths") if isinstance(previous_state.get("paths"), dict) else {}
+    previous_as_of = str(previous_state.get("as_of") or "")
     paths: dict[str, Any] = {}
     for path_key, signature in sorted(signatures.items()):
         previous_raw = previous_paths.get(path_key) if isinstance(previous_paths, dict) else {}
         previous = previous_raw if isinstance(previous_raw, dict) else {}
         previous_signature = str(previous.get("signature") or "")
         unchanged = previous_signature == signature
-        stagnation_runs = int(previous.get("stagnation_runs") or 0) + 1 if unchanged else 0
+        previous_stagnation_runs = int(previous.get("stagnation_runs") or 0)
+        stagnation_runs = (
+            previous_stagnation_runs + (0 if previous_as_of == as_of else 1)
+            if unchanged
+            else 0
+        )
         rotation = PATH_FOCUS_ROTATION.get(path_key, ["review"])
         rotation_index = (stagnation_runs // max(1, stagnation_threshold)) % len(rotation)
         paths[path_key] = {

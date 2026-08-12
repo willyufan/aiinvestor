@@ -1008,6 +1008,7 @@ def build_strategy_detail_payload(base_id: str, sample_tag: str, *, market_scope
         "sample_tag": sample_tag,
         "updated_at": sample_view["updated_at"],
         "rebalance_frequency": sample_view["rebalance_frequency"],
+        "frequency": sample_view["rebalance_frequency"],
         "adjustment_style": infer_adjustment_style(base_id, str(sample_view["rebalance_frequency"])),
         "summary_metrics": sample_view["summary_metrics"],
         "windows": _collect_windows(base_id, market_scope=market_scope),
@@ -1040,8 +1041,12 @@ def build_snapshot_from_live_spec(spec: dict[str, Any]) -> dict[str, Any]:
     snapshot["market_scope"] = market_scope
     snapshot["experimental"] = bool(spec.get("experimental", False))
     snapshot["tracked_only"] = bool(spec.get("tracked_only", False))
-    if spec.get("frequency"):
-        snapshot["frequency"] = str(spec.get("frequency") or "")
+    snapshot["frequency"] = str(
+        spec.get("frequency")
+        or snapshot.get("frequency")
+        or snapshot.get("rebalance_frequency")
+        or ""
+    )
     if spec.get("core_active"):
         snapshot["core_active"] = spec["core_active"]
     return snapshot

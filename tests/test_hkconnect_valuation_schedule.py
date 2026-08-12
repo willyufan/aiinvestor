@@ -10,7 +10,9 @@ from backtest_hkconnect import (
     get_rebalance_signal_dates,
 )
 from backtest_marketcap_etf import (
+    build_month_boundaries,
     compute_metrics,
+    formal_calendar_required_end_date,
     get_formal_rebalance_signal_dates as get_a_share_formal_rebalance_signal_dates,
     get_rebalance_signal_dates as get_a_share_rebalance_signal_dates,
 )
@@ -32,6 +34,63 @@ def _prepared(latest_date: str) -> SimpleNamespace:
 
 
 class HkconnectValuationScheduleTest(unittest.TestCase):
+    def test_formal_calendar_fetch_extends_through_cross_month_week_end(self) -> None:
+        self.assertEqual(
+            formal_calendar_required_end_date(pd.Timestamp("2026-08-31")),
+            pd.Timestamp("2026-09-04"),
+        )
+
+    def test_month_end_does_not_complete_a_cross_month_week(self) -> None:
+        formal_calendar = pd.DataFrame(
+            {
+                "cal_date": pd.date_range("2026-08-24", "2026-08-31", freq="D"),
+            }
+        )
+        formal_calendar["is_open"] = (formal_calendar["cal_date"].dt.weekday < 5).astype(int)
+
+        _, _, week_end_dates, _, _ = build_month_boundaries(
+            formal_calendar,
+            formal_calendar=formal_calendar,
+        )
+
+        self.assertEqual(week_end_dates, [pd.Timestamp("2026-08-28")])
+
+    def test_incomplete_week_is_not_a_formal_week_end(self) -> None:
+        formal_calendar = pd.DataFrame(
+            {
+                "cal_date": pd.date_range("2026-07-27", "2026-08-07", freq="D"),
+            }
+        )
+        formal_calendar["is_open"] = (formal_calendar["cal_date"].dt.weekday < 5).astype(int)
+        usable_calendar = formal_calendar.loc[
+            formal_calendar["cal_date"] <= pd.Timestamp("2026-08-06")
+        ].copy()
+
+        _, _, week_end_dates, _, _ = build_month_boundaries(
+            usable_calendar,
+            formal_calendar=formal_calendar,
+        )
+
+        self.assertEqual(week_end_dates, [pd.Timestamp("2026-07-31")])
+
+    def test_closed_friday_keeps_thursday_as_formal_week_end(self) -> None:
+        formal_calendar = pd.DataFrame(
+            {
+                "cal_date": pd.date_range("2026-08-03", "2026-08-07", freq="D"),
+                "is_open": [1, 1, 1, 1, 0],
+            }
+        )
+        usable_calendar = formal_calendar.loc[
+            formal_calendar["cal_date"] <= pd.Timestamp("2026-08-06")
+        ].copy()
+
+        _, _, week_end_dates, _, _ = build_month_boundaries(
+            usable_calendar,
+            formal_calendar=formal_calendar,
+        )
+
+        self.assertEqual(week_end_dates, [pd.Timestamp("2026-08-06")])
+
     def test_monthly_appends_latest_day_without_extra_rebalance(self) -> None:
         schedule = get_rebalance_signal_dates(_prepared("2026-07-21"), "monthly")
         self.assertEqual(schedule[-2:], [pd.Timestamp("2026-06-30"), pd.Timestamp("2026-07-21")])

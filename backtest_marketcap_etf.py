@@ -17552,10 +17552,19 @@ def load_or_fetch_stock_basic(pro) -> pd.DataFrame:
     return stock_basic
 
 
+def formal_calendar_required_end_date(end_date: pd.Timestamp) -> pd.Timestamp:
+    normalized_end = pd.Timestamp(end_date).normalize()
+    return max(
+        normalized_end,
+        (normalized_end + pd.offsets.MonthEnd(0)).normalize(),
+        normalized_end.to_period("W-FRI").end_time.normalize(),
+    )
+
+
 def load_or_fetch_trade_calendar(pro, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
     cache_path = CACHE_DIR / "trade_calendar.csv"
     cached = read_cached_csv(cache_path, date_columns=["cal_date"])
-    required_end_date = max(end_date.normalize(), (end_date + pd.offsets.MonthEnd(0)).normalize())
+    required_end_date = formal_calendar_required_end_date(end_date)
 
     if not cached.empty:
         cached = cached.sort_values("cal_date").drop_duplicates(subset=["cal_date"])
@@ -17924,22 +17933,30 @@ def build_month_boundaries(
         formal_open_calendar = formal_calendar.loc[formal_calendar["is_open"] == 1, ["cal_date"]].copy()
         formal_open_calendar = formal_open_calendar.sort_values("cal_date").reset_index(drop=True)
         formal_open_calendar["month"] = formal_open_calendar["cal_date"].dt.to_period("M")
-        formal_calendar_end = pd.Timestamp(formal_open_calendar["cal_date"].max()).normalize()
+        formal_open_calendar["week"] = formal_open_calendar["cal_date"].dt.to_period("W-FRI")
+        formal_open_calendar_end = pd.Timestamp(formal_open_calendar["cal_date"].max()).normalize()
+        formal_calendar_end = pd.Timestamp(formal_calendar["cal_date"].max()).normalize()
         formal_month_end_table = formal_open_calendar.groupby("month")["cal_date"].max().sort_index()
         month_end_dates = []
         for month, date in formal_month_end_table.items():
             calendar_month_end = pd.Period(month, freq="M").to_timestamp(how="end").normalize()
-            if calendar_month_end <= formal_calendar_end and pd.Timestamp(date) <= latest_usable_date:
+            if calendar_month_end <= formal_open_calendar_end and pd.Timestamp(date) <= latest_usable_date:
                 month_end_dates.append(pd.Timestamp(date))
+        formal_week_end_table = formal_open_calendar.groupby("week")["cal_date"].max().sort_index()
+        week_end_dates = []
+        for week, date in formal_week_end_table.items():
+            calendar_week_end = pd.Timestamp(week.end_time).normalize()
+            if calendar_week_end <= formal_calendar_end and pd.Timestamp(date) <= latest_usable_date:
+                week_end_dates.append(pd.Timestamp(date))
     else:
         month_end_dates = open_calendar.groupby("month")["cal_date"].max().sort_values().tolist()
+        week_end_dates = open_calendar.groupby("week")["cal_date"].max().sort_values().tolist()
     monthly_period_end_dates = list(month_end_dates)
     if latest_usable_date is not None and (
         not monthly_period_end_dates or latest_usable_date > monthly_period_end_dates[-1]
     ):
         monthly_period_end_dates.append(latest_usable_date)
     month_start_dates = open_calendar.groupby("month")["cal_date"].min().sort_values().tolist()
-    week_end_dates = open_calendar.groupby("week")["cal_date"].max().sort_values().tolist()
     full_calendar_index = pd.Index(open_calendar["cal_date"], name="trade_date")
     return month_end_dates, month_start_dates, week_end_dates, full_calendar_index, monthly_period_end_dates
 
