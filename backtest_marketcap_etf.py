@@ -17924,7 +17924,6 @@ def build_month_boundaries(
         formal_open_calendar = formal_calendar.loc[formal_calendar["is_open"] == 1, ["cal_date"]].copy()
         formal_open_calendar = formal_open_calendar.sort_values("cal_date").reset_index(drop=True)
         formal_open_calendar["month"] = formal_open_calendar["cal_date"].dt.to_period("M")
-        formal_open_calendar["week"] = formal_open_calendar["cal_date"].dt.to_period("W-FRI")
         formal_calendar_end = pd.Timestamp(formal_open_calendar["cal_date"].max()).normalize()
         formal_month_end_table = formal_open_calendar.groupby("month")["cal_date"].max().sort_index()
         month_end_dates = []
@@ -17932,20 +17931,15 @@ def build_month_boundaries(
             calendar_month_end = pd.Period(month, freq="M").to_timestamp(how="end").normalize()
             if calendar_month_end <= formal_calendar_end and pd.Timestamp(date) <= latest_usable_date:
                 month_end_dates.append(pd.Timestamp(date))
-        week_end_dates = [
-            pd.Timestamp(date)
-            for date in formal_open_calendar.groupby("week")["cal_date"].max().sort_index()
-            if pd.Timestamp(date) <= latest_usable_date
-        ]
     else:
         month_end_dates = open_calendar.groupby("month")["cal_date"].max().sort_values().tolist()
-        week_end_dates = open_calendar.groupby("week")["cal_date"].max().sort_values().tolist()
     monthly_period_end_dates = list(month_end_dates)
     if latest_usable_date is not None and (
         not monthly_period_end_dates or latest_usable_date > monthly_period_end_dates[-1]
     ):
         monthly_period_end_dates.append(latest_usable_date)
     month_start_dates = open_calendar.groupby("month")["cal_date"].min().sort_values().tolist()
+    week_end_dates = open_calendar.groupby("week")["cal_date"].max().sort_values().tolist()
     full_calendar_index = pd.Index(open_calendar["cal_date"], name="trade_date")
     return month_end_dates, month_start_dates, week_end_dates, full_calendar_index, monthly_period_end_dates
 
