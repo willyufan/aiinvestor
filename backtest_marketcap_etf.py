@@ -146,6 +146,11 @@ WEEKLY_MOMENTUM_SKIP = 4
 WEEKLY_MA_LOOKBACK = 40
 WEEKLY_STAGE_CONFIRM_WEEKS = 2
 WEEKLY_PORTFOLIO_RAMP_UP = 0.15
+FAST_CRASH_MARKET_DRAWDOWN_TRIGGER = 0.06
+FAST_CRASH_WEEKLY_RETURN_TRIGGER = 0.04
+FAST_CRASH_BREADTH_TRIGGER = 0.40
+FAST_CRASH_DRAWDOWN_LOOKBACK_WEEKS = 5
+FAST_CRASH_BREADTH_LOOKBACK_DAYS = 20
 
 # Phase 3: Path 4-lite multi-factor presets (A 股 only)
 #
@@ -15360,6 +15365,207 @@ PATH6_SHORT_WINDOW_BASE_IDS = [
     "core_explore_80_20_equal_weight_winner_core__path6_short_window_monthly_midcycle_top3_risk20_v6",
 ]
 
+
+def _winner_variant_config(variant_id: str) -> Dict[str, object]:
+    return next(dict(item) for item in WINNER_CORE_VARIANTS if str(item.get("variant_id")) == variant_id)
+
+
+_PATH1_CRASH_REFERENCE_CONFIG = _winner_variant_config(
+    "aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm"
+)
+_PATH2_CRASH_REFERENCE_CONFIG = _winner_variant_config(
+    "aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn"
+)
+_PATH7_CRASH_REFERENCE_CONFIG = _winner_variant_config(
+    "aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly"
+)
+
+
+def _fast_crash_variant(
+    reference: Dict[str, object],
+    *,
+    variant_id: str,
+    variant_name: str,
+    mode: str,
+) -> Dict[str, object]:
+    return {
+        **reference,
+        "variant_id": variant_id,
+        "variant_name": variant_name,
+        "risk_evaluation_frequency": RISK_EVAL_FREQUENCY_WEEKLY,
+        "risk_staging_mode": "three_stage",
+        "risk_overlay_scope": "portfolio_only",
+        "risk_stage_buffered": True,
+        "risk_stage_confirm_weeks": WEEKLY_STAGE_CONFIRM_WEEKS,
+        "risk_off_confirm_weeks": 1,
+        "risk_on_confirm_weeks": 4,
+        "weekly_portfolio_asymmetric": True,
+        "weekly_portfolio_ramp_up": 0.15,
+        "core_caution_exposure": 0.60,
+        "satellite_caution_exposure": 0.60,
+        "core_risk_off_exposure": 0.20,
+        "satellite_risk_off_exposure": 0.20,
+        "fast_crash_guard_enabled": True,
+        "fast_crash_mode": mode,
+        "fast_crash_market_drawdown_trigger": FAST_CRASH_MARKET_DRAWDOWN_TRIGGER,
+        "fast_crash_weekly_return_trigger": FAST_CRASH_WEEKLY_RETURN_TRIGGER,
+        "fast_crash_breadth_trigger": FAST_CRASH_BREADTH_TRIGGER,
+        "fast_crash_risk_off_exposure": 0.20,
+    }
+
+
+CRASH_RESILIENCE_VARIANTS = [
+    _fast_crash_variant(
+        _PATH1_CRASH_REFERENCE_CONFIG,
+        variant_id="aggr_05_95_prom7_risk20_port_fast_crash_drawdown_v1",
+        variant_name="Path1稳健候选(全组合快跌回撤触发v1)",
+        mode="drawdown",
+    ),
+    _fast_crash_variant(
+        _PATH1_CRASH_REFERENCE_CONFIG,
+        variant_id="aggr_05_95_prom7_risk20_port_fast_crash_breadth_v1",
+        variant_name="Path1稳健候选(全组合弱宽度触发v1)",
+        mode="breadth",
+    ),
+    _fast_crash_variant(
+        _PATH1_CRASH_REFERENCE_CONFIG,
+        variant_id="aggr_05_95_prom7_risk20_port_fast_crash_combined_v1",
+        variant_name="Path1稳健候选(全组合快跌与弱宽度联合触发v1)",
+        mode="combined",
+    ),
+    _fast_crash_variant(
+        _PATH2_CRASH_REFERENCE_CONFIG,
+        variant_id="growth_elastic_v70_port_fast_crash_drawdown_v1",
+        variant_name="Path2高弹性v70(全组合快跌回撤触发v1)",
+        mode="drawdown",
+    ),
+    _fast_crash_variant(
+        _PATH2_CRASH_REFERENCE_CONFIG,
+        variant_id="growth_elastic_v70_port_fast_crash_combined_v1",
+        variant_name="Path2高弹性v70(全组合快跌与弱宽度联合触发v1)",
+        mode="combined",
+    ),
+    {
+        **_fast_crash_variant(
+            _PATH7_CRASH_REFERENCE_CONFIG,
+            variant_id="path7_crash_resilience_cash70_weekly30_fast_combined_v1_defbar",
+            variant_name="Path7防守杠铃(70%现金/30%周频进攻v1)",
+            mode="combined",
+        ),
+        "core_risk_on_exposure": 0.30,
+        "satellite_risk_on_exposure": 0.30,
+        "core_caution_exposure": 0.20,
+        "satellite_caution_exposure": 0.20,
+        "core_risk_off_exposure": 0.10,
+        "satellite_risk_off_exposure": 0.10,
+        "fast_crash_risk_off_exposure": 0.10,
+        "alpha_pool_profile": ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED,
+    },
+    {
+        **_fast_crash_variant(
+            _PATH7_CRASH_REFERENCE_CONFIG,
+            variant_id="path7_crash_resilience_cash50_weekly50_fast_combined_v2_defbar",
+            variant_name="Path7防守杠铃(50%现金/50%周频进攻v2)",
+            mode="combined",
+        ),
+        "core_risk_on_exposure": 0.50,
+        "satellite_risk_on_exposure": 0.50,
+        "core_caution_exposure": 0.35,
+        "satellite_caution_exposure": 0.35,
+        "core_risk_off_exposure": 0.15,
+        "satellite_risk_off_exposure": 0.15,
+        "fast_crash_risk_off_exposure": 0.15,
+        "alpha_pool_profile": ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED,
+    },
+]
+CRASH_RESILIENCE_VARIANTS.extend(
+    [
+        {
+            **_fast_crash_variant(
+                _PATH1_CRASH_REFERENCE_CONFIG,
+                variant_id="aggr_05_95_prom7_risk20_port_fast_crash_early_balanced_v2",
+                variant_name="Path1稳健候选(全组合提前联合触发中等降仓v2)",
+                mode="combined",
+            ),
+            "risk_on_confirm_weeks": 2,
+            "weekly_portfolio_ramp_up": 0.25,
+            "core_caution_exposure": 0.75,
+            "satellite_caution_exposure": 0.75,
+            "core_risk_off_exposure": 0.40,
+            "satellite_risk_off_exposure": 0.40,
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.40,
+        },
+        {
+            **_fast_crash_variant(
+                _PATH2_CRASH_REFERENCE_CONFIG,
+                variant_id="growth_elastic_v70_port_fast_crash_early_balanced_v2",
+                variant_name="Path2高弹性v70(全组合提前联合触发中等降仓v2)",
+                mode="combined",
+            ),
+            "risk_on_confirm_weeks": 2,
+            "weekly_portfolio_ramp_up": 0.25,
+            "core_caution_exposure": 0.65,
+            "satellite_caution_exposure": 0.65,
+            "core_risk_off_exposure": 0.45,
+            "satellite_risk_off_exposure": 0.45,
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.45,
+        },
+        {
+            **_fast_crash_variant(
+                _PATH7_CRASH_REFERENCE_CONFIG,
+                variant_id="path7_crash_resilience_cash50_static_fast_pulse_v3_defbar",
+                variant_name="Path7防守杠铃(常态50%周频进攻/快跌15%脉冲v3)",
+                mode="combined",
+            ),
+            "risk_on_confirm_weeks": 1,
+            "weekly_portfolio_asymmetric": False,
+            "core_risk_on_exposure": 0.50,
+            "satellite_risk_on_exposure": 0.50,
+            "core_caution_exposure": 0.50,
+            "satellite_caution_exposure": 0.50,
+            "core_risk_off_exposure": 0.50,
+            "satellite_risk_off_exposure": 0.50,
+            "fast_crash_market_drawdown_trigger": 0.03,
+            "fast_crash_weekly_return_trigger": 0.03,
+            "fast_crash_breadth_trigger": 0.45,
+            "fast_crash_risk_off_exposure": 0.15,
+            "alpha_pool_profile": ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED,
+        },
+    ]
+)
+WINNER_CORE_VARIANTS.extend(CRASH_RESILIENCE_VARIANTS)
+
+PATH1_CRASH_RESILIENCE_BASE_IDS = [
+    f"core_explore_80_20_total_mv_winner_core__{item['variant_id']}"
+    for item in CRASH_RESILIENCE_VARIANTS
+    if str(item["variant_id"]).startswith("aggr_05_95_prom7_")
+]
+PATH2_CRASH_RESILIENCE_BASE_IDS = [
+    f"core_explore_60_40_equal_weight_winner_core__{item['variant_id']}"
+    for item in CRASH_RESILIENCE_VARIANTS
+    if str(item["variant_id"]).startswith("growth_elastic_")
+]
+PATH7_CRASH_RESILIENCE_BASE_IDS = [
+    f"core_explore_80_20_equal_weight_winner_core__{item['variant_id']}"
+    for item in CRASH_RESILIENCE_VARIANTS
+    if str(item["variant_id"]).startswith("path7_")
+]
+CRASH_RESILIENCE_BASE_IDS = (
+    PATH1_CRASH_RESILIENCE_BASE_IDS
+    + PATH2_CRASH_RESILIENCE_BASE_IDS
+    + PATH7_CRASH_RESILIENCE_BASE_IDS
+)
+CRASH_RESILIENCE_ACTIVE_BASE_IDS = {
+    "core_explore_60_40_equal_weight_winner_core__growth_elastic_v70_port_fast_crash_early_balanced_v2",
+    "core_explore_80_20_equal_weight_winner_core__path7_crash_resilience_cash50_static_fast_pulse_v3_defbar",
+}
+
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
     "promotion_ramp": [
         "aggr_10_90_fast_ramp",
@@ -17718,6 +17924,7 @@ def build_month_boundaries(
         formal_open_calendar = formal_calendar.loc[formal_calendar["is_open"] == 1, ["cal_date"]].copy()
         formal_open_calendar = formal_open_calendar.sort_values("cal_date").reset_index(drop=True)
         formal_open_calendar["month"] = formal_open_calendar["cal_date"].dt.to_period("M")
+        formal_open_calendar["week"] = formal_open_calendar["cal_date"].dt.to_period("W-FRI")
         formal_calendar_end = pd.Timestamp(formal_open_calendar["cal_date"].max()).normalize()
         formal_month_end_table = formal_open_calendar.groupby("month")["cal_date"].max().sort_index()
         month_end_dates = []
@@ -17725,15 +17932,20 @@ def build_month_boundaries(
             calendar_month_end = pd.Period(month, freq="M").to_timestamp(how="end").normalize()
             if calendar_month_end <= formal_calendar_end and pd.Timestamp(date) <= latest_usable_date:
                 month_end_dates.append(pd.Timestamp(date))
+        week_end_dates = [
+            pd.Timestamp(date)
+            for date in formal_open_calendar.groupby("week")["cal_date"].max().sort_index()
+            if pd.Timestamp(date) <= latest_usable_date
+        ]
     else:
         month_end_dates = open_calendar.groupby("month")["cal_date"].max().sort_values().tolist()
+        week_end_dates = open_calendar.groupby("week")["cal_date"].max().sort_values().tolist()
     monthly_period_end_dates = list(month_end_dates)
     if latest_usable_date is not None and (
         not monthly_period_end_dates or latest_usable_date > monthly_period_end_dates[-1]
     ):
         monthly_period_end_dates.append(latest_usable_date)
     month_start_dates = open_calendar.groupby("month")["cal_date"].min().sort_values().tolist()
-    week_end_dates = open_calendar.groupby("week")["cal_date"].max().sort_values().tolist()
     full_calendar_index = pd.Index(open_calendar["cal_date"], name="trade_date")
     return month_end_dates, month_start_dates, week_end_dates, full_calendar_index, monthly_period_end_dates
 
@@ -18447,6 +18659,165 @@ def compute_market_exposure(
         "satellite_target_exposure": satellite_target_exposure,
         "portfolio_target_exposure": core_target_exposure,
     }
+
+
+def compute_fast_crash_state(
+    market_weekly_close: pd.Series,
+    price_ffill: pd.DataFrame,
+    signal_date: pd.Timestamp,
+    *,
+    mode: str = "combined",
+    market_drawdown_trigger: float = FAST_CRASH_MARKET_DRAWDOWN_TRIGGER,
+    weekly_return_trigger: float = FAST_CRASH_WEEKLY_RETURN_TRIGGER,
+    breadth_trigger: float = FAST_CRASH_BREADTH_TRIGGER,
+    drawdown_lookback_weeks: int = FAST_CRASH_DRAWDOWN_LOOKBACK_WEEKS,
+    breadth_lookback_days: int = FAST_CRASH_BREADTH_LOOKBACK_DAYS,
+) -> Dict[str, object]:
+    """Evaluate a causal, weekly fast-crash signal using only data at signal_date.
+
+    ``drawdown`` reacts to either a sharp one-week loss or a short peak-to-current
+    drawdown. ``breadth`` requires weak market breadth and a negative index week.
+    ``combined`` requires both price damage and weak breadth, reducing false alarms.
+    """
+    signal_date = pd.Timestamp(signal_date)
+    market_history = market_weekly_close.loc[:signal_date].dropna()
+    price_history = price_ffill.loc[:signal_date]
+    weekly_return = np.nan
+    short_drawdown = np.nan
+    breadth = np.nan
+
+    if len(market_history) >= 2:
+        prior_close = float(market_history.iloc[-2])
+        if prior_close > 0:
+            weekly_return = float(market_history.iloc[-1]) / prior_close - 1.0
+    lookback = max(2, int(drawdown_lookback_weeks))
+    market_window = market_history.tail(lookback)
+    if len(market_window) >= 2 and float(market_window.max()) > 0:
+        short_drawdown = float(market_window.iloc[-1]) / float(market_window.max()) - 1.0
+
+    breadth_days = max(2, int(breadth_lookback_days))
+    price_window = price_history.tail(breadth_days)
+    if len(price_window) >= breadth_days:
+        current_prices = price_window.iloc[-1]
+        moving_average = price_window.mean(axis=0)
+        valid = current_prices.notna() & moving_average.notna() & (current_prices > 0) & (moving_average > 0)
+        if bool(valid.any()):
+            breadth = float((current_prices.loc[valid] > moving_average.loc[valid]).mean())
+
+    drawdown_hit = bool(
+        (np.isfinite(short_drawdown) and short_drawdown <= -abs(float(market_drawdown_trigger)))
+        or (np.isfinite(weekly_return) and weekly_return <= -abs(float(weekly_return_trigger)))
+    )
+    breadth_hit = bool(
+        np.isfinite(breadth)
+        and breadth <= float(breadth_trigger)
+        and np.isfinite(weekly_return)
+        and weekly_return < 0
+    )
+    normalized_mode = str(mode or "combined").strip().lower()
+    if normalized_mode == "drawdown":
+        triggered = drawdown_hit
+    elif normalized_mode == "breadth":
+        triggered = breadth_hit
+    else:
+        triggered = drawdown_hit and bool(np.isfinite(breadth) and breadth <= float(breadth_trigger))
+        normalized_mode = "combined"
+    return {
+        "triggered": bool(triggered),
+        "mode": normalized_mode,
+        "market_drawdown": short_drawdown,
+        "weekly_return": weekly_return,
+        "breadth": breadth,
+        "drawdown_hit": drawdown_hit,
+        "breadth_hit": breadth_hit,
+    }
+
+
+def apply_fast_crash_guard(
+    regime: Dict[str, object],
+    *,
+    prepared: PreparedData,
+    signal_date: pd.Timestamp,
+    strategy_config: Dict[str, object],
+) -> Dict[str, object]:
+    guarded = dict(regime)
+    if not bool(strategy_config.get("fast_crash_guard_enabled", False)):
+        return guarded
+    crash = compute_fast_crash_state(
+        prepared.market_weekly_close,
+        prepared.price_ffill,
+        signal_date,
+        mode=str(strategy_config.get("fast_crash_mode", "combined")),
+        market_drawdown_trigger=float(
+            strategy_config.get("fast_crash_market_drawdown_trigger", FAST_CRASH_MARKET_DRAWDOWN_TRIGGER)
+        ),
+        weekly_return_trigger=float(
+            strategy_config.get("fast_crash_weekly_return_trigger", FAST_CRASH_WEEKLY_RETURN_TRIGGER)
+        ),
+        breadth_trigger=float(strategy_config.get("fast_crash_breadth_trigger", FAST_CRASH_BREADTH_TRIGGER)),
+        drawdown_lookback_weeks=int(
+            strategy_config.get("fast_crash_drawdown_lookback_weeks", FAST_CRASH_DRAWDOWN_LOOKBACK_WEEKS)
+        ),
+        breadth_lookback_days=int(
+            strategy_config.get("fast_crash_breadth_lookback_days", FAST_CRASH_BREADTH_LOOKBACK_DAYS)
+        ),
+    )
+    guarded.update({f"fast_crash_{key}": value for key, value in crash.items()})
+    guarded["slow_risk_stage"] = str(regime.get("risk_stage", "risk_on"))
+    if bool(crash["triggered"]):
+        risk_off_exposure = max(
+            0.0,
+            min(1.0, float(strategy_config.get("fast_crash_risk_off_exposure", 0.20))),
+        )
+        guarded.update(
+            {
+                "risk_off": True,
+                "risk_stage": "risk_off",
+                "core_target_exposure": risk_off_exposure,
+                "satellite_target_exposure": risk_off_exposure,
+                "portfolio_target_exposure": risk_off_exposure,
+            }
+        )
+    return guarded
+
+
+def apply_effective_risk_stage(
+    regime: Dict[str, object],
+    effective_stage: str,
+    strategy_config: Dict[str, object],
+) -> Dict[str, object]:
+    adjusted = dict(regime)
+    stage = str(effective_stage)
+    if stage == "risk_off":
+        core_exposure = float(strategy_config.get("core_risk_off_exposure", CORE_RISK_OFF_EXPOSURE))
+        satellite_exposure = float(
+            strategy_config.get("satellite_risk_off_exposure", SATELLITE_RISK_OFF_EXPOSURE)
+        )
+        if bool(regime.get("fast_crash_triggered", False)):
+            crash_exposure = float(strategy_config.get("fast_crash_risk_off_exposure", 0.20))
+            core_exposure = crash_exposure
+            satellite_exposure = crash_exposure
+    elif stage == "caution":
+        core_exposure = float(strategy_config.get("core_caution_exposure", CORE_CAUTION_EXPOSURE))
+        satellite_exposure = float(
+            strategy_config.get("satellite_caution_exposure", SATELLITE_CAUTION_EXPOSURE)
+        )
+    else:
+        stage = "risk_on"
+        core_exposure = float(strategy_config.get("core_risk_on_exposure", CORE_RISK_ON_EXPOSURE))
+        satellite_exposure = float(
+            strategy_config.get("satellite_risk_on_exposure", SATELLITE_RISK_ON_EXPOSURE)
+        )
+    adjusted.update(
+        {
+            "risk_off": stage == "risk_off",
+            "risk_stage": stage,
+            "core_target_exposure": max(0.0, min(1.0, core_exposure)),
+            "satellite_target_exposure": max(0.0, min(1.0, satellite_exposure)),
+            "portfolio_target_exposure": max(0.0, min(1.0, core_exposure)),
+        }
+    )
+    return adjusted
 
 
 def build_factor_cache_path(prepared: PreparedData) -> Path:
@@ -20104,6 +20475,9 @@ def apply_weekly_satellite_risk_overlay(
     risk_on_confirm_weeks_cfg = strategy_config.get("risk_on_confirm_weeks")
     risk_off_confirm_weeks = int(risk_off_confirm_weeks_cfg) if risk_off_confirm_weeks_cfg is not None else None
     risk_on_confirm_weeks = int(risk_on_confirm_weeks_cfg) if risk_on_confirm_weeks_cfg is not None else None
+    core_risk_off_exposure = float(strategy_config.get("core_risk_off_exposure", CORE_RISK_OFF_EXPOSURE))
+    core_risk_on_exposure = float(strategy_config.get("core_risk_on_exposure", CORE_RISK_ON_EXPOSURE))
+    core_caution_exposure = float(strategy_config.get("core_caution_exposure", CORE_CAUTION_EXPOSURE))
     satellite_risk_off_exposure = float(strategy_config.get("satellite_risk_off_exposure", SATELLITE_RISK_OFF_EXPOSURE))
     satellite_risk_on_exposure = float(strategy_config.get("satellite_risk_on_exposure", SATELLITE_RISK_ON_EXPOSURE))
     satellite_caution_exposure = float(strategy_config.get("satellite_caution_exposure", SATELLITE_CAUTION_EXPOSURE))
@@ -20135,15 +20509,21 @@ def apply_weekly_satellite_risk_overlay(
             overlay_date,
             risk_off_rule=market_risk_off_rule,
             risk_staging_mode=risk_staging_mode,
-            core_risk_off_exposure=CORE_RISK_OFF_EXPOSURE,
-            core_risk_on_exposure=CORE_RISK_ON_EXPOSURE,
-            core_caution_exposure=CORE_CAUTION_EXPOSURE,
+            core_risk_off_exposure=core_risk_off_exposure,
+            core_risk_on_exposure=core_risk_on_exposure,
+            core_caution_exposure=core_caution_exposure,
             satellite_risk_off_exposure=satellite_risk_off_exposure,
             satellite_risk_on_exposure=satellite_risk_on_exposure,
             satellite_caution_exposure=satellite_caution_exposure,
             momentum_lookback=WEEKLY_MOMENTUM_LOOKBACK,
             momentum_skip=WEEKLY_MOMENTUM_SKIP,
             ma_lookback=WEEKLY_MA_LOOKBACK,
+        )
+        regime = apply_fast_crash_guard(
+            regime,
+            prepared=prepared,
+            signal_date=overlay_date,
+            strategy_config=strategy_config,
         )
         effective_stage = str(regime["risk_stage"])
         if use_buffered_stage and risk_staging_mode == "three_stage":
@@ -20153,10 +20533,12 @@ def apply_weekly_satellite_risk_overlay(
                 confirm_weeks=confirm_weeks,
                 risk_off_confirm_weeks=risk_off_confirm_weeks,
                 risk_on_confirm_weeks=risk_on_confirm_weeks,
-                stepwise=True,
+                stepwise=not bool(regime.get("fast_crash_triggered", False)),
             )
         else:
             overlay_state = {"confirmed_stage": effective_stage, "pending_stage": None, "pending_count": 0}
+
+        regime = apply_effective_risk_stage(regime, effective_stage, strategy_config)
 
         if effective_stage == "risk_off":
             satellite_target_exposure = satellite_risk_off_exposure
@@ -20222,7 +20604,13 @@ def apply_weekly_satellite_risk_overlay(
             detail_row["target_total_exposure"] = float(target_weights.sum()) if not target_weights.empty else 0.0
             detail_row["market_momentum"] = _diagnostic_float(regime.get("market_12_1_momentum"))
             detail_row["market_risk_off"] = bool(regime.get("risk_off"))
-            detail_row["risk_trigger"] = "weekly_overlay"
+            detail_row["fast_crash_triggered"] = bool(regime.get("fast_crash_triggered", False))
+            detail_row["fast_crash_market_drawdown"] = _diagnostic_float(regime.get("fast_crash_market_drawdown"))
+            detail_row["fast_crash_weekly_return"] = _diagnostic_float(regime.get("fast_crash_weekly_return"))
+            detail_row["fast_crash_breadth"] = _diagnostic_float(regime.get("fast_crash_breadth"))
+            detail_row["risk_trigger"] = (
+                "fast_crash_guard" if bool(regime.get("fast_crash_triggered", False)) else "weekly_overlay"
+            )
             trade_details.append(detail_row)
         overlay_turnover_rows.append(
             {
@@ -20245,6 +20633,12 @@ def apply_weekly_satellite_risk_overlay(
                 "event_type": "weekly_satellite_overlay",
                 "risk_stage": effective_stage,
                 "raw_risk_stage": str(regime["risk_stage"]),
+                "slow_risk_stage": str(regime.get("slow_risk_stage", regime["risk_stage"])),
+                "fast_crash_triggered": bool(regime.get("fast_crash_triggered", False)),
+                "fast_crash_mode": str(regime.get("fast_crash_mode", "")),
+                "fast_crash_market_drawdown": _diagnostic_float(regime.get("fast_crash_market_drawdown")),
+                "fast_crash_weekly_return": _diagnostic_float(regime.get("fast_crash_weekly_return")),
+                "fast_crash_breadth": _diagnostic_float(regime.get("fast_crash_breadth")),
                 "trade_details_json": json.dumps(trade_details, ensure_ascii=False) if trade_details else "",
             }
         )
@@ -20983,6 +21377,12 @@ def build_month_end_preview_payload(
         satellite_risk_on_exposure=float(strategy_config.get("satellite_risk_on_exposure", SATELLITE_RISK_ON_EXPOSURE)),
         satellite_caution_exposure=float(strategy_config.get("satellite_caution_exposure", SATELLITE_CAUTION_EXPOSURE)),
     )
+    market_regime = apply_fast_crash_guard(
+        market_regime,
+        prepared=prepared,
+        signal_date=signal_date,
+        strategy_config=strategy_config,
+    )
     if strategy_kind == "pure_core_growth":
         market_regime = {
             "risk_off": False,
@@ -21238,6 +21638,7 @@ def run_backtest(
     risk_evaluation_frequency = str(strategy_config.get("risk_evaluation_frequency", RISK_EVAL_FREQUENCY_MONTHLY) or RISK_EVAL_FREQUENCY_MONTHLY)
     risk_staging_mode = str(strategy_config.get("risk_staging_mode", "two_stage") or "two_stage").strip().lower()
     overlay_state: Dict[str, object] = {"confirmed_stage": "risk_on", "pending_stage": None, "pending_count": 0}
+    base_risk_state: Dict[str, object] = {"confirmed_stage": "risk_on", "pending_stage": None, "pending_count": 0}
     drawdown_guard_state: Dict[str, object] = {"peak_nav": 1.0, "active": False, "active_days": 0}
 
     monthly_rows: List[Dict[str, object]] = []
@@ -21391,6 +21792,22 @@ def run_backtest(
             momentum_skip=MONTHLY_MOMENTUM_SKIP if rebalance_frequency == "monthly" else WEEKLY_MOMENTUM_SKIP,
             ma_lookback=MONTHLY_MA_LOOKBACK if rebalance_frequency == "monthly" else WEEKLY_MA_LOOKBACK,
         )
+        market_regime = apply_fast_crash_guard(
+            market_regime,
+            prepared=prepared,
+            signal_date=signal_date,
+            strategy_config=strategy_config,
+        )
+        if bool(strategy_config.get("fast_crash_guard_enabled", False)) and risk_staging_mode == "three_stage":
+            effective_base_stage, base_risk_state = apply_buffered_stage_transition(
+                raw_stage=str(market_regime["risk_stage"]),
+                state=base_risk_state,
+                confirm_weeks=int(strategy_config.get("risk_stage_confirm_weeks", WEEKLY_STAGE_CONFIRM_WEEKS)),
+                risk_off_confirm_weeks=int(strategy_config.get("risk_off_confirm_weeks", 1)),
+                risk_on_confirm_weeks=int(strategy_config.get("risk_on_confirm_weeks", 4)),
+                stepwise=not bool(market_regime.get("fast_crash_triggered", False)),
+            )
+            market_regime = apply_effective_risk_stage(market_regime, effective_base_stage, strategy_config)
         if strategy_kind == "pure_core_growth":
             market_regime = {
                 "risk_off": False,
@@ -22049,6 +22466,19 @@ def run_backtest(
         "core_risk_on_exposure": float(strategy_config.get("core_risk_on_exposure", CORE_RISK_ON_EXPOSURE)),
         "satellite_risk_off_exposure": float(strategy_config.get("satellite_risk_off_exposure", SATELLITE_RISK_OFF_EXPOSURE)),
         "satellite_risk_on_exposure": float(strategy_config.get("satellite_risk_on_exposure", SATELLITE_RISK_ON_EXPOSURE)),
+        "fast_crash_guard_enabled": bool(strategy_config.get("fast_crash_guard_enabled", False)),
+        "fast_crash_mode": str(strategy_config.get("fast_crash_mode", "") or ""),
+        "fast_crash_market_drawdown_trigger": float(
+            strategy_config.get("fast_crash_market_drawdown_trigger", FAST_CRASH_MARKET_DRAWDOWN_TRIGGER)
+        ),
+        "fast_crash_weekly_return_trigger": float(
+            strategy_config.get("fast_crash_weekly_return_trigger", FAST_CRASH_WEEKLY_RETURN_TRIGGER)
+        ),
+        "fast_crash_breadth_trigger": float(
+            strategy_config.get("fast_crash_breadth_trigger", FAST_CRASH_BREADTH_TRIGGER)
+        ),
+        "fast_crash_risk_off_exposure": float(strategy_config.get("fast_crash_risk_off_exposure", 0.20)),
+        "fast_crash_recovery_confirm_weeks": int(strategy_config.get("risk_on_confirm_weeks", 0) or 0),
         "buy_entry_percentile": BUY_ENTRY_PERCENTILE,
         "sell_exit_percentile": SELL_EXIT_PERCENTILE,
         "min_weight_trade_threshold": MIN_WEIGHT_TRADE_THRESHOLD,
@@ -22093,7 +22523,11 @@ def _parse_csv_list(value: str) -> list[str]:
 
 def get_winner_only_base_ids() -> Set[str]:
     winner_base_ids = {WINNER_ONLY_STRATEGY_ID}
+    all_crash_variant_ids = {str(item["variant_id"]) for item in CRASH_RESILIENCE_VARIANTS}
     for variant in WINNER_CORE_VARIANTS:
+        variant_id = str(variant.get("variant_id"))
+        if variant_id in all_crash_variant_ids:
+            continue
         winner_base_ids.add(f"{WINNER_ONLY_STRATEGY_ID}__{variant['variant_id']}")
     return winner_base_ids
 
@@ -22132,18 +22566,24 @@ def get_active_strategy_base_ids() -> Set[str]:
         for base_id in get_all_generated_strategy_base_ids()
         if _matches_family_prefix(base_id, ACTIVE_FAMILY_BASE_PREFIXES)
     }
-    winner_variant_ids = get_winner_only_base_ids()
+    path6_generic_ids = {
+        f"{WINNER_ONLY_STRATEGY_ID}__{variant_id}"
+        for variant_id in PATH6_SHORT_WINDOW_VARIANT_IDS
+    }
+    winner_variant_ids = get_winner_only_base_ids() - path6_generic_ids
     active_ids |= {
         base_id
         for base_id in winner_variant_ids
         if _matches_family_prefix(base_id, ACTIVE_FAMILY_BASE_PREFIXES)
     }
+    active_ids |= set(PATH6_SHORT_WINDOW_BASE_IDS)
     active_ids |= {
         f"{base_id}{suffix}"
         for base_id in winner_variant_ids
         for suffix in WEEKLY_OVERLAY_SUFFIXES
         if _matches_family_prefix(base_id, ACTIVE_FAMILY_BASE_PREFIXES)
     }
+    active_ids |= set(CRASH_RESILIENCE_ACTIVE_BASE_IDS)
     return active_ids
 
 

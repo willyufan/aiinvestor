@@ -1,5 +1,26 @@
 # Path 1 研究计划
 
+## 2026-08-12 快跌适应性专项（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- 7 月暴跌专项确认 4 个全组合快跌候选。`drawdown_v1` / `combined_v1` 在 `since_2026_01` 将 MaxDD 从 incumbent `risk20_reconfirm` 的 `-40.41%` 改善到 `-28.82%`，CAGR 从 `21.19%` 升到 `29.19%`；但 `since_2020_01` CAGR 分别降至 `14.86%/14.24%`，相对 `25.90%` 破坏稳定性，均 `reject`。`breadth_v1` 因弱宽度频繁误触发，2026 CAGR 仅 `7.38%`，`reject`。
+- `early_balanced_v2` 把联合触发提前到 5 周回撤 `-3%`、宽度 `<45%`，只降到 `40%` 并 2 周恢复；其 2026 CAGR/MaxDD 为 `36.26%/-27.93%`，验证“提前且温和可改善 7 月防守”假设，但 2020/2023 CAGR 降至 `9.61%/9.98%`，仍 `reject`。4 个失败候选均从 active 口径移除、保留历史结果快照；全部候选未改变 window winner、robust 或 tracked payload；scorecard：`results/research/a_share/crash_resilience_scorecard_20260812.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_drawdown_v1`、`...breadth_v1`、`...combined_v1`、`...early_balanced_v2`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_drawdown_v1,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_breadth_v1,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_combined_v1,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_early_balanced_v2`。
+
+### 下一轮 focus 提示
+
+- 停止“长期强降仓 + 慢恢复”同形扩参。下一步仅验证一次事件脉冲：常态完全沿用 `risk20_reconfirm`，提前触发后只维持 1 周 `55%` 仓位，不把 slow regime 的 caution 状态覆盖成长期 risk_off；目标是保留 2020/2023 CAGR，同时把 2026 MaxDD 至少改善 8pp。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse55_1w_v3,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse65_1w_v4`（需先注册两个 candidate ID）。
+
+### Focus 候选池
+
+- `crash_resilience`：`pulse55_1w_v3`、`pulse65_1w_v4`；`crash_signal_quality`：`drawdown3_breadth35_v3`、`weekly_loss4_breadth40_v3`。
+- `weekly_exposure_path`：buffered-asym13、buffered-asym；`satellite_defense`：risk18、risk20；`core_multifactor_coverage`：value-lowvol-industry-signal-cashguard、value-lowvol-trend-signal-cashguard。
+
 ## 2026-08-12 二次迭代记录（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要

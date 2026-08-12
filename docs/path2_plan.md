@@ -1,5 +1,26 @@
 # Path 2 研究计划
 
+## 2026-08-12 快跌适应性专项（端点 2026-08-11）
+
+### 上一轮候选与结果摘要
+
+- 以 v70 weak robust 为锚验证 3 个全组合快跌候选。`drawdown_v1` / `combined_v1` 的 2026 CAGR/MaxDD 为 `-10.13%/-35.07%`，相对 v70 的 `13.60%/-30.44%` 同时恶化，`reject`；假设“7 月 17 日降到20%即可保护高弹性池”不成立，触发时持仓损失已发生且降仓妨碍修复。
+- `early_balanced_v2` 以 3%短回撤、宽度45%提前联合触发并降到45%，2026 CAGR/Sharpe/MaxDD 改善到 `21.88%/0.623/-21.18%`，但 2020 CAGR 从 v70 的 `5.73%` 降至 `1.08%`，超过 3pp 护栏，判定 `keep_watch`；进入 active 观察位，不是强稳定 winner。两个 v1 `reject` 候选从 active 移除并保留历史快照；window winner、robust、tracked 均未改变。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_60_40_equal_weight_winner_core__growth_elastic_v70_port_fast_crash_drawdown_v1`、`...combined_v1`、`...early_balanced_v2`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__growth_elastic_v70_port_fast_crash_drawdown_v1,core_explore_60_40_equal_weight_winner_core__growth_elastic_v70_port_fast_crash_combined_v1,core_explore_60_40_equal_weight_winner_core__growth_elastic_v70_port_fast_crash_early_balanced_v2`；scorecard：`results/research/a_share/crash_resilience_scorecard_20260812.json`。
+
+### 下一轮 focus 提示
+
+- 仅保留 `early_balanced_v2` 作为短窗观察，停止 v1。下一步改为“选股端快速退出 + 组合端浅降仓”而非整仓20%：提前联合触发时把 `promoted_core_sell_exit_percentile` 收紧到 0.28、组合仓位降至55%，要求 2020 CAGR 跌幅收窄至3pp以内且 2026 MaxDD 保持改善。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__growth_elastic_v70_fast_exit28_crash55_v3,core_explore_60_40_equal_weight_winner_core__growth_elastic_v70_fast_exit32_crash60_v4`（需先注册）。
+
+### Focus 候选池
+
+- `crash_resilience`：`v70_fast_exit28_crash55_v3`、`v70_fast_exit32_crash60_v4`；`risk_reconfirm_sensitivity`：v28、v29。
+- `medium_cycle_growth`：v26、v27；`underrepresented_families`：v62、v70；`capacity_and_cost_stress`：v29、v70。
+
 ## 2026-08-12 二次迭代记录（端点 2026-08-11）
 
 ### 上一轮候选与结果摘要
