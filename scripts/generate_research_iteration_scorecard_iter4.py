@@ -23,13 +23,13 @@ P4_REF = "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_th
 A_CANDIDATES = [
     (
         "ashare_path1",
-        "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_lowvol_industry_cost_guard_reconfirm",
+        "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_industry_cashguard_reconfirm",
         P1_REF,
         "reject",
     ),
     (
         "ashare_path1",
-        "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm",
+        "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_defense_cashguard_reconfirm",
         P1_REF,
         "reject",
     ),
@@ -42,58 +42,66 @@ A_CANDIDATES = [
     ),
     (
         "ashare_path2",
-        "core_explore_60_40_equal_weight_winner_core__growth_elastic_v70_port_fast_crash_early_balanced_v2",
+        "core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn",
+        P2_REF,
+        "keep_watch",
+    ),
+    (
+        "ashare_path2",
+        "core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk18_exit38_cap12_cost_guard_v64_underrepresented_lowturn",
         P2_REF,
         "keep_watch",
     ),
     ("ashare_path2", P2_REF, P2_REF, "robust_observation"),
     (
-        "ashare_path2",
-        "core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair",
-        P2_REF,
+        "ashare_path3",
+        "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly",
+        P3_REF,
         "reject",
     ),
     (
         "ashare_path3",
-        "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly",
+        "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly",
         P3_REF,
         "reject",
     ),
     ("ashare_path3", P3_REF, P3_REF, "promote"),
     (
         "ashare_path4",
-        "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk12_cap06_exit60_lowturn",
+        "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn",
         P4_REF,
         "keep_watch",
     ),
     (
         "ashare_path4",
-        "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom20_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn",
+        "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
         P4_REF,
-        "keep_watch",
+        "robust_observation",
     ),
     ("ashare_path4", P4_REF, P4_REF, "robust_observation"),
 ]
 
 HK_CANDIDATES = [
-    ("hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair", "reject"),
-    ("hkconnect_path1_biweekly_quality_momentum_equal_buffered_v34_lowvol_ytd_repair", "reject"),
+    ("hkconnect_path1_biweekly_cashoff", "reject"),
+    ("hkconnect_path1_biweekly_hybrid", "keep_watch"),
     ("hkconnect_path1_biweekly_lowvol", "promote"),
-    ("hkconnect_path2_quality_liquidity_momentum_monthly_v1", "keep_watch"),
-    ("hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard", "keep_watch"),
+    ("hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair", "reject"),
+    ("hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair", "reject"),
     ("hkconnect_path2_theme_fast_monthly", "promote"),
-    ("hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit52_v18_turnover_reduction", "reject"),
-    ("hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery", "keep_watch"),
+    ("hkconnect_path3_stable_weekly_equal_buffered_v36_return_recovery", "keep_watch"),
+    ("hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard", "keep_watch"),
     ("hkconnect_path3_equal_elastic_cashoff_weekly", "robust_observation"),
-    ("hkconnect_path4_quality_momentum_monthly_v50_return_restore", "keep_watch"),
-    ("hkconnect_path4_quality_momentum_monthly_v51_quality_balance", "keep_watch"),
+    ("hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v10", "reject"),
+    ("hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v27_liquidity_momentum_repair", "reject"),
     ("hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality", "robust_observation"),
-    ("hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite", "keep_watch"),
+    ("hkconnect_path5_breakout_retest_biweekly_quality_confirm_v11_retest_confirmation", "reject"),
+    ("hkconnect_path5_breakout_retest_biweekly_quality_confirm_v23_retest_confirmation_lowturn", "reject"),
     ("hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair", "robust_observation"),
-    ("hkconnect_path6_large_liquid_core_monthly_lowturn_v4", "keep_watch"),
-    ("hkconnect_path6_large_liquid_core_monthly_smoke", "keep_watch"),
+    ("hkconnect_path6_large_liquid_core_biweekly_liquidity_mix_v3", "keep_watch"),
+    ("hkconnect_path6_large_liquid_core_biweekly_quality_liquidity_mix_v8", "keep_watch"),
     ("hkconnect_path6_lowvol_liquid_biweekly_smoke", "promote"),
     ("hkconnect_path7_barbell_quality_growth_biweekly_lowturn_dual_sleeve_v9", "promote"),
+    ("hkconnect_path7_barbell_quality_growth_biweekly_core_defensive_lowturn_v10", "keep_watch"),
     ("hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3", "promote"),
 ]
 
@@ -125,7 +133,7 @@ FOCUS = {
 def latest(frame: pd.DataFrame) -> pd.DataFrame:
     frame = frame[
         frame["sample_tag"].isin(WINDOWS)
-        & (frame["sample_end"].astype(str) == "2026-08-12")
+        & (frame["sample_end"].astype(str) == "2026-08-13")
     ].copy()
     return frame.drop_duplicates(["strategy_base_id", "sample_tag"], keep="last")
 
@@ -156,7 +164,7 @@ def decision_reason(decision: str, d25: dict[str, float | None], d26: dict[str, 
 
 
 def make_event_card() -> dict[str, Any]:
-    event_path = A_DIR / "event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal29_20260813_mature.json"
+    event_path = A_DIR / "event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal29_20260814_short.json"
     event = json.loads(event_path.read_text(encoding="utf-8"))
     gap = "event runner 只产出事件 horizon，不生成连续组合 CAGR、Sharpe、MaxDD、turnover"
     return {
@@ -164,8 +172,8 @@ def make_event_card() -> dict[str, Any]:
         "candidate_id": event["basket_id"],
         "reference_id": event["path4_reference_overlap"]["strategy_id"],
         "decision": "keep_watch",
-        "hypothesis": "相对 Path4 弱观察锚复核已审计冻结篮子的成熟窗口独立收益，预期 20/40/60D 延续且 overlap 保持低位。",
-        "reason": "20/40/60D 等权收益为 21.80%/26.82%/0.11%，与 Path4 overlap 为 0/6；中段假设获支持，但 60D 接近零且缺连续风险指标，不能 promote。",
+        "hypothesis": "相对 Path4 弱观察锚复核已审计冻结篮子的短窗独立收益，预期 5/10/20D 延续且 overlap 保持低位。",
+        "reason": "5/10/20D 等权收益为 2.67%/15.79%/21.80%，与 Path4 overlap 为 0/6；短窗假设获支持，但缺连续风险指标，不能 promote。",
         "windows": {
             window: {
                 "candidate_metrics": {metric: None for metric in METRICS},
@@ -241,16 +249,16 @@ def main() -> None:
     counts = {key: sum(card["decision"] == key for card in cards) for key in ["promote", "keep_watch", "robust_observation", "reject", "archive"]}
     payload = {
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
-        "data_endpoint": "2026-08-12",
+        "data_endpoint": "2026-08-13",
         "candidate_count": len(cards),
-        "budget_note": "A股 12 个、HK 19 个五窗口 security/base ids，加 1 个 Path5 事件篮子，共 32 卡；coverage 无阻塞且离线缓存命中。",
+        "budget_note": "A股 13 个、HK 21 个五窗口 security/base ids，加 1 个 Path5 事件篮子，共 35 卡；coverage 无阻塞且离线缓存命中。",
         "winner_validation_policy": "窗口winner使用相邻窗口；本轮2026专项以2025为直接相邻窗，五窗口阈值用于robust二次判断。",
         "delta_definition": "candidate minus current_winner_or_robust; MaxDD positive means improvement",
-        "stopping_rule": "Path1 暴跌脉冲沿用已收敛膝点；A股 Path4 signal28/29 与 HK Path2 替代信号只保留差异化观察，不继续同形扩参。",
+        "stopping_rule": "Path1 暴跌脉冲沿用已收敛膝点；A股 Path4 signal28 与 HK Path2 双周成本线只保留差异化观察，不继续同形扩参。",
         "summary": counts,
         "scorecards": cards,
     }
-    output = A_DIR / "research_iteration_scorecard_20260813_iter2.json"
+    output = A_DIR / "research_iteration_scorecard_20260814.json"
     output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(output)
     print(json.dumps(counts, ensure_ascii=False))

@@ -1,5 +1,25 @@
 # Path 1 研究计划
 
+## 2026-08-14 迭代：signal-quality 与暴跌膝点确认（端点 2026-08-13）
+
+### 上一轮候选与结果摘要
+
+- 主线：`pulse40_1w_v17` 相对 `risk20_reconfirm` 的 2026 CAGR/MaxDD 改善 `24.59pp/15.06pp`，但 2020/2023 CAGR 下降 `9.20pp/3.30pp`，继续判定暴跌专项 `keep_watch`；`risk20_reconfirm` 同窗确认 `promote` incumbent。假设“单周脉冲跨端点保有急跌前沿”获支持，但不是多窗口 robust。
+- core_multifactor：`quality_industry_cashguard_reconfirm` 的 2020 CAGR/Sharpe 下降 `17.80pp/0.42`，`quality_defense_cashguard_reconfirm` 的 2020 CAGR/Sharpe 下降 `30.05pp/0.91`，均 `reject`。后者实际路由为 `growth_elastic`，再次否定该形态；core 覆盖 `64/64`。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260814.json`；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_industry_cashguard_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_defense_cashguard_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse40_1w_v17`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-13 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_industry_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_defense_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_risk20_port_fast_crash_pulse40_1w_v17`。
+
+### 下一轮 focus 提示
+
+- `signal_quality` 转向 winner-only 新出现的 cashguard/weekly-exposure 清晰候选，先做五窗口确认而不继续 pulse 同形扩参。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered_cost_guard_cashguard,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and__port_weekly_exposure_buffered_asym13,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+
+### Focus 候选池
+
+- `signal_quality`：prom7-cashguard、cashoff-and-buffered-asym13；`core_multifactor_coverage`：quality-industry-cashguard、quality-profitability-cashguard；`crash_resilience`：pulse40-v17、risk20；`weekly_exposure_path`：buffered-asym13、buffered-asym；`satellite_defense`：risk18、risk20；`holding_shape`：share22、share24；`promotion_ramp`：prom5、prom7。
+
 ## 2026-08-13 二次迭代：简化多因子与暴跌前沿复核（端点 2026-08-12）
 
 ### 上一轮候选与结果摘要

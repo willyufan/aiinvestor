@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-14 迭代：双周成本基线终止确认（端点 2026-08-13）
+
+### 上一轮候选与结果摘要
+
+- v21/v25 虽在 2020 CAGR 相对 theme-fast 改善 `5.64/5.90pp`，但 2020 MaxDD 恶化 `9.07/6.46pp`，2023 CAGR/Sharpe 同时触发护栏，2026 CAGR 为 `-13.86%/-10.49%`，均 `reject`。假设“双周成本线能作为中短窗竞争基线”不成立，停止同形参数梯度。
+- theme-fast 2020/2023/2026 CAGR 为 `17.03%/21.36%/29.83%`，同窗 `promote` incumbent；正式 winner/robust/tracked 未改变，无 evict/archive。scorecard：`results/research/a_share/research_iteration_scorecard_20260814.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair`、`hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair`、`hkconnect_path2_theme_fast_monthly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-13 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair,hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair,hkconnect_path2_theme_fast_monthly`。
+
+### 下一轮 focus 提示
+
+- `biweekly_breakout` 旧参数线已终止；下一轮只接受新信号定义，未注册前先确认新月频质量流动信号。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_quality_liquidity_momentum_monthly_v1,hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `biweekly_breakout`：v21/v25（历史锚）、新信号待注册；`elasticity_cost_control`：quality-liquidity-v2、v25；`high_return_monthly`：theme-fast、quality-liquidity-v1；`cost_stress`：v21、v25。
+
 ## 2026-08-13 二次迭代：双周失败后的替代信号确认（端点 2026-08-12）
 
 ### 上一轮候选与结果摘要

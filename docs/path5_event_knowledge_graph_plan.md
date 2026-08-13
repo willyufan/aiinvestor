@@ -1,5 +1,25 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-14 迭代：AI 眼镜短窗事件入口复核（端点 2026-08-13）
+
+### 上一轮候选与结果摘要
+
+- `ai_glasses_edge_terminal_20260424_v0` 保持 `source_audited`、frozen/backtest-ready；5/10/20D 等权收益为 `2.67%/15.79%/21.80%`，seed-weight 为 `2.63%/15.94%/21.99%`，与 Path4 signal29 参考 overlap `0/6`。短窗独立收益假设获支持，但 runner 不生成连续 CAGR、Sharpe、MaxDD、turnover，因此判定 `keep_watch`，不能 promote。
+- active basket `1`、frozen candidate `6`、pending audit `0`；本轮无 evict/archive。scorecard：`results/research/a_share/research_iteration_scorecard_20260814.json`。
+
+### 本轮候选 ID 与命令
+
+- basket：`ai_glasses_edge_terminal_20260424_v0`；输出：`results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal29_20260814_short.json`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal29_20260814_short.json`。
+
+### 下一轮 focus 提示
+
+- `event_backtest_entry` 下一轮切回成熟 20/40/60D，并用 Path4 signal28 作为第二参考，检查短窗收益是否能延续。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal28_20260815_mature.json`。
+
+### Focus 候选池
+
+- `event_basket_registry`：AI眼镜、AI电力液冷；`frozen_candidate_audit`：AI眼镜6只、AI电力液冷6只；`event_backtest_entry`：AI眼镜20/40/60D、AI电力液冷20/40/60D；`path4_comparison`：signal28-reference、signal29-reference。
+
 ## 2026-08-13 二次迭代：已审计事件篮子成熟窗口确认（端点 2026-08-12）
 
 ### 上一轮候选与结果摘要
