@@ -1,5 +1,25 @@
 # Path 1 研究计划
 
+## 2026-08-15 迭代：core_multifactor 与 fast-pass 清晰信号确认（端点 2026-08-14）
+
+### 上一轮候选与结果摘要
+
+- 主线：最终 active 刷新后，当前 robust 更新为 `risk10_reconfirm`，2020/2023/2026 CAGR 为 `22.30%/21.10%/27.14%`；`risk20_reconfirm` 仍是 2017/2020 window winner，并相对 risk10 在 2020/2023 CAGR 改善 `4.65/2.16pp`，五窗稳定性护栏未破坏，确认 `promote`。winner-only 的 `prom7__sat_three_stage_buffered_asym13` 与 `prom6__sat_three_stage_buffered_cost_guard` 虽给出 clear-improvement 快筛信号，但精确五窗确认后 2020 CAGR 相对 risk10 分别下降 `20.42/23.82pp`，2026 CAGR 为 `-14.97%/0.90%`，均 `reject`；`prom7...cashguard` 亦因 2020 CAGR 下降 `19.18pp`、2026 为 `-15.25%` 而 `reject`。假设“fast-pass 清晰信号可直接挑战当前 robust”不获支持；robust/tracked 的 risk20→risk10 是 active 同步变化，不是本轮新增候选晋级。
+- core_multifactor：`quality_industry_cashguard_reconfirm` / `quality_profitability_cashguard_reconfirm` 相对 risk10 的 2020 CAGR 分别下降 `13.17/15.35pp`、Sharpe 下降 `0.308/0.380`，均 `reject`；中窗风险收益未被现金守门修复。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260815.json`；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_industry_cashguard_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_cashguard_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered_cost_guard_cashguard`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered_asym13`、`core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__sat_three_stage_buffered_cost_guard`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-14 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_industry_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered_cost_guard_cashguard,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`；追加确认：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-14 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7__sat_three_stage_buffered_asym13,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__sat_three_stage_buffered_cost_guard`。
+
+### 下一轮 focus 提示
+
+- `core_multifactor_coverage` 停止 cashguard-only 形态，转回行业信号与盈利行业的相邻确认；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_industry_signal_cashguard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_profitability_industry_signal_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk10_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：quality-industry-signal、profitability-industry-signal；`signal_quality`：cashoff-and-buffered-asym13、share12-satellite-asym13；`weekly_exposure_path`：buffered-asym13、buffered-asym；`satellite_defense`：risk10、risk20；`holding_shape`：share22、share24；`promotion_ramp`：prom5、prom7；`crash_resilience`：pulse40-v17、risk10。
+
 ## 2026-08-14 迭代：signal-quality 与暴跌膝点确认（端点 2026-08-13）
 
 ### 上一轮候选与结果摘要
