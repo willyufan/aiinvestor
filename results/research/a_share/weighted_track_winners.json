@@ -318,6 +318,45 @@
         },
         {
           "rank": 2,
+          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__share_12_88_hold_4_6__sat_three_stage_buffered_asym13",
+          "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__比例12/88__卫星周频三档风控(快减1慢加3)",
+          "metrics": {
+            "weighted_cagr": 0.32529208,
+            "weighted_sharpe": 0.72507328,
+            "weighted_max_drawdown": -0.37511236,
+            "weighted_turnover": 3.54006592
+          },
+          "is_official_winner": false,
+          "is_raw_winner": false,
+          "validation": {
+            "passed": true,
+            "validation_window": "since_2025_01",
+            "required_cagr": 0.38710009799999995,
+            "candidate_cagr": 0.55402068,
+            "incumbent_id": "core_explore_80_20_total_mv_winner_core__share_24_76_hold_2_8_ramp62_cost_guard",
+            "reason": "threshold_check"
+          },
+          "promotion_score": 0.10948585646000004,
+          "score_detail": {
+            "policy": "promotion_score_v1",
+            "score": 0.10948585646000004,
+            "base_score": 0.22128422496000003,
+            "ytd_penalty": 0.11179836849999998,
+            "concentration_penalty": 0.0,
+            "concentration": {
+              "sample_tag": "since_2026_01",
+              "avg_top1_weight": 0.19381192625,
+              "avg_top3_weight": 0.5251270349999999,
+              "max_top1_weight": 0.25811493,
+              "max_top3_weight": 0.66361513,
+              "latest_top1_weight": 0.13780751,
+              "latest_top3_weight": 0.39044117999999994,
+              "observations": 8
+            }
+          }
+        },
+        {
+          "rank": 3,
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__sat_three_stage_buffered_asym13",
           "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻10/90(4+6)__卫星周频三档风控(快减1慢加3)",
           "metrics": {
@@ -356,7 +395,7 @@
           }
         },
         {
-          "rank": 3,
+          "rank": 4,
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered",
           "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只__月度选股_周度仓位调整(双周确认)",
           "metrics": {
@@ -395,7 +434,7 @@
           }
         },
         {
-          "rank": 4,
+          "rank": 5,
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_ramp90__port_weekly_exposure_buffered",
           "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(分步加仓)__月度选股_周度仓位调整(双周确认)",
           "metrics": {
@@ -434,46 +473,7 @@
           }
         },
         {
-          "rank": 5,
-          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6",
-          "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻10/90(4+6)",
-          "metrics": {
-            "weighted_cagr": 0.27125936,
-            "weighted_sharpe": 0.67800362,
-            "weighted_max_drawdown": -0.38025105,
-            "weighted_turnover": 3.10175861
-          },
-          "is_official_winner": false,
-          "is_raw_winner": false,
-          "validation": {
-            "passed": true,
-            "validation_window": "since_2025_01",
-            "required_cagr": 0.38710009799999995,
-            "candidate_cagr": 0.48091748,
-            "incumbent_id": "core_explore_80_20_total_mv_winner_core__share_24_76_hold_2_8_ramp62_cost_guard",
-            "reason": "threshold_check"
-          },
-          "promotion_score": 0.050340935379999965,
-          "score_detail": {
-            "policy": "promotion_score_v1",
-            "score": 0.050340935379999965,
-            "base_score": 0.16824817987999996,
-            "ytd_penalty": 0.11161371549999999,
-            "concentration_penalty": 0.006293529000000004,
-            "concentration": {
-              "sample_tag": "since_2026_01",
-              "avg_top1_weight": 0.25841501875,
-              "avg_top3_weight": 0.5818014899999999,
-              "max_top1_weight": 0.45984725,
-              "max_top3_weight": 0.7474061599999999,
-              "latest_top1_weight": 0.37860695,
-              "latest_top3_weight": 0.56929417,
-              "observations": 8
-            }
-          }
-        },
-        {
-          "rank": 29,
+          "rank": 34,
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6",
           "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只",
           "metrics": {
