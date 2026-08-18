@@ -1,5 +1,24 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-19 迭代：biweekly breakout 成本边界淘汰（端点 2026-08-18）
+
+### 上一轮候选与结果摘要
+
+- `theme_biweekly_cost_guard_v21/v25` 相对 theme-fast 的 2020 CAGR提高 `6.30/6.50pp`，但 v21 的 2023 Sharpe下降 `0.346`，v25下降 `0.302`，且两者 2020 MaxDD恶化 `8.82/6.23pp`、2026 CAGR为 `-10.35/-7.41%`、turnover `18.89/17.59x`，均 `reject`。假设“biweekly breakout 能以成本控制修复短窗”不成立；theme-fast 同窗确认 `promote` incumbent。正式 window winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair`、`hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair`、`hkconnect_path2_theme_fast_monthly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair,hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair,hkconnect_path2_theme_fast_monthly`。本轮已修复 plan 中错误的 `theme_time_biweekly` selector。
+
+### 下一轮 focus 提示
+
+- guard 已轮换到 `elasticity_cost_control`，停止 v21/v25 同形扩参；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_equal_elastic_monthly_cost_guard_v45_elasticity_cost_control,hkconnect_path2_theme_monthly_cost_control,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `elasticity_cost_control`：equal-elastic-v45、theme-monthly-cost-control；`high_return_monthly`：theme-fast、quality-liquidity-v1；`biweekly_breakout`：v21、v25（停止同形，仅历史对照）；`cost_stress`：v45、theme-monthly-cost-control。
+
 ## 2026-08-18 迭代：质量流动性中窗/短窗再确认（端点 2026-08-18）
 
 ### 上一轮候选与结果摘要

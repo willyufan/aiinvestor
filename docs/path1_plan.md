@@ -1,5 +1,25 @@
 # Path 1 研究计划
 
+## 2026-08-19 迭代：周仓位候选确认与路由审计（端点 2026-08-18）
+
+### 上一轮候选与结果摘要
+
+- 主线共确认 6 个有效 security/base ids。`risk10_reconfirm` 同窗确认 `promote` incumbent；`__port_weekly_exposure_buffered` 的 2020 CAGR 相对 risk10 下降 `5.96pp`，但 2023/2026 CAGR提高 `9.51/9.35pp`，判 `keep_watch`。`sat_three_stage...cashguard` 中窗未触发护栏但短窗未形成全局优势，`keep_watch`；`ramp90__port...asym13` 的 2020 CAGR下降 `7.50pp`，仅 `keep_watch`。
+- `cash_off_and__port...buffered_asym13` 与 `cash_off_and__port...buffered` 实跑落入 `growth_elastic`，不是 Path1 `core_explore_seed` 同池结果，均 `reject` 并记录 `validation_gap`。`winner_only_pass.py` 的 raw clear 不能替代同池确认；A股 artifact 同端点同步后 Path1 2020/2023 window winner 更新为 risk20 / share12-asym13，robust 仍为 risk10，属于刷新变化，不是上述挑战者晋级。core_multifactor 代码口径 `64/64` 完整；本轮未新增 core_multifactor 参数。无 evict/archive；完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260819.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and__port_weekly_exposure_buffered_asym13`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk10_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and__port_weekly_exposure_buffered`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__sat_three_stage_buffered_cost_guard_cashguard`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_ramp90__port_weekly_exposure_buffered_asym13`。
+- 命令类型：五窗口 `--only-base-ids` 增量确认；统一命令前缀为 `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids`，后接上述具体 IDs。失效 selector `...__port_weekly_exposure_buffered_asym` 已改为有效 `...__port_weekly_exposure_buffered`。
+
+### 下一轮 focus 提示
+
+- `core_multifactor_coverage` 重新分配确认预算给信号质量，不继续 risk14/16 同形扩参；同时补跑本轮因 36 个证券实验上限未纳入的 `aggr_08_92_hold_3_6_ramp90`。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_hold_3_6_ramp90,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk10_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk10_reconfirm`。
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：growth-trend-quality-gate-risk10、risk06；`signal_quality`：satellite cashguard、buffered；`weekly_exposure_path`：buffered、ramp90-buffered-asym13；`satellite_defense`：risk10、risk20；`holding_shape`：hold3-ramp90、share22；`promotion_ramp`：prom5、prom7；`crash_resilience`：pulse40-v17、risk10。
+
 ## 2026-08-18 迭代：core_multifactor 风险梯度精确确认（端点 2026-08-18）
 
 ### 上一轮候选与结果摘要
