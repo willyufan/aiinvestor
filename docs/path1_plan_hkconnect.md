@@ -1,5 +1,24 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-18 迭代：月频周风控队列保留（端点 2026-08-18）
+
+### 上一轮候选与结果摘要
+
+- 上一轮 `lowvol_soft_exit32/34` 因 2023 MaxDD恶化 `5.22pp` 且 2026 为负而 `reject`，`biweekly_lowvol` 维持五窗 `promote` incumbent。本轮因 23:07 启动、需先完成 Path2/4/5 的新增竞争及全 tracked 同端点同步，Path1 未实跑新增 ID；非 coverage blocking。全 tracked 刷新后 `since_2025_01` window winner 由 `v43_biweekly_buffer_repair` 更新为 `v26_ytd_positive_guard`，robust 仍为 `biweekly_lowvol`；这是端点同步变化，不是新增候选晋级。无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 本轮未实跑新增 ID；下一批保留非低波 `soft_exit32/34` 与 `biweekly_lowvol` 锚。未跑原因是日更窗口压缩。
+- 下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit32,hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit34,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay` 要求早退出变体先让 2026 转正，再评估其中窗收益；若仍为负，停止该 overlay 同形扩参。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：soft-exit32、soft-exit34；`biweekly_buffer`：hybrid、lowvol；`risk_overlay_cost`：cashoff、lowvol；`ytd_guard`：v49、lowvol。
+
 ## 2026-08-16 迭代：月频周风控早退出确认（端点 2026-08-14）
 
 ### 上一轮候选与结果摘要

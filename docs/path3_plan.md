@@ -1,5 +1,24 @@
 # Path 3 研究计划
 
+## 2026-08-18 迭代：turnover-reduction 队列保留（端点 2026-08-18）
+
+### 上一轮候选与结果摘要
+
+- 上一轮 `return_recovery_v6/v7` 均因 2020 CAGR 分别下降 `11.61/7.13pp` 而 `reject`，`cap54` 维持 `promote` incumbent。本轮因 23:07 启动且需完成双市场同端点同步，未实跑新的纯周频 ID；A 股实跑预算投向 Path1/4/5，非 coverage blocking。正式 winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 本轮未实跑新增 ID；下一批只保留 `_weekly`：`cap46_hold7_turn02`、`exit_buffer_v3_weekly` 与 `cap54` 锚。
+- 下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn02_exit99_risk12_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction` 目标是让 turnover 至少下降 `1x`，同时 2020/2023 CAGR 不触发 `-3pp` 护栏；若两条候选仍失败，停止 cap46 同形扩参。
+
+### Focus 候选池
+
+- `turnover_reduction`：cap46-turn02、exit-buffer-v3；`weekly_exit_buffer`：exit-buffer-v3、cap54；`risk_downshift`：cap42-risk10、cap46-risk14；`cost_stress`：cap42-cost-stress、cap54。
+
 ## 2026-08-16 迭代：return-recovery 收益代价确认（端点 2026-08-14）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,24 @@
 # Path 1 研究计划
 
+## 2026-08-18 迭代：core_multifactor 风险梯度精确确认（端点 2026-08-18）
+
+### 上一轮候选与结果摘要
+
+- 主线：`risk10_reconfirm` 五窗同端点确认，继续判定 `promote` incumbent；同步后进入 Path1 正式 window winner，robust/tracked 锚不变。core_multifactor 的 `risk16_reconfirm` / `risk14_reconfirm` 相对 risk10 在 2020 CAGR 分别下降 `11.27/11.45pp`、Sharpe 下降 `0.215/0.219`，2023 CAGR也下降约 `5.0pp`，虽回撤更浅仍触发稳定性护栏，均 `reject`。假设“降低多因子风险预算可在保住中窗收益下改善回撤”不获支持；无 evict/archive。完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260818.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk16_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk14_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk10_reconfirm`。
+- 命令：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk14_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk10_reconfirm`。
+
+### 下一轮 focus 提示
+
+- `core_multifactor_coverage` 停止 risk14/16 同形扩参，转向信号质量与周仓位缓冲；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off_and__port_weekly_exposure_buffered_asym13,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered_asym,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk10_reconfirm`。
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：quality-profitability-growth-risk14、risk16；`signal_quality`：cashoff-and-buffered-asym13、buffered-asym；`weekly_exposure_path`：buffered-asym13、buffered-asym；`satellite_defense`：risk10、risk20；`holding_shape`：share22、share24；`promotion_ramp`：prom5、prom7；`crash_resilience`：pulse40-v17、risk10。
+
 ## 2026-08-16 迭代：core_multifactor 行业信号与 clear-signal 精确确认（端点 2026-08-14）
 
 ### 上一轮候选与结果摘要

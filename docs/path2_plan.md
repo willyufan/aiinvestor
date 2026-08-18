@@ -1,5 +1,24 @@
 # Path 2 研究计划
 
+## 2026-08-18 迭代：medium-cycle 上轮复核与下一批保留（端点 2026-08-18）
+
+### 上一轮候选与结果摘要
+
+- 复核上一轮 `v27_medium_cycle` / `v30_medium_cycle`：二者改善 2020 收益与回撤，却继续破坏 2023 稳定性且 2026 为负，维持 `keep_watch`；`v63_underrepresented_lowturn` 维持 `promote` incumbent。因本轮 23:07 启动且需在 01:00 日更前完成双市场同端点同步，Path2 未占用新增实跑名额；不是 coverage blocking。正式 winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 本轮未实跑新增 ID；确认队列保留 `v27_medium_cycle`、`v30_medium_cycle`、`v63_underrepresented_lowturn`。未跑原因是日更窗口压缩，A 股最低实跑预算已分配给 Path1/4/5。
+- 下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top13_risk28_mom_exit48_reconfirm96_caution64_cap24_cost_guard_v27_medium_cycle,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn`。
+
+### 下一轮 focus 提示
+
+- `medium_cycle_growth` 继续检查 v27/v30 的 2023 修复边界；只有 2023 CAGR 不再落后锚超过 `3pp` 且 2026 明显回升才保留 active watch。
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v27-medium-cycle、v30-medium-cycle；`risk_reconfirm_sensitivity`：v63、v64；`underrepresented_families`：v63、v64；`capacity_and_cost_stress`：v63、v70；`weekly_rebalance_aggressive`：weekly-cashoff-cap80、weekly-full-risk-cap80。
+
 ## 2026-08-16 迭代：medium-cycle v27/v30 边界确认（端点 2026-08-14）
 
 ### 上一轮候选与结果摘要

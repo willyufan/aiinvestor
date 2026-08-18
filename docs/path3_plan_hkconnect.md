@@ -1,5 +1,24 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-18 迭代：周频换手候选排队（端点 2026-08-18）
+
+### 上一轮候选与结果摘要
+
+- 上一轮 `v36_return_recovery` 因 2023 CAGR护栏与 2026 负收益 `reject`，`v38_return_recovery` 虽明显改善 MaxDD/turnover，但 2026 仍为负，仅 `keep_watch`；`equal_elastic_weekly` 为 `promote` incumbent，但 turnover 高。本轮因 23:07 启动、HK 新增预算优先覆盖 Path2/4/5，Path3 未实跑新增 ID；非 coverage blocking。正式 winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 本轮未实跑新增 ID；下一批保留 `wide_cost_guard`、`turnover4_exit42` 与 `equal_elastic_weekly` 锚。未跑原因是日更窗口压缩。
+- 下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover4_exit42,hkconnect_path3_equal_elastic_weekly`。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction` 要求候选在 turnover 明显下降的同时保持 2020/2023 CAGR护栏，并以 2026 转正作为继续 active watch 的必要条件。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v38-return、turnover4-exit42；`weekly_defensive_overlay`：v21-overlay、v29-overlay；`cost_stress`：wide-cost-guard、turnover4；`elasticity_confirmation`：equal-elastic、equal-elastic-cashoff。
+
 ## 2026-08-16 迭代：周频 return-recovery 风险收益确认（端点 2026-08-14）
 
 ### 上一轮候选与结果摘要
