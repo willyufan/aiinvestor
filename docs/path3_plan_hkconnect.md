@@ -1,5 +1,24 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-20 迭代：周度防守 overlay 失败确认（端点 2026-08-19）
+
+### 上一轮候选与结果摘要
+
+- `defensive_overlay v21/v29` 相对锚在 2020/2023 CAGR 分别下降约 `10.45/14.07pp` 与 `9.20/12.42pp`，且 2026 为负，均 `reject`。`equal_elastic_weekly` 因 turnover `37.67x`、最差 MaxDD `-53.42%`，只判 `robust_observation`：进入观察位，不是强稳定 winner。实验假设“软 risk-off 可降低回撤并保留周度收益”不成立；正式 winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v21_defensive_overlay`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v29_defensive_overlay`、`hkconnect_path3_equal_elastic_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v21_defensive_overlay,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v29_defensive_overlay,hkconnect_path3_equal_elastic_weekly`。
+
+### 下一轮 focus 提示
+
+- 转向 `weekly_exit_buffer`，以收益恢复优先并把 turnover 压回可执行区间；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover4_exit42,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- `weekly_exit_buffer`：v38-return-recovery、turnover4-exit42；`weekly_defensive_overlay`：v21、v29（停止同形）；`cost_stress`：wide-cost、turnover4；`elasticity`：equal-elastic、equal-elastic-cashoff。
+
 ## 2026-08-19 迭代：周频低换手与收益边界确认（端点 2026-08-18）
 
 ### 上一轮候选与结果摘要

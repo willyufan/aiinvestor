@@ -1,5 +1,24 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-20 迭代：低波周风控与年内守门确认（端点 2026-08-19）
+
+### 上一轮候选与结果摘要
+
+- `lowvol_soft_exit42` 的 2023 MaxDD 触发护栏且 2026 CAGR 为 `-6.88%`，判 `reject`；`v26_ytd_positive_guard` 在 2020/2023/2025 收益改善但 2026 CAGR 仍为 `-3.12%`、turnover 增加约 `2.79x`，判 `keep_watch`。`biweekly_lowvol` 五窗确认 `promote` incumbent，2026 CAGR `8.33%`。实验假设“lowvol overlay / ytd guard 可在不损伤中窗下修复年内收益”仅获 v26 的中窗支持。正式 window winner/robust/tracked 未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit42`、`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v26_ytd_positive_guard`、`hkconnect_path1_biweekly_lowvol`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-19 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit42,hkconnect_path1_biweekly_quality_momentum_equal_buffered_v26_ytd_positive_guard,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 提示
+
+- 转向 `risk_overlay_cost`，要求风险覆盖至少保持 2026 正收益且 turnover 不高于低波锚；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_cashoff,hkconnect_path1_biweekly_hybrid,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：lowvol-soft42、v26-ytd；`biweekly_buffer`：hybrid、lowvol；`risk_overlay_cost`：cashoff、lowvol；`ytd_guard`：v26、v49。
+
 ## 2026-08-19 迭代：月频周风控短窗淘汰（端点 2026-08-18）
 
 ### 上一轮候选与结果摘要
