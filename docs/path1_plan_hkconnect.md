@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-21 迭代：双周 risk-overlay 结构确认（端点 2026-08-20）
+
+### 上一轮候选与结果摘要
+
+- 当前 robust `biweekly_hybrid` 五窗同窗确认 `promote`，2020/2023/2026 CAGR为 `17.66/21.78/9.68%`。`biweekly_cashoff` 的 2023 CAGR下降 `3.42pp`，触发稳定性护栏并 `reject`；`biweekly_lowvol` 中窗略强、2026 CAGR `9.50%` 且 turnover更低，但未形成相对 hybrid 的清晰新前沿，`keep_watch`。
+- 假设“cashoff/lowvol 可在保持中窗下改善短窗风险”仅获 lowvol 部分支持；artifact 与运行前 `HEAD` 一致，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path1_biweekly_cashoff`、`hkconnect_path1_biweekly_hybrid`、`hkconnect_path1_biweekly_lowvol`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-20 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_cashoff,hkconnect_path1_biweekly_hybrid,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay` 回到低波 soft-exit 边界，并以 hybrid 为同窗锚；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38,hkconnect_path1_biweekly_hybrid`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：lowvol-soft36、lowvol-soft38；`biweekly_buffer`：hybrid、lowvol；`risk_overlay_cost`：cashoff、hybrid；`ytd_guard`：v26、v49。
+
 ## 2026-08-20 迭代：低波周风控与年内守门确认（端点 2026-08-19）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,25 @@
 # Path 2 研究计划
 
+## 2026-08-21 迭代：underrepresented 修复与 medium-cycle 再否定（端点 2026-08-20）
+
+### 上一轮候选与结果摘要
+
+- `v78_underrepresented_repair` 相对 v63 的 2020 CAGR仅下降 `1.05pp`且回撤改善，但 2023 CAGR下降 `3.84pp`，触发稳定性护栏；`v30_medium_cycle` 虽改善 2020 CAGR `4.88pp`，却令 2023 CAGR下降 `8.30pp`、MaxDD恶化 `8.62pp`，且 2026 CAGR为 `-37.66%`，两者均 `reject`。
+- v63 的 2026 CAGR为 `6.56%`、turnover `17.43x`，维持 `keep_watch`，不是强稳定 winner。假设“v78 能修复欠配族、v30 能恢复中周期收益”均未通过跨窗约束；正式 winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair`、`core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle`、`core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-20 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk26_mom_exit46_reconfirm96_caution58_cap22_cost_guard_v30_medium_cycle,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn`。
+
+### 下一轮 focus 提示
+
+- `medium_cycle_growth` 与极端欠配修复均连续失败，下一轮转回 v28/v29 的中等风险收益恢复；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk28_exit46_cap24_cost_guard_v28,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk24_exit44_cap20_cost_guard_v29,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn`。
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v28、v29；`risk_reconfirm_sensitivity`：v63、v64；`underrepresented_families`：v78、v63；`capacity_and_cost_stress`：v64、v70；`weekly_rebalance_aggressive`：weekly-cashoff-cap80、weekly-full-risk-cap80。
+
 ## 2026-08-20 迭代：欠配成本边界确认（端点 2026-08-19）
 
 ### 上一轮候选与结果摘要
