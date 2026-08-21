@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-08-22 迭代：exit-buffer 与极低换手边界确认（端点 2026-08-21）
+
+### 上一轮候选与结果摘要
+
+- `exit_buffer_v3` 相对 cap54 的 2020/2023 CAGR下降 `4.70/3.25pp`；`cap46-exit99` 下降 `14.43/4.45pp`，两者均触发稳定性护栏并 `reject`。前者虽显著改善回撤与换手，仍未守住中窗；后者 2020 Sharpe再下降 `0.407`。
+- cap54 五窗确认 `promote` incumbent，2020/2023/2026 CAGR为 `18.58/9.55/42.33%`，平均换手约 `1.99x`；正式 Path3 2017/2020/2023 winner 与 robust 仍为 cap54，无 evict/archive。全部 ID 以 `_weekly` 结尾。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn02_exit99_risk12_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-21 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn02_exit99_risk12_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction` 不再继续 cap46/exit99 同形，改验已注册的更低风险/更长持有边界；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn02_exit98_risk06_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：turnover-v4、cap30-hold11；`weekly_exit_buffer`：exit-buffer-v3、cap54；`risk_downshift`：cap40-risk08、cap30-risk06；`cost_stress`：cap42-cost-stress、cap54。
+
 ## 2026-08-21 迭代：中等仓位减换手边界确认（端点 2026-08-20）
 
 ### 上一轮候选与结果摘要
