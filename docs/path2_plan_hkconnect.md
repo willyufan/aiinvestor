@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-23 迭代：质量流动性中窗与年内冲突复核（端点 2026-08-21）
+
+### 上一轮候选与结果摘要
+
+- `quality_liquidity_v2/v27` 相对 robust `theme_fast_monthly` 的 2020 CAGR提高 `4.94/7.24pp`、2023提高 `6.00/10.22pp`，回撤和换手也更优；但 2026 CAGR分别低 `37.40/33.22pp` 且转负，均 `keep_watch`。
+- `theme_fast_monthly` 五窗确认 `promote` incumbent；v27 继续是 2020/2023 window winner，但未升为 robust，正式 tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard`、`hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard`、`hkconnect_path2_theme_fast_monthly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-21 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard,hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard,hkconnect_path2_theme_fast_monthly`。
+
+### 下一轮 focus 提示
+
+- `high_return_monthly` 只继续年内修复，要求 2026 转正且保住 2020/2023 优势；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v28_ytd_repair,hkconnect_path2_high_return_monthly_quality_liquidity_v30_ytd_recovery_guard,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `high_return_monthly`：v27、v30；`elasticity_cost_control`：quality-liquidity-v2、theme-monthly-cost-control；`biweekly_breakout`：v21、v25；`cost_stress`：v27、theme-fast。
+
 ## 2026-08-22 迭代：v28/v30 年内恢复边界确认（端点 2026-08-21）
 
 ### 上一轮候选与结果摘要

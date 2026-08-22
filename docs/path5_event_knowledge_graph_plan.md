@@ -1,5 +1,25 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-23 迭代：第五个数据中心电力事件篮子启动（端点 2026-08-21）
+
+### 上一轮候选与结果摘要
+
+- 新增并冻结 `ai_datacenter_power_grid_202607_v0`：10 条候选均完成来源审计，6 条纳入回测、4 条列入 coverage watch；6/6 可交易候选的 5/10/20D 等权收益为 `5.90/-2.57/11.70%`，与 Path4 `signal29-risk06-cap05` overlap 为 `0/6`。
+- 实验假设是政策触发的数据中心电力链能形成独立短窗收益；5D/20D支持、10D不支持，且 event runner 不产连续 CAGR/Sharpe/MaxDD/turnover，因此判 `keep_watch`，不 promote。registry 增至 5 个篮子、pending audit `0`，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- basket ID：`ai_datacenter_power_grid_202607_v0`；审计状态 `source_audited`、`frozen=true`，horizons `5,10,20`，输出 `results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_signal29_risk06_20260823_short.json`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_signal29_risk06_20260823_short.json`。
+
+### 下一轮 focus 提示
+
+- `event_basket_registry` 进入成熟期验证，第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260824_mature.json`；40/60D 尚未成熟时只记缺口，不晋级。
+
+### Focus 候选池
+
+- `event_basket_registry`：ai-datacenter-power-grid、advanced-packaging；`source_audit`：company-disclosure-recheck、policy-trigger-recheck；`path4_comparison`：signal29-risk06、capacity-v2；`horizon_validation`：5/10/20D、20/40/60D。
+
 ## 2026-08-22 迭代：AI 眼镜短窗启动与 Path4 overlap 复核（端点 2026-08-21）
 
 ### 上一轮候选与结果摘要

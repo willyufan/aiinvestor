@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-22T01:28:19+08:00",
+  "generated_at": "2026-08-23T03:21:10+08:00",
   "as_of": "2026-08-21",
   "coverage_gate": {
     "status": "pass",
@@ -61,8 +61,8 @@
           "since_2023_01",
           "since_2025_01"
         ],
-        "candidate_count": 821,
-        "complete_count": 821,
+        "candidate_count": 822,
+        "complete_count": 822,
         "missing_count": 0,
         "coverage_ratio": 1.0,
         "status": "pass",
@@ -266,7 +266,7 @@
   "experiment_log": {
     "path": "results/research/a_share/research_experiments.jsonl",
     "candidate_entries": 113,
-    "appended_entries": 1
+    "appended_entries": 6
   },
   "rotation": {
     "ashare_path1": {
@@ -306,13 +306,13 @@
       "last_changed_at": "2026-08-22T01:03:37+08:00"
     },
     "ashare_path5": {
-      "signature": "fd5ab511192879861f26",
-      "changed": false,
-      "stagnation_runs": 12,
+      "signature": "f86122b331ee55d779c6",
+      "changed": true,
+      "stagnation_runs": 0,
       "stagnation_threshold": 3,
       "recommended_focus": "event_basket_registry",
-      "rotation_status": "rotate",
-      "last_changed_at": "2026-08-05T01:30:54+08:00"
+      "rotation_status": "continue",
+      "last_changed_at": "2026-08-23T03:21:10+08:00"
     },
     "ashare_path6": {
       "signature": "55e561cb2773cdfadab9",
@@ -419,7 +419,7 @@
     "path2": {
       "family_counts": {
         "biweekly_rebalance_aggressive": {
-          "current_count": 43,
+          "current_count": 44,
           "target_representatives": 6
         },
         "decorrelated_defensive_mix": {
@@ -476,15 +476,16 @@
         "candidates_path": "results/research/a_share/event_theme_candidates.jsonl",
         "registry_exists": true,
         "candidates_exists": true,
-        "basket_count": 4,
-        "active_basket_count": 1,
+        "basket_count": 5,
+        "active_basket_count": 2,
         "basket_ids": [
-          "ai_glasses_edge_terminal_20260424_v0"
+          "ai_glasses_edge_terminal_20260424_v0",
+          "ai_datacenter_power_grid_202607_v0"
         ],
-        "candidate_count": 24,
-        "frozen_candidate_count": 6,
+        "candidate_count": 34,
+        "frozen_candidate_count": 16,
         "pending_audit_count": 0,
-        "backtest_ready_count": 24,
+        "backtest_ready_count": 30,
         "minimum_event_basket_entry": {
           "ready": true,
           "next_step": "source_audit_then_event_backtest_entry",
@@ -544,15 +545,16 @@
     "candidates_path": "results/research/a_share/event_theme_candidates.jsonl",
     "registry_exists": true,
     "candidates_exists": true,
-    "basket_count": 4,
-    "active_basket_count": 1,
+    "basket_count": 5,
+    "active_basket_count": 2,
     "basket_ids": [
-      "ai_glasses_edge_terminal_20260424_v0"
+      "ai_glasses_edge_terminal_20260424_v0",
+      "ai_datacenter_power_grid_202607_v0"
     ],
-    "candidate_count": 24,
-    "frozen_candidate_count": 6,
+    "candidate_count": 34,
+    "frozen_candidate_count": 16,
     "pending_audit_count": 0,
-    "backtest_ready_count": 24,
+    "backtest_ready_count": 30,
     "minimum_event_basket_entry": {
       "ready": true,
       "next_step": "source_audit_then_event_backtest_entry",

@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-08-23 迭代：极低风险减换手边界确认（端点 2026-08-21）
+
+### 上一轮候选与结果摘要
+
+- `turnover_reduction_v4` 相对 cap54 的 2020/2023 CAGR下降 `16.61/11.10pp`、Sharpe下降 `0.499/1.140`；`cap30-hold11-risk06` 的 2020/2023 CAGR下降 `16.81/7.61pp`，均触发稳定性护栏并 `reject`。
+- `cap54...weekly` 五窗确认 `promote` incumbent；2017/2020/2023 winner 与 robust 继续保持，全部 ID 以 `_weekly` 结尾，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn02_exit98_risk06_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-21 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap30_hold11_turn02_exit98_risk06_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction` 停止继续压低 risk/cap，转回中等仓位 exit/return-recovery 相邻边界；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：cap46-turnover-repair、cap54；`weekly_exit_buffer`：exit-buffer-v3、return-recovery-v7；`risk_downshift`：cap40-risk08、cap30-risk06；`cost_stress`：cap42-cost-stress、cap54。
+
 ## 2026-08-22 迭代：exit-buffer 与极低换手边界确认（端点 2026-08-21）
 
 ### 上一轮候选与结果摘要

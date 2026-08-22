@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-05",
+  "updated_at": "2026-08-23",
   "baskets": [
     {
       "basket_id": "mrc_uec_ai_network_20260506_v0",
@@ -61,6 +61,21 @@
       "audit_file": "results/research/a_share/event_theme_audit.jsonl",
       "backtest_status": "archive_only",
       "notes": "The frozen pool passed primary-source audit on 2026-06-25. Repeated 5D/10D/20D and 20D confirmations remained negative; the basket moved out of the active refresh pool on 2026-08-05, while 40D/60D maturity gaps and historical snapshots remain recorded."
+    },
+    {
+      "basket_id": "ai_datacenter_power_grid_202607_v0",
+      "market": "ashare",
+      "path": "path5",
+      "theme_name": "AI 数据中心电力与新型储能",
+      "report_date": "2026-07-20",
+      "event_time": "2026-07-20",
+      "status": "source_audited",
+      "frozen": true,
+      "candidate_source": "national_energy_administration_data_center_storage_response_20260720",
+      "candidate_file": "results/research/a_share/event_theme_candidates.jsonl",
+      "audit_file": "results/research/a_share/event_theme_audit.jsonl",
+      "backtest_status": "entry_probe_ready",
+      "notes": "Fifth Path5 basket. The event trigger is the National Energy Administration response published on 2026-07-20 about AI computing power demand and new energy storage for data centers. Ten frozen candidate records have listed-company primary-source support; six with verified post-event prices in the current research panel are enabled for the entry probe, while four remain source-audited coverage-watch records."
     }
   ]
 }
