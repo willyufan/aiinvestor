@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-24 迭代：月频周风控 soft-exit 收益回撤冲突确认（端点 2026-08-21）
+
+### 上一轮候选与结果摘要
+
+- `lowvol-soft42` 与 `soft34` 相对 robust `biweekly_lowvol` 的 2020/2023 CAGR均改善，但 2023 MaxDD分别恶化 `5.22/9.62pp`，且 2026 CAGR为 `-3.11/-13.70%`，均 `reject`。假设“放宽soft-exit可恢复中窗收益且守住年内风险”不获支持。
+- `biweekly_lowvol` 五窗确认 `promote` incumbent；正式 window winner/robust/tracked 未改变，无 evict/archive。完整卡见 `results/research/a_share/research_iteration_scorecard_20260824.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit42`、`hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit34`、`hkconnect_path1_biweekly_lowvol`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-21 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit42,hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit34,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay` 停止裸 soft-exit，转向 cost/cash guard；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_cost_guard_exit32,hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_cashguard_exit34_v2,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：lowvol-cost-exit32、cashguard-exit34-v2；`biweekly_buffer`：v43、biweekly-lowvol；`risk_overlay_cost`：hybrid、cashoff；`ytd_guard`：v26、v49。
+
 ## 2026-08-23 迭代：双周 buffer 修复确认（端点 2026-08-21）
 
 ### 上一轮候选与结果摘要

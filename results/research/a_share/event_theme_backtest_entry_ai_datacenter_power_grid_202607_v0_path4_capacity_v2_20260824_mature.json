@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-23T17:16:53.932728+00:00",
+  "basket_id": "ai_datacenter_power_grid_202607_v0",
+  "alpha_pool_profile": "event_kg_basket",
+  "pool_id": "path5_event_kg_basket",
+  "pool_name": "Path5 事件知识图谱冻结篮子",
+  "theme_name": "AI 数据中心电力与新型储能",
+  "event_date": "2026-07-20",
+  "sample_tags": [
+    "since_2017_01",
+    "since_2020_01",
+    "since_2023_01",
+    "since_2025_01",
+    "since_2026_01"
+  ],
+  "candidate_count": 6,
+  "horizons_trading_days": [
+    20,
+    40,
+    60
+  ],
+  "portfolio_returns": {
+    "20": {
+      "equal_weight": {
+        "status": "ok",
+        "eligible_count": 6,
+        "return": 0.11703485264224174,
+        "weights": {
+          "002335.SZ": 0.16666666666666666,
+          "300001.SZ": 0.16666666666666666,
+          "002837.SZ": 0.16666666666666666,
+          "002518.SZ": 0.16666666666666666,
+          "300442.SZ": 0.16666666666666666,
+          "300274.SZ": 0.16666666666666666
+        }
+      },
+      "seed_weight": {
+        "status": "ok",
+        "eligible_count": 6,
+        "return": 0.11669389510053486,
+        "weights": {
+          "002335.SZ": 0.18,
+          "300001.SZ": 0.17,
+          "002837.SZ": 0.17,
+          "002518.SZ": 0.16,
+          "300442.SZ": 0.16,
+          "300274.SZ": 0.16
+        }
+      }
+    },
+    "40": {
+      "equal_weight": {
+        "status": "insufficient_data",
+        "eligible_count": 0
+      },
+      "seed_weight": {
+        "status": "insufficient_data",
+        "eligible_count": 0
+      }
+    },
+    "60": {
+      "equal_weight": {
+        "status": "insufficient_data",
+        "eligible_count": 0
+      },
+      "seed_weight": {
+        "status": "insufficient_data",
+        "eligible_count": 0
+      }
+    }
+  },
+  "candidate_returns": [
+    {
+      "ts_code": "002335.SZ",
+      "name": "科华数据",
+      "role": "智算中心 UPS/HVDC/预制电力模组",
+      "weight_seed": 0.18,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-27/1225194937.PDF",
+      "status": "ok",
+      "returns": {
+        "20": {
+          "status": "ok",
+          "start_date": "2026-07-20",
+          "end_date": "2026-08-17",
+          "return": 0.12708688245315147
+        },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 24
+        },
+        "60": {
+          "status": "insufficient_data",
+          "available_trading_days": 24
+        }
+      }
+    },
+    {
+      "ts_code": "300001.SZ",
+      "name": "特锐德",
+      "role": "数据中心高中压供电/SST",
+      "weight_seed": 0.17,
+      "source_url": "https://irm.cninfo.com.cn/ircs/question/questionDetail?questionId=2096460785823641600",
+      "status": "ok",
+      "returns": {
+        "20": {
+          "status": "ok",
+          "start_date": "2026-07-20",
+          "end_date": "2026-08-17",
+          "return": 0.12162971839424785
+        },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 24
+        },
+        "60": {
+          "status": "insufficient_data",
+          "available_trading_days": 24
+        }
+      }
+    },
+    {
+      "ts_code": "002837.SZ",
+      "name": "英维克",
+      "role": "智算中心温控/液冷",
+      "weight_seed": 0.17,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-21/1225131813.PDF",
+      "status": "ok",
+      "returns": {
+        "20": {
+          "status": "ok",
+          "start_date": "2026-07-20",
+          "end_date": "2026-08-17",
+          "return": 0.058240173097728
+        },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 24
+        },
+        "60": {
+          "status": "insufficient_data",
+          "available_trading_days": 24
+        }
+      }
+    },
+    {
+      "ts_code": "002518.SZ",
+      "name": "科士达",
+      "role": "数据中心UPS/精密配电/备电",
+      "weight_seed": 0.16,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-27/1225189515.PDF",
+      "status": "ok",
+      "returns": {
+        "20": {
+          "status": "ok",
+          "start_date": "2026-07-20",
+          "end_date": "2026-08-17",
+          "return": 0.13797428661022249
+        },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 24
+        },
+        "60": {
+          "status": "insufficient_data",
+          "available_trading_days": 24
+        }
+      }
+    },
+    {
+      "ts_code": "300442.SZ",
+      "name": "润泽科技",
+      "role": "AIDC/数据中心基础设施",
+      "weight_seed": 0.16,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-10/1225090821.PDF",
+      "status": "ok",
+      "returns": {
+        "20": {
+          "status": "ok",
+          "start_date": "2026-07-20",
+          "end_date": "2026-08-17",
+          "return": 0.0899399399399401
+        },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 24
+        },
+        "60": {
+          "status": "insufficient_data",
+          "available_trading_days": 24
+        }
+      }
+    },
+    {
+      "ts_code": "300274.SZ",
+      "name": "阳光电源",
+      "role": "储能变流/电力电子",
+      "weight_seed": 0.16,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-01/1225066678.PDF",
+      "status": "ok",
+      "returns": {
+        "20": {
+          "status": "ok",
+          "start_date": "2026-07-20",
+          "end_date": "2026-08-17",
+          "return": 0.16733811535816057
+        },
+        "40": {
+          "status": "insufficient_data",
+          "available_trading_days": 24
+        },
+        "60": {
+          "status": "insufficient_data",
+          "available_trading_days": 24
+        }
+      }
+    }
+  ],
+  "path4_reference_overlap": {
+    "status": "ok",
+    "strategy_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+    "sample_tag": "since_2026_01",
+    "event_date": "2026-07-20",
+    "reference_as_of": "2026-06-30",
+    "candidate_count": 6,
+    "path4_holding_count": 18,
+    "overlap_count": 0,
+    "overlap_ratio_of_basket": 0.0,
+    "overlap_ratio_of_path4": 0.0,
+    "path4_overlap_weight": 0,
+    "seed_overlap_weight": 0.0,
+    "overlap_holdings": []
+  },
+  "notes": "Entry probe only; computes post-event basket returns from audited frozen candidates and does not update official winners."
+}

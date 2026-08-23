@@ -1,5 +1,25 @@
 # Path 1 研究计划
 
+## 2026-08-24 迭代：core_multifactor 正确路由后的中窗再否定（端点 2026-08-21）
+
+### 上一轮候选与结果摘要
+
+- 主线：`cash_off__sat_three_stage_risk` 实跑仍落入 `growth_elastic`，与 Path1 `core_explore_seed` 参考池不一致，按 route mismatch `reject`；正式 window winner/robust/tracked 未变。
+- core_multifactor：`quality_profitability_signal_cashguard_risk18` 与 `growth_lowvol...risk06` 已正确落入 `core_explore_seed`，验证了路由修复；但相对 `risk20_reconfirm` 的 2020 CAGR 分别下降 `15.49/17.30pp`，2023下降 `8.08/11.85pp`，均触发护栏并 `reject`。假设“正确路由后可用更浅回撤换取不超过3pp中窗收益损失”不获支持；代码覆盖仍为 `64/64`，无 evict/archive。完整卡见 `results/research/a_share/research_iteration_scorecard_20260824.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk18_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk06_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__sat_three_stage_risk`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-21 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk18_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk06_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__sat_three_stage_risk`。
+
+### 下一轮 focus 提示
+
+- `core_multifactor_coverage` 转向 value/lowvol/trend 的高风险边界，检验风险20/18能否保住中窗收益；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_risk20_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_trend_signal_cashguard_risk18_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：value-lowvol-trend-risk20、value-lowvol-trend-risk18；`signal_quality`：port-buffered-asym13、satellite-buffered-asym13；`weekly_exposure_path`：port-buffered、port-buffered-asym13；`satellite_defense`：risk10、risk20；`holding_shape`：share22、share24；`promotion_ramp`：prom5、prom7；`crash_resilience`：cash-off-dd-guard50、risk20。
+
 ## 2026-08-23 迭代：主线 clear signal 与 core_multifactor 路由审计（端点 2026-08-21）
 
 ### 上一轮候选与结果摘要
