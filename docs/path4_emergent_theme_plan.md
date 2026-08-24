@@ -1,5 +1,25 @@
 # Path 4 强主题涌现路径
 
+## 2026-08-25 迭代：signal-quality/risk-control 的回撤护栏否定（端点 2026-08-24）
+
+### 上一轮候选与结果摘要
+
+- `signal_quality_v3` 相对 `signal29-risk06-cap05` 的2020/2023 MaxDD恶化 `8.64/11.52pp`，2026 CAGR为 `-22.04%`；`risk_control_v5` 的2020/2023 MaxDD恶化 `8.33/10.68pp`，2026 CAGR为 `-14.14%`，均触发护栏并 `reject`。假设“80/20 signal/risk 正交形态可改善短窗且不扩大中窗回撤”不获支持。
+- artifact 仍将 `risk_control_v5` 推为2023/2025 window winner，但二次 scorecard 明确否决晋级；`signal29-risk06-cap05` 因2026负收益维持 `robust_observation`，进入观察位，不是强稳定 winner。正式 robust 未变，无人工主题标签、无 ETF、无 evict/archive；完整卡见 `results/research/a_share/research_iteration_scorecard_20260825.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader80_coverage_penalty_risk04_cap04_exit72_signal_quality_v3`、`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader80_coverage_penalty_risk04_cap04_exit72_signal_quality_v3,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+
+### 下一轮 focus 提示
+
+- `emergent_theme_coverage` 回到90/10风险/信号边界，要求2026先转正且2020/2023 MaxDD不恶化5pp；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+
+### Focus 候选池
+
+- `emergent_theme_coverage`：signal30-risk08、signal28-risk08；`theme_signal_quality`：signal30-risk08、signal29-risk06；`theme_risk_control`：risk04-exit70、risk06-cap05；`theme_capacity_cost`：capacity-v2、risk06-cap06。
+
 ## 2026-08-24 迭代：risk04 与 capacity 风险收益边界复核（端点 2026-08-21）
 
 ### 上一轮候选与结果摘要

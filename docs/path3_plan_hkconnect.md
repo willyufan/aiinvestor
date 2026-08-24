@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-25 迭代：soft-riskoff 低换手防守未守住收益（端点 2026-08-24）
+
+### 上一轮候选与结果摘要
+
+- `soft-riskoff-v26` 五窗口零交易，2020/2023 CAGR分别低于 equal-elastic `20.16/24.40pp`；`soft-riskoff-v29` 虽将换手降至约 `4.56/5.10x`，但2020/2023 CAGR下降 `9.33/12.67pp`，两者均 `reject`。假设“soft-riskoff可把换手压至10x内且保住中窗收益”不获支持。
+- `equal_elastic_weekly` 2026 CAGR `28.69%`，但2020/2023 MaxDD为 `-53.42/-38.26%`、换手约 `26.94/27.95x`，维持 `robust_observation`：进入观察位，不是强稳定 winner。正式 robust/tracked 未变，无 evict/archive。完整卡见 `results/research/a_share/research_iteration_scorecard_20260825.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover0_exit48_v26_weekly_defensive_overlay`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v29_defensive_overlay`、`hkconnect_path3_equal_elastic_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-24 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff34_turnover0_exit48_v26_weekly_defensive_overlay,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v29_defensive_overlay,hkconnect_path3_equal_elastic_weekly`。
+
+### 下一轮 focus 提示
+
+- rotation=`cost_stress`，改验 wide-cost 与 cashoff 成本前沿，不再继续零交易 soft-riskoff；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard,hkconnect_path3_equal_elastic_cashoff_weekly,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- `cost_stress`：wide-cost、equal-elastic-cashoff；`weekly_defensive_overlay`：theme-fast-defensive、cashoff；`weekly_exit_buffer`：v38-return、theme-fast-buffered；`elasticity`：equal-elastic、equal-elastic-cashoff。
+
 ## 2026-08-24 迭代：周频防守与收益/换手折中确认（端点 2026-08-21）
 
 ### 上一轮候选与结果摘要
