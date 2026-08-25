@@ -1,5 +1,25 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-26 迭代：数据中心电力篮子成熟期继续等待（端点 2026-08-25）
+
+### 上一轮候选与结果摘要
+
+- `ai_datacenter_power_grid_202607_v0` 保持 `source_audited`、`frozen=true`、6只 active/4只 coverage watch；20D 等权/seed-weight 收益仍为 `11.70/11.67%`，与 Path4 `signal29-risk06` overlap `0/6`。40/60D 仍因事件后交易日不足而 `insufficient_data`。
+- 假设“政策触发的数据中心电力链能在成熟期保持独立正收益”仅获20D支持；runner不产连续 CAGR/Sharpe/MaxDD/turnover，判 `keep_watch`，不进入 Path1-4 winner/robust/tracked。registry 仍为5个篮子、2个 active、pending audit `0`，无 evict/archive。完整卡见 `results/research/a_share/research_iteration_scorecard_20260826.json`。
+
+### 本轮候选 ID 与命令
+
+- basket ID：`ai_datacenter_power_grid_202607_v0`；horizons `20,40,60`；Path4 参考 `signal29-risk06`；输出 `results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_signal29_risk06_20260826_mature.json`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_signal29_risk06_20260826_mature.json`。
+
+### 下一轮 focus 提示
+
+- `event_basket_registry` 继续等待40/60D自然成熟，并保持 `advanced_packaging_interconnect_202607_v0` 在 source-audit 草案位；下一轮第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_signal28_risk08_next_mature.json`；40/60D未成熟时只记缺口，不晋级。
+
+### Focus 候选池
+
+- `event_basket_registry`：`ai_datacenter_power_grid_202607_v0`、`advanced_packaging_interconnect_202607_v0`；`frozen_candidate_audit`：power-grid coverage-watch、advanced-packaging source audit；`event_backtest_entry`：power-grid 20/40/60D、AI-glasses 20/40/60D；`path4_comparison`：signal28-risk08、signal29-risk06。
+
 ## 2026-08-25 迭代：数据中心电力篮子成熟期继续等待（端点 2026-08-24）
 
 ### 上一轮候选与结果摘要

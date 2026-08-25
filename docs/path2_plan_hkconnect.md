@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-26 迭代：biweekly breakout 高换手与年内失效否定（端点 2026-08-25）
+
+### 上一轮候选与结果摘要
+
+- `v21/v25` 相对 `theme_fast_monthly` 的2020 CAGR提高 `6.54/6.74pp`，但2020 MaxDD恶化 `9.12/6.53pp`，换手提高约 `6-7x`，2026 CAGR为 `-7.44/-4.54%`；两者均触发稳定性护栏并 `reject`。假设“biweekly breakout 可在成本守门下兼顾中窗与年内收益”不获支持。
+- `theme_fast_monthly` 五窗确认 `promote` incumbent，2026 CAGR `25.36%`；artifact 保持 v25 为 since_2017_01 window winner，本轮未发生 winner/robust/tracked ID 变化，且该窗口排序不改变 scorecard 的 `reject`。无 evict/archive。完整卡见 `results/research/a_share/research_iteration_scorecard_20260826.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair`、`hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair`、`hkconnect_path2_theme_fast_monthly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v21_breakout_repair,hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair,hkconnect_path2_theme_fast_monthly`。
+
+### 下一轮 focus 提示
+
+- rotation=`biweekly_breakout`，停止 v21/v25 同形，转验低换手 v31 与成本修复 v34，要求2020 MaxDD不恶化5pp且2026转正；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v31_breakout_lowturn_repair,hkconnect_path2_theme_biweekly_cost_guard_v34_breakout_cost_repair,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `biweekly_breakout`：v31-lowturn、v34-cost-repair；`high_return_monthly`：quality-liquidity-v1、v2-cost；`elasticity_cost_control`：v34-cost-repair、theme-monthly-cost-control；`cost_stress`：v27、theme-fast。
+
 ## 2026-08-25 迭代：v31/v32 中窗前沿与年内失效确认（端点 2026-08-24）
 
 ### 上一轮候选与结果摘要

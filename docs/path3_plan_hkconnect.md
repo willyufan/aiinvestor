@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-26 迭代：wide-cost 与 cashoff 成本前沿确认（端点 2026-08-25）
+
+### 上一轮候选与结果摘要
+
+- `wide_cost_guard` 将2020/2023换手降低约 `18.12/18.59x`、MaxDD显著改善，但2023 CAGR下降 `3.79pp`并触发护栏，2026 CAGR `-8.35%`，判 `reject`。`equal_elastic_cashoff` 的2020/2023 CAGR只下降 `1.55/1.37pp`、换手降低 `3.71/2.08x`，未触发中窗护栏且2026仍正，判 `keep_watch`；但绝对换手仍约 `23-38x`。
+- `equal_elastic_weekly` 五窗均为路径内部 robust，但最差 MaxDD `-53.42%`、平均换手约 `30.78x`，继续 `robust_observation`：进入观察位，不是强稳定 winner。假设“cashoff 能形成成本前沿”部分获支持；正式 robust/tracked 未变，无 evict/archive。完整卡见 `results/research/a_share/research_iteration_scorecard_20260826.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard`、`hkconnect_path3_equal_elastic_cashoff_weekly`、`hkconnect_path3_equal_elastic_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_wide_cost_guard,hkconnect_path3_equal_elastic_cashoff_weekly,hkconnect_path3_equal_elastic_weekly`。
+
+### 下一轮 focus 提示
+
+- rotation=`cost_stress`，以 cashoff 为成本前沿，比较 theme-fast defensive 是否能进一步改善回撤且把 turnover 压至20x附近；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive,hkconnect_path3_equal_elastic_cashoff_weekly,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- `cost_stress`：theme-fast-defensive、equal-elastic-cashoff；`weekly_defensive_overlay`：theme-fast-defensive、cashoff；`weekly_exit_buffer`：v38-return、theme-fast-buffered；`elasticity`：equal-elastic、equal-elastic-cashoff。
+
 ## 2026-08-25 迭代：soft-riskoff 低换手防守未守住收益（端点 2026-08-24）
 
 ### 上一轮候选与结果摘要

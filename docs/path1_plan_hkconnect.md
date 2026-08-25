@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-26 迭代：双周 hybrid/cashoff 与 lowvol 锚竞争（端点 2026-08-25）
+
+### 上一轮候选与结果摘要
+
+- `biweekly_hybrid` 相对 `biweekly_lowvol` 的2020/2023 CAGR仅下降 `0.06/1.32pp`，回撤近似且2026 CAGR `9.98%`，但换手提高约 `0.99/1.11x`，判 `keep_watch`。`biweekly_cashoff` 的2023 CAGR下降 `4.73pp`并触发护栏，判 `reject`。
+- `biweekly_lowvol` 五窗确认 `promote` incumbent，2020/2023/2026 CAGR为 `17.73/23.11/10.13%`。假设“hybrid/cashoff 可在不破坏中窗下改善年内防守”仅对 hybrid 部分成立；正式 robust/tracked 未变，无 evict/archive。完整卡见 `results/research/a_share/research_iteration_scorecard_20260826.json`。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path1_biweekly_hybrid`、`hkconnect_path1_biweekly_cashoff`、`hkconnect_path1_biweekly_lowvol`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_hybrid,hkconnect_path1_biweekly_cashoff,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay` 保留 hybrid 观察结论，转验 v43/v49 的双周缓冲能否降低换手并守住2026正收益；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v43_biweekly_buffer_repair,hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：v43-buffer、v49-ytd；`biweekly_buffer`：v43、v49；`risk_overlay_cost`：hybrid、cashoff；`ytd_guard`：v26、v49。
+
 ## 2026-08-25 迭代：月频周风控 cost/cash guard 再否定（端点 2026-08-24）
 
 ### 上一轮候选与结果摘要
