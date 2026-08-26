@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-08-27 迭代：exit-buffer 回撤改善与收益损失确认（端点 2026-08-26）
+
+### 上一轮候选与结果摘要
+
+- `exit_buffer_v3_weekly` 相对 cap54 将 2020/2023 MaxDD 改善 `10.95/15.04pp`、换手下降，但 2020 CAGR下降 `4.46pp`触发护栏，`reject`；`exit97_weekly` 回撤更浅、换手更低，但 2020/2023 CAGR下降 `15.15/7.78pp`，`reject`。cap54 同窗确认 `promote` incumbent，2026 CAGR `33.38%`。
+- 假设“相邻 exit-buffer 能把收益损失压到3pp内”不获支持；正式 window winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction` 转验 risk10/risk08 的更长持有边界，要求 turnover 继续低于 cap54 且 2020/2023 CAGR 不触发 `-3pp` 护栏；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：cap42-risk10、cap40-risk08；`weekly_exit_buffer`：exit90-v3、exit97；`risk_downshift`：cap42-risk10、cap40-risk08；`cost_stress`：cap42-cost-stress、cap54。
+
 ## 2026-08-26 迭代：turnover-repair 与 return-recovery 再否定（端点 2026-08-25）
 
 ### 上一轮候选与结果摘要

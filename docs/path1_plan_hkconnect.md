@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-27 迭代：双周 buffer 年内守门失败（端点 2026-08-26）
+
+### 上一轮候选与结果摘要
+
+- `v43_buffer_repair` 与 `v49_ytd_repair` 的 2026 CAGR虽为 `2.06%/0.07%`，但相对 lowvol 的 2023 CAGR分别下降 `6.25/6.89pp`、Sharpe下降 `0.304/0.319`，均触发护栏并 `reject`。
+- lowvol 五窗口确认 `promote` incumbent，2026 CAGR `10.07%`；假设“双周 buffer 能降低换手并守住年内正收益”不获支持。正式 winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v43_biweekly_buffer_repair`、`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair`、`hkconnect_path1_biweekly_lowvol`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-26 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v43_biweekly_buffer_repair,hkconnect_path1_biweekly_quality_momentum_equal_buffered_v49_biweekly_buffer_ytd_repair,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 提示
+
+- `biweekly_buffer` 停止 v43/v49 同形，回到 hybrid/cashoff 与 lowvol 的成本边界；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_hybrid,hkconnect_path1_biweekly_cashoff,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `biweekly_buffer`：hybrid、cashoff；`monthly_weekly_overlay`：lowvol-soft-exit36、lowvol-soft-exit38；`risk_overlay_cost`：cashoff、hybrid；`ytd_guard`：v26-positive-guard、v49-ytd-repair。
+
 ## 2026-08-26 迭代：双周 hybrid/cashoff 与 lowvol 锚竞争（端点 2026-08-25）
 
 ### 上一轮候选与结果摘要
