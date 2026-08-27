@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-28 迭代：return recovery 降换手但年内转负（端点 2026-08-27）
+
+### 上一轮候选与结果摘要
+
+- `stable_v38_return_recovery` 把换手压至约 `8-10x`，2023 CAGR/MaxDD相对 equal-elastic 改善 `2.09/19.77pp`，但2026 CAGR `-4.06%`，判 `keep_watch`；`equal_elastic_cashoff` 2026保持 `34.32%`，但换手仍约 `37.55x`，同为 `keep_watch`。
+- equal-elastic artifact位继续 `robust_observation`：约 `27-38x` 换手与深历史回撤不可接受，进入观察位，不是强稳定 winner。假设“v38可降到20x以下且维持正短窗”仅支持成本目标；正式 winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`、`hkconnect_path3_equal_elastic_cashoff_weekly`、`hkconnect_path3_equal_elastic_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_equal_elastic_cashoff_weekly,hkconnect_path3_equal_elastic_weekly`。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction` 转验 v37 turnover-balance 与 theme-fast buffered，要求2026转正且 turnover保持20x以内；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_v37_turnover_balance,hkconnect_path3_theme_fast_weekly_buffered,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v37-turnover-balance、v38-return；`cost_stress`：equal-elastic-cashoff、v37；`weekly_defensive_overlay`：theme-fast-buffered、cashoff；`weekly_exit_buffer`：v38-return、theme-fast-buffered。
+
 ## 2026-08-27 迭代：defensive 与 cashoff 的成本前沿确认（端点 2026-08-26）
 
 ### 上一轮候选与结果摘要

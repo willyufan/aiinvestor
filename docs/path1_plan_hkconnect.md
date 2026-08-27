@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-28 迭代：hybrid/cashoff 与 lowvol 成本边界（端点 2026-08-27）
+
+### 上一轮候选与结果摘要
+
+- `biweekly_hybrid` 五窗均为正且未触发护栏，但中窗与 lowvol 略弱，`keep_watch`；`biweekly_cashoff` 的2023 CAGR下降 `4.74pp`，触发护栏并 `reject`。lowvol同窗确认 `promote` incumbent，2026 CAGR `9.29%`。
+- 假设“hybrid/cashoff 可在低波锚附近改善成本”仅获 hybrid 的局部支持；正式 winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path1_biweekly_hybrid`、`hkconnect_path1_biweekly_cashoff`、`hkconnect_path1_biweekly_lowvol`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_hybrid,hkconnect_path1_biweekly_cashoff,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 提示
+
+- `biweekly_buffer` 已确认 hybrid 更接近前沿，下一轮转验月频选股+周风控 lowvol soft-exit；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `biweekly_buffer`：hybrid、lowvol；`monthly_weekly_overlay`：lowvol-soft-exit36、lowvol-soft-exit38；`risk_overlay_cost`：hybrid、cashoff；`ytd_guard`：v26-positive-guard、v49-ytd-repair。
+
 ## 2026-08-27 迭代：双周 buffer 年内守门失败（端点 2026-08-26）
 
 ### 上一轮候选与结果摘要

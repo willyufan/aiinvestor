@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-08-28 迭代：极低换手以中窗收益退化为代价（端点 2026-08-27）
+
+### 上一轮候选与结果摘要
+
+- `cap42-risk10` 与 `cap40-risk08` 把2020换手压到 `0.42x/0.37x`、回撤改善约 `10pp`，但2020 CAGR分别下降 `14.10/14.72pp`，2023下降 `5.61/9.99pp`，均触发护栏并 `reject`。cap54 五窗确认 `promote` incumbent，2026 CAGR `37.86%`。
+- 假设“更长持有和风险降档能在3pp收益容忍内降换手”不获支持；正式 winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-27 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction` 回到中等换手的 repair 形态，不再扩极低 turn02；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold7_turn04_exit94_risk12_weekly_turnover_repair_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：turnover-repair-v3、return-recovery-v6；`weekly_exit_buffer`：exit97、exit90-v3；`risk_downshift`：cap42-risk10、cap44-risk12；`cost_stress`：cap42-cost-stress、cap54。
+
 ## 2026-08-27 迭代：exit-buffer 回撤改善与收益损失确认（端点 2026-08-26）
 
 ### 上一轮候选与结果摘要
