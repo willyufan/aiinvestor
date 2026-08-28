@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-29 迭代：低换手修复的年内转负与 selector 替补（端点 2026-08-28）
+
+### 上一轮候选与结果摘要
+
+- 计划候选 `v37_turnover_balance` 不在当前 HK 生成器注册集合，被安全跳过；已用注册的 `v38_return_recovery` 替补。v38 把换手压至约 `9.40x`、2023 CAGR提高 `2.25pp`且回撤改善约 `19.77pp`，但2026 CAGR `-3.97%`，判 `keep_watch`。
+- `theme_fast_weekly_buffered` 的2023 CAGR提高 `3.07pp`，但2026为 `-0.71%`、换手仍约 `34.66x`，仅 `keep_watch`；equal-elastic 约 `36.79x` 换手且历史回撤深，继续 `robust_observation`：进入观察位，不是强稳定 winner。正式 winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：原计划 `hkconnect_path3_stable_weekly_equal_buffered_v37_turnover_balance`（未注册、未跑）；实际替补 `hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`、`hkconnect_path3_theme_fast_weekly_buffered`、`hkconnect_path3_equal_elastic_weekly`。
+- 主批次命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_v37_turnover_balance,hkconnect_path3_theme_fast_weekly_buffered,hkconnect_path3_equal_elastic_weekly`；替补命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction` 不再调用未注册 v37，改验 v38 与 cashoff 成本前沿，要求2026转正且 turnover低于20x；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_equal_elastic_cashoff_weekly,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v38-return、equal-elastic-cashoff；`cost_stress`：cashoff、v38；`weekly_defensive_overlay`：theme-fast-buffered、cashoff；`weekly_exit_buffer`：v38-return、theme-fast-buffered。
+
 ## 2026-08-28 迭代：return recovery 降换手但年内转负（端点 2026-08-27）
 
 ### 上一轮候选与结果摘要

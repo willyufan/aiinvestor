@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-29 迭代：月频周风控 soft-exit 的回撤护栏再否定（端点 2026-08-28）
+
+### 上一轮候选与结果摘要
+
+- `soft_exit36/38` 相对 lowvol 的2020 CAGR均提高约 `8.0pp`、2023提高约 `7.95pp`，但2023 MaxDD恶化 `5.22pp`且2026 CAGR均为 `-5.85%`，命中护栏并 `reject`。lowvol 五窗确认 `promote` incumbent，2026 CAGR `9.77%`。
+- 假设“soft-exit 可用中窗收益改善换取可控回撤且保持年内正收益”不获支持；正式 winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36`、`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38`、`hkconnect_path1_biweekly_lowvol`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit36,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 提示
+
+- `biweekly_buffer` 停止 soft-exit 同形，回到 hybrid/cashoff 与 lowvol 的成本边界；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_hybrid,hkconnect_path1_biweekly_cashoff,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `biweekly_buffer`：hybrid、cashoff；`monthly_weekly_overlay`：lowvol-soft-exit36、lowvol-soft-exit38；`risk_overlay_cost`：hybrid、cashoff；`ytd_guard`：v26-positive-guard、v49-ytd-repair。
+
 ## 2026-08-28 迭代：hybrid/cashoff 与 lowvol 成本边界（端点 2026-08-27）
 
 ### 上一轮候选与结果摘要
