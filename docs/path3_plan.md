@@ -1,5 +1,27 @@
 # Path 3 研究计划
 
+## 2026-08-30 迭代：周频低换手修复再次破坏中窗（端点 2026-08-28）
+
+### 上一轮候选与结果摘要
+
+- `...cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly` 相对 cap54 incumbent 将 2020 MaxDD 改善 `10.23pp`、turnover 降约 `0.88x`，但 CAGR 下降 `9.71pp`，`reject`；`...cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly` 的 2020 CAGR 下降 `7.14pp`，同样 `reject`。
+- cap54 incumbent 五窗口确认 `promote`，2020/2023/2026 CAGR `18.39%/9.31%/36.13%`。假设“risk14/cap46 能在减换手时守住中窗收益”不获支持；正式 winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 实跑 ID：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction`：停止 cap46/risk14 同形扩参，改测 exit-buffer 与更低 turnover threshold 是否能保留 2020 CAGR。第一条命令：`.venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn02_exit99_risk12_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：`...cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`、`...cap46_hold7_turn02_exit99_risk12_weekly`。
+- `return_recovery`：`...cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly`、`...cap52_hold5_turn05_exit98_risk16_weekly`。
+- `weekly_drawdown_control`：`...cap42_hold6_turn04_exit96_risk12_weekly`、`...cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`。
+
 ## 2026-08-29 迭代：中等换手修复仍未守住2020收益（端点 2026-08-28）
 
 ### 上一轮候选与结果摘要

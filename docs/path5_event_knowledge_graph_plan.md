@@ -1,5 +1,27 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-08-30 迭代：电力篮子对 signal29-risk06 的成熟期复核（端点 2026-08-28）
+
+### 上一轮候选与结果摘要
+
+- `ai_datacenter_power_grid_202607_v0` 为 `source_audited` 且 `frozen=true`；相对 Path4 signal29-risk06，20D 等权/seed-weight 收益 `11.70%/11.67%`，overlap `0/6`，40/60D 仍 `insufficient_data`。
+- 假设“冻结事件篮子在成熟期保持正收益且与 Path4 低重合”仅获 20D 支持；runner 仍不产连续 CAGR/Sharpe/MaxDD/turnover，判 `keep_watch`，不进入 Path1-4 winner/robust/tracked。registry 5 个篮子、2 个 active、pending audit `0`，无 evict/archive；输出为 `results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_signal29_risk06_20260830_mature.json`。
+
+### 本轮候选 ID 与命令
+
+- 实跑 basket：`ai_datacenter_power_grid_202607_v0`；审计状态 `source_audited`，horizons `20,40,60`，Path4 reference 为 signal29-risk06。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_signal29_risk06_20260830_mature.json`。
+
+### 下一轮 focus 提示
+
+- `frozen_candidate_audit`：保持同一冻结篮子，改用 Path4 `risk_control_v5` 做 overlap/20D 对照；只有 40/60D 成熟且连续风险指标可补齐后才讨论晋级。第一条命令：`.venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_risk_control_v5_20260831_mature.json`。
+
+### Focus 候选池
+
+- `frozen_candidate_audit`：`ai_datacenter_power_grid_202607_v0`、`robotics_supply_chain_202607_v0`。
+- `event_source_quality`：`advanced_packaging_interconnect_202607_v0`、`ai_infrastructure_cooling_202607_v0`。
+- `path4_overlap_control`：`ai_datacenter_power_grid_202607_v0 × risk_control_v5`、`robotics_supply_chain_202607_v0 × signal29-risk06`。
+
 ## 2026-08-29 迭代：数据中心电力篮子与 capacity-v2 成熟期复核（端点 2026-08-28）
 
 ### 上一轮候选与结果摘要

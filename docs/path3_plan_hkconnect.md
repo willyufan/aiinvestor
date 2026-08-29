@@ -1,5 +1,27 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-08-30 迭代：v38 大幅降换手但年内仍负（端点 2026-08-28）
+
+### 上一轮候选与结果摘要
+
+- `hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery` 相对 equal-elastic 的 2020 CAGR `-2.46pp`、2023 `+2.25pp`，MaxDD 改善 `32.93/19.77pp`，turnover 下降约 `18.7/19.7x`；但 2026 CAGR `-3.97%`，判 `keep_watch`。
+- 假设“v38 可用显著降换手和回撤修复换取不超过 3pp 的中窗损失”在 2020/2023 成立，但年内恢复未成立；正式 winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 确认 ID：`hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction`：用 cashoff / equal 对照 v38，要求 2026 非负且 2020 CAGR 不再下降超过 3pp。第一条命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_equal_elastic_cashoff_weekly,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：`hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`、`hkconnect_path3_equal_elastic_cashoff_weekly`。
+- `weekly_return_recovery`：`hkconnect_path3_theme_fast_weekly_buffered`、`hkconnect_path3_equal_elastic_weekly`。
+- `weekly_drawdown_control`：`hkconnect_path3_theme_fast_weekly_buffered`、`hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`。
+
 ## 2026-08-29 迭代：低换手修复的年内转负与 selector 替补（端点 2026-08-28）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,27 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-08-30 迭代：双周 hybrid 的正收益与成本权衡（端点 2026-08-28）
+
+### 上一轮候选与结果摘要
+
+- `hkconnect_path1_biweekly_hybrid` 相对 `hkconnect_path1_biweekly_lowvol` 的 2020 CAGR `-0.05pp`、MaxDD 恶化 `2.90pp`、turnover 增加约 `0.99x`；五窗口均为正，2026 CAGR `9.75%`，判 `keep_watch`。
+- 假设“hybrid 可在保持双周正收益时提升弹性且不显著增加成本”仅获收益稳定性支持，成本/回撤不支持；正式 window winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 确认 ID：`hkconnect_path1_biweekly_hybrid`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_hybrid`。
+
+### 下一轮 focus 提示
+
+- `biweekly_buffer`：用 cashoff 与 lowvol 夹住 hybrid，要求 2020/2023 不低于 lowvol 3pp 且 turnover 不高于 hybrid。第一条命令：`.venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_hybrid,hkconnect_path1_biweekly_cashoff,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `biweekly_buffer`：`hkconnect_path1_biweekly_hybrid`、`hkconnect_path1_biweekly_cashoff`。
+- `monthly_weekly_risk`：`hkconnect_path1_biweekly_equal_buffered_lowvol_soft_exit38`、`hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit36`。
+- `drawdown_repair`：`hkconnect_path1_biweekly_lowvol`、`hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit36`。
+
 ## 2026-08-29 迭代：月频周风控 soft-exit 的回撤护栏再否定（端点 2026-08-28）
 
 ### 上一轮候选与结果摘要
