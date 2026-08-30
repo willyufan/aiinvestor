@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-08-31 迭代：质量流动动量继续改善中窗但年内转负（端点 2026-08-28）
+
+### 上一轮候选与结果摘要
+
+- `hkconnect_path2_quality_liquidity_momentum_monthly_v1` 相对 theme-fast 的 2020/2023 CAGR提高 `4.84/7.04pp`、Sharpe提高 `0.390/0.402`，turnover降低约 `4.30/4.38x`；但2025 CAGR下降 `16.94pp`、2026 CAGR为 `-12.91%`，判 `keep_watch`。
+- 假设“降低成本后可保住中窗改善并让年内恢复”只支持中窗与成本，不支持短窗；正式 winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 确认 ID：`hkconnect_path2_quality_liquidity_momentum_monthly_v1`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_quality_liquidity_momentum_monthly_v1`。
+
+### 下一轮 focus 提示
+
+- `elasticity_cost_control`：把 v1/v2 与 theme-fast 同窗确认，要求保留中窗成本优势并让2026至少转为非负；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_quality_liquidity_momentum_monthly_v1,hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `elasticity_cost_control`：quality-liquidity-v1、v2-cost；`high_return_monthly`：theme-fast、quality-v1；`turnover_capacity`：theme-monthly-cost、v2-cost；`short_window_recovery`：theme-fast、equal-elastic-v45。
+
 ## 2026-08-30 迭代：质量流动动量的中窗改善与年内失效（端点 2026-08-28）
 
 ### 上一轮候选与结果摘要

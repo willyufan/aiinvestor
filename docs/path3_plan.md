@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-08-31 迭代：exit-buffer 获短窗排序但破坏 2020 稳定性（端点 2026-08-28）
+
+### 上一轮候选与结果摘要
+
+- `...cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly` 相对 cap54 将 2020/2023 MaxDD 改善 `10.95/15.04pp`、换手降低 `0.56/0.79x`，但 2020 CAGR下降 `4.46pp`并触发护栏，2025/2026 CAGR也分别下降 `28.96/33.72pp`，判 `reject`。
+- artifact 将该候选推为 2017 window winner，但二次 scorecard 不支持晋级；window 排序不等于 `promote`。cap54 五窗口确认 `promote` incumbent，正式 robust/tracked 主体未变。假设“exit90 可在减换手时守住中窗”不获支持，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 实跑 IDs：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-28 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction`：停止 exit90 同形，验证更接近 incumbent 的 exit99 与 cap52 边界，要求 2020 CAGR损失不超过3pp且 turnover 低于 cap54。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn02_exit99_risk12_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：cap46-exit99、cap54 incumbent；`weekly_exit_buffer`：exit90-v3、exit99；`risk_downshift`：cap42-risk10、cap46-risk12；`cost_stress`：cap42-cost-stress、cap54。
+
 ## 2026-08-30 迭代：周频低换手修复再次破坏中窗（端点 2026-08-28）
 
 ### 上一轮候选与结果摘要
