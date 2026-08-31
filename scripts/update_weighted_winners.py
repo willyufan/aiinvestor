@@ -2599,7 +2599,7 @@ def main() -> None:
         str(base_id)
         for base_id in comparison_ids
         if _matches_path2(str(base_id), path2_prefixes, path2_variant_ids)
-    } - STATIC_BASE_IDS - path4_allowed_ids - path2_archived_ids
+    } - STATIC_BASE_IDS - path1_family_ids - path4_allowed_ids - path2_archived_ids
     if not path2_allowed_ids:
         raise RuntimeError(
             "Path 2 candidate universe is empty. "

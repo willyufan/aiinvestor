@@ -17587,12 +17587,13 @@ def get_strategy_alpha_pool_profile(strategy_config: Dict[str, object]) -> str:
     explicit = str(strategy_config.get("alpha_pool_profile", "") or "").strip()
     if explicit:
         return explicit
+    strategy_base_id = str(strategy_config.get("strategy_base_id", "") or "")
     strategy_kind = str(strategy_config.get("strategy_kind", "core_explore") or "core_explore")
     if strategy_kind == "pure_core_growth":
         return ALPHA_POOL_PROFILE_GROWTH_ELASTIC
     core_signal_mode = str(strategy_config.get("core_signal_mode", "") or "").strip()
     promotion_signal_mode = str(strategy_config.get("promotion_signal_mode", "") or "").strip()
-    variant_id = extract_winner_variant_id(str(strategy_config.get("strategy_base_id", "") or ""))
+    variant_id = extract_winner_variant_id(strategy_base_id)
     if (
         core_signal_mode == EMERGENT_THEME_SIGNAL_MODE
         or promotion_signal_mode == EMERGENT_THEME_SIGNAL_MODE
@@ -17600,8 +17601,13 @@ def get_strategy_alpha_pool_profile(strategy_config: Dict[str, object]) -> str:
     ):
         return ALPHA_POOL_PROFILE_EMERGENT_THEME
     if (
+        strategy_base_id.startswith("core_explore_80_20_total_mv_winner_core__")
+        and variant_id in PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]
+    ):
+        return ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED
+    if (
         promotion_signal_mode == "liquidity_momentum"
-        or is_path2_scan_strategy_base_id(str(strategy_config.get("strategy_base_id", "") or ""))
+        or is_path2_scan_strategy_base_id(strategy_base_id)
     ):
         return ALPHA_POOL_PROFILE_GROWTH_ELASTIC
     return ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED

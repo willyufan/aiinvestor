@@ -1,5 +1,23 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-01 迭代：v38 风险成本前沿仍未恢复年内收益（端点 2026-08-31）
+
+### 上一轮候选与结果摘要
+
+- `hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery` 相对 equal-elastic 的2020 CAGR低 `1.62pp`，但Sharpe提高 `0.330`、MaxDD改善 `32.93pp`、turnover下降 `18.86x`；2023 CAGR提高 `3.87pp`，但2026仍为 `-3.06%`，判 `keep_watch`。正式观察位仍不是强稳定 winner，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction` 转验 v39-ytd-risk-repair；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v39_ytd_risk_repair,hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v39-ytd-repair、v38-return；`weekly_return_recovery`：v39、equal-elastic；`weekly_drawdown_control`：v38、theme-fast-defensive；`cost_stress`：v38、theme-fast-buffered。
+
 ## 2026-08-31 迭代：theme-fast buffered 中窗改善但高换手与负年内仍在（端点 2026-08-28）
 
 ### 上一轮候选与结果摘要

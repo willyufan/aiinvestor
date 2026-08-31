@@ -54,20 +54,20 @@ A_CANDIDATES = [
     ),
     (
         "ashare_path3",
-        "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly",
+        "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn02_exit99_risk12_weekly",
         P3_REF,
         "reject",
     ),
     ("ashare_path3", P3_REF, P3_REF, "promote"),
     (
         "ashare_path4",
-        "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5",
+        "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn",
         P4_REF,
         "reject",
     ),
     (
         "ashare_path4",
-        "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4",
+        "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn",
         P4_REF,
         "reject",
     ),
@@ -75,13 +75,13 @@ A_CANDIDATES = [
 ]
 
 HK_CANDIDATES = [
-    ("hkconnect_path1_biweekly_hybrid", "keep_watch"),
-    ("hkconnect_path2_quality_liquidity_momentum_monthly_v1", "keep_watch"),
-    ("hkconnect_path3_theme_fast_weekly_buffered", "keep_watch"),
-    ("hkconnect_path4_quality_momentum_monthly_smoke", "reject"),
-    ("hkconnect_path5_pullback_continuation_monthly_quality_retest_v10_definition_repair", "reject"),
+    ("hkconnect_path1_biweekly_equal_buffered_lowvol_soft_exit38", "reject"),
+    ("hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard", "keep_watch"),
+    ("hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery", "keep_watch"),
+    ("hkconnect_path4_quality_momentum_monthly_v50_return_restore", "keep_watch"),
+    ("hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite", "keep_watch"),
     ("hkconnect_path6_large_liquid_core_monthly_smoke", "promote"),
-    ("hkconnect_path7_barbell_quality_growth_biweekly_core_defensive_lowturn_v10", "keep_watch"),
+    ("hkconnect_path7_barbell_quality_growth_biweekly_lowturn_dual_sleeve_v9", "promote"),
 ]
 
 HK_REFS = {
@@ -94,17 +94,11 @@ HK_REFS = {
     "path7": "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3",
 }
 
-WINNER_OR_ROBUST_CHANGED: set[str] = {
-    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly",
-    "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5",
-}
+WINNER_OR_ROBUST_CHANGED: set[str] = set()
 
 TRACKED_PAYLOAD_REFRESHED: set[str] = set()
 
-ROUTE_MISMATCH_CANDIDATES: set[str] = {
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cost_guard_reconfirm",
-    "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_lowvol_signal_cost_guard_reconfirm",
-}
+ROUTE_MISMATCH_CANDIDATES: set[str] = set()
 
 FOCUS = {
     "ashare_path1": "多因子风险边界、路由一致性与中窗收益",
@@ -124,7 +118,7 @@ FOCUS = {
 def latest(frame: pd.DataFrame) -> pd.DataFrame:
     frame = frame[
         frame["sample_tag"].isin(WINDOWS)
-        & (frame["sample_end"].astype(str) == "2026-08-28")
+        & (frame["sample_end"].astype(str) == "2026-08-31")
     ].copy()
     return frame.drop_duplicates(["strategy_base_id", "sample_tag"], keep="last")
 
@@ -164,7 +158,7 @@ def decision_reason(decision: str, windows: dict[str, Any]) -> str:
 
 
 def make_event_card() -> dict[str, Any]:
-    event_path = A_DIR / "event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_risk_control_v5_20260831_mature.json"
+    event_path = A_DIR / "event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_signal_quality_v4_20260901_mature.json"
     event = json.loads(event_path.read_text(encoding="utf-8"))
     gap = "event runner 只产出事件 horizon，不生成连续组合 CAGR、Sharpe、MaxDD、turnover"
     return {
@@ -172,8 +166,8 @@ def make_event_card() -> dict[str, Any]:
         "candidate_id": event["basket_id"],
         "reference_id": event["path4_reference_overlap"]["strategy_id"],
         "decision": "keep_watch",
-        "hypothesis": "相对 Path4 risk-control-v5 观察位复核已审计冻结数据中心电力篮子的成熟期，预期 20/40/60D 保持正收益且低 overlap。",
-        "reason": "20D 收益保持正值并与 Path4 低 overlap；40/60D仍未成熟，且事件 runner 缺连续风险指标，只能 keep_watch。",
+        "hypothesis": "相对 Path4 signal-quality-v4 观察位复核已审计冻结 AI 眼镜篮子，预期 20/40/60D 保持正收益且低 overlap。",
+        "reason": "等权 20/40/60D 收益为21.80%/26.82%/0.11%，与 Path4 零重合；60D优势接近归零且事件 runner 缺连续风险指标，只能 keep_watch。",
         "windows": {
             window: {
                 "candidate_metrics": {metric: None for metric in METRICS},
@@ -238,8 +232,7 @@ def make_card(
         "tracked_payload_changed": candidate_id in TRACKED_PAYLOAD_REFRESHED,
     }
     if candidate_id in ROUTE_MISMATCH_CANDIDATES:
-        card["validation_gap"] = "only-base-id 实跑落入 growth_elastic，而 winner-only 内存评估属于 Path1 core_explore_seed；不同池结果不可作为同池晋级证据。"
-        card["reason"] = "候选落盘路由与 Path1 参考池不一致，不能形成同窗口同池确认，判定 reject；需先修复 selector 路由后再评估。"
+        card["validation_gap"] = "候选路由未通过同池校验。"
     return card
 
 
@@ -260,15 +253,15 @@ def main() -> None:
     counts = {key: sum(card["decision"] == key for card in cards) for key in ["promote", "keep_watch", "robust_observation", "reject", "archive"]}
     payload = {
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
-        "data_endpoint": "2026-08-28",
+        "data_endpoint": "2026-08-31",
         "candidate_count": len(cards),
-        "budget_note": "Path2 coverage blocker 首批20个base ids四窗口补齐后缺口由752降至732，v70五窗确认再顺带补齐1条，最终缺731、剩余37批。另完成A股11个、HK7个五窗口确认与1个Path5事件篮子，共19卡；Path2所有新排序因blocking不得promote。",
+        "budget_note": "市场端点切换至2026-08-31后，Path2 coverage blocker 缺792；首批20个base ids五窗口补齐后缺口降至772，辅助refresh_active中止前再补1条，末轮guard缺771、剩余39批。另完成A股11个、HK7个五窗口确认与1个Path5事件篮子，共19卡；Path2所有新排序因blocking不得promote。",
         "coverage_blocker": {
             "scope_id": "ashare_path2_candidate_universe",
-            "missing_before": 752,
-            "missing_after_first_batch": 732,
-            "missing_after_all_runs": 731,
-            "remaining_rerun_batches": 37,
+            "missing_before": 792,
+            "missing_after_first_batch": 772,
+            "missing_after_all_runs": 771,
+            "remaining_rerun_batches": 39,
             "promotion_deferred": True,
         },
         "winner_validation_policy": "窗口winner使用相邻窗口；本轮2026专项以2025为直接相邻窗，五窗口阈值用于robust二次判断。",
@@ -277,7 +270,7 @@ def main() -> None:
         "summary": counts,
         "scorecards": cards,
     }
-    output = A_DIR / "research_iteration_scorecard_20260831.json"
+    output = A_DIR / "research_iteration_scorecard_20260901.json"
     output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(output)
     print(json.dumps(counts, ensure_ascii=False))

@@ -1,5 +1,27 @@
 # 沪港通策略空间扩展计划
 
+## 2026-09-01 迭代：Path4-7 收益恢复、定义与杠铃再确认（端点 2026-08-31）
+
+### 上一轮候选与结果摘要
+
+- Path4 `v50_return_restore` 的2020/2023 CAGR提高 `6.23/3.79pp`，但2026为 `-5.93%`且成本较高，`keep_watch`。Path5 `v34_definition_rewrite` 中窗略优但2026为 `-8.16%`，`keep_watch`；两条弱路径观察位都不是强稳定 winner。
+- Path6 `large_liquid_core_monthly_smoke` 的2020/2023 CAGR提高 `3.70/3.04pp`、风险/成本更优且2026为正，`promote`；Path7 `lowturn_dual_sleeve_v9` 的2020/2023 CAGR提高 `0.63/0.74pp`且五窗为正，`promote`。两者取得正式晋级流程资格，但本轮尚未改写 formal robust/tracked；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_v50_return_restore,hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite,hkconnect_path6_large_liquid_core_monthly_smoke,hkconnect_path7_barbell_quality_growth_biweekly_lowturn_dual_sleeve_v9`。
+
+### 下一轮 focus 提示
+
+- Path4：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_v49_capacity_guard,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`。
+- Path5：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_pullback_continuation_monthly_quality_retest_v28_redesign_probe,hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair`。
+- Path6：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_biweekly_quality_liquidity_mix_v8,hkconnect_path6_lowvol_liquid_biweekly_smoke`。
+- Path7：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3`。
+
+### Focus 候选池
+
+- Path4 `quality_momentum / liquidity_momentum`：v49-capacity、v47-totalmv；Path5 `pullback_definition / retest_confirmation`：v28-redesign、v35-ytd；Path6 `large_liquid_core / capacity_cost`：quality-mix-v8、lowvol-smoke；Path7 `barbell_sleeve_structure / turnover_control`：defensive-sleeve-v7、core-sleeve-v3。
+
 ## 2026-08-31 迭代：Path4-7 回撤、定义、核心与杠铃再竞争（端点 2026-08-28）
 
 ### 上一轮候选与结果摘要

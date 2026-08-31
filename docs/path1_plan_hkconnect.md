@@ -1,5 +1,23 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-09-01 迭代：soft-exit38 的中窗弹性被成本与年内失效抵消（端点 2026-08-31）
+
+### 上一轮候选与结果摘要
+
+- `hkconnect_path1_biweekly_equal_buffered_lowvol_soft_exit38` 相对 lowvol 的2020/2023 CAGR提高 `1.29/6.67pp`，但 turnover增加 `3.53/3.47x`、2026 CAGR从 `10.91%`降至 `-1.28%`，判 `reject`。假设“soft-exit38可改善中窗且维持成本/年内收益”不获支持；正式 winner/robust/tracked 未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_equal_buffered_lowvol_soft_exit38`。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay` 转验 cost-guard-exit36 与 lowvol；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-08-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit36,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：soft-cost-exit36、biweekly-lowvol；`biweekly_buffer`：hybrid、cashoff；`risk_overlay_cost`：soft-cost-exit36、cashoff；`drawdown_repair`：lowvol、hybrid。
+
 ## 2026-08-31 迭代：hybrid 保持五窗正收益但未优于 lowvol（端点 2026-08-28）
 
 ### 上一轮候选与结果摘要

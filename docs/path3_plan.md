@@ -1,5 +1,24 @@
 # Path 3 研究计划
 
+## 2026-09-01 迭代：极低换手形态显著破坏中窗收益（端点 2026-08-31）
+
+### 上一轮候选与结果摘要
+
+- `...cap46_hold7_turn02_exit99_risk12_weekly` 相对 cap54 incumbent 将2020 turnover降 `1.11x`、MaxDD改善 `10.42pp`，但 CAGR下降 `14.27pp`、Sharpe下降 `0.405`；2023 CAGR也低 `4.90pp`，判 `reject`。cap54 继续 `promote` incumbent；无 winner/robust/tracked 变化及 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- IDs：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn02_exit99_risk12_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn02_exit99_risk12_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction` 停止 cap46-turn02 同形，回到较接近 incumbent 的 cap44-return-recovery；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-08-31 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：cap44-return-recovery、cap54 incumbent；`weekly_exit_buffer`：exit96-v6、exit98 incumbent；`risk_downshift`：cap42-risk10、cap44-risk12；`cost_stress`：cap40-turn02、cap54 incumbent。
+
 ## 2026-08-31 迭代：exit-buffer 获短窗排序但破坏 2020 稳定性（端点 2026-08-28）
 
 ### 上一轮候选与结果摘要
