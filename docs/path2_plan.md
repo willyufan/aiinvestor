@@ -1,5 +1,25 @@
 # Path 2 研究计划
 
+## 2026-09-02 迭代：coverage 第二批与 70/30 中周期形态否定（端点 2026-09-01）
+
+### 上一轮候选与结果摘要
+
+- 上轮新端点末轮 coverage 缺 `771/832`；本轮初始因端点推进缺 `799/832`，继续禁止 partial universe 下的 promote。
+
+### 本轮候选 ID 与命令
+
+- guard 首批 20 个 base IDs 的 2017/2020/2023/2025 四窗补缺使缺口 `799 -> 779`；随后五窗确认 70/30 `v35/v29/v28`，最终完整度 `56/832`、缺 `776`。确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-01 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk22_exit42_cap18_cost_guard_v35_lowturn,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk24_exit44_cap20_cost_guard_v29,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk28_exit46_cap24_cost_guard_v28`。
+- v35 的 2023 CAGR 相对 v63 下降 `3.26pp`；v29/v28 的 2020 CAGR下降 `3.06/5.33pp`，三条 2026 CAGR均低于 `-21%`，全部 `reject`。coverage 长尾只作可比性补齐，不计新增实验。
+- 为解除 live/public freshness blocker，另精确五窗补跑 `cap70/cap75_biweekly_cost_guard`、60/40 `v35`、70/30 `v62/v70/v78`；补跑后 provisional artifact 的 2023 window leader 更新为 60/40 `aggr_08_92_prom6_core_6_1`，2025 window leader 更新为 90/10 `...exit60_reconfirm80_amt110_cap95`，weighted/tracked window payload 已同步。由于候选宇宙仍缺 `776/832`，这些只是窗口排序刷新，不是 `promote`；Path2 robust composite 仍为 60/40 base，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- `medium_cycle_growth` 第一优先继续 blocker 的下一批 20 条，不能以缺 `776` 的 provisional 排序晋级。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-01 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01 --only-base-ids core_explore_70_30_equal_weight_winner_core__aggr_04_96_prom1_core_6_1_cash_off_and_cap100,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard0_fast,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard50,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk28_exit48_cap28_cost_guard_v39_capacity_stress,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk30_exit50_cap35_cost_guard_v38_underrep,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality,core_explore_70_30_equal_weight_winner_core__aggr_08_92_prom6_core_6_1,core_explore_80_20_equal_weight_winner_core,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_3_1_cash_off_and_cap100,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_3_1_full_risk_cap100,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_biweekly,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm80,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm85_amt130,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_ramp70,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_ramp85,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_risk50_cap100`。
+
+### Focus 候选池
+
+- `medium_cycle_growth`：70/30-v38-underrep、v43-quality；`risk_reconfirm_sensitivity`：v35-risk22、v29-risk24；`capacity_and_cost_stress`：v39-capacity、cap60-dd-guard；`underrepresented_families`：70/30-v38、70/30-v43。
+
 ## 2026-09-01 迭代：新端点 coverage 首批与中周期低换手复核（端点 2026-08-31）
 
 ### 上一轮候选与结果摘要

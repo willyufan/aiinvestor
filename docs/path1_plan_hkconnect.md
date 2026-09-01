@@ -1,5 +1,24 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-09-02 迭代：cost-exit36 中窗改善被换手与年内转负抵消（端点 2026-09-01）
+
+### 上一轮候选与结果摘要
+
+- 上轮 soft-exit38 因 turnover 增约3.5x且2026转负而 `reject`；正式 winner/robust/tracked 未变。
+
+### 本轮候选 ID 与命令
+
+- 命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-01 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit36`。
+- 相对 biweekly-lowvol，2020/2023 CAGR提高 `0.19/4.83pp`，但 turnover 增 `3.52/3.45x`，2026 CAGR从 `11.52%` 降至 `-2.37%`，二次成本/绝对收益判断为 `reject`；无 winner/robust/tracked 变化及 evict/archive。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay` 停止 soft-exit 同形，回到 hybrid/cashoff 的低换手边界；第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-01 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_hybrid,hkconnect_path1_biweekly_cashoff,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：hybrid、cashoff；`biweekly_buffer`：hybrid、lowvol；`risk_overlay_cost`：cashoff、lowvol；`drawdown_repair`：lowvol、hybrid。
+
 ## 2026-09-01 迭代：soft-exit38 的中窗弹性被成本与年内失效抵消（端点 2026-08-31）
 
 ### 上一轮候选与结果摘要

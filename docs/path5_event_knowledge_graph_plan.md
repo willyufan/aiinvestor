@@ -1,5 +1,24 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-02 迭代：AI眼镜短窗收益与 capacity-v2 零重合复核（端点 2026-09-01）
+
+### 上一轮候选与结果摘要
+
+- 上轮同一 `source_audited`、`frozen=true` 篮子的 20/40/60D 等权收益为 `21.80%/26.82%/0.11%`，成熟期只有20/40D支持、60D优势接近归零，保持 `keep_watch`。
+
+### 本轮候选 ID 与命令
+
+- basket `ai_glasses_edge_terminal_20260424_v0`，horizons `5/10/20`，Path4 reference 为 `capacity_v2`；命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 5,10,20 --path4-reference-strategy-id core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_20260902_short.json`。
+- 等权 5/10/20D 收益 `2.67%/15.79%/21.80%`，与 Path4 overlap `0/6`；短窗集中度仍为 6 只且 runner 不产连续 CAGR/Sharpe/MaxDD/turnover，判 `keep_watch`，不进入 Path1-4 winner/robust/tracked，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- `event_backtest_entry` 转回数据中心电力篮子的成熟期，检查 40/60D 是否已具足样本；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_signal29_risk06_20260903_mature.json`。
+
+### Focus 候选池
+
+- `event_backtest_entry`：power-grid 20/40/60D、AI-glasses 5/10/20D；`frozen_candidate_audit`：AI眼镜端侧、数据中心电力；`event_source_quality`：advanced-packaging、AI-infrastructure-cooling；`path4_comparison`：capacity-v2、signal29-risk06。
+
 ## 2026-09-01 迭代：AI眼镜冻结篮子成熟期复核（端点 2026-08-31）
 
 ### 上一轮候选与结果摘要

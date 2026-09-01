@@ -1,5 +1,24 @@
 # Path 1 研究计划
 
+## 2026-09-02 迭代：signal-quality-gate 风险下探仍破坏中窗（端点 2026-09-01）
+
+### 上一轮候选与结果摘要
+
+- 上轮已确认 core_multifactor selector 路由修复，但 profitability cost-guard 两条仍因 2020/2023 CAGR 明显落后 `risk20_reconfirm` 而 `reject`；本轮停止同形 cost-guard 扩参。
+
+### 本轮候选 ID 与命令
+
+- IDs：`...growth_trend_signal_quality_gate_cashguard_risk12_reconfirm`、`...risk10_reconfirm` 与主线 `...sat_three_stage_buffered_cost_guard_risk20_reconfirm`。命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-01 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk12_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk10_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- core_multifactor risk12/risk10 相对 risk20 的 2020 CAGR 下降 `19.11/19.26pp`、Sharpe下降 `0.476/0.481`，2023 CAGR下降 `4.85/5.34pp`，且 2026 均为负，判 `reject`；主线 risk20 五窗确认 `promote` incumbent。正式 winner/robust/tracked 未变，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- `core_multifactor_coverage` 停止 signal-quality-gate 风险下探，转验 growth-lowvol 与 risk16 回归边界；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-01 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk10_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：growth-lowvol-risk10、growth-signal-risk16；`weekly_exposure_path`：port-weekly-buffered、port-weekly-buffered-asym13；`satellite_defense`：risk18、risk20；`holding_shape`：share22、share24。
+
 ## 2026-09-01 迭代：core_multifactor 路由修复后的五窗否定（端点 2026-08-31）
 
 ### 上一轮候选与结果摘要
