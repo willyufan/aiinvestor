@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-09-03 迭代：cap52 降换手但短窗收益塌陷（端点 2026-09-02）
+
+### 上一轮候选与结果摘要
+
+- 上轮 cap44 虽降换手/回撤，却破坏 2020 与 2026，判 `reject`；cap54 继续为 `promote` incumbent。
+
+### 本轮候选 ID 与命令
+
+- 五窗实跑 `...cap52_hold6_turn04_exit98_risk16_weekly` 与 `...cap54_hold5_turn05_exit98_risk16_weekly`；命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- cap52 相对 cap54 的 2020 CAGR 下降 `4.20pp`并触发护栏，虽 2023 CAGR高 `5.08pp`且换手低 `0.41x`，但 2026 从 `30.96%`降到 `-0.56%`，判 `reject`；cap54 五窗再确认 `promote`。无 winner/robust/tracked 变化及 evict/archive。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction` 转验已注册 turnover-repair 形态；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：cap42-turnover-repair、cap54 incumbent；`weekly_exit_buffer`：exit96-repair、exit98 incumbent；`risk_downshift`：cap42-risk10、cap40-risk08；`cost_stress`：cap42-cost-stress、cap54 incumbent。
+
+
 ## 2026-09-02 迭代：cap44 收益恢复以 2020 大幅退化为代价（端点 2026-09-01）
 
 ### 上一轮候选与结果摘要

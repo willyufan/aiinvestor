@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-09-03 迭代：hybrid 五窗正收益再确认（端点 2026-09-02）
+
+### 上一轮候选与结果摘要
+
+- 上轮 cost-guard-exit36 未形成中短窗前沿；hybrid/lowvol 继续作为双周缓冲比较锚，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 五窗确认 `hkconnect_path1_biweekly_hybrid`；命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-02 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_hybrid`。
+- 2020/2023/2026 CAGR 为 `17.77%/21.95%/11.15%`，对应 MaxDD `-19.67%/-10.51%/-10.41%`，五窗 minCAGR 为正，确认 `promote` 当前 robust candidate；正式 window winner/tracked 主体未变。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay` 比较 hybrid/cashoff/lowvol；第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-02 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_hybrid,hkconnect_path1_biweekly_cashoff,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：hybrid、cashoff；`biweekly_buffer`：hybrid、lowvol；`risk_overlay_cost`：cashoff、lowvol；`drawdown_repair`：lowvol、hybrid。
+
+
 ## 2026-09-02 迭代：cost-exit36 中窗改善被换手与年内转负抵消（端点 2026-09-01）
 
 ### 上一轮候选与结果摘要

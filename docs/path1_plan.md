@@ -1,5 +1,25 @@
 # Path 1 研究计划
 
+## 2026-09-03 迭代：低波/成长多因子仍无法守住中窗（端点 2026-09-02）
+
+### 上一轮候选与结果摘要
+
+- 上轮 signal-quality-gate risk12/risk10 均因 2020/2023 收益显著落后 `risk20_reconfirm` 而 `reject`，主线 risk20 保持 `promote` incumbent；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 五窗实跑 `...growth_lowvol_signal_quality_gate_cashguard_risk10_reconfirm`、`...growth_signal_cashguard_risk16_reconfirm` 与主线 `...sat_three_stage_buffered_cost_guard_risk20_reconfirm`。完整命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk10_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- core_multifactor：risk10/risk16 相对 risk20 的 2020 CAGR 分别下降 `18.25/15.47pp`，2023 下降 `7.05/7.29pp`，均 `reject`；主线 risk20 的 2020/2023/2026 CAGR 为 `26.40%/22.27%/21.01%`，五窗再确认 `promote`。正式 winner/robust/tracked 未变。
+
+### 下一轮 focus 提示
+
+- `weekly_exposure_path` 转回 winner-only 新报出的月选股+周仓位 clear signal；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__port_weekly_exposure_buffered_asym13,core_explore_80_20_total_mv_winner_core__share_12_88_hold_4_6__port_weekly_exposure_buffered_asym13,core_explore_80_20_total_mv_winner_core__share_15_85_hold_4_6__sat_three_stage_buffered_asym13,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_cash_off__sat_three_stage_buffered_asym13,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。先验证真实落盘池与五窗稳定性，不能直接以 fast-pass 晋级。
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：growth-lowvol-risk10、growth-signal-risk16；`weekly_exposure_path`：aggr10-port-weekly-asym13、share12-port-weekly-asym13；`satellite_defense`：share15-satellite-asym13、aggr10-cashoff-satellite-asym13；`holding_shape`：share22、share24。
+
+
 ## 2026-09-02 迭代：signal-quality-gate 风险下探仍破坏中窗（端点 2026-09-01）
 
 ### 上一轮候选与结果摘要
