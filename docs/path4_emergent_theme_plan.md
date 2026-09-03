@@ -1,5 +1,24 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-04 迭代：risk08 赢长窗但未修复年内负收益（端点 2026-09-03）
+
+### 上一轮候选与结果摘要
+
+- 上轮 signal28-risk08 长窗略优但 2026 为负，只 `keep_watch`；signal29-risk06 仍为弱路径 `robust_observation`。
+
+### 本轮候选 ID 与命令
+
+- 五窗再跑 risk08/risk06；命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+- risk08 相对 risk06 的 2017 CAGR高 `1.74pp`、MaxDD改善 `2.45pp`，成为 2017 window winner，但 2023 CAGR低 `0.54pp`且 2026仍为 `-6.03%`，仅 `keep_watch`。risk06 的 2026 CAGR `-5.81%`，维持 `robust_observation`：进入观察位，不是强稳定 winner。无人工主题/ETF/单票幸运，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- 最终 guard focus 转向 `emergent_theme_coverage`，先复核 risk08/risk06 与新 artifact 观察位 capacity-v2 的五窗完整性，再比较更小单票上限的 risk-control-v5；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-03 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`。
+
+### Focus 候选池
+
+- `theme_risk_control`：risk-control-v5、signal28-risk08；`theme_signal_quality`：signal-quality-v3、signal-quality-v4；`theme_capacity_cost`：capacity-v2、cap06-lowturn；`emergent_theme_coverage`：signal28-risk08、signal29-risk06。
+
 ## 2026-09-03 迭代：risk08 改善长窗但年内仍为负（端点 2026-09-02）
 
 ### 上一轮候选与结果摘要

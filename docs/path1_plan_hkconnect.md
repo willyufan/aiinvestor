@@ -1,5 +1,24 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-09-04 迭代：cashoff 未守住 2023 收益且换手上升（端点 2026-09-03）
+
+### 上一轮候选与结果摘要
+
+- 上轮 biweekly-hybrid 五窗正收益并确认 `promote`，lowvol 继续作为正式 robust；本轮检查 cashoff 是否能形成更低风险前沿。
+
+### 本轮候选 ID 与命令
+
+- 五窗实跑 `hkconnect_path1_biweekly_cashoff`；命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-03 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_cashoff`。
+- 相对 `hkconnect_path1_biweekly_lowvol`，2023 CAGR下降 `4.69pp`并触发护栏，2020/2023换手分别增加约 `1.37/1.28x`，2026亦无收益优势，`reject`。window winner/robust/tracked 不变，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay` 转验月频主体+周度风险层与 lowvol 的边界；第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-03 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_hybrid_weekly_overlay,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：monthly-hybrid-weekly-overlay、monthly-hybrid；`biweekly_buffer`：biweekly-hybrid、biweekly-lowvol；`risk_overlay_cost`：monthly-overlay、biweekly-lowvol；`drawdown_repair`：biweekly-lowvol、biweekly-hybrid。
+
 ## 2026-09-03 迭代：hybrid 五窗正收益再确认（端点 2026-09-02）
 
 ### 上一轮候选与结果摘要

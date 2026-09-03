@@ -1,5 +1,24 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-04 迭代：quality-v2 中窗显著改善但年内仍转负（端点 2026-09-03）
+
+### 上一轮候选与结果摘要
+
+- 上轮 quality-v1 虽改善2020/2023，却因2026反向而 `reject`；theme-fast 保持短窗 robust。
+
+### 本轮候选 ID 与命令
+
+- 五窗实跑 `hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard`；命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-03 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_quality_liquidity_momentum_monthly_v2_cost_guard`。
+- 相对 theme-fast，2020/2023 CAGR提高 `4.98/6.06pp`、Sharpe提高 `0.431/0.428`，回撤与换手均改善；但2025低 `16.85pp`、2026从 `19.85%`转为 `-12.95%`，只 `keep_watch`。正式 winner/robust/tracked 不变，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- rotation 已到 `high_return_monthly`，要求新形态先守住2026非负；第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-03 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `elasticity_cost_control`：quality-v2-cost、theme-fast；`high_return_monthly`：quality-liquidity-v27、theme-fast；`turnover_capacity`：quality-v2、quality-v27；`short_window_recovery`：theme-fast、quality-v2。
+
 ## 2026-09-03 迭代：quality-v1 中窗改善但年内反向（端点 2026-09-02）
 
 ### 上一轮候选与结果摘要

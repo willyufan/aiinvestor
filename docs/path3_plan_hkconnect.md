@@ -1,5 +1,24 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-04 迭代：defensive 大幅降回撤但短窗转负（端点 2026-09-03）
+
+### 上一轮候选与结果摘要
+
+- 上轮 v38 保留中窗风险/低换手优势但 2026 仍负，只 `keep_watch`；v39 仍未注册。
+
+### 本轮候选 ID 与命令
+
+- 五窗实跑 `hkconnect_path3_theme_fast_weekly_defensive`；命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-03 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive`。
+- 相对 equal-elastic，2020/2023 MaxDD改善 `13.19/19.18pp`，2023 CAGR提高 `2.55pp`；但换手更高，2025 CAGR低 `24.37pp`且2026为 `-9.67%`，只 `keep_watch`。未成为强稳定 winner，window winner/robust/tracked 不变，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction` 先用已注册 turnover12/exit48 与 v38 做正交比较；第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-03 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover12_exit48,hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_equal_elastic_weekly`。v39 未跑原因：生成器仍未注册。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：defensive-turnover12、v38-return；`weekly_return_recovery`：defensive-turnover12、equal-elastic；`weekly_drawdown_control`：v38、theme-fast-defensive；`cost_stress`：v38、defensive-turnover12。
+
 ## 2026-09-03 迭代：v38 中窗风险前沿仍未修复年内收益（端点 2026-09-02）
 
 ### 上一轮候选与结果摘要

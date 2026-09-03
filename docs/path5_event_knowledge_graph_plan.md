@@ -1,5 +1,24 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-04 迭代：电力篮子 20 日收益保持，40/60 日仍未成熟（端点 2026-09-03）
+
+### 上一轮候选与结果摘要
+
+- 上轮 `ai_datacenter_power_grid_202607_v0` 的等权20日收益 `11.70%`、与 Path4 零重合，40/60日数据不足，保持 `keep_watch`；pending audit 为 0。
+
+### 本轮候选 ID 与命令
+
+- 对 `source_audited`、冻结且 active 的同一篮子再跑 20/40/60D；命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_signal29_risk06_20260904_mature.json`。
+- 等权20日收益仍为 `11.70%`，6只全部有效，Path4 overlap `0/6`；40/60D仅有33个交易日，且入口不生成连续 CAGR/Sharpe/MaxDD/turnover，判 `keep_watch`。winner/robust/tracked 不变，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- `path4_comparison` 在满40日后复跑；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_signal29_risk06_20260905_mature.json`。未提前改跑其它篮子原因：当前篮子的40D尚未成熟，需保持同一事件假设连续观测。
+
+### Focus 候选池
+
+- `event_backtest_entry`：ai-datacenter-power-grid、ai-glasses-edge-terminal；`event_basket_registry`：两条 active 冻结篮子；`source_audit`：power-grid来源复核、AI-glasses来源复核；`path4_comparison`：signal29-risk06、signal28-risk08。
+
 ## 2026-09-03 迭代：AI 数据中心电力篮子成熟窗首次确认（端点 2026-09-02）
 
 ### 上一轮候选与结果摘要
