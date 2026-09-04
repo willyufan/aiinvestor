@@ -1,5 +1,25 @@
 # Path 2 研究计划
 
+## 2026-09-05 迭代：coverage 再推进 22 条，v35/v29 稳定性失守（端点 2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- 上轮 v62 `reject`、v63 仅 `robust_observation`；Path2 partial universe 缺口为 `767/832`，继续禁止基于未齐 coverage 的 promote。
+
+### 本轮候选 ID 与命令
+
+- 先按 guard 精确补跑 20 个 base ids 的 2017/2020/2023/2025 四窗，使缺口 `794 -> 774`；再五窗确认 v35/v29，使最终缺口降到 `772/832`。确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk22_exit42_cap18_cost_guard_v35_lowturn,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk24_exit44_cap20_cost_guard_v29`。
+- v35 相对 v63 的 2023 CAGR 下降 `3.27pp`，v29 的 2020 CAGR下降 `3.26pp`，均命中稳定性护栏；两者 2026 CAGR 分别为 `-23.54%/-24.79%`、换手约 `18.99/19.09x`，均 `reject`。Path2 window winner/robust/tracked ID 不变，无 evict/archive。
+- public 新鲜度扫描检查150-152个 detail，并分三批精确补齐9个 `since_2026_01` 旧估值（v78、60/40 cap70/cap75/v29/v35、70/30 cap60/cap70 与两条 cap100-biweekly）；这些重排候选的2026收益均弱，仅属同步，不计新增策略实验。
+
+### 下一轮 focus 提示
+
+- `medium_cycle_growth` 第一优先继续 guard blocker；第一条命令：`.venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01 --only-base-ids core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk22_exit42_cap16_cost_guard_v62_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk28_exit46_cap24_cost_guard_v28,core_explore_70_30_equal_weight_winner_core__aggr_04_96_prom1_core_6_1_cash_off_and_cap100,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard0_fast,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard50,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk28_exit48_cap28_cost_guard_v39_capacity_stress,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk30_exit50_cap35_cost_guard_v38_underrep,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality,core_explore_70_30_equal_weight_winner_core__aggr_08_92_prom6_core_6_1,core_explore_80_20_equal_weight_winner_core,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_3_1_cash_off_and_cap100,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_3_1_full_risk_cap100,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_biweekly,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm80,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm85_amt130`。本轮未清零原因：首批补缺耗时约14分钟，HK缓存 fallback、17个证券候选五窗与 public stale 修复已占用日更预算；缺口路径继续禁止 promote。
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v70-underrepresented-lowturn、v62-underrepresented-lowturn；`underrepresented_growth`：v70、v28；`turnover_capacity`：v39-capacity-stress、v43-underrep-quality；`risk_overlay`：v62、v28。均使用上方完整 base id，不再扩展已淘汰的 v35/v29 同形。
+
 ## 2026-09-04 迭代：coverage 推进 25 条，v62 中窗失守（端点 2026-09-03）
 
 ### 上一轮候选与结果摘要

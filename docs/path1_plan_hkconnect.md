@@ -1,5 +1,24 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-09-05 迭代：月频主体提升中窗，年内转负阻断晋级（端点 2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- 上轮 biweekly-cashoff 因2023收益护栏与换手上升 `reject`；biweekly-lowvol 保持正式 robust，本轮检验月频主体+周度风险层。
+
+### 本轮候选 ID 与命令
+
+- 五窗实跑 `hkconnect_path1_monthly_hybrid_weekly_overlay`；命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-04 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_hybrid_weekly_overlay`。
+- 相对 biweekly-lowvol，2020 CAGR/Sharpe提高 `2.68pp/0.308`、MaxDD改善 `3.64pp`；2023 CAGR基本持平但换手增加 `0.59x`，2026 CAGR从 `12.49%`转为 `-0.37%`，判 `keep_watch`。window winner/robust/tracked ID不变，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- `monthly_weekly_overlay` 转验 soft-exit34 与 lowvol-soft-exit32 能否守住2026正收益。第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-04 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit34,hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit32`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：soft-exit34、soft-exit32；`biweekly_buffer`：biweekly-hybrid、biweekly-lowvol；`risk_overlay_cost`：soft-exit34-cashguard-light、v34-overlay-cost-guard；`drawdown_repair`：v22-drawdown-repair、monthly-lowvol-weekly-overlay-soft。
+
 ## 2026-09-04 迭代：cashoff 未守住 2023 收益且换手上升（端点 2026-09-03）
 
 ### 上一轮候选与结果摘要

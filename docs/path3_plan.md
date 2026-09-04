@@ -1,5 +1,24 @@
 # Path 3 研究计划
 
+## 2026-09-05 迭代：exit-buffer 降风险但跌破中窗收益护栏（端点 2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- 上轮 turnover-repair 因中窗收益与2026风险退化 `reject`，cap54 继续作为 Path3 robust 与 2020 window winner。
+
+### 本轮候选 ID 与命令
+
+- 五窗实跑 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly` 与 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- exit-buffer 相对 cap54 的 2020 CAGR低 `3.95pp`，触发二次稳定性护栏；虽 MaxDD 改善 `10.95pp`、换手降 `0.56x`，2026 CAGR仍从 `28.63%`转为 `-4.58%`，判 `reject`。它继续保留 2017 official window winner 身份，但不代表跨窗晋级。cap54 五窗确认 `promote` incumbent；robust/tracked ID 不变，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- `turnover_reduction` 停止 exit-buffer-v3，转验 return-recovery v6/v7 是否能保住 2020/2023 收益。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：v6-return-recovery、v4-turnover-reduction；`weekly_return_recovery`：v6、v7；`weekly_drawdown_control`：exit-buffer-v3、v4-turnover-reduction；`cost_stress`：cap54、v6。所有 Path3 候选均保持 `_weekly` 后缀。
+
 ## 2026-09-04 迭代：turnover-repair 降换手但收益与年内风险失守（端点 2026-09-03）
 
 ### 上一轮候选与结果摘要

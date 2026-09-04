@@ -1,5 +1,25 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-05 迭代：capacity-v2 降回撤换手，但年内仍负（端点 2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- 上轮 risk08 成为 2017 window winner但仍为 `keep_watch`；risk06 因2026负收益仅 `robust_observation`，本轮加入 capacity-v2 检验容量与风险前沿。
+
+### 本轮候选 ID 与命令
+
+- 五窗实跑 risk08、risk06、capacity-v2；命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- risk08 相对 risk06 的 2017 CAGR/Sharpe提高 `1.75pp/0.180`，但2026 CAGR `-6.23%`，维持 `keep_watch`；risk06 2026 CAGR `-6.01%`，维持 `robust_observation`。
+- capacity-v2 的2020/2023 MaxDD改善约 `3.91/3.80pp`、换手降低约 `0.48/0.44x`且CAGR基本持平，继续占据2020 window winner与路径 robust 观察位；但2026 CAGR仍为 `-3.79%`，判 `robust_observation`：进入观察位，不是强稳定 winner。official ID未变，无人工主题/ETF、无 evict/archive。
+
+### 下一轮 focus 提示
+
+- `emergent_theme_coverage` 转验 risk-control-v5 与 signal30 是否能保持中窗并修复2026。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+
+### Focus 候选池
+
+- `emergent_theme_coverage`：risk-control-v5、signal30-risk06；`theme_signal_quality`：signal30-risk06、signal28-risk08；`theme_risk_control`：risk-control-v5、capacity-v2；`theme_capacity_cost`：capacity-v2、risk08-lowturn。
+
 ## 2026-09-04 迭代：risk08 赢长窗但未修复年内负收益（端点 2026-09-03）
 
 ### 上一轮候选与结果摘要

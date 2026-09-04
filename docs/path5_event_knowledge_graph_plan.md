@@ -1,5 +1,24 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-05 迭代：电力篮子 20 日保持 11.70%，成熟窗仍待齐（端点 2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- 上轮 `ai_datacenter_power_grid_202607_v0` 的等权20日收益 `11.70%`、与Path4零重合，40/60日未成熟；候选已 `source_audited`、冻结且 pending audit 为0。
+
+### 本轮候选 ID 与命令
+
+- 对同一冻结篮子再跑20/40/60D：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_signal29_risk06_20260905_mature.json`。
+- 6只有效样本的20日等权/seed-weight收益为 `11.70%/11.67%`，与Path4持仓重合 `0/6`；40/60D仍为 `insufficient_data`，且事件入口不生成连续 CAGR/Sharpe/MaxDD/turnover/成本，判 `keep_watch`。Path5独立跟踪，不改A股Path1-4 winner/robust；无 evict/archive。
+
+### 下一轮 focus 提示
+
+- `path4_comparison` 等满40个交易日后优先复跑同一篮子，上述完整命令即第一条可执行命令；未提前切换原因是保持同一事件假设的成熟窗连续性。
+
+### Focus 候选池
+
+- `path4_comparison`：`ai_datacenter_power_grid_202607_v0`、`ai_glasses_edge_terminal_20260424_v0`；`event_basket_registry`：上述两个 source-audited 冻结篮子；`source_audit`：power-grid 六只 enabled 与四只 coverage-watch；`horizon_design`：power-grid 20/40/60D、AI眼镜 20/40/60D。
+
 ## 2026-09-04 迭代：电力篮子 20 日收益保持，40/60 日仍未成熟（端点 2026-09-03）
 
 ### 上一轮候选与结果摘要
