@@ -1,5 +1,30 @@
 # 沪港通策略空间扩展计划
 
+## 2026-09-06 迭代：Path4质量平衡待观察，Path6 v46获晋级资格（端点 2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- 上轮Path4 v50、Path5 v34仅 `keep_watch`，Path6 monthly-smoke与Path7 v9取得 `promote`资格；本轮Path4-7各五窗确认2个候选。
+
+### 本轮候选 ID 与命令
+
+- 完整命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-04 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_v51_quality_balance,hkconnect_path4_quality_momentum_monthly_ytd_positive_v46_lowdraw_ytd_guard,hkconnect_path5_pullback_continuation_monthly_quality_retest_v36_lowturn_pullback_definition,hkconnect_path5_pullback_continuation_biweekly_v40_definition_balance,hkconnect_path6_large_liquid_core_monthly_v46_return_balance,hkconnect_path6_lowvol_liquid_biweekly_v47_return_balance,hkconnect_path7_barbell_quality_growth_biweekly_v44_sleeve_balance,hkconnect_path7_barbell_quality_growth_biweekly_v45_quality_balance`。
+- Path4 v51相对v47的2020/2023 CAGR提高 `2.93/1.43pp`、2020 MaxDD改善 `5.71pp`，但2026 CAGR `-2.13%`，判 `keep_watch`；v46触发2023 CAGR护栏且2026为负，`reject`。v47仍为正式robust观察基准。
+- Path5 v36五窗零交易，`reject`；v40虽提高中窗CAGR，但2020/2023 MaxDD均恶化约 `13.87pp`且2026 CAGR `-22.57%`，`reject`。v35仍是 `robust_observation`：进入观察位，不是强稳定 winner。
+- Path6 v46相对lowvol基准的2020/2023 CAGR仅低 `2.03/2.95pp`，Sharpe/回撤/换手改善且五窗为正，判 `promote`；artifact未替换正式robust/tracked。v47命中2020/2023 CAGR护栏，`reject`。
+- Path7 v44中窗稳定、2023/2025略优，但2026仅 `0.85%`，判 `keep_watch`；v45换手增加约 `3.7-6.8x`且2026为负，`reject`。正式robust/tracked不变，Path4-7无 evict/archive。
+
+### 下一轮 focus 提示
+
+- Path4 `quality_momentum` 首条：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-04 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_v51_quality_balance,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`。
+- Path5 `pullback_definition` 首条：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-04 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite,hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair`。
+- Path6 `large_liquid_core` 首条：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-04 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_monthly_v46_return_balance,hkconnect_path6_large_liquid_core_monthly_smoke,hkconnect_path6_lowvol_liquid_biweekly_smoke`。
+- Path7 `barbell_sleeve_structure` 首条：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-04 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_quality_growth_biweekly_v44_sleeve_balance,hkconnect_path7_barbell_quality_growth_biweekly_lowturn_dual_sleeve_v9,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3`。
+
+### Focus 候选池
+
+- Path4 `quality_momentum`：v51-quality-balance、v47-totalmv；`liquidity_momentum`：v50-return、v49-capacity。Path5 `pullback_definition`：v34-rewrite、v35-ytd；`retest_confirmation`：v23-lowturn、v35-ytd。Path6 `large_liquid_core`：v46-return-balance、monthly-smoke；`capacity_cost`：lowvol-smoke、v35-capacity-cost。Path7 `barbell_sleeve_structure`：v44-sleeve-balance、v9-lowturn-dual；`turnover_control`：v41-turnover-control、v9-lowturn-dual。
+
 ## 2026-09-05 迭代：Path4-7 全线实跑，核心与杠铃保持晋级资格（端点 2026-09-04）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,25 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-06 迭代：risk-control-v5 单窗领先但跨窗回撤淘汰（端点 2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- 上轮 capacity-v2 降回撤换手但2026仍负，仅为 `robust_observation`；本轮沿 `emergent_theme_coverage` 检查 risk-control-v5 与 signal30 的年内修复能力。
+
+### 本轮候选 ID 与命令
+
+- 五窗实跑 `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`、`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`；命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+- risk-control-v5 虽仍占据2023/2025单窗 winner，但相对 signal29/risk06 的2020/2023 MaxDD恶化 `8.14/10.58pp`、2026 CAGR为 `-12.86%`，判 `reject`；单窗排名不构成跨窗晋级。
+- signal30 与 signal29/risk06 五窗指标完全相同且2026 CAGR `-6.01%`，假设未获支持，判 `keep_watch`。Path4 robust/tracked ID不变，无人工主题/ETF、无 evict/archive。
+
+### 下一轮 focus 提示
+
+- `emergent_theme_coverage` 停止 risk-control-v5 同形扩参，转回 capacity-v2 与 risk08 的容量/长窗边界确认；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal28_leader76_coverage_penalty_risk08_cap05_exit68_lowturn`。
+
+### Focus 候选池
+
+- `emergent_theme_coverage`：capacity-v2、risk08-lowturn；`theme_signal_quality`：signal30-risk06、signal28-risk08；`theme_risk_control`：capacity-v2、risk06-lowturn；`theme_capacity_cost`：capacity-v2、risk08-lowturn。
+
 ## 2026-09-05 迭代：capacity-v2 降回撤换手，但年内仍负（端点 2026-09-04）
 
 ### 上一轮候选与结果摘要

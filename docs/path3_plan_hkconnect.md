@@ -1,5 +1,24 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-06 迭代：v16/v15降风险换手但中窗收益仍破坏（端点 2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- 上轮turnover12降低中窗风险但绝对换手仍高、2026为负，只 `keep_watch`；本轮按 `weekly_turnover_reduction` 收紧到v16/v15。
+
+### 本轮候选 ID 与命令
+
+- 五窗实跑 `hkconnect_path3_theme_fast_weekly_defensive_turnover3_exit58_v16_stable_blend`、`hkconnect_path3_theme_fast_weekly_defensive_turnover4_exit58_v15_stable_blend`；命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-04 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover3_exit58_v16_stable_blend,hkconnect_path3_theme_fast_weekly_defensive_turnover4_exit58_v15_stable_blend`。
+- v16相对equal-elastic的2020/2023 CAGR下降 `8.97/12.96pp`，v15下降 `7.42/10.96pp`，均命中护栏；两者虽将回撤改善 `13-27pp`、换手降低约 `8.7-10.0x`，绝对换手仍约 `17-23x`且2026为负，均 `reject`。winner/robust/tracked不变，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- `weekly_turnover_reduction` 停止v16/v15同形，回到v38风险前沿并要求年内修复；第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-04 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v38-return-recovery、turnover12；`weekly_return_recovery`：v38、equal-elastic；`weekly_drawdown_control`：v38、theme-fast-defensive；`cost_stress`：v38、turnover12。
+
 ## 2026-09-05 迭代：turnover12 改善中窗风险，短窗与绝对换手仍失控（端点 2026-09-04）
 
 ### 上一轮候选与结果摘要

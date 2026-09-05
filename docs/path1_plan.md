@@ -1,5 +1,25 @@
 # Path 1 研究计划
 
+## 2026-09-06 迭代：aggr10 周度仓位具备晋级资格，多因子 risk06 淘汰（端点 2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- 上轮 share12 周度仓位仅 `keep_watch`、risk08 多因子 `reject`、risk20 保持 robust；本轮继续检验 `core_multifactor_coverage` 风险边界与 aggr10 周度仓位形态。
+
+### 本轮候选 ID 与命令
+
+- 五窗实跑 core_multifactor `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk06_reconfirm` 与主线 `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure_buffered_asym13`；命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk06_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure_buffered_asym13`。
+- 主线 aggr10-port 相对 share15 的 2017/2023/2026 CAGR 提高 `5.04/1.35/3.97pp`，2020 仅低 `1.17pp`，无中窗护栏，判 `promote`；换手增加约 `0.45-0.88x`，artifact 相邻验证后未替换正式 winner/robust/tracked。
+- core_multifactor risk06 相对 risk20 的 2020/2023 CAGR下降 `17.30/11.89pp`，2020 Sharpe下降 `0.398`，命中护栏并 `reject`。无 evict/archive。
+
+### 下一轮 focus 提示
+
+- `core_multifactor_coverage` 停止 growth-lowvol risk06 同形下探，转验 trend-quality risk09；`weekly_exposure_path` 转验 winner-only 新 clear signal。第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk09_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_cash_off__sat_three_stage_buffered_asym13`。
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：growth-trend-risk09、quality-value-industry-cost-guard；`weekly_exposure_path`：aggr10-port-weekly-asym13、share12-port-weekly-asym13；`satellite_defense`：risk20、aggr10-cashoff-asym13；`holding_shape`：share15、share12-port。
+
 ## 2026-09-05 迭代：周度仓位进入 raw 首位，多因子 risk08 淘汰（端点 2026-09-04）
 
 ### 上一轮候选与结果摘要
