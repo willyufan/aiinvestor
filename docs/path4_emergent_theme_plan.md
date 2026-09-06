@@ -1,5 +1,39 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-07 迭代：新参数竞争与弱候选退出（端点2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`：`reject`。2020/2023稳定性护栏命中since_2020_01:max_drawdown,since_2023_01:max_drawdown；2020 CAGR/MaxDD差分=0.0211/-0.0814，2023=-0.0001/-0.1058，2026 CAGR=-0.1286，不支持晋级。
+- `core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`：`keep_watch`。未触发中窗硬护栏，但跨窗仍有权衡；2020 CAGR/MaxDD差分=0.0000/0.0000，2023=0.0000/0.0000，2026 CAGR=-0.0601，继续观察。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit68_v20260907`：`reject`。假设：相对capacity-v2把出场阈值72%收紧至68%，检验强主题衰减时提前退出能否修复2026损失并保持容量与中窗稳定。2020 CAGR/MaxDD差分 2.08/-12.23pp，2023差分 -0.20/-14.60pp；2026 CAGR -13.42%，年均换手 5.12x。命中稳定性护栏：since_2020_01:max_drawdown,since_2023_01:max_drawdown；假设不支持晋级。收益风险退化或成本上升且年内仍负，停止同形扩参。从主题active列表移除新变体。
+  - 五窗口同指标详情：`results/research/a_share/research_iteration_scorecard_20260907.json`；window winner/robust变化：False，tracked身份变化：False。
+- 候选 `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit68_v20260907`：`reject`。假设：相对capacity-v2把出场阈值72%收紧至68%，检验强主题衰减时提前退出能否修复2026损失并保持容量与中窗稳定。五窗口CAGR均低于capacity-v2 robust，2026为-16.21%、换手各窗更高，假设不支持；从主题active列表移除新变体。
+  - 五窗口同指标详情：`results/research/a_share/research_iteration_scorecard_20260907.json`；window winner/robust变化：False，tracked身份变化：False。
+- 候选 `core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit68_v20260907`：`reject`。假设：相对capacity-v2把出场阈值72%收紧至68%，检验强主题衰减时提前退出能否修复2026损失并保持容量与中窗稳定。五窗口CAGR/Sharpe/MaxDD/turnover与capacity-v2参考完全相同；出场阈值改动未改变结果且2026仍为-3.79%。无新增竞争优势，拒绝无效重复并从主题active列表移除。
+  - 五窗口同指标详情：`results/research/a_share/research_iteration_scorecard_20260907.json`；window winner/robust变化：False，tracked身份变化：False。
+- 五窗实跑批次保存在 `research_iteration_manifest_20260907.json`；本路径等价增量重现命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit68_v20260907,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit68_v20260907,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit68_v20260907`。覆盖 since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01 / since_2026_01。
+- evict/archive：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap05_exit68_lowturn`。signal30/leader80形态最差2026收益退化，三底座从主题active集合移出；用exit68容量实验替换证据：`{"min_cagr": -0.26555217, "worst_maxdd": -0.36489352, "windows": ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"]}`。
+- evict/archive：`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap05_exit68_lowturn`。移出失败signal30/leader80家族：代表底座年内收益-26.56%，本底座当前端点comparison未刷新；保留历史快照，停止同形扩参。证据：`{"min_cagr": null, "worst_maxdd": null, "windows": [], "latest_sample_end": "2026-08-25", "historical_min_cagr": -0.20519732}`。
+- evict/archive：`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader80_coverage_penalty_risk06_cap05_exit68_lowturn`。移出失败signal30/leader80家族：代表底座年内收益-26.56%，本底座当前端点comparison未刷新；保留历史快照，停止同形扩参。证据：`{"min_cagr": null, "worst_maxdd": null, "windows": [], "latest_sample_end": "2026-08-07", "historical_min_cagr": -0.16194434}`。
+- 路由严格为 emergent_theme，未加入Path2池、未使用人工主题或ETF；第一阶段仍是实验/观察口径。
+
+### 下一轮 focus 提示
+
+- guard focus：`emergent_theme_coverage`。下一轮第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- 本轮此路径已经实跑；没有把同步、coverage或candidate-pass算作新增实验。其余候选未跑原因：Path2阻塞场景将证券新参数预算降至14个，优先满足12条path的竞争动作；下一轮端点推进或上述观察条件满足后继续。
+
+### Focus 候选池
+
+- `emergent_theme_coverage`：`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`；`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- `theme_signal_quality`：`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`；`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- `theme_risk_control`：`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`；`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- `theme_capacity_cost`：`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`；`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+
 ## 2026-09-06 迭代：risk-control-v5 单窗领先但跨窗回撤淘汰（端点 2026-09-04）
 
 ### 上一轮候选与结果摘要

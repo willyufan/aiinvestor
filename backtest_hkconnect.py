@@ -8151,6 +8151,144 @@ HK_PATH7_VARIANTS.extend(
     ]
 )
 
+
+# 2026-09-07：按冻结假设新增七条参数实验。
+HK_PATH1_VARIANTS.append(
+{'strategy_id': 'hkconnect_path1_monthly_lowvol_weekly_overlay_risk35_caution80_v20260907',
+ 'strategy_name': '20260907 相对低波soft-exit32降低熊市与谨慎仓位，检验中窗回撤与2026风险修复',
+ 'path': 'path1',
+ 'candidate_family': 'monthly_equal_buffered_weekly_overlay',
+ 'rebalance_frequency': 'monthly',
+ 'base_weight_method': 'equal_weight',
+ 'base_weight_mode': 'hybrid',
+ 'signal_family': 'path1_lowvol',
+ 'risk_off_rule': 'and',
+ 'risk_staging_mode': 'three_stage',
+ 'risk_off_exposure': 0.35,
+ 'risk_caution_exposure': 0.8,
+ 'risk_on_exposure': 1.0,
+ 'buy_entry_percentile': 0.2,
+ 'sell_exit_percentile': 0.32,
+ 'max_holdings': 14,
+ 'weight_cap': 0.14,
+ 'risk_evaluation_frequency': 'weekly',
+ 'risk_overlay_scope': 'portfolio_only'}
+)
+HK_PATH2_VARIANTS.append(
+{'strategy_id': 'hkconnect_path2_high_return_monthly_quality_breadth18_v20260907',
+ 'strategy_name': '20260907 相对v27扩大质量流动性入选与持仓宽度，检验降低单票依赖能否修复2026且保住中窗收益',
+ 'path': 'path2',
+ 'candidate_family': 'high_return_monthly',
+ 'rebalance_frequency': 'monthly',
+ 'base_weight_method': 'equal_weight',
+ 'base_weight_mode': 'signal',
+ 'signal_family': 'path4_quality_momentum',
+ 'risk_off_rule': 'and',
+ 'risk_staging_mode': 'three_stage',
+ 'risk_off_exposure': 0.38,
+ 'risk_caution_exposure': 0.82,
+ 'risk_on_exposure': 1.0,
+ 'buy_entry_percentile': 0.16,
+ 'sell_exit_percentile': 0.32,
+ 'max_holdings': 18,
+ 'weight_cap': 0.075}
+)
+HK_PATH3_VARIANTS.append(
+{'strategy_id': 'hkconnect_path3_weekly_lowvol_exit46_v20260907',
+ 'strategy_name': '20260907 相对v38放宽出场阈值36%至46%，检验减少周频换手后是否保住中窗风险与2026收益',
+ 'path': 'path3',
+ 'candidate_family': 'weekly_turnover_reduction',
+ 'rebalance_frequency': 'weekly',
+ 'base_weight_method': 'equal_weight',
+ 'base_weight_mode': 'hybrid',
+ 'signal_family': 'path1_lowvol',
+ 'risk_off_rule': 'and',
+ 'risk_staging_mode': 'three_stage',
+ 'risk_off_exposure': 0.58,
+ 'risk_caution_exposure': 0.82,
+ 'risk_on_exposure': 1.0,
+ 'buy_entry_percentile': 0.18,
+ 'sell_exit_percentile': 0.46,
+ 'max_holdings': 16,
+ 'weight_cap': 0.1}
+)
+HK_PATH4_VARIANTS.append(
+{'strategy_id': 'hkconnect_path4_quality_momentum_monthly_exit46_v20260907',
+ 'strategy_name': '20260907 相对v51把出场52%收紧至46%，检验更早退出能否修复2026负收益而不损害2020/2023',
+ 'path': 'path4',
+ 'candidate_family': 'quality_momentum',
+ 'rebalance_frequency': 'monthly',
+ 'base_weight_method': 'total_mv',
+ 'base_weight_mode': 'hybrid',
+ 'signal_family': 'path4_quality_momentum',
+ 'risk_off_rule': 'and',
+ 'risk_staging_mode': 'three_stage',
+ 'risk_off_exposure': 0.04,
+ 'risk_caution_exposure': 0.42,
+ 'risk_on_exposure': 1.0,
+ 'buy_entry_percentile': 0.34,
+ 'sell_exit_percentile': 0.46,
+ 'max_holdings': 36,
+ 'weight_cap': 0.03}
+)
+HK_PATH5_VARIANTS.append(
+{'strategy_id': 'hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907',
+ 'strategy_name': '20260907 相对v35保持信号仓位不变改双周执行，检验回踩信号及时性是否改善正收益覆盖且不会造成成本爆表',
+ 'path': 'path5',
+ 'candidate_family': 'pullback_redesign',
+ 'rebalance_frequency': 'biweekly',
+ 'base_weight_method': 'equal_weight',
+ 'base_weight_mode': 'signal',
+ 'signal_family': 'path5_pullback_continuation',
+ 'risk_off_rule': 'and',
+ 'risk_staging_mode': 'three_stage',
+ 'risk_off_exposure': 0.0,
+ 'risk_caution_exposure': 0.2,
+ 'risk_on_exposure': 1.0,
+ 'buy_entry_percentile': 0.6,
+ 'sell_exit_percentile': 0.76,
+ 'max_holdings': 32,
+ 'weight_cap': 0.012}
+)
+HK_PATH6_VARIANTS.append(
+{'strategy_id': 'hkconnect_path6_large_liquid_core_monthly_breadth24_v20260907',
+ 'strategy_name': '20260907 相对monthly-smoke把持仓18只扩至24只、单票10%降至7.5%，检验降低集中风险且保住多窗正收益',
+ 'path': 'path6',
+ 'candidate_family': 'large_liquid_core',
+ 'rebalance_frequency': 'monthly',
+ 'base_weight_method': 'total_mv',
+ 'base_weight_mode': 'hybrid',
+ 'signal_family': 'path6_large_liquid_core',
+ 'risk_off_rule': 'and',
+ 'risk_staging_mode': 'three_stage',
+ 'risk_off_exposure': 0.55,
+ 'risk_caution_exposure': 0.85,
+ 'risk_on_exposure': 1.0,
+ 'buy_entry_percentile': 0.22,
+ 'sell_exit_percentile': 0.42,
+ 'max_holdings': 24,
+ 'weight_cap': 0.075}
+)
+HK_PATH7_VARIANTS.append(
+{'strategy_id': 'hkconnect_path7_barbell_biweekly_risk15_caution50_v20260907',
+ 'strategy_name': '20260907 相对v9把熊市/谨慎仓位20%/58%降至15%/50%，检验2026收益风险是否改善且不中断双袖中窗收益',
+ 'path': 'path7',
+ 'candidate_family': 'barbell_quality_growth',
+ 'rebalance_frequency': 'biweekly',
+ 'base_weight_method': 'total_mv',
+ 'base_weight_mode': 'hybrid',
+ 'signal_family': 'path7_barbell_quality_growth',
+ 'risk_off_rule': 'and',
+ 'risk_staging_mode': 'three_stage',
+ 'risk_off_exposure': 0.15,
+ 'risk_caution_exposure': 0.5,
+ 'risk_on_exposure': 1.0,
+ 'buy_entry_percentile': 0.18,
+ 'sell_exit_percentile': 0.4,
+ 'max_holdings': 30,
+ 'weight_cap': 0.045}
+)
+
 # Path8 独立优化 2025/2026 短窗收益；该路径允许更高集中度和换手，
 # 但只做路径内短窗竞争，不自动解读为跨窗口 robust winner。
 HK_PATH8_SAMPLE_TAGS = frozenset({"since_2025_01", "since_2026_01"})
@@ -8309,6 +8447,13 @@ HK_ARCHIVED_STRATEGY_IDS = {
     "hkconnect_path6_large_liquid_core_monthly_v46_return_balance",
     "hkconnect_path6_lowvol_liquid_biweekly_v47_return_balance",
     "hkconnect_path7_barbell_quality_growth_biweekly_v45_quality_balance",
+    'hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit32',
+    'hkconnect_path2_theme_monthly_reconfirm_high_return_cost_control_v44_high_return_monthly',
+    'hkconnect_path3_breakout_cashoff_weekly',
+    'hkconnect_path4_quality_momentum_monthly_lowvol_drawdown_v4',
+    'hkconnect_path5_pullback_continuation_monthly_ytd_repair_v2',
+    'hkconnect_path6_large_liquid_core_biweekly_quality_liquidity_lowturn_v11',
+    'hkconnect_path7_barbell_quality_growth_biweekly_core_growth_dynamic_v6',
 }
 HK_EXPANSION_VARIANTS = (
     HK_PATH4_VARIANTS + HK_PATH5_VARIANTS + HK_PATH6_VARIANTS + HK_PATH7_VARIANTS + HK_PATH8_VARIANTS

@@ -1,5 +1,31 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-09-07 迭代：新参数竞争与弱候选退出（端点2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit34`：`reject`。2020/2023稳定性护栏命中since_2023_01:max_drawdown；2020 CAGR/MaxDD差分=0.0814/-0.0414，2023=0.0329/-0.0962，2026 CAGR=-0.1369，不支持晋级。
+- `hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit32`：`reject`。2020/2023稳定性护栏命中since_2023_01:max_drawdown；2020 CAGR/MaxDD差分=0.0817/-0.0413，2023=0.0327/-0.0961，2026 CAGR=-0.1369，不支持晋级。
+
+### 本轮候选 ID 与命令
+
+- 候选 `hkconnect_path1_monthly_lowvol_weekly_overlay_risk35_caution80_v20260907`：`reject`。假设：相对低波soft-exit32降低熊市与谨慎仓位，检验中窗回撤与2026风险修复。2020 CAGR/MaxDD差分 6.15/0.26pp，2023差分 5.86/-5.22pp；2026 CAGR -3.36%，年均换手 4.09x。命中稳定性护栏：since_2023_01:max_drawdown；假设不支持晋级。收益风险退化或成本上升且年内仍负，停止同形扩参。
+  - 五窗口同指标详情：`results/research/a_share/research_iteration_scorecard_20260907.json`；window winner/robust变化：False，tracked身份变化：False。
+- 五窗实跑批次保存在 `research_iteration_manifest_20260907.json`；本路径等价增量重现命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-04 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_lowvol_weekly_overlay_risk35_caution80_v20260907`。覆盖 since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01 / since_2026_01。
+- evict/archive：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_soft_exit32`。当前端点非winner/robust集合内minCAGR最弱，退出active避免候选池净扩张；保留定义与历史结果证据：`{"min_cagr": -0.13692317, "worst_maxdd": -0.22966077, "windows": ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"]}`。
+
+### 下一轮 focus 提示
+
+- guard focus：`monthly_weekly_overlay`。下一轮第一条可执行命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-04 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_lowvol,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32`。
+- 本轮此路径已经实跑；没有把同步、coverage或candidate-pass算作新增实验。其余候选未跑原因：Path2阻塞场景将证券新参数预算降至14个，优先满足12条path的竞争动作；下一轮端点推进或上述观察条件满足后继续。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：`hkconnect_path1_biweekly_lowvol`；`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32`。
+- `biweekly_buffer`：`hkconnect_path1_biweekly_lowvol`；`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32`。
+- `risk_overlay_cost`：`hkconnect_path1_biweekly_lowvol`；`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32`。
+
+
 ## 2026-09-06 迭代：soft-exit 中窗收益提高但回撤与年内收益失守（端点 2026-09-04）
 
 ### 上一轮候选与结果摘要

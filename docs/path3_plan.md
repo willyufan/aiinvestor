@@ -1,5 +1,32 @@
 # Path 3 研究计划
 
+## 2026-09-07 迭代：新参数竞争与弱候选退出（端点2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly`：`reject`。2020/2023稳定性护栏命中since_2020_01:cagr；2020 CAGR/MaxDD差分=-0.0981/0.1081，2023=-0.0004/0.2250，2026 CAGR=0.3572，不支持晋级。
+- `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly`：`keep_watch`。未触发中窗硬护栏，但跨窗仍有权衡；2020 CAGR/MaxDD差分=-0.0291/0.0908，2023=-0.0077/0.1621，2026 CAGR=0.3613，继续观察。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit94_risk14_v20260907_weekly`：`keep_watch`。假设：相对v7把单票上限46%放至50%、每周换手上限4%放至5%，检验修复2025收益同时保住2020/2023风险优势。2020 CAGR/MaxDD差分 -0.25/0.01pp，2023差分 -0.51/-0.01pp；2026 CAGR 28.63%，年均换手 1.65x。未触发中窗护栏；中窗改善或风险边界可观察，但短窗、绝对收益或成本未同时改善。
+  - 五窗口同指标详情：`results/research/a_share/research_iteration_scorecard_20260907.json`；window winner/robust变化：False，tracked身份变化：False。
+- 五窗实跑批次保存在 `research_iteration_manifest_20260907.json`；本路径等价增量重现命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit94_risk14_v20260907_weekly`。覆盖 since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01 / since_2026_01。
+- evict/archive：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly`。长期防守形态损失中窗收益，停止重复确认，腾出v8风险收益平衡试验名额；保留历史快照证据：`{"min_cagr": -0.01801208, "worst_maxdd": -0.24411175, "windows": ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"]}`。
+
+### 下一轮 focus 提示
+
+- guard focus：`turnover_reduction`。下一轮第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit94_risk14_v20260907_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- 本轮此路径已经实跑；没有把同步、coverage或candidate-pass算作新增实验。其余候选未跑原因：Path2阻塞场景将证券新参数预算降至14个，优先满足12条path的竞争动作；下一轮端点推进或上述观察条件满足后继续。
+
+### Focus 候选池
+
+- `turnover_reduction`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit94_risk14_v20260907_weekly`；`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- `weekly_exit_buffer`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit94_risk14_v20260907_weekly`；`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- `risk_downshift`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit94_risk14_v20260907_weekly`；`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- `cost_stress`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit94_risk14_v20260907_weekly`；`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+
+
 ## 2026-09-06 迭代：v7 风险收益折中可观察，v6 中窗收益失守（端点 2026-09-04）
 
 ### 上一轮候选与结果摘要

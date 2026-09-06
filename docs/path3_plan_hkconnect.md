@@ -1,5 +1,31 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-07 迭代：新参数竞争与弱候选退出（端点2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- `hkconnect_path3_theme_fast_weekly_defensive_turnover3_exit58_v16_stable_blend`：`reject`。2020/2023稳定性护栏命中since_2020_01:cagr,since_2023_01:cagr；2020 CAGR/MaxDD差分=-0.0897/0.2530，2023=-0.1296/0.1315，2026 CAGR=-0.0818，不支持晋级。
+- `hkconnect_path3_theme_fast_weekly_defensive_turnover4_exit58_v15_stable_blend`：`reject`。2020/2023稳定性护栏命中since_2020_01:cagr,since_2023_01:cagr；2020 CAGR/MaxDD差分=-0.0742/0.2670，2023=-0.1096/0.1432，2026 CAGR=-0.0625，不支持晋级。
+
+### 本轮候选 ID 与命令
+
+- 候选 `hkconnect_path3_weekly_lowvol_exit46_v20260907`：`keep_watch`。假设：相对v38放宽出场阈值36%至46%，检验减少周频换手后是否保住中窗风险与2026收益。2020 CAGR/MaxDD差分 -1.14/33.00pp，2023差分 4.70/19.76pp；2026 CAGR -2.02%，年均换手 9.31x。未触发中窗护栏；中窗改善或风险边界可观察，但短窗、绝对收益或成本未同时改善。
+  - 五窗口同指标详情：`results/research/a_share/research_iteration_scorecard_20260907.json`；window winner/robust变化：False，tracked身份变化：False。
+- 五窗实跑批次保存在 `research_iteration_manifest_20260907.json`；本路径等价增量重现命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-04 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_weekly_lowvol_exit46_v20260907`。覆盖 since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01 / since_2026_01。
+- evict/archive：`hkconnect_path3_breakout_cashoff_weekly`。当前端点非winner/robust集合内minCAGR最弱，退出active避免候选池净扩张；保留定义与历史结果证据：`{"min_cagr": -0.22544473, "worst_maxdd": -0.63462884, "windows": ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"]}`。
+
+### 下一轮 focus 提示
+
+- guard focus：`weekly_turnover_reduction`。下一轮第一条可执行命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-04 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_weekly_lowvol_exit46_v20260907,hkconnect_path3_equal_elastic_weekly`。
+- 本轮此路径已经实跑；没有把同步、coverage或candidate-pass算作新增实验。其余候选未跑原因：Path2阻塞场景将证券新参数预算降至14个，优先满足12条path的竞争动作；下一轮端点推进或上述观察条件满足后继续。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：`hkconnect_path3_weekly_lowvol_exit46_v20260907`；`hkconnect_path3_equal_elastic_weekly`。
+- `weekly_defensive_overlay`：`hkconnect_path3_weekly_lowvol_exit46_v20260907`；`hkconnect_path3_equal_elastic_weekly`。
+- `cost_stress`：`hkconnect_path3_weekly_lowvol_exit46_v20260907`；`hkconnect_path3_equal_elastic_weekly`。
+
+
 ## 2026-09-06 迭代：v16/v15降风险换手但中窗收益仍破坏（端点 2026-09-04）
 
 ### 上一轮候选与结果摘要

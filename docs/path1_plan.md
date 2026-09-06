@@ -1,5 +1,36 @@
 # Path 1 研究计划
 
+## 2026-09-07 迭代：新参数竞争与弱候选退出（端点2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk06_reconfirm`：`reject`。2020/2023稳定性护栏命中since_2020_01:cagr,since_2020_01:sharpe_ratio,since_2023_01:cagr；2020 CAGR/MaxDD差分=-0.1730/0.1222，2023=-0.1189/0.0755，2026 CAGR=-0.0357，不支持晋级。
+- `core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure_buffered_asym13`：`promote`。未触发中窗护栏；2020 CAGR/Sharpe/MaxDD差分=-0.0117/-0.0273/0.0070，2023=0.0135/0.0172/0.0012，具备晋级资格但须服从artifact相邻验证。
+
+### 本轮候选 ID 与命令
+
+- 主线 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`：`promote`。假设：相对risk20将晋升持仓7只增至8只，检验集中度下降能否改善2023/2026回撤并保住中窗收益。2020 CAGR/MaxDD差分 3.28/-1.56pp，2023差分 3.44/2.19pp；2026 CAGR 23.87%，年均换手 7.04x。未触发中窗护栏；关键风险收益改善且五窗正收益，具备正式相邻验证资格。
+  - 五窗口同指标详情：`results/research/a_share/research_iteration_scorecard_20260907.json`；window winner/robust变化：True，tracked身份变化：True。
+- core_multifactor 子段 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_trend_quality_rebalance_risk09_v20260907`：`reject`。假设：相对trend-quality risk09把质量权重10个百分点移至六个月动量，检验中窗CAGR恢复且不扩大回撤。2020 CAGR/MaxDD差分 -18.33/7.53pp，2023差分 -7.73/9.47pp；2026 CAGR -9.92%，年均换手 5.96x。命中稳定性护栏：since_2020_01:cagr,since_2020_01:sharpe_ratio,since_2023_01:cagr；假设不支持晋级。收益风险退化或成本上升且年内仍负，停止同形扩参。
+  - 五窗口同指标详情：`results/research/a_share/research_iteration_scorecard_20260907.json`；window winner/robust变化：False，tracked身份变化：False。
+- 五窗实跑批次保存在 `research_iteration_manifest_20260907.json`；本路径等价增量重现命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_trend_quality_rebalance_risk09_v20260907`。覆盖 since_2017_01 / since_2020_01 / since_2023_01 / since_2025_01 / since_2026_01。
+- evict/archive：`core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp_cash_off`。当前端点最差收益为负或近期确认触发中窗护栏，从fast-pass及direction group移出；保留定义与历史快照证据：`{"min_cagr": -0.1690994, "worst_maxdd": -0.36096563, "windows": ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"]}`。
+- evict/archive：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk08_reconfirm`。当前端点最差收益为负或近期确认触发中窗护栏，从fast-pass及direction group移出；保留定义与历史快照证据：`{"min_cagr": -0.02976009, "worst_maxdd": -0.34451455, "windows": ["since_2017_01", "since_2020_01", "since_2023_01", "since_2025_01", "since_2026_01"]}`。
+
+### 下一轮 focus 提示
+
+- guard focus：`core_multifactor_coverage`。下一轮第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-04 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- 本轮此路径已经实跑；没有把同步、coverage或candidate-pass算作新增实验。其余候选未跑原因：Path2阻塞场景将证券新参数预算降至14个，优先满足12条path的竞争动作；下一轮端点推进或上述观察条件满足后继续。
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk09_reconfirm`；`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm`。
+- `signal_quality`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk09_reconfirm`；`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm`。
+- `satellite_risk_cost`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`；`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- `holding_shape`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`；`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- `weekly_exposure_path`：`core_explore_80_20_total_mv_winner_core__aggr_10_90_hold_4_6__port_weekly_exposure_buffered_asym13`；`core_explore_80_20_total_mv_winner_core__share_12_88_hold_4_6__port_weekly_exposure_buffered_asym13`。
+
+
 ## 2026-09-06 迭代：aggr10 周度仓位具备晋级资格，多因子 risk06 淘汰（端点 2026-09-04）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,33 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-07 迭代：新参数竞争与弱候选退出（端点2026-09-04）
+
+### 上一轮候选与结果摘要
+
+- `ai_datacenter_power_grid_202607_v0`：`keep_watch`。20日收益保持正值，但40/60日仍不足且缺连续风险指标，不能进入Path1-4 winner/robust。
+
+### 本轮候选 ID 与命令
+
+- 候选 `ai_glasses_edge_terminal_20260424_v0`：`archive`。假设：检验AI眼镜冻结篮子的20/40日超额收益能否延续到60日；同时与事件日前冻结Path4持仓做相同窗口/成本比较。。20/40/60D毛收益21.80%/26.82%/0.11%；60D扣交易费后约0%、最大回撤23.54%，40日收益大幅回吐，成熟窗未验证持续性。停止active刷新，保留审计与历史结果。
+  - 五窗口同指标详情：`results/research/a_share/research_iteration_scorecard_20260907.json`；window winner/robust变化：False，tracked身份变化：False。
+- 实跑事件命令：`.venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_glasses_edge_terminal_20260424_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_glasses_edge_terminal_20260424_v0_path4_capacity_v2_20260907_mature.json`。审计 source_audited、冻结；20/40/60D完整。连续五窗风险指标不适用，另提供同日、同成本的冻结Path4持仓对照；不是动态Path4实盘收益。
+- 本路径没有额外 evict；本轮拒绝候选停止同形扩参，保留历史结果。
+- AI眼镜篮子以 registry archive_only=True 退出active；power-grid继续保留，40/60D尚待成熟。
+
+### 下一轮 focus 提示
+
+- guard focus：`event_basket_registry`。下一轮第一条可执行命令：`.venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_next_mature.json`。
+- 本轮此路径已经实跑；没有把同步、coverage或candidate-pass算作新增实验。其余候选未跑原因：Path2阻塞场景将证券新参数预算降至14个，优先满足12条path的竞争动作；下一轮端点推进或上述观察条件满足后继续。
+- 未回测新40/60D power-grid长窗原因：本端点仍只有34个后续交易日；不刷新已归档AI眼镜。继续比较同一事件假设的成熟窗与5/10/20D风险。
+
+### Focus 候选池
+
+- `event_basket_registry`：`ai_datacenter_power_grid_202607_v0 / horizons=20,40,60`；`ai_datacenter_power_grid_202607_v0 / horizons=5,10,20`。
+- `frozen_candidate_audit`：`ai_datacenter_power_grid_202607_v0 / horizons=20,40,60`；`ai_datacenter_power_grid_202607_v0 / horizons=5,10,20`。
+- `event_backtest_entry`：`ai_datacenter_power_grid_202607_v0 / horizons=20,40,60`；`ai_datacenter_power_grid_202607_v0 / horizons=5,10,20`。
+- `path4_comparison`：`ai_datacenter_power_grid_202607_v0 / horizons=20,40,60`；`ai_datacenter_power_grid_202607_v0 / horizons=5,10,20`。
+
+
 ## 2026-09-06 迭代：电力篮子20日保持正收益，40/60日仍未成熟（端点 2026-09-04）
 
 ### 上一轮候选与结果摘要

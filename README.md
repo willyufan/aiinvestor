@@ -1,5 +1,16 @@
 # aiinvestor
 
+## 2026-09-07 策略研究进展
+
+- Path1 新候选 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907` 通过晋级流程，替换 2017 window winner 与 robust candidate。相对原 risk20，2020/2023 CAGR 提高 3.28/3.44 个百分点；2020 MaxDD 恶化 1.56 个百分点，2023 改善 2.19 个百分点，五窗保持正收益。
+- 本轮实跑14个新证券参数（A股7/HK7）与1个成熟事件篮子，判定 promote 3 / keep_watch 4 / reject 7 / archive 1；HK Path6/7取得资格但正式winner/robust不变。
+- Path2 coverage 718降至698，正式winner/robust与历史保持原发布版本，补缺后的新排名仅进入 provisional_tracks。A股Path4与HK Path5既有弱观察位仍不是强稳定winner。
+- 13个旧证券候选及AI眼镜成熟事件篮子退出active；新的Path4 exit68变体三底座均reject并移出主题active列表。
+- 完整逐路径记录、命令及判定：[本轮研究记录](docs/research_iteration_20260907.md)；[scorecard](results/research/a_share/research_iteration_scorecard_20260907.json)。
+
+![Path1五窗口对比](docs/research_iteration_20260907_path1.png)
+
+
 一个基于 Tushare Pro 的 A 股与沪港通组合回测、策略迭代项目。
 
 > 2026-07-24 研究校准：A股 `share24` 仅成为 2025-window artifact winner；因 2020 CAGR 相对 Path1 robust 下降超过 6pp，判定仍为 `keep_watch`，不是正式 promote。HK Path4 v47 与 Path5 v35 为 `robust_observation`，进入观察位，不是强稳定 winner。
