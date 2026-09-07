@@ -1,5 +1,27 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-08 迭代：电力篮子 40/60D 仍未成熟（端点 2026-09-07）
+
+### 上一轮候选与结果摘要
+
+- 上轮 AI 眼镜篮子 60D 毛收益接近零且回吐明显，已 `archive`；active 仅保留已审计冻结的 `ai_datacenter_power_grid_202607_v0`。
+
+### 本轮候选 ID 与命令
+
+- `ai_datacenter_power_grid_202607_v0`：`keep_watch`。source_audited、frozen、6只；20D equal/seed 收益 `11.70%/11.67%`，40/60D 仅有 35 个交易日而 insufficient；与 Path4 冻结持仓 overlap `0/6`。假设尚未由成熟窗支持，不进入 Path1-4 winner/tracked。
+- 实跑命令：`.venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260908_mature.json`。
+
+### 下一轮 focus 提示
+
+- guard focus：`event_basket_registry`。待后续交易日达到 40D 后复跑同篮子；本轮已实跑，不能用 20D 单窗爆发晋级。
+- 第一条命令：`.venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_next_mature.json`。
+
+### Focus 候选池
+
+- `event_basket_registry` / `event_backtest_entry`：`ai_datacenter_power_grid_202607_v0 / horizons=20,40,60`；同 basket 的 `horizons=5,10,20` 短窗对照。
+- `frozen_candidate_audit`：`ai_datacenter_power_grid_202607_v0`；已归档的 `ai_glasses_edge_terminal_20260424_v0` 仅作历史审计对照。
+- `path4_comparison`：power-grid 对 capacity-v2 冻结持仓；power-grid 对 risk-control-v5 冻结持仓。
+
 ## 2026-09-07 迭代：新参数竞争与弱候选退出（端点2026-09-04）
 
 ### 上一轮候选与结果摘要

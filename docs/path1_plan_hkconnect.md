@@ -1,5 +1,26 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-09-08 迭代：月频周度退出未守住回撤（端点 2026-09-07）
+
+### 上一轮候选与结果摘要
+
+- 上轮 risk35/caution80 触发 2023 MaxDD 护栏并 `reject`；正式 robust 保持 `hkconnect_path1_biweekly_lowvol`。
+
+### 本轮候选 ID 与命令
+
+- `hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32`：`reject`。相对 robust 的 2020 CAGR/MaxDD 差分 `+9.23/+0.44pp`，但 2023 MaxDD 恶化 `5.17pp` 且 2026 CAGR `-6.75%`；月频选股加周度退出假设不成立。
+- 实跑命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-07 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32`。正式 winner/robust/tracked 不变，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- guard focus：`monthly_weekly_overlay`。下一轮用 biweekly-lowvol 与 soft-exit32 做端点确认，要求 2023 MaxDD 不再越过 5pp；本轮未扩跑是 Path2 coverage blocker 降档。
+- 第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-07 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_lowvol,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：`hkconnect_path1_biweekly_lowvol`；`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32`。
+- `biweekly_buffer` / `risk_overlay_cost`：`hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit36`；`hkconnect_path1_biweekly_lowvol`。
+
 ## 2026-09-07 迭代：新参数竞争与弱候选退出（端点2026-09-04）
 
 ### 上一轮候选与结果摘要

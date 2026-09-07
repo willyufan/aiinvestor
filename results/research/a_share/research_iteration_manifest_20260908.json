@@ -1,0 +1,131 @@
+{
+  "run_date": "2026-09-08",
+  "data_endpoint": "2026-09-07",
+  "windows": [
+    "since_2017_01",
+    "since_2020_01",
+    "since_2023_01",
+    "since_2025_01",
+    "since_2026_01"
+  ],
+  "coverage_command": "AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01 --only-base-ids core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap70_biweekly,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk22_exit42_cap16_cost_guard_v62_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk22_exit42_cap18_cost_guard_v35_lowturn,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk24_exit44_cap20_cost_guard_v29,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk28_exit46_cap24_cost_guard_v28,core_explore_70_30_equal_weight_winner_core__aggr_04_96_prom1_core_6_1_cash_off_and_cap100,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard0_fast,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard50,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk28_exit48_cap28_cost_guard_v39_capacity_stress,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk30_exit50_cap35_cost_guard_v38_underrep,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality,core_explore_70_30_equal_weight_winner_core__aggr_08_92_prom6_core_6_1,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm80,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm85_amt130 --end-date 2026-09-07",
+  "coverage_after": {
+    "scope_id": "ashare_path2_candidate_universe",
+    "missing_before": 789,
+    "missing_after_first_batch": 769,
+    "missing_after_all_runs": 769,
+    "remaining_rerun_batches": 39,
+    "promotion_deferred": true
+  },
+  "ashare_experiment_command": "AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_trend_quality_rebalance_risk09_v20260907,core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_monthly_risk20_exit40_cap14_v20260907,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit94_risk14_v20260907_weekly,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+  "hk_experiment_command": ".venv/bin/python backtest_hkconnect.py --end-date 2026-09-07 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32,hkconnect_path2_high_return_monthly_quality_breadth18_v20260907,hkconnect_path3_weekly_lowvol_exit46_v20260907,hkconnect_path4_quality_momentum_monthly_exit46_v20260907,hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite,hkconnect_path6_large_liquid_core_monthly_breadth24_v20260907,hkconnect_path7_barbell_biweekly_risk15_caution50_v20260907",
+  "event_output": "results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260908_mature.json",
+  "experiments": [
+    {
+      "path": "ashare_path1",
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907",
+      "decision": "promote",
+      "kind": "parameter_confirmation"
+    },
+    {
+      "path": "ashare_path1",
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_trend_quality_rebalance_risk09_v20260907",
+      "decision": "reject",
+      "kind": "parameter_confirmation"
+    },
+    {
+      "path": "ashare_path2",
+      "candidate_id": "core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_monthly_risk20_exit40_cap14_v20260907",
+      "decision": "reject",
+      "kind": "parameter_confirmation"
+    },
+    {
+      "path": "ashare_path3",
+      "candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit94_risk14_v20260907_weekly",
+      "decision": "reject",
+      "kind": "parameter_confirmation"
+    },
+    {
+      "path": "ashare_path4",
+      "candidate_id": "core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+      "decision": "robust_observation",
+      "kind": "parameter_confirmation"
+    },
+    {
+      "path": "ashare_path4",
+      "candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+      "decision": "reject",
+      "kind": "parameter_confirmation"
+    },
+    {
+      "path": "hkconnect_path1",
+      "candidate_id": "hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32",
+      "decision": "reject",
+      "kind": "parameter_confirmation"
+    },
+    {
+      "path": "hkconnect_path2",
+      "candidate_id": "hkconnect_path2_high_return_monthly_quality_breadth18_v20260907",
+      "decision": "keep_watch",
+      "kind": "parameter_confirmation"
+    },
+    {
+      "path": "hkconnect_path3",
+      "candidate_id": "hkconnect_path3_weekly_lowvol_exit46_v20260907",
+      "decision": "keep_watch",
+      "kind": "parameter_confirmation"
+    },
+    {
+      "path": "hkconnect_path4",
+      "candidate_id": "hkconnect_path4_quality_momentum_monthly_exit46_v20260907",
+      "decision": "keep_watch",
+      "kind": "parameter_confirmation"
+    },
+    {
+      "path": "hkconnect_path5",
+      "candidate_id": "hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite",
+      "decision": "keep_watch",
+      "kind": "parameter_confirmation"
+    },
+    {
+      "path": "hkconnect_path6",
+      "candidate_id": "hkconnect_path6_large_liquid_core_monthly_breadth24_v20260907",
+      "decision": "reject",
+      "kind": "parameter_confirmation"
+    },
+    {
+      "path": "hkconnect_path7",
+      "candidate_id": "hkconnect_path7_barbell_biweekly_risk15_caution50_v20260907",
+      "decision": "keep_watch",
+      "kind": "parameter_confirmation"
+    },
+    {
+      "path": "ashare_path5",
+      "candidate_id": "ai_datacenter_power_grid_202607_v0",
+      "decision": "keep_watch",
+      "kind": "event_basket_confirmation"
+    }
+  ],
+  "decisions": {
+    "promote": 1,
+    "keep_watch": 6,
+    "robust_observation": 1,
+    "reject": 6,
+    "archive": 0
+  },
+  "evictions": [],
+  "next_commands": {
+    "ashare_path1": "AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_cash_off__sat_three_stage_buffered_asym13",
+    "ashare_path2": "AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01 --only-base-ids core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap70_biweekly,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk22_exit42_cap16_cost_guard_v62_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk22_exit42_cap18_cost_guard_v35_lowturn,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk24_exit44_cap20_cost_guard_v29,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk28_exit46_cap24_cost_guard_v28,core_explore_70_30_equal_weight_winner_core__aggr_04_96_prom1_core_6_1_cash_off_and_cap100,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard0_fast,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_cap60_dd_guard50,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk30_cap80,core_explore_70_30_equal_weight_winner_core__aggr_05_95_prom3_core_6_1_cash_off_and_risk50_cap80,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk28_exit48_cap28_cost_guard_v39_capacity_stress,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk30_exit50_cap35_cost_guard_v38_underrep,core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality,core_explore_70_30_equal_weight_winner_core__aggr_08_92_prom6_core_6_1,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm80,core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_confirm85_amt130 --end-date 2026-09-07",
+    "ashare_path3": "AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit94_risk14_v20260907_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly",
+    "ashare_path4": "AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2",
+    "ashare_path5": ".venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_next_mature.json",
+    "hkconnect_path1": ".venv/bin/python backtest_hkconnect.py --end-date 2026-09-07 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_lowvol,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32",
+    "hkconnect_path2": ".venv/bin/python backtest_hkconnect.py --end-date 2026-09-07 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_breadth18_v20260907,hkconnect_path2_theme_fast_monthly",
+    "hkconnect_path3": ".venv/bin/python backtest_hkconnect.py --end-date 2026-09-07 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_weekly_lowvol_exit46_v20260907,hkconnect_path3_theme_fast_weekly_buffered",
+    "hkconnect_path4": ".venv/bin/python backtest_hkconnect.py --end-date 2026-09-07 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_exit46_v20260907,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality",
+    "hkconnect_path5": ".venv/bin/python backtest_hkconnect.py --end-date 2026-09-07 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907",
+    "hkconnect_path6": ".venv/bin/python backtest_hkconnect.py --end-date 2026-09-07 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_monthly_breadth24_v20260907,hkconnect_path6_large_liquid_core_monthly_smoke",
+    "hkconnect_path7": ".venv/bin/python backtest_hkconnect.py --end-date 2026-09-07 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_biweekly_risk15_caution50_v20260907,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7"
+  }
+}

@@ -1,5 +1,26 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-08 迭代：exit46 风险改善但短窗未修复（端点 2026-09-07）
+
+### 上一轮候选与结果摘要
+
+- 上轮 exit46 相对旧 v38 大幅改善回撤但 2026 为负，判 `keep_watch`；本轮改与正式 robust `theme_fast_weekly_buffered` 比较。
+
+### 本轮候选 ID 与命令
+
+- `hkconnect_path3_weekly_lowvol_exit46_v20260907`：`keep_watch`。相对正式 robust 的 2020 CAGR `-2.22pp`、MaxDD 改善 `19.95pp`，2023 CAGR仅低 `0.76pp`、Sharpe提高 `0.431`；但 2026 CAGR `-5.11%`、turnover `9.50x`，尚不是跨窗强 winner。
+- 实跑命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-07 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_weekly_lowvol_exit46_v20260907`。正式 winner/robust/tracked 不变，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- guard focus：`weekly_turnover_reduction`。下一轮与正式 robust 同跑，目标是保持回撤优势并把 2026 恢复到非负；本轮未扩跑是 coverage blocker 降档。
+- 第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-07 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_weekly_lowvol_exit46_v20260907,hkconnect_path3_theme_fast_weekly_buffered`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：`hkconnect_path3_weekly_lowvol_exit46_v20260907`；`hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`。
+- `weekly_defensive_overlay` / `cost_stress`：`hkconnect_path3_theme_fast_weekly_defensive_turnover12_exit48`；`hkconnect_path3_theme_fast_weekly_buffered`。
+
 ## 2026-09-07 迭代：新参数竞争与弱候选退出（端点2026-09-04）
 
 ### 上一轮候选与结果摘要

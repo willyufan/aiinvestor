@@ -2072,40 +2072,40 @@
           },
           {
             "rank": 5,
-            "strategy_base_id": "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom1_core_3_1_full_risk_cap100",
-            "strategy_base_name": "核心80_探索20_等权底座_胜出者核心__进攻1/99 晋升1只(核心3-1动量, 关闭熊市降仓, 单票100%)",
+            "strategy_base_id": "core_explore_70_30_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_biweekly",
+            "strategy_base_name": "核心70_探索30_等权底座_胜出者核心__进攻1/99 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 双周)",
             "metrics": {
-              "weighted_cagr": 0.64302948,
-              "weighted_sharpe": 1.21442364,
-              "weighted_max_drawdown": -0.34886155,
-              "weighted_turnover": 2.96362597
+              "weighted_cagr": 0.3787857,
+              "weighted_sharpe": 0.86583981,
+              "weighted_max_drawdown": -0.33848495,
+              "weighted_turnover": 8.2111846
             },
             "is_official_winner": false,
             "is_raw_winner": false,
             "validation": {
-              "passed": true,
+              "passed": false,
               "validation_window": "since_2023_01",
               "required_cagr": 0.106410542,
-              "candidate_cagr": 0.13190807,
+              "candidate_cagr": 0.0076874,
               "incumbent_id": "core_explore_70_30_equal_weight_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_value_lowvol_industry_signal_cashguard_reconfirm",
               "reason": "threshold_check"
             },
-            "promotion_score": 0.016389885259999848,
+            "promotion_score": 0.0311717272823529,
             "score_detail": {
               "policy": "promotion_score_v1",
-              "score": 0.016389885259999848,
-              "base_score": 0.5826501527599999,
-              "ytd_penalty": 0.3477185545,
-              "concentration_penalty": 0.21854171300000003,
+              "score": 0.0311717272823529,
+              "base_score": 0.23742608739999999,
+              "ytd_penalty": 0.0,
+              "concentration_penalty": 0.20625436011764708,
               "concentration": {
                 "sample_tag": "since_2026_01",
-                "avg_top1_weight": 0.8048886733333332,
-                "avg_top3_weight": 0.9049830455555556,
-                "max_top1_weight": 0.87703553,
-                "max_top3_weight": 0.99005114,
-                "latest_top1_weight": 0.87703553,
-                "latest_top3_weight": 0.99005114,
-                "observations": 9
+                "avg_top1_weight": 0.7572443564705883,
+                "avg_top3_weight": 0.795706555882353,
+                "max_top1_weight": 1.0,
+                "max_top3_weight": 1.0,
+                "latest_top1_weight": 1.0,
+                "latest_top3_weight": 1.0,
+                "observations": 17
               }
             }
           }

@@ -1,5 +1,26 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-08 迭代：breadth18 中窗改善但年内仍负（端点 2026-09-07）
+
+### 上一轮候选与结果摘要
+
+- 上轮 breadth18 相对 v27 改善中窗但 2026 仍负，判 `keep_watch`；theme-fast 继续为正式 robust。
+
+### 本轮候选 ID 与命令
+
+- `hkconnect_path2_high_return_monthly_quality_breadth18_v20260907`：`keep_watch`。相对 theme-fast 的 2020/2023 CAGR 提高 `6.80/7.65pp`、MaxDD 均改善 `3.37pp`，但 2026 CAGR `-9.81%`；中窗改善真实，短窗修复假设仍未支持。
+- 实跑命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-07 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_breadth18_v20260907`。正式 winner/robust/tracked 不变，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- guard focus：`high_return_monthly`。下一轮继续与 theme-fast 正面对照，只有 2026 恢复非负且不丢中窗优势才考虑晋级；本轮未扩跑是 coverage blocker 降档。
+- 第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-07 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_breadth18_v20260907,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `high_return_monthly` / `biweekly_breakout`：`hkconnect_path2_high_return_monthly_quality_breadth18_v20260907`；`hkconnect_path2_theme_fast_monthly`。
+- `elasticity_cost_control`：`hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard`；`hkconnect_path2_theme_fast_monthly`。
+
 ## 2026-09-07 迭代：新参数竞争与弱候选退出（端点2026-09-04）
 
 ### 上一轮候选与结果摘要

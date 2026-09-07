@@ -1,5 +1,28 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-08 迭代：capacity-v2 仍为弱观察位（端点 2026-09-07）
+
+### 上一轮候选与结果摘要
+
+- 上轮 exit68 容量变体三底座均 `reject` 并退出 active；90/10 total-mv capacity-v2 恢复为 Path4 robust 观察基准，但年内为负，不是强稳定 winner。
+
+### 本轮候选 ID 与命令
+
+- 90/10 total-mv `core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`：`robust_observation`。2020 CAGR/MaxDD `2.35%/-16.53%`，2026 CAGR `-4.04%`；进入观察位，不是强稳定 winner。
+- 80/20 total-mv `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`：`reject`。相对 90/10 参考，2020/2023 MaxDD 分别恶化 `12.28/14.60pp`，2026 CAGR `-13.69%`，主题收益提升不足以覆盖风险。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。正式 winner/robust/tracked 不变，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- guard focus：`emergent_theme_coverage`。下一轮比较 risk-control-v5 与 capacity-v2，优先检验 2026 修复是否会破坏 2020/2023 回撤；本轮未扩跑是 coverage blocker 降档。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### Focus 候选池
+
+- `emergent_theme_coverage` / `theme_signal_quality`：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`；`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- `theme_risk_control`：`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`；`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn`。
+- `theme_capacity_cost`：`core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`；`core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`（后者仅作拒绝边界复核，不再同形扩参）。
+
 ## 2026-09-07 迭代：新参数竞争与弱候选退出（端点2026-09-04）
 
 ### 上一轮候选与结果摘要

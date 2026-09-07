@@ -1,5 +1,27 @@
 # Path 3 研究计划
 
+## 2026-09-08 迭代：周频 cap50/exit94 确认失败（端点 2026-09-07）
+
+### 上一轮候选与结果摘要
+
+- 上轮 `...cap50...v20260907_weekly` 未触发旧端点中窗护栏，留作 `keep_watch`；Path3 正式 robust 保持 cap52/risk16。
+
+### 本轮候选 ID 与命令
+
+- `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit94_risk14_v20260907_weekly`：`reject`。相对 cap52 robust，2020 CAGR `+4.09pp` 但 MaxDD 恶化 `10.93pp`；2023 CAGR/Sharpe/MaxDD `-5.20pp/-0.317/-15.50pp`，触发稳定性护栏，虽 2026 CAGR `35.59%` 也不得晋级。
+- 实跑命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold5_turn05_exit94_risk14_v20260907_weekly`。五窗 scorecard 完整；正式 winner/robust/tracked 不变，无 evict/archive。
+
+### 下一轮 focus 提示
+
+- guard focus：`turnover_reduction`。下一轮回到 cap54/risk16 前沿，要求新周频形态在 2023 不牺牲 CAGR/Sharpe；本轮未扩跑是 coverage blocker 降档。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`；`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`。
+- `weekly_exit_buffer`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`；`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+- `risk_downshift` / `cost_stress`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`；`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly`。
+
 ## 2026-09-07 迭代：新参数竞争与弱候选退出（端点2026-09-04）
 
 ### 上一轮候选与结果摘要

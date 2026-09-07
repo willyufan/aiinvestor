@@ -1,5 +1,28 @@
 # Path 2 研究计划
 
+## 2026-09-08 迭代：coverage 补缺与月频形态再淘汰（端点 2026-09-07）
+
+### 上一轮候选与结果摘要
+
+- 上轮月频 `...v20260907` 因 2023 收益/Sharpe 与 2020 回撤护栏失守而 `reject`；Path2 coverage 在旧端点仍缺 `698/832`，禁止 promote。
+
+### 本轮候选 ID 与命令
+
+- 端点推进使 coverage 重算为 `789/832` 缺失；严格按 guard 首批 20 个 base id 的 2017/2020/2023/2025 四窗增量补缺，最终降至 `769/832`，仍剩 39 批，继续 blocking。
+- 确认 `core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_monthly_risk20_exit40_cap14_v20260907`：`reject`。相对正式 robust 的 2020 CAGR/MaxDD 差分 `+0.14/-5.11pp`、2023 CAGR/Sharpe 差分 `-9.84pp/-0.306`，2026 CAGR `-23.21%`；月频降换手假设不成立，且 coverage hold 下不得晋级。
+- 确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_monthly_risk20_exit40_cap14_v20260907`。完整 coverage 批次与 scorecard：`results/research/a_share/research_iteration_manifest_20260908.json`、`results/research/a_share/research_iteration_scorecard_20260908.json`；无 evict/archive。
+
+### 下一轮 focus 提示
+
+- guard focus：`medium_cycle_growth`。第一优先继续 guard 下一批，Path2 全局 coverage 未齐前，任何局部 window 排名最多 `keep_watch`/`reject`。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01 --only-base-ids core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom2_core_6_1_cash_off_and_cap70_biweekly`。完整 20-id 下一批见 manifest 的 `next_commands.ashare_path2`。
+
+### Focus 候选池
+
+- `medium_cycle_growth`：`core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair`；`core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn`。
+- `risk_reconfirm_sensitivity` / `underrepresented_families`：`core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn`；`core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk22_exit42_cap16_cost_guard_v62_underrepresented_lowturn`。
+- `capacity_and_cost_stress`：`core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top10_risk28_exit48_cap28_cost_guard_v39_capacity_stress`；`core_explore_70_30_equal_weight_winner_core__aggr_06_94_prom4_momentum_equal_weight_elastic_top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality`。
+
 ## 2026-09-07 迭代：新参数竞争与弱候选退出（端点2026-09-04）
 
 ### 上一轮候选与结果摘要
