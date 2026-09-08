@@ -1,5 +1,27 @@
 # Path 1 研究计划
 
+## 2026-09-09 迭代：主线与 core_multifactor 双重失守（端点 2026-09-08）
+
+### 上一轮/本轮结果摘要
+
+- 上轮 breadth-v20260907 保持正式 robust；本轮分别检验 Path1 主线周度非对称仓位与 `core_multifactor_coverage` 质量价值行业形态，二者均触发中窗收益护栏，正式 winner/robust/tracked 身份不变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 主线 `core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_cash_off__sat_three_stage_buffered_asym13`：`reject`；2020/2023 CAGR 相对参考为 `-11.26/-9.60pp`，2026 CAGR `16.28%`，短窗修复不足以覆盖中窗退化。
+- core_multifactor `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm`：`reject`；2020/2023 CAGR 差分 `-17.67/-7.24pp`，2026 CAGR `4.41%`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_value_industry_cost_guard_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6_cash_off__sat_three_stage_buffered_asym13`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus 仍为 `core_multifactor_coverage`；下一轮改验 balanced 周度 exposure 与 hold3_6 非对称形态，原因是 winner-only 仅给出快筛 clear signal，尚未经过正式五窗稳定性判定。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced__port_weekly_exposure_buffered,core_explore_80_20_total_mv_winner_core__aggr_08_92_hold_3_6__sat_three_stage_buffered_asym13`。
+
+### Focus 候选池
+
+- `core_multifactor_coverage` / `signal_quality`：`...prom7_core_multifactor_balanced__port_weekly_exposure_buffered`；`...quality_profitability_growth_trend_signal_quality_gate_cashguard_risk09_reconfirm`。
+- `weekly_exposure_path` / `holding_shape`：`...aggr_08_92_hold_3_6__sat_three_stage_buffered_asym13`；`...aggr_08_92_hold_3_6__port_weekly_exposure_buffered_asym13`。
+
 ## 2026-09-08 迭代：新端点确认与 core_multifactor 淘汰（端点 2026-09-07）
 
 ### 上一轮候选与结果摘要

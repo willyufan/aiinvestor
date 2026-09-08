@@ -1,5 +1,26 @@
 # Path 2 研究计划
 
+## 2026-09-09 迭代：coverage 再补 20 个 base id，正式身份继续冻结（端点 2026-09-08）
+
+### 上一轮/本轮结果摘要
+
+- 端点推进后 guard 初检缺 `794/832`；严格先跑首批 20 个 base id 的四窗补缺，复检降至 `774/832`。本轮 v78 五窗确认仍触发 2020/2023 CAGR 护栏，因此 `reject`；coverage blocker 下禁止 promote，正式 Path2 身份恢复到运行前快照，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- `core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair`：`reject`；2020/2023 CAGR 差分 `-4.38/-3.33pp`，2026 CAGR `-19.27%`、turnover `18.23x`。
+- 确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk14_exit34_cap10_cost_guard_v78_underrepresented_repair`；完整补缺与 scorecard 见 `research_iteration_manifest_20260909.json` / `research_iteration_scorecard_20260909.json`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus：`medium_cycle_growth`。第一优先继续下一批 coverage；全量四窗可比前，局部排名最多观察，不能改正式身份。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01 --only-base-ids core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk22_exit42_cap16_cost_guard_v62_underrepresented_lowturn`；其余本批 ID 见 manifest。
+
+### Focus 候选池
+
+- `medium_cycle_growth`：`...risk16_exit36_cap10_cost_guard_v70_underrepresented_lowturn`；`...risk22_exit42_cap16_cost_guard_v62_underrepresented_lowturn`。
+- `underrepresented_families` / `capacity_and_cost_stress`：`...top10_risk28_exit48_cap28_cost_guard_v39_capacity_stress`；`...top14_risk28_exit48_cap26_cost_guard_v43_underrep_quality`。
+
 ## 2026-09-08 迭代：coverage 补缺与月频形态再淘汰（端点 2026-09-07）
 
 ### 上一轮候选与结果摘要

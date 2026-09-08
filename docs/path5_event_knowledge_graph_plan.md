@@ -1,5 +1,25 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-09 迭代：电力篮子 20D 为正，40/60D 仍未成熟（端点 2026-09-08）
+
+### 上一轮/本轮结果摘要
+
+- 已审计冻结篮子 `ai_datacenter_power_grid_202607_v0` 继续 `keep_watch`：20D equal/seed 收益 `11.70%/11.67%`，40/60D 仍 `insufficient_data`；与 Path4 capacity-v2 overlap `0/6`。不进入 Path1-4 winner/tracked，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 命令：`.venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260909_mature.json`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus：`event_basket_registry`。等 40D 样本成熟后复跑同一冻结篮子；原因是单一 20D 正收益不足以证明事件持续性。
+- 第一条命令沿用本轮参数，仅把输出改为 `...path4_capacity_v2_next_mature.json`。
+
+### Focus 候选池
+
+- `event_basket_registry` / `event_backtest_entry`：`ai_datacenter_power_grid_202607_v0 / horizons=20,40,60`；同篮子 `horizons=5,10,20` 短窗对照。
+- `path4_comparison`：power-grid 对 capacity-v2；power-grid 对 risk-control-v5。
+
 ## 2026-09-08 迭代：电力篮子 40/60D 仍未成熟（端点 2026-09-07）
 
 ### 上一轮候选与结果摘要
