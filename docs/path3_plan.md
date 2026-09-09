@@ -1,5 +1,27 @@
 # Path 3 研究计划
 
+## 2026-09-10 迭代：cap54 与 turnover-repair 均触发中窗护栏（端点 2026-09-09）
+
+### 上一轮/本轮结果摘要
+
+- cap54/risk16 虽改善 2020 CAGR，但恶化 2020 MaxDD 与 2023 CAGR/MaxDD；cap46/hold7 则同时拖累 2020/2023 CAGR。两者均 `reject`，正式 cap52/risk16 robust 与 tracked 身份不变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- `...cap54_hold5_turn05_exit98_risk16_weekly`：2020/2023 CAGR 差分 `+4.54/-4.95pp`，2026 CAGR `36.78%`、turnover `1.59x`。
+- `...cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`：2020/2023 CAGR 差分 `-5.17/-5.77pp`，2026 CAGR `48.79%`、turnover `2.17x`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus：`turnover_reduction`。围绕正式 cap52 做 cap50 单步邻域复核，限制同时改动维度。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold6_turn04_exit98_risk16_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：`...cap50_hold6_turn04_exit98_risk16_weekly`；正式 `...cap52_hold6_turn04_exit98_risk16_weekly`。
+- `weekly_exit_buffer`：`...cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`。
+
 ## 2026-09-09 迭代：周频 return-recovery 再次失守中窗（端点 2026-09-08）
 
 ### 上一轮/本轮结果摘要

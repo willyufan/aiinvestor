@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-10 迭代：breadth18 中窗占优、年内仍负（端点 2026-09-09）
+
+### 上一轮/本轮结果摘要
+
+- breadth18 相对正式 theme-fast，2020/2023 CAGR 高 `6.93/7.90pp`，但 2026 CAGR `-9.60%`，继续 `keep_watch`；`hkconnect_path2_theme_fast_monthly` 五窗 `promote`（incumbent 确认）。正式身份不变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-09 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_breadth18_v20260907,hkconnect_path2_theme_fast_monthly`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus：`high_return_monthly`。继续 breadth18/theme-fast 同跑；只有 2026 非负且中窗优势不丢才晋级。
+- 第一条命令沿用本轮双候选五窗命令。
+
+### Focus 候选池
+
+- `high_return_monthly` / `biweekly_breakout`：breadth18；theme-fast-monthly。
+- `elasticity_cost_control`：quality-liquidity-v27-cost-guard；theme-fast-monthly。
+
 ## 2026-09-09 迭代：breadth18 中窗优势延续、年内仍负（端点 2026-09-08）
 
 ### 上一轮/本轮结果摘要

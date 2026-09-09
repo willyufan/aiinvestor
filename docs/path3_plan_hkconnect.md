@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-10 迭代：exit46 留观，turnover12 中窗与换手双失守（端点 2026-09-09）
+
+### 上一轮/本轮结果摘要
+
+- exit46 相对正式 defensive，2020/2023 CAGR `-1.72/-0.40pp`，未触发硬护栏但 2026 `-4.88%`、turnover `9.42x`，留 `keep_watch`。turnover12 在 2023 CAGR 低 `8.24pp`、2026 `-17.35%` 且 turnover `32.14x`，判 `reject`；正式身份不变。
+
+### 本轮候选 ID 与命令
+
+- 命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-09 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_weekly_lowvol_exit46_v20260907,hkconnect_path3_theme_fast_weekly_defensive_turnover12_exit48`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus：`weekly_turnover_reduction`。保留 exit46 风险边界，换回正式 buffered 对照，停止 turnover12 高换手分支。
+- 第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-09 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_weekly_lowvol_exit46_v20260907,hkconnect_path3_theme_fast_weekly_buffered`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：exit46-v20260907；stable-weekly-lowvol-buffered-v38-return-recovery。
+- `weekly_defensive_overlay` / `cost_stress`：theme-fast-weekly-buffered；正式 defensive。
+
 ## 2026-09-09 迭代：exit46 维持风险观察、短窗仍负（端点 2026-09-08）
 
 ### 上一轮/本轮结果摘要

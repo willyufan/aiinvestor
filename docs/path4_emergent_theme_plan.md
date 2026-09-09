@@ -1,5 +1,27 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-10 迭代：signal29 留观，signal30 为无差异重复（端点 2026-09-09）
+
+### 上一轮/本轮结果摘要
+
+- signal29/leader78 低换手形态未触发中窗硬护栏，留 `keep_watch`，但 2026 CAGR `-6.52%`；signal30 产生完全相同指标，作为无差异重复判 `reject`。既有 capacity-v2 仍是 `robust_observation`：进入观察位，不是强稳定 winner；正式身份不变。
+
+### 本轮候选 ID 与命令
+
+- `...signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`：2020/2023 CAGR 差分 `-0.03/+0.02pp`，2026 turnover `4.05x`，`keep_watch`。
+- `...signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`：与 signal29 指标完全相同，`reject`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus：`theme_signal_quality`。改验 prom24/signal31 与 capacity-v2，避免继续消耗在无差异 signal 阈值。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal31_leader80_coverage_penalty_risk10_cap05_exit58_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### Focus 候选池
+
+- `theme_signal_quality`：`...prom24...signal31_leader80...risk10_cap05_exit58_lowturn`；signal29 lowturn。
+- `theme_capacity_cost` / `theme_risk_control`：capacity-v2；risk-control-v5。
+
 ## 2026-09-09 迭代：signal30 未修复年内主题收益（端点 2026-09-08）
 
 ### 上一轮/本轮结果摘要

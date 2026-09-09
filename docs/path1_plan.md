@@ -1,5 +1,27 @@
 # Path 1 研究计划
 
+## 2026-09-10 迭代：balanced / hold3_6 仍未守住中窗（端点 2026-09-09）
+
+### 上一轮/本轮结果摘要
+
+- breadth-v20260907 继续作为正式 robust；本轮主线 `hold_3_6` 与 core_multifactor balanced 周度仓位均触发 2020 收益/Sharpe 护栏，判 `reject`。winner/robust/tracked 身份不变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- core_multifactor `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced__port_weekly_exposure_buffered`：2020/2023 CAGR 差分 `-19.37/-10.64pp`，2026 CAGR `28.47%`、turnover `7.44x`，中窗失守。
+- 主线 `core_explore_80_20_total_mv_winner_core__aggr_08_92_hold_3_6__sat_three_stage_buffered_asym13`：2020 CAGR/Sharpe 差分 `-14.16pp/-0.34`，2026 CAGR `16.69%`，判 `reject`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced__port_weekly_exposure_buffered,core_explore_80_20_total_mv_winner_core__aggr_08_92_hold_3_6__sat_three_stage_buffered_asym13`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus：`core_multifactor_coverage` / `signal_quality`。winner-only 快筛把 `asym13` 组合指向 balanced 与 hold3_6 的周度 exposure 形态，下一轮做正式五窗确认。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced__port_weekly_exposure_buffered_asym13,core_explore_80_20_total_mv_winner_core__aggr_08_92_hold_3_6__port_weekly_exposure_buffered_asym13`。
+
+### Focus 候选池
+
+- 主线：`...hold_3_6__port_weekly_exposure_buffered_asym13`；`...aggr_10_90_prom6_cash_off__sat_three_stage_buffered_asym13`。
+- core_multifactor：`...prom7_core_multifactor_balanced__port_weekly_exposure_buffered_asym13`；`...quality_profitability_growth_trend_signal_quality_gate_cashguard_risk09_reconfirm`。
+
 ## 2026-09-09 迭代：主线与 core_multifactor 双重失守（端点 2026-09-08）
 
 ### 上一轮/本轮结果摘要

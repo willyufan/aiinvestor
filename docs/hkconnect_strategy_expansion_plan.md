@@ -1,5 +1,31 @@
 # 沪港通策略空间扩展计划
 
+## 2026-09-10 迭代：Path4-7 五窗确认（端点 2026-09-09）
+
+### 沪港通 Path4（quality / liquidity momentum）
+
+- 上一轮/本轮：exit46 相对 v47 的 2020/2023 CAGR 高 `3.56/2.13pp`，但 2026 `-5.23%`，留 `keep_watch`。v47 是 `robust_observation`：进入观察位，不是强稳定 winner；身份不变，无 evict/archive。
+- 命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-09 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_exit46_v20260907,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`。
+- 下一 focus `quality_momentum`：继续同跑 exit46/v47，要求中窗改善转化为年内非负；第一条命令沿用上行。Focus pool：exit46、v47；v49-capacity-guard、v50-return-restore。
+
+### 沪港通 Path5（breakout retest / pullback continuation）
+
+- 上一轮/本轮：v34 相对 frozen-shape 的 2020/2023 CAGR 仅高 `0.51/0.33pp`，2026 `-7.91%`，继续 `keep_watch`。frozen-shape 是 `robust_observation`：进入观察位，不是强稳定 winner；身份不变。
+- 命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-09 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907`。
+- 下一 focus `pullback_definition`：继续 v34/frozen-shape 同跑；第一条命令沿用上行。Focus pool：v34、frozen-shape；monthly-quality-retest-v32/v33。
+
+### 沪港通 Path6（large liquid core）
+
+- 上一轮/本轮：monthly-smoke 相对 lowvol 的 2020/2023 CAGR 高 `3.92/3.65pp`，2026 `6.33%`；两者都 `promote`（资格确认/正式 incumbent 确认），正式身份不变，无 evict/archive。
+- 命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-09 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_monthly_smoke,hkconnect_path6_lowvol_liquid_biweekly_smoke`。
+- 下一 focus `large_liquid_core`：继续 monthly-smoke/lowvol 对照，观察短窗稳定与换手；第一条命令沿用上行。Focus pool：monthly-smoke、lowvol；monthly-v45、v46-return-balance。
+
+### 沪港通 Path7（barbell）
+
+- 上一轮/本轮：risk15 相对正式 v7 的 2020/2023 CAGR 低 `0.95/0.63pp`，2026 `4.22%`，留 `keep_watch`；v7 五窗 `promote`（incumbent 确认）。正式身份不变，无 evict/archive。
+- 命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-09 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_biweekly_risk15_caution50_v20260907,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。
+- 下一 focus `barbell_sleeve_structure`：继续 risk15/v7 同跑，以正式 v7 为锚；第一条命令沿用上行。Focus pool：risk15、v7；risk13-caution52、core-sleeve-v8。
+
 ## 2026-09-09 迭代：Path4-7 五窗确认（端点 2026-09-08）
 
 ### 沪港通 Path4（quality / liquidity momentum）
