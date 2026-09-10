@@ -1,5 +1,28 @@
 # Path 1 研究计划
 
+## 2026-09-11 迭代：asym13 组合仍破坏 2020 稳定性（端点 2026-09-10）
+
+### 上一轮/本轮结果摘要
+
+- 上一轮 balanced buffered 与 hold3_6 satellite 两条确认均 `reject`；本轮继续验证其 `__port_weekly_exposure_buffered_asym13` 形态。balanced 候选相对 breadth robust 的 2020/2023 CAGR 分别下降 `20.62/10.83pp`，hold3_6 候选 2020 CAGR/Sharpe 下降 `15.11pp/0.359`，两者均 `reject`，未改变 window winner、robust 或 tracked。
+- core_multifactor 子段：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced__port_weekly_exposure_buffered_asym13` 为本轮唯一多因子确认，2026 CAGR `22.00%` 不能抵消中窗破坏，停止同形扩参；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 五窗确认 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced__port_weekly_exposure_buffered_asym13`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_hold_3_6__port_weekly_exposure_buffered_asym13`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced__port_weekly_exposure_buffered_asym13,core_explore_80_20_total_mv_winner_core__aggr_08_92_hold_3_6__port_weekly_exposure_buffered_asym13`；完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260911.json`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus `signal_quality`。winner-only 只提供快筛信号，下一轮先正式验证 `hold3_6_ramp90` 与 `aggr10 fast-ramp` 的 asym13 形态，要求 2020 不再触发 CAGR/Sharpe 护栏。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_hold_3_6_ramp90__port_weekly_exposure_buffered_asym13,core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp__sat_three_stage_buffered_asym13`。
+
+### Focus 候选池
+
+- `signal_quality`：`aggr_08_92_hold_3_6_ramp90__port_weekly_exposure_buffered_asym13`、`aggr_10_90_fast_ramp__sat_three_stage_buffered_asym13`。
+- `core_multifactor_coverage`：`aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk09_reconfirm`、`aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm`。
+- `holding_shape` / `satellite_risk_cost`：`share_12_88_hold_4_6__port_weekly_exposure_buffered_asym13`、`aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm`。
+
 ## 2026-09-10 迭代：balanced / hold3_6 仍未守住中窗（端点 2026-09-09）
 
 ### 上一轮/本轮结果摘要

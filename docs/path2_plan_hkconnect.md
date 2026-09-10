@@ -1,5 +1,26 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-11 迭代：breadth18 中长窗领先但年内仍负（端点 2026-09-10）
+
+### 上一轮/本轮结果摘要
+
+- breadth18 相对正式 theme-fast 的 2020/2023 CAGR 高 `6.75/7.56pp`、换手低约 `4.4x`，支持中周期假设；但 2026 CAGR `-9.05%`，只能 `keep_watch`。未改变 window winner、robust 或 tracked，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选 `hkconnect_path2_high_return_monthly_quality_breadth18_v20260907`；命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-10 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_breadth18_v20260907`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus `biweekly_breakout`。下一轮以基础 breakout-biweekly 对 buffered 形态，验证是否能保住 breadth18 中窗优势并修复 2026。
+- 第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-10 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_breakout_biweekly,hkconnect_path2_breakout_buffered_biweekly`。
+
+### Focus 候选池
+
+- `biweekly_breakout`：breakout-biweekly、breakout-buffered-biweekly。
+- `high_return_monthly`：breadth18、theme-fast-monthly。
+- `elasticity_cost_control`：v46-lowturn、v47-lowturn。
+
 ## 2026-09-10 迭代：breadth18 中窗占优、年内仍负（端点 2026-09-09）
 
 ### 上一轮/本轮结果摘要

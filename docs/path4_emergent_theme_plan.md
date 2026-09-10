@@ -1,5 +1,28 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-11 迭代：signal31/exit58 年内失效（端点 2026-09-10）
+
+### 上一轮/本轮结果摘要
+
+- 上一轮 signal29 仅 `keep_watch`、signal30 `reject`。本轮 `prom24/signal31/leader80/risk10/cap05/exit58` 五窗确认在 2023 CAGR/Sharpe 相对 capacity-v2 下降 `3.04pp/0.3145`，2026 CAGR `-19.23%`，判为 `reject`。
+- 候选未改变 Path4 window winner、robust 或 tracked；capacity-v2 仍是弱路径观察基准，不是强稳定 winner。无 evict/archive；停止 signal31/exit58 同形扩参。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal31_leader80_coverage_penalty_risk10_cap05_exit58_lowturn`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom24_emergent_theme_quality_gate_signal31_leader80_coverage_penalty_risk10_cap05_exit58_lowturn`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus `theme_signal_quality`。下一轮改为现有 `signal_quality_v4` 与 `risk_control_v5` 的正交对照，不继续提高 signal31 阈值；要求 since_2023 与 since_2026 同时非负才保留。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`。
+
+### Focus 候选池
+
+- `theme_signal_quality`：`signal28_leader80...exit74_signal_quality_v4`、`signal28_leader78...exit72_risk_control_v5`。
+- `theme_risk_control`：capacity-v2、risk-control-v5。
+- `theme_capacity_cost` / `emergent_theme_coverage`：`prom22_signal29_risk06_cap05_exit68_lowturn`、`prom22_signal30_risk06_cap05_exit68_lowturn`。
+
 ## 2026-09-10 迭代：signal29 留观，signal30 为无差异重复（端点 2026-09-09）
 
 ### 上一轮/本轮结果摘要

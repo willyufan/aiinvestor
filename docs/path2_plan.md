@@ -1,5 +1,28 @@
 # Path 2 研究计划
 
+## 2026-09-11 迭代：coverage 792→772，正式身份继续冻结（端点 2026-09-10）
+
+### 上一轮/本轮结果摘要
+
+- 上一轮缺口 `803→776`；新端点初始缺 `792/832`，严格执行 guard 首批 20 个 base IDs 的 2017/2020/2023/2025 四窗补缺后降至 `772/832`。多数旧形态仍呈负 CAGR 或高换手，本批只算 coverage，不算新增策略实验。
+- coverage 仍 `block`，本轮 Path2 禁止 promote；`update_weighted_winners.py` 产生的 partial-universe 排名已回滚为开局正式 weighted/history/core-active，provisional 诊断仅记录在本轮 manifest。无正式 winner/robust/tracked 变化，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 首批完整 20 个 ID 与命令记录在 `results/research/a_share/research_iteration_manifest_20260911.json`；其中 `v78_underrepresented_repair` 等旧候选仅补可比窗口，没有作为新增参数结论。
+- 命令类型：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01 --only-base-ids <guard首批20个具体ID>`；执行结果将缺口 `792→772`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus `medium_cycle_growth`。下一轮第一优先继续 guard 新首批 20 个缺口；全量四窗可比前，任何局部 window 排名只能 provisional/keep_watch/reject。
+- 第一条命令完整保存在 manifest 的 `next_commands.ashare_path2`，以 `v70_underrepresented_lowturn`、`v62_underrepresented_lowturn` 开头，显式固定 `--end-date 2026-09-10`。
+
+### Focus 候选池
+
+- `medium_cycle_growth`：`v62_underrepresented_lowturn`、`v70_underrepresented_lowturn`；补齐覆盖后再比较 `v35_lowturn`、`v29`。
+- `risk_reconfirm_sensitivity`：`v78_underrepresented_repair`、`v63_underrepresented_lowturn`。
+- `capacity_and_cost_stress`：`v38_underrep`、`v39_capacity_stress`。
+
 ## 2026-09-10 迭代：coverage 803→776，正式身份继续冻结（端点 2026-09-09）
 
 ### 上一轮/本轮结果摘要

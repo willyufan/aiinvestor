@@ -1,5 +1,28 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-11 迭代：电网事件篮子 40/60D 仍未成熟（端点 2026-09-10）
+
+### 上一轮/本轮结果摘要
+
+- 上一轮 `ai_datacenter_power_grid_202607_v0` 20D 等权/seed 收益 `11.70%/11.67%`，40/60D 不足。本轮保持 `source_audited + frozen` 输入复核，仍只有 38 个后续交易日；20D 收益不变，40/60D `insufficient_data`，与 Path4 capacity-v2 overlap `0/6`，判为 `keep_watch`。
+- 事件 runner 不提供连续组合 CAGR、Sharpe、MaxDD、turnover，不能 promote；未改变 A股 Path1-4 winner/robust/tracked。active basket 仍为 1，pending audit 为 0，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- basket `ai_datacenter_power_grid_202607_v0`；审计状态 `source_audited`，horizon `20/40/60`，Path4 参考 `...exit72_capacity_v2`，输出 `results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260911.json`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260911.json`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus `frozen_candidate_audit`。pending audit 已为 0，下一轮等第 40 个交易日后复跑 mature horizon；未提前扩篮子，避免未成熟样本驱动选择。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_next_mature.json`。
+
+### Focus 候选池
+
+- `frozen_candidate_audit`：active `ai_datacenter_power_grid_202607_v0` 六只可回测样本、四只 source-audited coverage-watch 样本。
+- `event_backtest_entry` / `path4_comparison`：power-grid 20/40/60D、同篮子 5/10/20D；Path4 capacity-v2、risk-control-v5。
+- `event_basket_registry`：power-grid active basket；AI眼镜 archived history，仅作历史对照不再 active 刷新。
+
 ## 2026-09-10 迭代：电力篮子短窗稳定，40/60D 仍未成熟（端点 2026-09-09）
 
 ### 上一轮/本轮结果摘要

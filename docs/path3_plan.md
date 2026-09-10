@@ -1,5 +1,28 @@
 # Path 3 研究计划
 
+## 2026-09-11 迭代：cap50 被 cap52 支配（端点 2026-09-10）
+
+### 上一轮/本轮结果摘要
+
+- 上一轮 cap54 与 turnover-repair 均 `reject`。本轮纯周频 `cap50_hold6_turn04_exit98_risk16_weekly` 相对 cap52 在 2017 CAGR 低 `0.54pp`、其余四窗几乎完全相同，判为 `reject`；`cap52...weekly` 同端点确认稳定，判为 `promote` 资格确认。
+- 该 promote 是既有 Path3 robust 基准确认，不是新 window winner；正式 winner/robust/tracked ID 均未改变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold6_turn04_exit98_risk16_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap50_hold6_turn04_exit98_risk16_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus `weekly_exit_buffer`。下一轮回到 exit90/97 两条纯周频形态，要求改善 2025 相邻验证且控制 2026 回撤。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-10 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`。
+
+### Focus 候选池
+
+- `weekly_exit_buffer`：`cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`、`cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`。
+- `turnover_reduction`：`cap44_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly`、`cap42_hold8_turn03_exit96_risk10_weekly_turnover_repair_weekly`。
+- `risk_downshift` / `cost_stress`：`cap42_hold9_turn02_exit97_risk06_weekly_risk_downshift_weekly`、`cap42_hold7_turn02_exit98_risk10_weekly_cost_stress_weekly`。
+
 ## 2026-09-10 迭代：cap54 与 turnover-repair 均触发中窗护栏（端点 2026-09-09）
 
 ### 上一轮/本轮结果摘要

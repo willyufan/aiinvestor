@@ -1,5 +1,26 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-11 迭代：buffered 收益贴近基准但换手过高（端点 2026-09-10）
+
+### 上一轮/本轮结果摘要
+
+- 上一轮 exit46 `keep_watch`、turnover12 `reject`。本轮 `hkconnect_path3_theme_fast_weekly_buffered` 五窗 CAGR 均为正，2020/2023 仅比 defensive 高 `0.37/0.10pp`，但年均换手 `31-37x`，综合判 `keep_watch`。未改变 winner、robust 或 tracked，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选 `hkconnect_path3_theme_fast_weekly_buffered`；命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-10 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_buffered`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus `weekly_turnover_reduction`。下一轮比较 v36/v38 return-recovery，要求 turnover 显著低于 buffered 且 2026 不转负。
+- 第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-10 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_v36_return_recovery,hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v36-return-recovery、v38-return-recovery。
+- `weekly_defensive_overlay`：theme-fast-weekly-defensive、theme-fast-weekly-buffered。
+- `cost_stress`：equal-elastic-weekly、weekly-lowvol-exit46-v20260907。
+
 ## 2026-09-10 迭代：exit46 留观，turnover12 中窗与换手双失守（端点 2026-09-09）
 
 ### 上一轮/本轮结果摘要
