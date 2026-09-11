@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-12 迭代：基础双周突破全面破坏中窗（端点 2026-09-11）
+
+### 上一轮/本轮结果摘要
+
+- 上轮 breadth18 中窗改善但年内负。本轮 `hkconnect_path2_breakout_biweekly` 相对 theme-fast 在2020/2023 CAGR下降 `15.49/22.98pp`，MaxDD恶化 `34.50/21.58pp`，换手增加约 `11x`，判 `reject`。未改变 winner/robust/tracked，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-11 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_breakout_biweekly`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus `biweekly_breakout`。停止基础 breakout，转测 buffered 版本并与 theme-fast 正面对照，要求显著压回MaxDD/turnover。
+- 第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-11 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_breakout_buffered_biweekly,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `biweekly_breakout`：breakout-buffered-biweekly、theme-fast-monthly；`high_return_monthly`：breadth18、theme-fast-monthly。
+- `elasticity_cost_control`：v46-lowturn、v47-lowturn。
+
 ## 2026-09-11 迭代：breadth18 中长窗领先但年内仍负（端点 2026-09-10）
 
 ### 上一轮/本轮结果摘要

@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-09-12 迭代：exit97 降换手但收益代价过大（端点 2026-09-11）
+
+### 上一轮/本轮结果摘要
+
+- 上轮 cap50 被 cap52 支配。本轮纯周频 `cap46/hold7/turn03/exit97/risk12` 相对 cap52 robust 将换手压低，但2020/2023 CAGR下降 `11.24/14.12pp`、2025 CAGR为负，判 `reject`；假设不成立。window winner/robust/tracked 不变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit97_risk12_weekly_exit_buffer_weekly`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus `weekly_exit_buffer`。下一轮改测 exit90-v3 与 cap52 robust，判断更早退出能否减少回撤而不再牺牲中窗收益。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `weekly_exit_buffer`：exit90-v3、cap52 robust；`turnover_reduction`：cap44-hold8-turn03、cap42-hold8-turn03。
+- `risk_downshift`：cap42-hold9-risk06、cap40-hold8-risk08；`cost_stress`：cap42-hold7-cost-stress、cap46-exit97。
+
 ## 2026-09-11 迭代：cap50 被 cap52 支配（端点 2026-09-10）
 
 ### 上一轮/本轮结果摘要

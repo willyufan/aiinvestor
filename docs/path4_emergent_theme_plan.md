@@ -1,5 +1,25 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-12 迭代：signal-v4 留观，risk-v5 回撤越线（端点 2026-09-11）
+
+### 上一轮/本轮结果摘要
+
+- 上轮 signal31/exit58 `reject`。本轮 signal-quality-v4 相对 capacity-v2 在2020略有改善且未触发中窗护栏，但2023 CAGR仅 `0.33%`、2026为 `-4.37%`，判 `keep_watch`；risk-control-v5虽提升部分CAGR，却使2020/2023 MaxDD恶化 `11.91/14.38pp`、2026为 `-13.21%`，判 `reject`。正式 winner/robust/tracked 不变，无 evict/archive；capacity-v2仍是弱路径观察基准，不是强稳定winner。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus `theme_risk_control`。停止扩大80/20袖套，改以 capacity-v2 对 signal29/risk06/cap05 低换手形态，预期在不越过MaxDD护栏时修复2026。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+
+### Focus 候选池
+
+- `theme_risk_control`：capacity-v2、signal29-risk06-lowturn；`theme_signal_quality`：signal-quality-v4、signal29-risk06-lowturn。
+- `theme_capacity_cost`：capacity-v2、cap05-exit68-lowturn；`emergent_theme_coverage`：signal29-lowturn、signal30-lowturn。
+
 ## 2026-09-11 迭代：signal31/exit58 年内失效（端点 2026-09-10）
 
 ### 上一轮/本轮结果摘要

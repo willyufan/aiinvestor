@@ -1,5 +1,25 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-09-12 迭代：exit34 保住中窗、年内仍负（端点 2026-09-11）
+
+### 上一轮/本轮结果摘要
+
+- 上轮 exit36 `keep_watch`。本轮 `soft_cost_guard_exit34` 相对 biweekly-lowvol 的2023 CAGR提高 `6.40pp`，但2026 CAGR `-3.81%`、换手增加约 `3.33x`，判 `keep_watch`。未改变 winner/robust/tracked，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-11 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit34`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus `biweekly_buffer`。下一轮以 exit38 对正式 lowvol，要求2026非负且换手回落。
+- 第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-11 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_equal_buffered_lowvol_soft_exit38,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `biweekly_buffer`：soft-exit38、biweekly-lowvol；`risk_overlay_cost`：soft-cost-exit36、soft-cost-exit34。
+- `monthly_weekly_overlay`：monthly-lowvol-soft-exit34、monthly-lowvol-soft-exit38。
+
 ## 2026-09-11 迭代：exit36 中窗改善但 2026 转负（端点 2026-09-10）
 
 ### 上一轮/本轮结果摘要

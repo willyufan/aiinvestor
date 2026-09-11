@@ -1,5 +1,26 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-12 迭代：电网事件篮子仅差一日达到40D（端点 2026-09-11）
+
+### 上一轮/本轮结果摘要
+
+- 已审计冻结篮子 `ai_datacenter_power_grid_202607_v0` 继续复核：20D等权/seed收益 `11.70%/11.67%`，40/60D仍为 `insufficient_data`，当前只有39个后续交易日；与 Path4 capacity-v2 overlap `0/6`。连续 CAGR/Sharpe/MaxDD/turnover 缺失，判 `keep_watch`，不能 promote。active basket 1、pending audit 0，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- basket `ai_datacenter_power_grid_202607_v0`，状态 `source_audited + frozen`，horizon `20/40/60`，输出 `results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260912.json`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260912.json`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus `frozen_candidate_audit`。下一交易日优先复跑同一篮子，验证40D首次成熟结果，不提前扩篮子。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_next_mature.json`。
+
+### Focus 候选池
+
+- `frozen_candidate_audit`：active power-grid六股篮子、四只source-audited coverage-watch；`event_backtest_entry`：20/40/60D、5/10/20D。
+- `path4_comparison`：capacity-v2、risk-control-v5；`event_basket_registry`：power-grid active、AI眼镜 archive历史。
+
 ## 2026-09-11 迭代：电网事件篮子 40/60D 仍未成熟（端点 2026-09-10）
 
 ### 上一轮/本轮结果摘要

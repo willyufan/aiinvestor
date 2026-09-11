@@ -1,5 +1,29 @@
 # Path 1 研究计划
 
+## 2026-09-12 迭代：signal-quality 两条组合仍未守住 2020（端点 2026-09-11）
+
+### 上一轮/本轮结果摘要
+
+- 上轮 balanced/hold3_6 asym13 均 `reject`。本轮 `hold3_6_ramp90 + port asym13` 在 2017/2023 有收益优势，但相对 breadth robust 的 2020 CAGR/Sharpe 下降 `15.03pp/0.359`；`aggr10 fast-ramp + satellite asym13` 的 2025 CAGR近似且回撤略优，但2020 CAGR下降 `6.60pp`。两条均 `reject`，假设不获支持，window winner/robust/tracked 不变，无 evict/archive。
+- core_multifactor 子段：代码口径仍为 `64/64` 完整覆盖；本轮未新增确认，因为 Path2 coverage 首批20条已消耗主要预算。下一轮保留 risk09/risk08 简化复核，不用 winner-only 替代正式五窗回测。
+
+### 本轮候选 ID 与命令
+
+- 实跑 `core_explore_80_20_total_mv_winner_core__aggr_08_92_hold_3_6_ramp90__port_weekly_exposure_buffered_asym13`、`core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp__sat_three_stage_buffered_asym13`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_hold_3_6_ramp90__port_weekly_exposure_buffered_asym13,core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp__sat_three_stage_buffered_asym13`；scorecard：`results/research/a_share/research_iteration_scorecard_20260912.json`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus `signal_quality`。winner-only 指向 `hold3_6_ramp90 + satellite asym13` 与 `fast_ramp_cash_off_and + port asym13`；预期以前者降低回撤、后者保住2020收益，正式比较 breadth robust。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_hold_3_6_ramp90__sat_three_stage_buffered_asym13,core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp_cash_off_and__port_weekly_exposure_buffered_asym13`。
+- core_multifactor 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk09_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm`。
+
+### Focus 候选池
+
+- `signal_quality`：hold3_6_ramp90 satellite-asym13、fast-ramp-cashoff port-asym13。
+- `core_multifactor_coverage`：quality-profitability-growth-trend risk09、risk08。
+- `holding_shape`：share12/88 hold4/6 asym13、hold3/6-ramp90 satellite-asym13；`satellite_risk_cost`：risk18-reconfirm、risk16-reconfirm。
+
 ## 2026-09-11 迭代：asym13 组合仍破坏 2020 稳定性（端点 2026-09-10）
 
 ### 上一轮/本轮结果摘要
