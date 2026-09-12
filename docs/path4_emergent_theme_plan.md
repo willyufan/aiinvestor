@@ -1,5 +1,26 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-13 迭代：低换手变体未修复 2026（端点 2026-09-11）
+
+### 上一轮候选与结果摘要
+
+- 上轮 signal-quality-v4 `keep_watch`、risk-control-v5 `reject`。本轮 capacity-v2 同端点确认：2020/2023 CAGR `2.21%/1.21%`，但 2026 CAGR `-4.43%`，仍为 `robust_observation`，进入观察位，不是强稳定 winner。
+- signal29/risk06/cap05/exit68-lowturn 相对 capacity-v2 的 2020/2023 CAGR差 `-0.05/+0.02pp`，但回撤分别恶化 `4.10/3.80pp`、换手增加约 `0.48/0.44x`，2026 CAGR `-6.76%`，判 `keep_watch`。正式 winner/robust/tracked 不变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`；scorecard：`results/research/a_share/research_iteration_scorecard_20260913.json`。
+
+### 下一轮 focus 提示
+
+- guard focus `theme_risk_control`。下一轮回到 signal-quality-v4 与 capacity-v2 正交对照，要求 2023 与 2026 同时非负；不继续扩大 cap05/exit68 形态。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### Focus 候选池
+
+- `theme_risk_control`：capacity-v2、risk-control-v5；`theme_signal_quality`：signal-quality-v4、signal29-lowturn。
+- `theme_capacity_cost`：capacity-v2、cap05-exit68-lowturn；`emergent_theme_coverage`：signal29-lowturn、signal30-lowturn。
+
 ## 2026-09-12 迭代：signal-v4 留观，risk-v5 回撤越线（端点 2026-09-11）
 
 ### 上一轮/本轮结果摘要

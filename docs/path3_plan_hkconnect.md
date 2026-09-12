@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-13 迭代：v38 大幅降换手但 2026 仍为负（端点 2026-09-11）
+
+### 上一轮候选与结果摘要
+
+- 上轮 v36 `reject`。本轮 `hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery` 相对 theme-fast robust 的 2020/2023 CAGR低 `2.81/1.94pp`，但 Sharpe提高 `0.217/0.404`、换手下降 `23.54/22.92x`；2026 CAGR仍为 `-4.50%`，判 `keep_watch`。正式 winner/robust/tracked 不变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-11 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`；scorecard：`results/research/a_share/research_iteration_scorecard_20260913.json`。
+
+### 下一轮 focus 提示
+
+- guard focus `weekly_turnover_reduction`。保留 v38 的风险/换手改善，下一轮与正式 theme-fast 同跑，观察能否把 2026 修复为非负。
+- 第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-11 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_theme_fast_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v38-return-recovery、exit46；`weekly_defensive_overlay`：theme-fast-defensive、theme-fast-buffered。
+- `cost_stress`：v38-return-recovery、equal-buffered-v36。
+
 ## 2026-09-12 迭代：v36 大幅降换手但收益修复失败（端点 2026-09-11）
 
 ### 上一轮/本轮结果摘要

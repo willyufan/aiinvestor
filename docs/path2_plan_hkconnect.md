@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-13 迭代：buffered breakout 跨窗失守（端点 2026-09-11）
+
+### 上一轮候选与结果摘要
+
+- 上轮 breakout-biweekly `reject`。本轮 buffered-biweekly 相对 theme-fast robust 的 2020/2023 CAGR下降 `15.45/22.93pp`、MaxDD恶化 `34.89/21.57pp`、Sharpe下降 `0.537/0.754`，且换手约 `18-23x`，判 `reject`。正式 winner/robust/tracked 不变，无 evict/archive；停止同形 breakout 扩参。
+
+### 本轮候选 ID 与命令
+
+- 命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-11 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_breakout_buffered_biweekly`；scorecard：`results/research/a_share/research_iteration_scorecard_20260913.json`。
+
+### 下一轮 focus 提示
+
+- guard focus `biweekly_breakout`。下一轮只把 buffered breakout 与正式 theme-fast 同跑作停止线确认；若继续触发中窗护栏则 archive 同形。
+- 第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-11 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_breakout_buffered_biweekly,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `biweekly_breakout`：breakout-buffered、theme-fast；`elasticity_cost_control`：v27-cost-guard、theme-fast。
+- `high_return_monthly`：v27-cost-guard、breakout-concentrated-monthly。
+
 ## 2026-09-12 迭代：基础双周突破全面破坏中窗（端点 2026-09-11）
 
 ### 上一轮/本轮结果摘要

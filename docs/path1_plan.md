@@ -1,5 +1,27 @@
 # Path 1 研究计划
 
+## 2026-09-13 迭代：signal-quality 与 core_multifactor 均未守住中窗（端点 2026-09-11）
+
+### 上一轮候选与结果摘要
+
+- 上轮两条 signal-quality 组合均 `reject`。本轮 `hold3_6_ramp90 + satellite asym13` 的 2020 CAGR/Sharpe 相对 breadth robust 下降 `14.04pp/0.338`，判 `reject`；`fast-ramp cash-off + port asym13` 实际路由到 `growth_elastic`，且 2020 CAGR 下降 `28.77pp`、2026 CAGR `-11.93%`，按路由错位 `reject`。主线 window winner/robust/tracked 不变，无 evict/archive。
+- core_multifactor 子段：代码口径仍为 `64/64`。risk09 signal-quality-gate 虽改善回撤，但 2020 CAGR/Sharpe 下降 `22.49pp/0.527`、2023 CAGR下降 `8.30pp`、2026 CAGR `-2.33%`，判 `reject`；假设不获支持。
+
+### 本轮候选 ID 与命令
+
+- 实跑 `core_explore_80_20_total_mv_winner_core__aggr_08_92_hold_3_6_ramp90__sat_three_stage_buffered_asym13`、`core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp_cash_off_and__port_weekly_exposure_buffered_asym13`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk09_reconfirm`。
+- 复现命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_hold_3_6_ramp90__sat_three_stage_buffered_asym13,core_explore_80_20_total_mv_winner_core__aggr_10_90_fast_ramp_cash_off_and__port_weekly_exposure_buffered_asym13,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk09_reconfirm`；完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260913.json`。
+
+### 下一轮 focus 提示
+
+- guard focus `signal_quality`。停止扩展已错路由的 fast-ramp+port 形态；下一轮先确认 risk08 core_multifactor 与 share12/88 hold4/6 port-asym13，要求 2020 不再触发收益/Sharpe 护栏。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm,core_explore_80_20_total_mv_winner_core__share_12_88_hold_4_6__port_weekly_exposure_buffered_asym13`。
+
+### Focus 候选池
+
+- `signal_quality`：share12/88 hold4/6 port-asym13、satellite-asym13；`core_multifactor_coverage`：risk08、risk06 signal-quality-gate。
+- `holding_shape`：share12/88 hold4/6、hold3/6-ramp90；`satellite_risk_cost`：risk18-reconfirm、risk16-reconfirm。
+
 ## 2026-09-12 迭代：signal-quality 两条组合仍未守住 2020（端点 2026-09-11）
 
 ### 上一轮/本轮结果摘要
