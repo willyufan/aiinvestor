@@ -1,5 +1,27 @@
 # Path 3 研究计划
 
+## 2026-09-14 迭代：turnover-repair 改善短窗但中窗失守（端点 2026-09-11）
+
+### 上一轮候选与结果摘要
+
+- 上轮 exit90 降换手但破坏 2023 稳定性。本轮 `cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly` 将 2026 CAGR 提高到 `46.09%`、并降低多窗换手，但 2020/2023 CAGR 相对 robust 下降 `5.11/5.75pp`，命中两个中窗护栏，判 `reject`。
+- window winner/robust/tracked 身份未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn03_exit98_risk14_turnover_repair_weekly`；scorecard：`results/research/a_share/research_iteration_scorecard_20260914.json`。
+
+### 下一轮 focus 与第一条命令
+
+- focus 转向 `weekly_exit_buffer`，用 cap54 incumbent 与 cap46/turn02/exit99 对照，要求在保留换手优势的同时恢复 2020/2023 CAGR。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn02_exit99_risk12_weekly`。
+
+### Focus 候选池
+
+- `weekly_exit_buffer`：cap54/hold5/exit98、cap46/hold7/exit99；`turnover_reduction`：cap54 incumbent、cap46 turnover-repair。
+- `risk_and_cost`：cap42/hold7/risk10 cost-stress、cap46/hold7/turn03/risk14 turnover-repair。
+
 ## 2026-09-13 迭代：exit90 降换手但破坏 2023 稳定性（端点 2026-09-11）
 
 ### 上一轮候选与结果摘要

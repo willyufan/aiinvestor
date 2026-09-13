@@ -1,5 +1,27 @@
 # Path 1 研究计划
 
+## 2026-09-14 迭代：signal-quality 与 share12/88 仍未守住 2020（端点 2026-09-11）
+
+### 上一轮候选与结果摘要
+
+- 上轮 risk09 signal-quality-gate 与两条主线组合均 `reject`。本轮 risk08 core_multifactor 虽改善回撤，但 2020 CAGR/Sharpe 下降 `22.12pp/0.513`、2023 CAGR 下降 `9.90pp`、2026 CAGR `-2.35%`，判 `reject`；share12/88 hold4/6 port-asym13 的 2023/2026 CAGR 分别改善 `6.81/7.36pp`，但 2020 CAGR/Sharpe 下降 `14.86pp/0.354`，仍判 `reject`。
+- core_multifactor 覆盖保持 `64/64`；window winner/robust/tracked 身份均未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 实跑 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm`、`core_explore_80_20_total_mv_winner_core__share_12_88_hold_4_6__port_weekly_exposure_buffered_asym13`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk08_reconfirm,core_explore_80_20_total_mv_winner_core__share_12_88_hold_4_6__port_weekly_exposure_buffered_asym13`；scorecard：`results/research/a_share/research_iteration_scorecard_20260914.json`。
+
+### 下一轮 focus 与第一条命令
+
+- focus 仍为 `signal_quality`，将 risk 再降到 06，并用 share15/85 对 share12/88 做稍宽弹性对照；首要条件是 2020 不再命中 CAGR/Sharpe 护栏。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-11 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk06_reconfirm,core_explore_80_20_total_mv_winner_core__share_15_85_hold_4_6__port_weekly_exposure_buffered_asym13`。
+
+### Focus 候选池
+
+- `signal_quality`：risk06 core_multifactor、share15/85 hold4/6 port-asym13；`core_multifactor_coverage`：risk06、risk10 signal-quality-gate。
+- `holding_shape`：share15/85 hold4/6、aggr10/90 hold4/6 port-asym13；`satellite_risk_cost`：risk18-reconfirm、risk16-reconfirm。
+
 ## 2026-09-13 迭代：signal-quality 与 core_multifactor 均未守住中窗（端点 2026-09-11）
 
 ### 上一轮候选与结果摘要

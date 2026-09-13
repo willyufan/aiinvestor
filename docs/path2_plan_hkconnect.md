@@ -1,5 +1,27 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-14 迭代：v27 中窗大幅改善，近两窗仍失守（端点 2026-09-11）
+
+### 上一轮候选与结果摘要
+
+- 上轮 buffered breakout 跨窗失守。本轮 `hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard` 相对 theme-fast 的 2020/2023 CAGR 提高 `7.91/9.99pp`，且换手大幅下降；但 2025/2026 CAGR 分别落后 `12.82/10.61pp`，短窗未修复，判 `keep_watch`。
+- window winner/robust/tracked 身份未变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选 `hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard`。
+- 命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-11 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard`；scorecard：`results/research/a_share/research_iteration_scorecard_20260914.json`。
+
+### 下一轮 focus 与第一条命令
+
+- focus 转回 `biweekly_breakout`，让 buffered breakout 与 theme-fast 直接对照；若 breakout 再次在中窗或换手失败，下轮直接 archive 该分支。
+- 第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-11 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_cost_guard_v25_breakout_repair,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `biweekly_breakout`：v25-breakout-repair、v21-breakout-repair；`monthly_quality_liquidity`：v27-cost-guard、v28-ytd-repair。
+- `short_window_repair`：v30-ytd-recovery-guard、v28-ytd-repair。
+
 ## 2026-09-13 迭代：buffered breakout 跨窗失守（端点 2026-09-11）
 
 ### 上一轮候选与结果摘要
