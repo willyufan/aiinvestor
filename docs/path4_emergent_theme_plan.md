@@ -1,5 +1,26 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-15 迭代：risk-control-v5 再次越过回撤停止线（端点 2026-09-14）
+
+### 上一轮候选与结果摘要
+
+- 上轮 signal-quality-v4 留观。本轮 risk-control-v5 相对 capacity-v2 的 2020 CAGR 仅提高 `2.11pp`，但 2020/2023 MaxDD 恶化 `11.83/14.38pp`，2026 CAGR 低 `8.54pp`，判 `reject`。正式 winner/robust/tracked 不变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`；参照 `core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-14 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus 仍为 `theme_risk_control`，但 risk-control-v5 已重复失败，下一轮回到 signal-quality-v4 与 capacity-v2，要求 2023/2026 同时非负且不越过 MaxDD 护栏。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-14 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### Focus 候选池
+
+- `theme_risk_control`：capacity-v2、signal-quality-v4；risk-control-v5 停止同形扩参。
+- `capacity_and_overlap`：capacity-v2、signal29/risk06/cap05-lowturn；`low_turnover`：signal30/risk06-lowturn、signal29/risk04/cap05-lowturn。
+
 ## 2026-09-14 迭代：signal-quality-v4 中窗稳定但短窗仍负（端点 2026-09-11）
 
 ### 上一轮候选与结果摘要

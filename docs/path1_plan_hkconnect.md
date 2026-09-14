@@ -1,5 +1,27 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-09-15 迭代：月频叠加中窗改善、年内仍负（端点 2026-09-14）
+
+### 上一轮候选与结果摘要
+
+- 上轮 soft-cost-exit36 留观。本轮 monthly-overlay lowvol soft-exit38 相对 biweekly-lowvol 的 2020/2023 CAGR 提高 `8.74/8.78pp`、Sharpe 和长期回撤改善，但 2026 CAGR `-4.80%`、换手高约 `1.0–1.4x`，判 `keep_watch`。正式身份不变。
+- `02922.HK` 为 9月14日证券代码切换且无独立历史行情，本轮固定 9月11日静态池，行情端点仍为 9月14日；不把代码切换误判为策略缺数。
+
+### 本轮候选 ID 与命令
+
+- 候选 `hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38`；参照 `hkconnect_path1_biweekly_lowvol`。
+- 命令：`.venv/bin/python /tmp/aiinvestor_hk_backtest_20260915.py --end-date 2026-09-14 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38,hkconnect_path1_biweekly_lowvol`；完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260915.json`。
+
+### 下一轮 focus 与第一条命令
+
+- 最终 guard focus 为 `monthly_weekly_overlay`；在本轮 soft-exit38 留观后，只测试更宽退出阈值能否把 2026 恢复为非负并保住中窗改善。
+- 第一条命令：`.venv/bin/python backtest_hkconnect.py --end-date 2026-09-14 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit42,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：monthly soft-exit42、biweekly-lowvol；monthly soft-exit38 仅留观察。
+- `biweekly_buffer`：soft-cost-exit34、biweekly-lowvol；`risk_overlay_cost`：soft-cost-exit36、exit34。
+
 ## 2026-09-14 迭代：soft-cost-exit36 中窗增益不足抵消短窗与换手（端点 2026-09-11）
 
 ### 上一轮候选与结果摘要

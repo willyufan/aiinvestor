@@ -1,5 +1,26 @@
 # Path 1 研究计划
 
+## 2026-09-15 迭代：risk06 仍未修复中窗收益（端点 2026-09-14）
+
+### 上一轮候选与结果摘要
+
+- 上轮 risk08 已 `reject`。本轮 risk06 相对 breadth robust 的 2020 CAGR/Sharpe 下降 `20.08pp/0.447`、2023 CAGR 下降 `9.89pp`，2026 CAGR `-1.99%`，继续 `reject`；回撤改善不能覆盖收益损失。window winner/robust/tracked 均未变化，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk06_reconfirm`；参照 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-14 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk06_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`；完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260915.json`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus 转到 `satellite_risk_cost`；停止继续下调 signal-quality risk，改测 risk18 卫星成本守门能否守住 2020/2023。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-14 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`。
+
+### Focus 候选池
+
+- `satellite_risk_cost`：risk18-reconfirm、risk16-reconfirm；`signal_quality`：risk06/risk08 仅留历史，不再同形下调。
+- `holding_shape`：breadth-v20260907、share12/88 hold4/6；`core_multifactor_coverage`：signal-cashguard risk16/risk18。
+
 ## 2026-09-14 迭代：signal-quality 与 share12/88 仍未守住 2020（端点 2026-09-11）
 
 ### 上一轮候选与结果摘要

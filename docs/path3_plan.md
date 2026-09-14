@@ -1,5 +1,26 @@
 # Path 3 研究计划
 
+## 2026-09-15 迭代：低换手 exit99 仍破坏中窗（端点 2026-09-14）
+
+### 上一轮候选与结果摘要
+
+- 上轮 turnover-repair 已 `reject`。本轮 cap46/hold7/turn02/exit99 相对 cap52 robust 虽显著降换手，但 2020/2023 CAGR 下降 `9.47/10.08pp`、Sharpe 下降 `0.370/0.212`，判 `reject`。2026 CAGR `30.37%` 不足以覆盖中窗失稳；正式身份不变。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn02_exit99_risk12_weekly`；参照 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-14 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold7_turn02_exit99_risk12_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus 仍为 `weekly_exit_buffer`；停止 cap46/hold7/exit99 同形，改用 cap46/hold5/exit94 return-recovery 与 incumbent 对照。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-14 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `weekly_exit_buffer`：return-recovery-v7、cap52 incumbent；`turnover_reduction`：return-recovery-v6、v7。
+- `risk_and_cost`：cap54/risk16、cap54/risk18；cap46/hold7/exit99 停止扩参。
+
 ## 2026-09-14 迭代：turnover-repair 改善短窗但中窗失守（端点 2026-09-11）
 
 ### 上一轮候选与结果摘要
