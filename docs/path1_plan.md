@@ -1,5 +1,27 @@
 # Path 1 研究计划
 
+## 2026-09-16 迭代：长窗改善仍无法覆盖 2020 失稳（端点 2026-09-15）
+
+### 上一轮候选与结果摘要
+
+- 上轮 risk06 已 `reject`。本轮 risk18-reconfirm 相对 breadth robust 的 2020/2023 CAGR 下降 `5.02/7.05pp`，判 `reject`；追加的 aggr08/prom7 port-asym13 虽将 2017 CAGR 提高 `2.79pp`，但 2020 CAGR/Sharpe 下降 `13.36pp/0.306`，同样 `reject`。
+- `core_multifactor` 代码口径仍为 `64/64`；本轮因 Path2 blocking coverage 与 11 个新参数预算未新增该子段五窗确认。window winner/robust/tracked 均不变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom7__port_weekly_exposure_buffered_asym13`；参照 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`。
+- 复现命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-15 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom7__port_weekly_exposure_buffered_asym13,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`；记分卡：`results/research/a_share/research_iteration_scorecard_20260916.json`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus 仍为 `satellite_risk_cost`；进一步只确认 risk16 是否能降风险且不再破坏 2020/2023，不扩张已失败的 aggr08/prom7 port 形态。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-15 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`。
+
+### Focus 候选池
+
+- `satellite_risk_cost`：risk16-reconfirm、breadth-v20260907；`holding_shape`：share12/88、share15/85（只作已有对照）。
+- `core_multifactor_coverage`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk16_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk18_reconfirm`；下次有余额时必须正式五窗运行，不用 winner-only 替代。
+
 ## 2026-09-15 迭代：risk06 仍未修复中窗收益（端点 2026-09-14）
 
 ### 上一轮候选与结果摘要

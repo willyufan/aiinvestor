@@ -1,5 +1,25 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-16 迭代：signal-quality 守住中窗但 2026 仍为负（端点 2026-09-15）
+
+### 上一轮候选与结果摘要
+
+- 上轮 risk-control-v5 已 `reject`。本轮 signal-quality-v4 相对 capacity-v2 的 2020 CAGR/Sharpe 提高 `0.70pp/0.068`，2023 CAGR/Sharpe 下降 `0.88pp/0.093`，未命中硬护栏；但 2026 CAGR 仍为 `-4.33%`，判 `keep_watch`。正式身份不变。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-15 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`；记分卡：`results/research/a_share/research_iteration_scorecard_20260916.json`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus 为 `theme_risk_control`；下一步测 signal30 low-turn 与 capacity-v2，必须把 2026 修复为非负，且不牺牲 2020/2023。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-15 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### Focus 候选池
+
+- `theme_risk_control`：capacity-v2、signal-quality-v4；`low_turnover`：signal30/risk06/cap05、signal29/risk04/cap05。
+- `capacity_and_overlap`：capacity-v2、signal-quality-v4；risk-control-v5 已越过回撤停止线，不再同形扩展。
+
 ## 2026-09-15 迭代：risk-control-v5 再次越过回撤停止线（端点 2026-09-14）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,25 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-16 迭代：exit46 降换手与风险，短窗仍负（端点 2026-09-15）
+
+### 上一轮候选与结果摘要
+
+- 上轮 v38 已 `reject`。本轮 weekly-lowvol-exit46 相对 theme-fast 的 2020/2023 CAGR 仅下降 `2.91/2.13pp`，Sharpe 提高 `0.217/0.404`，换手降低约 `23.69/23.12x`；但 2026 CAGR 仍为 `-6.48%`，判 `keep_watch`。正式身份不变。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-15 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_weekly_lowvol_exit46_v20260907,hkconnect_path3_theme_fast_weekly`；记分卡：`results/research/a_share/research_iteration_scorecard_20260916.json`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus 为 `weekly_turnover_reduction`；下一步测 v37 turnover-balance，必须把 2026 修复为非负，同时保持 2023 CAGR 护栏。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-15 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_v37_turnover_balance,hkconnect_path3_theme_fast_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：v37-turnover-balance、weekly-lowvol-exit46；`weekly_defensive_overlay`：theme-fast-defensive、theme-fast-buffered。
+- `cost_stress`：exit46、v37；v38 同形已失败，不再扩展。
+
 ## 2026-09-15 迭代：v38 低换手仍未修复近窗（端点 2026-09-14）
 
 ### 上一轮候选与结果摘要

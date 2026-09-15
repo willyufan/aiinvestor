@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-09-16 迭代：cost-stress 大幅降换手但中窗失守（端点 2026-09-15）
+
+### 上一轮候选与结果摘要
+
+- 上轮 exit99 已 `reject`。本轮 cap42/hold7/turn02/exit98/risk10 将 2025/2026 CAGR 提高 `7.53/25.90pp`，且换手大降；但 2020/2023 CAGR 下降 `9.16/11.06pp`、Sharpe 下降 `0.339/0.325`，判 `reject`。正式身份不变。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-15 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly_cost_stress_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`；记分卡：`results/research/a_share/research_iteration_scorecard_20260916.json`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus 为 `risk_downshift`；只再检验 cap40/hold8/risk08 能否保留短窗风险改善同时恢复中窗收益。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-15 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `risk_downshift`：cap40/risk08、cap42/risk10；`turnover_reduction`：cap46/turn03、cap42/turn02；`weekly_exit_buffer`：cap52 incumbent、exit90-v3。
+- cap42 cost-stress 与 cap46/exit99 均已命中中窗护栏，不再同形扩参。
+
 ## 2026-09-15 迭代：低换手 exit99 仍破坏中窗（端点 2026-09-14）
 
 ### 上一轮候选与结果摘要

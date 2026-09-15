@@ -1,5 +1,26 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-16 迭代：40D 仍转负，60D 差 19 个交易日（端点 2026-09-15）
+
+### 上一轮候选与结果摘要
+
+- 已审计冻结篮子 `ai_datacenter_power_grid_202607_v0` 的 20D 等权/seed 收益为 `11.70%/11.67%`，40D 为 `-0.60%/-0.53%`，60D 只有 41 个可用交易日；与 Path4 capacity-v2 overlap `0/6`。
+- 持续性假设尚未获支持，继续 `keep_watch`；事件日、成分和来源保持冻结，不改 winner/robust/tracked，暂不 archive。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260916.json`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus 为 `event_backtest_entry`；继续等待 60D 成熟。若 60D 仍非正，则 archive 该 active basket，不用 20D 爆发延长生命周期。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_next_mature.json`。
+
+### Focus 候选池
+
+- `event_backtest_entry`：power-grid 20/40/60D、5/10/20D；`frozen_candidate_audit`：power-grid 六股冻结篮子、四只 coverage-watch。
+- `path4_comparison`：capacity-v2、signal-quality-v4；`event_basket_registry`：power-grid active、AI 眼镜 archive 历史。
+
 ## 2026-09-15 迭代：电力篮子 40D 首次成熟后回落（端点 2026-09-14）
 
 ### 上一轮候选与结果摘要

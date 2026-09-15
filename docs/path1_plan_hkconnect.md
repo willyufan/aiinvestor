@@ -1,5 +1,26 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-09-16 迭代：monthly soft-exit42 改善中窗但越过回撤线（端点 2026-09-15）
+
+### 上一轮候选与结果摘要
+
+- 上轮 soft-exit38 留观。本轮 monthly soft-exit42 相对 biweekly-lowvol 的 2020/2023 CAGR 提高 `8.60/8.69pp`，但 2023 MaxDD 恶化 `6.43pp`并命中护栏，2026 CAGR 为 `-8.28%`，判 `reject`。正式身份不变。
+- 2026-09-14 证券代码切换通过别名兼容，静态池与行情口径已统一到 2026-09-15。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-15 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit42,hkconnect_path1_biweekly_lowvol`；记分卡：`results/research/a_share/research_iteration_scorecard_20260916.json`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus 为 `monthly_weekly_overlay`；停止 monthly exit42 同形，回到双周 soft-cost-exit34 确认能否改善短窗且压住回撤。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-15 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit34,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：monthly soft-exit38（留观）、biweekly-lowvol；monthly soft-exit42 不再同形扩展。
+- `biweekly_buffer`：soft-cost-exit34、exit36；`risk_overlay_cost`：v46-risk-overlay-cost-guard、v49-ytd-repair。
+
 ## 2026-09-15 迭代：月频叠加中窗改善、年内仍负（端点 2026-09-14）
 
 ### 上一轮候选与结果摘要
