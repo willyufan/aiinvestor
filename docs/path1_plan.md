@@ -1,5 +1,27 @@
 # Path 1 研究计划
 
+## 2026-09-17 迭代：risk16 仍未守住中窗收益（端点 2026-09-16）
+
+### 上一轮候选与结果摘要
+
+- 上轮 risk18 已 `reject`。本轮 `risk16_reconfirm` 相对 breadth robust 的 2020/2023 CAGR 下降 `5.05/6.92pp`，命中稳定性护栏；2025 仅提高 `1.05pp`，判 `reject`。window winner/robust/tracked 均不变，无 evict/archive。
+- `core_multifactor` 代码口径与 guard 覆盖仍为 `64/64`；Path2 blocking coverage 已先消耗首批 20 个四窗预算，本轮未新增 core_multifactor 确认，不能用 winner-only clear signal 代替正式回测。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk16_reconfirm`；参照 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`；完整 scorecard：`results/research/a_share/research_iteration_scorecard_20260917.json`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus 为 `satellite_risk_cost`；risk16/risk18 已连续破坏中窗，下一轮只确认 risk20-reconfirm 与 breadth 的边界，不再继续下调 risk。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`。
+
+### Focus 候选池
+
+- `satellite_risk_cost`：risk20-reconfirm、breadth-v20260907；`holding_shape`：share12/88、share15/85（只作已有对照）。
+- `core_multifactor_coverage`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk16_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk18_reconfirm`；下轮若 coverage 预算释放，必须正式五窗运行。
+
 ## 2026-09-16 迭代：长窗改善仍无法覆盖 2020 失稳（端点 2026-09-15）
 
 ### 上一轮候选与结果摘要

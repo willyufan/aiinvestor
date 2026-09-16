@@ -1,5 +1,29 @@
 # 沪港通策略空间扩展计划
 
+## 2026-09-17 迭代：Path4/5/7 留观，Path6 月频确认晋级（端点 2026-09-16）
+
+### 上一轮候选与结果摘要
+
+- Path4 v50 相对 v47 的 2020/2023 CAGR 提高 `5.16/4.51pp`，但 2026 CAGR `-10.27%`、换手增加，判 `keep_watch`。Path5 v35 无中窗护栏且换手下降，但 2026 CAGR `-8.82%`，判 `keep_watch`；既有 frozen-shape 仍只是弱观察位，不是强稳定 winner。
+- Path6 monthly-smoke 相对 lowvol robust 的 2020/2023 CAGR 提高 `4.10/3.69pp`，Sharpe、MaxDD、换手同步改善且 2026 为正，判 `promote`，并接替 2025 window winner；robust 仍为 lowvol。Path7 risk15 五窗为正且无护栏，但收益略低于 v7，判 `keep_watch`。无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 实跑 `hkconnect_path4_quality_momentum_monthly_v50_return_restore`、`hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair`、`hkconnect_path6_lowvol_liquid_biweekly_smoke`、`hkconnect_path7_barbell_biweekly_risk15_caution50_v20260907`，并分别与 v47、frozen-shape、monthly-smoke、v7 同窗比较。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-16 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_v50_return_restore,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path6_large_liquid_core_monthly_smoke,hkconnect_path7_barbell_biweekly_risk15_caution50_v20260907,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。
+
+### 下一轮 focus 与第一条命令
+
+- Path4 `quality_momentum`：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-16 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_v49_capacity_guard,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`。
+- Path5 `pullback_definition`：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-16 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907`。
+- Path6 `large_liquid_core`：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-16 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_monthly_lowturn_v4,hkconnect_path6_large_liquid_core_monthly_smoke`。
+- Path7 `barbell_sleeve_structure`：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-16 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v3,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。
+
+### Focus 候选池
+
+- Path4 `quality_momentum`：v49-capacity-guard、v47-totalmv-quality；Path5 `pullback_definition`：v34-definition-rewrite、frozen-shape。
+- Path6 `large_liquid_core`：monthly-lowturn-v4、monthly-smoke；Path7 `barbell_sleeve_structure`：core-sleeve-v3、defensive-core-sleeve-v7。
+
 ## 2026-09-16 迭代：Path4 中窗改善，Path5-7 未通过（端点 2026-09-15）
 
 ### 上一轮候选与结果摘要

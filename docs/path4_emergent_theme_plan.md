@@ -1,5 +1,26 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-17 迭代：cap06 容量放宽越过回撤线（端点 2026-09-16）
+
+### 上一轮候选与结果摘要
+
+- 上轮 signal-quality-v4 为 `keep_watch`。本轮 cap06-lowturn 相对 capacity-v2 的 2020/2023 MaxDD 分别恶化 `8.47/6.14pp`，命中双窗口护栏；2026 CAGR 仍为 `-7.95%`，判 `reject`。正式 winner/robust/tracked 不变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap06_exit66_lowturn`；参照 `core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk06_cap06_exit66_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus 为 `theme_capacity_cost`；cap06 已越过回撤线，下一轮只测试 risk04/cap05 的温和容量边界，硬条件是 2026 转正且中窗 MaxDD 不恶化 5pp。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### Focus 候选池
+
+- `theme_capacity_cost`：risk04/cap05/exit70-lowturn、capacity-v2；`theme_risk_control`：capacity-v2、signal-quality-v4。
+- `low_turnover`：signal30/risk06/cap05、signal29/risk04/cap05；cap06 不再同形扩展。
+
 ## 2026-09-16 迭代：signal-quality 守住中窗但 2026 仍为负（端点 2026-09-15）
 
 ### 上一轮候选与结果摘要

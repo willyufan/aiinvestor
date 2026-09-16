@@ -1,5 +1,11 @@
 # 跟踪赢家历史
 
+## 2026-09-17 自动迭代摘要
+
+- HK Path3 `hkconnect_path3_theme_fast_weekly_buffered` 经同端点五窗复核后接替 2020/2023/2026 window winner 与 robust；相对原 theme-fast 五窗 CAGR 均提高，但继续标记高换手与长窗高回撤风险。
+- HK Path6 `hkconnect_path6_large_liquid_core_monthly_smoke` 接替 2025 window winner；相对 lowvol robust 的 2020/2023 CAGR、Sharpe、MaxDD 与换手同步改善，2026 仍为正。
+- A股正式身份未变化；Path2 因 `783/832` coverage 缺口继续冻结正式晋级。完整判定见 `results/research/a_share/research_iteration_scorecard_20260917.json`。
+
 ## 2026-09-07 策略研究进展
 
 - Path1 新候选 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907` 通过晋级流程，替换 2017 window winner 与 robust candidate。相对原 risk20，2020/2023 CAGR 提高 3.28/3.44 个百分点；2020 MaxDD 恶化 1.56 个百分点，2023 改善 2.19 个百分点，五窗保持正收益。

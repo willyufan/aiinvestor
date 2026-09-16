@@ -1,5 +1,26 @@
 # Path 3 研究计划
 
+## 2026-09-17 迭代：return-recovery 修复短窗但破坏 2023（端点 2026-09-16）
+
+### 上一轮候选与结果摘要
+
+- 上轮 cost-stress 已 `reject`。本轮 return-recovery-v7 相对 cap52 robust 的 2026 CAGR 提高 `30.65pp`，且 2017/2020 收益改善；但 2023 CAGR 下降 `6.96pp`，命中稳定性护栏，判 `reject`。正式身份不变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly`；参照 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus 为 `turnover_reduction`；v7 已触发 2023 护栏，下一轮改测 v6 的温和退出/持有平衡，要求 2023 CAGR 不再下降超过 3pp。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：return-recovery-v6、cap52 incumbent；`weekly_exit_buffer`：exit-buffer-v3、cap52 incumbent。
+- `risk_downshift`：cap40/risk08、cap42/risk10；v7 与 cap42 cost-stress 已命中中窗护栏，不再同形扩参。
+
 ## 2026-09-16 迭代：cost-stress 大幅降换手但中窗失守（端点 2026-09-15）
 
 ### 上一轮候选与结果摘要

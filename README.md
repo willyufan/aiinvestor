@@ -1,5 +1,12 @@
 # aiinvestor
 
+## 2026-09-17 策略研究进展
+
+- 统一端点 `2026-09-16` 完成 A股 3 条、HK Path1-7 各 1 条新增/确认回测，并复核 1 个 Path5 事件篮子；本轮 scorecard 判定 `promote 2 / keep_watch 5 / reject 5`。
+- HK Path3 既有 `hkconnect_path3_theme_fast_weekly_buffered` 五窗收益均高于原 theme-fast，接替 2020/2023/2026 window winner 与 robust；仍需关注约 `31-37x` 年换手和长窗高回撤。HK Path6 `monthly_smoke` 接替 2025 window winner，robust 仍为 lowvol。
+- A股 Path1 risk16、Path3 return-recovery-v7、Path4 cap06-lowturn 均触发中窗收益或回撤护栏，未改变正式 winner/robust。Path5 power-grid 篮子 20D 为正、40D 约 `-0.6%`，60D 仍未成熟。
+- Path2 coverage 从缺 `803/832` 降至 `783/832`；partial-universe 排名仅保留在 scorecard 的 provisional 诊断，正式 weighted/history/core-active 未被改写。完整卡片见 [本轮 scorecard](results/research/a_share/research_iteration_scorecard_20260917.json)。
+
 ## 2026-09-07 策略研究进展
 
 - Path1 新候选 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907` 通过晋级流程，替换 2017 window winner 与 robust candidate。相对原 risk20，2020/2023 CAGR 提高 3.28/3.44 个百分点；2020 MaxDD 恶化 1.56 个百分点，2023 改善 2.19 个百分点，五窗保持正收益。
