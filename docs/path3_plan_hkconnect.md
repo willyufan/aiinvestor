@@ -15,13 +15,13 @@
 
 ### 下一轮 focus 与第一条命令
 
-- `weekly_turnover_reduction` 以 theme-fast winner 与 defensive robust-observation 双参照，要求2026为正、2023 CAGR不下降超过3pp且继续降低换手。
-- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-16 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover_guard_v2,hkconnect_path3_theme_fast_weekly,hkconnect_path3_theme_fast_weekly_defensive`。
+- `weekly_turnover_reduction` 以已注册 exit46、theme-fast winner 与 defensive robust-observation 三方确认，要求2026为正且2023不触发护栏。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-16 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_weekly_lowvol_exit46_v20260907,hkconnect_path3_theme_fast_weekly,hkconnect_path3_theme_fast_weekly_defensive`。
 
 ### Focus 候选池
 
-- `weekly_turnover_reduction`：defensive-turnover-guard-v2、defensive；`weekly_defensive_overlay`：defensive、buffered。
-- `cost_stress`：exit46、defensive-turnover-guard-v2；`weekly_exit_buffer`：exit46、buffered。exit46 保留 active/watch。
+- `weekly_turnover_reduction`：exit46、defensive；`weekly_defensive_overlay`：defensive、buffered。
+- `cost_stress`：exit46、defensive；`weekly_exit_buffer`：exit46、buffered。均已注册，exit46 保留 active/watch。
 
 ## 2026-09-17 迭代：v37 降换手但收益失守，buffered 完成 artifact 晋级（端点 2026-09-16）
 

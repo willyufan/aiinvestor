@@ -13,13 +13,13 @@
 
 ### 下一轮 focus 与第一条命令
 
-- `turnover_reduction` 只测试较温和的 cap48/risk14，要求 2020/2023 CAGR 均不降超过3pp。
-- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap48_hold6_turn04_exit97_risk14_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+- `turnover_reduction` 下一步先在新交易端点复核已注册 v6 与 cap52，要求 2020/2023 CAGR 均不降超过3pp；较温和参数须先注册后再进入命令。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
 
 ### Focus 候选池
 
-- `turnover_reduction`：cap48-risk14、cap52-risk16；`weekly_exit_buffer`：exit97、exit98。
-- `risk_downshift`：risk14、risk16；`cost_stress`：cap48-cost-guard、cap52-cost-guard。v6 停止同形扩参。
+- `turnover_reduction`：v6-risk12、cap52-risk16；`weekly_exit_buffer`：v6-exit96、cap52-exit98。
+- `risk_downshift`：v6-risk12、cap52-risk16；`cost_stress`：v6-cost-guard、cap52-cost-guard。两条均已注册，v6 停止同形扩参。
 
 ## 2026-09-17 迭代：return-recovery 修复短窗但破坏 2023（端点 2026-09-16）
 

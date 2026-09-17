@@ -13,12 +13,12 @@
 
 ### 下一轮 focus 与第一条命令
 
-- `theme_capacity_cost` 保持 cap04，不再放宽 cap05；只测试更缓出场能否修复2026且不提高换手。
-- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit74_capacity_cost_repair,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- `theme_capacity_cost` 不再放宽 cap05；下一步先在新交易端点复核已注册 cap05 与 capacity-v2，新的缓出场形态须先注册。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
 
 ### Focus 候选池
 
-- `theme_capacity_cost`：cap04-exit74-repair、capacity-v2；`theme_signal_quality`：signal29/leader78、signal31/leader76。
+- `theme_capacity_cost`：cap05-exit70、capacity-v2；`theme_signal_quality`：两条候选均使用已注册 signal29/leader78，并以 cap05/cap04 区分。
 - `theme_risk_control`：risk04、risk03；`emergent_theme_coverage`：coverage-penalty、coverage-neutral。均保持无人工主题标签。
 
 ## 2026-09-17 迭代：cap06 容量放宽越过回撤线（端点 2026-09-16）
