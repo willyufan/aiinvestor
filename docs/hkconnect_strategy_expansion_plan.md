@@ -1,5 +1,25 @@
 # 沪港通策略空间扩展计划
 
+## 2026-09-18 迭代：Path6 再确认，其余三路留观（端点 2026-09-17）
+
+### 上一轮候选与结果摘要
+
+- Path4 v49：风险与换手改善但五窗 CAGR 略低、2026 `-2.87%`，`keep_watch`。Path5 v34：2020/2023 小幅改善且降换手，但回撤变差、2026 `-9.43%`，`keep_watch`。
+- Path6 monthly-smoke：2020/2023 CAGR 提高 `4.12/3.73pp`，Sharpe、回撤、换手同步改善且五窗为正，`promote`（既有资格再确认；本轮身份不变）。Path7 risk15 五窗为正但收益全面低 `1.31–1.95pp`，`keep_watch`。
+
+### 本轮候选 ID 与命令
+
+- 统一命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-17 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_v49_capacity_guard,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_pullback_continuation_monthly_quality_retest_v34_pullback_definition_rewrite,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_large_liquid_core_monthly_smoke,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_barbell_biweekly_risk15_caution50_v20260907,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。
+
+### 下一轮 focus 与第一条命令
+
+- Path4 `quality_momentum`、Path5 `pullback_definition`、Path6 `large_liquid_core`、Path7 `barbell_sleeve_structure` 均继续；优先复核唯一通过的 Path6。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-17 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_monthly_smoke,hkconnect_path6_lowvol_liquid_biweekly_smoke`。
+
+### Focus 候选池
+
+- Path4：v49/v47；Path5：v34/frozen-shape；Path6：monthly-smoke/lowvol-biweekly；Path7：risk15/v7。四组均为已注册策略。
+
 ## 2026-09-17 手动追加：Path4/5 留观，Path6/7 淘汰（端点 2026-09-16）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,24 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-09-18 迭代：overlay 收益增量未通过回撤护栏（端点 2026-09-17）
+
+### 上一轮候选与结果摘要
+
+- soft-exit38 相对 biweekly-lowvol 的 2020/2023 CAGR 提高 `8.32/8.96pp`，但 2023 MaxDD 恶化 `6.43pp`、2026 CAGR `-8.10%`且换手上升，判 `reject`；正式身份不变。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-17 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit38,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 与第一条命令
+
+- 按 guard 轮换到 `biweekly_buffer`；先以 biweekly-lowvol 为成本基线，soft-exit38 仅作失败参照。
+- 第一条命令同上，端点随下一交易日推进。
+
+### Focus 候选池
+
+- `biweekly_buffer`：biweekly-lowvol、soft-exit38；新候选必须同时约束 2023 MaxDD 和 2026 收益。
+
 ## 2026-09-17 手动追加：月频周度 overlay 在2023回撤失守（端点 2026-09-16）
 
 ### 上一轮候选与结果摘要

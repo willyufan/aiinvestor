@@ -1,5 +1,25 @@
 # Path 3 研究计划
 
+## 2026-09-18 迭代：低换手 v6 再次被中窗否决（端点 2026-09-17）
+
+### 上一轮候选与结果摘要
+
+- v6 年换手显著下降且 2025/2026 改善，但相对 cap52 的 2020/2023 CAGR 下降 `5.92/7.08pp`，命中护栏，判 `reject`；正式身份不变。
+
+### 本轮候选 ID 与命令
+
+- 候选 `...cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly`；参照 `...cap52_hold6_turn04_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+
+### 下一轮 focus 与第一条命令
+
+- 保持 `turnover_reduction`，但停止 v6 同形扩参；下一轮只做新端点确认，若中窗仍破坏则退出该支路。
+- 第一条命令同上，端点随下一交易日推进。
+
+### Focus 候选池
+
+- `turnover_reduction`：v6-risk12、cap52-risk16；新候选必须先注册并明确改善 2020/2023 的机制。
+
 ## 2026-09-17 手动追加：v6 短窗反弹不足以覆盖中窗失稳（端点 2026-09-16）
 
 ### 上一轮候选与结果摘要

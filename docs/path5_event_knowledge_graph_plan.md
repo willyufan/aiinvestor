@@ -1,5 +1,24 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-18 迭代：数据中心电力篮子 40D 回落（端点 2026-09-17）
+
+### 上一轮候选与结果摘要
+
+- `ai_datacenter_power_grid_202607_v0` 的 20D 等权/seed 为 `+11.70%/+11.67%`，40D 为 `-0.60%/-0.53%`，60D 尚未成熟；与 Path4 capacity-v2 持仓重叠 `0/6`，判 `keep_watch`。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --basket-id ai_datacenter_power_grid_202607_v0 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260918.json`。
+
+### 下一轮 focus 与第一条命令
+
+- 按 `path4_comparison` 等待 60D 成熟；在成熟前不新增同主题篮子。
+- 第一条命令同上，端点推进后重跑并保留独立输出文件。
+
+### Focus 候选池
+
+- `path4_comparison`：数据中心电力/储能篮子对 capacity-v2；仅在 60D 成熟后决定归档或继续观察。
+
 ## 2026-09-17 手动追加：20日强、40日回吐，60日仍未成熟（端点 2026-09-16）
 
 ### 上一轮候选与结果摘要

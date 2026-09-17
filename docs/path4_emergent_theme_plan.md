@@ -1,5 +1,25 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-18 迭代：cap05 容量放宽增加成本与回撤（端点 2026-09-17）
+
+### 上一轮候选与结果摘要
+
+- cap05 虽令 2025 CAGR 提高 `2.34pp`，但五窗 MaxDD 恶化约 `3.4–4.1pp`、换手增加 `0.44–0.78x`，且 2026 CAGR `-6.44%`，判 `reject`；正式身份不变。
+
+### 本轮候选 ID 与命令
+
+- 候选 `...prom22...signal29_leader78...risk04_cap05_exit70_lowturn`；参照 capacity-v2 `...prom23...risk04_cap04_exit72_capacity_v2`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### 下一轮 focus 与第一条命令
+
+- 按连续十轮停滞轮换到 `theme_capacity_cost`；先复核 cap04 capacity-v2 与当前 risk-control-v5，不再放宽 cap05。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`。
+
+### Focus 候选池
+
+- `theme_capacity_cost`：capacity-v2、risk-control-v5；cap05-lowturn 已 reject，停止同形扩参。
+
 ## 2026-09-17 手动追加：cap05/exit70 的短窗增益不抵风险成本（端点 2026-09-16）
 
 ### 上一轮候选与结果摘要

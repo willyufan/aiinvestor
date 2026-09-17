@@ -1,5 +1,24 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-18 迭代：v27 中窗有效、近窗失守（端点 2026-09-17）
+
+### 上一轮候选与结果摘要
+
+- v27 相对 theme-fast-monthly 的 2020/2023 CAGR 提高 `7.06/9.92pp`，回撤与换手改善；但 2025 下降 `12.32pp`、2026 CAGR `-12.24%`，判 `keep_watch`，正式身份不变。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-17 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard,hkconnect_path2_theme_fast_monthly`。
+
+### 下一轮 focus 与第一条命令
+
+- 按 guard 轮换到 `biweekly_breakout`；现有两条仅作基线，先注册能修复 2025/2026 的双周候选再回测。
+- 注册前第一条确认命令同上，端点随下一交易日推进。
+
+### Focus 候选池
+
+- `biweekly_breakout`：待注册近窗修复形态；基线为 v27-cost-guard、theme-fast-monthly。
+
 ## 2026-09-17 手动追加：v27 中窗与成本改善，但2026转负（端点 2026-09-16）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,25 @@
 # Path 1 研究计划
 
+## 2026-09-18 迭代：signal-cashguard risk16 未形成增量（端点 2026-09-17）
+
+### 上一轮候选与结果摘要
+
+- `core_multifactor ... risk16_reconfirm` 相对 risk18 的 MaxDD 五窗近乎相同，2020/2023 CAGR 反降 `0.39/0.05pp`，判 `reject`；winner/robust/tracked 不变。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk16_reconfirm`；参照同族 `risk18_reconfirm`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk18_reconfirm`。
+
+### 下一轮 focus 与第一条命令
+
+- 连续九轮身份未变，按 guard 从 `core_multifactor` 轮换到 `holding_shape`，只复核已注册 share12/88 与 share15/85 形态。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-17 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__share_12_88_hold_4_6__port_weekly_exposure_buffered_asym13,core_explore_80_20_total_mv_winner_core__share_15_85_hold_4_6__sat_three_stage_buffered_asym13`。
+
+### Focus 候选池
+
+- `holding_shape`：share12/88、share15/85；`weekly_exposure_path`：buffered-asym13。risk16/18 signal-cashguard 同形停止扩参。
+
 ## 2026-09-17 手动追加：risk20 非 breadth 形态仍破坏中窗（端点 2026-09-16）
 
 ### 上一轮候选与结果摘要

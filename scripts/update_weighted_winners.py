@@ -33,6 +33,7 @@ BACKTEST_SCRIPT_PATH = ROOT / "backtest_marketcap_etf.py"
 TRACKED_HISTORY_JSON_PATH = research_file("tracked_winner_history.json")
 TRACKED_HISTORY_MD_PATH = ROOT / "HISTORY.md"
 CORE_ACTIVE_REGISTRY_JSON_PATH = research_file("core_active_registry.json")
+RESEARCH_ITERATION_REPORT_PATH = research_file("research_iteration_report.json")
 TRADE_CALENDAR_PATH = ROOT / "data_cache" / "trade_calendar.csv"
 CORE_ACTIVE_MAX_SIZE = 128
 CORE_ACTIVE_STALE_TRADING_DAYS = 30
@@ -112,6 +113,33 @@ ADJACENT_VALIDATION_ABSOLUTE_FLOOR = 0.0
 TARGET_WINDOW_MIN_CAGR = ADJACENT_VALIDATION_ABSOLUTE_FLOOR
 TARGET_WINDOW_MIN_SHARPE = 0.0
 TARGET_WINDOW_MAX_DRAWDOWN_FLOOR = -0.50
+
+
+def coverage_scope_is_blocked(
+    scope_id: str,
+    report_path: Path = RESEARCH_ITERATION_REPORT_PATH,
+) -> bool:
+    """Return True only when the latest guard explicitly blocks this scope."""
+
+    if not report_path.exists():
+        return False
+    try:
+        payload = json.loads(report_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    coverage_gate = payload.get("coverage_gate")
+    if not isinstance(coverage_gate, dict) or coverage_gate.get("status") != "block":
+        return False
+    scopes = coverage_gate.get("scopes")
+    if not isinstance(scopes, list):
+        return False
+    return any(
+        isinstance(scope, dict)
+        and scope.get("scope_id") == scope_id
+        and scope.get("blocking") is True
+        and scope.get("status") == "block"
+        for scope in scopes
+    )
 
 # Cap on the incumbent CAGR used for the threshold computation, keyed by validation
 # window. Without this cap, an outlier incumbent (e.g., a 2025 winner with 181% CAGR)
@@ -2626,6 +2654,12 @@ def main() -> None:
     path4_latest = _filter_ids_to_current_as_of(latest_all, path4_allowed_ids)
     path1_available = not path1_latest.empty
     path2_available = not path2_latest.empty
+    if path2_available and coverage_scope_is_blocked("ashare_path2_candidate_universe"):
+        path2_available = False
+        print(
+            "[path2] research iteration coverage gate is blocking; "
+            "preserving existing Path 2 winners and robust candidate."
+        )
     path4_available = path4_available and not path4_latest.empty
     if not path1_available:
         print("[path1] no active winner-core rows in comparison CSV; preserving existing Path 1 winners.")
@@ -3068,13 +3102,17 @@ def main() -> None:
             if path1_available
             else existing_path_leaderboards("path1")
         ),
-        "path2": _window_leaderboards_for(
-            path_key="path2",
-            latest_for_path=path2_latest,
-            by_id_for_path=path2_by_id,
-            path_winners_map=path2_winners,
-            raw_map=path2_raw_winners,
-            allowed_base_ids=path2_allowed_ids,
+        "path2": (
+            _window_leaderboards_for(
+                path_key="path2",
+                latest_for_path=path2_latest,
+                by_id_for_path=path2_by_id,
+                path_winners_map=path2_winners,
+                raw_map=path2_raw_winners,
+                allowed_base_ids=path2_allowed_ids,
+            )
+            if path2_available
+            else existing_path_leaderboards("path2")
         ),
         "path3": (
             _window_leaderboards_for(
@@ -3107,7 +3145,11 @@ def main() -> None:
             if path1_available
             else existing_robust_leaderboard("path1")
         ),
-        "path2": _robust_leaderboard_for(path2_latest, path2_allowed_ids, path2_id, path_key="path2"),
+        "path2": (
+            _robust_leaderboard_for(path2_latest, path2_allowed_ids, path2_id, path_key="path2")
+            if path2_available
+            else existing_robust_leaderboard("path2")
+        ),
         "path3": (
             _robust_leaderboard_for(path3_latest, path3_allowed_ids, path3_id, path_key="path3")
             if path3_available
