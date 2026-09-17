@@ -1,5 +1,25 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-17 手动追加：v27 中窗与成本改善，但2026转负（端点 2026-09-16）
+
+### 上一轮候选与结果摘要
+
+- `high_return_monthly_quality_liquidity_v27_cost_guard` 相对 theme-fast-monthly 的 2020/2023 CAGR 提高 `7.08/9.95pp`，MaxDD 与年换手同步改善；但 2025 CAGR 下降 `12.31pp`、2026 CAGR `-11.95%`，判 `keep_watch`。正式身份不变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-16 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard,hkconnect_path2_theme_fast_monthly`。
+
+### 下一轮 focus 与第一条命令
+
+- `high_return_monthly` 只修复 v27 的近窗退出；观察条件为2026转正、2025 CAGR缺口收窄到3pp以内。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-16 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v28_ytd_exit_repair,hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard`。
+
+### Focus 候选池
+
+- `high_return_monthly`：v28-ytd-exit-repair、v27-cost-guard；`quality_liquidity`：v27、theme-fast-monthly。
+- `cost_guard`：v27、monthly-lowturn；`short_window_repair`：v28-ytd-exit-repair、theme-fast-monthly。
+
 ## 2026-09-17 迭代：v30 中窗显著改善，2025/2026 仍失守（端点 2026-09-16）
 
 ### 上一轮候选与结果摘要

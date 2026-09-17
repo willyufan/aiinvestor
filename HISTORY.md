@@ -1,5 +1,11 @@
 # 跟踪赢家历史
 
+## 2026-09-17 手动追加迭代
+
+- HK Path3 `hkconnect_path3_theme_fast_weekly` 经同端点五窗确认后接替 2020/2023 window winner；2026 与 buffered 完全平票，已冻结原身份。
+- `hkconnect_path3_theme_fast_weekly_defensive` 进入 robust 观察位；它只提供相对防守改善，最差回撤约 `-51.3%`、年换手约 `31x`，不是强稳定 winner。
+- A股正式身份未变化；Path2 coverage 由缺 `783/832` 降至 `763/832`，仍禁止 promote。完整判定见 `results/research/a_share/research_iteration_scorecard_20260917_manual.json`。
+
 ## 2026-09-17 自动迭代摘要
 
 - HK Path3 `hkconnect_path3_theme_fast_weekly_buffered` 经同端点五窗复核后接替 2020/2023/2026 window winner 与 robust；相对原 theme-fast 五窗 CAGR 均提高，但继续标记高换手与长窗高回撤风险。

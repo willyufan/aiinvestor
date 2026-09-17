@@ -1,5 +1,11 @@
 # aiinvestor
 
+## 2026-09-17 手动追加迭代
+
+- 同一数据端点继续补齐 Path2 coverage 20 条，缺口由 `783/832` 降至 `763/832`；仍为 blocker，partial-universe 正式身份保持冻结。
+- 13 个新增/确认动作判定为 `promote 1 / keep_watch 5 / robust_observation 1 / reject 6`。HK Path3 `theme_fast_weekly` 接替 2020/2023 window winner；`defensive` 进入 robust 观察位，但因最差回撤约 `-51.3%`、年换手约 `31x`，不是强稳定 winner。
+- A股 Path1/3/4 新确认均未晋级；Path5 事件篮子继续 `keep_watch`。复用同日 kb-web 快照的原生 Path2 pilot 覆盖为0，本手动轮未新增 MCP 调用、未消耗额度。详见 [手动 scorecard](results/research/a_share/research_iteration_scorecard_20260917_manual.json)。
+
 ## 2026-09-17 策略研究进展
 
 - 统一端点 `2026-09-16` 完成 A股 3 条、HK Path1-7 各 1 条新增/确认回测，并复核 1 个 Path5 事件篮子；本轮 scorecard 判定 `promote 2 / keep_watch 5 / reject 5`。

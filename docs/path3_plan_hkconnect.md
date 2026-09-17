@@ -1,5 +1,28 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-17 手动追加：theme-fast 中窗晋级，defensive 进入观察位（端点 2026-09-16）
+
+### 上一轮候选与结果摘要
+
+- exit46 相对 buffered 的年换手下降约 `23x`，2020/2023 未命中护栏，但 2025 CAGR 下降 `18.83pp`、2026 CAGR `-6.17%`，判 `keep_watch`；artifact 的2017单窗机械换位已冻结。
+- 显式复跑后，`theme_fast_weekly_defensive` 相对 buffered 没有收益增量，但 2017 最差回撤略改善、2020/2023 换手约降 `1.36/0.80x`；artifact 将其推入 robust，判 `robust_observation`。该路径最差回撤仍约 `-51.3%`、年换手约 `31x`，进入观察位，不是强稳定 winner。
+- `theme_fast_weekly` 相对 buffered 的 2020/2023 CAGR 提高约 `0.50/0.99pp`，风险与换手近似且无护栏，判 `promote` 并接替这两个窗口；2017增量不足、2026完全平票，均冻结原身份。
+
+### 本轮候选 ID 与命令
+
+- exit46：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-16 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_weekly_lowvol_exit46_v20260907,hkconnect_path3_theme_fast_weekly_buffered`。
+- robust 观察确认：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-16 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive,hkconnect_path3_theme_fast_weekly_buffered`。中窗晋级确认：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-16 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly`。
+
+### 下一轮 focus 与第一条命令
+
+- `weekly_turnover_reduction` 以 theme-fast winner 与 defensive robust-observation 双参照，要求2026为正、2023 CAGR不下降超过3pp且继续降低换手。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-16 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_defensive_turnover_guard_v2,hkconnect_path3_theme_fast_weekly,hkconnect_path3_theme_fast_weekly_defensive`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：defensive-turnover-guard-v2、defensive；`weekly_defensive_overlay`：defensive、buffered。
+- `cost_stress`：exit46、defensive-turnover-guard-v2；`weekly_exit_buffer`：exit46、buffered。exit46 保留 active/watch。
+
 ## 2026-09-17 迭代：v37 降换手但收益失守，buffered 完成 artifact 晋级（端点 2026-09-16）
 
 ### 上一轮候选与结果摘要

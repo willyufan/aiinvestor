@@ -1,5 +1,26 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-17 手动追加：cap05/exit70 的短窗增益不抵风险成本（端点 2026-09-16）
+
+### 上一轮候选与结果摘要
+
+- cap05/exit70 相对 capacity-v2 的 2025 CAGR 提高 `2.35pp`，但五窗 MaxDD 全面恶化、换手增加约 `0.44-0.79x`，2026 CAGR 降至 `-6.15%`，判 `reject`。Path4 `63/63` 全覆盖；capacity-v2 仍只是弱 `robust_observation`，不是强稳定 winner。正式身份不变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn`；参照 `core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### 下一轮 focus 与第一条命令
+
+- `theme_capacity_cost` 保持 cap04，不再放宽 cap05；只测试更缓出场能否修复2026且不提高换手。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit74_capacity_cost_repair,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### Focus 候选池
+
+- `theme_capacity_cost`：cap04-exit74-repair、capacity-v2；`theme_signal_quality`：signal29/leader78、signal31/leader76。
+- `theme_risk_control`：risk04、risk03；`emergent_theme_coverage`：coverage-penalty、coverage-neutral。均保持无人工主题标签。
+
 ## 2026-09-17 迭代：cap06 容量放宽越过回撤线（端点 2026-09-16）
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,26 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-17 手动追加：20日强、40日回吐，60日仍未成熟（端点 2026-09-16）
+
+### 上一轮候选与结果摘要
+
+- 已审计冻结篮子 `ai_datacenter_power_grid_202607_v0` 的20日等权/seed收益为 `+11.70%/+11.67%`，40日为 `-0.60%/-0.53%`，60日仅42个交易日；与 Path4 capacity-v2 重叠 `0%`。独立性成立但持续性未确认，判 `keep_watch`，不进入 Path1-4 winner 体系。
+
+### 本轮候选 ID 与命令
+
+- 审计状态 `approved/source_audited`；horizon `20/40/60`；Path4 参照 `core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260917_manual.json`。
+
+### 下一轮 focus 与第一条命令
+
+- `event_backtest_entry` 等满60个交易日后复跑同一冻结篮子；成熟前不新增同主题篮子、不 promote。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_next_mature.json`。
+
+### Focus 候选池
+
+- `event_backtest_entry`：同篮子20/40/60复核、5/10/20诊断；`path4_comparison`：capacity-v2 overlap、current winner overlap。
+- `frozen_candidate_audit`：6票来源复核、权重审计；`event_basket_registry`：当前 active basket、审计候选备用篮子。pending audit 为0。
+
 ## 2026-09-17 迭代：60D 仍未成熟，40D 持续为负（端点 2026-09-16）
 
 ### 上一轮候选与结果摘要

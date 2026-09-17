@@ -1,5 +1,26 @@
 # Path 3 研究计划
 
+## 2026-09-17 手动追加：v6 短窗反弹不足以覆盖中窗失稳（端点 2026-09-16）
+
+### 上一轮候选与结果摘要
+
+- `weekly_return_recovery_v6_weekly` 相对 cap52 robust 的 2020/2023 CAGR 下降 `5.94/7.34pp`，命中护栏，判 `reject`；虽 2025/2026 CAGR 提高 `12.18/41.04pp`且风险换手改善，也不能用短窗爆发覆盖中窗破坏。正式身份不变，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 候选 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly`；参照 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+- 命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+
+### 下一轮 focus 与第一条命令
+
+- `turnover_reduction` 只测试较温和的 cap48/risk14，要求 2020/2023 CAGR 均不降超过3pp。
+- 第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-16 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap48_hold6_turn04_exit97_risk14_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- `turnover_reduction`：cap48-risk14、cap52-risk16；`weekly_exit_buffer`：exit97、exit98。
+- `risk_downshift`：risk14、risk16；`cost_stress`：cap48-cost-guard、cap52-cost-guard。v6 停止同形扩参。
+
 ## 2026-09-17 迭代：return-recovery 修复短窗但破坏 2023（端点 2026-09-16）
 
 ### 上一轮候选与结果摘要
