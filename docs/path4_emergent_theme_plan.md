@@ -1,5 +1,23 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-19 迭代：cap05 再确认仍不具备稳定晋级条件（端点 2026-09-18）
+
+### 上一轮候选与结果摘要
+
+- `risk04_cap05_exit70` 相对 capacity-v2 的 2025 CAGR 提高 `1.59pp`，但五窗 MaxDD 约恶化 `3.7–4.3pp`、换手增加 `0.44–0.78x`，2026 CAGR 为 `-12.59%`，判 `reject`。capacity-v2 与 risk06-cap05 仍仅 `robust_observation`，进入观察位，不是强稳定 winner。
+
+### 本轮候选 ID 与命令
+
+- `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_total_mv_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn,core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`。
+
+### 下一轮 focus 与第一条命令
+
+- guard focus 为 `emergent_theme_coverage`；停止 cap05 同形，回到 80/20 signal-quality/risk-control 正交确认：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`。
+
+### Focus 候选池
+
+- `emergent_theme_coverage`：signal-quality-v4、risk-control-v5；`theme_capacity_cost`：capacity-v2、risk-control-v5；`theme_signal_quality`：signal28/leader80、signal28/leader78。
+
 ## 2026-09-18 迭代：cap05 容量放宽增加成本与回撤（端点 2026-09-17）
 
 ### 上一轮候选与结果摘要

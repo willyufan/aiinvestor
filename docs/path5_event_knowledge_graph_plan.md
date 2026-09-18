@@ -1,5 +1,23 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-19 迭代：数据中心电力篮子 60D 仍未成熟（端点 2026-09-18）
+
+### 上一轮候选与结果摘要
+
+- 已审计冻结篮子 `ai_datacenter_power_grid_202607_v0` 的 20D 等权/seed 为 `+11.70%/+11.67%`，40D 为 `-0.60%/-0.53%`，60D 仍 `insufficient_data`；与 Path4 capacity-v2 overlap `0/6`，判 `keep_watch`。
+
+### 本轮候选 ID 与命令
+
+- `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260919.json`。
+
+### 下一轮 focus 与第一条命令
+
+- `path4_comparison` 继续等待 60D 成熟；下一轮以新端点重复同一命令并写独立输出，成熟前不新增同主题篮子、不 promote。
+
+### Focus 候选池
+
+- `path4_comparison`：数据中心电力篮子 vs capacity-v2、vs risk-control-v5；`event_backtest_entry`：同篮子 20/40/60、5/10/20；`frozen_candidate_audit`：当前 6 票来源与权重复核。
+
 ## 2026-09-18 迭代：数据中心电力篮子 40D 回落（端点 2026-09-17）
 
 ### 上一轮候选与结果摘要

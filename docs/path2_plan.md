@@ -1,5 +1,23 @@
 # Path 2 研究计划
 
+## 2026-09-19 迭代：coverage 首批补齐 802→782（端点 2026-09-18）
+
+### 上一轮候选与结果摘要
+
+- `ashare_path2_candidate_universe` 四窗完整度由 `30/832` 增至 `50/832`，缺口 `802→782`；剩余约 39 批，coverage 仍 `block`。本批仅作覆盖补齐，partial universe 不得 promote，正式 weighted/history/core-active 身份保持冻结。
+
+### 本轮候选 ID 与命令
+
+- 已严格执行 guard `rerun_commands[0]` 的 20 个 `60/40` 与 `70/30` base IDs：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01 --only-base-ids <guard首批20个base_ids>`；完整 ID 与指标见 `research_iteration_report.json`、`strategy_comparison_base_method.csv`。
+
+### 下一轮 focus 与第一条命令
+
+- `medium_cycle_growth` 继续 coverage-first；第一条命令必须直接执行 final guard 新的 `ashare_path2_candidate_universe.rerun_commands[0]`，固定 `--end-date 2026-09-18`，不得改成全量回测。
+
+### Focus 候选池
+
+- `medium_cycle_growth`：v78-underrepresented-repair、v70-underrepresented-lowturn；`decorrelated_defensive_mix`：cap60-dd-guard0-fast、cap60-dd-guard50；`weekly_rebalance_aggressive`：cap60-biweekly-cost-guard、cap70-biweekly。全集完成前均只作 coverage/观察。
+
 ## 2026-09-18 迭代：coverage 补批后 803→783（端点 2026-09-17）
 
 ### 上一轮候选与结果摘要

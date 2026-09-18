@@ -1,5 +1,23 @@
 # Path 1 研究计划
 
+## 2026-09-19 迭代：core_multifactor risk16 仍无中窗增量（端点 2026-09-18）
+
+### 上一轮候选与结果摘要
+
+- `risk16_reconfirm` 相对 `risk18_reconfirm` 的 2020/2023 CAGR 差为 `-0.39/-0.00pp`，MaxDD 基本相同、换手仅小降，判 `reject`；risk18 仅 `keep_watch` 参照。Path1 winner/robust/tracked 不变。
+
+### 本轮候选 ID 与命令
+
+- `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk18_reconfirm`；scorecard：`results/research/a_share/research_iteration_scorecard_20260919.json`。
+
+### 下一轮 focus 与第一条命令
+
+- focus 保持 `core_multifactor_coverage`，risk16/18 同形停止扩参；下一轮先确认 growth-trend signal-quality 风险边界：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk12_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk10_reconfirm`。
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：growth-trend signal-quality risk12/risk10；`holding_shape`：share12/88、share15/85；`weekly_exposure_path`：buffered-asym13、buffered。
+
 ## 2026-09-18 迭代：signal-cashguard risk16 未形成增量（端点 2026-09-17）
 
 ### 上一轮候选与结果摘要

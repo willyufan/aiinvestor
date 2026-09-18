@@ -1,5 +1,23 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-19 迭代：v27 中窗继续有效、近窗继续失守（端点 2026-09-18）
+
+### 上一轮候选与结果摘要
+
+- v27 相对 theme-fast-monthly 的 2020/2023 CAGR 提高 `7.11/10.01pp`，回撤与年换手同步改善；但 2025 下降 `12.03pp`、2026 CAGR `-12.20%`，判 `keep_watch`。theme-fast incumbent 确认 `promote`，正式身份不变。
+
+### 本轮候选 ID 与命令
+
+- `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v27_cost_guard,hkconnect_path2_theme_fast_monthly`。
+
+### 下一轮 focus 与第一条命令
+
+- 轮换到 `biweekly_breakout`；下一轮第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v30_ytd_recovery_guard,hkconnect_path2_theme_fast_monthly`，若要新增双周形态必须先注册。
+
+### Focus 候选池
+
+- `biweekly_breakout`：待注册近窗修复候选、theme-fast 基线；`high_return_monthly`：v27、v30；`elasticity_cost_control`：v27、theme-fast。
+
 ## 2026-09-18 迭代：v27 中窗有效、近窗失守（端点 2026-09-17）
 
 ### 上一轮候选与结果摘要

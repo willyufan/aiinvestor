@@ -1,5 +1,23 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-19 迭代：exit46 降换手但近窗缺口仍大（端点 2026-09-18）
+
+### 上一轮候选与结果摘要
+
+- exit46 相对 theme-fast 的 2020/2023 CAGR 仅低 `1.13/0.95pp`且换手降低约 `23x`，但 2025/2026 CAGR 分别低 `18.55/14.54pp`、2026 为负，判 `keep_watch`。自动 artifact 的 2017/中窗换位经二次门禁冻结；defensive 仍为 `robust_observation`，进入观察位，不是强稳定 winner。
+
+### 本轮候选 ID 与命令
+
+- `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_weekly_lowvol_exit46_v20260907,hkconnect_path3_theme_fast_weekly,hkconnect_path3_theme_fast_weekly_defensive`。
+
+### 下一轮 focus 与第一条命令
+
+- 继续 `weekly_turnover_reduction`，复核 exit46/theme-fast/defensive；第一条命令同上，要求 2026 转正且 2025 差距显著收敛后才允许晋级。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：exit46、theme-fast；`weekly_defensive_overlay`：defensive、buffered；`cost_stress`：exit46、defensive。
+
 ## 2026-09-18 迭代：exit46 降换手但近窗仍为负（端点 2026-09-17）
 
 ### 上一轮候选与结果摘要
