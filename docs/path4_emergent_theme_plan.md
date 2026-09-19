@@ -1,5 +1,23 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-20 迭代：强主题涌现信号质量待确认
+
+### 上一轮候选与结果摘要
+
+- 上轮 cap05 相对 capacity-v2 只提高 2025 CAGR 1.59pp，MaxDD 与换手恶化、2026 为负，reject；capacity-v2/risk06-cap05 进入观察位，不是强稳定 winner。当前 63/63 五窗覆盖；本轮补 Path2 blocker，Path4 未新增回测，winner/robust/tracked 不变。
+
+### 本轮候选 ID 与命令
+
+- 已注册设计 80/20 signal-quality-v4 与 risk-control-v5，检验非人工主题识别的信号/风险正交变体是否改善 2020/2023 稳定性；本轮未执行，不作晋级判定。
+
+### 下一轮 focus 与第一条命令
+
+- `emergent_theme_coverage`；首命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`。
+
+### Focus 候选池
+
+- `emergent_theme_coverage`：signal-quality-v4、risk-control-v5；`theme_signal_quality`：signal28/leader80、signal28/leader78；`theme_capacity_cost`：capacity-v2、risk-control-v5。
+
 ## 2026-09-19 迭代：cap05 再确认仍不具备稳定晋级条件（端点 2026-09-18）
 
 ### 上一轮候选与结果摘要

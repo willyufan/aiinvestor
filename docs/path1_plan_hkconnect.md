@@ -1,5 +1,23 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-09-20 迭代：双周缓冲候选待确认
+
+### 上一轮候选与结果摘要
+
+- 上轮 soft-exit38 触发 2023 MaxDD 恶化 6.43pp，reject；biweekly-lowvol incumbent 未变。本轮 Path2 coverage 优先，Path1 无新实跑、无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 已注册 exit34 cost-guard 对 biweekly-lowvol，假设双周缓冲可减换手且不牺牲 2020/2023；本轮未执行。
+
+### 下一轮 focus 与第一条命令
+
+- `monthly_weekly_overlay` 的 soft-exit38 已触发风险护栏，转双周缓冲；首命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit34,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：monthly-quality-buffered、soft-exit38（仅风险参照）；`biweekly_buffer`：exit34、biweekly-lowvol；`turnover_cost`：cost-guard-v33、exit34。
+
 ## 2026-09-19 迭代：soft-exit38 再次触发 2023 回撤护栏（端点 2026-09-18）
 
 ### 上一轮候选与结果摘要

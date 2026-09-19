@@ -1,5 +1,23 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-20 迭代：冻结电力篮子仍未成熟
+
+### 上一轮候选与结果摘要
+
+- 上轮 20D 等权/seed 为 +11.70%/+11.67%、40D 为 -0.60%/-0.53%，60D 不足。本轮对已审计冻结篮子 `ai_datacenter_power_grid_202607_v0` 复核，数值未变，60D 仍 insufficient_data；与 Path4 capacity-v2 overlap 0/6，keep_watch，不是跨窗口 winner。pending audit=0，无新增事件篮子和 evict。
+
+### 本轮候选 ID 与命令
+
+- `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260920.json`。审计状态 approved/source_audited；比较仅事件收益与持仓 overlap，不混算年化 scorecard。
+
+### 下一轮 focus 与第一条命令
+
+- `path4_comparison`：等待 60D 满足样本；首命令同上并把 `--output-json` 改为 `..._20260921.json`，仅在新交易数据可用后执行。kb-web 因本次无扣费元数据暂停追加调用，当前响应不作为事件前信号。
+
+### Focus 候选池
+
+- `path4_comparison`：该篮子对 capacity-v2、对 risk-control-v5；`event_backtest_entry`：该篮子 20/40/60D、5/10/20D；`frozen_candidate_audit`：6只成分来源、冻结权重。
+
 ## 2026-09-19 迭代：数据中心电力篮子 60D 仍未成熟（端点 2026-09-18）
 
 ### 上一轮候选与结果摘要

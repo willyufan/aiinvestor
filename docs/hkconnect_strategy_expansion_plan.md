@@ -1,5 +1,26 @@
 # 沪港通策略空间扩展计划
 
+## 2026-09-20 迭代：扩展 Path4–7 均已巡检
+
+### 上一轮候选与结果摘要
+
+- Path4 v49 五窗收益略低且 2026 -2.28%，keep_watch；v47 仅 robust_observation，进入观察位不是强稳定 winner。Path5 v34 2026 -8.96%，keep_watch；frozen-shape 同为弱观察。Path6 monthly-smoke 五窗为正，上轮接替 2025-window winner；Path7 risk15 五窗为正但低于 v7，keep_watch。本轮 Path2 coverage 优先，四路没有新增回测，不得以同步或旧排名当本轮晋级；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 已注册方向设计：Path4 v50 对 v47、Path5 v35 对 frozen-shape、Path6 monthly-smoke 对 lowvol、Path7 risk15 对 v7；均未执行，留出首命令精确 ID 与五窗口。
+
+### 下一轮 focus 与第一条命令
+
+- Path4 `quality_momentum`：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_v50_return_restore,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`。
+- Path5 `pullback_definition`：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907`。
+- Path6 `large_liquid_core`：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_monthly_smoke,hkconnect_path6_lowvol_liquid_biweekly_smoke`。
+- Path7 `barbell_sleeve_structure`：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_biweekly_risk15_caution50_v20260907,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。
+
+### Focus 候选池
+
+- Path4 `quality_momentum`：v50、v47；Path5 `pullback_definition`：v35、frozen-shape；Path6 `large_liquid_core`：monthly-smoke、lowvol-liquid；Path7 `barbell_sleeve_structure`：risk15/caution50、defensive-v7。
+
 ## 2026-09-19 迭代：Path6 晋级，Path4/5/7 保持观察（端点 2026-09-18）
 
 ### 上一轮候选与结果摘要

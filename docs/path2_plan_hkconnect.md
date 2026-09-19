@@ -1,5 +1,23 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-20 迭代：v30 中窗领先但年内负收益
+
+### 上一轮候选与结果摘要
+
+- 上轮 v27 中窗改善但 2026 -12.20%，keep_watch。本轮 v30 相对 theme-fast 的 2020/2023 CAGR +5.61/+8.31pp、MaxDD +9.04pp、年换手 -4.30/-4.50x；2025 -9.25pp、2026 CAGR -8.60%，判 keep_watch，不晋级，winner/robust/tracked 未按此实验改变。五窗表见 `results/research/a_share/research_iteration_scorecard_20260920.md`；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- `AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v30_ytd_recovery_guard,hkconnect_path2_theme_fast_monthly`。假设 v30 年内守门能修复 v27 近窗亏损并守住中窗；前半未获支持。
+
+### 下一轮 focus 与第一条命令
+
+- guard `biweekly_breakout`；首命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_breakout_cost_guard_biweekly_exit35,hkconnect_path2_breakout_cost_guard_biweekly_risk50,hkconnect_path2_theme_fast_monthly`，比较双周退出/风险与当前 robust，不以短窗单点晋级。
+
+### Focus 候选池
+
+- `biweekly_breakout`：breakout-cost-guard-exit35、breakout-cost-guard-risk50；`high_return_monthly`：v27、v30；`elasticity_cost_control`：v30、theme-fast。
+
 ## 2026-09-19 迭代：v27 中窗继续有效、近窗继续失守（端点 2026-09-18）
 
 ### 上一轮候选与结果摘要

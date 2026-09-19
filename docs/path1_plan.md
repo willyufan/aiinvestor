@@ -1,5 +1,23 @@
 # Path 1 研究计划
 
+## 2026-09-20 迭代：core_multifactor 风险改善但中窗收益失稳
+
+### 上一轮候选与结果摘要
+
+- 上轮 signal-cashguard risk16 相对 risk18 无中窗增量，reject。本轮 risk12/risk10 相对正式 Path1 robust 的 2020 CAGR 分别低 20.07/20.21pp、Sharpe 低 0.465/0.469，虽然 MaxDD 改善约 11.95pp，仍均 reject；五窗口逐项见 `results/research/a_share/research_iteration_scorecard_20260920.md`。主线 winner/robust/tracked 不变，core_multifactor 代码覆盖 64/64；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 已注册参数确认：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk12_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk10_reconfirm`；命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk12_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_quality_gate_cashguard_risk10_reconfirm --comparison-csv /private/tmp/ashare_candidate_20260920.csv`。假设为保住中窗收益同时压低回撤/换手，未获支持。
+
+### 下一轮 focus 与第一条命令
+
+- `core_multifactor_coverage`：停测 quality-gate risk12/risk10 同形；优先对照未加 quality gate 的 trend-signal risk14 与正式 robust。首命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk14_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__sat_three_stage_buffered_cost_guard`。
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：trend-signal risk14、trend-signal risk16；`holding_shape`：share12/88、share15/85；`weekly_exposure_path`：buffered、buffered-asym13。
+
 ## 2026-09-19 迭代：core_multifactor risk16 仍无中窗增量（端点 2026-09-18）
 
 ### 上一轮候选与结果摘要
