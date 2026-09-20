@@ -1,5 +1,28 @@
 # Path 3 研究计划
 
+## 2026-09-21 迭代：五窗口增量竞争与覆盖复核
+
+### 上一轮候选与结果摘要
+
+- 上轮 weekly_return_recovery_v6 因 2020/2023 CAGR 低于 cap52 robust 5.93/6.45pp 被 reject；本轮退出缓冲 v3 的五窗确认未改变既有窗口身份，停止此参数形态扩参、无 evict/archive。
+- `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly` 对 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`：**reject**。since_2020_01: CAGR 14.46%（Δ+0.12pp）、MaxDD Δ+0.02pp、Sharpe Δ+0.01、换手 Δ-0.08x；since_2023_01: CAGR 7.79%（Δ-7.68pp）、MaxDD Δ+5.18pp、Sharpe Δ-0.29、换手 Δ-0.48x；since_2026_01: CAGR 11.28%（Δ+0.04pp）、MaxDD Δ+0.00pp、Sharpe Δ+0.00、换手 Δ+0.00x。周频退出缓冲预期降低换手和回撤，并守住2020/2023收益；2023 CAGR低7.68个百分点，换手只降0.48倍，收益稳定性不成立。
+
+
+### 本轮候选 ID 与命令
+
+- 五窗口同成本增量批次，本路径等价复现命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。逐窗 CAGR、Sharpe、MaxDD、换手、交易成本及参照差值见 `results/research/a_share/research_iteration_scorecard_20260921.json`；仅以上候选计入策略实验，参照确认和产物同步不计新增。
+
+### 下一轮 focus 与第一条命令
+
+- `turnover_reduction`；第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。若新交易端点可用，先更新 `--end-date`，继续同窗口比较。
+
+### Focus 候选池
+
+- `turnover_reduction`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly`。
+- `weekly_exit_buffer`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`（仅历史对照）、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- `risk_downshift`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly`。
+- `cost_stress`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。纯周频均以 `_weekly` 结尾。
+
 ## 2026-09-20 迭代：周频退出缓冲待测
 
 ### 上一轮候选与结果摘要

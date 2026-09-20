@@ -1,5 +1,28 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-21 迭代：五窗口增量竞争与覆盖复核
+
+### 上一轮候选与结果摘要
+
+- 上轮 v30 中窗改善但 2026 仍为负，keep_watch；本轮按 guard 的 biweekly_breakout 焦点测试 exit35/risk50，均破坏中窗稳定性，正式身份不变、无 evict/archive。
+- `hkconnect_path2_breakout_cost_guard_biweekly_exit35` 对 `hkconnect_path2_theme_fast_monthly`：**reject**。since_2020_01: CAGR -3.06%（Δ-18.38pp）、MaxDD Δ-36.58pp、Sharpe Δ-0.68、换手 Δ+9.25x；since_2023_01: CAGR -3.45%（Δ-21.63pp）、MaxDD Δ-17.61pp、Sharpe Δ-0.78、换手 Δ+10.39x；since_2026_01: CAGR -18.40%（Δ-32.11pp）、MaxDD Δ+4.20pp、Sharpe Δ-1.34、换手 Δ+12.80x。双周突破退出35%预期修复近窗弹性；2020/2023收益、回撤和换手均显著恶化。
+- `hkconnect_path2_breakout_cost_guard_biweekly_risk50` 对 `hkconnect_path2_theme_fast_monthly`：**reject**。since_2020_01: CAGR -2.50%（Δ-17.82pp）、MaxDD Δ-35.63pp、Sharpe Δ-0.66、换手 Δ+9.90x；since_2023_01: CAGR -3.65%（Δ-21.83pp）、MaxDD Δ-18.05pp、Sharpe Δ-0.78、换手 Δ+10.85x；since_2026_01: CAGR -18.40%（Δ-32.11pp）、MaxDD Δ+4.20pp、Sharpe Δ-1.34、换手 Δ+12.80x。双周突破风险仓位50%预期改善回撤；2020/2023收益与回撤同时大幅失稳。
+
+
+### 本轮候选 ID 与命令
+
+- 五窗口同成本增量批次，本路径等价复现命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_breakout_cost_guard_biweekly_exit35,hkconnect_path2_theme_fast_monthly,hkconnect_path2_breakout_cost_guard_biweekly_risk50`。逐窗 CAGR、Sharpe、MaxDD、换手、交易成本及参照差值见 `results/research/a_share/research_iteration_scorecard_20260921.json`；仅以上候选计入策略实验，参照确认和产物同步不计新增。
+
+### 下一轮 focus 与第一条命令
+
+- `biweekly_breakout`；第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard,hkconnect_path2_theme_fast_monthly`。若新交易端点可用，先更新 `--end-date`，继续同窗口比较。
+
+### Focus 候选池
+
+- `high_return_monthly`：`hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard`、`hkconnect_path2_high_return_monthly_quality_liquidity_v32_high_return_monthly_guard`。
+- `biweekly_breakout`：`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v55_quality_recovery`、`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v56_theme_recovery`；本轮 exit35/risk50 停止同形扩参。
+- `elasticity_cost_control`：`hkconnect_path2_high_return_monthly_quality_liquidity_v30_ytd_recovery_guard`、`hkconnect_path2_theme_fast_monthly`。
+
 ## 2026-09-20 迭代：v30 中窗领先但年内负收益
 
 ### 上一轮候选与结果摘要

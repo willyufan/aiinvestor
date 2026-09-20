@@ -1,5 +1,27 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-09-21 迭代：五窗口增量竞争与覆盖复核
+
+### 上一轮候选与结果摘要
+
+- 上轮 soft-exit38 因中窗风险/收益退化 reject；本轮 exit34 五窗确认未改变 Path1 window winner、robust 或 tracked 身份，无 evict/archive。
+- `hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit34` 对 `hkconnect_path1_biweekly_lowvol`：**reject**。since_2020_01: CAGR 17.40%（Δ+0.72pp）、MaxDD Δ-0.74pp、Sharpe Δ-0.04、换手 Δ+3.57x；since_2023_01: CAGR 27.60%（Δ+6.00pp）、MaxDD Δ-2.14pp、Sharpe Δ+0.09、换手 Δ+3.49x；since_2026_01: CAGR -5.75%（Δ-10.32pp）、MaxDD Δ-2.19pp、Sharpe Δ-0.63、换手 Δ+3.20x。退出阈值34%预期保住中窗收益并压低回撤；2026亏损且换手提高约3.5倍，成本与近窗风险不支持。
+
+
+### 本轮候选 ID 与命令
+
+- 五窗口同成本增量批次，本路径等价复现命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit34,hkconnect_path1_biweekly_lowvol`。逐窗 CAGR、Sharpe、MaxDD、换手、交易成本及参照差值见 `results/research/a_share/research_iteration_scorecard_20260921.json`；仅以上候选计入策略实验，参照确认和产物同步不计新增。
+
+### 下一轮 focus 与第一条命令
+
+- `monthly_weekly_overlay`；第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_lowvol_weekly_overlay_risk35_caution80_v20260907,hkconnect_path1_biweekly_lowvol`。若新交易端点可用，先更新 `--end-date`，继续同窗口比较。
+
+### Focus 候选池
+
+- `monthly_weekly_overlay`：`hkconnect_path1_monthly_lowvol_weekly_overlay_risk35_caution80_v20260907`、`hkconnect_path1_monthly_quality_momentum_weekly_overlay_v57_return_repair`。
+- `biweekly_buffer`：`hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit34`（本轮 reject，仅对照）、`hkconnect_path1_biweekly_lowvol`。
+- `risk_overlay_cost`：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v46_risk_overlay_cost_guard`、`hkconnect_path1_monthly_lowvol_weekly_overlay_risk35_caution80_v20260907`。
+
 ## 2026-09-20 迭代：双周缓冲候选待确认
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,31 @@
 # 沪港通策略空间扩展计划
 
+## 2026-09-21 迭代：五窗口增量竞争与覆盖复核
+
+### 上一轮候选与结果摘要
+
+- 上轮 Path4 v49、Path5 v34、Path7 risk15 仅观察，Path6 monthly-smoke 为 2025-window winner；本轮对 Path4–7 各做五窗确认，所有正式 winner/robust ID 不变。
+- `hkconnect_path4_quality_momentum_monthly_v50_return_restore` 对 `hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`：**keep_watch**。since_2020_01: CAGR 15.29%（Δ+5.10pp）、MaxDD Δ+5.92pp、Sharpe Δ+0.22、换手 Δ+0.93x；since_2023_01: CAGR 15.96%（Δ+4.39pp）、MaxDD Δ-0.54pp、Sharpe Δ+0.16、换手 Δ+0.80x；since_2026_01: CAGR -10.27%（Δ-8.54pp）、MaxDD Δ-3.20pp、Sharpe Δ-0.46、换手 Δ+1.44x。质量动量收益修复预期提高2020/2023收益；中窗提高4-5个百分点，但2026亏损10.27%，只保留观察。
+- `hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair` 对 `hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907`：**reject**。since_2020_01: CAGR 3.94%（Δ+0.25pp）、MaxDD Δ+0.38pp、Sharpe Δ+0.17、换手 Δ-0.48x；since_2023_01: CAGR 3.49%（Δ-0.93pp）、MaxDD Δ-2.08pp、Sharpe Δ-0.02、换手 Δ-0.44x；since_2026_01: CAGR -8.45%（Δ-2.82pp）、MaxDD Δ-1.85pp、Sharpe Δ+0.02、换手 Δ-0.66x。月频回踩修复预期改善2026并保留中窗；2026仍亏8.45%，2025亦退化，停止同形扩参。
+- `hkconnect_path6_large_liquid_core_monthly_smoke` 对 `hkconnect_path6_lowvol_liquid_biweekly_smoke`：**promote**。since_2020_01: CAGR 17.36%（Δ+4.18pp）、MaxDD Δ+2.89pp、Sharpe Δ+0.46、换手 Δ-0.86x；since_2023_01: CAGR 23.78%（Δ+3.85pp）、MaxDD Δ+0.22pp、Sharpe Δ+0.51、换手 Δ-0.75x；since_2026_01: CAGR 3.00%（Δ-0.17pp）、MaxDD Δ+0.04pp、Sharpe Δ+0.22、换手 Δ-1.46x。月频大市值流动核心确认预期守住中窗收益和风险；五窗口收益为正，2020/2023 CAGR高4.18/3.85个百分点，既有2025窗口winner资格确认。
+- `hkconnect_path7_barbell_biweekly_risk15_caution50_v20260907` 对 `hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`：**reject**。since_2020_01: CAGR 11.63%（Δ-1.53pp）、MaxDD Δ-0.26pp、Sharpe Δ-0.08、换手 Δ-0.06x；since_2023_01: CAGR 17.95%（Δ-1.36pp）、MaxDD Δ-0.23pp、Sharpe Δ-0.07、换手 Δ+0.04x；since_2026_01: CAGR 1.37%（Δ-1.79pp）、MaxDD Δ+0.17pp、Sharpe Δ-0.11、换手 Δ+0.13x。风险仓位下调预期改善近窗回撤；各窗收益与Sharpe均低于稳健参照，停止同形扩参。
+- Path4 v50 仅留在 `keep_watch`；Path5 frozen 仍是弱路径内部的 `robust_observation`：进入观察位，不是强稳定 winner。Path6 monthly-smoke 本轮 `promote` 是既有 2025 winner 的同端点确认；Path7 risk15 本轮 `reject`，停止同形扩参。
+
+### 本轮候选 ID 与命令
+
+- 五窗口同成本增量批次，本路径等价复现命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_v50_return_restore,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_pullback_continuation_monthly_quality_retest_v35_ytd_repair,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_large_liquid_core_monthly_smoke,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_barbell_biweekly_risk15_caution50_v20260907,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。逐窗 CAGR、Sharpe、MaxDD、换手、交易成本及参照差值见 `results/research/a_share/research_iteration_scorecard_20260921.json`；仅以上候选计入策略实验，参照确认和产物同步不计新增。
+
+### 下一轮 focus 与第一条命令
+
+- `Path4 quality_momentum / Path5 pullback_definition / Path6 large_liquid_core / Path7 barbell_sleeve_structure`；第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_quality_momentum_monthly_v51_quality_balance,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_pullback_continuation_monthly_quality_retest_v36_lowturn_pullback_definition,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_large_liquid_core_monthly_breadth24_v20260907,hkconnect_path6_large_liquid_core_monthly_smoke,hkconnect_path7_barbell_quality_growth_biweekly_v44_sleeve_balance,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。若新交易端点可用，先更新 `--end-date`，继续同窗口比较。
+
+### Focus 候选池
+
+- Path4 `quality_momentum`：`hkconnect_path4_quality_momentum_monthly_v51_quality_balance`、`hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`；`liquidity_momentum`：`hkconnect_path4_liquidity_momentum_biweekly_v52_return_balance`、`hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v43_liquidity_momentum_ytd_repair`；`ytd_guard`：`hkconnect_path4_quality_momentum_monthly_ytd_positive_v46_lowdraw_ytd_guard`、`hkconnect_path4_quality_momentum_monthly_exit46_v20260907`。
+- Path5 `pullback_definition`：`hkconnect_path5_pullback_continuation_monthly_quality_retest_v36_lowturn_pullback_definition`、`hkconnect_path5_pullback_continuation_monthly_v39_definition_balance`；`retest_confirmation`：`hkconnect_path5_breakout_retest_biweekly_quality_confirm_v30_retest_confirmation_ytd_guard`、`hkconnect_path5_breakout_retest_biweekly_quality_confirm_v33_retest_confirmation_ytd_guard`；`pause_or_redesign`：`hkconnect_path5_pullback_continuation_monthly_quality_retest_v31_pause_redesign_probe`、`hkconnect_path5_pullback_continuation_biweekly_v40_definition_balance`。
+- Path6 `large_liquid_core`：`hkconnect_path6_large_liquid_core_monthly_breadth24_v20260907`、`hkconnect_path6_large_liquid_core_monthly_smoke`；`lowvol_liquid_core`：`hkconnect_path6_lowvol_liquid_biweekly_quality_ytd_guard_v42_lowvol_liquid_core_repair`、`hkconnect_path6_lowvol_liquid_biweekly_smoke`；`capacity_cost`：`hkconnect_path6_large_liquid_core_monthly_capacity_cost_v39_capacity_cost_repair`、`hkconnect_path6_large_liquid_core_monthly_capacity_cost_v35_capacity_cost`。
+- Path7 `barbell_sleeve_structure`：`hkconnect_path7_barbell_quality_growth_biweekly_v44_sleeve_balance`、`hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`；`biweekly_barbell`：`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v35_biweekly_barbell_repair`、`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v36_biweekly_barbell`；`turnover_control`：`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v34_turnover_control`、`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v41_core_sleeve_turnover_control`。
+
 ## 2026-09-20 迭代：扩展 Path4–7 均已巡检
 
 ### 上一轮候选与结果摘要

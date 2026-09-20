@@ -1,5 +1,27 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-21 迭代：五窗口增量竞争与覆盖复核
+
+### 上一轮候选与结果摘要
+
+- 上轮 exit46 相对 theme-fast 仍有近窗缺口，keep_watch；本轮对现行 robust 同端点确认后，中窗可守住且换手下降，但 2025/2026 缺口未修复，身份不变、无 evict/archive。
+- `hkconnect_path3_weekly_lowvol_exit46_v20260907` 对 `hkconnect_path3_equal_elastic_weekly`：**keep_watch**。since_2020_01: CAGR 18.02%（Δ+0.16pp）、MaxDD Δ+37.57pp、Sharpe Δ+0.41、换手 Δ-18.43x；since_2023_01: CAGR 27.73%（Δ+7.37pp）、MaxDD Δ+23.70pp、Sharpe Δ+0.85、换手 Δ-19.19x；since_2026_01: CAGR -6.30%（Δ-20.86pp）、MaxDD Δ+1.31pp、Sharpe Δ-0.86、换手 Δ-26.72x。放宽周频退出预期降低换手且守住中窗；中窗改善但2025落后31.63个百分点、2026亏损，待近窗修复。
+- 当前 `defensive` 若被 artifact 推入观察位仍属 `robust_observation`：进入观察位，不是强稳定 winner。
+
+### 本轮候选 ID 与命令
+
+- 五窗口同成本增量批次，本路径等价复现命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_weekly_lowvol_exit46_v20260907,hkconnect_path3_equal_elastic_weekly`。逐窗 CAGR、Sharpe、MaxDD、换手、交易成本及参照差值见 `results/research/a_share/research_iteration_scorecard_20260921.json`；仅以上候选计入策略实验，参照确认和产物同步不计新增。
+
+### 下一轮 focus 与第一条命令
+
+- `weekly_turnover_reduction`；第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-18 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_equal_elastic_weekly`。若新交易端点可用，先更新 `--end-date`，继续同窗口比较。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：`hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest`。
+- `weekly_defensive_overlay`：`hkconnect_path3_theme_fast_weekly_defensive`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v29_defensive_overlay`。
+- `cost_stress`：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit50_v27_cost_stress`、`hkconnect_path3_weekly_lowvol_exit46_v20260907`。
+
 ## 2026-09-20 迭代：周频降换手仍待近窗修复
 
 ### 上一轮候选与结果摘要

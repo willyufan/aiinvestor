@@ -1,5 +1,28 @@
 # Path 1 研究计划
 
+## 2026-09-21 迭代：五窗口增量竞争与覆盖复核
+
+### 上一轮候选与结果摘要
+
+- 上轮 core_multifactor risk12/risk10 因中窗 CAGR 显著落后正式 robust 被 reject；本轮主线因 Path2 覆盖阻塞未新增实跑，core_multifactor risk14 确认，正式 winner/robust/tracked 身份不变、无 evict/archive。
+- `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk14_reconfirm` 对 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__sat_three_stage_buffered_cost_guard`：**reject**。since_2020_01: CAGR 8.70%（Δ-17.13pp）、MaxDD Δ+10.83pp、Sharpe Δ-0.37、换手 Δ-0.67x；since_2023_01: CAGR 12.39%（Δ-15.16pp）、MaxDD Δ+6.70pp、Sharpe Δ-0.24、换手 Δ-0.60x；since_2026_01: CAGR 17.50%（Δ-2.39pp）、MaxDD Δ+8.65pp、Sharpe Δ-0.20、换手 Δ-0.73x。去掉 quality gate 并将风险仓位设为14%，预期修复多因子中窗收益同时维持回撤改善；2020/2023 CAGR分别落后17.13/15.16个百分点，Sharpe在2020低0.37，假设不成立。
+- **主线**：本轮未运行新的月选股/周仓位候选，原因是 20 个 Path2 四窗口补缺占用预算；下一轮可从 `__port_weekly_exposure_buffered_asym13` 对正式 robust 复核。**core_multifactor**：本轮 risk14 已实跑，2020/2023 收益护栏失败，停止同形扩参。
+
+### 本轮候选 ID 与命令
+
+- 五窗口同成本增量批次，本路径等价复现命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk14_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__sat_three_stage_buffered_cost_guard`。逐窗 CAGR、Sharpe、MaxDD、换手、交易成本及参照差值见 `results/research/a_share/research_iteration_scorecard_20260921.json`；仅以上候选计入策略实验，参照确认和产物同步不计新增。
+
+### 下一轮 focus 与第一条命令
+
+- `core_multifactor_coverage`；第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__sat_three_stage_buffered_cost_guard`。若新交易端点可用，先更新 `--end-date`，继续同窗口比较。
+
+### Focus 候选池
+
+- `core_multifactor_coverage`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk16_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk12_reconfirm`；risk14 本轮已 reject，下一轮只作风险边界复核。
+- `signal_quality`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk18_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk16_reconfirm`。
+- `satellite_risk_cost`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- `holding_shape`：`core_explore_80_20_total_mv_winner_core__share_12_88_hold_4_6`、`core_explore_80_20_total_mv_winner_core__share_15_85_hold_4_6`；主线周度仓位另比较 buffered 与 buffered_asym13。
+
 ## 2026-09-20 迭代：core_multifactor 风险改善但中窗收益失稳
 
 ### 上一轮候选与结果摘要

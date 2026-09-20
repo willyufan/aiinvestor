@@ -1,5 +1,26 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-21 迭代：已审计篮子等待 60D 成熟
+
+### 上一轮候选与结果摘要
+
+- 上轮 `ai_datacenter_power_grid_202607_v0`（`source_audited`、冻结）20D 等权/seed 为 +11.70%/+11.67%，40D 为 -0.60%/-0.53%，60D 样本不足，与 Path4 capacity-v2 overlap 0/6，`keep_watch`。本轮交易端点仍为 2026-09-18，重复运行不会增加 horizon，故只巡检 registry：5 篮子中 1 个 active、4 个 archive、pending audit=0；不把事件短窗结果混算为正式 CAGR，无 winner/tracked 变化。
+
+### 本轮候选 ID 与命令
+
+- 本轮设计仍为已审计冻结篮子对 Path4 capacity-v2 的 20/40/60D 检验；因无新交易数据未重跑。下次数据增长后的完整命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260922.json`。新来源线索先做来源审计并冻结 event date/members，不能直接进入交易入口。
+
+### 下一轮 focus 与第一条命令
+
+- `path4_comparison`：新交易端点可用时先执行上面命令；60D 未成熟前继续 `keep_watch`，若仍不足则记录交易日数与 Path4 持仓 overlap。
+
+### Focus 候选池
+
+- `event_basket_registry`：`ai_datacenter_power_grid_202607_v1`、`high_speed_pcb_copper_clad_server_20260624_v1`（均为待审计设计 ID，不能回测）。
+- `frozen_candidate_audit`：`ai_datacenter_power_grid_202607_v0` 现有成分与权重复核、`high_speed_pcb_copper_clad_server_20260624_v0` 历史来源复核（后者 archive_only）。
+- `event_backtest_entry`：`ai_datacenter_power_grid_202607_v0` 的 20/40/60D、同篮子的 5/10/20D，均须保持已审计冻结输入。
+- `path4_comparison`：该篮子对 Path4 `capacity_v2`、对 `risk_control_v5` 的持仓 overlap 与同期收益比较。
+
 ## 2026-09-20 迭代：冻结电力篮子仍未成熟
 
 ### 上一轮候选与结果摘要

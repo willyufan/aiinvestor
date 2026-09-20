@@ -1,5 +1,29 @@
 # Path 4 强主题涌现路径
 
+## 2026-09-21 迭代：五窗口增量竞争与覆盖复核
+
+### 上一轮候选与结果摘要
+
+- 上轮 cap05 虽短窗略好但回撤和换手恶化、2026 负收益而 reject；本轮五窗 63/63 覆盖下测试 signal-quality-v4/risk-control-v5，均不能挑战 Path4 robust，正式身份不变、无 evict/archive。
+- `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4` 对 `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn`：**reject**。since_2020_01: CAGR 4.95%（Δ+3.36pp）、MaxDD Δ-10.27pp、Sharpe Δ+0.16、换手 Δ+0.22x；since_2023_01: CAGR 0.67%（Δ-2.11pp）、MaxDD Δ-13.44pp、Sharpe Δ-0.15、换手 Δ+0.38x；since_2026_01: CAGR -13.44%（Δ-6.10pp）、MaxDD Δ-14.51pp、Sharpe Δ+0.15、换手 Δ+0.49x。强化强主题涌现信号质量与覆盖惩罚，预期提高中窗收益且控制风险；2020 CAGR提高3.36个百分点，但2020/2023 MaxDD恶化10.27/13.44个百分点，假设失败。
+- `core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5` 对 `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn`：**reject**。since_2020_01: CAGR 4.15%（Δ+2.56pp）、MaxDD Δ-10.47pp、Sharpe Δ+0.12、换手 Δ+0.23x；since_2023_01: CAGR 0.67%（Δ-2.11pp）、MaxDD Δ-13.44pp、Sharpe Δ-0.15、换手 Δ+0.38x；since_2026_01: CAGR -13.44%（Δ-6.10pp）、MaxDD Δ-14.51pp、Sharpe Δ+0.15、换手 Δ+0.49x。降低主题风险暴露与退出门槛，预期压低最差回撤且守住中窗收益；2020/2023 MaxDD反而恶化10.47/13.44个百分点，假设失败。
+- 独立强主题路径仍只从市场结构识别，不引入人工事后主题标签；本轮两个候选 2020/2023 MaxDD 恶化超过护栏，停止同形扩参。
+
+### 本轮候选 ID 与命令
+
+- 五窗口同成本增量批次，本路径等价复现命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader80_coverage_penalty_risk06_cap04_exit74_signal_quality_v4,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn,core_explore_80_20_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal28_leader78_coverage_penalty_risk06_cap04_exit72_risk_control_v5`。逐窗 CAGR、Sharpe、MaxDD、换手、交易成本及参照差值见 `results/research/a_share/research_iteration_scorecard_20260921.json`；仅以上候选计入策略实验，参照确认和产物同步不计新增。
+
+### 下一轮 focus 与第一条命令
+
+- `emergent_theme_coverage`；第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-18 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn`。若新交易端点可用，先更新 `--end-date`，继续同窗口比较。
+
+### Focus 候选池
+
+- `emergent_theme_coverage`：`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+- `theme_signal_quality`：`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+- `theme_risk_control`：`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk12_cap06_exit60_lowturn`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk10_cap06_exit62_lowturn`。
+- `theme_capacity_cost`：`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn`。
+
 ## 2026-09-20 迭代：强主题涌现信号质量待确认
 
 ### 上一轮候选与结果摘要
