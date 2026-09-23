@@ -1,5 +1,27 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-24 迭代：2026-09-23 端点的覆盖与候选竞争
+
+### 上一轮候选与结果摘要
+
+- 周频低波 exit46 中窗改善，但 2026 为负且 2025 落后，keep_watch。
+- 本轮以 Path2 的 20-ID 四窗口 blocking 补缺优先，本路径未作新增/确认实跑；上一轮 winner/robust 身份暂不据此变动，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 本轮候选设计（未实跑）及下一轮可直接执行的完整命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-23 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_equal_elastic_weekly`。未跑原因：Path2 blocking scope 首批 20 个 base IDs × 四窗口已占本轮主要计算预算；不能将历史结果当作本轮 scorecard。
+
+### 下一轮 focus 与第一条命令
+
+- `weekly_turnover_reduction`：第一条命令同上节 `--only-base-ids/--only-strategy-ids` 精确候选对照；端点保持 2026-09-23 或更新至下一已完成交易日。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：`hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest`。
+- `weekly_defensive_overlay`：`hkconnect_path3_theme_fast_weekly_defensive`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v29_defensive_overlay`。
+- `cost_stress`：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit50_v27_cost_stress`、`hkconnect_path3_weekly_lowvol_exit46_v20260907`。
+
+
 ## 2026-09-21 迭代：五窗口增量竞争与覆盖复核
 
 ### 上一轮候选与结果摘要

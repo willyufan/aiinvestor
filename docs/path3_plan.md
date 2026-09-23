@@ -1,5 +1,28 @@
 # Path 3 研究计划
 
+## 2026-09-24 迭代：2026-09-23 端点的覆盖与候选竞争
+
+### 上一轮候选与结果摘要
+
+- 周频 exit-buffer-v3 的 2023 CAGR 落后 robust 7.68 个百分点，reject。
+- 本轮以 Path2 的 20-ID 四窗口 blocking 补缺优先，本路径未作新增/确认实跑；上一轮 winner/robust 身份暂不据此变动，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 本轮候选设计（未实跑）及下一轮可直接执行的完整命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-23 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。未跑原因：Path2 blocking scope 首批 20 个 base IDs × 四窗口已占本轮主要计算预算；不能将历史结果当作本轮 scorecard。
+
+### 下一轮 focus 与第一条命令
+
+- `turnover_reduction`：第一条命令同上节 `--only-base-ids/--only-strategy-ids` 精确候选对照；端点保持 2026-09-23 或更新至下一已完成交易日。
+
+### Focus 候选池
+
+- `turnover_reduction`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly`。
+- `weekly_exit_buffer`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`（仅历史对照）、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- `risk_downshift`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly`。
+- `cost_stress`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。纯周频均以 `_weekly` 结尾。
+
+
 ## 2026-09-21 迭代：五窗口增量竞争与覆盖复核
 
 ### 上一轮候选与结果摘要

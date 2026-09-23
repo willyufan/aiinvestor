@@ -1,5 +1,27 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-24 迭代：2026-09-23 端点的覆盖与候选竞争
+
+### 上一轮候选与结果摘要
+
+- 双周 breakout exit35/risk50 均严重破坏中窗收益和回撤，reject。
+- 本轮以 Path2 的 20-ID 四窗口 blocking 补缺优先，本路径未作新增/确认实跑；上一轮 winner/robust 身份暂不据此变动，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 本轮候选设计（未实跑）及下一轮可直接执行的完整命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-23 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard,hkconnect_path2_theme_fast_monthly`。未跑原因：Path2 blocking scope 首批 20 个 base IDs × 四窗口已占本轮主要计算预算；不能将历史结果当作本轮 scorecard。
+
+### 下一轮 focus 与第一条命令
+
+- `biweekly_breakout`：下一轮先测试已注册 v55/v56 对 theme-fast 的双周质量/主题恢复；第一条命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-23 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v55_quality_recovery,hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v56_theme_recovery,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `high_return_monthly`：`hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard`、`hkconnect_path2_high_return_monthly_quality_liquidity_v32_high_return_monthly_guard`。
+- `biweekly_breakout`：`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v55_quality_recovery`、`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v56_theme_recovery`；本轮 exit35/risk50 停止同形扩参。
+- `elasticity_cost_control`：`hkconnect_path2_high_return_monthly_quality_liquidity_v30_ytd_recovery_guard`、`hkconnect_path2_theme_fast_monthly`。
+
+
 ## 2026-09-21 迭代：五窗口增量竞争与覆盖复核
 
 ### 上一轮候选与结果摘要

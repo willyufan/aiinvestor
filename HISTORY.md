@@ -1,5 +1,11 @@
 # 跟踪赢家历史
 
+## 2026-09-24 自动策略迭代（交易端点 2026-09-23）
+
+- Path2 按 guard 精确补 20 个 base IDs 四窗口，coverage `34→54/832`，余 `778` 个 blocking 缺口；正式 Path2 winner/robust 冻结。
+- A股 Path4 `signal30/risk08/exit66` 五窗对照为 `robust_observation`：2020/2023 CAGR 差 `+0.28/-1.27pp`，2026 CAGR `-6.85%`；进入观察位，不是强稳定 winner。HK Path6 `breadth24` 2020/2023 CAGR 落后 `2.77/4.33pp`，`reject`；`monthly_smoke` 回到 2025 窗口 winner。
+- 九份 path plan 和两张 scorecard 已更新；Path5 冻结篮子 20D `+11.70%`、40D `-0.60%`、60D 仍不足；live/public 已同步。
+
 ## 2026-09-17 手动追加迭代
 
 - HK Path3 `hkconnect_path3_theme_fast_weekly` 经同端点五窗确认后接替 2020/2023 window winner；2026 与 buffered 完全平票，已冻结原身份。

@@ -1,5 +1,11 @@
 # aiinvestor
 
+## 2026-09-24 策略研究进展
+
+- 统一到 `2026-09-23` 端点；Path2 精确补缺 20 个 base IDs，完整候选 `34→54/832`，剩余 `778` 个 blocking 缺口，正式 Path2 身份继续冻结。
+- A股独立 Path4 `signal30/risk08/exit66` 对原 robust 的 2020/2023 CAGR 差为 `+0.28/-1.27pp`，2026 CAGR `-6.85%`；内部 2017 窗口与 robust 观察位切换，判 `robust_observation`：**进入观察位，不是强稳定 winner**，不进入实盘分配。
+- HK Path6 `breadth24` 对 `monthly_smoke` 的 2020/2023 CAGR 差为 `-2.77/-4.33pp`，判 `reject`；已确认的 `monthly_smoke` 回到 2025 窗口 winner。Path5 冻结电力篮子 60D 仍不足。逐项对照见 `results/research/a_share/research_iteration_scorecard_20260924.json`。
+
 ## 2026-09-17 手动追加迭代
 
 - 同一数据端点继续补齐 Path2 coverage 20 条，缺口由 `783/832` 降至 `763/832`；仍为 blocker，partial-universe 正式身份保持冻结。
