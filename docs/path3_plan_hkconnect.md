@@ -1,5 +1,31 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-25 迭代：2026-09-24 端点的策略竞争与覆盖
+
+### 上一轮候选与结果摘要
+
+- `tracked_active` 五窗口同端点刷新后，Path3 robust 观察位为 `hkconnect_path3_equal_elastic_weekly`；最差回撤约 56.56%、年换手约 30 倍，`robust_observation`：进入观察位，不是强稳定 winner。此次身份变化来自活跃集合刷新，不计新增策略实验。
+- 上一轮 exit46 中窗改善但 2026 为负，keep_watch。
+- `hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery` 对 `hkconnect_path3_theme_fast_weekly`：`keep_watch`；2020/2023 CAGR 差 -1.12/-0.93 个百分点，MaxDD 差 +21.82/-1.47 个百分点，Sharpe 差 +0.27/+0.43，2026 CAGR -5.64%。2020回撤与换手明显改善，2023收益略低且2026转负；观察近窗和成本后的净优势。
+- `hkconnect_path3_theme_fast_weekly_buffered` 对 `hkconnect_path3_theme_fast_weekly`：`reject`；2020/2023 CAGR 差 -0.50/-0.99 个百分点，MaxDD 差 +0.01/-0.01 个百分点，Sharpe 差 -0.01/-0.02，2026 CAGR +8.76%。同端点重跑后2020/2023 CAGR低于 theme_fast，回撤与换手改善很小，长期最大回撤仍约52%、换手约32倍；不进入强稳定晋级。
+- `hkconnect_path3_theme_fast_weekly_defensive` 对 `hkconnect_path3_theme_fast_weekly`：`keep_watch`；2020/2023 CAGR 差 -0.88/-1.03 个百分点，MaxDD 差 +0.01/-0.01 个百分点，Sharpe 差 -0.02/-0.02，2026 CAGR +8.76%。2017回撤与换手仅小幅改善，2020/2023收益均略退化，长期回撤仍超过51%、换手约31倍；只能观察。
+- 本轮各新增/确认候选的完整五窗口 scorecard 见 `results/research/a_share/research_iteration_scorecard_20260925.json`；无 evict/archive，未以单一短窗 CAGR 晋级。
+
+### 本轮候选 ID 与命令
+
+- 本轮执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-24 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_theme_fast_weekly_buffered,hkconnect_path3_theme_fast_weekly_defensive,hkconnect_path3_theme_fast_weekly`。
+
+### 下一轮 focus 与第一条命令
+
+- `weekly_turnover_reduction`：第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-24 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest,hkconnect_path3_theme_fast_weekly`。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：`hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest`。
+- `weekly_defensive_overlay`：`hkconnect_path3_theme_fast_weekly_defensive`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v29_defensive_overlay`。
+- `cost_stress`：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit50_v27_cost_stress`、`hkconnect_path3_weekly_lowvol_exit46_v20260907`。
+
+
 ## 2026-09-24 迭代：2026-09-23 端点的覆盖与候选竞争
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,11 @@
 # 跟踪赢家历史
 
+## 2026-09-25 自动策略迭代（交易端点 2026-09-24）
+
+- Path2 按 guard 精确补缺 20 个 base ID，仍缺 `777/832`；正式 winner/robust 冻结，partial candidate-pass 含跨池历史行，仅用于诊断。
+- A股 Path1 纠正 fast-pass 池归属并同池确认，主线 buffered 与 core_multifactor risk16 均 `reject`；Path3 周频 `reject`，独立 Path4 risk06 `keep_watch`，Path5 已审计篮子 60D 样本仍不足。
+- 沪港通 Path1/5/6/7 本轮候选 `reject`，Path2/3/4 留在 `keep_watch`；Path3 buffered 复核 `reject`、defensive `keep_watch`。HK 活跃集合刷新引起部分窗口 winner 换位；Path3/4/5 的 robust 归类为 `robust_observation`，进入观察位，不是强稳定 winner。完整逐窗差值见 `results/research/a_share/research_iteration_scorecard_20260925.json`。
+
 ## 2026-09-24 自动策略迭代（交易端点 2026-09-23）
 
 - Path2 按 guard 精确补 20 个 base IDs 四窗口，coverage `34→54/832`，余 `778` 个 blocking 缺口；正式 Path2 winner/robust 冻结。

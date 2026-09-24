@@ -1,5 +1,30 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-09-25 迭代：2026-09-24 端点的策略竞争与覆盖
+
+### 上一轮候选与结果摘要
+
+- `tracked_active` 同端点刷新使 Path1 的 2017 窗口 winner 换位；本轮 risk35/caution80 候选仍为 `reject`，robust 身份不变，不能把刷新换位归因于该候选。
+- 上一轮 exit34 近窗亏损且换手高，reject。
+- `hkconnect_path1_monthly_lowvol_weekly_overlay_risk35_caution80_v20260907` 对 `hkconnect_path1_biweekly_lowvol`：`reject`；2020/2023 CAGR 差 +6.87/+7.65 个百分点，MaxDD 差 -1.08/-6.21 个百分点，Sharpe 差 +0.47/+0.31，2026 CAGR -7.14%。虽改善中窗收益，但2023回撤恶化超过5个百分点、2026转负且换手近翻倍，触发风险护栏。
+- 本轮各新增/确认候选的完整五窗口 scorecard 见 `results/research/a_share/research_iteration_scorecard_20260925.json`；无 evict/archive，未以单一短窗 CAGR 晋级。
+
+### 本轮候选 ID 与命令
+
+- 本轮执行：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-24 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_lowvol_weekly_overlay_risk35_caution80_v20260907,hkconnect_path1_biweekly_lowvol`。
+
+### 下一轮 focus 与第一条命令
+
+- `monthly_weekly_overlay`：第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-24 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v57_return_repair,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- 本轮 risk35/caution80 周度叠加 reject，停止同形扩参；Focus 池保留该 ID 仅作历史对照。
+- `monthly_weekly_overlay`：`hkconnect_path1_monthly_lowvol_weekly_overlay_risk35_caution80_v20260907`、`hkconnect_path1_monthly_quality_momentum_weekly_overlay_v57_return_repair`。
+- `biweekly_buffer`：`hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit34`（本轮 reject，仅对照）、`hkconnect_path1_biweekly_lowvol`。
+- `risk_overlay_cost`：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v46_risk_overlay_cost_guard`、`hkconnect_path1_monthly_lowvol_weekly_overlay_risk35_caution80_v20260907`。
+
+
 ## 2026-09-24 迭代：2026-09-23 端点的覆盖与候选竞争
 
 ### 上一轮候选与结果摘要

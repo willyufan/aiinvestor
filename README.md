@@ -1,5 +1,11 @@
 # aiinvestor
 
+## 2026-09-25 策略研究进展
+
+- 以 `2026-09-24` 为统一交易端点完成 A股 4 个、沪港通 9 个同窗口策略候选确认，另复核 1 个已审计 Path5 事件篮子；五窗口 scorecard 见 `results/research/a_share/research_iteration_scorecard_20260925.json`。Path2 精确补缺 20 个 base ID 后仍缺 `777/832`，正式 winner/robust 冻结。
+- Path1 fast-pass 的 `core_explore_seed` 池归属已修正；同池重跑后周度仓位 buffered 与多因子 risk16 均因中窗收益退化而 `reject`。A股 Path3 周频候选 `reject`，独立 Path4 风险变体 `keep_watch`，Path5 冻结篮子 60D 尚未成熟。
+- 沪港通 Path1/5/6/7 候选 `reject`，Path2/3/4 候选保留 `keep_watch`；Path3 额外确认 buffered 为 `reject`、defensive 为 `keep_watch`。`tracked_active` 同端点刷新后的 HK Path3/4/5 robust 仅为 `robust_observation`：**进入观察位，不是强稳定 winner**；部分窗口 winner 换位来自同步，不归因于本轮被拒候选。
+
 ## 2026-09-24 策略研究进展
 
 - 统一到 `2026-09-23` 端点；Path2 精确补缺 20 个 base IDs，完整候选 `34→54/832`，剩余 `778` 个 blocking 缺口，正式 Path2 身份继续冻结。

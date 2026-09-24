@@ -17712,7 +17712,7 @@ def get_strategy_alpha_pool_profile(strategy_config: Dict[str, object]) -> str:
         return ALPHA_POOL_PROFILE_EMERGENT_THEME
     if (
         strategy_base_id.startswith("core_explore_80_20_total_mv_winner_core__")
-        and variant_id in PATH1_FAST_PASS_DIRECTION_GROUPS["core_multifactor"]
+        and variant_id in PATH1_FAST_PASS_VARIANT_IDS
     ):
         return ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED
     if (

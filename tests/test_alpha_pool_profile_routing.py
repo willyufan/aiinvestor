@@ -29,6 +29,17 @@ class AlphaPoolProfileRoutingTest(unittest.TestCase):
             ashare.ALPHA_POOL_PROFILE_GROWTH_ELASTIC,
         )
 
+    def test_path1_weekly_exposure_overlay_stays_in_seed_pool(self) -> None:
+        strategy_base_id = (
+            "core_explore_80_20_total_mv_winner_core__"
+            "aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered"
+        )
+
+        self.assertEqual(
+            ashare.get_strategy_alpha_pool_profile({"strategy_base_id": strategy_base_id}),
+            ashare.ALPHA_POOL_PROFILE_CORE_EXPLORE_SEED,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
