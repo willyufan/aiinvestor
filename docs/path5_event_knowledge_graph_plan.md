@@ -1,5 +1,30 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-09-26 迭代：A股2026-09-24／沪港通2026-09-25端点的策略竞争与覆盖
+
+### 上一轮候选与结果摘要
+
+- 上一轮结果参见 `results/research/a_share/research_iteration_scorecard_20260925.json`；本轮按同窗口参照复核。
+- 本轮完整 scorecard 见 `results/research/a_share/research_iteration_scorecard_20260926.json`；无 evict/archive，reject 变体停止同形扩参。
+- 冻结篮子来源已审计；60日样本未成熟，不与 Path1-4 winner 混排。
+- 与 Path4 `capacity_v2` 在事件日前的持仓重合为 0/6；20 日正收益不能归因为 Path4 同期选股重合。
+- `ai_datacenter_power_grid_202607_v0` 对 `core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2`：`keep_watch`；20日等权+11.70%、40日等权-0.60%、60日未成熟。20日等权+11.70%、40日等权-0.60%，60日样本不足；五窗口年化指标不适用于单次事件篮子。
+
+### 本轮候选 ID 与命令
+
+- 本轮已审计冻结篮子实跑：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260926.json`。
+
+### 下一轮 focus 与第一条命令
+
+- `event_basket_registry`：等待60日窗口成熟后确认，下一篮子需先审计来源；第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_total_mv_winner_core__aggr_13_87_prom23_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap04_exit72_capacity_v2 --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260927.json`。
+
+### Focus 候选池
+
+- `event_basket_registry`：`ai_datacenter_power_grid_202607_v1`、`high_speed_pcb_copper_clad_server_20260624_v1`（均为待审计设计 ID，不能回测）。
+- `frozen_candidate_audit`：`ai_datacenter_power_grid_202607_v0` 现有成分与权重复核、`high_speed_pcb_copper_clad_server_20260624_v0` 历史来源复核（后者 archive_only）。
+- `event_backtest_entry`：`ai_datacenter_power_grid_202607_v0` 的 20/40/60D、同篮子的 5/10/20D，均须保持已审计冻结输入。
+- `path4_comparison`：该篮子对 Path4 `capacity_v2`、对 `risk_control_v5` 的持仓 overlap 与同期收益比较。
+
 ## 2026-09-25 迭代：2026-09-24 端点的策略竞争与覆盖
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,28 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-26 迭代：A股2026-09-24／沪港通2026-09-25端点的策略竞争与覆盖
+
+### 上一轮候选与结果摘要
+
+- 上一轮结果参见 `results/research/a_share/research_iteration_scorecard_20260925.json`；本轮按同窗口参照复核。
+- 本轮完整 scorecard 见 `results/research/a_share/research_iteration_scorecard_20260926.json`；无 evict/archive，reject 变体停止同形扩参。
+- 沪港通 2026-09-25 端点通过增量缓存状态修复完成 662/662 只准备；候选与当前 robust 均在同端点五窗口实跑。
+- `hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard` 对 `hkconnect_path2_theme_fast_monthly`：`keep_watch`；since_2020_01 CAGR差+5.33pp、MaxDD差+8.37pp、Sharpe差+0.47；since_2023_01 CAGR差+6.23pp、MaxDD差+8.37pp、Sharpe差+0.49；2026 CAGR -9.16%。中窗未触发硬护栏，但2026收益为负，继续观察。
+
+### 本轮候选 ID 与命令
+
+- 本轮 HK Path1-7 候选及参照的五窗口批次：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-25 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v57_return_repair,hkconnect_path1_biweekly_lowvol,hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard,hkconnect_path2_theme_fast_monthly,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest,hkconnect_path3_theme_fast_weekly,hkconnect_path4_liquidity_momentum_biweekly_v52_return_balance,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_pullback_continuation_monthly_v39_definition_balance,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_large_liquid_core_monthly_capacity_cost_v39_capacity_cost_repair,hkconnect_path6_large_liquid_core_monthly_smoke,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v34_turnover_control,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7,hkconnect_path4_liquidity_momentum_biweekly_smoke,hkconnect_path6_lowvol_liquid_biweekly_smoke`。
+
+### 下一轮 focus 与第一条命令
+
+- `elasticity_cost_control`：第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-25 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `high_return_monthly`：`hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard`、`hkconnect_path2_high_return_monthly_quality_liquidity_v32_high_return_monthly_guard`。
+- `biweekly_breakout`：`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v55_quality_recovery`、`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v56_theme_recovery`；本轮 exit35/risk50 停止同形扩参。
+- `elasticity_cost_control`：`hkconnect_path2_high_return_monthly_quality_liquidity_v30_ytd_recovery_guard`、`hkconnect_path2_theme_fast_monthly`。
+
 ## 2026-09-25 迭代：2026-09-24 端点的策略竞争与覆盖
 
 ### 上一轮候选与结果摘要

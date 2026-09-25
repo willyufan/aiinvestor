@@ -8906,6 +8906,7 @@ def load_or_fetch_hk_daily_adj(
             return cached.reset_index(drop=True)
         raise
 
+    fetch_completed_through = end_date.normalize()
     if not fetched.empty:
         fetched["trade_date"] = pd.to_datetime(fetched["trade_date"], format="%Y%m%d", errors="coerce")
 
@@ -8934,6 +8935,7 @@ def load_or_fetch_hk_daily_adj(
             print(f"[HK Data] {ts_code} 使用 AkShare fallback 补齐缺失交易日：{dates_text}")
         daily = prune_after_missing_raw_dates(daily, raw_dates, ts_code)
     daily = daily.sort_values("trade_date").drop_duplicates(subset=["trade_date"]).reset_index(drop=True)
+    daily.attrs["target_fetch_completed_through"] = fetch_completed_through.strftime("%Y-%m-%d")
     save_csv(daily, cache_path)
     return daily
 
@@ -8949,7 +8951,21 @@ def get_hk_daily_cache_status(
     latest_cached = pd.to_datetime(cached["trade_date"], errors="coerce").max()
     if pd.isna(latest_cached):
         return False, None
-    return pd.Timestamp(latest_cached) >= cache_target_date, pd.Timestamp(latest_cached)
+    latest_cached = pd.Timestamp(latest_cached)
+    if latest_cached >= cache_target_date:
+        return True, latest_cached
+    if HK_PROGRESS_PATH.exists():
+        try:
+            with open(HK_PROGRESS_PATH, encoding="utf-8") as fp:
+                progress = json.load(fp)
+            if (
+                progress.get("end_date") == cache_target_date.strftime("%Y-%m-%d")
+                and ts_code in progress.get("fresh_codes", [])
+            ):
+                return True, latest_cached
+        except (OSError, ValueError, TypeError):
+            pass
+    return False, latest_cached
 
 
 def hk_daily_frame_covers_target(daily: pd.DataFrame, cache_target_date: pd.Timestamp) -> bool:
@@ -8958,7 +8974,14 @@ def hk_daily_frame_covers_target(daily: pd.DataFrame, cache_target_date: pd.Time
     latest_cached = pd.to_datetime(daily["trade_date"], errors="coerce").max()
     if pd.isna(latest_cached):
         return False
-    return pd.Timestamp(latest_cached).normalize() >= pd.Timestamp(cache_target_date).normalize()
+    normalized_target = pd.Timestamp(cache_target_date).normalize()
+    if pd.Timestamp(latest_cached).normalize() >= normalized_target:
+        return True
+    confirmed_through = pd.to_datetime(
+        daily.attrs.get("target_fetch_completed_through"),
+        errors="coerce",
+    )
+    return bool(pd.notna(confirmed_through) and pd.Timestamp(confirmed_through).normalize() >= normalized_target)
 
 
 def get_hk_cache_worker_daily_client(default_pro):
