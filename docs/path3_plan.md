@@ -1,5 +1,30 @@
 # Path 3 研究计划
 
+## 2026-09-27 迭代：12 条路径覆盖及增量竞争
+
+### 上一轮候选与结果摘要
+
+- 上一轮结果见 `results/research/a_share/research_iteration_scorecard_20260926.json`；本轮五窗口竞争卡见 `results/research/a_share/research_iteration_scorecard_20260927.json`。
+- 复核上一轮 scorecard 与当前 winner/robust；本轮无新窗口晋级，沿用观察/淘汰结论。
+
+### 本轮候选 ID 与命令
+
+- 本轮未实跑：Path2 blocking 首批 20 ID 的 A股缓存准备与覆盖补缺占主要预算；已按 focus 设计下一轮候选与参照。
+
+- 待检验假设：降低周频换手阈值和仓位上限，可改善 2020/2023 回撤与成本；必须同时守住中窗 CAGR，且策略 ID 以 `_weekly` 结尾。
+
+### 下一轮 focus 与第一条命令
+
+- 第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- 本轮 cap42/hold7/turn02 周频形态 reject，停止同形扩参；Focus 池保留相关 ID 仅作历史对照。
+- `turnover_reduction`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly`。
+- `weekly_exit_buffer`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`（仅历史对照）、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- `risk_downshift`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly`。
+- `cost_stress`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。纯周频均以 `_weekly` 结尾。
+
 ## 2026-09-26 迭代：A股2026-09-24／沪港通2026-09-25端点的策略竞争与覆盖
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,26 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-09-27 迭代：12 条路径覆盖及增量竞争
+
+### 上一轮候选与结果摘要
+
+- 上一轮结果见 `results/research/a_share/research_iteration_scorecard_20260926.json`；本轮五窗口竞争卡见 `results/research/a_share/research_iteration_scorecard_20260927.json`。
+- `hkconnect_path2_high_return_monthly_quality_liquidity_v32_high_return_monthly_guard` 对当前 robust `hkconnect_path2_theme_fast_monthly`：`keep_watch`；2020/2023 CAGR 差 +4.92/+5.78pp，MaxDD 差 +10.14/+10.14pp，2026 CAGR -7.69%。中窗未触发阈值，但2026窗口CAGR为负；继续观察。
+
+### 本轮候选 ID 与命令
+
+- 本轮五窗口确认候选 `hkconnect_path2_high_return_monthly_quality_liquidity_v32_high_return_monthly_guard` 与当前 robust `hkconnect_path2_theme_fast_monthly`；命令类型 `backtest_hkconnect.py --only-strategy-ids`，完整批次：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-25 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_biweekly_quality_momentum_equal_buffered_v46_risk_overlay_cost_guard,hkconnect_path1_biweekly_lowvol,hkconnect_path2_high_return_monthly_quality_liquidity_v32_high_return_monthly_guard,hkconnect_path2_theme_fast_monthly,hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery,hkconnect_path3_theme_fast_weekly,hkconnect_path4_quality_momentum_monthly_v51_quality_balance,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path6_large_liquid_core_biweekly_quality_liquidity_mix_v8,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_v35_biweekly_barbell_repair,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。实验假设：月频高收益质量流动性防守，预期改善2020/2023收益且控制2026回撤。
+
+### 下一轮 focus 与第一条命令
+
+- 第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-25 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard,hkconnect_path2_theme_fast_monthly`。
+
+### Focus 候选池
+
+- `high_return_monthly`：`hkconnect_path2_high_return_monthly_quality_liquidity_v31_ytd_recovery_guard`、`hkconnect_path2_high_return_monthly_quality_liquidity_v32_high_return_monthly_guard`。
+- `biweekly_breakout`：`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v55_quality_recovery`、`hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v56_theme_recovery`；本轮 exit35/risk50 停止同形扩参。
+- `elasticity_cost_control`：`hkconnect_path2_high_return_monthly_quality_liquidity_v30_ytd_recovery_guard`、`hkconnect_path2_theme_fast_monthly`。
+
 ## 2026-09-26 迭代：A股2026-09-24／沪港通2026-09-25端点的策略竞争与覆盖
 
 ### 上一轮候选与结果摘要
