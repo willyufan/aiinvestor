@@ -1,5 +1,30 @@
 # Path 1 研究计划
 
+## 2026-09-28 迭代：Path2 补缺与五窗口候选确认
+
+### 上一轮候选与结果摘要
+
+- ashare_path1：上一轮 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_6_1__port_weekly_exposure_buffered_asym13` 对 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907` 判 `reject`；2020/2023 CAGR 差 -19.92pp/-6.74pp，MaxDD 差 +5.05pp/+4.86pp。
+- 本轮 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk12_reconfirm` 对 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`：`reject`。中窗稳定性阈值触发：since_2020_01:cagr,since_2020_01:sharpe_ratio,since_2023_01:cagr；五窗口同端点指标及假设见 `results/research/a_share/research_iteration_scorecard_20260928.json`。
+- core_multifactor 子组：guard 所列 64/64 五窗口完整；本轮确认 risk12，不把 Path4-lite 当独立 Path4。
+
+### 本轮候选 ID 与命令
+
+- ashare_path1 参数确认与同窗口参照：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk12_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`。假设：多因子风险阈值降至12，预期在维持2020/2023收益时改善最大回撤。
+
+### 下一轮 focus 与第一条命令
+
+- ashare_path1 `core_multifactor_coverage` 第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-25 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`。
+
+### Focus 候选池
+
+- 本轮 risk16 多因子与 buffered 周度仓位确认均 reject，停止同形扩参；Focus 池保留相关 ID 仅作历史对照。
+- `core_multifactor_coverage`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk16_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk12_reconfirm`；risk14 本轮已 reject，下一轮只作风险边界复核。
+- `signal_quality`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk18_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk16_reconfirm`。
+- `satellite_risk_cost`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- `holding_shape`：`core_explore_80_20_total_mv_winner_core__share_12_88_hold_4_6`、`core_explore_80_20_total_mv_winner_core__share_15_85_hold_4_6`；主线周度仓位另比较 buffered 与 buffered_asym13。
+
+
 ## 2026-09-27 迭代：12 条路径覆盖及增量竞争
 
 ### 上一轮候选与结果摘要
