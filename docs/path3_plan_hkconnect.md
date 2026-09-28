@@ -1,5 +1,28 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-09-29 迭代：同端点补缺与跨市场确认
+
+### 上一轮候选与结果摘要
+
+- hkconnect_path3：2026-09-27 `hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery` 对 `hkconnect_path3_theme_fast_weekly` 判 `reject`；2020/2023 CAGR 差 -3.53pp/-3.37pp，MaxDD 差 +19.96pp/-1.47pp。
+
+### 本轮候选 ID 与命令
+
+- hkconnect_path3 本轮未实跑：Path2 blocking 20-ID 四窗口补缺消耗主要预算；候选设计沿上轮 focus 池，下一节给出精确首命令。
+- 待确认候选 `hkconnect_path3_theme_fast_weekly_buffered`；未实跑原因见上；完整增量命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-28 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_buffered,hkconnect_path3_theme_fast_weekly`。
+
+### 下一轮 focus 与第一条命令
+
+- 下一轮第一条可执行命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-28 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_theme_fast_weekly_buffered,hkconnect_path3_theme_fast_weekly`。
+  候选 `hkconnect_path3_theme_fast_weekly_buffered`；预期检验轮换 focus 对中窗收益、回撤与换手的改善。
+
+### Focus 候选池
+
+- `weekly_turnover_reduction`：`hkconnect_path3_stable_weekly_lowvol_buffered_v38_return_recovery`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest`。
+- `weekly_defensive_overlay`：`hkconnect_path3_theme_fast_weekly_defensive`、`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff40_turnover0_exit56_v29_defensive_overlay`。
+- `cost_stress`：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff36_turnover0_exit50_v27_cost_stress`、`hkconnect_path3_weekly_lowvol_exit46_v20260907`。
+
+
 ## 2026-09-28 迭代：Path2 补缺与五窗口候选确认
 
 ### 上一轮候选与结果摘要
