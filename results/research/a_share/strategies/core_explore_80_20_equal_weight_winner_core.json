@@ -13,8 +13,8 @@
       "sample_tag_label": "2017窗口",
       "summary_meta": {
         "sample_start": "2017-01-01",
-        "sample_end": "2026-09-28",
-        "latest_valuation_date": "2026-09-28",
+        "sample_end": "2026-09-30",
+        "latest_valuation_date": "2026-09-30",
         "latest_formal_signal_date": "2026-08-31",
         "is_provisional_period_end": true,
         "sample_label": "2017-01 起",
@@ -28,75 +28,75 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.5844,
+      "target_total_exposure": 0.564,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.415572
+          "weight": 0.436034
         },
         {
           "ts_code": "688041.SH",
           "name": "海光信息",
-          "weight": 0.089693
-        },
-        {
-          "ts_code": "601698.SH",
-          "name": "中国卫通",
-          "weight": 0.081109
-        },
-        {
-          "ts_code": "603195.SH",
-          "name": "公牛集团",
-          "weight": 0.077761
-        },
-        {
-          "ts_code": "300760.SZ",
-          "name": "迈瑞医疗",
-          "weight": 0.061394
+          "weight": 0.083128
         },
         {
           "ts_code": "600941.SH",
           "name": "中国移动",
-          "weight": 0.055211
+          "weight": 0.081078
+        },
+        {
+          "ts_code": "603195.SH",
+          "name": "公牛集团",
+          "weight": 0.080389
+        },
+        {
+          "ts_code": "301308.SZ",
+          "name": "江波龙",
+          "weight": 0.069933
+        },
+        {
+          "ts_code": "300760.SZ",
+          "name": "迈瑞医疗",
+          "weight": 0.062638
         },
         {
           "ts_code": "600270.SH",
           "name": "外运发展(退)",
-          "weight": 0.050705
-        },
-        {
-          "ts_code": "688498.SH",
-          "name": "源杰科技",
-          "weight": 0.044205
-        },
-        {
-          "ts_code": "300394.SZ",
-          "name": "天孚通信",
-          "weight": 0.038894
+          "weight": 0.052608
         },
         {
           "ts_code": "688169.SH",
           "name": "石头科技",
-          "weight": 0.033283
+          "weight": 0.032171
         },
         {
-          "ts_code": "688028.SH",
-          "name": "沃尔德",
-          "weight": 0.029593
+          "ts_code": "688498.SH",
+          "name": "源杰科技",
+          "weight": 0.031766
+        },
+        {
+          "ts_code": "688200.SH",
+          "name": "华峰测控",
+          "weight": 0.025794
+        },
+        {
+          "ts_code": "603256.SH",
+          "name": "宏和科技",
+          "weight": 0.02433
         },
         {
           "ts_code": "688766.SH",
           "name": "普冉股份",
-          "weight": 0.022579
+          "weight": 0.020132
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-09-28",
+        "data_as_of": "2026-09-30",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-08-31",
-        "basket_effective_date": "2026-08-31",
-        "exposure_effective_date": "2026-08-31"
+        "suggestion_effective_date": "2026-09-30",
+        "basket_effective_date": "2026-09-30",
+        "exposure_effective_date": "2026-09-30"
       },
       "equity_curve_points": [
         {
@@ -568,8 +568,8 @@
           "nav": 3.434502
         },
         {
-          "date": "2026-09-28",
-          "nav": 3.331016
+          "date": "2026-09-30",
+          "nav": 3.310243
         }
       ],
       "snapshots": [
@@ -9133,18 +9133,157 @@
               "weight": 0.022579
             }
           ]
+        },
+        {
+          "date": "2026-09-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.436034
+            },
+            {
+              "ts_code": "688041.SH",
+              "name": "海光信息",
+              "weight": 0.083128
+            },
+            {
+              "ts_code": "600941.SH",
+              "name": "中国移动",
+              "weight": 0.081078
+            },
+            {
+              "ts_code": "603195.SH",
+              "name": "公牛集团",
+              "weight": 0.080389
+            },
+            {
+              "ts_code": "301308.SZ",
+              "name": "江波龙",
+              "weight": 0.069933
+            },
+            {
+              "ts_code": "300760.SZ",
+              "name": "迈瑞医疗",
+              "weight": 0.062638
+            },
+            {
+              "ts_code": "600270.SH",
+              "name": "外运发展(退)",
+              "weight": 0.052608
+            },
+            {
+              "ts_code": "688169.SH",
+              "name": "石头科技",
+              "weight": 0.032171
+            },
+            {
+              "ts_code": "688498.SH",
+              "name": "源杰科技",
+              "weight": 0.031766
+            },
+            {
+              "ts_code": "688200.SH",
+              "name": "华峰测控",
+              "weight": 0.025794
+            },
+            {
+              "ts_code": "603256.SH",
+              "name": "宏和科技",
+              "weight": 0.02433
+            },
+            {
+              "ts_code": "688766.SH",
+              "name": "普冉股份",
+              "weight": 0.020132
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-09-30",
+        "formal_signal_date": "2026-08-31",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.54,
+        "market_momentum": -0.0034,
+        "holdings": [
+          {
+            "ts_code": "688041.SH",
+            "name": "海光信息",
+            "weight": 0.088858
+          },
+          {
+            "ts_code": "301308.SZ",
+            "name": "江波龙",
+            "weight": 0.085671
+          },
+          {
+            "ts_code": "600941.SH",
+            "name": "中国移动",
+            "weight": 0.07292
+          },
+          {
+            "ts_code": "603195.SH",
+            "name": "公牛集团",
+            "weight": 0.071326
+          },
+          {
+            "ts_code": "300760.SZ",
+            "name": "迈瑞医疗",
+            "weight": 0.06495
+          },
+          {
+            "ts_code": "688169.SH",
+            "name": "石头科技",
+            "weight": 0.034667
+          },
+          {
+            "ts_code": "688498.SH",
+            "name": "源杰科技",
+            "weight": 0.028458
+          },
+          {
+            "ts_code": "688766.SH",
+            "name": "普冉股份",
+            "weight": 0.026149
+          },
+          {
+            "ts_code": "603256.SH",
+            "name": "宏和科技",
+            "weight": 0.025173
+          },
+          {
+            "ts_code": "688200.SH",
+            "name": "华峰测控",
+            "weight": 0.024818
+          },
+          {
+            "ts_code": "688505.SH",
+            "name": "复旦张江",
+            "weight": 0.005901
+          },
+          {
+            "ts_code": "688029.SH",
+            "name": "南微医学",
+            "weight": 0.005653
+          },
+          {
+            "ts_code": "600079.SH",
+            "name": "ST人福",
+            "weight": 0.005457
+          }
+        ]
+      }
     },
     "since_2020_01": {
       "sample_tag": "since_2020_01",
       "sample_tag_label": "2020窗口",
       "summary_meta": {
         "sample_start": "2020-01-01",
-        "sample_end": "2026-09-28",
-        "latest_valuation_date": "2026-09-28",
+        "sample_end": "2026-09-30",
+        "latest_valuation_date": "2026-09-30",
         "latest_formal_signal_date": "2026-08-31",
         "is_provisional_period_end": true,
         "sample_label": "2020-01 起",
@@ -9158,65 +9297,65 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.5394,
+      "target_total_exposure": 0.5177,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.46061
+          "weight": 0.482284
         },
         {
           "ts_code": "688041.SH",
           "name": "海光信息",
-          "weight": 0.108403
-        },
-        {
-          "ts_code": "601698.SH",
-          "name": "中国卫通",
-          "weight": 0.096901
-        },
-        {
-          "ts_code": "603195.SH",
-          "name": "公牛集团",
-          "weight": 0.086631
+          "weight": 0.101047
         },
         {
           "ts_code": "600941.SH",
           "name": "中国移动",
-          "weight": 0.059552
+          "weight": 0.095418
         },
         {
-          "ts_code": "688498.SH",
-          "name": "源杰科技",
-          "weight": 0.047502
+          "ts_code": "603195.SH",
+          "name": "公牛集团",
+          "weight": 0.090077
+        },
+        {
+          "ts_code": "301308.SZ",
+          "name": "江波龙",
+          "weight": 0.08483
         },
         {
           "ts_code": "688169.SH",
           "name": "石头科技",
-          "weight": 0.043558
+          "weight": 0.042345
         },
         {
-          "ts_code": "300394.SZ",
-          "name": "天孚通信",
-          "weight": 0.040778
+          "ts_code": "688498.SH",
+          "name": "源杰科技",
+          "weight": 0.031902
         },
         {
-          "ts_code": "688028.SH",
-          "name": "沃尔德",
-          "weight": 0.0318
+          "ts_code": "688200.SH",
+          "name": "华峰测控",
+          "weight": 0.025904
+        },
+        {
+          "ts_code": "603256.SH",
+          "name": "宏和科技",
+          "weight": 0.024434
         },
         {
           "ts_code": "688766.SH",
           "name": "普冉股份",
-          "weight": 0.024263
+          "weight": 0.021759
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-09-28",
+        "data_as_of": "2026-09-30",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-08-31",
-        "basket_effective_date": "2026-08-31",
-        "exposure_effective_date": "2026-08-31"
+        "suggestion_effective_date": "2026-09-30",
+        "basket_effective_date": "2026-09-30",
+        "exposure_effective_date": "2026-09-30"
       },
       "equity_curve_points": [
         {
@@ -9544,8 +9683,8 @@
           "nav": 1.545768
         },
         {
-          "date": "2026-09-28",
-          "nav": 1.493959
+          "date": "2026-09-30",
+          "nav": 1.481289
         }
       ],
       "snapshots": [
@@ -14998,18 +15137,142 @@
               "weight": 0.024263
             }
           ]
+        },
+        {
+          "date": "2026-09-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.482284
+            },
+            {
+              "ts_code": "688041.SH",
+              "name": "海光信息",
+              "weight": 0.101047
+            },
+            {
+              "ts_code": "600941.SH",
+              "name": "中国移动",
+              "weight": 0.095418
+            },
+            {
+              "ts_code": "603195.SH",
+              "name": "公牛集团",
+              "weight": 0.090077
+            },
+            {
+              "ts_code": "301308.SZ",
+              "name": "江波龙",
+              "weight": 0.08483
+            },
+            {
+              "ts_code": "688169.SH",
+              "name": "石头科技",
+              "weight": 0.042345
+            },
+            {
+              "ts_code": "688498.SH",
+              "name": "源杰科技",
+              "weight": 0.031902
+            },
+            {
+              "ts_code": "688200.SH",
+              "name": "华峰测控",
+              "weight": 0.025904
+            },
+            {
+              "ts_code": "603256.SH",
+              "name": "宏和科技",
+              "weight": 0.024434
+            },
+            {
+              "ts_code": "688766.SH",
+              "name": "普冉股份",
+              "weight": 0.021759
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-09-30",
+        "formal_signal_date": "2026-08-31",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.54,
+        "market_momentum": -0.0034,
+        "holdings": [
+          {
+            "ts_code": "688041.SH",
+            "name": "海光信息",
+            "weight": 0.105993
+          },
+          {
+            "ts_code": "301308.SZ",
+            "name": "江波龙",
+            "weight": 0.10153
+          },
+          {
+            "ts_code": "600941.SH",
+            "name": "中国移动",
+            "weight": 0.083678
+          },
+          {
+            "ts_code": "603195.SH",
+            "name": "公牛集团",
+            "weight": 0.081447
+          },
+          {
+            "ts_code": "688169.SH",
+            "name": "石头科技",
+            "weight": 0.045744
+          },
+          {
+            "ts_code": "688498.SH",
+            "name": "源杰科技",
+            "weight": 0.028458
+          },
+          {
+            "ts_code": "688766.SH",
+            "name": "普冉股份",
+            "weight": 0.026149
+          },
+          {
+            "ts_code": "603256.SH",
+            "name": "宏和科技",
+            "weight": 0.025173
+          },
+          {
+            "ts_code": "688200.SH",
+            "name": "华峰测控",
+            "weight": 0.024818
+          },
+          {
+            "ts_code": "688505.SH",
+            "name": "复旦张江",
+            "weight": 0.005901
+          },
+          {
+            "ts_code": "688029.SH",
+            "name": "南微医学",
+            "weight": 0.005653
+          },
+          {
+            "ts_code": "600079.SH",
+            "name": "ST人福",
+            "weight": 0.005457
+          }
+        ]
+      }
     },
     "since_2023_01": {
       "sample_tag": "since_2023_01",
       "sample_tag_label": "2023窗口",
       "summary_meta": {
         "sample_start": "2023-01-01",
-        "sample_end": "2026-09-28",
-        "latest_valuation_date": "2026-09-28",
+        "sample_end": "2026-09-30",
+        "latest_valuation_date": "2026-09-30",
         "latest_formal_signal_date": "2026-08-31",
         "is_provisional_period_end": true,
         "sample_label": "2023-01 起",
@@ -15023,55 +15286,55 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.5528,
+      "target_total_exposure": 0.5124,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.447159
-        },
-        {
-          "ts_code": "301308.SZ",
-          "name": "江波龙",
-          "weight": 0.14769
+          "weight": 0.487577
         },
         {
           "ts_code": "688041.SH",
           "name": "海光信息",
-          "weight": 0.120357
+          "weight": 0.129602
+        },
+        {
+          "ts_code": "301308.SZ",
+          "name": "江波龙",
+          "weight": 0.125671
         },
         {
           "ts_code": "301269.SZ",
           "name": "华大九天",
-          "weight": 0.115511
-        },
-        {
-          "ts_code": "300394.SZ",
-          "name": "天孚通信",
-          "weight": 0.049287
+          "weight": 0.105516
         },
         {
           "ts_code": "688498.SH",
           "name": "源杰科技",
-          "weight": 0.047644
+          "weight": 0.053965
         },
         {
-          "ts_code": "688028.SH",
-          "name": "沃尔德",
-          "weight": 0.041047
+          "ts_code": "688200.SH",
+          "name": "华峰测控",
+          "weight": 0.035366
+        },
+        {
+          "ts_code": "603256.SH",
+          "name": "宏和科技",
+          "weight": 0.033359
         },
         {
           "ts_code": "688766.SH",
           "name": "普冉股份",
-          "weight": 0.031304
+          "weight": 0.028943
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-09-28",
+        "data_as_of": "2026-09-30",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-08-31",
-        "basket_effective_date": "2026-08-31",
-        "exposure_effective_date": "2026-08-31"
+        "suggestion_effective_date": "2026-09-30",
+        "basket_effective_date": "2026-09-30",
+        "exposure_effective_date": "2026-09-30"
       },
       "equity_curve_points": [
         {
@@ -15255,8 +15518,8 @@
           "nav": 1.45354
         },
         {
-          "date": "2026-09-28",
-          "nav": 1.377135
+          "date": "2026-09-30",
+          "nav": 1.351045
         }
       ],
       "snapshots": [
@@ -18253,18 +18516,122 @@
               "weight": 0.031304
             }
           ]
+        },
+        {
+          "date": "2026-09-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.487577
+            },
+            {
+              "ts_code": "688041.SH",
+              "name": "海光信息",
+              "weight": 0.129602
+            },
+            {
+              "ts_code": "301308.SZ",
+              "name": "江波龙",
+              "weight": 0.125671
+            },
+            {
+              "ts_code": "301269.SZ",
+              "name": "华大九天",
+              "weight": 0.105516
+            },
+            {
+              "ts_code": "688498.SH",
+              "name": "源杰科技",
+              "weight": 0.053965
+            },
+            {
+              "ts_code": "688200.SH",
+              "name": "华峰测控",
+              "weight": 0.035366
+            },
+            {
+              "ts_code": "603256.SH",
+              "name": "宏和科技",
+              "weight": 0.033359
+            },
+            {
+              "ts_code": "688766.SH",
+              "name": "普冉股份",
+              "weight": 0.028943
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-09-30",
+        "formal_signal_date": "2026-08-31",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.54,
+        "market_momentum": -0.0034,
+        "holdings": [
+          {
+            "ts_code": "301308.SZ",
+            "name": "江波龙",
+            "weight": 0.135
+          },
+          {
+            "ts_code": "688041.SH",
+            "name": "海光信息",
+            "weight": 0.135
+          },
+          {
+            "ts_code": "301269.SZ",
+            "name": "华大九天",
+            "weight": 0.110056
+          },
+          {
+            "ts_code": "688498.SH",
+            "name": "源杰科技",
+            "weight": 0.037429
+          },
+          {
+            "ts_code": "688766.SH",
+            "name": "普冉股份",
+            "weight": 0.034393
+          },
+          {
+            "ts_code": "603256.SH",
+            "name": "宏和科技",
+            "weight": 0.033108
+          },
+          {
+            "ts_code": "688200.SH",
+            "name": "华峰测控",
+            "weight": 0.032641
+          },
+          {
+            "ts_code": "688505.SH",
+            "name": "复旦张江",
+            "weight": 0.007762
+          },
+          {
+            "ts_code": "688029.SH",
+            "name": "南微医学",
+            "weight": 0.007435
+          },
+          {
+            "ts_code": "600079.SH",
+            "name": "ST人福",
+            "weight": 0.007177
+          }
+        ]
+      }
     },
     "since_2025_01": {
       "sample_tag": "since_2025_01",
       "sample_tag_label": "2025窗口",
       "summary_meta": {
         "sample_start": "2025-01-01",
-        "sample_end": "2026-09-28",
-        "latest_valuation_date": "2026-09-28",
+        "sample_end": "2026-09-30",
+        "latest_valuation_date": "2026-09-30",
         "latest_formal_signal_date": "2026-08-31",
         "is_provisional_period_end": true,
         "sample_label": "2025-01 起",
@@ -18278,60 +18645,55 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.592,
+      "target_total_exposure": 0.5317,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.407961
-        },
-        {
-          "ts_code": "688498.SH",
-          "name": "源杰科技",
-          "weight": 0.114505
-        },
-        {
-          "ts_code": "688028.SH",
-          "name": "沃尔德",
-          "weight": 0.112046
-        },
-        {
-          "ts_code": "300394.SZ",
-          "name": "天孚通信",
-          "weight": 0.11163
+          "weight": 0.468317
         },
         {
           "ts_code": "688411.SH",
           "name": "海博思创",
-          "weight": 0.10812
+          "weight": 0.120861
+        },
+        {
+          "ts_code": "688498.SH",
+          "name": "源杰科技",
+          "weight": 0.109652
         },
         {
           "ts_code": "688766.SH",
           "name": "普冉股份",
-          "weight": 0.100068
+          "weight": 0.090072
         },
         {
-          "ts_code": "600535.SH",
-          "name": "天士力",
-          "weight": 0.015561
+          "ts_code": "688200.SH",
+          "name": "华峰测控",
+          "weight": 0.08871
         },
         {
-          "ts_code": "002568.SZ",
-          "name": "百润股份",
-          "weight": 0.015167
+          "ts_code": "603256.SH",
+          "name": "宏和科技",
+          "weight": 0.083664
         },
         {
-          "ts_code": "600750.SH",
-          "name": "华润江中",
-          "weight": 0.014942
+          "ts_code": "688002.SH",
+          "name": "睿创微纳",
+          "weight": 0.02054
+        },
+        {
+          "ts_code": "002648.SZ",
+          "name": "卫星化学",
+          "weight": 0.018183
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-09-28",
+        "data_as_of": "2026-09-30",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-08-31",
-        "basket_effective_date": "2026-08-31",
-        "exposure_effective_date": "2026-08-31"
+        "suggestion_effective_date": "2026-09-30",
+        "basket_effective_date": "2026-09-30",
+        "exposure_effective_date": "2026-09-30"
       },
       "equity_curve_points": [
         {
@@ -18419,8 +18781,8 @@
           "nav": 1.409569
         },
         {
-          "date": "2026-09-28",
-          "nav": 1.361594
+          "date": "2026-09-30",
+          "nav": 1.345773
         }
       ],
       "snapshots": [
@@ -20013,18 +20375,112 @@
               "weight": 0.014942
             }
           ]
+        },
+        {
+          "date": "2026-09-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.468317
+            },
+            {
+              "ts_code": "688411.SH",
+              "name": "海博思创",
+              "weight": 0.120861
+            },
+            {
+              "ts_code": "688498.SH",
+              "name": "源杰科技",
+              "weight": 0.109652
+            },
+            {
+              "ts_code": "688766.SH",
+              "name": "普冉股份",
+              "weight": 0.090072
+            },
+            {
+              "ts_code": "688200.SH",
+              "name": "华峰测控",
+              "weight": 0.08871
+            },
+            {
+              "ts_code": "603256.SH",
+              "name": "宏和科技",
+              "weight": 0.083664
+            },
+            {
+              "ts_code": "688002.SH",
+              "name": "睿创微纳",
+              "weight": 0.02054
+            },
+            {
+              "ts_code": "002648.SZ",
+              "name": "卫星化学",
+              "weight": 0.018183
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-09-30",
+        "formal_signal_date": "2026-08-31",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.54,
+        "market_momentum": -0.0034,
+        "holdings": [
+          {
+            "ts_code": "688411.SH",
+            "name": "海博思创",
+            "weight": 0.135
+          },
+          {
+            "ts_code": "688498.SH",
+            "name": "源杰科技",
+            "weight": 0.09515
+          },
+          {
+            "ts_code": "688766.SH",
+            "name": "普冉股份",
+            "weight": 0.08687
+          },
+          {
+            "ts_code": "603256.SH",
+            "name": "宏和科技",
+            "weight": 0.083729
+          },
+          {
+            "ts_code": "688200.SH",
+            "name": "华峰测控",
+            "weight": 0.082587
+          },
+          {
+            "ts_code": "688505.SH",
+            "name": "复旦张江",
+            "weight": 0.019662
+          },
+          {
+            "ts_code": "688029.SH",
+            "name": "南微医学",
+            "weight": 0.018856
+          },
+          {
+            "ts_code": "600079.SH",
+            "name": "ST人福",
+            "weight": 0.018147
+          }
+        ]
+      }
     },
     "since_2026_01": {
       "sample_tag": "since_2026_01",
       "sample_tag_label": "2026观察窗",
       "summary_meta": {
         "sample_start": "2026-01-01",
-        "sample_end": "2026-09-28",
-        "latest_valuation_date": "2026-09-28",
+        "sample_end": "2026-09-30",
+        "latest_valuation_date": "2026-09-30",
         "latest_formal_signal_date": "2026-08-31",
         "is_provisional_period_end": true,
         "sample_label": "2026-01 起",
@@ -20038,40 +20494,40 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.6022,
+      "target_total_exposure": 0.5289,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.397771
-        },
-        {
-          "ts_code": "688028.SH",
-          "name": "沃尔德",
-          "weight": 0.157801
+          "weight": 0.471125
         },
         {
           "ts_code": "688498.SH",
           "name": "源杰科技",
-          "weight": 0.149633
-        },
-        {
-          "ts_code": "300394.SZ",
-          "name": "天孚通信",
-          "weight": 0.149165
+          "weight": 0.149289
         },
         {
           "ts_code": "688766.SH",
           "name": "普冉股份",
-          "weight": 0.145629
+          "weight": 0.129718
+        },
+        {
+          "ts_code": "688200.SH",
+          "name": "华峰测控",
+          "weight": 0.128621
+        },
+        {
+          "ts_code": "603256.SH",
+          "name": "宏和科技",
+          "weight": 0.121247
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-09-28",
+        "data_as_of": "2026-09-30",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-08-31",
-        "basket_effective_date": "2026-08-31",
-        "exposure_effective_date": "2026-08-31"
+        "suggestion_effective_date": "2026-09-30",
+        "basket_effective_date": "2026-09-30",
+        "exposure_effective_date": "2026-09-30"
       },
       "equity_curve_points": [
         {
@@ -20111,8 +20567,8 @@
           "nav": 1.03186
         },
         {
-          "date": "2026-09-28",
-          "nav": 1.016032
+          "date": "2026-09-30",
+          "nav": 0.995525
         }
       ],
       "snapshots": [
@@ -20548,10 +21004,84 @@
               "weight": 0.145629
             }
           ]
+        },
+        {
+          "date": "2026-09-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.471125
+            },
+            {
+              "ts_code": "688498.SH",
+              "name": "源杰科技",
+              "weight": 0.149289
+            },
+            {
+              "ts_code": "688766.SH",
+              "name": "普冉股份",
+              "weight": 0.129718
+            },
+            {
+              "ts_code": "688200.SH",
+              "name": "华峰测控",
+              "weight": 0.128621
+            },
+            {
+              "ts_code": "603256.SH",
+              "name": "宏和科技",
+              "weight": 0.121247
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-09-30",
+        "formal_signal_date": "2026-08-31",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.54,
+        "market_momentum": -0.0034,
+        "holdings": [
+          {
+            "ts_code": "688498.SH",
+            "name": "源杰科技",
+            "weight": 0.135
+          },
+          {
+            "ts_code": "688766.SH",
+            "name": "普冉股份",
+            "weight": 0.133318
+          },
+          {
+            "ts_code": "603256.SH",
+            "name": "宏和科技",
+            "weight": 0.128115
+          },
+          {
+            "ts_code": "688200.SH",
+            "name": "华峰测控",
+            "weight": 0.126223
+          },
+          {
+            "ts_code": "688505.SH",
+            "name": "复旦张江",
+            "weight": 0.006017
+          },
+          {
+            "ts_code": "688029.SH",
+            "name": "南微医学",
+            "weight": 0.005764
+          },
+          {
+            "ts_code": "600079.SH",
+            "name": "ST人福",
+            "weight": 0.005564
+          }
+        ]
+      }
     }
   }
 }

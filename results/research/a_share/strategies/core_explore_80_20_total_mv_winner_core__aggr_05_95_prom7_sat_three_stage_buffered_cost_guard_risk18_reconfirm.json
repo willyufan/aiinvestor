@@ -13,8 +13,8 @@
       "sample_tag_label": "2017窗口",
       "summary_meta": {
         "sample_start": "2017-01-01",
-        "sample_end": "2026-09-28",
-        "latest_valuation_date": "2026-09-28",
+        "sample_end": "2026-09-30",
+        "latest_valuation_date": "2026-09-30",
         "latest_formal_signal_date": "2026-08-31",
         "is_provisional_period_end": true,
         "sample_label": "2017-01 起",
@@ -28,80 +28,60 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.7895,
+      "target_total_exposure": 0.7101,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.210453
-        },
-        {
-          "ts_code": "300394.SZ",
-          "name": "天孚通信",
-          "weight": 0.125545
+          "weight": 0.289878
         },
         {
           "ts_code": "688028.SH",
           "name": "沃尔德",
-          "weight": 0.124807
+          "weight": 0.116598
+        },
+        {
+          "ts_code": "688625.SH",
+          "name": "呈和科技",
+          "weight": 0.113544
         },
         {
           "ts_code": "603256.SH",
           "name": "宏和科技",
-          "weight": 0.112232
+          "weight": 0.102657
         },
         {
-          "ts_code": "688268.SH",
-          "name": "华特气体",
-          "weight": 0.092866
+          "ts_code": "688072.SH",
+          "name": "拓荆科技",
+          "weight": 0.09394
+        },
+        {
+          "ts_code": "300223.SZ",
+          "name": "北京君正",
+          "weight": 0.089136
+        },
+        {
+          "ts_code": "600183.SH",
+          "name": "生益科技",
+          "weight": 0.086474
         },
         {
           "ts_code": "688308.SH",
           "name": "欧科亿",
-          "weight": 0.08627
-        },
-        {
-          "ts_code": "300628.SZ",
-          "name": "亿联网络",
-          "weight": 0.07484
-        },
-        {
-          "ts_code": "000408.SZ",
-          "name": "藏格矿业",
-          "weight": 0.069071
-        },
-        {
-          "ts_code": "601869.SH",
-          "name": "长飞光纤",
-          "weight": 0.034486
-        },
-        {
-          "ts_code": "300604.SZ",
-          "name": "长川科技",
-          "weight": 0.028796
+          "weight": 0.080833
         },
         {
           "ts_code": "300308.SZ",
           "name": "中际旭创",
-          "weight": 0.027493
-        },
-        {
-          "ts_code": "688686.SH",
-          "name": "奥普特",
-          "weight": 0.007419
-        },
-        {
-          "ts_code": "603156.SH",
-          "name": "养元饮品",
-          "weight": 0.005722
+          "weight": 0.026941
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-09-28",
+        "data_as_of": "2026-09-30",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-08-31",
-        "basket_effective_date": "2026-08-31",
-        "exposure_effective_date": "2026-08-31"
+        "suggestion_effective_date": "2026-09-30",
+        "basket_effective_date": "2026-09-30",
+        "exposure_effective_date": "2026-09-30"
       },
       "equity_curve_points": [
         {
@@ -573,8 +553,8 @@
           "nav": 4.860766
         },
         {
-          "date": "2026-09-28",
-          "nav": 4.860561
+          "date": "2026-09-30",
+          "nav": 4.70729
         }
       ],
       "snapshots": [
@@ -7978,18 +7958,117 @@
               "weight": 0.005722
             }
           ]
+        },
+        {
+          "date": "2026-09-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.289878
+            },
+            {
+              "ts_code": "688028.SH",
+              "name": "沃尔德",
+              "weight": 0.116598
+            },
+            {
+              "ts_code": "688625.SH",
+              "name": "呈和科技",
+              "weight": 0.113544
+            },
+            {
+              "ts_code": "603256.SH",
+              "name": "宏和科技",
+              "weight": 0.102657
+            },
+            {
+              "ts_code": "688072.SH",
+              "name": "拓荆科技",
+              "weight": 0.09394
+            },
+            {
+              "ts_code": "300223.SZ",
+              "name": "北京君正",
+              "weight": 0.089136
+            },
+            {
+              "ts_code": "600183.SH",
+              "name": "生益科技",
+              "weight": 0.086474
+            },
+            {
+              "ts_code": "688308.SH",
+              "name": "欧科亿",
+              "weight": 0.080833
+            },
+            {
+              "ts_code": "300308.SZ",
+              "name": "中际旭创",
+              "weight": 0.026941
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-09-30",
+        "formal_signal_date": "2026-08-31",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.516,
+        "market_momentum": -0.0034,
+        "holdings": [
+          {
+            "ts_code": "603256.SH",
+            "name": "宏和科技",
+            "weight": 0.085393
+          },
+          {
+            "ts_code": "688308.SH",
+            "name": "欧科亿",
+            "weight": 0.073392
+          },
+          {
+            "ts_code": "600183.SH",
+            "name": "生益科技",
+            "weight": 0.071084
+          },
+          {
+            "ts_code": "688628.SH",
+            "name": "优利德",
+            "weight": 0.069699
+          },
+          {
+            "ts_code": "688025.SH",
+            "name": "杰普特",
+            "weight": 0.065083
+          },
+          {
+            "ts_code": "688072.SH",
+            "name": "拓荆科技",
+            "weight": 0.063237
+          },
+          {
+            "ts_code": "688625.SH",
+            "name": "呈和科技",
+            "weight": 0.062314
+          },
+          {
+            "ts_code": "300308.SZ",
+            "name": "中际旭创",
+            "weight": 0.0258
+          }
+        ]
+      }
     },
     "since_2020_01": {
       "sample_tag": "since_2020_01",
       "sample_tag_label": "2020窗口",
       "summary_meta": {
         "sample_start": "2020-01-01",
-        "sample_end": "2026-09-28",
-        "latest_valuation_date": "2026-09-28",
+        "sample_end": "2026-09-30",
+        "latest_valuation_date": "2026-09-30",
         "latest_formal_signal_date": "2026-08-31",
         "is_provisional_period_end": true,
         "sample_label": "2020-01 起",
@@ -8003,80 +8082,60 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.8183,
+      "target_total_exposure": 0.7163,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.181741
+          "weight": 0.28375
         },
         {
           "ts_code": "688028.SH",
           "name": "沃尔德",
-          "weight": 0.137744
+          "weight": 0.115136
         },
         {
-          "ts_code": "300394.SZ",
-          "name": "天孚通信",
-          "weight": 0.118808
+          "ts_code": "688625.SH",
+          "name": "呈和科技",
+          "weight": 0.110399
         },
         {
           "ts_code": "603256.SH",
           "name": "宏和科技",
-          "weight": 0.116478
-        },
-        {
-          "ts_code": "688025.SH",
-          "name": "杰普特",
-          "weight": 0.099871
-        },
-        {
-          "ts_code": "688268.SH",
-          "name": "华特气体",
-          "weight": 0.091863
-        },
-        {
-          "ts_code": "688308.SH",
-          "name": "欧科亿",
-          "weight": 0.088709
-        },
-        {
-          "ts_code": "000408.SZ",
-          "name": "藏格矿业",
-          "weight": 0.061503
-        },
-        {
-          "ts_code": "601869.SH",
-          "name": "长飞光纤",
-          "weight": 0.034948
-        },
-        {
-          "ts_code": "300604.SZ",
-          "name": "长川科技",
-          "weight": 0.029272
-        },
-        {
-          "ts_code": "300308.SZ",
-          "name": "中际旭创",
-          "weight": 0.026431
-        },
-        {
-          "ts_code": "688686.SH",
-          "name": "奥普特",
-          "weight": 0.007132
+          "weight": 0.10541
         },
         {
           "ts_code": "603156.SH",
           "name": "养元饮品",
-          "weight": 0.005501
+          "weight": 0.096935
+        },
+        {
+          "ts_code": "688072.SH",
+          "name": "拓荆科技",
+          "weight": 0.093398
+        },
+        {
+          "ts_code": "688195.SH",
+          "name": "腾景科技",
+          "weight": 0.09037
+        },
+        {
+          "ts_code": "688308.SH",
+          "name": "欧科亿",
+          "weight": 0.078977
+        },
+        {
+          "ts_code": "300308.SZ",
+          "name": "中际旭创",
+          "weight": 0.025625
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-09-28",
+        "data_as_of": "2026-09-30",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-08-31",
-        "basket_effective_date": "2026-08-31",
-        "exposure_effective_date": "2026-08-31"
+        "suggestion_effective_date": "2026-09-30",
+        "basket_effective_date": "2026-09-30",
+        "exposure_effective_date": "2026-09-30"
       },
       "equity_curve_points": [
         {
@@ -8404,8 +8463,8 @@
           "nav": 3.877783
         },
         {
-          "date": "2026-09-28",
-          "nav": 3.886891
+          "date": "2026-09-30",
+          "nav": 3.795626
         }
       ],
       "snapshots": [
@@ -14083,18 +14142,117 @@
               "weight": 0.005501
             }
           ]
+        },
+        {
+          "date": "2026-09-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.28375
+            },
+            {
+              "ts_code": "688028.SH",
+              "name": "沃尔德",
+              "weight": 0.115136
+            },
+            {
+              "ts_code": "688625.SH",
+              "name": "呈和科技",
+              "weight": 0.110399
+            },
+            {
+              "ts_code": "603256.SH",
+              "name": "宏和科技",
+              "weight": 0.10541
+            },
+            {
+              "ts_code": "603156.SH",
+              "name": "养元饮品",
+              "weight": 0.096935
+            },
+            {
+              "ts_code": "688072.SH",
+              "name": "拓荆科技",
+              "weight": 0.093398
+            },
+            {
+              "ts_code": "688195.SH",
+              "name": "腾景科技",
+              "weight": 0.09037
+            },
+            {
+              "ts_code": "688308.SH",
+              "name": "欧科亿",
+              "weight": 0.078977
+            },
+            {
+              "ts_code": "300308.SZ",
+              "name": "中际旭创",
+              "weight": 0.025625
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-09-30",
+        "formal_signal_date": "2026-08-31",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.516,
+        "market_momentum": -0.0034,
+        "holdings": [
+          {
+            "ts_code": "603256.SH",
+            "name": "宏和科技",
+            "weight": 0.089058
+          },
+          {
+            "ts_code": "688308.SH",
+            "name": "欧科亿",
+            "weight": 0.075004
+          },
+          {
+            "ts_code": "688025.SH",
+            "name": "杰普特",
+            "weight": 0.070116
+          },
+          {
+            "ts_code": "688628.SH",
+            "name": "优利德",
+            "weight": 0.068283
+          },
+          {
+            "ts_code": "688072.SH",
+            "name": "拓荆科技",
+            "weight": 0.067672
+          },
+          {
+            "ts_code": "688625.SH",
+            "name": "呈和科技",
+            "weight": 0.060339
+          },
+          {
+            "ts_code": "688195.SH",
+            "name": "腾景科技",
+            "weight": 0.059728
+          },
+          {
+            "ts_code": "300308.SZ",
+            "name": "中际旭创",
+            "weight": 0.0258
+          }
+        ]
+      }
     },
     "since_2023_01": {
       "sample_tag": "since_2023_01",
       "sample_tag_label": "2023窗口",
       "summary_meta": {
         "sample_start": "2023-01-01",
-        "sample_end": "2026-09-28",
-        "latest_valuation_date": "2026-09-28",
+        "sample_end": "2026-09-30",
+        "latest_valuation_date": "2026-09-30",
         "latest_formal_signal_date": "2026-08-31",
         "is_provisional_period_end": true,
         "sample_label": "2023-01 起",
@@ -14108,80 +14266,60 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.811,
+      "target_total_exposure": 0.7102,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.188985
+          "weight": 0.289821
         },
         {
           "ts_code": "688028.SH",
           "name": "沃尔德",
-          "weight": 0.128755
+          "weight": 0.116245
         },
         {
           "ts_code": "603256.SH",
           "name": "宏和科技",
-          "weight": 0.116936
-        },
-        {
-          "ts_code": "300394.SZ",
-          "name": "天孚通信",
-          "weight": 0.111291
-        },
-        {
-          "ts_code": "688432.SH",
-          "name": "有研硅",
-          "weight": 0.097649
-        },
-        {
-          "ts_code": "688308.SH",
-          "name": "欧科亿",
-          "weight": 0.092408
-        },
-        {
-          "ts_code": "688268.SH",
-          "name": "华特气体",
-          "weight": 0.089899
-        },
-        {
-          "ts_code": "300502.SZ",
-          "name": "新易盛",
-          "weight": 0.074062
-        },
-        {
-          "ts_code": "601869.SH",
-          "name": "长飞光纤",
-          "weight": 0.033283
-        },
-        {
-          "ts_code": "300604.SZ",
-          "name": "长川科技",
-          "weight": 0.027859
-        },
-        {
-          "ts_code": "300308.SZ",
-          "name": "中际旭创",
-          "weight": 0.026301
-        },
-        {
-          "ts_code": "688686.SH",
-          "name": "奥普特",
-          "weight": 0.007097
+          "weight": 0.107092
         },
         {
           "ts_code": "603156.SH",
           "name": "养元饮品",
-          "weight": 0.005474
+          "weight": 0.099299
+        },
+        {
+          "ts_code": "688072.SH",
+          "name": "拓荆科技",
+          "weight": 0.092898
+        },
+        {
+          "ts_code": "300223.SZ",
+          "name": "北京君正",
+          "weight": 0.091615
+        },
+        {
+          "ts_code": "688195.SH",
+          "name": "腾景科技",
+          "weight": 0.091261
+        },
+        {
+          "ts_code": "688127.SH",
+          "name": "蓝特光学",
+          "weight": 0.085965
+        },
+        {
+          "ts_code": "300308.SZ",
+          "name": "中际旭创",
+          "weight": 0.025805
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-09-28",
+        "data_as_of": "2026-09-30",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-08-31",
-        "basket_effective_date": "2026-08-31",
-        "exposure_effective_date": "2026-08-31"
+        "suggestion_effective_date": "2026-09-30",
+        "basket_effective_date": "2026-09-30",
+        "exposure_effective_date": "2026-09-30"
       },
       "equity_curve_points": [
         {
@@ -14365,8 +14503,8 @@
           "nav": 1.871048
         },
         {
-          "date": "2026-09-28",
-          "nav": 1.842325
+          "date": "2026-09-30",
+          "nav": 1.809729
         }
       ],
       "snapshots": [
@@ -17358,18 +17496,117 @@
               "weight": 0.005474
             }
           ]
+        },
+        {
+          "date": "2026-09-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.289821
+            },
+            {
+              "ts_code": "688028.SH",
+              "name": "沃尔德",
+              "weight": 0.116245
+            },
+            {
+              "ts_code": "603256.SH",
+              "name": "宏和科技",
+              "weight": 0.107092
+            },
+            {
+              "ts_code": "603156.SH",
+              "name": "养元饮品",
+              "weight": 0.099299
+            },
+            {
+              "ts_code": "688072.SH",
+              "name": "拓荆科技",
+              "weight": 0.092898
+            },
+            {
+              "ts_code": "300223.SZ",
+              "name": "北京君正",
+              "weight": 0.091615
+            },
+            {
+              "ts_code": "688195.SH",
+              "name": "腾景科技",
+              "weight": 0.091261
+            },
+            {
+              "ts_code": "688127.SH",
+              "name": "蓝特光学",
+              "weight": 0.085965
+            },
+            {
+              "ts_code": "300308.SZ",
+              "name": "中际旭创",
+              "weight": 0.025805
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-09-30",
+        "formal_signal_date": "2026-08-31",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.516,
+        "market_momentum": -0.0034,
+        "holdings": [
+          {
+            "ts_code": "603256.SH",
+            "name": "宏和科技",
+            "weight": 0.090823
+          },
+          {
+            "ts_code": "688432.SH",
+            "name": "有研硅",
+            "weight": 0.07748
+          },
+          {
+            "ts_code": "688127.SH",
+            "name": "蓝特光学",
+            "weight": 0.071415
+          },
+          {
+            "ts_code": "688628.SH",
+            "name": "优利德",
+            "weight": 0.070202
+          },
+          {
+            "ts_code": "688072.SH",
+            "name": "拓荆科技",
+            "weight": 0.065956
+          },
+          {
+            "ts_code": "688195.SH",
+            "name": "腾景科技",
+            "weight": 0.059891
+          },
+          {
+            "ts_code": "688625.SH",
+            "name": "呈和科技",
+            "weight": 0.054433
+          },
+          {
+            "ts_code": "300308.SZ",
+            "name": "中际旭创",
+            "weight": 0.0258
+          }
+        ]
+      }
     },
     "since_2025_01": {
       "sample_tag": "since_2025_01",
       "sample_tag_label": "2025窗口",
       "summary_meta": {
         "sample_start": "2025-01-01",
-        "sample_end": "2026-09-28",
-        "latest_valuation_date": "2026-09-28",
+        "sample_end": "2026-09-30",
+        "latest_valuation_date": "2026-09-30",
         "latest_formal_signal_date": "2026-08-31",
         "is_provisional_period_end": true,
         "sample_label": "2025-01 起",
@@ -17383,80 +17620,60 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.8325,
+      "target_total_exposure": 0.7176,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.167472
-        },
-        {
-          "ts_code": "688028.SH",
-          "name": "沃尔德",
-          "weight": 0.134032
+          "weight": 0.282355
         },
         {
           "ts_code": "688498.SH",
           "name": "源杰科技",
-          "weight": 0.13325
+          "weight": 0.125323
+        },
+        {
+          "ts_code": "688028.SH",
+          "name": "沃尔德",
+          "weight": 0.112979
+        },
+        {
+          "ts_code": "688625.SH",
+          "name": "呈和科技",
+          "weight": 0.107001
         },
         {
           "ts_code": "603256.SH",
           "name": "宏和科技",
-          "weight": 0.114703
-        },
-        {
-          "ts_code": "688025.SH",
-          "name": "杰普特",
-          "weight": 0.08918
-        },
-        {
-          "ts_code": "688059.SH",
-          "name": "华锐精密",
-          "weight": 0.087714
-        },
-        {
-          "ts_code": "688268.SH",
-          "name": "华特气体",
-          "weight": 0.086848
-        },
-        {
-          "ts_code": "688308.SH",
-          "name": "欧科亿",
-          "weight": 0.083689
-        },
-        {
-          "ts_code": "601869.SH",
-          "name": "长飞光纤",
-          "weight": 0.034999
-        },
-        {
-          "ts_code": "300604.SZ",
-          "name": "长川科技",
-          "weight": 0.029531
-        },
-        {
-          "ts_code": "300308.SZ",
-          "name": "中际旭创",
-          "weight": 0.026104
-        },
-        {
-          "ts_code": "688686.SH",
-          "name": "奥普特",
-          "weight": 0.007044
+          "weight": 0.10462
         },
         {
           "ts_code": "603156.SH",
           "name": "养元饮品",
-          "weight": 0.005433
+          "weight": 0.094879
+        },
+        {
+          "ts_code": "688308.SH",
+          "name": "欧科亿",
+          "weight": 0.076141
+        },
+        {
+          "ts_code": "002192.SZ",
+          "name": "融捷股份",
+          "weight": 0.071193
+        },
+        {
+          "ts_code": "300308.SZ",
+          "name": "中际旭创",
+          "weight": 0.025508
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-09-28",
+        "data_as_of": "2026-09-30",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-08-31",
-        "basket_effective_date": "2026-08-31",
-        "exposure_effective_date": "2026-08-31"
+        "suggestion_effective_date": "2026-09-30",
+        "basket_effective_date": "2026-09-30",
+        "exposure_effective_date": "2026-09-30"
       },
       "equity_curve_points": [
         {
@@ -17544,8 +17761,8 @@
           "nav": 2.033271
         },
         {
-          "date": "2026-09-28",
-          "nav": 2.019527
+          "date": "2026-09-30",
+          "nav": 1.974658
         }
       ],
       "snapshots": [
@@ -19368,18 +19585,117 @@
               "weight": 0.005433
             }
           ]
+        },
+        {
+          "date": "2026-09-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.282355
+            },
+            {
+              "ts_code": "688498.SH",
+              "name": "源杰科技",
+              "weight": 0.125323
+            },
+            {
+              "ts_code": "688028.SH",
+              "name": "沃尔德",
+              "weight": 0.112979
+            },
+            {
+              "ts_code": "688625.SH",
+              "name": "呈和科技",
+              "weight": 0.107001
+            },
+            {
+              "ts_code": "603256.SH",
+              "name": "宏和科技",
+              "weight": 0.10462
+            },
+            {
+              "ts_code": "603156.SH",
+              "name": "养元饮品",
+              "weight": 0.094879
+            },
+            {
+              "ts_code": "688308.SH",
+              "name": "欧科亿",
+              "weight": 0.076141
+            },
+            {
+              "ts_code": "002192.SZ",
+              "name": "融捷股份",
+              "weight": 0.071193
+            },
+            {
+              "ts_code": "300308.SZ",
+              "name": "中际旭创",
+              "weight": 0.025508
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-09-30",
+        "formal_signal_date": "2026-08-31",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.516,
+        "market_momentum": -0.0034,
+        "holdings": [
+          {
+            "ts_code": "688498.SH",
+            "name": "源杰科技",
+            "weight": 0.091576
+          },
+          {
+            "ts_code": "603256.SH",
+            "name": "宏和科技",
+            "weight": 0.07757
+          },
+          {
+            "ts_code": "688308.SH",
+            "name": "欧科亿",
+            "weight": 0.068413
+          },
+          {
+            "ts_code": "688628.SH",
+            "name": "优利德",
+            "weight": 0.066796
+          },
+          {
+            "ts_code": "002192.SZ",
+            "name": "融捷股份",
+            "weight": 0.063564
+          },
+          {
+            "ts_code": "688025.SH",
+            "name": "杰普特",
+            "weight": 0.062487
+          },
+          {
+            "ts_code": "688625.SH",
+            "name": "呈和科技",
+            "weight": 0.059794
+          },
+          {
+            "ts_code": "300308.SZ",
+            "name": "中际旭创",
+            "weight": 0.0258
+          }
+        ]
+      }
     },
     "since_2026_01": {
       "sample_tag": "since_2026_01",
       "sample_tag_label": "2026观察窗",
       "summary_meta": {
         "sample_start": "2026-01-01",
-        "sample_end": "2026-09-28",
-        "latest_valuation_date": "2026-09-28",
+        "sample_end": "2026-09-30",
+        "latest_valuation_date": "2026-09-30",
         "latest_formal_signal_date": "2026-08-31",
         "is_provisional_period_end": true,
         "sample_label": "2026-01 起",
@@ -19393,75 +19709,60 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.8275,
+      "target_total_exposure": 0.6974,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.172456
-        },
-        {
-          "ts_code": "688766.SH",
-          "name": "普冉股份",
-          "weight": 0.125115
-        },
-        {
-          "ts_code": "603256.SH",
-          "name": "宏和科技",
-          "weight": 0.122127
-        },
-        {
-          "ts_code": "601869.SH",
-          "name": "长飞光纤",
-          "weight": 0.117378
+          "weight": 0.302562
         },
         {
           "ts_code": "688028.SH",
           "name": "沃尔德",
-          "weight": 0.1036
+          "weight": 0.107841
         },
         {
-          "ts_code": "688627.SH",
-          "name": "精智达",
-          "weight": 0.093815
+          "ts_code": "688200.SH",
+          "name": "华峰测控",
+          "weight": 0.101336
         },
         {
-          "ts_code": "688308.SH",
-          "name": "欧科亿",
-          "weight": 0.081202
+          "ts_code": "601869.SH",
+          "name": "长飞光纤",
+          "weight": 0.097813
+        },
+        {
+          "ts_code": "688766.SH",
+          "name": "普冉股份",
+          "weight": 0.096766
+        },
+        {
+          "ts_code": "603256.SH",
+          "name": "宏和科技",
+          "weight": 0.093887
+        },
+        {
+          "ts_code": "688630.SH",
+          "name": "芯碁微装",
+          "weight": 0.090666
         },
         {
           "ts_code": "300604.SZ",
           "name": "长川科技",
-          "weight": 0.07465
-        },
-        {
-          "ts_code": "001389.SZ",
-          "name": "广合科技",
-          "weight": 0.031873
-        },
-        {
-          "ts_code": "688686.SH",
-          "name": "奥普特",
-          "weight": 0.027934
+          "weight": 0.082812
         },
         {
           "ts_code": "300308.SZ",
           "name": "中际旭创",
-          "weight": 0.026077
-        },
-        {
-          "ts_code": "603156.SH",
-          "name": "养元饮品",
-          "weight": 0.023774
+          "weight": 0.026319
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-09-28",
+        "data_as_of": "2026-09-30",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-08-31",
-        "basket_effective_date": "2026-08-31",
-        "exposure_effective_date": "2026-08-31"
+        "suggestion_effective_date": "2026-09-30",
+        "basket_effective_date": "2026-09-30",
+        "exposure_effective_date": "2026-09-30"
       },
       "equity_curve_points": [
         {
@@ -19501,8 +19802,8 @@
           "nav": 1.079109
         },
         {
-          "date": "2026-09-28",
-          "nav": 1.043417
+          "date": "2026-09-30",
+          "nav": 1.014627
         }
       ],
       "snapshots": [
@@ -20213,10 +20514,109 @@
               "weight": 0.023774
             }
           ]
+        },
+        {
+          "date": "2026-09-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.302562
+            },
+            {
+              "ts_code": "688028.SH",
+              "name": "沃尔德",
+              "weight": 0.107841
+            },
+            {
+              "ts_code": "688200.SH",
+              "name": "华峰测控",
+              "weight": 0.101336
+            },
+            {
+              "ts_code": "601869.SH",
+              "name": "长飞光纤",
+              "weight": 0.097813
+            },
+            {
+              "ts_code": "688766.SH",
+              "name": "普冉股份",
+              "weight": 0.096766
+            },
+            {
+              "ts_code": "603256.SH",
+              "name": "宏和科技",
+              "weight": 0.093887
+            },
+            {
+              "ts_code": "688630.SH",
+              "name": "芯碁微装",
+              "weight": 0.090666
+            },
+            {
+              "ts_code": "300604.SZ",
+              "name": "长川科技",
+              "weight": 0.082812
+            },
+            {
+              "ts_code": "300308.SZ",
+              "name": "中际旭创",
+              "weight": 0.026319
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-09-30",
+        "formal_signal_date": "2026-08-31",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.516,
+        "market_momentum": -0.0034,
+        "holdings": [
+          {
+            "ts_code": "603256.SH",
+            "name": "宏和科技",
+            "weight": 0.081153
+          },
+          {
+            "ts_code": "688766.SH",
+            "name": "普冉股份",
+            "weight": 0.076498
+          },
+          {
+            "ts_code": "688630.SH",
+            "name": "芯碁微装",
+            "weight": 0.074805
+          },
+          {
+            "ts_code": "601869.SH",
+            "name": "长飞光纤",
+            "weight": 0.073112
+          },
+          {
+            "ts_code": "688200.SH",
+            "name": "华峰测控",
+            "weight": 0.070149
+          },
+          {
+            "ts_code": "688025.SH",
+            "name": "杰普特",
+            "weight": 0.057876
+          },
+          {
+            "ts_code": "688628.SH",
+            "name": "优利德",
+            "weight": 0.056606
+          },
+          {
+            "ts_code": "300308.SZ",
+            "name": "中际旭创",
+            "weight": 0.0258
+          }
+        ]
+      }
     }
   }
 }
