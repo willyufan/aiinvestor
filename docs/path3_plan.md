@@ -1,5 +1,29 @@
 # Path 3 研究计划
 
+## 2026-10-01 迭代：2026-09-30 同端点竞争与覆盖
+
+### 上一轮候选与结果摘要
+
+- Path3 上轮仅巡检，63/63 已覆盖；周频高换手仍需与窗口收益同时比较。
+- 本轮完成巡检与下一候选设计；Path2 首批20-ID四窗 blocking 补缺占主要预算，本路径未新增/确认实跑，window winner/robust/tracked 身份未因本路径改变；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 本轮未实跑原因：Path2 blocking 首批20-ID四窗补缺占主要预算；保留以下具体候选，不把巡检计为竞争。
+
+### 下一轮 focus 与第一条命令
+
+- 按 guard recommended_focus 选取下列候选，同端点五窗口比较 CAGR、Sharpe、MaxDD、换手与成本。
+- path3 第一条完整增量命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- 本轮 cap42/hold7/turn02 周频形态 reject，停止同形扩参；Focus 池保留相关 ID 仅作历史对照。
+- `turnover_reduction`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly`。
+- `weekly_exit_buffer`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`（仅历史对照）、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- `risk_downshift`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly`。
+- `cost_stress`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。纯周频均以 `_weekly` 结尾。
+
 ## 2026-09-29 迭代：同端点补缺与跨市场确认
 
 ### 上一轮候选与结果摘要

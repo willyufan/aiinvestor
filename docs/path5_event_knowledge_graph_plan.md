@@ -1,5 +1,28 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-10-01 迭代：2026-09-30 同端点竞争与覆盖
+
+### 上一轮候选与结果摘要
+
+- 已审计冻结电力事件篮子上轮 20D +11.70%、40D -0.60%，60D 仅49个可用交易日；keep_watch，未达到同 horizon 晋级条件。
+- 本轮检查 registry/candidates：5个篮子、1个 active、34个候选、10个 frozen、pending_audit_count=0。既有冻结篮子因60D尚不成熟且 Path2 补缺占主要预算未复跑，保持 `keep_watch`。kb-web MCP 未暴露，隔离 pilot 阻断，不导入未经审计的自然语言证据。
+
+### 本轮候选 ID 与命令
+
+- 本轮未实跑原因：Path2 blocking 首批20-ID四窗补缺占主要预算；保留以下具体候选，不把巡检计为竞争。
+
+### 下一轮 focus 与第一条命令
+
+- 按 guard recommended_focus 选取下列候选，同端点五窗口比较 CAGR、Sharpe、MaxDD、换手与成本。
+- path5_event_knowledge_graph 第一条完整增量命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/event_theme_backtest_entry_ai_datacenter_power_grid_202607_v0_path4_capacity_v2_20260930.json`。
+
+### Focus 候选池
+
+- `event_basket_registry`：`ai_datacenter_power_grid_202607_v1`、`high_speed_pcb_copper_clad_server_20260624_v1`（均为待审计设计 ID，不能回测）。
+- `frozen_candidate_audit`：`ai_datacenter_power_grid_202607_v0` 现有成分与权重复核、`high_speed_pcb_copper_clad_server_20260624_v0` 历史来源复核（后者 archive_only）。
+- `event_backtest_entry`：`ai_datacenter_power_grid_202607_v0` 的 20/40/60D、同篮子的 5/10/20D，均须保持已审计冻结输入。
+- `path4_comparison`：该篮子对 Path4 `capacity_v2`、对 `risk_control_v5` 的持仓 overlap 与同期收益比较。
+
 ## 2026-09-29 迭代：同端点补缺与跨市场确认
 
 ### 上一轮候选与结果摘要

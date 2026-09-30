@@ -1,5 +1,28 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-10-01 迭代：2026-09-30 同端点竞争与覆盖
+
+### 上一轮候选与结果摘要
+
+- 上轮仅巡检，窗口 winner/robust 身份未变。
+- 本轮完成巡检与下一候选设计；Path2 首批20-ID四窗 blocking 补缺占主要预算，本路径未新增/确认实跑，window winner/robust/tracked 身份未因本路径改变；无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 本轮未实跑原因：Path2 blocking 首批20-ID四窗补缺占主要预算；保留以下具体候选，不把巡检计为竞争。
+
+### 下一轮 focus 与第一条命令
+
+- 按 guard recommended_focus 选取下列候选，同端点五窗口比较 CAGR、Sharpe、MaxDD、换手与成本。
+- path1_hkconnect 第一条完整增量命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-30 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_soft_exit32,hkconnect_path1_biweekly_lowvol`。
+
+### Focus 候选池
+
+- 本轮 risk35/caution80 周度叠加 reject，停止同形扩参；Focus 池保留该 ID 仅作历史对照。
+- `monthly_weekly_overlay`：`hkconnect_path1_monthly_lowvol_weekly_overlay_risk35_caution80_v20260907`、`hkconnect_path1_monthly_quality_momentum_weekly_overlay_v57_return_repair`。
+- `biweekly_buffer`：`hkconnect_path1_biweekly_equal_buffered_lowvol_soft_cost_guard_exit34`（本轮 reject，仅对照）、`hkconnect_path1_biweekly_lowvol`。
+- `risk_overlay_cost`：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v46_risk_overlay_cost_guard`、`hkconnect_path1_monthly_lowvol_weekly_overlay_risk35_caution80_v20260907`。
+
 ## 2026-09-29 迭代：同端点补缺与跨市场确认
 
 ### 上一轮候选与结果摘要
