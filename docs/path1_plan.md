@@ -1,5 +1,28 @@
 # Path 1 研究计划
 
+## 2026-10-02 迭代：2026-09-30 同端点竞争与覆盖
+
+### 上一轮候选与结果摘要
+
+- 上轮 Path1 主线与 core_multifactor 巡检、正式身份未变。本轮 Path2 精确20-ID补缺占主要预算；主线与 core_multifactor 均未新增五窗回测，不能算竞争动作。core_multifactor 代码侧覆盖维持64/64。
+
+### 本轮候选 ID 与命令
+
+- 本轮未实跑：保留主线 signal_quality 与 core_multifactor 的两 ID 确认设计；完整命令在下一节。
+
+### 下一轮 focus 与第一条命令
+
+- 继续按 guard recommended_focus 与下列候选池取样；五窗同端点比较 CAGR、Sharpe、MaxDD、换手和成本。未实跑原因已记于本轮候选段。
+- path1 第一条完整增量命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk16_reconfirm,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`。
+
+### Focus 候选池
+
+- 本轮 risk16 多因子与 buffered 周度仓位确认均 reject，停止同形扩参；Focus 池保留相关 ID 仅作历史对照。
+- `core_multifactor_coverage`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk16_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_trend_signal_cashguard_risk12_reconfirm`；risk14 本轮已 reject，下一轮只作风险边界复核。
+- `signal_quality`：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk18_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_signal_cashguard_risk16_reconfirm`。
+- `satellite_risk_cost`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk18_reconfirm`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_sat_three_stage_buffered_cost_guard_risk20_reconfirm`。
+- `holding_shape`：`core_explore_80_20_total_mv_winner_core__share_12_88_hold_4_6`、`core_explore_80_20_total_mv_winner_core__share_15_85_hold_4_6`；主线周度仓位另比较 buffered 与 buffered_asym13。
+
 ## 2026-10-01 迭代：2026-09-30 同端点竞争与覆盖
 
 ### 上一轮候选与结果摘要

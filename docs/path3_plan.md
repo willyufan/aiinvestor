@@ -1,5 +1,28 @@
 # Path 3 研究计划
 
+## 2026-10-02 迭代：2026-09-30 同端点竞争与覆盖
+
+### 上一轮候选与结果摘要
+
+- 上轮 `A股 Path3 纯周频` 候选结果与正式身份见上一节；本轮 Path2 精确20-ID补缺及 A/HK 最低实跑占预算，本路径只巡检、未新增回测，winner/robust/tracked 暂无本路径改动，无 evict/archive。
+
+### 本轮候选 ID 与命令
+
+- 本轮未实跑：保留 `A股 Path3 纯周频` focus 候选及下轮精确增量命令；不把巡检计为策略竞争。
+
+### 下一轮 focus 与第一条命令
+
+- 继续按 guard recommended_focus 与下列候选池取样；五窗同端点比较 CAGR、Sharpe、MaxDD、换手和成本。未实跑原因已记于本轮候选段。
+- path3 第一条完整增量命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+
+### Focus 候选池
+
+- 本轮 cap42/hold7/turn02 周频形态 reject，停止同形扩参；Focus 池保留相关 ID 仅作历史对照。
+- `turnover_reduction`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly`。
+- `weekly_exit_buffer`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`（仅历史对照）、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap54_hold5_turn05_exit98_risk16_weekly`。
+- `risk_downshift`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap42_hold7_turn02_exit98_risk10_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold8_turn02_exit98_risk08_weekly`。
+- `cost_stress`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold6_turn04_exit90_risk12_weekly_exit_buffer_v3_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。纯周频均以 `_weekly` 结尾。
+
 ## 2026-10-01 迭代：2026-09-30 同端点竞争与覆盖
 
 ### 上一轮候选与结果摘要

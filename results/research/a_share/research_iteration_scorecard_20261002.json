@@ -1,0 +1,443 @@
+{
+  "run_date": "2026-10-02",
+  "as_of": "2026-09-30",
+  "windows": [
+    "since_2017_01",
+    "since_2020_01",
+    "since_2023_01",
+    "since_2025_01",
+    "since_2026_01"
+  ],
+  "metric_units": "decimal returns; annual turnover as multiple",
+  "scorecards": [
+    {
+      "path": "ashare_path4",
+      "candidate_id": "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn",
+      "reference_id": "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn",
+      "hypothesis": "相对 Path4 robust 把风险阈值 08 降至 06、退出阈值 66 提至 68；预期回收中窗 MaxDD 且保留 2023 收益。",
+      "command": "AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk06_cap05_exit68_lowturn,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --comparison-csv /private/tmp/aiinvestor_path4_20261002.csv",
+      "windows": {
+        "since_2017_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": 0.00921542,
+            "sharpe_ratio": 0.1423624,
+            "max_drawdown": -0.20806421,
+            "average_annual_turnover": 2.45170295,
+            "cumulative_trading_cost": 0.03501138
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": 0.01111167,
+            "sharpe_ratio": 0.16117069,
+            "max_drawdown": -0.20903657,
+            "average_annual_turnover": 2.42785341,
+            "cumulative_trading_cost": 0.03498515
+          },
+          "delta": {
+            "cagr": -0.00189625,
+            "sharpe_ratio": -0.01880829,
+            "max_drawdown": 0.00097236,
+            "average_annual_turnover": 0.02384954,
+            "cumulative_trading_cost": 2.623e-05
+          }
+        },
+        "since_2020_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": 0.01391274,
+            "sharpe_ratio": 0.17862591,
+            "max_drawdown": -0.20806421,
+            "average_annual_turnover": 2.42615934,
+            "cumulative_trading_cost": 0.02303246
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": 0.01666566,
+            "sharpe_ratio": 0.20247118,
+            "max_drawdown": -0.20903657,
+            "average_annual_turnover": 2.39171,
+            "cumulative_trading_cost": 0.02300613
+          },
+          "delta": {
+            "cagr": -0.00275292,
+            "sharpe_ratio": -0.02384527,
+            "max_drawdown": 0.00097236,
+            "average_annual_turnover": 0.03444934,
+            "cumulative_trading_cost": 2.633e-05
+          }
+        },
+        "since_2023_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": 0.02756103,
+            "sharpe_ratio": 0.29163338,
+            "max_drawdown": -0.16906965,
+            "average_annual_turnover": 2.02808909,
+            "cumulative_trading_cost": 0.00947784
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": 0.01501387,
+            "sharpe_ratio": 0.19585113,
+            "max_drawdown": -0.16615631,
+            "average_annual_turnover": 1.82570671,
+            "cumulative_trading_cost": 0.00840628
+          },
+          "delta": {
+            "cagr": 0.01254716,
+            "sharpe_ratio": 0.09578225,
+            "max_drawdown": -0.00291334,
+            "average_annual_turnover": 0.20238238,
+            "cumulative_trading_cost": 0.00107156
+          }
+        },
+        "since_2025_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": 0.09849996,
+            "sharpe_ratio": 0.65483643,
+            "max_drawdown": -0.1643524,
+            "average_annual_turnover": 3.62069856,
+            "cumulative_trading_cost": 0.00854223
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": 0.09849996,
+            "sharpe_ratio": 0.65483643,
+            "max_drawdown": -0.1643524,
+            "average_annual_turnover": 3.62069856,
+            "cumulative_trading_cost": 0.00854223
+          },
+          "delta": {
+            "cagr": 0.0,
+            "sharpe_ratio": 0.0,
+            "max_drawdown": 0.0,
+            "average_annual_turnover": 0.0,
+            "cumulative_trading_cost": 0.0
+          }
+        },
+        "since_2026_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": -0.0791517,
+            "sharpe_ratio": -0.2825823,
+            "max_drawdown": -0.16932326,
+            "average_annual_turnover": 4.08521833,
+            "cumulative_trading_cost": 0.00342219
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": -0.0791517,
+            "sharpe_ratio": -0.2825823,
+            "max_drawdown": -0.16932326,
+            "average_annual_turnover": 4.08521833,
+            "cumulative_trading_cost": 0.00342219
+          },
+          "delta": {
+            "cagr": 0.0,
+            "sharpe_ratio": 0.0,
+            "max_drawdown": 0.0,
+            "average_annual_turnover": 0.0,
+            "cumulative_trading_cost": 0.0
+          }
+        }
+      },
+      "missing_windows": [],
+      "decision": "keep_watch",
+      "decision_basis": "2023 CAGR +1.25pp、MaxDD -0.29pp；2020 CAGR -0.28pp、MaxDD +0.10pp；2026 CAGR仍为 -7.92%，收益改善未贯穿中窗。",
+      "stability_threshold_breaches": []
+    },
+    {
+      "path": "hkconnect_path5",
+      "candidate_id": "hkconnect_path5_pullback_continuation_biweekly_v40_definition_balance",
+      "reference_id": "hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907",
+      "hypothesis": "相对 Path5 robust frozen_shape 改用双周回踩定义 v40；预期提高 2020/2023 CAGR，并检查回撤和换手代价。",
+      "command": "AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-30 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_pullback_continuation_biweekly_v40_definition_balance,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907",
+      "windows": {
+        "since_2017_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": 0.13053836,
+            "sharpe_ratio": 0.71872204,
+            "max_drawdown": -0.24646562,
+            "average_annual_turnover": 4.61901797,
+            "cumulative_trading_cost": 0.05956574
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": 0.04543266,
+            "sharpe_ratio": 0.64468411,
+            "max_drawdown": -0.08852334,
+            "average_annual_turnover": 1.39734075,
+            "cumulative_trading_cost": 0.0105182
+          },
+          "delta": {
+            "cagr": 0.0851057,
+            "sharpe_ratio": 0.07403793,
+            "max_drawdown": -0.15794228,
+            "average_annual_turnover": 3.22167722,
+            "cumulative_trading_cost": 0.04904754
+          }
+        },
+        "since_2020_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": 0.11556404,
+            "sharpe_ratio": 0.61282727,
+            "max_drawdown": -0.24646562,
+            "average_annual_turnover": 4.4114123,
+            "cumulative_trading_cost": 0.02919956
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": 0.03624679,
+            "sharpe_ratio": 0.4940325,
+            "max_drawdown": -0.08852334,
+            "average_annual_turnover": 1.32847608,
+            "cumulative_trading_cost": 0.00603352
+          },
+          "delta": {
+            "cagr": 0.07931725,
+            "sharpe_ratio": 0.11879477,
+            "max_drawdown": -0.15794228,
+            "average_annual_turnover": 3.08293622,
+            "cumulative_trading_cost": 0.02316604
+          }
+        },
+        "since_2023_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": 0.08135857,
+            "sharpe_ratio": 0.44725644,
+            "max_drawdown": -0.24646562,
+            "average_annual_turnover": 4.57852677,
+            "cumulative_trading_cost": 0.01224472
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": 0.04294293,
+            "sharpe_ratio": 0.56069897,
+            "max_drawdown": -0.06557186,
+            "average_annual_turnover": 1.49157905,
+            "cumulative_trading_cost": 0.00355223
+          },
+          "delta": {
+            "cagr": 0.03841564,
+            "sharpe_ratio": -0.11344253,
+            "max_drawdown": -0.18089376,
+            "average_annual_turnover": 3.08694772,
+            "cumulative_trading_cost": 0.00869249
+          }
+        },
+        "since_2025_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": 0.07811488,
+            "sharpe_ratio": 0.46109806,
+            "max_drawdown": -0.24126191,
+            "average_annual_turnover": 5.71273698,
+            "cumulative_trading_cost": 0.0072352
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": 0.07343377,
+            "sharpe_ratio": 0.9330647,
+            "max_drawdown": -0.06727732,
+            "average_annual_turnover": 2.03220258,
+            "cumulative_trading_cost": 0.0023169
+          },
+          "delta": {
+            "cagr": 0.00468111,
+            "sharpe_ratio": -0.47196664,
+            "max_drawdown": -0.17398459,
+            "average_annual_turnover": 3.6805344,
+            "cumulative_trading_cost": 0.0049183
+          }
+        },
+        "since_2026_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": -0.25551484,
+            "sharpe_ratio": -1.83960803,
+            "max_drawdown": -0.24591475,
+            "average_annual_turnover": 4.96628899,
+            "cumulative_trading_cost": 0.00191044
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": -0.05164222,
+            "sharpe_ratio": -0.8946381,
+            "max_drawdown": -0.06011621,
+            "average_annual_turnover": 1.9640988,
+            "cumulative_trading_cost": 0.0008276
+          },
+          "delta": {
+            "cagr": -0.20387262,
+            "sharpe_ratio": -0.94496993,
+            "max_drawdown": -0.18579854,
+            "average_annual_turnover": 3.00219019,
+            "cumulative_trading_cost": 0.00108284
+          }
+        }
+      },
+      "missing_windows": [],
+      "decision": "reject",
+      "decision_basis": "2020/2023 CAGR +7.93/+3.84pp，但 MaxDD 恶化15.79/18.09pp、换手约3.3/3.1倍，2026 CAGR -25.55%，触发稳定性护栏。",
+      "stability_threshold_breaches": [
+        {
+          "window": "since_2020_01",
+          "metric": "max_drawdown",
+          "delta": -0.15794228,
+          "threshold": -0.05
+        },
+        {
+          "window": "since_2023_01",
+          "metric": "max_drawdown",
+          "delta": -0.18089376,
+          "threshold": -0.05
+        }
+      ]
+    },
+    {
+      "path": "hkconnect_path6",
+      "candidate_id": "hkconnect_path6_large_liquid_core_biweekly_quality_liquidity_mix_v8",
+      "reference_id": "hkconnect_path6_lowvol_liquid_biweekly_smoke",
+      "hypothesis": "相对低波流动性 robust 增加大市值核心的质量/流动性混合；预期提升2020/2023 CAGR并保持最大回撤。",
+      "command": "AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-09-30 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_biweekly_quality_liquidity_mix_v8,hkconnect_path6_lowvol_liquid_biweekly_smoke",
+      "windows": {
+        "since_2017_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": 0.11228561,
+            "sharpe_ratio": 0.76181271,
+            "max_drawdown": -0.22498586,
+            "average_annual_turnover": 2.13678869,
+            "cumulative_trading_cost": 0.01969193
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": 0.13494117,
+            "sharpe_ratio": 0.85946743,
+            "max_drawdown": -0.1928427,
+            "average_annual_turnover": 2.12881726,
+            "cumulative_trading_cost": 0.02230547
+          },
+          "delta": {
+            "cagr": -0.02265556,
+            "sharpe_ratio": -0.09765472,
+            "max_drawdown": -0.03214316,
+            "average_annual_turnover": 0.00797143,
+            "cumulative_trading_cost": -0.00261354
+          }
+        },
+        "since_2020_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": 0.10984881,
+            "sharpe_ratio": 0.71641203,
+            "max_drawdown": -0.1622033,
+            "average_annual_turnover": 2.03487211,
+            "cumulative_trading_cost": 0.01030129
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": 0.13175836,
+            "sharpe_ratio": 0.81035083,
+            "max_drawdown": -0.16674751,
+            "average_annual_turnover": 2.05659262,
+            "cumulative_trading_cost": 0.01140989
+          },
+          "delta": {
+            "cagr": -0.02190955,
+            "sharpe_ratio": -0.0939388,
+            "max_drawdown": 0.00454421,
+            "average_annual_turnover": -0.02172051,
+            "cumulative_trading_cost": -0.0011086
+          }
+        },
+        "since_2023_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": 0.169982,
+            "sharpe_ratio": 0.99475326,
+            "max_drawdown": -0.11840229,
+            "average_annual_turnover": 1.77462947,
+            "cumulative_trading_cost": 0.00532627
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": 0.19916963,
+            "sharpe_ratio": 1.1397635,
+            "max_drawdown": -0.10533913,
+            "average_annual_turnover": 1.84753119,
+            "cumulative_trading_cost": 0.00601805
+          },
+          "delta": {
+            "cagr": -0.02918763,
+            "sharpe_ratio": -0.14501024,
+            "max_drawdown": -0.01306316,
+            "average_annual_turnover": -0.07290172,
+            "cumulative_trading_cost": -0.00069178
+          }
+        },
+        "since_2025_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": 0.22521351,
+            "sharpe_ratio": 1.33973415,
+            "max_drawdown": -0.10492506,
+            "average_annual_turnover": 2.04345983,
+            "cumulative_trading_cost": 0.0026991
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": 0.21134434,
+            "sharpe_ratio": 1.27555778,
+            "max_drawdown": -0.10391893,
+            "average_annual_turnover": 2.14023552,
+            "cumulative_trading_cost": 0.00277124
+          },
+          "delta": {
+            "cagr": 0.01386917,
+            "sharpe_ratio": 0.06417637,
+            "max_drawdown": -0.00100613,
+            "average_annual_turnover": -0.09677569,
+            "cumulative_trading_cost": -7.214e-05
+          }
+        },
+        "since_2026_01": {
+          "sample_end": "2026-09-30",
+          "candidate_metrics": {
+            "cagr": 0.01098902,
+            "sharpe_ratio": 0.06723505,
+            "max_drawdown": -0.10747457,
+            "average_annual_turnover": 3.04895009,
+            "cumulative_trading_cost": 0.00132931
+          },
+          "current_winner_or_robust_metrics": {
+            "cagr": 0.04636908,
+            "sharpe_ratio": 0.27565617,
+            "max_drawdown": -0.10720068,
+            "average_annual_turnover": 3.32957284,
+            "cumulative_trading_cost": 0.00148174
+          },
+          "delta": {
+            "cagr": -0.03538006,
+            "sharpe_ratio": -0.20842112,
+            "max_drawdown": -0.00027389,
+            "average_annual_turnover": -0.28062275,
+            "cumulative_trading_cost": -0.00015243
+          }
+        }
+      },
+      "missing_windows": [],
+      "decision": "reject",
+      "decision_basis": "2020/2023 CAGR 相对 robust 下降 2.19/2.92pp、Sharpe 下降 0.09/0.14；2025 仅 +1.39pp，2026 CAGR 降至 1.10%，不足以抵消中窗退化，停止该混合形态扩参。",
+      "stability_threshold_breaches": []
+    }
+  ],
+  "coverage_gate": {
+    "status": "block",
+    "path2_complete": 83,
+    "path2_missing": 749,
+    "total": 832,
+    "blocking_scope": "ashare_path2_candidate_universe",
+    "other_scope_pass_count": 11
+  },
+  "kb_web_pilot": {
+    "status": "deferred",
+    "reason": "已有2026-09-16截面快照的历史可用信号不足，当前 Path2 focus 无可检验的新增字段语义；未付费调用。"
+  },
+  "budget": {
+    "blocking_coverage_ids": 20,
+    "new_or_confirmed_base_strategy_ids": 3,
+    "note": "Path2全集阻断优先消耗日更预算；A/HK各保留1个五窗确认。"
+  }
+}
