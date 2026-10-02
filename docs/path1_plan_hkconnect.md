@@ -1,5 +1,38 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-10-03 迭代：12个新参数与12个历史复核五窗竞争与精确补缺
+
+### 上一轮候选与结果摘要
+
+- hkconnect_path1 上次实跑 `hkconnect_path1_biweekly_quality_momentum_equal_buffered_v46_risk_overlay_cost_guard` 判 `reject`；逐窗指标见 `research_iteration_scorecard_20260927.json`。
+
+- 本轮 `hkconnect_path1_monthly_quality_momentum_weekly_overlay_v57_return_repair` 对当前 robust `hkconnect_path1_biweekly_hybrid`：2020/2023 CAGR差 -3.99/-8.39pp，MaxDD差 +5.60/-2.38pp；`reject`。中窗触发稳定性硬阈值，停止同形扩参。
+
+- 本轮 `hkconnect_path1_hybrid_hold16_20261003` 对当前 robust `hkconnect_path1_biweekly_hybrid`：2020/2023 CAGR差 -0.13/-0.12pp，MaxDD差 +1.17/-0.08pp；`reject`。中窗改善尚未解决2026负收益，保留观察。
+
+### 本轮候选 ID 与命令
+
+- 已执行五窗参数确认（包含同端点参照）：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_quality_momentum_weekly_overlay_v57_return_repair,hkconnect_path1_biweekly_hybrid,hkconnect_path2_high_return_monthly_quality_liquidity_v32_high_return_monthly_guard,hkconnect_path2_theme_fast_monthly,hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest,hkconnect_path3_theme_fast_weekly,hkconnect_path4_quality_momentum_monthly_v51_quality_balance,hkconnect_path4_liquidity_momentum_biweekly_smoke,hkconnect_path5_pullback_continuation_monthly_v39_definition_balance,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_large_liquid_core_monthly_capacity_cost_v35_capacity_cost,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v41_core_sleeve_turnover_control,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7 --allow-hk-akshare-fallback`。
+
+- 已执行五窗参数确认（包含同端点参照）：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_hybrid_hold16_20261003,hkconnect_path1_biweekly_hybrid,hkconnect_path2_theme_cap25_20261003,hkconnect_path2_theme_fast_monthly,hkconnect_path3_theme_risk52_20261003,hkconnect_path3_theme_fast_weekly,hkconnect_path4_liquidity_risk32_20261003,hkconnect_path4_liquidity_momentum_biweekly_smoke,hkconnect_path5_frozen_exit78_20261003,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_lowvol_hold24_20261003,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_defensive_hold32_20261003,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7 --allow-hk-akshare-fallback`。
+
+- `hkconnect_path1_monthly_quality_momentum_weekly_overlay_v57_return_repair` 实验假设：月度质量动量+周仓overlay，检验相对hybrid中窗收益与近窗风险修复。 实际验证：不支持跨窗净改善。停止同形扩参，保留历史快照。
+
+- `hkconnect_path1_hybrid_hold16_20261003` 实验假设：只将当前robust max_holdings14→16；检验分散后中窗风险及换手。 实际验证：不支持跨窗净改善。停止同形扩参，保留历史快照。
+
+- 本轮只确认现有explore候选，新增12个参数变体；先移出弱候选、结果拒绝后移出新增变体，历史快照保留。HK归档3个旧候选，A股另归档1个逾30交易日未刷新的弱候选。判定全集见 `results/research/a_share/research_iteration_scorecard_20261003.json`。
+
+### 下一轮 focus 与第一条命令
+
+- hkconnect_path1 monthly_weekly_overlay 第一条策略确认命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-02 --allow-hk-akshare-fallback --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_cashoff_weekly_overlay,hkconnect_path1_monthly_equal_buffered_weekly_overlay,hkconnect_path1_biweekly_hybrid`。假设：按本focus检验同路径当前robust中窗收益/风险与换手改善；执行前复核是否已归档。
+
+### Focus 候选池
+
+- hkconnect_path1 `monthly_weekly_overlay`：`hkconnect_path1_monthly_cashoff_weekly_overlay`、`hkconnect_path1_monthly_equal_buffered_weekly_overlay`。
+- hkconnect_path1 `biweekly_buffer`：`hkconnect_path1_biweekly_equal_buffered`、`hkconnect_path1_biweekly_equal_buffered_cashguard`。
+- hkconnect_path1 `risk_overlay_cost`：`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v30_risk_overlay_cost_guard`、`hkconnect_path1_biweekly_quality_momentum_equal_buffered_v35_risk_overlay_cost`。
+
+
 ## 2026-10-02 迭代：2026-09-30 同端点竞争与覆盖
 
 ### 上一轮候选与结果摘要

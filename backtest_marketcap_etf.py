@@ -16049,6 +16049,41 @@ CRASH_RESILIENCE_ACTIVE_BASE_IDS = {
     "core_explore_80_20_equal_weight_winner_core__path7_crash_resilience_cash50_static_fast_pulse_v3_defbar",
 }
 
+# 2026-10-03：补足收缩预算的新参数假设，均以同窗口robust竞争。
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(
+            item for item in WINNER_CORE_VARIANTS
+            if item['variant_id'] == 'aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907'
+        ),
+        'variant_id': 'aggr_05_95_prom9_satellite_breadth_20261003',
+        'variant_name': '相对当前robust只把晋升持仓8只改9只；预期降低集中风险并保住2020/2023收益。',
+        'promoted_core_max_holdings': 9,
+    }
+)
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(
+            item for item in WINNER_CORE_VARIANTS
+            if item['variant_id'] == 'aggr_08_92_prom6_core_multifactor_quality_profitability_signal_cashguard_risk18_reconfirm'
+        ),
+        'variant_id': 'aggr_08_92_prom6_core_multifactor_quality42_momentum16_20261003',
+        'variant_name': '相对quality/profitability risk18形态，将质量权重0.38→0.42、6-1动量0.20→0.16；检验质量偏重的回撤改善并与正式robust五窗竞争。',
+        'factor_weights': {'momentum_6_1': 0.16, 'momentum_3_1': 0.09, 'quality': 0.42, 'growth_acceleration': 0.07, 'industry_strength': 0.14, 'industry_leader': 0.1, 'liquidity_surge': 0.02},
+    }
+)
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(
+            item for item in WINNER_CORE_VARIANTS
+            if item['variant_id'] == 'aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly'
+        ),
+        'variant_id': 'aggr_08_92_prom6_cost_guard_cap52_hold6_turn05_exit98_risk16_turnover_probe_20261003_weekly',
+        'variant_name': '相对当前robust只把周换手上限0.04→0.05，与turn03反向对照；检验及时调整能否恢复中窗收益并控制成本/MaxDD。',
+        'weekly_turnover_cap': 0.05,
+    }
+)
+
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
     "promotion_ramp": [
         "aggr_10_90_fast_ramp",
@@ -16058,6 +16093,7 @@ PATH1_FAST_PASS_DIRECTION_GROUPS = {
         "aggr_10_90_prom7_ramp90",
     ],
     "satellite_defense": [
+        "aggr_05_95_prom9_satellite_breadth_20261003",
         "aggr_08_92_prom6_cash_off",
         "aggr_08_92_prom6_cash_off_and",
         "aggr_10_90_prom6_cash_off",
@@ -16199,6 +16235,7 @@ PATH1_FAST_PASS_DIRECTION_GROUPS = {
 }
 
 PATH1_FAST_PASS_VARIANT_IDS = [
+    "aggr_05_95_prom9_satellite_breadth_20261003",
     "share_15_85_hold_4_6",
     "aggr_10_90_fast_ramp",
     "aggr_10_90_hold_4_6",
@@ -17461,7 +17498,23 @@ PATH2_ARCHIVED_STRATEGY_BASE_IDS = [
     'core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_profitability_growth_lowvol_signal_quality_gate_cashguard_risk08_reconfirm',
 ]
 
+# 2026-10-03：只降低当前周频 robust 的换手上限，保持其余参数不变。
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(
+            item for item in WINNER_CORE_VARIANTS
+            if item["variant_id"] == "aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly"
+        ),
+        "variant_id": "aggr_08_92_prom6_cost_guard_cap52_hold6_turn03_exit98_risk16_turnover_probe_20261003_weekly",
+        "variant_name": "20261003 周频robust换手上限4%降至3%隔离实验",
+        "weekly_turnover_cap": 0.03,
+    }
+)
+
 PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS = [
+    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn05_exit98_risk16_turnover_probe_20261003_weekly",
+    "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn03_exit98_risk16_turnover_probe_20261003_weekly",
+    "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap90_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap44_hold6_turn03_exit96_risk12_weekly_return_recovery_v6_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap46_hold5_turn04_exit94_risk14_weekly_return_recovery_v7_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap40_hold9_turn02_exit96_risk08_weekly_turnover_reduction_v4_weekly",

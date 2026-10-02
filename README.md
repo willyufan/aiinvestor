@@ -689,3 +689,7 @@ cd /Users/valselee/my-code/aiinvestor
 - 平台负责回写与留痕
 
 后续如果需要，再继续往 CSV 导入、券商接口对接、自动执行等方向扩展。
+
+## 2026-10-03 策略迭代
+
+完成12个新参数与12个历史候选五窗口竞争：17个reject、4个keep_watch、3个archive，无promote，正式winner/robust身份不变。Path2覆盖缺口741降至721，晋级冻结；完整指标、命令与判定见 `results/research/a_share/research_iteration_scorecard_20261003.json`。归档候选不再进入A股2026榜；HK正式角色及标记按tracked身份导出，raw排名独立保留。

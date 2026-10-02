@@ -8410,7 +8410,109 @@ HK_PATH8_VARIANTS: List[Dict[str, object]] = [
 ]
 
 # 2026-07-20/21/22 scorecard 淘汰项：保留定义与历史结果，但不再进入 active 回测/排名口径。
+# 2026-10-03：保留防守袖套的选股形态，只检验风险仓位微调。
+HK_PATH7_VARIANTS.append(
+    {
+        **next(
+            item for item in HK_PATH7_VARIANTS
+            if item["strategy_id"] == "hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7"
+        ),
+        "strategy_id": "hkconnect_path7_barbell_quality_growth_biweekly_defensive_exposure_20261003",
+        "strategy_name": "沪港通Path7 防守袖套风险仓位18/64确认",
+        "risk_off_exposure": 0.18,
+        "risk_caution_exposure": 0.64,
+    }
+)
+
+# 2026-10-03：七条HK路径各新增一个单参数挑战。
+HK_PATH1_VARIANTS.append(
+    {
+        **next(
+            item for item in HK_PATH1_VARIANTS
+            if item['strategy_id'] == 'hkconnect_path1_biweekly_hybrid'
+        ),
+        'strategy_id': 'hkconnect_path1_hybrid_hold16_20261003',
+        'strategy_name': '只将当前robust max_holdings14→16；检验分散后中窗风险及换手。',
+        'max_holdings': 16,
+    }
+)
+HK_PATH2_VARIANTS.append(
+    {
+        **next(
+            item for item in HK_PATH2_VARIANTS
+            if item['strategy_id'] == 'hkconnect_path2_theme_fast_monthly'
+        ),
+        'strategy_id': 'hkconnect_path2_theme_cap25_20261003',
+        'strategy_name': '只将当前robust单票cap0.28→0.25；检验集中度下降能否改善MaxDD且保持中窗收益。',
+        'weight_cap': 0.25,
+    }
+)
+HK_PATH3_VARIANTS.append(
+    {
+        **next(
+            item for item in HK_PATH3_VARIANTS
+            if item['strategy_id'] == 'hkconnect_path3_theme_fast_weekly'
+        ),
+        'strategy_id': 'hkconnect_path3_theme_risk52_20261003',
+        'strategy_name': '只将当前robust风险仓位0.65→0.52；检验周频高回撤改善能否不伤中窗收益。',
+        'risk_off_exposure': 0.52,
+    }
+)
+HK_PATH4_VARIANTS.append(
+    {
+        **next(
+            item for item in HK_PATH4_VARIANTS
+            if item['strategy_id'] == 'hkconnect_path4_liquidity_momentum_biweekly_smoke'
+        ),
+        'strategy_id': 'hkconnect_path4_liquidity_risk32_20261003',
+        'strategy_name': '只将当前robust风险仓位0.40→0.32；检验2026负收益和中窗回撤修复。',
+        'risk_off_exposure': 0.32,
+    }
+)
+HK_PATH5_VARIANTS.append(
+    {
+        **next(
+            item for item in HK_PATH5_VARIANTS
+            if item['strategy_id'] == 'hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907'
+        ),
+        'strategy_id': 'hkconnect_path5_frozen_exit78_20261003',
+        'strategy_name': '只将冻结双周形态退出分位0.76→0.78；检验更宽退出门槛是否改善信号持续性与风险。',
+        'sell_exit_percentile': 0.78,
+    }
+)
+HK_PATH6_VARIANTS.append(
+    {
+        **next(
+            item for item in HK_PATH6_VARIANTS
+            if item['strategy_id'] == 'hkconnect_path6_lowvol_liquid_biweekly_smoke'
+        ),
+        'strategy_id': 'hkconnect_path6_lowvol_hold24_20261003',
+        'strategy_name': '只将低波robust持仓20→24；检验大市值容量/分散风险且保持中窗收益。',
+        'max_holdings': 24,
+    }
+)
+HK_PATH7_VARIANTS.append(
+    {
+        **next(
+            item for item in HK_PATH7_VARIANTS
+            if item['strategy_id'] == 'hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7'
+        ),
+        'strategy_id': 'hkconnect_path7_defensive_hold32_20261003',
+        'strategy_name': '只将防守袖套robust持仓28→32；检验袖套广度对中窗收益与2026修复的作用。',
+        'max_holdings': 32,
+    }
+)
+
 HK_ARCHIVED_STRATEGY_IDS = {
+    "hkconnect_path7_defensive_hold32_20261003",
+    "hkconnect_path6_lowvol_hold24_20261003",
+    "hkconnect_path5_frozen_exit78_20261003",
+    "hkconnect_path4_liquidity_risk32_20261003",
+    "hkconnect_path1_hybrid_hold16_20261003",
+    "hkconnect_path7_barbell_quality_growth_biweekly_defensive_exposure_20261003",
+    "hkconnect_path2_high_return_monthly_quality_liquidity_v32_high_return_monthly_guard",
+    "hkconnect_path4_quality_momentum_monthly_v51_quality_balance",
+    "hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v41_core_sleeve_turnover_control",
     "hkconnect_path1_monthly_quality_momentum_weekly_overlay_v48_monthly_weekly_overlay",
     "hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v50_lowdraw_breakout_retest",
     "hkconnect_path2_theme_biweekly_quality_liquidity_breakout_v51_elasticity_cost_control",

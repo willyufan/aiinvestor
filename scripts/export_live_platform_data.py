@@ -1156,6 +1156,7 @@ def _build_ashare_2026_leaderboards() -> dict[str, Any]:
             _matches_path3,
             _rank_single_window_candidates,
             load_active_family_ids,
+            load_archived_path_ids,
             load_path1_family_ids,
             load_path2_scan_rules,
             load_path4_theme_ids,
@@ -1166,6 +1167,7 @@ def _build_ashare_2026_leaderboards() -> dict[str, Any]:
         if latest_all.empty:
             return {}
         all_base_ids = set(latest_all["strategy_base_id"].astype(str).unique())
+        _, path3_archived_ids = load_archived_path_ids()
         path2_prefixes, path2_variant_ids = load_path2_scan_rules()
         path4_allowed_ids = (load_path4_theme_ids() & all_base_ids) - STATIC_BASE_IDS
         path2_excluded_ids = {
@@ -1182,7 +1184,9 @@ def _build_ashare_2026_leaderboards() -> dict[str, Any]:
             }
             - STATIC_BASE_IDS
             - path2_excluded_ids,
-            "path3": {str(base_id) for base_id in all_base_ids if _matches_path3(str(base_id))} - STATIC_BASE_IDS,
+            "path3": {str(base_id) for base_id in all_base_ids if _matches_path3(str(base_id))}
+            - STATIC_BASE_IDS
+            - path3_archived_ids,
             "path4": path4_allowed_ids,
         }
         strategies = _build_strategy_map(latest_all)
@@ -1232,6 +1236,9 @@ def _build_hkconnect_leaderboards(df: pd.DataFrame) -> dict[str, Any]:
         archived_strategy_ids=HK_ARCHIVED_STRATEGY_IDS,
         max_staleness_days=0,
     )
+    tracked = load_json(existing_research_file("tracked_winners_hkconnect.json", market_scope="hkconnect"))
+    tracked_paths = tracked.get("tracks") or {}
+
     out: dict[str, Any] = {path_name: {} for path_name in HK_TRACKED_PATH_NAMES}
     for path_name in HK_TRACKED_PATH_NAMES:
         for sample_tag in HK_LEADERBOARD_WINDOW_TAGS:
@@ -1245,6 +1252,7 @@ def _build_hkconnect_leaderboards(df: pd.DataFrame) -> dict[str, Any]:
                 ["cagr", "sharpe_ratio", "max_drawdown", "average_annual_turnover"],
                 ascending=[False, False, False, True],
             ).head(5)
+            official_id = str((tracked_paths.get(path_name, {}).get(sample_tag) or {}).get("winner") or subset.iloc[0]["strategy_id"])
             entries = []
             for rank, (_idx, row) in enumerate(subset.iterrows(), start=1):
                 strategy_id = str(row["strategy_id"])
@@ -1254,7 +1262,7 @@ def _build_hkconnect_leaderboards(df: pd.DataFrame) -> dict[str, Any]:
                         "strategy_base_id": strategy_id,
                         "strategy_base_name": str(row.get("strategy_name") or row.get("strategy_id") or strategy_id),
                         "metrics": _metrics_from_row(row),
-                        "is_official_winner": rank == 1,
+                        "is_official_winner": strategy_id == official_id,
                         "is_raw_winner": rank == 1,
                     }
                 )
@@ -1294,6 +1302,9 @@ def load_hkconnect_registry() -> list[dict[str, Any]]:
         archived_strategy_ids=HK_ARCHIVED_STRATEGY_IDS,
         max_staleness_days=0,
     )
+
+    tracked = load_json(existing_research_file("tracked_winners_hkconnect.json", market_scope="hkconnect"))
+    tracked_paths = tracked.get("tracks") or {}
 
     dedup: dict[str, dict[str, Any]] = {}
 
@@ -1339,16 +1350,19 @@ def load_hkconnect_registry() -> list[dict[str, Any]]:
             )
             if sub.empty:
                 continue
+            official_id = str((tracked_paths.get(path_name, {}).get(sample_tag) or {}).get("winner") or sub.iloc[0]["strategy_id"])
+            if official_id not in set(sub["strategy_id"].astype(str)):
+                continue
             add_entry(
                 path_name=path_name,
                 winner_type=winner_type,
-                strategy_id=str(sub.iloc[0]["strategy_id"]),
+                strategy_id=official_id,
                 sample_tag=sample_tag,
             )
 
     for path_name in HK_TRACKED_PATH_NAMES:
-        robust_id = _pick_hk_robust_candidate(df, path_name)
-        if robust_id:
+        robust_id = str((tracked_paths.get(path_name, {}).get("robust_candidate") or {}).get("strategy_id") or _pick_hk_robust_candidate(df, path_name))
+        if robust_id and robust_id in set(df["strategy_id"].astype(str)):
             add_entry(
                 path_name=path_name,
                 winner_type="robust candidate",

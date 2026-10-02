@@ -1152,3 +1152,7 @@
 | 2026-05-21 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50` | 核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(强主题涌现, 熊市30%, 单票50%) | 238.60% | 20.93% | -33.79% | 0.7668 | 4.00 |
 | 2026-05-20 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50` | 核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(强主题涌现, 熊市30%, 单票50%) | 254.90% | 21.82% | -33.79% | 0.7898 | 4.00 |
 | 2026-05-19 | `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_emergent_theme_risk30_cap50` | 核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(强主题涌现, 熊市30%, 单票50%) | 266.05% | 22.41% | -32.16% | 0.7845 | 4.13 |
+
+## 2026-10-03 策略迭代
+
+完成12个新参数与12个历史候选五窗口竞争：17个reject、4个keep_watch、3个archive，无promote，正式winner/robust身份不变。Path2覆盖缺口741降至721，晋级冻结；完整指标、命令与判定见 `results/research/a_share/research_iteration_scorecard_20261003.json`。归档候选不再进入A股2026榜；HK正式角色及标记按tracked身份导出，raw排名独立保留。
