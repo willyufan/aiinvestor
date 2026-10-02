@@ -62,6 +62,45 @@
         },
         {
           "rank": 2,
+          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_cash_off__port_weekly_exposure",
+          "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(熊市空仓)__月度选股_周度仓位调整",
+          "metrics": {
+            "weighted_cagr": 0.23725473,
+            "weighted_sharpe": 0.86611633,
+            "weighted_max_drawdown": -0.42392356,
+            "weighted_turnover": 3.89207759
+          },
+          "is_official_winner": false,
+          "is_raw_winner": false,
+          "validation": {
+            "passed": false,
+            "validation_window": "since_2020_01",
+            "required_cagr": 0.2121217575,
+            "candidate_cagr": 0.13444684,
+            "incumbent_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907",
+            "reason": "threshold_check"
+          },
+          "promotion_score": 0.007253478420000015,
+          "score_detail": {
+            "policy": "promotion_score_v1",
+            "score": 0.007253478420000015,
+            "base_score": 0.12381818192,
+            "ytd_penalty": 0.11656470349999999,
+            "concentration_penalty": 0.0,
+            "concentration": {
+              "sample_tag": "since_2026_01",
+              "avg_top1_weight": 0.21722544444444444,
+              "avg_top3_weight": 0.4976337711111111,
+              "max_top1_weight": 0.27072933,
+              "max_top3_weight": 0.57866532,
+              "latest_top1_weight": 0.22551718,
+              "latest_top3_weight": 0.44820796,
+              "observations": 9
+            }
+          }
+        },
+        {
+          "rank": 3,
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom7__port_weekly_exposure_buffered_asym13",
           "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升7只__月度选股_周度仓位调整(快减1慢加3)",
           "metrics": {
@@ -100,7 +139,7 @@
           }
         },
         {
-          "rank": 3,
+          "rank": 4,
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__port_weekly_exposure_buffered",
           "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只__月度选股_周度仓位调整(双周确认)",
           "metrics": {
@@ -139,7 +178,7 @@
           }
         },
         {
-          "rank": 4,
+          "rank": 5,
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_ramp90__port_weekly_exposure_buffered",
           "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(分步加仓)__月度选股_周度仓位调整(双周确认)",
           "metrics": {
@@ -178,46 +217,7 @@
           }
         },
         {
-          "rank": 5,
-          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__port_weekly_exposure_buffered",
-          "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只__月度选股_周度仓位调整(双周确认)",
-          "metrics": {
-            "weighted_cagr": 0.21697487,
-            "weighted_sharpe": 0.80152963,
-            "weighted_max_drawdown": -0.39770476,
-            "weighted_turnover": 3.77609761
-          },
-          "is_official_winner": false,
-          "is_raw_winner": false,
-          "validation": {
-            "passed": false,
-            "validation_window": "since_2020_01",
-            "required_cagr": 0.2121217575,
-            "candidate_cagr": 0.14296802,
-            "incumbent_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907",
-            "reason": "threshold_check"
-          },
-          "promotion_score": -0.005662066320000006,
-          "score_detail": {
-            "policy": "promotion_score_v1",
-            "score": -0.005662066320000006,
-            "base_score": 0.10839614367999999,
-            "ytd_penalty": 0.11405821,
-            "concentration_penalty": 0.0,
-            "concentration": {
-              "sample_tag": "since_2026_01",
-              "avg_top1_weight": 0.22131847111111108,
-              "avg_top3_weight": 0.49732393666666674,
-              "max_top1_weight": 0.27072933,
-              "max_top3_weight": 0.57520731,
-              "latest_top1_weight": 0.21864011,
-              "latest_top3_weight": 0.43644615,
-              "observations": 9
-            }
-          }
-        },
-        {
-          "rank": 7,
+          "rank": 10,
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907",
           "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__20260907 相对risk20将晋升持仓7只增至8只，检验集中度下降能否改善2023/2026回撤并保住中窗收益",
           "metrics": {
@@ -946,7 +946,7 @@
           }
         },
         {
-          "rank": 6,
+          "rank": 8,
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard",
           "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(卫星成本防守)",
           "metrics": {
@@ -2975,7 +2975,7 @@
             }
           },
           {
-            "rank": 10,
+            "rank": 11,
             "strategy_base_id": "core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_weekly",
             "strategy_base_name": "核心70_探索30_等权底座_胜出者核心__进攻2/98 晋升1只(核心6-1动量, 熊市空仓 and, 单票100%, 单周)",
             "metrics": {
