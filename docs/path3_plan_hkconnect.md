@@ -1,5 +1,39 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-10-04 迭代：12个单参数挑战与16个历史确认
+
+### 上一轮候选与结果摘要
+
+- hkconnect_path3 上轮：`hkconnect_path3_stable_weekly_equal_buffered_soft_riskoff42_turnover0_exit58_v32_turnover_reduction_retest` reject；`hkconnect_path3_theme_risk52_20261003` keep_watch。上一轮细项见 research_iteration_scorecard_20261003.json。
+
+- `hkconnect_path3_stable_weekly_equal_buffered_cashguard_turnover9`：`reject`；2020/2023 CAGR差 -5.99/-6.49pp，MaxDD差 +35.34/+21.59pp。2020/2023触发稳定性阈值，停止同形扩参。 存在负CAGR窗口，不能视为强稳定winner。
+
+- `hkconnect_path3_theme_risk45_20261004`：`keep_watch`；2020/2023 CAGR差 +0.27/+0.34pp，MaxDD差 +1.33/+0.61pp。稳定性阈值通过，但净改善、成本或近窗仍需确认。 年均换手超过30倍，成本压力未解决。
+
+### 本轮候选 ID 与命令
+
+- 已执行五窗口增量命令（含同端点参照）：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_cashoff_weekly_overlay,hkconnect_path1_biweekly_hybrid,hkconnect_path2_breakout_cost_guard_biweekly,hkconnect_path2_theme_cap25_20261003,hkconnect_path3_stable_weekly_equal_buffered_cashguard_turnover9,hkconnect_path3_equal_elastic_weekly,hkconnect_path4_liquidity_momentum_biweekly_quality_filter_v5,hkconnect_path4_liquidity_momentum_biweekly_smoke,hkconnect_path5_pullback_continuation_monthly_quality_retest_v12_definition_guard,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_large_liquid_core_monthly_capacity_cost_v25_ytd_repair,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_defensive_v21_ytd_guard,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。
+
+- 已执行五窗口增量命令（含同端点参照）：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_hybrid_hold18_20261004,hkconnect_path1_biweekly_hybrid,hkconnect_path2_theme_cap22_20261004,hkconnect_path2_theme_cap25_20261003,hkconnect_path3_theme_risk45_20261004,hkconnect_path3_equal_elastic_weekly,hkconnect_path4_liquidity_hold22_20261004,hkconnect_path4_liquidity_momentum_biweekly_smoke,hkconnect_path5_frozen_exit80_20261004,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_lowvol_hold28_20261004,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_defensive_cap08_20261004,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。
+
+- `hkconnect_path3_stable_weekly_equal_buffered_cashguard_turnover9`（parameter_confirmation）假设：相对当前robust改用候选定义的hkconnect_path3_stable_weekly_equal_buffered_cashguard_turnover9；按weekly_turnover_reduction检验2020/2023收益、回撤与换手改善，五窗核实短窗代价。 实际验证：未支持跨窗口改善。
+
+- `hkconnect_path3_theme_risk45_20261004`（new_parameter）假设：当前equal_elastic_weekly风险仓位70→45%；检验周频降风险能否保持中窗收益。 实际验证：未支持跨窗口改善。
+
+- 新增预算收缩为12个strategy/base IDs；另16个历史确认、20个补缺IDs和事件复核均不计有效新增。reject停止同形扩参；新HK reject移出active保留历史；无正式晋级。
+
+- 本轮reject退出active停止刷新（保留历史定义与快照）：`hkconnect_path3_stable_weekly_equal_buffered_cashguard_turnover9`；这是reject处置，没有新增archive判定。
+
+### 下一轮 focus 与第一条命令
+
+- hkconnect_path3 focus `weekly_turnover_reduction`：检验候选相对robust中窗稳定性/成本；下一轮第一条竞争命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_cashguard_turnover8_exit44_2026_repair,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_riskoff45_turnover8_exit42,hkconnect_path3_equal_elastic_weekly`。
+
+### Focus 候选池
+
+- hkconnect_path3 `weekly_turnover_reduction`：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_cashguard_turnover8_exit44_2026_repair`、`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_riskoff45_turnover8_exit42`。
+- hkconnect_path3 `weekly_defensive_overlay`：`hkconnect_path3_breakout_concentrated_weekly`、`hkconnect_path3_breakout_risk50_weekly`。
+- hkconnect_path3 `cost_stress`：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard`、`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_cashguard_turnover8_exit44_2026_repair`。
+
 ## 2026-10-03 迭代：12个新参数与12个历史复核五窗竞争与精确补缺
 
 ### 上一轮候选与结果摘要

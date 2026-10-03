@@ -16084,6 +16084,52 @@ WINNER_CORE_VARIANTS.append(
     }
 )
 
+# 2026-10-04：隔离单参数竞争，未判定前不扩大active/watchlist。
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907'),
+        'variant_id': 'aggr_05_95_prom10_satellite_breadth_20261004',
+        'variant_name': 'robust晋升持仓8→10；检验比9只更分散能否降低MaxDD，保持中窗CAGR。',
+        'promoted_core_max_holdings': 10,
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_05_95_prom7_core_multifactor_growth_quality'),
+        'variant_id': 'aggr_05_95_prom7_core_multifactor_quality30_growth20_20261004',
+        'variant_name': '成长质量模板quality25→30%、growth25→20%，其余不变；检验质量倾斜对中窗回撤作用，与正式robust竞争。',
+        'factor_weights': {'momentum_6_1': 0.25, 'momentum_3_1': 0.1, 'quality': 0.3, 'growth_acceleration': 0.2, 'industry_strength': 0.05, 'industry_leader': 0.05, 'liquidity_surge': 0.05},
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk24_exit44_cap20_cost_guard_v29'),
+        'variant_id': 'aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk24_exit44_cap20_cost_guard_v29_cap18_20261004',
+        'variant_name': 'v29单票上限20→18%；检验量价弹性双周容量分散能否改善中窗风险和成本；全集block下最多keep_watch。',
+        'weight_cap': 0.18,
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly'),
+        'variant_id': 'aggr_08_92_prom6_cost_guard_cap52_hold7_turn04_exit98_risk16_20261004_weekly',
+        'variant_name': 'robust最短持仓6→7周；检验延长持有是否降低换手而不伤中窗收益。',
+        'weekly_min_hold_periods': 7,
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn'),
+        'variant_id': 'aggr_13_87_prom22_emergent_theme_signal31_risk08_cap05_exit66_20261004',
+        'variant_name': 'robust标准晋升分位30→31%；检验轻微放宽信号广度能否修复2026收益，不牺牲2020/2023稳定性。',
+        'standard_promotion_percentile': 0.31,
+    }
+)
+
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
     "promotion_ramp": [
         "aggr_10_90_fast_ramp",
@@ -17462,6 +17508,10 @@ PATH2_SCAN_VARIANT_IDS = [
 ]
 
 PATH2_ARCHIVED_STRATEGY_BASE_IDS = [
+    'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk24_exit44_cap20_cost_guard_v29',
+    'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk28_exit46_cap24_cost_guard_v28',
+    'core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk24_exit44_cap20_cost_guard_v29_cap18_20261004',
+
     "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair",
     "core_explore_90_10_equal_weight_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top12_risk24_mom_exit46_reconfirm98_caution56_cap18_cost_guard_v79_medium_cycle_repair",
     "core_explore_90_10_total_mv_winner_core__aggr_04_96_prom4_core_6_1_promo_liqmom_top10_risk20_mom_exit50_reconfirm97_caution54_cap16_cost_guard_v81_midcycle_lowturn_confirm",
@@ -17512,6 +17562,10 @@ WINNER_CORE_VARIANTS.append(
 )
 
 PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS = [
+    'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_balanced_cashoff_cap80_hold3_turn25_weekly',
+    'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_breakout_cashoff_cap80_hold3_turn25_weekly',
+    'core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold7_turn04_exit98_risk16_20261004_weekly',
+
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn05_exit98_risk16_turnover_probe_20261003_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn03_exit98_risk16_turnover_probe_20261003_weekly",
     "core_explore_80_20_equal_weight_winner_core__aggr_01_99_prom2_core_6_1_cash_off_and_cap90_weekly",

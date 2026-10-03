@@ -8503,7 +8503,81 @@ HK_PATH7_VARIANTS.append(
     }
 )
 
+# 2026-10-04：隔离单参数竞争，未判定前不扩大active/watchlist。
+HK_PATH1_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH1_VARIANTS if item['strategy_id'] == 'hkconnect_path1_biweekly_hybrid'),
+        'strategy_id': 'hkconnect_path1_hybrid_hold18_20261004',
+        'strategy_name': '相对当前robust只改持仓14→18；检验分散广度对回撤及换手作用。',
+        'max_holdings': 18,
+    }
+)
+
+HK_PATH2_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH2_VARIANTS if item['strategy_id'] == 'hkconnect_path2_theme_cap25_20261003'),
+        'strategy_id': 'hkconnect_path2_theme_cap22_20261004',
+        'strategy_name': '当前robust单票上限25→22%；检验集中度下降能否带来实质风险改善。',
+        'weight_cap': 0.22,
+    }
+)
+
+HK_PATH3_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH3_VARIANTS if item['strategy_id'] == 'hkconnect_path3_equal_elastic_weekly'),
+        'strategy_id': 'hkconnect_path3_theme_risk45_20261004',
+        'strategy_name': '当前equal_elastic_weekly风险仓位70→45%；检验周频降风险能否保持中窗收益。',
+        'risk_off_exposure': 0.45,
+    }
+)
+
+HK_PATH4_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH4_VARIANTS if item['strategy_id'] == 'hkconnect_path4_liquidity_momentum_biweekly_smoke'),
+        'strategy_id': 'hkconnect_path4_liquidity_hold22_20261004',
+        'strategy_name': '当前流动性动量robust持仓12→22；检验分散是否改善MaxDD和负收益。',
+        'max_holdings': 22,
+    }
+)
+
+HK_PATH5_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH5_VARIANTS if item['strategy_id'] == 'hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907'),
+        'strategy_id': 'hkconnect_path5_frozen_exit80_20261004',
+        'strategy_name': '相对当前robust只改退出分位76→80%；检验更宽退出门槛对续涨、换手和回撤作用。',
+        'sell_exit_percentile': 0.8,
+    }
+)
+
+HK_PATH6_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH6_VARIANTS if item['strategy_id'] == 'hkconnect_path6_lowvol_liquid_biweekly_smoke'),
+        'strategy_id': 'hkconnect_path6_lowvol_hold28_20261004',
+        'strategy_name': '相对当前robust只改低波核心持仓20→28；检验容量、分散与成本收益权衡。',
+        'max_holdings': 28,
+    }
+)
+
+HK_PATH7_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH7_VARIANTS if item['strategy_id'] == 'hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7'),
+        'strategy_id': 'hkconnect_path7_defensive_cap08_20261004',
+        'strategy_name': '当前防守袖套单票上限5→8%；检验放宽权重限制能否修复收益，并核实集中风险代价。',
+        'weight_cap': 0.08,
+    }
+)
+
 HK_ARCHIVED_STRATEGY_IDS = {
+    'hkconnect_path2_breakout_cost_guard_biweekly',
+    'hkconnect_path3_stable_weekly_equal_buffered_cashguard_turnover9',
+    'hkconnect_path5_pullback_continuation_monthly_quality_retest_v12_definition_guard',
+    'hkconnect_path6_large_liquid_core_monthly_capacity_cost_v25_ytd_repair',
+    'hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_defensive_v21_ytd_guard',
+    'hkconnect_path1_hybrid_hold18_20261004',
+    'hkconnect_path4_liquidity_hold22_20261004',
+    'hkconnect_path5_frozen_exit80_20261004',
+    'hkconnect_path6_lowvol_hold28_20261004',
+
     "hkconnect_path7_defensive_hold32_20261003",
     "hkconnect_path6_lowvol_hold24_20261003",
     "hkconnect_path5_frozen_exit78_20261003",
