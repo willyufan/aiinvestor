@@ -3625,8 +3625,8 @@
       "frequency": "monthly"
     },
     {
-      "strategy_id": "hkconnect_path2_theme_cap25_20261003",
-      "display_name": "只将当前robust单票cap0.28→0.25；检验集中度下降能否改善MaxDD且保持中窗收益。",
+      "strategy_id": "hkconnect_path2_theme_entry09_20261005",
+      "display_name": "相对当前robust只改买入分位8→9%，检验入口广度而非继续cap扩参。",
       "path": "path2",
       "market_scope": "hkconnect",
       "winner_type": "2026-window winner",
@@ -3638,84 +3638,84 @@
       "data_as_of": "2026-10-02",
       "signal_effective_date": "2026-09-30",
       "metrics": {
-        "cagr": 0.1215,
-        "sharpe": 0.548,
-        "max_drawdown": -0.2435,
-        "total_return": 0.0789,
-        "turnover": 9.0211
+        "cagr": 0.15,
+        "sharpe": 0.6071,
+        "max_drawdown": -0.2308,
+        "total_return": 0.097,
+        "turnover": 9.0328
       },
       "window_metrics": [
         {
           "tag": "since_2017_01",
           "label": "2017",
-          "cagr": 0.1162,
+          "cagr": 0.1231,
           "sharpe": 0.0,
-          "max_drawdown": -0.3143,
-          "total_return": 1.8925
+          "max_drawdown": -0.2872,
+          "total_return": 2.07
         },
         {
           "tag": "since_2020_01",
           "label": "2020",
-          "cagr": 0.1481,
+          "cagr": 0.1518,
           "sharpe": 0.0,
-          "max_drawdown": -0.2435,
-          "total_return": 1.5098
+          "max_drawdown": -0.2394,
+          "total_return": 1.5639
         },
         {
           "tag": "since_2023_01",
           "label": "2023",
-          "cagr": 0.1809,
+          "cagr": 0.1911,
           "sharpe": 0.0,
-          "max_drawdown": -0.2435,
-          "total_return": 0.8396
+          "max_drawdown": -0.2308,
+          "total_return": 0.8988
         },
         {
           "tag": "since_2025_01",
           "label": "2025",
-          "cagr": 0.3377,
+          "cagr": 0.3641,
           "sharpe": 0.0,
-          "max_drawdown": -0.2435,
-          "total_return": 0.6205
+          "max_drawdown": -0.2308,
+          "total_return": 0.6739
         },
         {
           "tag": "since_2026_01",
           "label": "2026",
-          "cagr": 0.1215,
+          "cagr": 0.15,
           "sharpe": 0.0,
-          "max_drawdown": -0.2435,
-          "total_return": 0.0789
+          "max_drawdown": -0.2308,
+          "total_return": 0.097
         }
       ],
       "latest_weights": [
         {
           "ts_code": "02388.HK",
           "name": "中银香港",
-          "weight": 0.181586
+          "weight": 0.178978
         },
         {
           "ts_code": "03988.HK",
           "name": "中国银行",
-          "weight": 0.177716
+          "weight": 0.174118
         },
         {
           "ts_code": "01398.HK",
           "name": "工商银行",
-          "weight": 0.176959
+          "weight": 0.173222
         },
         {
           "ts_code": "00939.HK",
           "name": "建设银行",
-          "weight": 0.173612
+          "weight": 0.170473
         },
         {
           "ts_code": "01288.HK",
           "name": "农业银行",
-          "weight": 0.158642
+          "weight": 0.156895
         },
         {
-          "ts_code": "00857.HK",
-          "name": "中国石油股份",
-          "weight": 0.139362
+          "ts_code": "03328.HK",
+          "name": "交通银行",
+          "weight": 0.155039
         }
       ],
       "experimental": false,

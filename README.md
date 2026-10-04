@@ -693,3 +693,11 @@ cd /Users/valselee/my-code/aiinvestor
 ## 2026-10-03 策略迭代
 
 完成12个新参数与12个历史候选五窗口竞争：17个reject、4个keep_watch、3个archive，无promote，正式winner/robust身份不变。Path2覆盖缺口741降至721，晋级冻结；完整指标、命令与判定见 `results/research/a_share/research_iteration_scorecard_20261003.json`。归档候选不再进入A股2026榜；HK正式角色及标记按tracked身份导出，raw排名独立保留。
+
+
+## 2026-10-05 多路径研究迭代
+
+- 完成12个新增参数与18个历史确认的五窗竞争：新增1 promote / 1 keep_watch / 10 reject；完整30张scorecard为1 promote / 4 keep_watch / 25 reject。五窗同市场端点为A股2026-09-30、HK2026-10-02。
+- HK Path2 `hkconnect_path2_theme_entry09_20261005` 通过现有相邻验证函数，接替robust及2026观察窗口；2020/2023 CAGR相对原robust提高0.37/1.02pp，minCAGR由11.62%升至12.31%，最差MaxDD由-31.43%改善为-28.72%，年均换手约7.89倍。
+- A股Path2严格补guard首批20个IDs，缺口667→647/832，正式身份仍冻结；A股Path1 caution38仅keep_watch。18个reject IDs退出刷新、历史保留；A股Path4与HK Path4/5的现有robust存在近窗负收益，进入观察位，不是强稳定 winner。Path5冻结篮子20D +11.70%、40D -0.60%、60D不足，不能晋级。
+- 完整假设、逐窗指标、成本与判定见 `results/research/a_share/research_iteration_scorecard_20261005.json`；九份plan记录12条路径下一轮精确命令。

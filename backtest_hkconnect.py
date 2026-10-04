@@ -8567,7 +8567,84 @@ HK_PATH7_VARIANTS.append(
     }
 )
 
+# 2026-10-05：新参数同窗竞争，A股隔离探索不扩大active池。
+HK_PATH1_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH1_VARIANTS if item['strategy_id'] == 'hkconnect_path1_biweekly_hybrid'),
+        'strategy_id': 'hkconnect_path1_hybrid_caution72_20261005',
+        'strategy_name': '相对当前robust只改谨慎仓位80→72%，检验中窗回撤改善与收益代价。',
+        'risk_caution_exposure': 0.72,
+    }
+)
+
+HK_PATH2_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH2_VARIANTS if item['strategy_id'] == 'hkconnect_path2_theme_cap25_20261003'),
+        'strategy_id': 'hkconnect_path2_theme_entry09_20261005',
+        'strategy_name': '相对当前robust只改买入分位8→9%，检验入口广度而非继续cap扩参。',
+        'buy_entry_percentile': 0.09,
+    }
+)
+
+HK_PATH3_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH3_VARIANTS if item['strategy_id'] == 'hkconnect_path3_equal_elastic_weekly'),
+        'strategy_id': 'hkconnect_path3_theme_caution86_20261005',
+        'strategy_name': '相对当前robust只改谨慎仓位92→86%，检验高换手周频的风险成本权衡。',
+        'risk_caution_exposure': 0.86,
+    }
+)
+
+HK_PATH4_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH4_VARIANTS if item['strategy_id'] == 'hkconnect_path4_liquidity_momentum_biweekly_smoke'),
+        'strategy_id': 'hkconnect_path4_liquidity_entry12_20261005',
+        'strategy_name': '相对当前robust只改买入分位14→12%，检验更严格流动性动量选择。',
+        'buy_entry_percentile': 0.12,
+    }
+)
+
+HK_PATH5_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH5_VARIANTS if item['strategy_id'] == 'hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907'),
+        'strategy_id': 'hkconnect_path5_frozen_caution10_20261005',
+        'strategy_name': '相对当前robust只改谨慎仓位20→10%，检验回踩信号近窗防守，不继续退出分位扩参。',
+        'risk_caution_exposure': 0.1,
+    }
+)
+
+HK_PATH6_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH6_VARIANTS if item['strategy_id'] == 'hkconnect_path6_lowvol_liquid_biweekly_smoke'),
+        'strategy_id': 'hkconnect_path6_lowvol_caution76_20261005',
+        'strategy_name': '相对当前robust只改谨慎仓位82→76%，检验低波核心风险控制。',
+        'risk_caution_exposure': 0.76,
+    }
+)
+
+HK_PATH7_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH7_VARIANTS if item['strategy_id'] == 'hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7'),
+        'strategy_id': 'hkconnect_path7_defensive_caution56_20261005',
+        'strategy_name': '相对当前robust只改谨慎仓位62→56%，检验杠铃近窗防守及中窗稳定性。',
+        'risk_caution_exposure': 0.56,
+    }
+)
+
 HK_ARCHIVED_STRATEGY_IDS = {
+    'hkconnect_path2_breakout_balanced_biweekly',
+    'hkconnect_path3_stable_weekly_equal_buffered_cost_guard_cashguard_turnover8_exit44_2026_repair',
+    'hkconnect_path5_pullback_continuation_monthly_quality_retest_v18_event_anchored_redefinition',
+    'hkconnect_path6_large_liquid_core_monthly_capacity_cost_v26_ytd_repair',
+    'hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_defensive_v39_ytd_repair',
+    'hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_lowturn_v13_sleeve_rebalance',
+    'hkconnect_path1_hybrid_caution72_20261005',
+    'hkconnect_path3_theme_caution86_20261005',
+    'hkconnect_path4_liquidity_entry12_20261005',
+    'hkconnect_path5_frozen_caution10_20261005',
+    'hkconnect_path6_lowvol_caution76_20261005',
+    'hkconnect_path7_defensive_caution56_20261005',
+
     'hkconnect_path2_breakout_cost_guard_biweekly',
     'hkconnect_path3_stable_weekly_equal_buffered_cashguard_turnover9',
     'hkconnect_path5_pullback_continuation_monthly_quality_retest_v12_definition_guard',

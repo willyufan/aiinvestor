@@ -1,5 +1,41 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-10-05 迭代：12个单参数挑战与18个历史确认
+
+### 上一轮候选与结果摘要
+
+- hkconnect_path1 上轮：`hkconnect_path1_monthly_cashoff_weekly_overlay` keep_watch；`hkconnect_path1_hybrid_hold18_20261004` reject。上一轮细项见 research_iteration_scorecard_20261004.json。
+
+- `hkconnect_path1_monthly_cashoff_weekly_overlay`：`keep_watch`；2020/2023 CAGR差 +0.44/-0.11pp，MaxDD差 +5.59/-2.24pp。稳定性阈值通过，但净改善、成本或近窗仍需确认。 存在负CAGR窗口，不能视为强稳定winner。
+
+- `hkconnect_path1_hybrid_caution72_20261005`：`reject`；2020/2023 CAGR差 -0.65/-0.42pp，MaxDD差 -0.00/+0.00pp。同窗收益/回撤无实质增量，停止此形态扩参。
+
+### 本轮候选 ID 与命令
+
+- 已执行五窗口增量命令（含同端点参照）：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_cashoff_weekly_overlay,hkconnect_path1_biweekly_hybrid,hkconnect_path2_breakout_balanced_biweekly,hkconnect_path2_theme_cap25_20261003,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_cashguard_turnover8_exit44_2026_repair,hkconnect_path3_equal_elastic_weekly,hkconnect_path4_liquidity_momentum_biweekly_quality_filter_v5,hkconnect_path4_liquidity_momentum_biweekly_smoke,hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v11_turnover_repair,hkconnect_path5_pullback_continuation_monthly_quality_retest_v18_event_anchored_redefinition,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_large_liquid_core_monthly_capacity_cost_v26_ytd_repair,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_defensive_v39_ytd_repair,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_lowturn_v13_sleeve_rebalance`。
+
+- 已执行五窗口增量命令（含同端点参照）：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_hybrid_caution72_20261005,hkconnect_path1_biweekly_hybrid,hkconnect_path2_theme_entry09_20261005,hkconnect_path2_theme_cap25_20261003,hkconnect_path3_theme_caution86_20261005,hkconnect_path3_equal_elastic_weekly,hkconnect_path4_liquidity_entry12_20261005,hkconnect_path4_liquidity_momentum_biweekly_smoke,hkconnect_path5_frozen_caution10_20261005,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_lowvol_caution76_20261005,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_defensive_caution56_20261005,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。
+
+- `hkconnect_path1_monthly_cashoff_weekly_overlay`（parameter_confirmation）假设：相对正式robust改为hkconnect_path1_monthly_cashoff_weekly_overlay；按monthly_weekly_overlay检验中窗收益/回撤/换手，五窗检查近窗代价。 实际验证：部分支持，仍需成本/近窗复核。
+
+- `hkconnect_path1_hybrid_caution72_20261005`（new_parameter）假设：相对当前robust只改谨慎仓位80→72%，检验中窗回撤改善与收益代价。 实际验证：未支持跨窗口改善。
+
+- 因667个coverage缺口将新增预算收缩为12个strategy/base IDs；另18个历史确认、20个补缺IDs和事件复核均不计有效新增。reject停止同形扩参；新HK reject移出active保留历史；HK Path2 entry09通过相邻验证，正式接替robust及2026观察窗口；其它新形态未晋级。
+
+- explore universe保留定义和历史；active/watch按本轮判定管理，18个reject IDs退出刷新，未新增archive判定。
+
+- 正式身份变化：[]；其余window winner/robust/tracked身份未变。
+
+### 下一轮 focus 与第一条命令
+
+- hkconnect_path1 focus `monthly_weekly_overlay`：检验候选相对robust中窗稳定性/成本；下一轮第一条竞争命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-02 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_cashoff_weekly_overlay,hkconnect_path1_monthly_equal_buffered_weekly_overlay,hkconnect_path1_biweekly_hybrid`。
+
+### Focus 候选池
+
+- hkconnect_path1 `monthly_weekly_overlay`：`hkconnect_path1_monthly_cashoff_weekly_overlay`、`hkconnect_path1_monthly_equal_buffered_weekly_overlay`。
+- hkconnect_path1 `biweekly_buffer`：`hkconnect_path1_monthly_cashoff_weekly_overlay`、`hkconnect_path1_biweekly_equal_buffered`。
+- hkconnect_path1 `risk_overlay_cost`：`hkconnect_path1_monthly_cashoff_weekly_overlay`、`hkconnect_path1_biweekly_equal_buffered`。
+
 ## 2026-10-04 迭代：12个单参数挑战与16个历史确认
 
 ### 上一轮候选与结果摘要
