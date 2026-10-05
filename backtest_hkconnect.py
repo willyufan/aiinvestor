@@ -8631,7 +8631,27 @@ HK_PATH7_VARIANTS.append(
     }
 )
 
+# 2026-10-06：单参数竞争，保留历史定义。
+HK_PATH2_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH2_VARIANTS if item['strategy_id'] == 'hkconnect_path2_theme_entry09_20261005'),
+        'strategy_id': 'hkconnect_path2_theme_entry10_20261006',
+        'strategy_name': '相对正式robust entry09只将买入分位9%扩大至10%；预期提升中窗CAGR，检查回撤、成本、2026和多窗稳定性，任一护栏失守即reject。',
+        'buy_entry_percentile': 0.1,
+    }
+)
+
 HK_ARCHIVED_STRATEGY_IDS = {
+    'hkconnect_path1_monthly_cashoff_weekly_overlay',
+    'hkconnect_path2_breakout_cashoff_biweekly',
+    'hkconnect_path3_stable_weekly_equal_buffered_cost_guard_riskoff45_turnover8_exit42',
+    'hkconnect_path4_liquidity_momentum_biweekly_quality_filter_v5',
+    'hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v11_turnover_repair',
+    'hkconnect_path5_pullback_continuation_monthly_quality_retest_v19_definition_lowturn',
+    'hkconnect_path6_large_liquid_core_monthly_capacity_cost_v40_ytd_cashguard_repair',
+    'hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_lowturn_v14_sleeve_rebalance',
+    'hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_lowturn_v15_sleeve_rebalance',
+
     'hkconnect_path2_breakout_balanced_biweekly',
     'hkconnect_path3_stable_weekly_equal_buffered_cost_guard_cashguard_turnover8_exit44_2026_repair',
     'hkconnect_path5_pullback_continuation_monthly_quality_retest_v18_event_anchored_redefinition',

@@ -9304,6 +9304,17 @@
             },
             {
               "rank": 2,
+              "strategy_base_id": "hkconnect_path2_theme_entry10_20261006",
+              "strategy_base_name": "相对正式robust entry09只将买入分位9%扩大至10%；预期提升中窗CAGR，检查回撤、成本、2026和多窗稳定性，任一护栏失守即reject。",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.1526,
+                "weighted_sharpe": 0.6112,
+                "weighted_max_drawdown": -0.2294
+              }
+            },
+            {
+              "rank": 3,
               "strategy_base_id": "hkconnect_path2_theme_cap22_20261004",
               "strategy_base_name": "当前robust单票上限25→22%；检验集中度下降能否带来实质风险改善。",
               "is_official_winner": false,
@@ -9314,7 +9325,7 @@
               }
             },
             {
-              "rank": 3,
+              "rank": 4,
               "strategy_base_id": "hkconnect_path2_theme_cap25_20261003",
               "strategy_base_name": "只将当前robust单票cap0.28→0.25；检验集中度下降能否改善MaxDD且保持中窗收益。",
               "is_official_winner": false,
@@ -9325,7 +9336,7 @@
               }
             },
             {
-              "rank": 4,
+              "rank": 5,
               "strategy_base_id": "hkconnect_path2_theme_fast_monthly",
               "strategy_base_name": "沪港通Path2 月度快速主线",
               "is_official_winner": false,
@@ -9333,17 +9344,6 @@
                 "weighted_cagr": 0.1219,
                 "weighted_sharpe": 0.5477,
                 "weighted_max_drawdown": -0.2425
-              }
-            },
-            {
-              "rank": 5,
-              "strategy_base_id": "hkconnect_path2_breakout_concentrated_monthly",
-              "strategy_base_name": "沪港通Path2 月度极集中突破",
-              "is_official_winner": false,
-              "metrics": {
-                "weighted_cagr": -0.0327,
-                "weighted_sharpe": 0.3127,
-                "weighted_max_drawdown": -0.425
               }
             }
           ]
@@ -9868,17 +9868,6 @@
             },
             {
               "rank": 3,
-              "strategy_base_id": "hkconnect_path4_liquidity_momentum_biweekly_quality_filter_v5",
-              "strategy_base_name": "沪港通Path4 双周流动性动量(质量过滤v5)",
-              "is_official_winner": false,
-              "metrics": {
-                "weighted_cagr": 0.2913,
-                "weighted_sharpe": 1.0659,
-                "weighted_max_drawdown": -0.1619
-              }
-            },
-            {
-              "rank": 4,
               "strategy_base_id": "hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v27_liquidity_momentum_repair",
               "strategy_base_name": "沪港通Path4 双周流动性动量(低回撤流动性修复v27)",
               "is_official_winner": false,
@@ -9889,14 +9878,25 @@
               }
             },
             {
-              "rank": 5,
-              "strategy_base_id": "hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v11_turnover_repair",
-              "strategy_base_name": "沪港通Path4 双周流动性动量(低换手修复v11)",
+              "rank": 4,
+              "strategy_base_id": "hkconnect_path4_quality_momentum_monthly_smoke",
+              "strategy_base_name": "沪港通Path4 月度质量动量(smoke)",
               "is_official_winner": false,
               "metrics": {
-                "weighted_cagr": 0.2679,
-                "weighted_sharpe": 1.0093,
-                "weighted_max_drawdown": -0.1538
+                "weighted_cagr": 0.223,
+                "weighted_sharpe": 1.0496,
+                "weighted_max_drawdown": -0.202
+              }
+            },
+            {
+              "rank": 5,
+              "strategy_base_id": "hkconnect_path4_quality_momentum_monthly_ytd_guard",
+              "strategy_base_name": "沪港通Path4 月度质量动量(年内守门)",
+              "is_official_winner": false,
+              "metrics": {
+                "weighted_cagr": 0.2202,
+                "weighted_sharpe": 1.0146,
+                "weighted_max_drawdown": -0.2012
               }
             }
           ]

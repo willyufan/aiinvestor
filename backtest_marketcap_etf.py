@@ -16176,6 +16176,16 @@ WINNER_CORE_VARIANTS.append(
     }
 )
 
+# 2026-10-06：单参数竞争，保留历史定义。
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_05_95_prom8_satellite_caution38_20261005'),
+        'variant_id': 'aggr_05_95_prom8_satellite_caution36_20261006',
+        'variant_name': '相对上轮watch只将卫星谨慎仓位38%降到36%；与正式robust44%相比，预期中窗MaxDD下降且CAGR损失不超过3pp，五窗验证成本和近窗代价。',
+        'satellite_caution_exposure': 0.36,
+    }
+)
+
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
     "promotion_ramp": [
         "aggr_10_90_fast_ramp",
@@ -17554,6 +17564,9 @@ PATH2_SCAN_VARIANT_IDS = [
 ]
 
 PATH2_ARCHIVED_STRATEGY_BASE_IDS = [
+    'core_explore_70_30_equal_weight_winner_core__aggr_01_99_prom1_midcycle_momentum_cash_off_and_cap100',
+    'core_explore_70_30_equal_weight_winner_core__aggr_01_99_prom2_midcycle_momentum_cash_off_and_cap95',
+
     'core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk22_exit42_cap18_cost_guard_v35_lowturn',
     'core_explore_60_40_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn',
     'core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn_surge132_20261005',
@@ -17612,6 +17625,9 @@ WINNER_CORE_VARIANTS.append(
 )
 
 PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS = [
+    'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold6_turn12_weekly',
+    'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold8_turn10_exit90_weekly',
+
     'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap50_hold8_turn08_weekly',
     'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap55_hold7_turn10_weekly',
     'core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn035_exit98_risk16_20261005_weekly',

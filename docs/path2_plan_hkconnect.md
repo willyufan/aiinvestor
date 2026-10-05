@@ -1,5 +1,41 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-10-06 迭代：2个新参数与18个形态确认
+
+### 上一轮候选与结果摘要
+
+- hkconnect_path2 上轮：`hkconnect_path2_breakout_balanced_biweekly` reject；`hkconnect_path2_theme_entry09_20261005` promote。上一轮细项见 research_iteration_scorecard_20261005.json。
+
+- `hkconnect_path2_breakout_cashoff_biweekly`：`reject`；2020/2023 CAGR差 -16.90/-20.57pp，MaxDD差 -36.21/-19.13pp。2020/2023触发稳定性阈值，停止同形扩参。 存在负CAGR窗口，不能视为强稳定winner。
+
+- `hkconnect_path2_theme_entry10_20261006`：`keep_watch`；2020/2023 CAGR差 +0.89/+2.44pp，MaxDD差 +1.07/-0.18pp。稳定性阈值通过，但净改善、成本或近窗仍需确认。
+
+### 本轮候选 ID 与命令
+
+- 已执行五窗口增量命令（含同端点参照）：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_cashoff_weekly_overlay,hkconnect_path1_biweekly_hybrid,hkconnect_path2_breakout_cashoff_biweekly,hkconnect_path2_theme_entry09_20261005,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_riskoff45_turnover8_exit42,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_liquidity_momentum_biweekly_quality_filter_v5,hkconnect_path4_liquidity_momentum_biweekly_smoke,hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v11_turnover_repair,hkconnect_path5_pullback_continuation_monthly_quality_retest_v19_definition_lowturn,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_large_liquid_core_monthly_capacity_cost_v40_ytd_cashguard_repair,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_lowturn_v14_sleeve_rebalance,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_lowturn_v15_sleeve_rebalance`。
+
+- 已执行五窗口增量命令（含同端点参照）：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_entry10_20261006,hkconnect_path2_theme_entry09_20261005`。
+
+- `hkconnect_path2_breakout_cashoff_biweekly`（parameter_confirmation）假设：相对正式robust确认hkconnect_path2_breakout_cashoff_biweekly形态；按high_return_monthly检验2020/2023收益、回撤和换手，五窗排除近窗代价。 明确参数差异：{"buy_entry_percentile": {"candidate": 0.1, "reference": 0.09}, "rebalance_frequency": {"candidate": "biweekly", "reference": "monthly"}, "risk_caution_exposure": {"candidate": 0.7, "reference": 0.9}, "risk_off_exposure": {"candidate": 0.0, "reference": 0.65}, "risk_off_rule": {"candidate": "and", "reference": "or"}, "sell_exit_percentile": {"candidate": 0.22, "reference": 0.18}, "signal_family": {"candidate": "path2_breakout", "reference": "path2_theme"}, "weight_cap": {"candidate": 0.28, "reference": 0.25}}；预期降低风险或换手且不损伤中窗CAGR，实际支持情况由scorecard判定。 实际验证：未支持跨窗口改善。
+
+- `hkconnect_path2_theme_entry10_20261006`（new_parameter）假设：相对正式robust entry09只将买入分位9%扩大至10%；预期提升中窗CAGR，检查回撤、成本、2026和多窗稳定性，任一护栏失守即reject。 实际验证：部分支持，仍需成本/近窗复核。
+
+- 因Path2覆盖阻断642/832，将本轮竞争预算收缩至2个新参数+18个确认（A股10/HK10，其中4已有近期scorecard）；20补缺IDs、参照与事件复核另计。新参数与既有探索形态分开计数，补缺/历史复核不计有效新增；判定和身份变化以本轮scorecard为准。
+
+- explore universe保留定义和历史；active/watch按本轮判定管理，reject/归档记录详见本轮scorecard；保留定义与历史，不扩大active池。
+
+- 正式身份变化：[]；其余window winner/robust/tracked身份未变。
+
+### 下一轮 focus 与第一条命令
+
+- hkconnect_path2 focus `high_return_monthly`：检验候选相对robust中窗稳定性/成本；下一轮第一条竞争命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-05 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_entry10_20261006,hkconnect_path2_breakout_cashoff_monthly,hkconnect_path2_theme_entry09_20261005`。
+
+### Focus 候选池
+
+- hkconnect_path2 `high_return_monthly`：`hkconnect_path2_theme_entry10_20261006`、`hkconnect_path2_breakout_cashoff_monthly`。
+- hkconnect_path2 `biweekly_breakout`：`hkconnect_path2_theme_entry10_20261006`、`hkconnect_path2_breakout_cashoff_monthly`。
+- hkconnect_path2 `elasticity_cost_control`：`hkconnect_path2_theme_entry10_20261006`、`hkconnect_path2_breakout_cashoff_monthly`。
+
 ## 2026-10-05 迭代：12个单参数挑战与18个历史确认
 
 ### 上一轮候选与结果摘要
