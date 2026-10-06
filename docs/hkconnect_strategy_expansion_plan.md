@@ -1,5 +1,88 @@
 # 沪港通策略空间扩展计划
 
+## 2026-10-07 迭代：12个新参数与15个首次形态确认
+
+### 上一轮候选与结果摘要
+
+- hkconnect_path4 上轮：`hkconnect_path4_liquidity_momentum_biweekly_quality_filter_v5` archive；`hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v11_turnover_repair` reject。上一轮细项见 research_iteration_scorecard_20261006.json。
+
+- hkconnect_path5 上轮：`hkconnect_path5_pullback_continuation_monthly_quality_retest_v19_definition_lowturn` reject。上一轮细项见 research_iteration_scorecard_20261006.json。
+
+- hkconnect_path6 上轮：`hkconnect_path6_large_liquid_core_monthly_capacity_cost_v40_ytd_cashguard_repair` reject。上一轮细项见 research_iteration_scorecard_20261006.json。
+
+- hkconnect_path7 上轮：`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_lowturn_v14_sleeve_rebalance` reject；`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_lowturn_v15_sleeve_rebalance` reject。上一轮细项见 research_iteration_scorecard_20261006.json。
+
+- `hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v12_quality_filter`：`reject`；2020/2023 CAGR差 -3.41/+0.37pp，MaxDD差 -5.27/+1.51pp。2020/2023触发稳定性阈值，停止同形扩参。 存在负CAGR窗口，不能视为强稳定winner。
+
+- `hkconnect_path5_pullback_continuation_monthly_quality_retest_v20_definition_repair`：`reject`；2020/2023 CAGR差 +2.18/+1.82pp，MaxDD差 -10.79/-8.94pp。2020/2023触发稳定性阈值，停止同形扩参。 存在负CAGR窗口，不能视为强稳定winner。
+
+- `hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2`：`keep_watch`；2020/2023 CAGR差 -0.01/-1.18pp，MaxDD差 +2.30/-0.90pp。稳定性阈值通过，但净改善、成本或近窗仍需确认。 存在负CAGR窗口，不能视为强稳定winner。
+
+- `hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v26_structure_repair`：`reject`；2020/2023 CAGR差 -6.54/-8.87pp，MaxDD差 +2.22/-0.66pp。2020/2023触发稳定性阈值，停止同形扩参。 存在负CAGR窗口，不能视为强稳定winner。
+
+- `hkconnect_path4_liquidity_entry13_20261007`：`reject`；2020/2023 CAGR差 -0.77/+0.58pp，MaxDD差 -3.95/-0.89pp。收益未形成可验证净改善且出现负CAGR，停止此形态扩参。 存在负CAGR窗口，不能视为强稳定winner。
+
+- `hkconnect_path5_frozen_caution12_20261007`：`reject`；2020/2023 CAGR差 +0.05/-0.07pp，MaxDD差 -1.31/+0.00pp。收益未形成可验证净改善且出现负CAGR，停止此形态扩参。 存在负CAGR窗口，不能视为强稳定winner。
+
+- `hkconnect_path6_lowvol_caution78_20261007`：`reject`；2020/2023 CAGR差 -0.23/-0.06pp，MaxDD差 -0.02/-0.20pp。同窗收益/回撤无实质增量，停止此形态扩参。
+
+- `hkconnect_path7_defensive_caution58_20261007`：`reject`；2020/2023 CAGR差 -0.16/-0.26pp，MaxDD差 +0.25/+0.00pp。同窗收益/回撤无实质增量，停止此形态扩参。
+
+### 本轮候选 ID 与命令
+
+- 已执行五窗口增量命令（含同端点参照）：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-06 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay,hkconnect_path1_biweekly_hybrid,hkconnect_path2_breakout_cashoff_monthly,hkconnect_path2_theme_entry10_20261006,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_riskoff55_turnover8_exit44_ytd_guard,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v12_quality_filter,hkconnect_path4_liquidity_momentum_biweekly_smoke,hkconnect_path5_pullback_continuation_monthly_quality_retest_v20_definition_repair,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v26_structure_repair,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。
+
+- 已执行五窗口增量命令（含同端点参照）：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-06 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_hybrid_caution74_20261007,hkconnect_path1_biweekly_hybrid,hkconnect_path2_theme_entry11_20261007,hkconnect_path2_theme_entry10_20261006,hkconnect_path3_theme_caution88_20261007,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_liquidity_entry13_20261007,hkconnect_path4_liquidity_momentum_biweekly_smoke,hkconnect_path5_frozen_caution12_20261007,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_lowvol_caution78_20261007,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_defensive_caution58_20261007,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。
+
+- `hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v12_quality_filter`（parameter_confirmation）假设：相对正式robust确认hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v12_quality_filter形态；按quality_momentum检验2020/2023收益、回撤和换手，五窗排除近窗代价。 明确参数差异：{"buy_entry_percentile": {"candidate": 0.22, "reference": 0.14}, "max_holdings": {"candidate": 30, "reference": 12}, "risk_caution_exposure": {"candidate": 0.56, "reference": 0.78}, "risk_off_exposure": {"candidate": 0.26, "reference": 0.4}, "sell_exit_percentile": {"candidate": 0.38, "reference": 0.32}, "weight_cap": {"candidate": 0.045, "reference": 0.12}}；预期降低风险或换手且不损伤中窗CAGR，实际支持情况由scorecard判定。 明确参数差异：{"buy_entry_percentile": {"candidate": 0.22, "reference": 0.14}, "max_holdings": {"candidate": 30, "reference": 12}, "risk_caution_exposure": {"candidate": 0.56, "reference": 0.78}, "risk_off_exposure": {"candidate": 0.26, "reference": 0.4}, "sell_exit_percentile": {"candidate": 0.38, "reference": 0.32}, "weight_cap": {"candidate": 0.045, "reference": 0.12}}；预期降低风险或换手且不损伤中窗CAGR，实际支持情况由scorecard判定。 实际验证：未支持跨窗口改善。
+
+- `hkconnect_path5_pullback_continuation_monthly_quality_retest_v20_definition_repair`（parameter_confirmation）假设：相对正式robust确认hkconnect_path5_pullback_continuation_monthly_quality_retest_v20_definition_repair形态；按pullback_definition检验2020/2023收益、回撤和换手，五窗排除近窗代价。 明确参数差异：{"buy_entry_percentile": {"candidate": 0.42, "reference": 0.6}, "max_holdings": {"candidate": 42, "reference": 32}, "rebalance_frequency": {"candidate": "monthly", "reference": "biweekly"}, "risk_caution_exposure": {"candidate": 0.38, "reference": 0.2}, "risk_off_exposure": {"candidate": 0.02, "reference": 0.0}, "sell_exit_percentile": {"candidate": 0.58, "reference": 0.76}, "weight_cap": {"candidate": 0.028, "reference": 0.012}}；预期降低风险或换手且不损伤中窗CAGR，实际支持情况由scorecard判定。 明确参数差异：{"buy_entry_percentile": {"candidate": 0.42, "reference": 0.6}, "max_holdings": {"candidate": 42, "reference": 32}, "rebalance_frequency": {"candidate": "monthly", "reference": "biweekly"}, "risk_caution_exposure": {"candidate": 0.38, "reference": 0.2}, "risk_off_exposure": {"candidate": 0.02, "reference": 0.0}, "sell_exit_percentile": {"candidate": 0.58, "reference": 0.76}, "weight_cap": {"candidate": 0.028, "reference": 0.012}}；预期降低风险或换手且不损伤中窗CAGR，实际支持情况由scorecard判定。 实际验证：未支持跨窗口改善。
+
+- `hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2`（parameter_confirmation）假设：相对正式robust确认hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2形态；按large_liquid_core检验2020/2023收益、回撤和换手，五窗排除近窗代价。 明确参数差异：{"buy_entry_percentile": {"candidate": 0.22, "reference": 0.2}, "max_holdings": {"candidate": 24, "reference": 20}, "rebalance_frequency": {"candidate": "monthly", "reference": "biweekly"}, "risk_caution_exposure": {"candidate": 0.75, "reference": 0.82}, "risk_off_exposure": {"candidate": 0.4, "reference": 0.5}, "sell_exit_percentile": {"candidate": 0.42, "reference": 0.4}, "weight_cap": {"candidate": 0.07, "reference": 0.09}}；预期降低风险或换手且不损伤中窗CAGR，实际支持情况由scorecard判定。 明确参数差异：{"buy_entry_percentile": {"candidate": 0.22, "reference": 0.2}, "max_holdings": {"candidate": 24, "reference": 20}, "rebalance_frequency": {"candidate": "monthly", "reference": "biweekly"}, "risk_caution_exposure": {"candidate": 0.75, "reference": 0.82}, "risk_off_exposure": {"candidate": 0.4, "reference": 0.5}, "sell_exit_percentile": {"candidate": 0.42, "reference": 0.4}, "weight_cap": {"candidate": 0.07, "reference": 0.09}}；预期降低风险或换手且不损伤中窗CAGR，实际支持情况由scorecard判定。 实际验证：部分支持，仍需成本/近窗复核。
+
+- `hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v26_structure_repair`（parameter_confirmation）假设：相对正式robust确认hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v26_structure_repair形态；按barbell_sleeve_structure检验2020/2023收益、回撤和换手，五窗排除近窗代价。 明确参数差异：{"buy_entry_percentile": {"candidate": 0.38, "reference": 0.18}, "max_holdings": {"candidate": 56, "reference": 28}, "risk_caution_exposure": {"candidate": 0.32, "reference": 0.62}, "risk_off_exposure": {"candidate": 0.0, "reference": 0.24}, "sell_exit_percentile": {"candidate": 0.66, "reference": 0.36}, "weight_cap": {"candidate": 0.014, "reference": 0.05}}；预期降低风险或换手且不损伤中窗CAGR，实际支持情况由scorecard判定。 明确参数差异：{"buy_entry_percentile": {"candidate": 0.38, "reference": 0.18}, "max_holdings": {"candidate": 56, "reference": 28}, "risk_caution_exposure": {"candidate": 0.32, "reference": 0.62}, "risk_off_exposure": {"candidate": 0.0, "reference": 0.24}, "sell_exit_percentile": {"candidate": 0.66, "reference": 0.36}, "weight_cap": {"candidate": 0.014, "reference": 0.05}}；预期降低风险或换手且不损伤中窗CAGR，实际支持情况由scorecard判定。 实际验证：未支持跨窗口改善。
+
+- `hkconnect_path4_liquidity_entry13_20261007`（new_parameter）假设：相对当前robust只改买入分位14→13%，检验更严格流动性动量选择。 明确参数差异：{"buy_entry_percentile": {"candidate": 0.13, "reference": 0.14}}；预期降低风险或换手且不损伤中窗CAGR，实际支持情况由scorecard判定。 实际验证：未支持跨窗口改善。
+
+- `hkconnect_path5_frozen_caution12_20261007`（new_parameter）假设：相对当前robust只改谨慎仓位20→12%，检验回踩信号近窗防守，不继续退出分位扩参。 明确参数差异：{"risk_caution_exposure": {"candidate": 0.12, "reference": 0.2}}；预期降低风险或换手且不损伤中窗CAGR，实际支持情况由scorecard判定。 实际验证：未支持跨窗口改善。
+
+- `hkconnect_path6_lowvol_caution78_20261007`（new_parameter）假设：相对当前robust只改谨慎仓位82→78%，检验低波核心风险控制。 明确参数差异：{"risk_caution_exposure": {"candidate": 0.78, "reference": 0.82}}；预期降低风险或换手且不损伤中窗CAGR，实际支持情况由scorecard判定。 实际验证：未支持跨窗口改善。
+
+- `hkconnect_path7_defensive_caution58_20261007`（new_parameter）假设：相对当前robust只改谨慎仓位62→58%，检验杠铃近窗防守及中窗稳定性。 明确参数差异：{"risk_caution_exposure": {"candidate": 0.58, "reference": 0.62}}；预期降低风险或换手且不损伤中窗CAGR，实际支持情况由scorecard判定。 实际验证：未支持跨窗口改善。
+
+- 因Path2覆盖阻断618/832，将本轮竞争预算收缩至12个新参数+15个首次形态确认+1历史复核（A股14/HK14）；20补缺IDs、参照与事件复核另计。新参数与既有探索形态分开计数，补缺/历史复核不计有效新增；判定和身份变化以本轮scorecard为准。
+
+- explore universe保留定义和历史；active/watch按本轮判定管理，reject/归档记录详见本轮scorecard；保留定义与历史，不扩大active池。
+
+- 正式身份变化：[]；其余window winner/robust/tracked身份未变。
+
+### 下一轮 focus 与第一条命令
+
+- hkconnect_path4 focus `quality_momentum`：检验候选相对robust中窗稳定性/成本；下一轮第一条竞争命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-06 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v14_ytd_repair,hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v18_liquidity_repair,hkconnect_path4_liquidity_momentum_biweekly_smoke`。
+
+- hkconnect_path5 focus `pullback_definition`：检验候选相对robust中窗稳定性/成本；下一轮第一条竞争命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-06 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_pullback_continuation_monthly_quality_retest_v8_definition_repair,hkconnect_path5_pullback_continuation_monthly_quality_retest_v9_definition_repair,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907`。
+
+- hkconnect_path6 focus `large_liquid_core`：检验候选相对robust中窗稳定性/成本；下一轮第一条竞争命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-06 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2,hkconnect_path6_large_liquid_core_monthly_lowvol_liquidity_mix_v6,hkconnect_path6_lowvol_liquid_biweekly_smoke`。
+
+- hkconnect_path7 focus `barbell_sleeve_structure`：检验候选相对robust中窗稳定性/成本；下一轮第一条竞争命令：`AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-06 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v27_structure_repair,hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v20_ytd_guard,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。
+
+- HK Path4/5当前robust若负minCAGR或2026负，均为robust_observation：进入观察位，不是强稳定 winner。
+
+### Focus 候选池
+
+- hkconnect_path4 `quality_momentum`：`hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v14_ytd_repair`、`hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v18_liquidity_repair`。
+- hkconnect_path4 `liquidity_momentum`：`hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2`、`hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v14_ytd_repair`。
+- hkconnect_path4 `ytd_guard`：`hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2`、`hkconnect_path4_liquidity_momentum_biweekly_quality_lowdraw_v14_ytd_repair`。
+- hkconnect_path5 `pullback_definition`：`hkconnect_path5_pullback_continuation_monthly_quality_retest_v8_definition_repair`、`hkconnect_path5_pullback_continuation_monthly_quality_retest_v9_definition_repair`。
+- hkconnect_path5 `retest_confirmation`：`hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2`、`hkconnect_path5_breakout_retest_biweekly_quality_confirm_v6_retest_width`。
+- hkconnect_path5 `pause_or_redesign`：`hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2`、`hkconnect_path5_breakout_retest_biweekly_quality_confirm_v6_retest_width`。
+- hkconnect_path6 `large_liquid_core`：`hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2`、`hkconnect_path6_large_liquid_core_monthly_lowvol_liquidity_mix_v6`。
+- hkconnect_path6 `lowvol_liquid_core`：`hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2`、`hkconnect_path6_large_liquid_core_monthly_lowvol_liquidity_mix_v6`。
+- hkconnect_path6 `capacity_cost`：`hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2`、`hkconnect_path6_large_liquid_core_monthly_lowvol_liquidity_mix_v6`。
+- hkconnect_path7 `barbell_sleeve_structure`：`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v27_structure_repair`、`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_turnover_control_v20_ytd_guard`。
+- hkconnect_path7 `biweekly_barbell`：`hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2`、`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v27_structure_repair`。
+- hkconnect_path7 `turnover_control`：`hkconnect_path6_large_liquid_core_monthly_liquidity_mix_v2`、`hkconnect_path7_barbell_quality_growth_biweekly_core_sleeve_quality_v27_structure_repair`。
+
 ## 2026-10-06 迭代：2个新参数与18个形态确认
 
 ### 上一轮候选与结果摘要

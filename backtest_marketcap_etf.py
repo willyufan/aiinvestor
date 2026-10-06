@@ -16186,6 +16186,52 @@ WINNER_CORE_VARIANTS.append(
     }
 )
 
+# 2026-10-07：新参数同窗竞争，A股隔离探索不扩大active池。
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907'),
+        'variant_id': 'aggr_05_95_prom8_satellite_caution34_20261007',
+        'variant_name': '相对robust只将卫星谨慎仓位44→34%；预期降低中窗MaxDD，核实CAGR代价。',
+        'satellite_caution_exposure': 0.34,
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_05_95_prom7_core_multifactor_quality_tilt'),
+        'variant_id': 'aggr_05_95_prom7_core_multifactor_industry27_20261007',
+        'variant_name': '相对quality_tilt将6-1动量20→13%、行业强度10→17%；检验行业质量协同对中窗风险收益影响，与正式robust竞争。',
+        'factor_weights': {'momentum_6_1': 0.13, 'momentum_3_1': 0.1, 'quality': 0.3, 'growth_acceleration': 0.15, 'industry_strength': 0.17, 'industry_leader': 0.1, 'liquidity_surge': 0.05},
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn'),
+        'variant_id': 'aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn_surge134_20261007',
+        'variant_name': '相对欠配族v63仅提高快晋升放量要求1.26→1.34；检验减少噪声交易能否改善2020/2023与成本；block下禁止promote。',
+        'fast_promotion_min_amount_surge_ratio': 1.34,
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly'),
+        'variant_id': 'aggr_08_92_prom6_cost_guard_cap52_hold6_turn032_exit98_risk16_20261007_weekly',
+        'variant_name': '相对robust只把单周换手上限4→3.2%；预期降成本同时保持中窗稳定性。',
+        'weekly_turnover_cap': 0.032,
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn'),
+        'variant_id': 'aggr_13_87_prom22_emergent_theme_leader82_risk08_cap05_exit66_20261007',
+        'variant_name': '相对robust仅把行业龙头下限78→82%；检验质量筛选是否修复2026负收益并保持中窗稳定性。',
+        'standard_promotion_min_industry_leader': 0.82,
+    }
+)
+
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
     "promotion_ramp": [
         "aggr_10_90_fast_ramp",
@@ -17564,6 +17610,10 @@ PATH2_SCAN_VARIANT_IDS = [
 ]
 
 PATH2_ARCHIVED_STRATEGY_BASE_IDS = [
+    'core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom1_midcycle_momentum_cash_off_and_cap100',
+    'core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom2_midcycle_momentum_cash_off_and_cap95',
+    'core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn_surge134_20261007',
+
     'core_explore_70_30_equal_weight_winner_core__aggr_01_99_prom1_midcycle_momentum_cash_off_and_cap100',
     'core_explore_70_30_equal_weight_winner_core__aggr_01_99_prom2_midcycle_momentum_cash_off_and_cap95',
 
@@ -17625,6 +17675,10 @@ WINNER_CORE_VARIANTS.append(
 )
 
 PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS = [
+    'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap62_hold6_turn10_exit88_weekly',
+    'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold5_turn10_exit85_weekly',
+    'core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn032_exit98_risk16_20261007_weekly',
+
     'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold6_turn12_weekly',
     'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap60_hold8_turn10_exit90_weekly',
 
