@@ -16232,6 +16232,52 @@ WINNER_CORE_VARIANTS.append(
     }
 )
 
+# 2026-10-08：五窗单参数竞争；A股隔离探索，不扩大active池。
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907'),
+        'variant_id': 'aggr_05_95_prom8_satellite_confirm3_20261008',
+        'variant_name': '主线只把风险状态确认2周延至3周；减少卫星仓位噪声切换，预期降换手而不损伤2020/2023收益或2026防守。',
+        'risk_stage_confirm_weeks': 3,
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_05_95_prom7_core_multifactor_quality_tilt'),
+        'variant_id': 'aggr_05_95_prom7_core_multifactor_growth25_20261008',
+        'variant_name': 'core_multifactor从quality_tilt动量6-1转移10pp到成长加速；检验新增长质量协同能否缩小与正式robust的中窗差距，避免继续行业权重失败形态。',
+        'factor_weights': {'momentum_6_1': 0.1, 'momentum_3_1': 0.1, 'quality': 0.3, 'growth_acceleration': 0.25, 'industry_strength': 0.1, 'industry_leader': 0.1, 'liquidity_surge': 0.05},
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn'),
+        'variant_id': 'aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn_cap12_20261008',
+        'variant_name': '欠配双周流动动量族仅将单票上限14→12%；检验容量与分散度能否修复中窗回撤，同时记录仓位不足和收益代价；block下禁止晋级。',
+        'weight_cap': 0.12,
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly'),
+        'variant_id': 'aggr_08_92_prom6_cost_guard_hold5_20261008_weekly',
+        'variant_name': '纯周频把最短持有6周降至5周；检验稍快释放弱仓是否改善中窗回撤，记录换手和成本增加。',
+        'weekly_min_hold_periods': 5,
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn'),
+        'variant_id': 'aggr_13_87_prom22_emergent_theme_mom70_20261008',
+        'variant_name': '独立强主题将3-1动量门槛66→70%，用市场结构筛选而非人工主题；预期降低弱主题和2026亏损，检验中窗及容量代价。',
+        'standard_promotion_min_momentum_3_1_rank': 0.7,
+    }
+)
+
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
     "promotion_ramp": [
         "aggr_10_90_fast_ramp",
@@ -17610,6 +17656,7 @@ PATH2_SCAN_VARIANT_IDS = [
 ]
 
 PATH2_ARCHIVED_STRATEGY_BASE_IDS = [
+    'core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn_cap12_20261008',
     'core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom1_midcycle_momentum_cash_off_and_cap100',
     'core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom2_midcycle_momentum_cash_off_and_cap95',
     'core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn_surge134_20261007',
@@ -17675,6 +17722,7 @@ WINNER_CORE_VARIANTS.append(
 )
 
 PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS = [
+    'core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_hold5_20261008_weekly',
     'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap62_hold6_turn10_exit88_weekly',
     'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold5_turn10_exit85_weekly',
     'core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn032_exit98_risk16_20261007_weekly',

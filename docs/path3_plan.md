@@ -1,5 +1,50 @@
 # Path 3 研究计划
 
+## 2026-10-08 迭代：12个真实新参数实验
+
+### 上一轮候选与结果摘要
+
+- ashare_path3：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap62_hold6_turn10_exit88_weekly` reject; `core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold5_turn10_exit85_weekly` reject; `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn032_exit98_risk16_20261007_weekly` reject。上轮完整指标见 research_iteration_scorecard_20261007.json。
+
+### 本轮候选 ID 与命令
+
+- `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_hold5_20261008_weekly`，new_parameter，`reject`。假设：纯周频把最短持有6周降至5周；检验稍快释放弱仓是否改善中窗回撤，记录换手和成本增加。
+
+- 参数变化：`{"weekly_min_hold_periods": {"candidate": 5, "reference": 6}}`。
+
+- 2020/2023 CAGR差 +0.10/-4.09pp，MaxDD差 -1.10/+6.28pp；2020/2023触发稳定性阈值，停止同形扩参。 假设验证支持：False。
+
+- window winner/robust/tracked变化：False；停止同形扩参；新HK reject退出active保留历史定义。
+
+已执行完整五窗增量命令（候选与同端点参照）：
+
+```sh
+
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_satellite_confirm3_20261008,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_growth25_20261008,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn_cap12_20261008,core_explore_70_30_equal_weight_winner_core,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_hold5_20261008_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_mom70_20261008,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --comparison-csv /private/tmp/aiiter1008/ashare_new.csv
+
+```
+
+- Path2 blocking 592/832需优先精确增量修复，故预算按规则回落到12（A股5/HK7），未达常规24–36；补缺20-ID与既有事件复核另计。全部12目标path都有review/设计/首命令，Path5只复核已审计篮子。
+
+- explore保留历史定义；A股active不扩张，HK新增前按五窗最差minCAGR各淘汰1个；本轮reject退出刷新、历史不删。
+
+### 下一轮 focus 与第一条命令
+
+- ashare_path3 focus `turnover_reduction`：检验中窗净收益、回撤及换手；下一轮第一条竞争命令：
+
+```sh
+
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold5_turn15_weekly,core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_weekly_alpha_breakout_risk50_cap60_hold2_turn30_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly
+
+```
+
+### Focus 候选池
+
+- ashare_path3 `turnover_reduction`：`core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold5_turn15_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_05_95_prom3_weekly_alpha_breakout_risk50_cap60_hold2_turn30_weekly`。
+- ashare_path3 `weekly_exit_buffer`：`core_explore_70_30_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly`、`core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_weekly`。
+- ashare_path3 `risk_downshift`：`core_explore_70_30_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly`、`core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_weekly`。
+- ashare_path3 `cost_stress`：`core_explore_70_30_equal_weight_winner_core__aggr_01_99_prom1_core_6_1_cash_off_and_cap100_weekly`、`core_explore_70_30_equal_weight_winner_core__aggr_02_98_prom1_core_6_1_cash_off_and_cap100_weekly`。
+
 ## 2026-10-07 迭代：12个新参数与15个首次形态确认
 
 ### 上一轮候选与结果摘要

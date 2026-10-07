@@ -1,5 +1,60 @@
 # Path 1 研究计划
 
+## 2026-10-08 迭代：12个真实新参数实验
+
+### 上一轮候选与结果摘要
+
+- ashare_path1：`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_momentum_quality` reject; `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_quality_defense` reject; `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_satellite_caution36_20261006` promote; `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_satellite_caution34_20261007` keep_watch; `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_industry27_20261007` reject。上轮完整指标见 research_iteration_scorecard_20261007.json。
+
+### 本轮候选 ID 与命令
+
+- `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_satellite_confirm3_20261008`，new_parameter，`keep_watch`。假设：主线只把风险状态确认2周延至3周；减少卫星仓位噪声切换，预期降换手而不损伤2020/2023收益或2026防守。
+
+- 参数变化：`{"risk_stage_confirm_weeks": {"candidate": 3, "reference": 2}}`。
+
+- 2020/2023 CAGR差 +0.04/+0.18pp，MaxDD差 +0.00/+0.00pp；稳定性阈值通过，但净改善、成本或近窗仍需确认。 假设验证支持：False。
+
+- window winner/robust/tracked变化：False；保留观察条件；不扩大A股active池。
+
+- `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_growth25_20261008`，new_parameter，`reject`。假设：core_multifactor从quality_tilt动量6-1转移10pp到成长加速；检验新增长质量协同能否缩小与正式robust的中窗差距，避免继续行业权重失败形态。
+
+- 参数变化：`{"core_signal_mode": {"candidate": "multi_factor", "reference": null}, "factor_weights": {"candidate": {"growth_acceleration": 0.25, "industry_leader": 0.1, "industry_strength": 0.1, "liquidity_surge": 0.05, "momentum_3_1": 0.1, "momentum_6_1": 0.1, "quality": 0.3}, "reference": null}, "market_risk_off_rule": {"candidate": null, "reference": "and"}, "promoted_core_max_holdings": {"candidate": 7, "reference": 8}, "promoted_core_sell_exit_percentile": {"candidate": null, "reference": 0.52}, "risk_evaluation_frequency": {"candidate": null, "reference": "weekly"}, "risk_overlay_scope": {"candidate": null, "reference": "satellite_only"}, "risk_stage_buffered": {"candidate": null, "reference": true}, "risk_stage_confirm_weeks": {"candidate": null, "reference": 2}, "risk_staging_mode": {"candidate": null, "reference": "three_stage"}, "satellite_caution_exposure": {"candidate": null, "reference": 0.44}, "satellite_risk_off_exposure": {"candidate": null, "reference": 0.2}}`。
+
+- 2020/2023 CAGR差 -21.47/-5.29pp，MaxDD差 +7.82/+10.80pp；2020/2023触发稳定性阈值，停止同形扩参。 假设验证支持：False。
+
+- window winner/robust/tracked变化：False；停止同形扩参；新HK reject退出active保留历史定义。
+
+已执行完整五窗增量命令（候选与同端点参照）：
+
+```sh
+
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_satellite_confirm3_20261008,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_growth25_20261008,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn_cap12_20261008,core_explore_70_30_equal_weight_winner_core,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_hold5_20261008_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_mom70_20261008,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --comparison-csv /private/tmp/aiiter1008/ashare_new.csv
+
+```
+
+- 主线确认周期3周实跑；core_multifactor成长加速25%实跑。代码原有core_multifactor 64/64覆盖通过；新组合为单独隔离探索ID，未加入active或假定overlay全量。
+
+- Path2 blocking 592/832需优先精确增量修复，故预算按规则回落到12（A股5/HK7），未达常规24–36；补缺20-ID与既有事件复核另计。全部12目标path都有review/设计/首命令，Path5只复核已审计篮子。
+
+- explore保留历史定义；A股active不扩张，HK新增前按五窗最差minCAGR各淘汰1个；本轮reject退出刷新、历史不删。
+
+### 下一轮 focus 与第一条命令
+
+- ashare_path1 focus `signal_quality`：检验中窗净收益、回撤及换手；下一轮第一条竞争命令：
+
+```sh
+
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced,core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_balanced,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907
+
+```
+
+### Focus 候选池
+
+- ashare_path1 `core_multifactor_coverage`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_balanced`。
+- ashare_path1 `signal_quality`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced`、`core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_core_multifactor_balanced`。
+- ashare_path1 `satellite_risk_cost`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_satellite_confirm3_20261008`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced`。
+- ashare_path1 `holding_shape`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_satellite_confirm3_20261008`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced`。
+
 ## 2026-10-07 迭代：12个新参数与15个首次形态确认
 
 ### 上一轮候选与结果摘要

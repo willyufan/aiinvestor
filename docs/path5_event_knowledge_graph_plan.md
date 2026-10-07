@@ -1,5 +1,48 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-10-08 迭代：12个真实新参数实验
+
+### 上一轮候选与结果摘要
+
+- ashare_path5：已审计电力篮子20D +11.70%、40D -0.60%、60D不足，keep_watch。上轮完整指标见 research_iteration_scorecard_20261007.json。
+
+### 本轮候选 ID 与命令
+
+- `ai_datacenter_power_grid_202607_v0`，source_audited冻结输入，20/40/60D；40D转负，60D样本不足；单事件缺完整CAGR/Sharpe/MaxDD/换手口径，不能晋级。
+
+- 假设：20D强势延续到40/60D，40D转负与60D不足未支持假设；keep_watch。未新建事件篮子：无新增已审计事件，不能把待审计设计作为有效实验。
+
+```sh
+
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/research_iteration_event_20261008.json
+
+```
+
+- 当前registry active 1、pending audit 0；原事件来源与成分冻结。kb-web复用9/16 earnings快照30记录，哈希/PIT通过，0新MCP/0新credits；没有新可证伪数据假设，不调用叙述工具填造因子。
+
+- Path2 blocking 592/832需优先精确增量修复，故预算按规则回落到12（A股5/HK7），未达常规24–36；补缺20-ID与既有事件复核另计。全部12目标path都有review/设计/首命令，Path5只复核已审计篮子。
+
+- explore保留历史定义；A股active不扩张，HK新增前按五窗最差minCAGR各淘汰1个；本轮reject退出刷新、历史不删。
+
+### 下一轮 focus 与第一条命令
+
+- event_basket_registry优先审计v1设计；在来源冻结前只执行现有篮子命令：
+
+```sh
+
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/research_iteration_event_next.json
+
+```
+
+### Focus 候选池
+
+- `event_basket_registry`：`ai_datacenter_power_grid_202607_v1`、`high_speed_pcb_copper_clad_server_20260624_v1`（均为待审计设计 ID，不能回测）。
+- `frozen_candidate_audit`：`ai_datacenter_power_grid_202607_v0` 现有成分与权重复核、`high_speed_pcb_copper_clad_server_20260624_v0` 历史来源复核（后者 archive_only）。
+- `event_backtest_entry`：`ai_datacenter_power_grid_202607_v0 --horizons 20,40,60`、`ai_datacenter_power_grid_202607_v0 --horizons 5,10,20`，均须保持已审计冻结输入。
+- `path4_comparison`：`ai_datacenter_power_grid_202607_v0__compare_path4_robust`、`ai_datacenter_power_grid_202607_v0__compare_path4_2023_winner`；两项比较设计分别以当前robust `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn` 与2023窗口winner `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal29_leader78_coverage_penalty_risk04_cap05_exit70_lowturn` 为参照，复核overlap及同事件收益，不新建未经审计篮子。
+
+- 同事件日起止日比较：20D/40D见scorecard；事件篮子是未扣成本收益、Path4是净收益，不能据此promote。
+
 ## 2026-10-07 迭代：12个新参数与15个首次形态确认
 
 ### 上一轮候选与结果摘要

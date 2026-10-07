@@ -1164,3 +1164,10 @@
 - HK Path2 `hkconnect_path2_theme_entry09_20261005` 通过现有相邻验证函数，接替robust及2026观察窗口；2020/2023 CAGR相对原robust提高0.37/1.02pp，minCAGR由11.62%升至12.31%，最差MaxDD由-31.43%改善为-28.72%，年均换手约7.89倍。
 - A股Path2严格补guard首批20个IDs，缺口667→647/832，正式身份仍冻结；A股Path1 caution38仅keep_watch。18个reject IDs退出刷新、历史保留；A股Path4与HK Path4/5的现有robust存在近窗负收益，进入观察位，不是强稳定 winner。Path5冻结篮子20D +11.70%、40D -0.60%、60D不足，不能晋级。
 - 完整假设、逐窗指标、成本与判定见 `results/research/a_share/research_iteration_scorecard_20261005.json`；九份plan记录12条路径下一轮精确命令。
+
+## 2026-10-08 十二路径策略竞争
+
+- 完成12个真实新参数（A股5/HK7）五窗口同市场同端点回测，判定 1 promote / 2 keep_watch / 9 reject；A股端点2026-09-30，HK端点2026-10-07。覆盖补缺与事件复核不计新增。
+- HK Path6 `hkconnect_path6_lowvol_hold18_20261008` 判定 promote；2020/2023 CAGR相对原robust提高 0.79/1.72pp，五窗净CAGR/Sharpe提高、换手与成本下降。2017 MaxDD恶化0.98pp、中窗0.08/0.23pp，保留风险监测；真实窗口winner锚点四项代码相邻验证通过。已接替HK Path6正式robust和2026窗口winner，其余正式身份未变。
+- Path2首批20-ID四窗口补缺592→572/832，正式身份冻结；A4/HK4/HK5弱robust进入观察位，不是强稳定 winner。Path5冻结篮子20D +11.70%、40D -0.60%、60D不足，keep_watch。
+- 完整假设、逐窗CAGR/Sharpe/MaxDD/换手/成本、判定与下一轮精确命令见 `results/research/a_share/research_iteration_scorecard_20261008.json` 和 `docs/research_iteration_20261008.md`；HK Path6五窗对比图为 `docs/strategy_comparison_hkconnect_path6_20261008.png`。

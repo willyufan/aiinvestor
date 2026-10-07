@@ -1,5 +1,49 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-10-08 迭代：12个真实新参数实验
+
+### 上一轮候选与结果摘要
+
+- hkconnect_path1：`hkconnect_path1_monthly_equal_buffered_weekly_overlay` reject; `hkconnect_path1_hybrid_caution74_20261007` reject。上轮完整指标见 research_iteration_scorecard_20261007.json。
+
+### 本轮候选 ID 与命令
+
+- `hkconnect_path1_hybrid_hold16_20261008`，new_parameter，`reject`。假设：相对当前robust只改持仓14→16只，检验分散度对中窗回撤、换手及容量的影响。
+
+- 参数变化：`{"max_holdings": {"candidate": 16, "reference": 14}}`。
+
+- 2020/2023 CAGR差 -0.16/-0.18pp，MaxDD差 +1.17/-0.08pp；收益未形成可验证净改善且出现负CAGR，停止此形态扩参。 存在负CAGR窗口，不能视为强稳定winner。 假设验证支持：False。
+
+- window winner/robust/tracked变化：False；保留观察条件；不扩大A股active池。
+
+已执行完整五窗增量命令（候选与同端点参照）：
+
+```sh
+
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_hybrid_hold16_20261008,hkconnect_path1_biweekly_hybrid,hkconnect_path2_theme_hold7_20261008,hkconnect_path2_theme_entry11_20261007,hkconnect_path3_theme_hold6_20261008,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_liquidity_hold14_20261008,hkconnect_path4_liquidity_momentum_biweekly_smoke,hkconnect_path5_pullback_hold28_20261008,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_lowvol_hold18_20261008,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_barbell_hold30_20261008,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7
+
+```
+
+- Path2 blocking 592/832需优先精确增量修复，故预算按规则回落到12（A股5/HK7），未达常规24–36；补缺20-ID与既有事件复核另计。全部12目标path都有review/设计/首命令，Path5只复核已审计篮子。
+
+- explore保留历史定义；A股active不扩张，HK新增前按五窗最差minCAGR各淘汰1个；本轮reject退出刷新、历史不删。
+
+### 下一轮 focus 与第一条命令
+
+- hkconnect_path1 focus `monthly_weekly_overlay`：检验中窗净收益、回撤及换手；下一轮第一条竞争命令：
+
+```sh
+
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_monthly_equal_buffered_weekly_overlay_cashguard,hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_cashguard_exit45,hkconnect_path1_biweekly_hybrid
+
+```
+
+### Focus 候选池
+
+- hkconnect_path1 `monthly_weekly_overlay`：`hkconnect_path1_monthly_equal_buffered_weekly_overlay_cashguard`、`hkconnect_path1_monthly_equal_buffered_weekly_overlay_lowvol_cashguard_exit45`。
+- hkconnect_path1 `biweekly_buffer`：`hkconnect_path1_biweekly_equal_buffered`、`hkconnect_path1_biweekly_equal_buffered_cashguard`。
+- hkconnect_path1 `risk_overlay_cost`：`hkconnect_path1_biweekly_equal_buffered`、`hkconnect_path1_biweekly_equal_buffered_cashguard`。
+
 ## 2026-10-07 迭代：12个新参数与15个首次形态确认
 
 ### 上一轮候选与结果摘要

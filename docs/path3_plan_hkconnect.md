@@ -1,5 +1,49 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-10-08 迭代：12个真实新参数实验
+
+### 上一轮候选与结果摘要
+
+- hkconnect_path3：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_riskoff55_turnover8_exit44_ytd_guard` reject; `hkconnect_path3_theme_caution88_20261007` reject。上轮完整指标见 research_iteration_scorecard_20261007.json。
+
+### 本轮候选 ID 与命令
+
+- `hkconnect_path3_theme_hold6_20261008`，new_parameter，`reject`。假设：相对当前robust只改周频主题持仓5→6只，检验集中风险下降及高换手成本。
+
+- 参数变化：`{"max_holdings": {"candidate": 6, "reference": 5}}`。
+
+- 2020/2023 CAGR差 -5.61/-12.55pp，MaxDD差 -0.35/-4.88pp；2020/2023触发稳定性阈值，停止同形扩参。 存在负CAGR窗口，不能视为强稳定winner。 年均换手超过30倍，成本压力未解决。 假设验证支持：False。
+
+- window winner/robust/tracked变化：False；停止同形扩参；新HK reject退出active保留历史定义。
+
+已执行完整五窗增量命令（候选与同端点参照）：
+
+```sh
+
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_hybrid_hold16_20261008,hkconnect_path1_biweekly_hybrid,hkconnect_path2_theme_hold7_20261008,hkconnect_path2_theme_entry11_20261007,hkconnect_path3_theme_hold6_20261008,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_liquidity_hold14_20261008,hkconnect_path4_liquidity_momentum_biweekly_smoke,hkconnect_path5_pullback_hold28_20261008,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_lowvol_hold18_20261008,hkconnect_path6_lowvol_liquid_biweekly_smoke,hkconnect_path7_barbell_hold30_20261008,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7
+
+```
+
+- Path2 blocking 592/832需优先精确增量修复，故预算按规则回落到12（A股5/HK7），未达常规24–36；补缺20-ID与既有事件复核另计。全部12目标path都有review/设计/首命令，Path5只复核已审计篮子。
+
+- explore保留历史定义；A股active不扩张，HK新增前按五窗最差minCAGR各淘汰1个；本轮reject退出刷新、历史不删。
+
+### 下一轮 focus 与第一条命令
+
+- hkconnect_path3 focus `weekly_turnover_reduction`：检验中窗净收益、回撤及换手；下一轮第一条竞争命令：
+
+```sh
+
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-07 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover10_exit38,hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover1_exit42_v10_ytd_repair,hkconnect_path3_theme_risk52_20261003
+
+```
+
+### Focus 候选池
+
+- hkconnect_path3 `weekly_turnover_reduction`：`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover10_exit38`、`hkconnect_path3_stable_weekly_equal_buffered_cost_guard_turnover1_exit42_v10_ytd_repair`。
+- hkconnect_path3 `weekly_defensive_overlay`：`hkconnect_path3_breakout_concentrated_weekly`、`hkconnect_path3_inverse_elastic_weekly`。
+- hkconnect_path3 `cost_stress`：`hkconnect_path3_breakout_concentrated_weekly`、`hkconnect_path3_inverse_elastic_weekly`。
+
 ## 2026-10-07 迭代：12个新参数与15个首次形态确认
 
 ### 上一轮候选与结果摘要
