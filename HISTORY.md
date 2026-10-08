@@ -1171,3 +1171,10 @@
 - HK Path6 `hkconnect_path6_lowvol_hold18_20261008` 判定 promote；2020/2023 CAGR相对原robust提高 0.79/1.72pp，五窗净CAGR/Sharpe提高、换手与成本下降。2017 MaxDD恶化0.98pp、中窗0.08/0.23pp，保留风险监测；真实窗口winner锚点四项代码相邻验证通过。已接替HK Path6正式robust和2026窗口winner，其余正式身份未变。
 - Path2首批20-ID四窗口补缺592→572/832，正式身份冻结；A4/HK4/HK5弱robust进入观察位，不是强稳定 winner。Path5冻结篮子20D +11.70%、40D -0.60%、60D不足，keep_watch。
 - 完整假设、逐窗CAGR/Sharpe/MaxDD/换手/成本、判定与下一轮精确命令见 `results/research/a_share/research_iteration_scorecard_20261008.json` 和 `docs/research_iteration_20261008.md`；HK Path6五窗对比图为 `docs/strategy_comparison_hkconnect_path6_20261008.png`。
+
+## 2026-10-08 手动反思与机制验证
+
+- 完成12个新机制消融（A股5/HK7）五窗口同截止日比较；判定 {'reject': 11, 'robust_observation': 1}，正式winner/robust/tracked均未改变。Path2精确20-ID补缺 572→552/832，仍阻断。
+- 停止重复相邻调参；A股用冻结形态区分多因子信号与风控混杂。HK5提高配置未修复2026，且部分持仓记录合计超过100%，只作诊断；HK3权重映射无法显著降低交易事件。下一轮优先机制归因与资金约束审计。
+- 本轮完整预登记、逐窗父/正式参照delta、决策与可执行下一轮诊断命令见 `results/research/a_share/research_iteration_scorecard_20261008_manual.json`；反思保存于 `docs/research_iteration_20261008.md`，九份plan已更新。
+- 11/12实验被候选/参照资金约束验收阻断；目标100%但小额卖单冻结可导致负现金的最小用例已复现，收益差仅诊断，不据此晋级。live/public因正式估值9/30落后raw cache10/08而导出失败；下一轮先修复资金约束、同配置复跑与精确发布ID估值补齐。

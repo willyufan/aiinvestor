@@ -1,5 +1,37 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-10-08 手动反思轮：机制诊断与停止无效扩参
+
+### 上一轮候选与结果摘要
+
+- 沪港通 Path2：`hkconnect_path2_theme_hold7_20261008` reject。旧首命令取消/延后，原因是需要区分机制和执行混杂。
+
+### 本轮候选 ID 与命令
+
+- `hkconnect_path2_mechanism_20261008_manual` reject；冻结path2_theme排序、持仓与风控，仅改变权重映射signal→base；验证信号强度配权/市值混合的收益与换手贡献。 父策略假设支持=False；正式角色不变。
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_mechanism_20261008_manual,hkconnect_path1_biweekly_hybrid,hkconnect_path2_mechanism_20261008_manual,hkconnect_path2_theme_entry10_20261006,hkconnect_path3_mechanism_20261008_manual,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_mechanism_20261008_manual,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_mechanism_20261008_manual,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_mechanism_20261008_manual,hkconnect_path6_lowvol_hold18_20261008,hkconnect_path7_mechanism_20261008_manual,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7
+```
+
+
+### 下一轮 focus 提示与第一条命令
+
+- 沪港通 Path2：先执行机制/资金/成本归因，停止无依据的相邻扩参；任何新ID先实现并预登记支持/证伪条件。
+
+```sh
+.venv/bin/python -c 'import pandas as pd; d=pd.read_csv('"'"'results/backtests/hkconnect/hkconnect_path2_mechanism_20261008_manual__since_2023_01/turnover.csv'"'"'); print(d.groupby(d.get('"'"'event_type'"'"',pd.Series('"'"'rebalance'"'"',index=d.index))).two_way_turnover.agg(['"'"'count'"'"','"'"'sum'"'"','"'"'mean'"'"']))'
+```
+
+### Focus 候选池
+
+既有focus池保留；本轮追加的是已实现的诊断对照池，不宣称诊断命令是新增回测。
+
+- hkconnect_path2 `high_return_monthly`：`hkconnect_path2_mechanism_20261008_manual`、`hkconnect_path2_theme_entry10_20261006`；先归因后决定继续/停止，不默认扩大active池。
+
+反思与证据见 `docs/research_iteration_20261008.md` 手动轮与 `results/research/a_share/research_iteration_scorecard_20261008_manual.json`；新增预算12、coverage另计、正式身份冻结。
+
+
 ## 2026-10-08 迭代：12个真实新参数实验
 
 ### 上一轮候选与结果摘要

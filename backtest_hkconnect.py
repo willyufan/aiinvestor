@@ -8769,7 +8769,81 @@ HK_PATH7_VARIANTS.append(
     }
 )
 
+
+# 2026-10-08 手动反思轮：冻结父形态的机制消融，不扩大自动active池。
+
+HK_PATH1_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH1_VARIANTS if item['strategy_id'] == 'hkconnect_path1_biweekly_hybrid'),
+        'strategy_id': 'hkconnect_path1_mechanism_20261008_manual',
+        'strategy_name': '冻结path1_moderate排序、持仓与风控，仅改变权重映射hybrid→base；验证信号强度配权/市值混合的收益与换手贡献。',
+        'base_weight_mode': 'base',
+    }
+)
+
+HK_PATH2_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH2_VARIANTS if item['strategy_id'] == 'hkconnect_path2_theme_entry10_20261006'),
+        'strategy_id': 'hkconnect_path2_mechanism_20261008_manual',
+        'strategy_name': '冻结path2_theme排序、持仓与风控，仅改变权重映射signal→base；验证信号强度配权/市值混合的收益与换手贡献。',
+        'base_weight_mode': 'base',
+    }
+)
+
+HK_PATH3_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH3_VARIANTS if item['strategy_id'] == 'hkconnect_path3_theme_risk52_20261003'),
+        'strategy_id': 'hkconnect_path3_mechanism_20261008_manual',
+        'strategy_name': '冻结path2_theme排序、持仓与风控，仅改变权重映射signal→base；验证信号强度配权/市值混合的收益与换手贡献。',
+        'base_weight_mode': 'base',
+    }
+)
+
+HK_PATH4_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH4_VARIANTS if item['strategy_id'] == 'hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality'),
+        'strategy_id': 'hkconnect_path4_mechanism_20261008_manual',
+        'strategy_name': '冻结path4_quality_momentum排序、持仓与风控，仅改变权重映射hybrid→signal；验证信号强度配权/市值混合的收益与换手贡献。',
+        'base_weight_mode': 'signal',
+    }
+)
+
+HK_PATH5_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH5_VARIANTS if item['strategy_id'] == 'hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907'),
+        'strategy_id': 'hkconnect_path5_mechanism_20261008_manual',
+        'strategy_name': '冻结回踩信号、32持仓和风险，仅将单票容量上限设为1/32；原32×1.2%=38.4%最高投入，验证低仓位是否掩盖信号而非继续调持仓。',
+        'weight_cap': 0.03125,
+    }
+)
+
+HK_PATH6_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH6_VARIANTS if item['strategy_id'] == 'hkconnect_path6_lowvol_hold18_20261008'),
+        'strategy_id': 'hkconnect_path6_mechanism_20261008_manual',
+        'strategy_name': '冻结path6_large_liquid_core排序、持仓与风控，仅改变权重映射hybrid→base；验证信号强度配权/市值混合的收益与换手贡献。',
+        'base_weight_mode': 'base',
+    }
+)
+
+HK_PATH7_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH7_VARIANTS if item['strategy_id'] == 'hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7'),
+        'strategy_id': 'hkconnect_path7_mechanism_20261008_manual',
+        'strategy_name': '冻结path7_barbell_quality_growth排序、持仓与风控，仅改变权重映射hybrid→signal；验证信号强度配权/市值混合的收益与换手贡献。',
+        'base_weight_mode': 'signal',
+    }
+)
+
 HK_ARCHIVED_STRATEGY_IDS = {
+    'hkconnect_path1_mechanism_20261008_manual',
+    'hkconnect_path2_mechanism_20261008_manual',
+    'hkconnect_path3_mechanism_20261008_manual',
+    'hkconnect_path4_mechanism_20261008_manual',
+    'hkconnect_path5_mechanism_20261008_manual',
+    'hkconnect_path6_mechanism_20261008_manual',
+    'hkconnect_path7_mechanism_20261008_manual',
+
     'hkconnect_path1_hybrid_hold16_20261008',
     'hkconnect_path2_theme_hold7_20261008',
     'hkconnect_path3_theme_hold6_20261008',

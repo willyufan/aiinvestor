@@ -1,5 +1,38 @@
 # Path 1 研究计划
 
+## 2026-10-08 手动反思轮：机制诊断与停止无效扩参
+
+### 上一轮候选与结果摘要
+
+- A股 Path1：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_satellite_confirm3_20261008` keep_watch; `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_growth25_20261008` reject。旧首命令取消/延后，原因是需要区分机制和执行混杂。
+
+### 本轮候选 ID 与命令
+
+- `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual` reject；保留正式robust持仓与周频卫星风控，仅替换为冻结quality_tilt核心信号；区分多因子选股效应与既往持仓/风控混杂。 父策略假设支持=False；正式角色不变。
+- `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_risk_graft_20261008_manual` reject；冻结quality_tilt因子和持仓，仅移植正式robust的周频卫星风控；检验旧多因子落后是否主要来自执行风控差异。 父策略假设支持=False；正式角色不变。
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-09-30 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_risk_graft_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_quality_tilt,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_liqmom_signal_ablation_20261008_manual,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --comparison-csv /private/tmp/aiinvestor_manual_20261008_reflection/ashare.csv
+```
+
+
+### 下一轮 focus 提示与第一条命令
+
+- A股 Path1：先执行机制/资金/成本归因，停止无依据的相邻扩参；任何新ID先实现并预登记支持/证伪条件。
+
+```sh
+.venv/bin/python -c 'import pandas as pd; d=pd.read_csv('"'"'results/backtests/a_share/core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual__since_2023_01/turnover.csv'"'"'); print(d.groupby(d.get('"'"'event_type'"'"',pd.Series('"'"'rebalance'"'"',index=d.index))).two_way_turnover.agg(['"'"'count'"'"','"'"'sum'"'"','"'"'mean'"'"']))'
+```
+
+### Focus 候选池
+
+既有focus池保留；本轮追加的是已实现的诊断对照池，不宣称诊断命令是新增回测。
+
+- ashare_path1 `signal_quality`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`；先归因后决定继续/停止，不默认扩大active池。
+
+反思与证据见 `docs/research_iteration_20261008.md` 手动轮与 `results/research/a_share/research_iteration_scorecard_20261008_manual.json`；新增预算12、coverage另计、正式身份冻结。
+
+
 ## 2026-10-08 迭代：12个真实新参数实验
 
 ### 上一轮候选与结果摘要

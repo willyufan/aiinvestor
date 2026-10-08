@@ -1,5 +1,37 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-10-08 手动反思轮：机制诊断与停止无效扩参
+
+### 上一轮候选与结果摘要
+
+- A股 Path5：冻结事件20D强/40D负/60D不足，停止重复单事件复核作为新实验。旧首命令取消/延后，原因是需要区分机制和执行混杂。
+
+### 本轮候选 ID 与命令
+
+- Path5无新增已审计事件，实跑现有冻结篮子成熟度复核，不计新增；见本轮独立scorecard.event_scorecard。
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/research_iteration_event_20261008_manual.json
+```
+
+
+### 下一轮 focus 提示与第一条命令
+
+- A股 Path5：先执行机制/资金/成本归因，停止无依据的相邻扩参；任何新ID先实现并预登记支持/证伪条件。
+
+```sh
+.venv/bin/python -c "import json; d=json.load(open('results/research/a_share/research_iteration_event_20261008_manual.json')); print(d['portfolio_returns']['60']); print(d['notes'])"
+```
+
+### Focus 候选池
+
+既有focus池保留；本轮追加的是已实现的诊断对照池，不宣称诊断命令是新增回测。
+
+- event_basket_registry：`ai_datacenter_power_grid_202607_v0`冻结复核；`ai_datacenter_power_grid_202607_v1`待审计/冻结设计，不是可执行回测ID；没有新来源证据前不创建篮子。
+
+反思与证据见 `docs/research_iteration_20261008.md` 手动轮与 `results/research/a_share/research_iteration_scorecard_20261008_manual.json`；新增预算12、coverage另计、正式身份冻结。
+
+
 ## 2026-10-08 迭代：12个真实新参数实验
 
 ### 上一轮候选与结果摘要

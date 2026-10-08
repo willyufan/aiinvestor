@@ -16278,6 +16278,69 @@ WINNER_CORE_VARIANTS.append(
     }
 )
 
+
+# 2026-10-08 手动反思轮：冻结父形态的机制消融，不扩大自动active池。
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907'),
+        'variant_id': 'aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual',
+        'variant_name': '保留正式robust持仓与周频卫星风控，仅替换为冻结quality_tilt核心信号；区分多因子选股效应与既往持仓/风控混杂。',
+        'core_signal_mode': 'multi_factor',
+        'factor_weights': {'momentum_6_1': 0.2,
+ 'momentum_3_1': 0.1,
+ 'quality': 0.3,
+ 'growth_acceleration': 0.15,
+ 'industry_strength': 0.1,
+ 'industry_leader': 0.1,
+ 'liquidity_surge': 0.05},
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_05_95_prom7_core_multifactor_quality_tilt'),
+        'variant_id': 'aggr_05_95_prom7_core_multifactor_risk_graft_20261008_manual',
+        'variant_name': '冻结quality_tilt因子和持仓，仅移植正式robust的周频卫星风控；检验旧多因子落后是否主要来自执行风控差异。',
+        'market_risk_off_rule': 'and',
+        'risk_evaluation_frequency': 'weekly',
+        'risk_staging_mode': 'three_stage',
+        'risk_overlay_scope': 'satellite_only',
+        'risk_stage_buffered': True,
+        'risk_stage_confirm_weeks': 2,
+        'satellite_caution_exposure': 0.44,
+        'satellite_risk_off_exposure': 0.2,
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn'),
+        'variant_id': 'aggr_03_97_prom3_liqmom_signal_ablation_20261008_manual',
+        'variant_name': '欠配v63保持持仓、风险、换手、晋升门槛，移除流动动量晋升排序改用6-1；定位信号机制而非继续调cap/surge。',
+        'promotion_signal_mode': '6_1',
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly'),
+        'variant_id': 'aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly',
+        'variant_name': '保持纯周频和4%周换手上限，完全移除最短持有保护；验证此前5/6周小调失败是否说明保护机制必要。',
+        'weekly_min_hold_periods': 0,
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn'),
+        'variant_id': 'aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual',
+        'variant_name': '保持自动强主题信号，移除常规与快速晋升的行业龙头硬门槛；检验门槛是否造成2026选股不足，停止相邻门槛微调。',
+        'standard_promotion_min_industry_leader': 0.0,
+        'fast_promotion_min_industry_leader': 0.0,
+    }
+)
+
 PATH1_FAST_PASS_DIRECTION_GROUPS = {
     "promotion_ramp": [
         "aggr_10_90_fast_ramp",
