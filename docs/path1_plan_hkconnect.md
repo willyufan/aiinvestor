@@ -1,5 +1,35 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-10-09 资金修复后机制确认 2026-10-09T02:49:05.774972+08:00
+
+### 上一轮候选与结果摘要
+
+- `hkconnect_path1_mechanism_20261008_manual`：reject；此前资金约束阻断，收益差只诊断；本轮同配置资金修复后验证，详情见20261008_manual与本轮scorecard。
+
+### 本轮候选 ID 与命令
+
+- `hkconnect_path1_mechanism_20261008_manual`：corrected_engine_parameter_confirmation；keep_watch；2020/2023 CAGR差 -0.72/+0.13pp；相对正式参照有部分收益/防守增量，尚未确认全部预登记条件。 当前引擎数值未达到预登记统计条件。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_mechanism_20261008_manual,hkconnect_path1_biweekly_hybrid,hkconnect_path2_mechanism_20261008_manual,hkconnect_path2_theme_entry10_20261006,hkconnect_path3_mechanism_20261008_manual,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_mechanism_20261008_manual,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_mechanism_20261008_manual,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_mechanism_20261008_manual,hkconnect_path6_lowvol_hold18_20261008,hkconnect_path7_mechanism_20261008_manual,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7
+```
+
+### 下一轮 focus 提示与第一条命令
+
+- hkconnect_path1 focus `monthly_weekly_overlay`：只在新增有效交易日或明确成本/归因假设时执行；相同配置/缓存/截止日不重复凑实验。停止邻近持仓、谨慎仓位或cap扩参。 当前正式身份保持；指标/详情更新；无新增active或evict。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_mechanism_20261008_manual,hkconnect_path1_biweekly_hybrid
+```
+
+### Focus 候选池
+
+旧扩参池保留为历史；本轮把各focus映射为两个具体冻结配置的机制/成本诊断对照，非继续相邻扩参。轮换时须先完成该focus的诊断验收；有新可证伪依据才设计下一项，不能为了配额复活reject。
+
+- hkconnect_path1 `monthly_weekly_overlay`：`hkconnect_path1_mechanism_20261008_manual`、`hkconnect_path1_biweekly_hybrid`；按该focus分析信号、风险或成本差异；同窗资金有效后才决定继续。
+- hkconnect_path1 `biweekly_buffer`：`hkconnect_path1_mechanism_20261008_manual`、`hkconnect_path1_biweekly_hybrid`；按该focus分析信号、风险或成本差异；同窗资金有效后才决定继续。
+- hkconnect_path1 `risk_overlay_cost`：`hkconnect_path1_mechanism_20261008_manual`、`hkconnect_path1_biweekly_hybrid`；按该focus分析信号、风险或成本差异；同窗资金有效后才决定继续。
+
+证据与收轮反思见本轮报告和scorecard。
+
 ## 2026-10-08 手动反思轮：机制诊断与停止无效扩参
 
 ### 上一轮候选与结果摘要

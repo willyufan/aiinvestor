@@ -1,5 +1,42 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-10-09 资金修复后机制确认 2026-10-09T02:49:05.774972+08:00
+
+### 上一轮候选与结果摘要
+
+- `hkconnect_path2_mechanism_20261008_manual`：reject；此前资金约束阻断，收益差只诊断；本轮同配置资金修复后验证，详情见20261008_manual与本轮scorecard。
+
+### 本轮候选 ID 与命令
+
+- `hkconnect_path2_mechanism_20261008_manual`：corrected_engine_parameter_confirmation；reject；2020/2023 CAGR差 +5.11/+3.87pp；中窗正式参照护栏失守。 当前引擎数值未达到预登记统计条件。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_mechanism_20261008_manual,hkconnect_path1_biweekly_hybrid,hkconnect_path2_mechanism_20261008_manual,hkconnect_path2_theme_entry10_20261006,hkconnect_path3_mechanism_20261008_manual,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_mechanism_20261008_manual,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_mechanism_20261008_manual,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_mechanism_20261008_manual,hkconnect_path6_lowvol_hold18_20261008,hkconnect_path7_mechanism_20261008_manual,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7
+```
+
+### 下一轮 focus 提示与第一条命令
+
+- hkconnect_path2 focus `high_return_monthly`：完全base配权已触发2020 MaxDD护栏，停止此形态。下一轮先验hybrid实际公式，再实现一项冻结entry10的隔离hybrid对照；新ID尚未实现，不写执行命令；先执行现有gross/net诊断。 当前正式身份保持；指标/详情更新；无新增active或evict。
+```sh
+.venv/bin/python -c "import json; s=json.load(open('results/research/a_share/research_iteration_scorecard_20261009.json')); print(json.dumps(s['hk2_gross_net_attribution'],ensure_ascii=False,indent=2))"
+```
+
+- 下一轮最高优先级：`hkconnect_path2_theme_hybrid_control_20261010`尚未实现，只是设计。下一轮先实现冻结entry10配置、只把signal配权换成既有hybrid映射的一项隔离对照；先确认实际hybrid公式与归一化，不继续entry/hold/caution相邻搜索。
+- 实现验收：['注册隔离hybrid配置，不加入自动active；保留原base消融和正式signal父策略', '验收只改weight_mode、实际池/持仓/风控/成本/信号同源，五窗同截止日并检查资金恒等式', '实现后才写含新ID的可执行回测命令；当前只提供已实现对照命令']
+- 预期/证伪/停止：若风险收益折衷来自配权，hybrid应保存一部分中窗增量，同时修复2020回撤与2026gross缺口。2020/2023任一CAGR下降>3pp、MaxDD恶化>5pp或Sharpe下降>0.3即reject；另外2026净CAGR落后父策略>2pp，或中窗净增不足1pp，不支持该机制。这项有明确对照依据的hybrid验证若仍破坏中窗或近窗，停止当前配权族，转持仓收益归因，不扫描更多混合比例。
+```sh
+.venv/bin/python -c "import json; s=json.load(open('results/research/a_share/research_iteration_scorecard_20261009.json')); print(json.dumps(s['hk2_gross_net_attribution'],ensure_ascii=False,indent=2))"
+```
+
+### Focus 候选池
+
+旧扩参池保留为历史；本轮把各focus映射为两个具体冻结配置的机制/成本诊断对照，非继续相邻扩参。轮换时须先完成该focus的诊断验收；有新可证伪依据才设计下一项，不能为了配额复活reject。
+
+- hkconnect_path2 `high_return_monthly`：`hkconnect_path2_mechanism_20261008_manual`、`hkconnect_path2_theme_entry10_20261006`；按该focus分析信号、风险或成本差异；同窗资金有效后才决定继续。
+- hkconnect_path2 `biweekly_breakout`：`hkconnect_path2_mechanism_20261008_manual`、`hkconnect_path2_theme_entry10_20261006`；按该focus分析信号、风险或成本差异；同窗资金有效后才决定继续。
+- hkconnect_path2 `elasticity_cost_control`：`hkconnect_path2_mechanism_20261008_manual`、`hkconnect_path2_theme_entry10_20261006`；按该focus分析信号、风险或成本差异；同窗资金有效后才决定继续。
+
+证据与收轮反思见本轮报告和scorecard。
+
 ## 2026-10-08 手动反思轮：机制诊断与停止无效扩参
 
 ### 上一轮候选与结果摘要

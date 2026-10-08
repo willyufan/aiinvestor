@@ -1,0 +1,238 @@
+# 2026-10-09 十二路径研究与资金约束修复
+
+## 开轮反思 2026-10-09T01:06:03.759185+08:00
+
+最近三轮：10/07自动轮、10/08自动轮、10/08手动轮；另核对10/06自动轮，后两轮旧报告没有独立收轮反思，以scorecard、实验账本及plan提取基线，不能宣称已有机制归因。上轮12个机制消融已执行，11个候选或参照出现超额持仓；共享调仓缓冲负现金最小复现，未修复；live/public因A股9/30结果落后10/08缓存失败。
+
+本轮落实：修复实际卖出与费用后的买入预算；取消继续factor权重/持有期/cap相邻扩参，冻结并确认12个已实现消融（A股5/HK7）。先通过负现金、双边费用、不可卖持仓、缓冲保持和100组随机资金恒等式回归，再执行guard首批20-ID四窗补缺及五窗同配置竞争。研究截止日与发布截止日均显式10/08；与旧A股9/30差值混含市场变化，不能声称引擎单独贡献。
+
+A股问题：资金修复后，多因子信号与卫星风控各自是否提高中窗净收益？最高优先级为A1两项控制变量复跑；沿用手动轮预登记条件，分别比较父配置与当前正式robust；成本不降或护栏失守否定支持。HK问题：HK5放宽单票上限是否仅放大阶段亏损？先验资金恒等式，再要求投入增加10pp、中窗净CAGR各增1pp且2026转正；否则否定“补足仓位即可修复”。其它HK路径保留权重消融，无依据不新增。
+
+初始Path2 block801/832，端点从9/30推进10/08使历史覆盖失效，不是历史文件丢失；执行精确20-ID批次，保留A股/HK有效确认预算。12项修复后参数确认不冒充12个新定义；常规24–36目标因资金引擎缺陷、coverage和发布修复收缩，不凑配额。全部诊断ID保持隔离，不扩已超软cap的active池；本轮冻结正式角色，引擎修正不直接触发机械晋级。
+
+预登记设计与命令：`/private/tmp/aiiter1009/design.json`；完成后写入持久scorecard。
+
+### 前轮承诺核对与证据
+
+- 10/06→10/07：coverage20-ID及A股/HK新增形态已执行；caution36仅资格确认，未改身份。10/07→10/08自动轮：12新参数已执行，HK6 hold18晋级；旧相邻参数承诺在手动轮取消并给出机制诊断理由。10/08手动轮→本轮：资金修复与同配置复跑承诺本轮落实；股票/风险阶段归因需以资金有效结果为前提，待本轮scorecard后选择下一步。
+- 对应scorecard：results/research/a_share/research_iteration_scorecard_20261006.json、research_iteration_scorecard_20261007.json、research_iteration_scorecard_20261008.json、research_iteration_scorecard_20261008_manual.json；实验账本research_experiments.jsonl已核对12条manual记录，九plan顶部承接手动反思决策。
+- A1原父形态为当前2017/2020窗口winner，并非当前正式robust；本轮补充当前正式robust aggr_08_92_prom6__sat_three_stage_buffered_cost_guard五窗口参照，避免角色误称和弱参照。
+- kb-web首次隔离pilot已在9/17完成；本轮工具已暴露，但无新可证伪字段假设，复用9/16快照30条，哈希/PIT通过，0新增调用/credits；旧截面不代表10/08新截面。
+
+### 配置语义修正的预登记
+
+原Path2手动ID使用未识别的6_1晋升模式，实际为空信号fallback；保留历史并将其机制结论标为无法判断。补充新隔离ID `core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_liqmom_signal_mom61_20261009`，晋升模式momentum_6_1，显式growth_elastic池与父配置实际池相同。支持条件：父策略2020/2023净CAGR各增至少1pp、MaxDD不恶化；仍按正式robust五窗护栏判定，Path2 block期间禁止promote。只新增这一项有证据依据的实现修正，不扩大自动active池。
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_liqmom_signal_mom61_20261009 --comparison-csv /private/tmp/aiiter1009/extra_ashare.csv
+```
+
+## 收轮结果 2026-10-09T02:49:05.774972+08:00
+
+本轮13张卡：{'reject': 9, 'keep_watch': 2, 'robust_observation': 2}；1个正确配置新增、11项有效资金修复后确认、1个无效fallback诊断；参照、coverage20-ID、活跃刷新和事件成熟度复核均另计。常规24–36目标未达，原因是资金根因修复、覆盖与发布集合重算，停止凑数扩参。五窗两市场截止日均10/08。
+
+Path2覆盖缺口 801→770/832，仍block；影响路径不得promote。其它scope见最终guard。本轮无正式winner/robust ID变化；tracked/live/public指标更新；raw展示top1共8项变化，逐项见scorecard.raw_display_top1_changes，这些不是正式晋级。无新增active、evict或archive；7个HK诊断ID维持原归档隔离状态，历史全部保留。
+
+- 既有正式robust观察限制：a_share path1 `core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6__sat_three_stage_buffered_cost_guard`，2026 CAGR -0.51%；进入观察位，不是强稳定winner。
+- 既有正式robust观察限制：a_share path2 `core_explore_70_30_equal_weight_winner_core`，2026 CAGR -12.02%；进入观察位，不是强稳定winner。
+- 既有正式robust观察限制：a_share path3 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`，2026 CAGR -1.85%；进入观察位，不是强稳定winner。
+- 既有正式robust观察限制：a_share path4 `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`，2026 CAGR -8.62%；进入观察位，不是强稳定winner。
+- 既有正式robust观察限制：hkconnect path4 `hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`，2026 CAGR -5.02%；进入观察位，不是强稳定winner。
+- 既有正式robust观察限制：hkconnect path5 `hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907`，2026 CAGR -7.36%；进入观察位，不是强稳定winner。
+- 既有正式robust观察限制：hkconnect path7 `hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`，2026 CAGR -2.23%；进入观察位，不是强稳定winner。
+
+### A股 Path1（主线冻结，core_multifactor两项）
+
+- `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual`，corrected_engine_parameter_confirmation，五窗，`reject`；参照 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`，父配置 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`。
+- 假设：保留当前2017/2020窗口winner持仓与周频卫星风控，仅替换为冻结quality_tilt核心信号；区分多因子选股效应与既往持仓/风控混杂。 支持=False。
+- 2020/2023 CAGR差 -12.02/+4.95pp，MaxDD差 +9.85/+10.53pp；2026 CAGR +11.28%；中窗正式参照护栏失守。 当前引擎数值未达到预登记统计条件。 补充当前正式robust护栏失守，不能以较弱父形态晋级。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_risk_graft_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_quality_tilt,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_liqmom_signal_ablation_20261008_manual,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --comparison-csv /private/tmp/aiiter1009/ashare.csv
+```
+
+- `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_risk_graft_20261008_manual`，corrected_engine_parameter_confirmation，五窗，`reject`；参照 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`，父配置 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_quality_tilt`。
+- 假设：冻结quality_tilt因子和持仓，仅移植当前2017/2020窗口winner的周频卫星风控；检验旧多因子落后是否主要来自执行风控差异。 支持=False。
+- 2020/2023 CAGR差 -14.63/-0.02pp，MaxDD差 +13.80/+12.49pp；2026 CAGR +4.46%；中窗正式参照护栏失守。 当前引擎数值未达到预登记统计条件。 补充当前正式robust护栏失守，不能以较弱父形态晋级。 补充当前正式robust护栏失守，不能以较弱父形态晋级。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_risk_graft_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_quality_tilt,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_liqmom_signal_ablation_20261008_manual,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --comparison-csv /private/tmp/aiiter1009/ashare.csv
+```
+
+下一轮第一条命令（日期冻结用于可重放诊断；没有新数据/成本假设时停止重复）：
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_risk_graft_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_quality_tilt --comparison-csv /private/tmp/aiinvestor_next_ashare_path1.csv
+```
+
+### A股 Path2
+
+- `core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_liqmom_signal_ablation_20261008_manual`，corrected_engine_parameter_confirmation，五窗，`reject`；参照 `core_explore_70_30_equal_weight_winner_core`，父配置 `core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn`。
+- 假设：欠配v63保持持仓、风险、换手、晋升门槛，移除流动动量晋升排序改用6-1；定位信号机制而非继续调cap/surge。 支持=False。
+- 2020/2023 CAGR差 -2.47/-9.42pp，MaxDD差 -7.34/+9.05pp；2026 CAGR -26.94%；promotion_signal_mode=6_1未被晋升分支识别，走空信号fallback；不能否定预期的6-1机制，改用新ID明确momentum_6_1验证。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_risk_graft_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_quality_tilt,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_liqmom_signal_ablation_20261008_manual,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --comparison-csv /private/tmp/aiiter1009/ashare.csv
+```
+
+- `core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_liqmom_signal_mom61_20261009`，corrected_signal_mechanism_ablation，五窗，`reject`；参照 `core_explore_70_30_equal_weight_winner_core`，父配置 `core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn`。
+- 假设：欠配v63保持持仓、风险、换手、晋升门槛，移除流动动量晋升排序改用6-1；定位信号机制而非继续调cap/surge。 使用被分支明确识别的momentum_6_1；显式冻结growth_elastic池，区别于6_1空信号fallback。 支持=False。
+- 2020/2023 CAGR差 -2.47/-9.42pp，MaxDD差 -7.34/+9.05pp；2026 CAGR -26.94%；消融后五窗关键指标完全不变，未验证该机制有贡献；需检查约束饱和/配置是否生效。 当前引擎数值未达到预登记统计条件。 Path2全集coverage未补齐，禁止promote。 正确信号分数/排名确有变化（2017共同持仓1613/2071行），但五窗权重与换手完全一致；未证明排序变化能传导至持仓，停止信号权重扩参。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_liqmom_signal_mom61_20261009 --comparison-csv /private/tmp/aiiter1009/extra_ashare.csv
+```
+
+下一轮第一条命令（日期冻结用于可重放诊断；没有新数据/成本假设时停止重复）：
+```sh
+.venv/bin/python -c "import json; s=json.load(open('results/research/a_share/research_iteration_scorecard_20261009.json')); print(json.dumps(s['path2_signal_consumption_diagnostic'],ensure_ascii=False,indent=2))"
+```
+
+### A股 Path3
+
+- `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly`，corrected_engine_parameter_confirmation，五窗，`keep_watch`；参照 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`，父配置 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。
+- 假设：保持纯周频和4%周换手上限，完全移除最短持有保护；验证此前5/6周小调失败是否说明保护机制必要。 支持=False。
+- 2020/2023 CAGR差 -2.59/-2.47pp，MaxDD差 +6.22/-4.50pp；2026 CAGR +21.33%；相对正式参照有部分收益/防守增量，尚未确认全部预登记条件。 当前引擎数值未达到预登记统计条件。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_risk_graft_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_quality_tilt,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_liqmom_signal_ablation_20261008_manual,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --comparison-csv /private/tmp/aiiter1009/ashare.csv
+```
+
+下一轮第一条命令（日期冻结用于可重放诊断；没有新数据/成本假设时停止重复）：
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly --comparison-csv /private/tmp/aiinvestor_next_ashare_path3.csv
+```
+
+### A股 Path4（emergent theme discovery）
+
+- `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual`，corrected_engine_parameter_confirmation，五窗，`reject`；参照 `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`，父配置 `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`。
+- 假设：保持自动强主题信号，移除常规与快速晋升的行业龙头硬门槛；检验门槛是否造成2026选股不足，停止相邻门槛微调。 支持=False。
+- 2020/2023 CAGR差 +3.45/+0.66pp，MaxDD差 -1.44/-5.50pp；2026 CAGR -8.62%；中窗正式参照护栏失守。 当前引擎数值未达到预登记统计条件。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_risk_graft_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_quality_tilt,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_liqmom_signal_ablation_20261008_manual,core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn,core_explore_70_30_equal_weight_winner_core,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --comparison-csv /private/tmp/aiiter1009/ashare.csv
+```
+
+下一轮第一条命令（日期冻结用于可重放诊断；没有新数据/成本假设时停止重复）：
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --comparison-csv /private/tmp/aiinvestor_next_ashare_path4.csv
+```
+
+### A股 Path5（event knowledge graph）
+
+- source_audited冻结篮子`ai_datacenter_power_grid_202607_v0`成熟度复核keep_watch，不算新增；五窗标签只是入口元数据，单事件没有可比年化五窗CAGR/Sharpe/MaxDD/换手，gross与Path4 net口径仍不齐。输出 `results/research/a_share/research_iteration_event_20261009.json`；实际horizons见scorecard.event_scorecard，未新增来源审计/篮子。
+
+下一轮第一条命令（日期冻结用于可重放诊断；没有新数据/成本假设时停止重复）：
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/research_iteration_event_20261009.json
+```
+
+### 沪港通 Path1
+
+- `hkconnect_path1_mechanism_20261008_manual`，corrected_engine_parameter_confirmation，五窗，`keep_watch`；参照 `hkconnect_path1_biweekly_hybrid`，父配置 `hkconnect_path1_biweekly_hybrid`。
+- 假设：冻结path1_moderate排序、持仓与风控，仅改变权重映射hybrid→base；验证信号强度配权/市值混合的收益与换手贡献。 支持=False。
+- 2020/2023 CAGR差 -0.72/+0.13pp，MaxDD差 -0.16/+0.01pp；2026 CAGR +0.29%；相对正式参照有部分收益/防守增量，尚未确认全部预登记条件。 当前引擎数值未达到预登记统计条件。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_mechanism_20261008_manual,hkconnect_path1_biweekly_hybrid,hkconnect_path2_mechanism_20261008_manual,hkconnect_path2_theme_entry10_20261006,hkconnect_path3_mechanism_20261008_manual,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_mechanism_20261008_manual,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_mechanism_20261008_manual,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_mechanism_20261008_manual,hkconnect_path6_lowvol_hold18_20261008,hkconnect_path7_mechanism_20261008_manual,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7
+```
+
+下一轮第一条命令（日期冻结用于可重放诊断；没有新数据/成本假设时停止重复）：
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_mechanism_20261008_manual,hkconnect_path1_biweekly_hybrid
+```
+
+### 沪港通 Path2
+
+- `hkconnect_path2_mechanism_20261008_manual`，corrected_engine_parameter_confirmation，五窗，`reject`；参照 `hkconnect_path2_theme_entry10_20261006`，父配置 `hkconnect_path2_theme_entry10_20261006`。
+- 假设：冻结path2_theme排序、持仓与风控，仅改变权重映射signal→base；验证信号强度配权/市值混合的收益与换手贡献。 支持=False。
+- 2020/2023 CAGR差 +5.11/+3.87pp，MaxDD差 -5.24/+3.10pp；2026 CAGR +0.79%；中窗正式参照护栏失守。 当前引擎数值未达到预登记统计条件。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_mechanism_20261008_manual,hkconnect_path1_biweekly_hybrid,hkconnect_path2_mechanism_20261008_manual,hkconnect_path2_theme_entry10_20261006,hkconnect_path3_mechanism_20261008_manual,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_mechanism_20261008_manual,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_mechanism_20261008_manual,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_mechanism_20261008_manual,hkconnect_path6_lowvol_hold18_20261008,hkconnect_path7_mechanism_20261008_manual,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7
+```
+
+下一轮第一条命令（日期冻结用于可重放诊断；没有新数据/成本假设时停止重复）：
+```sh
+.venv/bin/python -c "import json; s=json.load(open('results/research/a_share/research_iteration_scorecard_20261009.json')); print(json.dumps(s['hk2_gross_net_attribution'],ensure_ascii=False,indent=2))"
+```
+
+### 沪港通 Path3
+
+- `hkconnect_path3_mechanism_20261008_manual`，corrected_engine_parameter_confirmation，五窗，`reject`；参照 `hkconnect_path3_theme_risk52_20261003`，父配置 `hkconnect_path3_theme_risk52_20261003`。
+- 假设：冻结path2_theme排序、持仓与风控，仅改变权重映射signal→base；验证信号强度配权/市值混合的收益与换手贡献。 支持=False。
+- 2020/2023 CAGR差 -9.52/-8.05pp，MaxDD差 -2.62/-5.79pp；2026 CAGR -14.82%；中窗正式参照护栏失守。 当前引擎数值未达到预登记统计条件。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_mechanism_20261008_manual,hkconnect_path1_biweekly_hybrid,hkconnect_path2_mechanism_20261008_manual,hkconnect_path2_theme_entry10_20261006,hkconnect_path3_mechanism_20261008_manual,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_mechanism_20261008_manual,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_mechanism_20261008_manual,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_mechanism_20261008_manual,hkconnect_path6_lowvol_hold18_20261008,hkconnect_path7_mechanism_20261008_manual,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7
+```
+
+下一轮第一条命令（日期冻结用于可重放诊断；没有新数据/成本假设时停止重复）：
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_mechanism_20261008_manual,hkconnect_path3_theme_risk52_20261003
+```
+
+### 沪港通 Path4（quality / liquidity momentum）
+
+- `hkconnect_path4_mechanism_20261008_manual`，corrected_engine_parameter_confirmation，五窗，`robust_observation`；参照 `hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`，父配置 `hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`。
+- 假设：冻结path4_quality_momentum排序、持仓与风控，仅改变权重映射hybrid→signal；验证信号强度配权/市值混合的收益与换手贡献。 支持=False。
+- 2020/2023 CAGR差 +0.14/-2.19pp，MaxDD差 +0.96/-3.88pp；2026 CAGR -12.70%；相对正式参照有部分收益/防守增量，尚未确认全部预登记条件。 当前引擎数值未达到预登记统计条件。 进入观察位，不是强稳定 winner。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_mechanism_20261008_manual,hkconnect_path1_biweekly_hybrid,hkconnect_path2_mechanism_20261008_manual,hkconnect_path2_theme_entry10_20261006,hkconnect_path3_mechanism_20261008_manual,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_mechanism_20261008_manual,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_mechanism_20261008_manual,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_mechanism_20261008_manual,hkconnect_path6_lowvol_hold18_20261008,hkconnect_path7_mechanism_20261008_manual,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7
+```
+
+下一轮第一条命令（日期冻结用于可重放诊断；没有新数据/成本假设时停止重复）：
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_mechanism_20261008_manual,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality
+```
+
+### 沪港通 Path5（breakout retest / pullback continuation）
+
+- `hkconnect_path5_mechanism_20261008_manual`，corrected_engine_parameter_confirmation，五窗，`reject`；参照 `hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907`，父配置 `hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907`。
+- 假设：冻结回踩信号、32持仓和风险，仅将单票容量上限设为1/32；原32×1.2%=38.4%最高投入，验证低仓位是否掩盖信号而非继续调持仓。 支持=False。
+- 2020/2023 CAGR差 +4.34/+4.43pp，MaxDD差 -13.09/-8.71pp；2026 CAGR -17.96%；中窗正式参照护栏失守。 当前引擎数值未达到预登记统计条件。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_mechanism_20261008_manual,hkconnect_path1_biweekly_hybrid,hkconnect_path2_mechanism_20261008_manual,hkconnect_path2_theme_entry10_20261006,hkconnect_path3_mechanism_20261008_manual,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_mechanism_20261008_manual,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_mechanism_20261008_manual,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_mechanism_20261008_manual,hkconnect_path6_lowvol_hold18_20261008,hkconnect_path7_mechanism_20261008_manual,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7
+```
+
+下一轮第一条命令（日期冻结用于可重放诊断；没有新数据/成本假设时停止重复）：
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_mechanism_20261008_manual,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907
+```
+
+### 沪港通 Path6（large liquid core）
+
+- `hkconnect_path6_mechanism_20261008_manual`，corrected_engine_parameter_confirmation，五窗，`reject`；参照 `hkconnect_path6_lowvol_hold18_20261008`，父配置 `hkconnect_path6_lowvol_hold18_20261008`。
+- 假设：冻结path6_large_liquid_core排序、持仓与风控，仅改变权重映射hybrid→base；验证信号强度配权/市值混合的收益与换手贡献。 支持=False。
+- 2020/2023 CAGR差 -0.67/-1.10pp，MaxDD差 +0.26/+0.07pp；2026 CAGR +3.28%；未形成可验证的关键指标增量。 当前引擎数值未达到预登记统计条件。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_mechanism_20261008_manual,hkconnect_path1_biweekly_hybrid,hkconnect_path2_mechanism_20261008_manual,hkconnect_path2_theme_entry10_20261006,hkconnect_path3_mechanism_20261008_manual,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_mechanism_20261008_manual,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_mechanism_20261008_manual,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_mechanism_20261008_manual,hkconnect_path6_lowvol_hold18_20261008,hkconnect_path7_mechanism_20261008_manual,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7
+```
+
+下一轮第一条命令（日期冻结用于可重放诊断；没有新数据/成本假设时停止重复）：
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_mechanism_20261008_manual,hkconnect_path6_lowvol_hold18_20261008
+```
+
+### 沪港通 Path7（barbell quality growth）
+
+- `hkconnect_path7_mechanism_20261008_manual`，corrected_engine_parameter_confirmation，五窗，`robust_observation`；参照 `hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`，父配置 `hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`。
+- 假设：冻结path7_barbell_quality_growth排序、持仓与风控，仅改变权重映射hybrid→signal；验证信号强度配权/市值混合的收益与换手贡献。 支持=False。
+- 2020/2023 CAGR差 +0.17/-0.63pp，MaxDD差 +0.44/-1.43pp；2026 CAGR -6.92%；相对正式参照有部分收益/防守增量，尚未确认全部预登记条件。 当前引擎数值未达到预登记统计条件。 进入观察位，不是强稳定 winner。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_mechanism_20261008_manual,hkconnect_path1_biweekly_hybrid,hkconnect_path2_mechanism_20261008_manual,hkconnect_path2_theme_entry10_20261006,hkconnect_path3_mechanism_20261008_manual,hkconnect_path3_theme_risk52_20261003,hkconnect_path4_mechanism_20261008_manual,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality,hkconnect_path5_mechanism_20261008_manual,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907,hkconnect_path6_mechanism_20261008_manual,hkconnect_path6_lowvol_hold18_20261008,hkconnect_path7_mechanism_20261008_manual,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7
+```
+
+下一轮第一条命令（日期冻结用于可重放诊断；没有新数据/成本假设时停止重复）：
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-08 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_mechanism_20261008_manual,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7
+```
+
+## 反思与下一轮决策
+
+1. **上轮决策落实**：资金约束修复已完成，5项新回归（含100组随机）及既有定向检查通过；原12个消融与父配置、当前窗口winner/robust五窗同端点复跑，另补正确Path2晋升模式新ID。A1旧父形态是窗口winner，额外比较当前robust，修正角色称呼。Path2精确20-ID已执行；活跃发布集合已重算，live/public已实际执行，状态见scorecard.publication。无新来源证据，Path5新篮子取消；旧因子/持仓/cap相邻扩参继续停止。
+
+2. **本轮认知变化**：A股此前资金错误阻断机制判断，修复后才按预登记条件评价；A1冻结执行的多因子信号2020落后12.02pp、2023提高4.95pp；risk_graft对弱父形态虽提高6.32/2.24pp却未改善MaxDD，不能把旧风控视为唯一原因，更不能借弱父形态晋级。A2正确momentum_6_1与父策略五窗指标仍完全一致；这排除了只看未识别字符串的解释，但门槛/容量压扁排序与信号消费未生效尚未区分，停止信号权重扩参，已核对2017共同持仓selection_score/signal_rank分别1613/2071行变化，目标weight_rank零变化、实际权重与交易五窗完全一致；最小下一验证为逐信号日晋升门槛掩码、晋升状态和core目标传播。不能把实现/约束无效归为信号机制无效。A股跨轮9/30→10/08同时改变行情端点，不拿跨轮差声称修复收益；正式robust补充对照见两张A1卡。HK5平均实际投入2026约38.54%→98.76%，但2026 CAGR约-17.96%；中窗+4.34/+4.43pp不能抵消近窗亏损/风险，否定补足仓位即可修复，非否定所有回踩机制。HK3改权重中窗仍约-9.52/-8.05pp，交易事件未明显消失，支持换股来源归因优先于权重小调。HK其它路径详见逐窗卡，未达预登记条件不泛化为整条path无效。
+
+3. **失败与自我检查**：共享资金执行错误是实现问题，局部确定性复现已修，正式活跃集合逐调用资金恒等式审计无超容差违规；CSV股票权重以1e-5舍入容差验收，不能宣称数学无误差。原Path2模式6_1未识别是信号实现语义问题，需正确momentum_6_1单项对照，原fallback不算有效新策略。Path2全集block是数据/截止日覆盖问题：端点从9/30推进10/08后，缺口重新升至801；不能把每天20-ID的历史累计数当成当前同端点覆盖率。首批20-ID实际耗时约18.1分钟，全集剩余批次可能占数小时，后续预算应记录截止日漂移和吞吐，严格增量而不降低门禁。HK旧02922.HK为1/666容忍缺口。HK5替代解释是风险投入放大阶段性信号亏损，另一解释是换股时点/费用改变；最小验证为同日同信号的gross收益、实际敞口和trade_details费用归因，未做部分标为假设。检查并停止反复微调、弱参照改善、短窗追逐和忽略费用。本轮误引用一个不存在的测试模块导致加载失败，改为实际存在的定向模块后通过；这是测试命令问题，不是策略测试失败。冻结脚本初次将Timestamp字符串与日期字符串比较而误报截止日不符，已先恢复用户文档/图表，再改用Timestamp比较重跑通过；属于辅助校验实现问题，非数据端点错误。过程反馈曾误读Path3正MaxDD差为恶化，已核对并更正：2020+6.22pp为改善，2023-4.50pp为恶化，未触强制阈值，只keep_watch。
+
+4. **停止与改变**：资金错误已验收，解除仅由资金错误造成的机制评价阻断，仍冻结晋级以免混用旧引擎排序。停止A1成长/行业小权重搜索、A3相邻hold搜索及HK3/4/5/7相邻holding/caution/cap搜索；本轮1项新增只因确定实现语义缺陷。HK5满额容量方向停止，后续只做持仓/阶段收益归因；HK3完全base权重消融停止。HK2完全base虽增中窗收益，但2020 MaxDD恶化5.24pp且2026gross缺口约8.49pp，reject；下一轮基于这一确定风险收益折衷检验一次hybrid，不继续无依据的比例扫描。A4/HK4/HK5若当前robust有负minCAGR或2026负收益，进入观察位，不是强稳定winner。没有新增active，不为配额扩池；既有诊断定义/快照和历史详情保留。
+
+5. **下一轮具体决策**：最高优先级A股改为Path2信号→晋升状态→目标权重传导诊断（先实现隔离审计runner），承接正确信号排名变化而持仓不变的确定证据；A1风险阶段归因保留为次优先，HK为HK2配权风险收益机制诊断与单项hybrid结构对照（先实现/验收）；不是照抄相邻扩参。候选、父/正式参照、最小改动、条件回测命令、预期、证伪与停止规则详见scorecard.next_priority；第一条诊断命令如下。若要新增费用倍率实验，先实现隔离runner、双边费用与资金恒等式验收，不把尚未实现ID写成可执行命令。九plan已落实12path全focus池；Path5 v1仍仅待审计设计，不执行。
+
+```sh
+.venv/bin/python -c "import json; s=json.load(open('results/research/a_share/research_iteration_scorecard_20261009.json')); print(json.dumps(s['path2_signal_consumption_diagnostic'],ensure_ascii=False,indent=2))"
+.venv/bin/python -c "import json; s=json.load(open('results/research/a_share/research_iteration_scorecard_20261009.json')); print(json.dumps(s['hk2_gross_net_attribution'],ensure_ascii=False,indent=2))"
+```
+
+完整证据：`results/research/a_share/research_iteration_scorecard_20261009.json`（五指标、父与正式参照delta、资本审计、交易事件归因、费用和同日旧引擎差），`results/research/a_share/research_experiments.jsonl`（逐候选判定），九个plan（四段、Focus池、12首命令）。

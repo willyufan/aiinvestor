@@ -1,5 +1,36 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-10-09 资金修复后机制确认 2026-10-09T02:49:05.774972+08:00
+
+### 上一轮候选与结果摘要
+
+- 冻结电力篮子20D+11.70%、40D-0.60%、60D不足，keep_watch；停止无新数据的重复复核。
+
+### 本轮候选 ID 与命令
+
+- 已审计v0仅成熟度复核，未新增篮子，不计新增；gross/net成本未统一，不晋级。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/research_iteration_event_20261009.json
+```
+
+### 下一轮 focus 提示与第一条命令
+
+- ashare_path5 focus `frozen_candidate_audit`：60D未成熟、无新审计来源，因此无新篮子。仅在可用交易日达到60日时执行成熟度首命令；先实现gross/net统一费用、冻结v1来源和成员，验收后才创建新篮子。 当前正式身份保持；指标/详情更新；无新增active或evict。
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/research_iteration_event_20261009.json
+```
+
+### Focus 候选池
+
+旧扩参池保留为历史；本轮把各focus映射为两个具体冻结配置的机制/成本诊断对照，非继续相邻扩参。轮换时须先完成该focus的诊断验收；有新可证伪依据才设计下一项，不能为了配额复活reject。
+
+- ashare_path5 `event_basket_registry`：`ai_datacenter_power_grid_202607_v0`、`ai_datacenter_power_grid_202607_v1`；v1仅设计、待来源审计/冻结/成本验收，未实现，禁止写成执行ID。
+- ashare_path5 `frozen_candidate_audit`：`ai_datacenter_power_grid_202607_v0`、`ai_datacenter_power_grid_202607_v1`；v1仅设计、待来源审计/冻结/成本验收，未实现，禁止写成执行ID。
+- ashare_path5 `event_backtest_entry`：`ai_datacenter_power_grid_202607_v0`、`ai_datacenter_power_grid_202607_v1`；v1仅设计、待来源审计/冻结/成本验收，未实现，禁止写成执行ID。
+- ashare_path5 `path4_comparison`：`ai_datacenter_power_grid_202607_v0`、`ai_datacenter_power_grid_202607_v1`；v1仅设计、待来源审计/冻结/成本验收，未实现，禁止写成执行ID。
+
+证据与收轮反思见本轮报告和scorecard。
+
 ## 2026-10-08 手动反思轮：机制诊断与停止无效扩参
 
 ### 上一轮候选与结果摘要

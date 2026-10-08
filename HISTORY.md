@@ -1178,3 +1178,12 @@
 - 停止重复相邻调参；A股用冻结形态区分多因子信号与风控混杂。HK5提高配置未修复2026，且部分持仓记录合计超过100%，只作诊断；HK3权重映射无法显著降低交易事件。下一轮优先机制归因与资金约束审计。
 - 本轮完整预登记、逐窗父/正式参照delta、决策与可执行下一轮诊断命令见 `results/research/a_share/research_iteration_scorecard_20261008_manual.json`；反思保存于 `docs/research_iteration_20261008.md`，九份plan已更新。
 - 11/12实验被候选/参照资金约束验收阻断；目标100%但小额卖单冻结可导致负现金的最小用例已复现，收益差仅诊断，不据此晋级。live/public因正式估值9/30落后raw cache10/08而导出失败；下一轮先修复资金约束、同配置复跑与精确发布ID估值补齐。
+
+
+## 2026-10-09 资金预算修复与机制确认
+
+共享调仓引擎按实际卖单所得与双边费用限制买单预算，修复小额卖单被冻结后仍被用来融资的问题。两市场五窗口统一截止2026-10-08；完成1个新增配置、11项有效配置确认与1项无效配置诊断，判定为9 reject、2 keep_watch、2 robust_observation。正式window winner/robust身份保持，指标已刷新；raw展示top1有8项变化，非正式晋级；负近窗/负minCAGR的A股Path1–4、HK Path4/5/7观察位不是强稳定winner。
+
+Path2精确20-ID补缺与活跃刷新后，缺口801→770/832，禁止晋级；覆盖、活跃刷新与事件成熟度复核不计新增实验。A股下一轮先诊断Path2排序→晋升状态→目标权重传导；HK先验配权风险收益取舍，再实现一项冻结entry10的hybrid对照。停止无依据的相邻权重、hold与cap扩参。
+
+完整五窗口、换手/成本、12路径首命令与收轮反思见[本轮报告](docs/research_iteration_20261009.md)和[scorecard](results/research/a_share/research_iteration_scorecard_20261009.json)；[机制对比图](docs/strategy_mechanism_comparison_20261009.png)为本轮独立图，保留已有图表。

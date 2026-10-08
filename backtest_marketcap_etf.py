@@ -16324,6 +16324,16 @@ WINNER_CORE_VARIANTS.append(
 
 WINNER_CORE_VARIANTS.append(
     {
+        **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn'),
+        'variant_id': 'aggr_03_97_prom3_liqmom_signal_mom61_20261009',
+        'variant_name': '冻结v63池与执行，用明确的momentum_6_1晋升排序消融流动动量；原6_1诊断历史保留。',
+        'promotion_signal_mode': 'momentum_6_1',
+        'alpha_pool_profile': ALPHA_POOL_PROFILE_GROWTH_ELASTIC,
+    }
+)
+
+WINNER_CORE_VARIANTS.append(
+    {
         **next(item for item in WINNER_CORE_VARIANTS if item['variant_id'] == 'aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly'),
         'variant_id': 'aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly',
         'variant_name': '保持纯周频和4%周换手上限，完全移除最短持有保护；验证此前5/6周小调失败是否说明保护机制必要。',
@@ -21154,6 +21164,14 @@ def compute_rebalance_trades(
         else:
             frozen = trade_deltas * 0 == 0
         trade_deltas.loc[frozen] = 0.0
+        # Buffered sales cannot fund purchases. Budget against executed sales,
+        # including both sides' fees, while leaving locked/frozen holdings intact.
+        sell_amount = float((-trade_deltas[trade_deltas < 0]).sum())
+        buy_mask = trade_deltas > 0
+        requested_buy_amount = float(trade_deltas.loc[buy_mask].sum())
+        buy_budget = max(0.0, current_cash + sell_amount * (1.0 - sell_commission_rate - stamp_rate)) / (1.0 + buy_commission)
+        if requested_buy_amount > buy_budget:
+            trade_deltas.loc[buy_mask] *= buy_budget / requested_buy_amount
         desired_tradable_values = current_tradable_values + trade_deltas
         desired_cash = pre_trade_nav - locked_value - float(desired_tradable_values.sum())
         buy_amount = float(trade_deltas[trade_deltas > 0].sum())
