@@ -1194,3 +1194,10 @@ Path2精确20-ID补缺与活跃刷新后，缺口801→770/832，禁止晋级；
 - A股与HK均完成同2026-10-09五窗口竞争：2新增机制消融、2机制确认，4张scorecard全部reject，无正式晋级。Path2精确20-ID补缺807→787/828，正式身份保持；新A股门槛ID仅隔离runner注册，HK hybrid为隔离诊断定义（reject），不扩active。
 - 证据：信号进入晋升掩码和状态，实际目标被后续选股门槛消除；移除重复6-1门槛可改变持仓却令2023 CAGR下降3.92pp。HK hybrid中窗仅+0.17/-0.11pp，停止比例扩参；下一轮A股转Path3阶段归因，HK先实现固定股票集合的配权对照。
 - live43/public55榜项与136详情；10项定向测试通过。反思、12路径首命令和四卡五窗指标见docs/research_iteration_20261010.md及results/research/a_share/research_iteration_scorecard_20261010.json。新增配额未达12–18，未用补缺/同步/参照凑数。
+
+## 2026-10-10 每周本地缓存健康检查
+
+- A股和沪港通实际截止日均为 `2026-10-09`；全程使用本地缓存，未刷新 raw cache，未调用 warm-cache-only。
+- A股 top5 active 集合 146 个 base IDs，五窗口各完成 175 条结果（含 29 个既有 overlay 父策略），选定 IDs 全覆盖。
+- 沪港通 top5 active 集合 136 个 strategy IDs，五窗口完成 130/130/130/135/135 条结果；5 个变体仅支持短窗口，`hkconnect_path5_pullback_continuation_biweekly_v38_definition_reopen` 当前未生成。
+- 已同步赢家、指标及 live/public；市场截止日与策略真实信号生效日分别保留。已有源码、手写历史和三张 HK 图表保留；新 HK 图另存自动化检查目录。

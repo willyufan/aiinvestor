@@ -217,7 +217,7 @@
           }
         },
         {
-          "rank": 8,
+          "rank": 9,
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907",
           "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__20260907 相对risk20将晋升持仓7只增至8只，检验集中度下降能否改善2023/2026回撤并保住中窗收益",
           "metrics": {
@@ -908,45 +908,45 @@
         },
         {
           "rank": 5,
-          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_balanced",
-          "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻5/95 晋升7只(多因子均衡)",
+          "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_ramp90__port_weekly_exposure_buffered_asym13",
+          "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(分步加仓)__月度选股_周度仓位调整(快减1慢加3)",
           "metrics": {
-            "weighted_cagr": 0.48130061,
-            "weighted_sharpe": 1.14306237,
-            "weighted_max_drawdown": -0.38453392,
-            "weighted_turnover": 5.32348571
+            "weighted_cagr": 0.42951962,
+            "weighted_sharpe": 1.02942513,
+            "weighted_max_drawdown": -0.42199625,
+            "weighted_turnover": 5.11157806
           },
           "is_official_winner": false,
           "is_raw_winner": false,
           "validation": {
-            "passed": false,
+            "passed": true,
             "validation_window": "since_2023_01",
             "required_cagr": 0.174674437,
-            "candidate_cagr": 0.10445836,
+            "candidate_cagr": 0.2513176,
             "incumbent_id": "core_explore_80_20_total_mv_winner_core__share_15_85_hold_4_6__sat_three_stage_buffered_asym13",
             "reason": "threshold_check"
           },
-          "promotion_score": 0.16143390017999995,
+          "promotion_score": 0.16885413457999998,
           "score_detail": {
             "policy": "promotion_score_v1",
-            "score": 0.16143390017999995,
-            "base_score": 0.37833302607999997,
-            "ytd_penalty": 0.1869208545,
-            "concentration_penalty": 0.02997827140000001,
+            "score": 0.16885413457999998,
+            "base_score": 0.31178724108,
+            "ytd_penalty": 0.11645877949999998,
+            "concentration_penalty": 0.026474327000000006,
             "concentration": {
               "sample_tag": "since_2026_01",
-              "avg_top1_weight": 0.306062968,
-              "avg_top3_weight": 0.50988465,
-              "max_top1_weight": 0.48626487,
-              "max_top3_weight": 0.72396262,
-              "latest_top1_weight": 0.48626487,
-              "latest_top3_weight": 0.64077418,
+              "avg_top1_weight": 0.24505357700000002,
+              "avg_top3_weight": 0.513667621,
+              "max_top1_weight": 0.47033785,
+              "max_top3_weight": 0.64298714,
+              "latest_top1_weight": 0.47033785,
+              "latest_top3_weight": 0.64298714,
               "observations": 10
             }
           }
         },
         {
-          "rank": 13,
+          "rank": 17,
           "strategy_base_id": "core_explore_80_20_total_mv_winner_core__aggr_08_92_prom6_satellite_cost_guard",
           "strategy_base_name": "核心80_探索20_总市值底座_胜出者核心__进攻8/92 晋升6只(卫星成本防守)",
           "metrics": {
