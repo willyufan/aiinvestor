@@ -8835,7 +8835,18 @@ HK_PATH7_VARIANTS.append(
     }
 )
 
+# 2026-10-10：冻结 entry10，只检验既有 hybrid 配权，保持隔离研究。
+HK_PATH2_VARIANTS.append(
+    {
+        **next(item for item in HK_PATH2_VARIANTS if item['strategy_id'] == 'hkconnect_path2_theme_entry10_20261006'),
+        'strategy_id': 'hkconnect_path2_theme_hybrid_control_20261010',
+        'strategy_name': '冻结 entry10 的 hybrid 配权机制对照',
+        'base_weight_mode': 'hybrid',
+    }
+)
+
 HK_ARCHIVED_STRATEGY_IDS = {
+    'hkconnect_path2_theme_hybrid_control_20261010',
     'hkconnect_path1_mechanism_20261008_manual',
     'hkconnect_path2_mechanism_20261008_manual',
     'hkconnect_path3_mechanism_20261008_manual',

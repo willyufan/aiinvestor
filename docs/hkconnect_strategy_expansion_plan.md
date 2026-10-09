@@ -1,5 +1,141 @@
 # 沪港通策略空间扩展计划
 
+## 2026-10-10T01:20:51.572988+08:00 沪港通 Path4（quality / liquidity momentum）
+
+### 上一轮候选与结果摘要
+
+`hkconnect_path4_mechanism_20261008_manual` robust_observation。按真实scorecard判定；旧plan顶部的手动轮reject标签不覆盖10/09资金修复后结论。
+
+### 本轮候选 ID 与命令
+
+未实跑原因：按连续三轮停止规则暂停旧相邻扩参；本轮优先落实Path2传导/配权机制诊断，未发现有依据的新结构，不为配额复跑已否定形态。coverage仍block但没有声称耗尽整日日更窗口。 候选设计：冻结原机制对照与当前正式robust；先看年度/成本收益归因，有可证伪的新阶段或成本依据再确认，停止旧相邻hold/cap参数。
+
+条件确认命令（本轮未执行）：
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path4_mechanism_20261008_manual,hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality
+```
+
+### 下一轮 focus 提示
+
+guard focus `quality_momentum`；冻结原机制对照与当前正式robust；先看年度/成本收益归因，有可证伪的新阶段或成本依据再确认，停止旧相邻hold/cap参数。
+
+```sh
+.venv/bin/python -c 'import pandas as pd; print('"'"'hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality'"'"'); d=pd.read_csv('"'"'results/backtests/hkconnect/hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality__since_2023_01/annual_returns.csv'"'"'); print(d.to_string(index=False))'
+```
+
+晋级禁止使用未齐窗口；固定端点无新假设不重复回测。无新active/evict/archive。
+
+### Focus 候选池
+
+两层口径：explore保留诊断定义，active/watchlist不增加。下列为具体冻结诊断对照；已reject配置仅作机制归因/成本敏感性基线，不能复活为新候选。未实现候选先做实现验收。
+
+- `quality_momentum`：`hkconnect_path4_mechanism_20261008_manual`、`hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`；先验该focus的信号/状态/成本来源。
+- `liquidity_momentum`：`hkconnect_path4_mechanism_20261008_manual`、`hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`；先验该focus的信号/状态/成本来源。
+- `ytd_guard`：`hkconnect_path4_mechanism_20261008_manual`、`hkconnect_path4_quality_momentum_monthly_v47_totalmv_quality`；先验该focus的信号/状态/成本来源。
+
+## 2026-10-10T01:20:51.572988+08:00 沪港通 Path5（breakout retest / pullback continuation）
+
+### 上一轮候选与结果摘要
+
+`hkconnect_path5_mechanism_20261008_manual` reject。按真实scorecard判定；旧plan顶部的手动轮reject标签不覆盖10/09资金修复后结论。
+
+### 本轮候选 ID 与命令
+
+未实跑原因：按连续三轮停止规则暂停旧相邻扩参；本轮优先落实Path2传导/配权机制诊断，未发现有依据的新结构，不为配额复跑已否定形态。coverage仍block但没有声称耗尽整日日更窗口。 候选设计：冻结原机制对照与当前正式robust；先看年度/成本收益归因，有可证伪的新阶段或成本依据再确认，停止旧相邻hold/cap参数。
+
+条件确认命令（本轮未执行）：
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path5_mechanism_20261008_manual,hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907
+```
+
+### 下一轮 focus 提示
+
+guard focus `pullback_definition`；冻结原机制对照与当前正式robust；先看年度/成本收益归因，有可证伪的新阶段或成本依据再确认，停止旧相邻hold/cap参数。
+
+```sh
+.venv/bin/python -c 'import pandas as pd; print('"'"'hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907'"'"'); d=pd.read_csv('"'"'results/backtests/hkconnect/hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907__since_2023_01/annual_returns.csv'"'"'); print(d.to_string(index=False))'
+```
+
+晋级禁止使用未齐窗口；固定端点无新假设不重复回测。无新active/evict/archive。
+
+### Focus 候选池
+
+两层口径：explore保留诊断定义，active/watchlist不增加。下列为具体冻结诊断对照；已reject配置仅作机制归因/成本敏感性基线，不能复活为新候选。未实现候选先做实现验收。
+
+- `pullback_definition`：`hkconnect_path5_mechanism_20261008_manual`、`hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907`；先验该focus的信号/状态/成本来源。
+- `retest_confirmation`：`hkconnect_path5_mechanism_20261008_manual`、`hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907`；先验该focus的信号/状态/成本来源。
+- `pause_or_redesign`：`hkconnect_path5_mechanism_20261008_manual`、`hkconnect_path5_pullback_continuation_biweekly_frozen_shape_v20260907`；先验该focus的信号/状态/成本来源。
+
+## 2026-10-10T01:20:51.572988+08:00 沪港通 Path6（large liquid core）
+
+### 上一轮候选与结果摘要
+
+`hkconnect_path6_mechanism_20261008_manual` reject。按真实scorecard判定；旧plan顶部的手动轮reject标签不覆盖10/09资金修复后结论。
+
+### 本轮候选 ID 与命令
+
+未实跑原因：按连续三轮停止规则暂停旧相邻扩参；本轮优先落实Path2传导/配权机制诊断，未发现有依据的新结构，不为配额复跑已否定形态。coverage仍block但没有声称耗尽整日日更窗口。 候选设计：冻结原机制对照与当前正式robust；先看年度/成本收益归因，有可证伪的新阶段或成本依据再确认，停止旧相邻hold/cap参数。
+
+条件确认命令（本轮未执行）：
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path6_mechanism_20261008_manual,hkconnect_path6_lowvol_hold18_20261008
+```
+
+### 下一轮 focus 提示
+
+guard focus `large_liquid_core`；冻结原机制对照与当前正式robust；先看年度/成本收益归因，有可证伪的新阶段或成本依据再确认，停止旧相邻hold/cap参数。
+
+```sh
+.venv/bin/python -c 'import pandas as pd; print('"'"'hkconnect_path6_lowvol_hold18_20261008'"'"'); d=pd.read_csv('"'"'results/backtests/hkconnect/hkconnect_path6_lowvol_hold18_20261008__since_2023_01/annual_returns.csv'"'"'); print(d.to_string(index=False))'
+```
+
+晋级禁止使用未齐窗口；固定端点无新假设不重复回测。无新active/evict/archive。
+
+### Focus 候选池
+
+两层口径：explore保留诊断定义，active/watchlist不增加。下列为具体冻结诊断对照；已reject配置仅作机制归因/成本敏感性基线，不能复活为新候选。未实现候选先做实现验收。
+
+- `large_liquid_core`：`hkconnect_path6_mechanism_20261008_manual`、`hkconnect_path6_lowvol_hold18_20261008`；先验该focus的信号/状态/成本来源。
+- `lowvol_liquid_core`：`hkconnect_path6_mechanism_20261008_manual`、`hkconnect_path6_lowvol_hold18_20261008`；先验该focus的信号/状态/成本来源。
+- `capacity_cost`：`hkconnect_path6_mechanism_20261008_manual`、`hkconnect_path6_lowvol_hold18_20261008`；先验该focus的信号/状态/成本来源。
+
+## 2026-10-10T01:20:51.572988+08:00 沪港通 Path7（barbell quality growth）
+
+### 上一轮候选与结果摘要
+
+`hkconnect_path7_mechanism_20261008_manual` robust_observation。按真实scorecard判定；旧plan顶部的手动轮reject标签不覆盖10/09资金修复后结论。
+
+### 本轮候选 ID 与命令
+
+未实跑原因：按连续三轮停止规则暂停旧相邻扩参；本轮优先落实Path2传导/配权机制诊断，未发现有依据的新结构，不为配额复跑已否定形态。coverage仍block但没有声称耗尽整日日更窗口。 候选设计：冻结原机制对照与当前正式robust；先看年度/成本收益归因，有可证伪的新阶段或成本依据再确认，停止旧相邻hold/cap参数。
+
+条件确认命令（本轮未执行）：
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path7_mechanism_20261008_manual,hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7,hkconnect_path7_defensive_cap08_20261004
+```
+
+### 下一轮 focus 提示
+
+guard focus `barbell_sleeve_structure`；冻结原机制对照与当前正式robust；先看年度/成本收益归因，有可证伪的新阶段或成本依据再确认，停止旧相邻hold/cap参数。
+
+```sh
+.venv/bin/python -c 'import pandas as pd; print('"'"'hkconnect_path7_defensive_cap08_20261004'"'"'); d=pd.read_csv('"'"'results/backtests/hkconnect/hkconnect_path7_defensive_cap08_20261004__since_2023_01/annual_returns.csv'"'"'); print(d.to_string(index=False))'
+```
+
+晋级禁止使用未齐窗口；固定端点无新假设不重复回测。无新active/evict/archive。
+
+### Focus 候选池
+
+两层口径：explore保留诊断定义，active/watchlist不增加。下列为具体冻结诊断对照；已reject配置仅作机制归因/成本敏感性基线，不能复活为新候选。未实现候选先做实现验收。
+
+- `barbell_sleeve_structure`：`hkconnect_path7_mechanism_20261008_manual`、`hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`、`hkconnect_path7_defensive_cap08_20261004`；先验该focus的信号/状态/成本来源。
+- `biweekly_barbell`：`hkconnect_path7_mechanism_20261008_manual`、`hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`、`hkconnect_path7_defensive_cap08_20261004`；先验该focus的信号/状态/成本来源。
+- `turnover_control`：`hkconnect_path7_mechanism_20261008_manual`、`hkconnect_path7_barbell_quality_growth_biweekly_defensive_core_sleeve_v7`、`hkconnect_path7_defensive_cap08_20261004`；先验该focus的信号/状态/成本来源。
+
 ## 2026-10-09 资金修复后机制确认 2026-10-09T02:49:05.774972+08:00
 
 ### 上一轮候选与结果摘要

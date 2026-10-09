@@ -1,5 +1,40 @@
 # Path 4 强主题涌现路径
 
+## 2026-10-10T01:20:51.572988+08:00 A股 Path4（emergent theme discovery）
+
+### 上一轮候选与结果摘要
+
+`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual` reject。按真实scorecard判定；旧plan顶部的手动轮reject标签不覆盖10/09资金修复后结论。
+
+### 本轮候选 ID 与命令
+
+未实跑原因：按连续三轮停止规则暂停旧相邻扩参；本轮优先落实Path2传导/配权机制诊断，未发现有依据的新结构，不为配额复跑已否定形态。coverage仍block但没有声称耗尽整日日更窗口。 候选设计：冻结原机制对照与当前正式robust；先看年度/成本收益归因，有可证伪的新阶段或成本依据再确认，停止旧相邻hold/cap参数。
+
+条件确认命令（本轮未执行）：
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --comparison-csv /private/tmp/aiinvestor_next_ashare_path4.csv
+```
+
+### 下一轮 focus 提示
+
+guard focus `theme_signal_quality`；冻结原机制对照与当前正式robust；先看年度/成本收益归因，有可证伪的新阶段或成本依据再确认，停止旧相邻hold/cap参数。
+
+```sh
+.venv/bin/python -c 'import pandas as pd; print('"'"'core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn'"'"'); d=pd.read_csv('"'"'results/backtests/a_share/core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn__since_2023_01/annual_returns.csv'"'"'); print(d.to_string(index=False))'
+```
+
+晋级禁止使用未齐窗口；固定端点无新假设不重复回测。无新active/evict/archive。
+
+### Focus 候选池
+
+两层口径：explore保留诊断定义，active/watchlist不增加。下列为具体冻结诊断对照；已reject配置仅作机制归因/成本敏感性基线，不能复活为新候选。未实现候选先做实现验收。
+
+- `emergent_theme_coverage`：`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`；先验该focus的信号/状态/成本来源。
+- `theme_signal_quality`：`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`；先验该focus的信号/状态/成本来源。
+- `theme_risk_control`：`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`；先验该focus的信号/状态/成本来源。
+- `theme_capacity_cost`：`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual`、`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`；先验该focus的信号/状态/成本来源。
+
 ## 2026-10-09 资金修复后机制确认 2026-10-09T02:49:05.774972+08:00
 
 ### 上一轮候选与结果摘要

@@ -1,0 +1,94 @@
+{
+  "candidate_id": "core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_liqmom_signal_mom61_20261009",
+  "parent_id": "core_explore_70_30_equal_weight_winner_core__aggr_03_97_prom3_core_6_1_liqmom_elastic_biweekly_risk20_exit40_cap14_cost_guard_v63_underrepresented_lowturn",
+  "windows": {
+    "since_2020_01": {
+      "signal_dates": 2,
+      "different_days": {
+        "promoted_before": 2,
+        "promoted_after": 1,
+        "raw_target_weights": 0,
+        "capped_target_weights": 0,
+        "core_selected_codes": 0,
+        "promotion_scores": 2,
+        "core_signal_scores": 0
+      },
+      "candidate_set_different_days": {
+        "standard": 2,
+        "fast": 0
+      },
+      "max_target_weight_difference": 0.0,
+      "changed_state_examples": [
+        {
+          "signal_date": "2021-03-12",
+          "different_codes": [
+            "300850.SZ"
+          ],
+          "candidate_inputs": {
+            "300850.SZ": {
+              "core_score": 1.1069553805774275,
+              "daily_amount": 327038.42303333356,
+              "seed_eligible": true,
+              "actual_core_member": false,
+              "target_weight": 0.0,
+              "protected_keep": false
+            }
+          },
+          "parent_inputs": {
+            "300850.SZ": null
+          },
+          "target_equal": true
+        },
+        {
+          "signal_date": "2021-03-26",
+          "different_codes": [
+            "300850.SZ"
+          ],
+          "candidate_inputs": {
+            "300850.SZ": {
+              "core_score": 1.544455380577428,
+              "daily_amount": 267007.62055,
+              "seed_eligible": true,
+              "actual_core_member": false,
+              "target_weight": 0.0,
+              "protected_keep": false
+            }
+          },
+          "parent_inputs": {
+            "300850.SZ": null
+          },
+          "target_equal": true
+        }
+      ]
+    }
+  },
+  "completion": {
+    "type": "completion",
+    "cash_calls": 348,
+    "capital_violations": 0
+  },
+  "synthetic_checks": {
+    "type": "synthetic_checks",
+    "unconstrained_selection": [
+      [
+        "A"
+      ],
+      [
+        "B"
+      ]
+    ],
+    "saturated_promotion_state": [
+      [
+        "A",
+        "B"
+      ],
+      [
+        "A",
+        "B"
+      ]
+    ],
+    "passed": true
+  },
+  "trace_path": "/Users/valselee/my-code/aiinvestor/results/research/a_share/research_iteration_state_inspection_20261010.jsonl.gz",
+  "trace_sha256": "c641c9716ea83e11b0b4e36dd7bc5a97ee5baced7e94e28e674c2f4c5448e274"
+}

@@ -1,5 +1,45 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-10-10T01:20:51.572988+08:00 沪港通 Path2
+
+### 上一轮候选与结果摘要
+
+`hkconnect_path2_mechanism_20261008_manual` reject。按真实scorecard判定；旧plan顶部的手动轮reject标签不覆盖10/09资金修复后结论。
+
+### 本轮候选 ID 与命令
+
+- `hkconnect_path2_theme_hybrid_control_20261010` reject；冻结entry10只换既有hybrid，预期2020/2023净CAGR各增1pp、2026损失不超过2pp并保住稳定性；正式参照为本轮实际entry11。；相对entry10中窗仅+0.17/-0.11pp，换手与成本略升；不满足预登记，不把相对较弱父策略小幅改善当晋级。停止混合比例探索。
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_hybrid_control_20261010,hkconnect_path2_theme_entry10_20261006,hkconnect_path2_mechanism_20261008_manual
+```
+
+- `hkconnect_path2_mechanism_20261008_manual` reject；同截止日复核完全base对照，区分hybrid结果与中窗收益/近窗损失的既有风险收益折衷。；相对当前entry11 2020 MaxDD恶化5.03pp、2026净CAGR低10.55pp；保持reject，不继续此配权族。
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path2_theme_hybrid_control_20261010,hkconnect_path2_theme_entry10_20261006,hkconnect_path2_mechanism_20261008_manual
+```
+
+### 下一轮 focus 提示
+
+guard focus `high_return_monthly`；停止hybrid比例扩张；下一轮先实现固定父策略目标股票集合、仅调整集合内权重的隔离runner，区分配权与持仓路径混杂。
+
+```sh
+.venv/bin/python -c 'import json; s=json.load(open('"'"'results/research/a_share/research_iteration_scorecard_20261010.json'"'"')); print(json.dumps(s['"'"'hk_model_set_diagnostic'"'"'],ensure_ascii=False,indent=2))'
+```
+
+晋级禁止使用未齐窗口；固定端点无新假设不重复回测。无新active/evict/archive。
+
+### Focus 候选池
+
+两层口径：explore保留诊断定义，active/watchlist不增加。下列为具体冻结诊断对照；已reject配置仅作机制归因/成本敏感性基线，不能复活为新候选。未实现候选先做实现验收。
+
+- `high_return_monthly`：`hkconnect_path2_theme_entry10_20261006`、`hkconnect_path2_theme_entry11_20261007`、`hkconnect_path2_theme_hybrid_control_20261010`；先验该focus的信号/状态/成本来源。
+- `biweekly_breakout`：`hkconnect_path2_theme_entry10_20261006`、`hkconnect_path2_theme_entry11_20261007`、`hkconnect_path2_theme_hybrid_control_20261010`；先验该focus的信号/状态/成本来源。
+- `elasticity_cost_control`：`hkconnect_path2_theme_entry10_20261006`、`hkconnect_path2_theme_entry11_20261007`、`hkconnect_path2_theme_hybrid_control_20261010`；先验该focus的信号/状态/成本来源。
+
+下一轮隔离fixed-cohort runner尚未实现；实现任务、同日五窗支持/证伪与停止规则见本轮scorecard.next_priority.hkconnect。不把计划ID写成可执行命令。
+
 ## 2026-10-09 资金修复后机制确认 2026-10-09T02:49:05.774972+08:00
 
 ### 上一轮候选与结果摘要

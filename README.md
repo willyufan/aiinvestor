@@ -724,3 +724,10 @@ cd /Users/valselee/my-code/aiinvestor
 Path2精确20-ID补缺与活跃刷新后，缺口801→770/832，禁止晋级；覆盖、活跃刷新与事件成熟度复核不计新增实验。A股下一轮先诊断Path2排序→晋升状态→目标权重传导；HK先验配权风险收益取舍，再实现一项冻结entry10的hybrid对照。停止无依据的相邻权重、hold与cap扩参。
 
 完整五窗口、换手/成本、12路径首命令与收轮反思见[本轮报告](docs/research_iteration_20261009.md)和[scorecard](results/research/a_share/research_iteration_scorecard_20261009.json)；[机制对比图](docs/strategy_mechanism_comparison_20261009.png)为本轮独立图，保留已有图表。
+
+
+### 2026-10-10 信号传导与配权机制迭代
+
+- A股与HK均完成同2026-10-09五窗口竞争：2新增机制消融、2机制确认，4张scorecard全部reject，无正式晋级。Path2精确20-ID补缺807→787/828，正式身份保持；新A股门槛ID仅隔离runner注册，HK hybrid为隔离诊断定义（reject），不扩active。
+- 证据：信号进入晋升掩码和状态，实际目标被后续选股门槛消除；移除重复6-1门槛可改变持仓却令2023 CAGR下降3.92pp。HK hybrid中窗仅+0.17/-0.11pp，停止比例扩参；下一轮A股转Path3阶段归因，HK先实现固定股票集合的配权对照。
+- live43/public55榜项与136详情；10项定向测试通过。反思、12路径首命令和四卡五窗指标见docs/research_iteration_20261010.md及results/research/a_share/research_iteration_scorecard_20261010.json。新增配额未达12–18，未用补缺/同步/参照凑数。

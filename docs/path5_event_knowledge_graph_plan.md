@@ -1,5 +1,42 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-10-10T01:20:51.572988+08:00 A股 Path5（event knowledge graph）
+
+### 上一轮候选与结果摘要
+
+`ai_datacenter_power_grid_202607_v0` keep_watch。按真实scorecard判定；旧plan顶部的手动轮reject标签不覆盖10/09资金修复后结论。
+
+### 本轮候选 ID 与命令
+
+未实跑原因：没有新审计来源；60D仍不足，gross事件收益与Path4 net年化评价未统一，不新增未经审计篮子。 候选设计：v0保持冻结，v1为来源/成本统一后的待实现篮子，不写未注册ID回测命令。
+
+条件确认命令（本轮未执行）：
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/research_iteration_event_next.json
+```
+
+### 下一轮 focus 提示
+
+guard focus `frozen_candidate_audit`；v0保持冻结，v1为来源/成本统一后的待实现篮子，不写未注册ID回测命令。
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/research_iteration_event_next.json
+```
+
+晋级禁止使用未齐窗口；固定端点无新假设不重复回测。无新active/evict/archive。
+
+### Focus 候选池
+
+两层口径：explore保留诊断定义，active/watchlist不增加。下列为具体冻结诊断对照；已reject配置仅作机制归因/成本敏感性基线，不能复活为新候选。未实现候选先做实现验收。
+
+- `event_basket_registry`：`ai_datacenter_power_grid_202607_v0`、`ai_datacenter_power_grid_202607_v1`；先验该focus的信号/状态/成本来源。
+- `frozen_candidate_audit`：`ai_datacenter_power_grid_202607_v0`、`ai_datacenter_power_grid_202607_v1`；先验该focus的信号/状态/成本来源。
+- `event_backtest_entry`：`ai_datacenter_power_grid_202607_v0`、`ai_datacenter_power_grid_202607_v1`；先验该focus的信号/状态/成本来源。
+- `path4_comparison`：`ai_datacenter_power_grid_202607_v0`、`ai_datacenter_power_grid_202607_v1`；先验该focus的信号/状态/成本来源。
+
+`ai_datacenter_power_grid_202607_v1`尚未实现，仅来源/成本统一后的设计；下一轮先审计来源、冻结事件日期和成员，未通过不执行v1。
+
 ## 2026-10-09 资金修复后机制确认 2026-10-09T02:49:05.774972+08:00
 
 ### 上一轮候选与结果摘要
