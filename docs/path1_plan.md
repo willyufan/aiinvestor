@@ -1,5 +1,48 @@
 # Path 1 研究计划
 
+## 2026-10-12T01:22:55.151898+08:00 A股 Path1（主线 / core_multifactor）
+
+### 上一轮候选与结果摘要
+
+`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual` reject；`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_risk_graft_20261008_manual` reject。10/10未实跑的路径仍引用10/09历史证据，不计本轮实验。
+
+### 本轮候选 ID 与命令
+
+未新增/确认回测：同10/09周末端点未增加；既有相邻机制已停止，本轮先完成两项承诺及阶段诊断，尚无通过预登记的新结构理由。不是coverage耗尽全天。
+
+候选设计：主线冻结buffered/buffered_asym13检查风险阶段目标与实投；core_multifactor冻结shape_control/risk_graft检查2020损失来自年度/股票贡献还是形态风控。停止小因子权重扩参。
+
+冻结配置条件回放（本轮未执行；Path5为已执行事件成熟度复核）：
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_risk_graft_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_quality_tilt --comparison-csv /private/tmp/aiinvestor_next_ashare_path1.csv
+```
+
+主线：三个weekly_exposure优先形态仅复核既有记录，asym仍无比较行；不声称同日三形态竞争。core_multifactor：guard64/64仅窗口存在，非全组本轮重算；读取代码实际direction group，维持停止小因子权重扩参。
+
+正式window winner/robust/tracked身份未变；无新active/evict/archive，新HK仅隔离runner进程定义。历史快照保留。
+
+### 下一轮 focus 提示
+
+主线冻结buffered/buffered_asym13检查风险阶段目标与实投；core_multifactor冻结shape_control/risk_graft检查2020损失来自年度/股票贡献还是形态风控。停止小因子权重扩参。
+
+下一轮第一条可执行命令（诊断或精确补缺；固定端点无新假设不重复回测）：
+
+```sh
+.venv/bin/python -c 'import pandas as pd; print('"'"'core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907'"'"'); print(pd.read_csv('"'"'results/backtests/a_share/core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907__since_2023_01/annual_returns.csv'"'"').to_string(index=False))'
+```
+
+### Focus 候选池
+
+explore保留历史/诊断定义；active/watchlist不增加。已reject配置仅作冻结归因对照，不能因轮换复活。
+
+- `core_multifactor_coverage`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+- `signal_quality`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+- `satellite_risk_cost`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+- `holding_shape`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual`、`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+
+证据：`results/research/a_share/research_iteration_scorecard_20261012.json`；历史阶段诊断单列，不计新回测。
+
 ## 2026-10-10T01:20:51.572988+08:00 A股 Path1（主线 / core_multifactor）
 
 ### 上一轮候选与结果摘要

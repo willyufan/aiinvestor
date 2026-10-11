@@ -1,5 +1,45 @@
 # 沪港通 Path 3 周度高频路径
 
+## 2026-10-12T01:22:55.151898+08:00 沪港通 Path3
+
+### 上一轮候选与结果摘要
+
+`hkconnect_path3_mechanism_20261008_manual` reject。10/10未实跑的路径仍引用10/09历史证据，不计本轮实验。
+
+### 本轮候选 ID 与命令
+
+未新增/确认回测：同10/09周末端点未增加；既有相邻机制已停止，本轮先完成两项承诺及阶段诊断，尚无通过预登记的新结构理由。不是coverage耗尽全天。
+
+候选设计：冻结theme_risk52与机制消融，检查换股事件及gross/net成本贡献；不再相邻hold/cap。
+
+冻结配置条件回放（本轮未执行；Path5为已执行事件成熟度复核）：
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path3_mechanism_20261008_manual,hkconnect_path3_theme_risk52_20261003
+```
+
+正式window winner/robust/tracked身份未变；无新active/evict/archive，新HK仅隔离runner进程定义。历史快照保留。
+
+### 下一轮 focus 提示
+
+冻结theme_risk52与机制消融，检查换股事件及gross/net成本贡献；不再相邻hold/cap。
+
+下一轮第一条可执行命令（诊断或精确补缺；固定端点无新假设不重复回测）：
+
+```sh
+.venv/bin/python -c 'import pandas as pd; print('"'"'hkconnect_path3_theme_risk52_20261003'"'"'); print(pd.read_csv('"'"'results/backtests/hkconnect/hkconnect_path3_theme_risk52_20261003__since_2023_01/annual_returns.csv'"'"').to_string(index=False))'
+```
+
+### Focus 候选池
+
+explore保留历史/诊断定义；active/watchlist不增加。已reject配置仅作冻结归因对照，不能因轮换复活。
+
+- `weekly_turnover_reduction`：`hkconnect_path3_mechanism_20261008_manual`、`hkconnect_path3_theme_risk52_20261003`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+- `weekly_defensive_overlay`：`hkconnect_path3_mechanism_20261008_manual`、`hkconnect_path3_theme_risk52_20261003`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+- `cost_stress`：`hkconnect_path3_mechanism_20261008_manual`、`hkconnect_path3_theme_risk52_20261003`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+
+证据：`results/research/a_share/research_iteration_scorecard_20261012.json`；历史阶段诊断单列，不计新回测。
+
 ## 2026-10-10T01:20:51.572988+08:00 沪港通 Path3
 
 ### 上一轮候选与结果摘要

@@ -1,5 +1,48 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-10-12T01:22:55.151898+08:00 A股 Path5（event knowledge graph）
+
+### 上一轮候选与结果摘要
+
+`ai_datacenter_power_grid_202607_v0` keep_watch。10/10未实跑的路径仍引用10/09历史证据，不计本轮实验。
+
+### 本轮候选 ID 与命令
+
+未新增/确认回测：60D仍不足且gross/net与Path4比较未统一，无新来源审计，不新增未经审计篮子。
+
+候选设计：v0冻结来源与成员；v1仅为完成来源、成本统一后的实现任务，未注册不写执行ID。
+
+冻结配置条件回放（本轮未执行；Path5为已执行事件成熟度复核）：
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/research_iteration_event_20261012.json
+```
+
+source_audited冻结六成员篮子：20D+11.70%、40D-0.60%、60D不足；与Path4 overlap/净成本口径不足以晋级，keep_watch。
+
+正式window winner/robust/tracked身份未变；无新active/evict/archive，新HK仅隔离runner进程定义。历史快照保留。
+
+### 下一轮 focus 提示
+
+v0冻结来源与成员；v1仅为完成来源、成本统一后的实现任务，未注册不写执行ID。
+
+下一轮第一条可执行命令（诊断或精确补缺；固定端点无新假设不重复回测）：
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/research_iteration_event_20261012.json
+```
+
+### Focus 候选池
+
+explore保留历史/诊断定义；active/watchlist不增加。已reject配置仅作冻结归因对照，不能因轮换复活。
+
+- `event_basket_registry`：`ai_datacenter_power_grid_202607_v0`、`ai_datacenter_power_grid_202607_v1`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+- `frozen_candidate_audit`：`ai_datacenter_power_grid_202607_v0`、`ai_datacenter_power_grid_202607_v1`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+- `event_backtest_entry`：`ai_datacenter_power_grid_202607_v0`、`ai_datacenter_power_grid_202607_v1`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+- `path4_comparison`：`ai_datacenter_power_grid_202607_v0`、`ai_datacenter_power_grid_202607_v1`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+
+证据：`results/research/a_share/research_iteration_scorecard_20261012.json`；历史阶段诊断单列，不计新回测。
+
 ## 2026-10-10T01:20:51.572988+08:00 A股 Path5（event knowledge graph）
 
 ### 上一轮候选与结果摘要

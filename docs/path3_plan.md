@@ -1,5 +1,44 @@
 # Path 3 研究计划
 
+## 2026-10-12T01:22:55.151898+08:00 A股 Path3
+
+### 上一轮候选与结果摘要
+
+`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly` keep_watch。10/10未实跑的路径仍引用10/09历史证据，不计本轮实验。
+
+### 本轮候选 ID 与命令
+
+`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly`：hold_protection_parameter_confirmation，五窗同10/09，keep_watch。中窗CAGR损失2.62/2.53pp；2020 MaxDD改善6.22pp、2023恶化4.50pp。虽未触发硬稳定性阈值且2026强，但不支持跨窗防守假设，keep_watch，停止相邻hold搜索。成本节省不足以解释收益差。
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly --comparison-csv /private/tmp/aiinvestor-20261012/ashare_path3.csv
+```
+
+正式window winner/robust/tracked身份未变；无新active/evict/archive，新HK仅隔离runner进程定义。历史快照保留。
+
+### 下一轮 focus 提示
+
+冻结hold0/hold6比较共同风险状态gross/net对数贡献和股票实投；停止相邻hold搜索。
+
+下一轮第一条可执行命令（诊断或精确补缺；固定端点无新假设不重复回测）：
+
+```sh
+.venv/bin/python scripts/strategy_phase_attribution.py --backtest-root results/backtests/a_share --candidate-id core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly --reference-id core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --end-date 2026-10-09 --output-json results/research/a_share/research_iteration_ashare_attribution_next.json
+```
+
+最高优先实现任务、验收与证伪条件：见本轮scorecard.next_priority及研究报告；先完成逐日实际股票贡献重构，不把不存在的策略ID写成执行命令。
+
+### Focus 候选池
+
+explore保留历史/诊断定义；active/watchlist不增加。已reject配置仅作冻结归因对照，不能因轮换复活。
+
+- `turnover_reduction`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+- `weekly_exit_buffer`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+- `risk_downshift`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+- `cost_stress`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly`、`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+
+证据：`results/research/a_share/research_iteration_scorecard_20261012.json`；历史阶段诊断单列，不计新回测。
+
 ## 2026-10-10T01:20:51.572988+08:00 A股 Path3
 
 ### 上一轮候选与结果摘要

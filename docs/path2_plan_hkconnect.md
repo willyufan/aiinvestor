@@ -1,5 +1,43 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-10-12T01:22:55.151898+08:00 沪港通 Path2
+
+### 上一轮候选与结果摘要
+
+`hkconnect_path2_theme_hybrid_control_20261010` reject；`hkconnect_path2_mechanism_20261008_manual` reject。10/10未实跑的路径仍引用10/09历史证据，不计本轮实验。
+
+### 本轮候选 ID 与命令
+
+`hkconnect_path2_fixed_cohort_base_20261012`：new_fixed_cohort_weight_ablation，五窗同10/09，reject。严格固定父目标集合/目标敞口/截断前排名母体后，相对entry10中窗仅+0.33/+0.11pp，2026低1.49pp；未满足各增1pp。正式entry11中窗低1.72/1.38pp，reject，不做配权比例搜索。
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/audit_hk_fixed_cohort.py --output-dir results/research/hkconnect/experiments/fixed_cohort_20261012 --end-date 2026-10-09 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --reference-id hkconnect_path2_theme_entry11_20261007 --only-strategy-ids hkconnect_path2_theme_entry10_20261006,hkconnect_path2_fixed_cohort_base_20261012,hkconnect_path2_theme_entry11_20261007
+```
+
+正式window winner/robust/tracked身份未变；无新active/evict/archive，新HK仅隔离runner进程定义。历史快照保留。
+
+### 下一轮 focus 提示
+
+固定父目标集合base配权收益条件未满足则停止此配权族；转entry10/entry11的2026股票贡献，不以短窗增益复活权重扫描。
+
+下一轮第一条可执行命令（诊断或精确补缺；固定端点无新假设不重复回测）：
+
+```sh
+.venv/bin/python scripts/strategy_phase_attribution.py --backtest-root results/research/hkconnect/experiments/fixed_cohort_20261012 --candidate-id hkconnect_path2_fixed_cohort_base_20261012 --reference-id hkconnect_path2_theme_entry10_20261006 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --end-date 2026-10-09 --output-json results/research/a_share/research_iteration_hk_attribution_next.json
+```
+
+最高优先实现任务、验收与证伪条件：见本轮scorecard.next_priority及研究报告；先完成逐日实际股票贡献重构，不把不存在的策略ID写成执行命令。
+
+### Focus 候选池
+
+explore保留历史/诊断定义；active/watchlist不增加。已reject配置仅作冻结归因对照，不能因轮换复活。
+
+- `high_return_monthly`：`hkconnect_path2_theme_entry10_20261006`、`hkconnect_path2_theme_entry11_20261007`、`hkconnect_path2_fixed_cohort_base_20261012`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+- `biweekly_breakout`：`hkconnect_path2_theme_entry10_20261006`、`hkconnect_path2_theme_entry11_20261007`、`hkconnect_path2_fixed_cohort_base_20261012`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+- `elasticity_cost_control`：`hkconnect_path2_theme_entry10_20261006`、`hkconnect_path2_theme_entry11_20261007`、`hkconnect_path2_fixed_cohort_base_20261012`；先验该focus的信号、目标或成本来源，只有新证据才确认结构变化。
+
+证据：`results/research/a_share/research_iteration_scorecard_20261012.json`；历史阶段诊断单列，不计新回测。
+
 ## 2026-10-10T01:20:51.572988+08:00 沪港通 Path2
 
 ### 上一轮候选与结果摘要

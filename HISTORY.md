@@ -1201,3 +1201,10 @@ Path2精确20-ID补缺与活跃刷新后，缺口801→770/832，禁止晋级；
 - A股 top5 active 集合 146 个 base IDs，五窗口各完成 175 条结果（含 29 个既有 overlay 父策略），选定 IDs 全覆盖。
 - 沪港通 top5 active 集合 136 个 strategy IDs，五窗口完成 130/130/130/135/135 条结果；5 个变体仅支持短窗口，`hkconnect_path5_pullback_continuation_biweekly_v38_definition_reopen` 当前未生成。
 - 已同步赢家、指标及 live/public；市场截止日与策略真实信号生效日分别保留。已有源码、手写历史和三张 HK 图表保留；新 HK 图另存自动化检查目录。
+
+
+### 2026-10-12 策略机制验证
+
+五窗同截止2026-10-09完成A股Path3持有保护参数确认（keep_watch）与HK Path2固定父目标集合base配权新实验（reject），无正式晋级。A3中窗CAGR差-2.62/-2.53pp，2020回撤改善但2023恶化；HK中窗相对entry10仅+0.33/+0.11pp，停止该配权族。Path2精确20-ID补缺后仍缺716/828，正式身份冻结；partial candidate-pass含历史跨池行，不作晋级证据。
+
+反思、十二路径候选/首命令及两市场下一轮股票贡献实现验收见[研究报告](docs/research_iteration_20261012.md)、[五窗scorecard](results/research/a_share/research_iteration_scorecard_20261012.json)与[机制对比图](docs/strategy_mechanism_comparison_20261012.png)。本轮为研究验证，不是新策略发布。
