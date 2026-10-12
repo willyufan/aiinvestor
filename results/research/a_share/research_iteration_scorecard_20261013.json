@@ -7543,7 +7543,17 @@
     "all_focus_pools_min_two": true,
     "original_user_changes_preserved": true,
     "exact_stage_allowlist_files": 114,
-    "historical_details_restored": 22
+    "historical_details_restored": 22,
+    "first_complete_precommit_check_passed": true,
+    "second_allowlist_rebuild": {
+      "status": "failed",
+      "cause": "只看未暂存diff，漏列6个已暂存合法产物",
+      "execution_control_error": "校验失败后shell仍继续提交",
+      "postcommit_exact_audit_passed": true,
+      "audited_files": 114,
+      "commit": "fa95a74d",
+      "fix": "清单并入git diff --cached文件；后续提交与校验分开执行"
+    }
   },
   "path2_candidate_pass_limitation": {
     "guard_row_complete_count": 50,

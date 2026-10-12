@@ -141,3 +141,5 @@ Path2当前缺 778/828，仍block，正式winner/robust/tracked冻结；其它�
 ## 同步与验收
 
 weighted/HK artifacts、live42、public55榜项与135新生成详情均已执行，最终guard仍唯一Path2 block缺778/828、warning0，其它目标scope pass。恢复22份历史详情与用户HK三图/Path6/HK8/README/HISTORY；正式window winner/robust身份未变。中文贡献图已目视验收（初稿字体路径不存在，改用系统实际STHeiti字体）。13项定向测试、两卡五窗同成本、执行NAV误差及九plan/focus验收已通过；原始逐日股票/真实成交/turnover留本地，全文件哈希与可审计摘要随提交。
+
+收尾辅助校验说明：首次114文件完整白名单/用户基线验收通过。第二次清单构建只看未暂存差异，漏列此前已暂存的public_snapshot、experiments、report/state和两份comparison共6个合法文件，校验报错；shell未在失败时停止，仍提交并推送fa95a74d。这是本轮执行控制错误。随后逐项审计已提交114文件，6个均属于本轮固定目标，无用户改动混入；校验清单构建已改为并入已暂存差异。补充报告单独校验后提交，未重写历史或丢弃工作树。
