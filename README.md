@@ -738,3 +738,8 @@ Path2精确20-ID补缺与活跃刷新后，缺口801→770/832，禁止晋级；
 五窗同截止2026-10-09完成A股Path3持有保护参数确认（keep_watch）与HK Path2固定父目标集合base配权新实验（reject），无正式晋级。A3中窗CAGR差-2.62/-2.53pp，2020回撤改善但2023恶化；HK中窗相对entry10仅+0.33/+0.11pp，停止该配权族。Path2精确20-ID补缺后仍缺716/828，正式身份冻结；partial candidate-pass含历史跨池行，不作晋级证据。
 
 反思、十二路径候选/首命令及两市场下一轮股票贡献实现验收见[研究报告](docs/research_iteration_20261012.md)、[五窗scorecard](results/research/a_share/research_iteration_scorecard_20261012.json)与[机制对比图](docs/strategy_mechanism_comparison_20261012.png)。本轮为研究验证，不是新策略发布。
+
+
+## 2026-10-13 实际执行贡献研究
+
+A3持有保护消融与HK2 entry10/entry11五窗口同截止10/12确认，真实成交/现金/费用重构净NAV最大误差1.42e-15。A3第三轮跨窗防守未改善转archive；HK2仅keep_watch，无正式身份晋级。Path2精确20-ID补缺798→778/828，并过滤跨池排名；12路径、九plan及下一轮事件诊断见 docs/research_iteration_20261013.md。

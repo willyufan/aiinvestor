@@ -1,5 +1,43 @@
 # Path 5 事件知识图谱研究计划
 
+## 2026-10-13T01:29:50.071355+08:00 ashare_path5
+
+### 上一轮候选与结果摘要
+
+上轮记录：[]；最近三轮证据见10/09、10/10、10/12 scorecard。当前参照 `ai_datacenter_power_grid_202607_v0`。
+
+### 本轮候选 ID 与命令
+
+v0冻结来源与成员；v1仅为完成来源、成本统一后的实现任务，未注册不写执行ID。
+
+已实跑冻结篮子20/40/60D成熟度复核，仅keep_watch；不计新增。
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/research_iteration_event_20261013.json
+```
+
+### 下一轮 focus 提示
+
+v0冻结来源与成员；v1仅为完成来源、成本统一后的实现任务，未注册不写执行ID。
+
+第一条可执行命令：
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/event_theme_backtest_entry.py --registry-json results/research/a_share/event_theme_registry.json --candidates-jsonl results/research/a_share/event_theme_candidates.jsonl --basket-id ai_datacenter_power_grid_202607_v0 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --horizons 20,40,60 --path4-reference-strategy-id core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --path4-sample-tag since_2026_01 --output-json results/research/a_share/research_iteration_event_20261013.json
+```
+
+### Focus 候选池
+
+explore保留历史，active不扩张；reject/archive只作显式冻结诊断，不因rotation复活常规刷新。
+
+- `event_basket_registry`：`ai_datacenter_power_grid_202607_v0`, `ai_datacenter_power_grid_202607_v1`；仅在该focus有可证伪新证据时探索。
+- `frozen_candidate_audit`：`ai_datacenter_power_grid_202607_v0`, `ai_datacenter_power_grid_202607_v1`；仅在该focus有可证伪新证据时探索。
+- `event_backtest_entry`：`ai_datacenter_power_grid_202607_v0`, `ai_datacenter_power_grid_202607_v1`；仅在该focus有可证伪新证据时探索。
+- `path4_comparison`：`ai_datacenter_power_grid_202607_v0`, `ai_datacenter_power_grid_202607_v1`；仅在该focus有可证伪新证据时探索。
+
+证据：`results/research/a_share/research_iteration_scorecard_20261013.json`；未执行回放、历史复核和同步均不冒充新增。
+
+
 ## 2026-10-12T01:22:55.151898+08:00 A股 Path5（event knowledge graph）
 
 ### 上一轮候选与结果摘要

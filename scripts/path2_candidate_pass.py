@@ -139,6 +139,16 @@ def _filter_to_current_as_of(latest: pd.DataFrame) -> pd.DataFrame:
     return latest.copy()
 
 
+def _filter_growth_elastic_rows(frame: pd.DataFrame) -> pd.DataFrame:
+    """排名必须有明确高弹性池来源；缺失或跨池行只用于覆盖诊断。"""
+    if "pool_id" not in frame.columns:
+        return frame.iloc[0:0].copy()
+    valid = frame["pool_id"].eq("growth_elastic")
+    if "alpha_pool_profile" in frame.columns:
+        valid &= frame["alpha_pool_profile"].eq("growth_elastic")
+    return frame.loc[valid].copy()
+
+
 def _robust_sort_key(metrics: dict[str, Any]) -> tuple[float, float, float, float, float, float]:
     return (
         float(metrics.get("promotion_score", float("-inf"))),
@@ -247,7 +257,8 @@ def main() -> None:
             and str(base_id) not in archived_ids
         }
     )
-    by_id = {str(base_id): group for base_id, group in latest.groupby("strategy_base_id")}
+    ranking_latest = _filter_growth_elastic_rows(latest)
+    by_id = {str(base_id): group for base_id, group in ranking_latest.groupby("strategy_base_id")}
 
     candidate_ids: list[str] = []
     incomplete_candidates: list[dict[str, Any]] = []
@@ -404,6 +415,7 @@ def main() -> None:
         ]
 
     payload = {
+        "excluded_non_growth_elastic_rows": int(len(latest) - len(ranking_latest)),
         "candidate_prefixes": prefixes,
         "candidate_variant_ids": variant_ids,
         "candidate_families": family_rules,

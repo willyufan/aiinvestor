@@ -1,5 +1,45 @@
 # Path 4 强主题涌现路径
 
+## 2026-10-13T01:29:50.071355+08:00 ashare_path4
+
+### 上一轮候选与结果摘要
+
+上轮记录：[{"candidate_id": "core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual", "decision": "reject", "evidence": "results/research/a_share/research_iteration_scorecard_20261009.json", "key_delta": {"since_2020_01": {}, "since_2023_01": {}}}]；最近三轮证据见10/09、10/10、10/12 scorecard。当前参照 `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`。 五窗当前CAGR：since_2017_01 0.96%（2026-10-12）, since_2020_01 1.45%（2026-10-12）, since_2023_01 1.49%（2026-10-12）, since_2025_01 9.69%（2026-10-12）, since_2026_01 -8.51%（2026-10-12）。进入观察位，不是强稳定 winner。
+
+### 本轮候选 ID 与命令
+
+冻结leader_gate_ablation与当前robust，按年度领先股票贡献和单票集中度检查theme_signal_quality；不因低敞口直接放大cap。
+
+未实跑原因：三轮相邻扩参已停止；本轮优先兑现实际贡献验收与池口径修复，尚无预登记新结构理由。未耗尽整日预算，未达缩量目标。
+
+条件回放（本轮未执行，诊断有新依据后才运行）：
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual,core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn --comparison-csv /private/tmp/aiinvestor_next_ashare_path4.csv
+```
+
+### 下一轮 focus 提示
+
+冻结leader_gate_ablation与当前robust，按年度领先股票贡献和单票集中度检查theme_signal_quality；不因低敞口直接放大cap。
+
+第一条可执行命令：
+
+```sh
+.venv/bin/python -c 'import pandas as pd; print('"'"'core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn'"'"'); print(pd.read_csv('"'"'results/backtests/a_share/core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn__since_2023_01/annual_returns.csv'"'"').to_string(index=False))'
+```
+
+### Focus 候选池
+
+explore保留历史，active不扩张；reject/archive只作显式冻结诊断，不因rotation复活常规刷新。
+
+- `emergent_theme_coverage`：`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual`, `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`；仅在该focus有可证伪新证据时探索。
+- `theme_signal_quality`：`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual`, `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`；仅在该focus有可证伪新证据时探索。
+- `theme_risk_control`：`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual`, `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`；仅在该focus有可证伪新证据时探索。
+- `theme_capacity_cost`：`core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_theme_leader_gate_ablation_20261008_manual`, `core_explore_90_10_equal_weight_winner_core__aggr_13_87_prom22_emergent_theme_quality_gate_signal30_leader78_coverage_penalty_risk08_cap05_exit66_lowturn`；仅在该focus有可证伪新证据时探索。
+
+证据：`results/research/a_share/research_iteration_scorecard_20261013.json`；未执行回放、历史复核和同步均不冒充新增。
+
+
 ## 2026-10-12T01:22:55.151898+08:00 A股 Path4（emergent theme discovery）
 
 ### 上一轮候选与结果摘要

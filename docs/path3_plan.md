@@ -1,5 +1,46 @@
 # Path 3 研究计划
 
+## 2026-10-13T01:29:50.071355+08:00 ashare_path3
+
+### 上一轮候选与结果摘要
+
+上轮记录：[{"candidate_id": "core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly", "decision": "keep_watch", "evidence": "results/research/a_share/research_iteration_scorecard_20261012.json", "key_delta": {"since_2020_01": {"cagr": -0.026211739999999997, "sharpe_ratio": -0.09974158999999994, "max_drawdown": 0.06218647999999999, "average_annual_turnover": -0.22723307999999998, "cumulative_trading_cost": -0.003456599999999999}, "since_2023_01": {"cagr": -0.025346360000000012, "sharpe_ratio": -0.13156721000000005, "max_drawdown": -0.04502967000000002, "average_annual_turnover": -0.08117726000000003, "cumulative_trading_cost": -0.00075011}}}]；最近三轮证据见10/09、10/10、10/12 scorecard。当前参照 `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`。 五窗当前CAGR：since_2017_01 10.87%（2026-10-12）, since_2020_01 12.44%（2026-10-12）, since_2023_01 11.57%（2026-10-12）, since_2025_01 19.16%（2026-10-12）, since_2026_01 -3.22%（2026-10-12）。进入观察位，不是强稳定 winner。
+
+### 本轮候选 ID 与命令
+
+hold0常规观察第三轮无跨窗实质改善，archive；冻结hold0/hold6仅用于共有持仓权重/持有时序诊断，禁止相邻hold搜索。
+
+`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly`：archive；第三轮观察仍无跨窗防守改善：中窗净CAGR下降约2.57/2.50pp，2023MaxDD恶化约4.50pp；虽未触强制稳定性阈值，停止常规刷新并归档，只保留冻结归因对照。
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/audit_executed_contributions.py --market ashare --only-base-ids core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly,core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --end-date 2026-10-12 --output-dir results/research/a_share/experiments/executed_20261013
+```
+
+### 下一轮 focus 提示
+
+hold0常规观察第三轮无跨窗实质改善，archive；冻结hold0/hold6仅用于共有持仓权重/持有时序诊断，禁止相邻hold搜索。
+
+第一条可执行命令：
+
+```sh
+.venv/bin/python -c 'import json; s=json.load(open("results/research/a_share/research_iteration_scorecard_20261013.json")); print(json.dumps(s["executed_attribution"]["ashare_path3"], ensure_ascii=False, indent=2))'
+# 在新结构诊断通过前只读贡献；冻结回放命令见本轮候选段。
+```
+
+下一轮实现任务、验收、证伪与停止规则见本轮scorecard.next_priority；没有新策略ID，先实现诊断，条件回放不计为承诺新增。
+
+### Focus 候选池
+
+explore保留历史，active不扩张；reject/archive只作显式冻结诊断，不因rotation复活常规刷新。
+
+- `turnover_reduction`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly`, `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`；仅在该focus有可证伪新证据时探索。
+- `weekly_exit_buffer`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly`, `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`；仅在该focus有可证伪新证据时探索。
+- `risk_downshift`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly`, `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`；仅在该focus有可证伪新证据时探索。
+- `cost_stress`：`core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly`, `core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_cap52_hold6_turn04_exit98_risk16_weekly`；仅在该focus有可证伪新证据时探索。
+
+证据：`results/research/a_share/research_iteration_scorecard_20261013.json`；未执行回放、历史复核和同步均不冒充新增。
+
+
 ## 2026-10-12T01:22:55.151898+08:00 A股 Path3
 
 ### 上一轮候选与结果摘要

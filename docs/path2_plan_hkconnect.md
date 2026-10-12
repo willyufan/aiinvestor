@@ -1,5 +1,45 @@
 # 沪港通 Path 2 研究计划
 
+## 2026-10-13T01:29:50.071355+08:00 hkconnect_path2
+
+### 上一轮候选与结果摘要
+
+上轮记录：[{"candidate_id": "hkconnect_path2_mechanism_20261008_manual", "decision": "reject", "evidence": "results/research/a_share/research_iteration_scorecard_20261010.json", "key_delta": {"since_2020_01": {"cagr": 0.030396090000000014, "sharpe_ratio": 0.16414242, "max_drawdown": -0.05031298000000001, "average_annual_turnover": -0.4816295300000002, "cumulative_trading_cost": 0.00603969}, "since_2023_01": {"cagr": 0.02330762, "sharpe_ratio": 0.23838939999999997, "max_drawdown": 0.04256493, "average_annual_turnover": -0.4371323699999996, "cumulative_trading_cost": 0.0008627100000000026}}}, {"candidate_id": "hkconnect_path2_theme_hybrid_control_20261010", "decision": "reject", "evidence": "results/research/a_share/research_iteration_scorecard_20261010.json", "key_delta": {"since_2020_01": {"cagr": -0.018768420000000008, "sharpe_ratio": -0.07026900999999997, "max_drawdown": 0.007641210000000009, "average_annual_turnover": -0.002894999999999648, "cumulative_trading_cost": -0.0038073299999999977}, "since_2023_01": {"cagr": -0.01598363, "sharpe_ratio": -0.043027089999999935, "max_drawdown": 0.007641210000000009, "average_annual_turnover": 0.015588640000000709, "cumulative_trading_cost": -0.0009672399999999977}}}, {"candidate_id": "hkconnect_path2_fixed_cohort_base_20261012", "decision": "reject", "evidence": "results/research/a_share/research_iteration_scorecard_20261012.json", "key_delta": {"since_2020_01": {"cagr": -0.017150739999999998, "sharpe_ratio": -0.05957807999999998, "max_drawdown": 0.01105449, "average_annual_turnover": -0.05819899000000017, "cumulative_trading_cost": -0.003924669999999998}, "since_2023_01": {"cagr": -0.013777330000000004, "sharpe_ratio": -0.026877810000000002, "max_drawdown": 0.01565314000000001, "average_annual_turnover": -0.05545318999999971, "cumulative_trading_cost": -0.001070309999999998}}}]；最近三轮证据见10/09、10/10、10/12 scorecard。当前参照 `hkconnect_path2_theme_entry11_20261007`。 五窗当前CAGR：since_2017_01 13.40%（2026-10-12）, since_2020_01 17.65%（2026-10-12）, since_2023_01 22.53%（2026-10-12）, since_2025_01 36.80%（2026-10-12）, since_2026_01 14.67%（2026-10-12）。
+
+### 本轮候选 ID 与命令
+
+取消base/hybrid比例族；冻结entry10/entry11。近窗不同实际持仓段主导，下一轮先检查03328/00857贡献跨年度与入口/退出事件，不做事后股票过滤。
+
+`hkconnect_path2_theme_entry10_20261006`：keep_watch；中窗CAGR落后2.05/1.49pp，近窗高2.60pp；跨窗收益晋级假设不支持，近窗贡献主要来自独有持仓段，保留观察但不扩entry参数。
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python scripts/audit_executed_contributions.py --market hkconnect --only-strategy-ids hkconnect_path2_theme_entry10_20261006,hkconnect_path2_theme_entry11_20261007 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --end-date 2026-10-12 --output-dir results/research/hkconnect/experiments/executed_20261013
+```
+
+### 下一轮 focus 提示
+
+取消base/hybrid比例族；冻结entry10/entry11。近窗不同实际持仓段主导，下一轮先检查03328/00857贡献跨年度与入口/退出事件，不做事后股票过滤。
+
+第一条可执行命令：
+
+```sh
+.venv/bin/python -c 'import json; s=json.load(open("results/research/a_share/research_iteration_scorecard_20261013.json")); print(json.dumps(s["executed_attribution"]["hkconnect_path2"], ensure_ascii=False, indent=2))'
+# 在新结构诊断通过前只读贡献；冻结回放命令见本轮候选段。
+```
+
+下一轮实现任务、验收、证伪与停止规则见本轮scorecard.next_priority；没有新策略ID，先实现诊断，条件回放不计为承诺新增。
+
+### Focus 候选池
+
+explore保留历史，active不扩张；reject/archive只作显式冻结诊断，不因rotation复活常规刷新。
+
+- `high_return_monthly`：`hkconnect_path2_theme_entry10_20261006`, `hkconnect_path2_theme_entry11_20261007`, `hkconnect_path2_fixed_cohort_base_20261012`；仅在该focus有可证伪新证据时探索。
+- `biweekly_breakout`：`hkconnect_path2_theme_entry10_20261006`, `hkconnect_path2_theme_entry11_20261007`, `hkconnect_path2_fixed_cohort_base_20261012`；仅在该focus有可证伪新证据时探索。
+- `elasticity_cost_control`：`hkconnect_path2_theme_entry10_20261006`, `hkconnect_path2_theme_entry11_20261007`, `hkconnect_path2_fixed_cohort_base_20261012`；仅在该focus有可证伪新证据时探索。
+
+证据：`results/research/a_share/research_iteration_scorecard_20261013.json`；未执行回放、历史复核和同步均不冒充新增。
+
+
 ## 2026-10-12T01:22:55.151898+08:00 沪港通 Path2
 
 ### 上一轮候选与结果摘要

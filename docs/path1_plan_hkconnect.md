@@ -1,5 +1,44 @@
 # 沪港通 Path 1 研究计划
 
+## 2026-10-13T01:29:50.071355+08:00 hkconnect_path1
+
+### 上一轮候选与结果摘要
+
+上轮记录：[{"candidate_id": "hkconnect_path1_mechanism_20261008_manual", "decision": "keep_watch", "evidence": "results/research/a_share/research_iteration_scorecard_20261009.json", "key_delta": {"since_2020_01": {}, "since_2023_01": {}}}]；最近三轮证据见10/09、10/10、10/12 scorecard。当前参照 `hkconnect_path1_biweekly_lowvol`。 五窗当前CAGR：since_2017_01 16.05%（2026-10-12）, since_2020_01 16.29%（2026-10-12）, since_2023_01 21.28%（2026-10-12）, since_2025_01 22.50%（2026-10-12）, since_2026_01 5.55%（2026-10-12）。
+
+### 本轮候选 ID 与命令
+
+冻结biweekly_lowvol与机制消融，先比较2020/2023风险阶段与成本，不扩大entry/hold。
+
+未实跑原因：三轮相邻扩参已停止；本轮优先兑现实际贡献验收与池口径修复，尚无预登记新结构理由。未耗尽整日预算，未达缩量目标。
+
+条件回放（本轮未执行，诊断有新依据后才运行）：
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_hkconnect.py --end-date 2026-10-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-strategy-ids hkconnect_path1_mechanism_20261008_manual,hkconnect_path1_biweekly_hybrid,hkconnect_path1_biweekly_lowvol
+```
+
+### 下一轮 focus 提示
+
+冻结biweekly_lowvol与机制消融，先比较2020/2023风险阶段与成本，不扩大entry/hold。
+
+第一条可执行命令：
+
+```sh
+.venv/bin/python -c 'import pandas as pd; print('"'"'hkconnect_path1_biweekly_lowvol'"'"'); print(pd.read_csv('"'"'results/backtests/hkconnect/hkconnect_path1_biweekly_lowvol__since_2023_01/annual_returns.csv'"'"').to_string(index=False))'
+```
+
+### Focus 候选池
+
+explore保留历史，active不扩张；reject/archive只作显式冻结诊断，不因rotation复活常规刷新。
+
+- `monthly_weekly_overlay`：`hkconnect_path1_mechanism_20261008_manual`, `hkconnect_path1_biweekly_hybrid`, `hkconnect_path1_biweekly_lowvol`；仅在该focus有可证伪新证据时探索。
+- `biweekly_buffer`：`hkconnect_path1_mechanism_20261008_manual`, `hkconnect_path1_biweekly_hybrid`, `hkconnect_path1_biweekly_lowvol`；仅在该focus有可证伪新证据时探索。
+- `risk_overlay_cost`：`hkconnect_path1_mechanism_20261008_manual`, `hkconnect_path1_biweekly_hybrid`, `hkconnect_path1_biweekly_lowvol`；仅在该focus有可证伪新证据时探索。
+
+证据：`results/research/a_share/research_iteration_scorecard_20261013.json`；未执行回放、历史复核和同步均不冒充新增。
+
+
 ## 2026-10-12T01:22:55.151898+08:00 沪港通 Path1
 
 ### 上一轮候选与结果摘要

@@ -17795,6 +17795,7 @@ WINNER_CORE_VARIANTS.append(
 )
 
 PATH3_ARCHIVED_WEEKLY_STRATEGY_IDS = [
+    'core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_hold_protection_ablation_20261008_manual_weekly',
     'core_explore_80_20_equal_weight_winner_core__aggr_08_92_prom6_cost_guard_hold5_20261008_weekly',
     'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap62_hold6_turn10_exit88_weekly',
     'core_explore_80_20_equal_weight_winner_core__aggr_03_97_prom2_weekly_alpha_pullback_cashoff_cap65_hold5_turn10_exit85_weekly',

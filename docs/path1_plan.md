@@ -1,5 +1,47 @@
 # Path 1 研究计划
 
+## 2026-10-13T01:29:50.071355+08:00 ashare_path1
+
+### 上一轮候选与结果摘要
+
+上轮记录：[{"candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual", "decision": "reject", "evidence": "results/research/a_share/research_iteration_scorecard_20261009.json", "key_delta": {"since_2020_01": {}, "since_2023_01": {}}}, {"candidate_id": "core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_risk_graft_20261008_manual", "decision": "reject", "evidence": "results/research/a_share/research_iteration_scorecard_20261009.json", "key_delta": {"since_2020_01": {}, "since_2023_01": {}}}]；最近三轮证据见10/09、10/10、10/12 scorecard。当前参照 `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`。 五窗当前CAGR：since_2017_01 19.09%（2026-10-12）, since_2020_01 27.30%（2026-10-12）, since_2023_01 18.79%（2026-10-12）, since_2025_01 41.59%（2026-10-12）, since_2026_01 -1.74%（2026-10-12）。进入观察位，不是强稳定 winner。
+
+### 本轮候选 ID 与命令
+
+主线冻结buffered/buffered_asym13检查风险阶段目标与实投；core_multifactor冻结shape_control/risk_graft检查2020损失来自年度/股票贡献还是形态风控。停止小因子权重扩参。
+
+未实跑原因：三轮相邻扩参已停止；本轮优先兑现实际贡献验收与池口径修复，尚无预登记新结构理由。未耗尽整日预算，未达缩量目标。
+
+条件回放（本轮未执行，诊断有新依据后才运行）：
+
+```sh
+AIINVESTOR_FORCE_OFFLINE=1 .venv/bin/python backtest_marketcap_etf.py --end-date 2026-10-12 --sample-tags since_2017_01,since_2020_01,since_2023_01,since_2025_01,since_2026_01 --only-base-ids core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_risk_graft_20261008_manual,core_explore_80_20_total_mv_winner_core__aggr_05_95_prom7_core_multifactor_quality_tilt --comparison-csv /private/tmp/aiinvestor_next_ashare_path1.csv
+```
+
+core_multifactor子段：代码/guard实际集合64个全部五窗存在覆盖，未全组重算；shape_control/risk_graft为冻结归因候选，不凭名称推断成长池归属。主线buffered/asym/buffered_asym13仍需同端点确认，不以历史行声称已竞争。
+
+### 下一轮 focus 提示
+
+主线冻结buffered/buffered_asym13检查风险阶段目标与实投；core_multifactor冻结shape_control/risk_graft检查2020损失来自年度/股票贡献还是形态风控。停止小因子权重扩参。
+
+第一条可执行命令：
+
+```sh
+.venv/bin/python -c 'import pandas as pd; print('"'"'core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907'"'"'); print(pd.read_csv('"'"'results/backtests/a_share/core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907__since_2023_01/annual_returns.csv'"'"').to_string(index=False))'
+```
+
+### Focus 候选池
+
+explore保留历史，active不扩张；reject/archive只作显式冻结诊断，不因rotation复活常规刷新。
+
+- `core_multifactor_coverage`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual`, `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`；仅在该focus有可证伪新证据时探索。
+- `signal_quality`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual`, `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`；仅在该focus有可证伪新证据时探索。
+- `satellite_risk_cost`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual`, `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`；仅在该focus有可证伪新证据时探索。
+- `holding_shape`：`core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_core_multifactor_shape_control_20261008_manual`, `core_explore_80_20_total_mv_winner_core__aggr_05_95_prom8_sat_three_stage_buffered_cost_guard_risk20_breadth_v20260907`；仅在该focus有可证伪新证据时探索。
+
+证据：`results/research/a_share/research_iteration_scorecard_20261013.json`；未执行回放、历史复核和同步均不冒充新增。
+
+
 ## 2026-10-12T01:22:55.151898+08:00 A股 Path1（主线 / core_multifactor）
 
 ### 上一轮候选与结果摘要
