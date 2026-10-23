@@ -134,6 +134,8 @@
 
 - 鲁棒赢家：`core_explore_80_20_total_mv_winner_core__share_24_76_hold_2_8_ramp62_cost_guard`（核心80_探索20_总市值底座_胜出者核心__比例24/76(2+8 分步加仓62成本防守)）
 - 加权指标（CAGR / Sharpe / Max DD / Turnover）：`60.68%` / `1.1230` / `-36.23%` / `4.63`
+- 单窗口最高收益（被鲁棒检验过滤）：`core_explore_80_20_total_mv_winner_core__aggr_10_90_prom6__sat_three_stage_buffered_cost_guard_cashguard`（核心80_探索20_总市值底座_胜出者核心__进攻10/90 晋升6只__卫星周频三档风控(现金成本防守)）
+  - 该窗口指标（CAGR / Sharpe / Max DD / Turnover）：`40.99%` / `1.0062` / `-43.21%` / `4.77`
 
 窗口指标（权重：2025-01=100%）：
 
