@@ -1,5 +1,12 @@
 # 跟踪赢家历史
 
+## 2026-11-07 本地缓存周健康检查
+
+- A股与沪港通 actual_end_date 均为 `2026-11-06`；全程离线，未刷新 raw market cache。
+- Top5 active 集合：A股 132 个 base ID、沪港通 113 个 strategy ID；五窗口分别产出 815 / 540 条结果。
+- 港股两个 definition_reopen ID 当前无可生成定义，未重跑；5 个策略仅支持短窗口。沪港通准备面板的截止日价格覆盖为 663/666。
+- 已同步 winner/tracked、live/public；保留市场数据截止日与真实调仓/信号生效日的区别。详细检查报告保存在 automation 的 run-20261107 目录。
+
 ## 2026-10-31 本地缓存周健康检查
 
 - A股与沪港通 actual_end_date 均为 `2026-10-30`；全程离线，未刷新 raw market cache。
