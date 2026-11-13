@@ -13,9 +13,9 @@
       "sample_tag_label": "2017窗口",
       "summary_meta": {
         "sample_start": "2017-01-01",
-        "sample_end": "2026-10-29",
-        "latest_valuation_date": "2026-10-29",
-        "latest_formal_signal_date": "2026-09-30",
+        "sample_end": "2026-11-13",
+        "latest_valuation_date": "2026-11-13",
+        "latest_formal_signal_date": "2026-10-30",
         "is_provisional_period_end": true,
         "sample_label": "2017-01 起",
         "sample_short_label": "2017-01",
@@ -28,60 +28,60 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.5166,
+      "target_total_exposure": 0.5179,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.483356
-        },
-        {
-          "ts_code": "603195.SH",
-          "name": "公牛集团",
-          "weight": 0.094438
-        },
-        {
-          "ts_code": "600941.SH",
-          "name": "中国移动",
-          "weight": 0.09198
+          "weight": 0.482103
         },
         {
           "ts_code": "300760.SZ",
           "name": "迈瑞医疗",
-          "weight": 0.087537
+          "weight": 0.129388
         },
         {
-          "ts_code": "688041.SH",
-          "name": "海光信息",
-          "weight": 0.08401
+          "ts_code": "600941.SH",
+          "name": "中国移动",
+          "weight": 0.088202
         },
         {
           "ts_code": "300896.SZ",
           "name": "爱美客",
-          "weight": 0.0784
+          "weight": 0.074215
         },
         {
-          "ts_code": "301308.SZ",
-          "name": "江波龙",
-          "weight": 0.035135
+          "ts_code": "688699.SH",
+          "name": "明微电子",
+          "weight": 0.066759
+        },
+        {
+          "ts_code": "603195.SH",
+          "name": "公牛集团",
+          "weight": 0.064236
+        },
+        {
+          "ts_code": "688041.SH",
+          "name": "海光信息",
+          "weight": 0.056281
         },
         {
           "ts_code": "603259.SH",
           "name": "药明康德",
-          "weight": 0.022691
+          "weight": 0.019847
         },
         {
-          "ts_code": "688578.SH",
-          "name": "艾力斯",
-          "weight": 0.022454
+          "ts_code": "603087.SH",
+          "name": "甘李药业",
+          "weight": 0.018969
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-10-29",
+        "data_as_of": "2026-11-13",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-09-30",
-        "basket_effective_date": "2026-09-30",
-        "exposure_effective_date": "2026-09-30"
+        "suggestion_effective_date": "2026-10-30",
+        "basket_effective_date": "2026-10-30",
+        "exposure_effective_date": "2026-10-30"
       },
       "equity_curve_points": [
         {
@@ -557,8 +557,12 @@
           "nav": 1.368534
         },
         {
-          "date": "2026-10-29",
-          "nav": 1.329175
+          "date": "2026-10-30",
+          "nav": 1.327767
+        },
+        {
+          "date": "2026-11-13",
+          "nav": 1.325085
         }
       ],
       "snapshots": [
@@ -8558,19 +8562,133 @@
               "weight": 0.022454
             }
           ]
+        },
+        {
+          "date": "2026-10-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.482103
+            },
+            {
+              "ts_code": "300760.SZ",
+              "name": "迈瑞医疗",
+              "weight": 0.129388
+            },
+            {
+              "ts_code": "600941.SH",
+              "name": "中国移动",
+              "weight": 0.088202
+            },
+            {
+              "ts_code": "300896.SZ",
+              "name": "爱美客",
+              "weight": 0.074215
+            },
+            {
+              "ts_code": "688699.SH",
+              "name": "明微电子",
+              "weight": 0.066759
+            },
+            {
+              "ts_code": "603195.SH",
+              "name": "公牛集团",
+              "weight": 0.064236
+            },
+            {
+              "ts_code": "688041.SH",
+              "name": "海光信息",
+              "weight": 0.056281
+            },
+            {
+              "ts_code": "603259.SH",
+              "name": "药明康德",
+              "weight": 0.019847
+            },
+            {
+              "ts_code": "603087.SH",
+              "name": "甘李药业",
+              "weight": 0.018969
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-11-13",
+        "formal_signal_date": "2026-10-30",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.54,
+        "market_momentum": -0.1195,
+        "holdings": [
+          {
+            "ts_code": "300760.SZ",
+            "name": "迈瑞医疗",
+            "weight": 0.117691
+          },
+          {
+            "ts_code": "600941.SH",
+            "name": "中国移动",
+            "weight": 0.08916
+          },
+          {
+            "ts_code": "603195.SH",
+            "name": "公牛集团",
+            "weight": 0.087377
+          },
+          {
+            "ts_code": "300896.SZ",
+            "name": "爱美客",
+            "weight": 0.073111
+          },
+          {
+            "ts_code": "688699.SH",
+            "name": "明微电子",
+            "weight": 0.069545
+          },
+          {
+            "ts_code": "688041.SH",
+            "name": "海光信息",
+            "weight": 0.04458
+          },
+          {
+            "ts_code": "688617.SH",
+            "name": "惠泰医疗",
+            "weight": 0.021814
+          },
+          {
+            "ts_code": "300832.SZ",
+            "name": "新产业",
+            "weight": 0.020053
+          },
+          {
+            "ts_code": "601169.SH",
+            "name": "北京银行",
+            "weight": 0.005569
+          },
+          {
+            "ts_code": "601398.SH",
+            "name": "工商银行",
+            "weight": 0.005556
+          },
+          {
+            "ts_code": "601939.SH",
+            "name": "建设银行",
+            "weight": 0.005544
+          }
+        ]
+      }
     },
     "since_2020_01": {
       "sample_tag": "since_2020_01",
       "sample_tag_label": "2020窗口",
       "summary_meta": {
         "sample_start": "2020-01-01",
-        "sample_end": "2026-10-29",
-        "latest_valuation_date": "2026-10-29",
-        "latest_formal_signal_date": "2026-09-30",
+        "sample_end": "2026-11-13",
+        "latest_valuation_date": "2026-11-13",
+        "latest_formal_signal_date": "2026-10-30",
         "is_provisional_period_end": true,
         "sample_label": "2020-01 起",
         "sample_short_label": "2020-01",
@@ -8583,60 +8701,60 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.5103,
+      "target_total_exposure": 0.5047,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.489723
-        },
-        {
-          "ts_code": "603195.SH",
-          "name": "公牛集团",
-          "weight": 0.105522
+          "weight": 0.49531
         },
         {
           "ts_code": "600941.SH",
           "name": "中国移动",
-          "weight": 0.094479
-        },
-        {
-          "ts_code": "688041.SH",
-          "name": "海光信息",
-          "weight": 0.083898
+          "weight": 0.105763
         },
         {
           "ts_code": "688111.SH",
           "name": "金山办公",
-          "weight": 0.073936
+          "weight": 0.09949
         },
         {
           "ts_code": "300896.SZ",
           "name": "爱美客",
-          "weight": 0.071054
+          "weight": 0.068524
         },
         {
-          "ts_code": "301308.SZ",
-          "name": "江波龙",
-          "weight": 0.035952
+          "ts_code": "688699.SH",
+          "name": "明微电子",
+          "weight": 0.068157
+        },
+        {
+          "ts_code": "603195.SH",
+          "name": "公牛集团",
+          "weight": 0.065581
+        },
+        {
+          "ts_code": "688041.SH",
+          "name": "海光信息",
+          "weight": 0.057459
         },
         {
           "ts_code": "603259.SH",
           "name": "药明康德",
-          "weight": 0.022837
+          "weight": 0.02035
         },
         {
-          "ts_code": "688578.SH",
-          "name": "艾力斯",
-          "weight": 0.022599
+          "ts_code": "603087.SH",
+          "name": "甘李药业",
+          "weight": 0.019366
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-10-29",
+        "data_as_of": "2026-11-13",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-09-30",
-        "basket_effective_date": "2026-09-30",
-        "exposure_effective_date": "2026-09-30"
+        "suggestion_effective_date": "2026-10-30",
+        "basket_effective_date": "2026-10-30",
+        "exposure_effective_date": "2026-10-30"
       },
       "equity_curve_points": [
         {
@@ -8968,8 +9086,12 @@
           "nav": 0.787501
         },
         {
-          "date": "2026-10-29",
-          "nav": 0.757564
+          "date": "2026-10-30",
+          "nav": 0.749964
+        },
+        {
+          "date": "2026-11-13",
+          "nav": 0.752199
         }
       ],
       "snapshots": [
@@ -14283,19 +14405,133 @@
               "weight": 0.022599
             }
           ]
+        },
+        {
+          "date": "2026-10-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.49531
+            },
+            {
+              "ts_code": "600941.SH",
+              "name": "中国移动",
+              "weight": 0.105763
+            },
+            {
+              "ts_code": "688111.SH",
+              "name": "金山办公",
+              "weight": 0.09949
+            },
+            {
+              "ts_code": "300896.SZ",
+              "name": "爱美客",
+              "weight": 0.068524
+            },
+            {
+              "ts_code": "688699.SH",
+              "name": "明微电子",
+              "weight": 0.068157
+            },
+            {
+              "ts_code": "603195.SH",
+              "name": "公牛集团",
+              "weight": 0.065581
+            },
+            {
+              "ts_code": "688041.SH",
+              "name": "海光信息",
+              "weight": 0.057459
+            },
+            {
+              "ts_code": "603259.SH",
+              "name": "药明康德",
+              "weight": 0.02035
+            },
+            {
+              "ts_code": "603087.SH",
+              "name": "甘李药业",
+              "weight": 0.019366
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-11-13",
+        "formal_signal_date": "2026-10-30",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.54,
+        "market_momentum": -0.1195,
+        "holdings": [
+          {
+            "ts_code": "600941.SH",
+            "name": "中国移动",
+            "weight": 0.101643
+          },
+          {
+            "ts_code": "603195.SH",
+            "name": "公牛集团",
+            "weight": 0.099859
+          },
+          {
+            "ts_code": "688111.SH",
+            "name": "金山办公",
+            "weight": 0.092727
+          },
+          {
+            "ts_code": "300896.SZ",
+            "name": "爱美客",
+            "weight": 0.073111
+          },
+          {
+            "ts_code": "688699.SH",
+            "name": "明微电子",
+            "weight": 0.069545
+          },
+          {
+            "ts_code": "688041.SH",
+            "name": "海光信息",
+            "weight": 0.04458
+          },
+          {
+            "ts_code": "688617.SH",
+            "name": "惠泰医疗",
+            "weight": 0.021814
+          },
+          {
+            "ts_code": "300832.SZ",
+            "name": "新产业",
+            "weight": 0.020053
+          },
+          {
+            "ts_code": "601169.SH",
+            "name": "北京银行",
+            "weight": 0.005569
+          },
+          {
+            "ts_code": "601398.SH",
+            "name": "工商银行",
+            "weight": 0.005556
+          },
+          {
+            "ts_code": "601939.SH",
+            "name": "建设银行",
+            "weight": 0.005544
+          }
+        ]
+      }
     },
     "since_2023_01": {
       "sample_tag": "since_2023_01",
       "sample_tag_label": "2023窗口",
       "summary_meta": {
         "sample_start": "2023-01-01",
-        "sample_end": "2026-10-29",
-        "latest_valuation_date": "2026-10-29",
-        "latest_formal_signal_date": "2026-09-30",
+        "sample_end": "2026-11-13",
+        "latest_valuation_date": "2026-11-13",
+        "latest_formal_signal_date": "2026-10-30",
         "is_provisional_period_end": true,
         "sample_label": "2023-01 起",
         "sample_short_label": "2023-01",
@@ -14308,50 +14544,60 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.5123,
+      "target_total_exposure": 0.488,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.487718
-        },
-        {
-          "ts_code": "688041.SH",
-          "name": "海光信息",
-          "weight": 0.129629
+          "weight": 0.512046
         },
         {
           "ts_code": "301269.SZ",
           "name": "华大九天",
-          "weight": 0.124145
+          "weight": 0.139662
+        },
+        {
+          "ts_code": "688041.SH",
+          "name": "海光信息",
+          "weight": 0.107434
         },
         {
           "ts_code": "301308.SZ",
           "name": "江波龙",
-          "weight": 0.117061
+          "weight": 0.107386
         },
         {
-          "ts_code": "688578.SH",
-          "name": "艾力斯",
-          "weight": 0.066028
+          "ts_code": "603259.SH",
+          "name": "药明康德",
+          "weight": 0.047809
         },
         {
-          "ts_code": "600535.SH",
-          "name": "天士力",
-          "weight": 0.058341
+          "ts_code": "603087.SH",
+          "name": "甘李药业",
+          "weight": 0.045778
         },
         {
-          "ts_code": "688002.SH",
-          "name": "睿创微纳",
-          "weight": 0.017079
+          "ts_code": "688029.SH",
+          "name": "南微医学",
+          "weight": 0.014066
+        },
+        {
+          "ts_code": "600079.SH",
+          "name": "ST人福",
+          "weight": 0.013525
+        },
+        {
+          "ts_code": "688505.SH",
+          "name": "复旦张江",
+          "weight": 0.012295
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-10-29",
+        "data_as_of": "2026-11-13",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-09-30",
-        "basket_effective_date": "2026-09-30",
-        "exposure_effective_date": "2026-09-30"
+        "suggestion_effective_date": "2026-10-30",
+        "basket_effective_date": "2026-10-30",
+        "exposure_effective_date": "2026-10-30"
       },
       "equity_curve_points": [
         {
@@ -14539,8 +14785,12 @@
           "nav": 1.366731
         },
         {
-          "date": "2026-10-29",
-          "nav": 1.277803
+          "date": "2026-10-30",
+          "nav": 1.236551
+        },
+        {
+          "date": "2026-11-13",
+          "nav": 1.285291
         }
       ],
       "snapshots": [
@@ -17578,19 +17828,118 @@
               "weight": 0.017079
             }
           ]
+        },
+        {
+          "date": "2026-10-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.512046
+            },
+            {
+              "ts_code": "301269.SZ",
+              "name": "华大九天",
+              "weight": 0.139662
+            },
+            {
+              "ts_code": "688041.SH",
+              "name": "海光信息",
+              "weight": 0.107434
+            },
+            {
+              "ts_code": "301308.SZ",
+              "name": "江波龙",
+              "weight": 0.107386
+            },
+            {
+              "ts_code": "603259.SH",
+              "name": "药明康德",
+              "weight": 0.047809
+            },
+            {
+              "ts_code": "603087.SH",
+              "name": "甘李药业",
+              "weight": 0.045778
+            },
+            {
+              "ts_code": "688029.SH",
+              "name": "南微医学",
+              "weight": 0.014066
+            },
+            {
+              "ts_code": "600079.SH",
+              "name": "ST人福",
+              "weight": 0.013525
+            },
+            {
+              "ts_code": "688505.SH",
+              "name": "复旦张江",
+              "weight": 0.012295
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-11-13",
+        "formal_signal_date": "2026-10-30",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.54,
+        "market_momentum": -0.1195,
+        "holdings": [
+          {
+            "ts_code": "688041.SH",
+            "name": "海光信息",
+            "weight": 0.135
+          },
+          {
+            "ts_code": "301269.SZ",
+            "name": "华大九天",
+            "weight": 0.135
+          },
+          {
+            "ts_code": "301308.SZ",
+            "name": "江波龙",
+            "weight": 0.135
+          },
+          {
+            "ts_code": "688617.SH",
+            "name": "惠泰医疗",
+            "weight": 0.05032
+          },
+          {
+            "ts_code": "300832.SZ",
+            "name": "新产业",
+            "weight": 0.046258
+          },
+          {
+            "ts_code": "601169.SH",
+            "name": "北京银行",
+            "weight": 0.012835
+          },
+          {
+            "ts_code": "601398.SH",
+            "name": "工商银行",
+            "weight": 0.012808
+          },
+          {
+            "ts_code": "601939.SH",
+            "name": "建设银行",
+            "weight": 0.01278
+          }
+        ]
+      }
     },
     "since_2025_01": {
       "sample_tag": "since_2025_01",
       "sample_tag_label": "2025窗口",
       "summary_meta": {
         "sample_start": "2025-01-01",
-        "sample_end": "2026-10-29",
-        "latest_valuation_date": "2026-10-29",
-        "latest_formal_signal_date": "2026-09-30",
+        "sample_end": "2026-11-13",
+        "latest_valuation_date": "2026-11-13",
+        "latest_formal_signal_date": "2026-10-30",
         "is_provisional_period_end": true,
         "sample_label": "2025-01 起",
         "sample_short_label": "2025-01",
@@ -17603,40 +17952,50 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.528,
+      "target_total_exposure": 0.5052,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.47198
+          "weight": 0.494775
         },
         {
-          "ts_code": "688578.SH",
-          "name": "艾力斯",
-          "weight": 0.143239
+          "ts_code": "603087.SH",
+          "name": "甘李药业",
+          "weight": 0.132638
         },
         {
-          "ts_code": "688002.SH",
-          "name": "睿创微纳",
-          "weight": 0.133088
-        },
-        {
-          "ts_code": "600535.SH",
-          "name": "天士力",
-          "weight": 0.131384
+          "ts_code": "603259.SH",
+          "name": "药明康德",
+          "weight": 0.125225
         },
         {
           "ts_code": "688411.SH",
           "name": "海博思创",
-          "weight": 0.12031
+          "weight": 0.112429
+        },
+        {
+          "ts_code": "688029.SH",
+          "name": "南微医学",
+          "weight": 0.047586
+        },
+        {
+          "ts_code": "600079.SH",
+          "name": "ST人福",
+          "weight": 0.045756
+        },
+        {
+          "ts_code": "688505.SH",
+          "name": "复旦张江",
+          "weight": 0.041592
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-10-29",
+        "data_as_of": "2026-11-13",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-09-30",
-        "basket_effective_date": "2026-09-30",
-        "exposure_effective_date": "2026-09-30"
+        "suggestion_effective_date": "2026-10-30",
+        "basket_effective_date": "2026-10-30",
+        "exposure_effective_date": "2026-10-30"
       },
       "equity_curve_points": [
         {
@@ -17728,8 +18087,12 @@
           "nav": 1.311454
         },
         {
-          "date": "2026-10-29",
-          "nav": 1.199046
+          "date": "2026-10-30",
+          "nav": 1.206562
+        },
+        {
+          "date": "2026-11-13",
+          "nav": 1.241
         }
       ],
       "snapshots": [
@@ -19368,19 +19731,98 @@
               "weight": 0.12031
             }
           ]
+        },
+        {
+          "date": "2026-10-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.494775
+            },
+            {
+              "ts_code": "603087.SH",
+              "name": "甘李药业",
+              "weight": 0.132638
+            },
+            {
+              "ts_code": "603259.SH",
+              "name": "药明康德",
+              "weight": 0.125225
+            },
+            {
+              "ts_code": "688411.SH",
+              "name": "海博思创",
+              "weight": 0.112429
+            },
+            {
+              "ts_code": "688029.SH",
+              "name": "南微医学",
+              "weight": 0.047586
+            },
+            {
+              "ts_code": "600079.SH",
+              "name": "ST人福",
+              "weight": 0.045756
+            },
+            {
+              "ts_code": "688505.SH",
+              "name": "复旦张江",
+              "weight": 0.041592
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-11-13",
+        "formal_signal_date": "2026-10-30",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.54,
+        "market_momentum": -0.1195,
+        "holdings": [
+          {
+            "ts_code": "688411.SH",
+            "name": "海博思创",
+            "weight": 0.135
+          },
+          {
+            "ts_code": "688617.SH",
+            "name": "惠泰医疗",
+            "weight": 0.135
+          },
+          {
+            "ts_code": "300832.SZ",
+            "name": "新产业",
+            "weight": 0.135
+          },
+          {
+            "ts_code": "601169.SH",
+            "name": "北京银行",
+            "weight": 0.045096
+          },
+          {
+            "ts_code": "601398.SH",
+            "name": "工商银行",
+            "weight": 0.045
+          },
+          {
+            "ts_code": "601939.SH",
+            "name": "建设银行",
+            "weight": 0.044904
+          }
+        ]
+      }
     },
     "since_2026_01": {
       "sample_tag": "since_2026_01",
       "sample_tag_label": "2026观察窗",
       "summary_meta": {
         "sample_start": "2026-01-01",
-        "sample_end": "2026-10-29",
-        "latest_valuation_date": "2026-10-29",
-        "latest_formal_signal_date": "2026-09-30",
+        "sample_end": "2026-11-13",
+        "latest_valuation_date": "2026-11-13",
+        "latest_formal_signal_date": "2026-10-30",
         "is_provisional_period_end": true,
         "sample_label": "2026-01 起",
         "sample_short_label": "2026-01",
@@ -19393,35 +19835,45 @@
         "rebalance_frequency": "monthly"
       },
       "risk_state": "caution",
-      "target_total_exposure": 0.4004,
+      "target_total_exposure": 0.5202,
       "latest_weights": [
         {
           "ts_code": "CASH",
           "name": "现金",
-          "weight": 0.59958
+          "weight": 0.479806
         },
         {
-          "ts_code": "688578.SH",
-          "name": "艾力斯",
-          "weight": 0.140677
+          "ts_code": "603087.SH",
+          "name": "甘李药业",
+          "weight": 0.130744
         },
         {
-          "ts_code": "688002.SH",
-          "name": "睿创微纳",
-          "weight": 0.130708
+          "ts_code": "603259.SH",
+          "name": "药明康德",
+          "weight": 0.123437
         },
         {
-          "ts_code": "600535.SH",
-          "name": "天士力",
-          "weight": 0.129034
+          "ts_code": "688029.SH",
+          "name": "南微医学",
+          "weight": 0.093812
+        },
+        {
+          "ts_code": "600079.SH",
+          "name": "ST人福",
+          "weight": 0.090204
+        },
+        {
+          "ts_code": "688505.SH",
+          "name": "复旦张江",
+          "weight": 0.081997
         }
       ],
       "formal_schedule": {
-        "data_as_of": "2026-10-29",
+        "data_as_of": "2026-11-13",
         "schedule_kind": "monthly",
-        "suggestion_effective_date": "2026-09-30",
-        "basket_effective_date": "2026-09-30",
-        "exposure_effective_date": "2026-09-30"
+        "suggestion_effective_date": "2026-10-30",
+        "basket_effective_date": "2026-10-30",
+        "exposure_effective_date": "2026-10-30"
       },
       "equity_curve_points": [
         {
@@ -19465,8 +19917,12 @@
           "nav": 1.021136
         },
         {
-          "date": "2026-10-29",
-          "nav": 0.952064
+          "date": "2026-10-30",
+          "nav": 0.9499
+        },
+        {
+          "date": "2026-11-13",
+          "nav": 0.948209
         }
       ],
       "snapshots": [
@@ -20153,10 +20609,79 @@
               "weight": 0.129034
             }
           ]
+        },
+        {
+          "date": "2026-10-30",
+          "event_type": "holding_snapshot",
+          "holdings": [
+            {
+              "ts_code": "CASH",
+              "name": "现金",
+              "weight": 0.479806
+            },
+            {
+              "ts_code": "603087.SH",
+              "name": "甘李药业",
+              "weight": 0.130744
+            },
+            {
+              "ts_code": "603259.SH",
+              "name": "药明康德",
+              "weight": 0.123437
+            },
+            {
+              "ts_code": "688029.SH",
+              "name": "南微医学",
+              "weight": 0.093812
+            },
+            {
+              "ts_code": "600079.SH",
+              "name": "ST人福",
+              "weight": 0.090204
+            },
+            {
+              "ts_code": "688505.SH",
+              "name": "复旦张江",
+              "weight": 0.081997
+            }
+          ]
         }
       ],
       "split_view": {},
-      "month_end_preview": {}
+      "month_end_preview": {
+        "preview_as_of": "2026-11-13",
+        "formal_signal_date": "2026-10-30",
+        "risk_state": "risk_off",
+        "target_total_exposure": 0.54,
+        "market_momentum": -0.1195,
+        "holdings": [
+          {
+            "ts_code": "688617.SH",
+            "name": "惠泰医疗",
+            "weight": 0.135
+          },
+          {
+            "ts_code": "300832.SZ",
+            "name": "新产业",
+            "weight": 0.135
+          },
+          {
+            "ts_code": "601169.SH",
+            "name": "北京银行",
+            "weight": 0.090192
+          },
+          {
+            "ts_code": "601398.SH",
+            "name": "工商银行",
+            "weight": 0.09
+          },
+          {
+            "ts_code": "601939.SH",
+            "name": "建设银行",
+            "weight": 0.089808
+          }
+        ]
+      }
     }
   }
 }
